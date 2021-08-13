@@ -1,0 +1,237 @@
+{
+  "mainnet": {
+    "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp": {
+      "protocol": "Anchor",
+      "symbol": "bLuna",
+      "token": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
+      "icon": "https://whitelist.anchorprotocol.com/logo/bLUNA.png"
+    },
+    "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu": {
+      "protocol": "Anchor",
+      "symbol": "aUST",
+      "token": "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu",
+      "icon": "https://whitelist.anchorprotocol.com/logo/aUST.png"
+    },
+    "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76": {
+      "protocol": "Anchor",
+      "symbol": "ANC",
+      "token": "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76",
+      "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
+    },
+    "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6": {
+      "protocol": "Mirror",
+      "symbol": "MIR",
+      "name": "Mirror",
+      "token": "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6",
+      "icon": "https://whitelist.mirror.finance/icon/MIR.png"
+    },
+    "terra1vxtwu4ehgzz77mnfwrntyrmgl64qjs75mpwqaz": {
+      "protocol": "Mirror",
+      "symbol": "mAAPL",
+      "name": "Apple Inc.",
+      "token": "terra1vxtwu4ehgzz77mnfwrntyrmgl64qjs75mpwqaz",
+      "icon": "https://whitelist.mirror.finance/icon/AAPL.png"
+    },
+    "terra1g4x2pzmkc9z3mseewxf758rllg08z3797xly0n": {
+      "protocol": "Mirror",
+      "symbol": "mABNB",
+      "name": "Airbnb Inc.",
+      "token": "terra1g4x2pzmkc9z3mseewxf758rllg08z3797xly0n",
+      "icon": "https://whitelist.mirror.finance/icon/ABNB.png"
+    },
+    "terra1qelfthdanju7wavc5tq0k5r0rhsyzyyrsn09qy": {
+      "protocol": "Mirror",
+      "symbol": "mAMC",
+      "name": "AMC Entertainment Holdings Inc.",
+      "token": "terra1qelfthdanju7wavc5tq0k5r0rhsyzyyrsn09qy",
+      "icon": "https://whitelist.mirror.finance/icon/AMC.png"
+    },
+    "terra18ej5nsuu867fkx4tuy2aglpvqjrkcrjjslap3z": {
+      "protocol": "Mirror",
+      "symbol": "mAMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "token": "terra18ej5nsuu867fkx4tuy2aglpvqjrkcrjjslap3z",
+      "icon": "https://whitelist.mirror.finance/icon/AMD.png"
+    },
+    "terra165nd2qmrtszehcfrntlplzern7zl4ahtlhd5t2": {
+      "protocol": "Mirror",
+      "symbol": "mAMZN",
+      "name": "Amazon.com, Inc.",
+      "token": "terra165nd2qmrtszehcfrntlplzern7zl4ahtlhd5t2",
+      "icon": "https://whitelist.mirror.finance/icon/AMZN.png"
+    },
+    "terra1w7zgkcyt7y4zpct9dw8mw362ywvdlydnum2awa": {
+      "protocol": "Mirror",
+      "symbol": "mBABA",
+      "name": "Alibaba Group Holding Limited",
+      "token": "terra1w7zgkcyt7y4zpct9dw8mw362ywvdlydnum2awa",
+      "icon": "https://whitelist.mirror.finance/icon/BABA.png"
+    },
+    "terra1rhhvx8nzfrx5fufkuft06q5marfkucdqwq5sjw": {
+      "protocol": "Mirror",
+      "symbol": "mBTC",
+      "name": "Bitcoin",
+      "token": "terra1rhhvx8nzfrx5fufkuft06q5marfkucdqwq5sjw",
+      "icon": "https://whitelist.mirror.finance/icon/BTC.png"
+    },
+    "terra18wayjpyq28gd970qzgjfmsjj7dmgdk039duhph": {
+      "protocol": "Mirror",
+      "symbol": "mCOIN",
+      "name": "Coinbase Global, Inc.",
+      "token": "terra18wayjpyq28gd970qzgjfmsjj7dmgdk039duhph",
+      "icon": "https://whitelist.mirror.finance/icon/COIN.png"
+    },
+    "terra19ya4jpvjvvtggepvmmj6ftmwly3p7way0tt08r": {
+      "protocol": "Mirror",
+      "symbol": "mDOT",
+      "name": "Polkadot",
+      "token": "terra19ya4jpvjvvtggepvmmj6ftmwly3p7way0tt08r",
+      "icon": "https://whitelist.mirror.finance/icon/DOT.png"
+    },
+    "terra1dk3g53js3034x4v5c3vavhj2738une880yu6kx": {
+      "protocol": "Mirror",
+      "symbol": "mETH",
+      "name": "Ether",
+      "token": "terra1dk3g53js3034x4v5c3vavhj2738une880yu6kx",
+      "icon": "https://whitelist.mirror.finance/icon/ETH.png"
+    },
+    "terra1mqsjugsugfprn3cvgxsrr8akkvdxv2pzc74us7": {
+      "protocol": "Mirror",
+      "symbol": "mFB",
+      "name": "Facebook Inc.",
+      "token": "terra1mqsjugsugfprn3cvgxsrr8akkvdxv2pzc74us7",
+      "icon": "https://whitelist.mirror.finance/icon/FB.png"
+    },
+    "terra1l5lrxtwd98ylfy09fn866au6dp76gu8ywnudls": {
+      "protocol": "Mirror",
+      "symbol": "mGLXY",
+      "name": "Galaxy Digital Holdings Ltd",
+      "token": "terra1l5lrxtwd98ylfy09fn866au6dp76gu8ywnudls",
+      "icon": "https://whitelist.mirror.finance/icon/GLXY.png"
+    },
+    "terra1m6j6j9gw728n82k78s0j9kq8l5p6ne0xcc820p": {
+      "protocol": "Mirror",
+      "symbol": "mGME",
+      "name": "GameStop Corp",
+      "token": "terra1m6j6j9gw728n82k78s0j9kq8l5p6ne0xcc820p",
+      "icon": "https://whitelist.mirror.finance/icon/GME.png"
+    },
+    "terra1h8arz2k547uvmpxctuwush3jzc8fun4s96qgwt": {
+      "protocol": "Mirror",
+      "symbol": "mGOOGL",
+      "name": "Alphabet Inc.",
+      "token": "terra1h8arz2k547uvmpxctuwush3jzc8fun4s96qgwt",
+      "icon": "https://whitelist.mirror.finance/icon/GOOGL.png"
+    }
+  },
+  "testnet": {
+    "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x": {
+      "protocol": "Anchor",
+      "symbol": "bLuna",
+      "token": "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
+      "icon": "https://whitelist.anchorprotocol.com/logo/bLUNA.png"
+    },
+    "terra19mkj9nec6e3y5754tlnuz4vem7lzh4n0lc2s3l": {
+      "protocol": "Anchor",
+      "symbol": "bETH",
+      "token": "terra19mkj9nec6e3y5754tlnuz4vem7lzh4n0lc2s3l",
+      "icon": "https://whitelist.anchorprotocol.com/logo/bETH.png"
+    },
+    "terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl": {
+      "protocol": "Anchor",
+      "symbol": "aUST",
+      "token": "terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl",
+      "icon": "https://whitelist.anchorprotocol.com/logo/aUST.png"
+    },
+    "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc": {
+      "protocol": "Anchor",
+      "symbol": "ANC",
+      "token": "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc",
+      "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
+    },
+    "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u": {
+      "protocol": "Mirror",
+      "symbol": "MIR",
+      "name": "Mirror",
+      "token": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u",
+      "icon": "https://whitelist.mirror.finance/icon/MIR.png"
+    },
+    "terra16vfxm98rxlc8erj4g0sj5932dvylgmdufnugk0": {
+      "protocol": "Mirror",
+      "symbol": "mAAPL",
+      "name": "Apple Inc.",
+      "token": "terra16vfxm98rxlc8erj4g0sj5932dvylgmdufnugk0",
+      "icon": "https://whitelist.mirror.finance/icon/AAPL.png"
+    },
+    "terra1avryzxnsn2denq7p2d7ukm6nkck9s0rz2llgnc": {
+      "protocol": "Mirror",
+      "symbol": "mABNB",
+      "name": "Airbnb Inc.",
+      "token": "terra1avryzxnsn2denq7p2d7ukm6nkck9s0rz2llgnc",
+      "icon": "https://whitelist.mirror.finance/icon/ABNB.png"
+    },
+    "terra1zeyfhurlrun6sgytqfue555e6vw2ndxt2j7jhd": {
+      "protocol": "Mirror",
+      "symbol": "mAMC",
+      "name": "AMC Entertainment Holdings Inc.",
+      "token": "terra1zeyfhurlrun6sgytqfue555e6vw2ndxt2j7jhd",
+      "icon": "https://whitelist.mirror.finance/icon/AMC.png"
+    },
+    "terra12saaecsqwxj04fn0jsv4jmdyp6gylptf5tksge": {
+      "protocol": "Mirror",
+      "symbol": "mAMZN",
+      "name": "Amazon.com, Inc.",
+      "token": "terra12saaecsqwxj04fn0jsv4jmdyp6gylptf5tksge",
+      "icon": "https://whitelist.mirror.finance/icon/AMZN.png"
+    },
+    "terra15dr4ah3kha68kam7a907pje9w6z2lpjpnrkd06": {
+      "protocol": "Mirror",
+      "symbol": "mBABA",
+      "name": "Alibaba Group Holding Limited",
+      "token": "terra15dr4ah3kha68kam7a907pje9w6z2lpjpnrkd06",
+      "icon": "https://whitelist.mirror.finance/icon/BABA.png"
+    },
+    "terra1csr22xvxs6r3gkjsl7pmjkmpt39mwjsrm0e2r8": {
+      "protocol": "Mirror",
+      "symbol": "mBTC",
+      "name": "Bitcoin",
+      "token": "terra1csr22xvxs6r3gkjsl7pmjkmpt39mwjsrm0e2r8",
+      "icon": "https://whitelist.mirror.finance/icon/BTC.png"
+    },
+    "terra1qre9crlfnulcg0m68qqywqqstplgvrzywsg3am": {
+      "protocol": "Mirror",
+      "symbol": "mCOIN",
+      "name": "Coinbase Global, Inc.",
+      "token": "terra1qre9crlfnulcg0m68qqywqqstplgvrzywsg3am",
+      "icon": "https://whitelist.mirror.finance/icon/COIN.png"
+    },
+    "terra1ys4dwwzaenjg2gy02mslmc96f267xvpsjat7gx": {
+      "protocol": "Mirror",
+      "symbol": "mETH",
+      "name": "Ethereum",
+      "token": "terra1ys4dwwzaenjg2gy02mslmc96f267xvpsjat7gx",
+      "icon": "https://whitelist.mirror.finance/icon/ETH.png"
+    },
+    "terra14gq9wj0tt6vu0m4ec2tkkv4ln3qrtl58lgdl2c": {
+      "protocol": "Mirror",
+      "symbol": "mFB",
+      "name": "Facebook Inc.",
+      "token": "terra14gq9wj0tt6vu0m4ec2tkkv4ln3qrtl58lgdl2c",
+      "icon": "https://whitelist.mirror.finance/icon/FB.png"
+    },
+    "terra104tgj4gc3pp5s240a0mzqkhd3jzkn8v0u07hlf": {
+      "protocol": "Mirror",
+      "symbol": "mGME",
+      "name": "GameStop Corp",
+      "token": "terra104tgj4gc3pp5s240a0mzqkhd3jzkn8v0u07hlf",
+      "icon": "https://whitelist.mirror.finance/icon/GME.png"
+    },
+    "terra1qg9ugndl25567u03jrr79xur2yk9d632fke3h2": {
+      "protocol": "Mirror",
+      "symbol": "mGOOGL",
+      "name": "Alphabet Inc.",
+      "token": "terra1qg9ugndl25567u03jrr79xur2yk9d632fke3h2",
+      "icon": "https://whitelist.mirror.finance/icon/GOOGL.png"
+    }
+  }
+}
