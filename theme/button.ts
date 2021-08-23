@@ -20,6 +20,31 @@ const button = {
         boxShadow: "none",
       },
     },
+    mini: {
+      outline: "none",
+      borderRadius: "lg",
+
+      color: "white.600",
+      bg: "white.100",
+      px: "4",
+      minWidth: "32",
+      fontSize: "xs",
+      height: "7",
+      letterSpacing: "0.15rem",
+      textTransform: "uppercase",
+      fontWeight: "bold",
+      _hover: {
+        bg: "brand.purple",
+        color: "white",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+      _active: {
+        bg: "brand.purple",
+        color: "white",
+      },
+    },
     secondary: {
       outline: "none",
       borderRadius: "none",

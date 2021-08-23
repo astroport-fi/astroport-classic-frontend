@@ -21,9 +21,10 @@ type Props = {
   isLoading: boolean;
   onTokenClick: any;
   token: string;
+  tokens: string[];
 };
 
-const TokenSelect: FC<Props> = ({ token, isLoading, onTokenClick }) => {
+const TokenSelect: FC<Props> = ({ token, isLoading, onTokenClick, tokens }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPrice(token);
 
@@ -86,7 +87,7 @@ const TokenSelect: FC<Props> = ({ token, isLoading, onTokenClick }) => {
             </Box>
             <MenuList>
               <Box p="4" minW="26rem">
-                <TokenList onTokenClick={onTokenClick} />
+                <TokenList onTokenClick={onTokenClick} tokenList={tokens} />
               </Box>
             </MenuList>
           </Menu>

@@ -22,6 +22,7 @@ type Props = {
   onBlur: any;
   isLoading: boolean;
   isSingle?: boolean;
+  tokens?: string[];
   value: {
     amount: string;
     asset: string;
@@ -29,7 +30,7 @@ type Props = {
 };
 
 const AmountInput: FC<Props> = forwardRef(
-  ({ onChange, onBlur, value, isLoading, isSingle }, ref) => {
+  ({ onChange, onBlur, value, isLoading, isSingle, tokens }, ref) => {
     const { getSymbol } = useTokenInfo();
     const { amount: totalPrice } = useSimulation(
       value.asset,
@@ -56,6 +57,7 @@ const AmountInput: FC<Props> = forwardRef(
                 token={value.asset}
                 onTokenClick={handleTokenClick}
                 isLoading={isLoading}
+                tokens={tokens}
               />
             )}
           </Box>

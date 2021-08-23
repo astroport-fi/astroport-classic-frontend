@@ -9,14 +9,14 @@ import networks, {
 } from "constants/networks";
 import {
   getPairs,
-  filterPairs,
   formatPairs,
   formatTokens,
   getCW20Balances,
   getLpBalances,
   useAddress,
 } from "modules/terra";
-import { Pair, PairsMap, TokensMap } from "types/common";
+import { PairsMap, TokensMap } from "types/common";
+import { Pair } from "types/contracts/terraswap";
 import whitelist from "constants/whitelist.json";
 
 type TerraContext = {

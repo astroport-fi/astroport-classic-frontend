@@ -8,7 +8,7 @@ type Props = {
   data: any;
 };
 
-const ProvideLiquidityFormFooter: FC<Props> = ({ data }) => {
+const ProvideFormFooter: FC<Props> = ({ data }) => {
   const percentage = calculatePercentage(data.accountShare, data.totalShare);
   const feeString = useFeeToString(data.fee);
 
@@ -60,4 +60,4 @@ const ProvideLiquidityFormFooter: FC<Props> = ({ data }) => {
   );
 };
 
-export default ProvideLiquidityFormFooter;
+export default ProvideFormFooter;

@@ -18,7 +18,7 @@ import { toAmount, lookup } from "libs/parse";
 import { useTerra } from "contexts/TerraContext";
 import { useBalance } from "modules/terra";
 import { useProvide, calculateToken2Amount } from "modules/pool";
-import ProvideLiquidityFormFooter from "components/pool/provide/ProvideLiquidityFormFooter";
+import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
 import useThrottle from "hooks/useThrottle";
 
 type Props = {
@@ -29,7 +29,7 @@ type Props = {
   };
 };
 
-const ProvideLiquidityForm: FC<Props> = ({ pair, initialValues }) => {
+const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
   const { isReady } = useTerra();
 
   const {
@@ -131,9 +131,9 @@ const ProvideLiquidityForm: FC<Props> = ({ pair, initialValues }) => {
         </Slider>
       </Card>
 
-      <ProvideLiquidityFormFooter data={provideState} />
+      <ProvideFormFooter data={provideState} />
     </chakra.form>
   );
 };
 
-export default ProvideLiquidityForm;
+export default ProvideForm;

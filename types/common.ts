@@ -1,105 +1,10 @@
 import { Msg } from "@terra-money/terra.js";
-import { AssetToken } from "types/asset";
-
-export enum PriceKey {
-  NATIVE = "price",
-  PAIR = "pair",
-  ORACLE = "oracle",
-  PRE = "pre",
-  END = "end",
-  EXTERNAL = "external",
-}
-
-export enum BalanceKey {
-  NATIVE = "balance",
-  TOKEN = "token",
-  EXTERNAL = "external",
-}
-
-export enum StakingKey {
-  LPSTAKABLE = "lpStakable",
-  LPSTAKED = "lpStaked",
-  SLPSTAKED = "slpStaked",
-  LPREWARD = "reward",
-  SLPREWARD = "slpReward",
-}
-
-export enum AssetInfoKey {
-  COMMISSION = "commission",
-  LIQUIDITY = "liquidity",
-  MINCOLLATERALRATIO = "minCollateralRatio",
-  LPTOTALSTAKED = "lpTotalStaked",
-  LPTOTALSUPPLY = "lpTotalSupply",
-  MULTIPLIER = "multiplier",
-}
-
-export type MantleCoin = {
-  amount: string;
-  denom: string;
-};
+import { Pair } from "types/contracts/terraswap";
 
 export type ContractVariables = {
   contract: string;
   msg: object;
 };
-
-export type PairPool = {
-  assets: (AssetToken | NativeToken)[];
-  total_share: string;
-};
-
-export type Dictionary<A = string> = {
-  [key: string]: A;
-};
-
-export interface NativeToken {
-  native_token: {
-    denom: string;
-  };
-}
-
-export interface CW20Token {
-  token: {
-    contract_addr: string;
-  };
-}
-
-export type AssetInfo = NativeToken | CW20Token;
-
-export interface Pair {
-  asset_infos: AssetInfo[];
-  contract_addr: string;
-  liquidity_token: string;
-}
-
-export interface Asset {
-  info: AssetInfo;
-  amount: string;
-}
-
-export interface PoolInfo {
-  assets: Asset[];
-  total_share: string;
-}
-
-export enum ExtensionRequests {
-  Connect = "connect",
-  Post = "post",
-  Sign = "sign",
-  Info = "info",
-}
-
-export enum ExtensionEvents {
-  Connect = "onConnect",
-  Post = "onPost",
-  Sign = "onSign",
-  Info = "onInfo",
-}
-
-export interface ExtensionResponse<T> {
-  name: string;
-  payload: T;
-}
 
 export interface TxResult {
   height: number;
@@ -159,12 +64,6 @@ export interface TokenList {
   [token: string]: TokenItem;
 }
 
-export type Whitelist = Record<NetworkType, TokenList>;
-
 export interface TokensMap {
   [token: string]: TokenItem;
-}
-
-export enum TxStatusMessage {
-  InsufficientBalance = "insufficient_balance",
 }

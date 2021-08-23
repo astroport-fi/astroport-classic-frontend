@@ -1,7 +1,7 @@
 import { Denom } from "@terra-money/terra.js";
 
-import { PairsMap, TokensMap, Pair } from "types/common";
-import { getTokenDenoms } from "modules/terra";
+import { PairsMap, TokensMap } from "types/common";
+import { Pair } from "types/contracts/terraswap";
 
 export const calculatePriceImpact = (
   amount: number,

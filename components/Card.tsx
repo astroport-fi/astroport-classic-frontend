@@ -15,7 +15,6 @@ const Card: FC<Props> = ({ children, noPadding = false, ...props }) => {
       border="2px solid rgba(86, 67, 242, 0.4)"
       borderRadius="2xl"
       position="relative"
-      overflow="hidden"
       color="white"
       {...props}
     >

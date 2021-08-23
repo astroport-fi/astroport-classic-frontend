@@ -1,4 +1,4 @@
-import { findAsset, getTokenDenom, trunc } from "modules/terra";
+import { findAsset, getTokenDenom, trunc, isNativeToken } from "modules/terra";
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
 
 export const calculateShare = (pool: any, token: string, amount: string) => {
@@ -66,4 +66,49 @@ export const calculateSharePrice = (
   );
 
   return String(token1TotalPrice + token2TotalPrice);
+};
+
+const minusFee = (amount: number) => {
+  const minFeeCoefficient = 0.03;
+  const maxFee = 1500000;
+
+  let fee = Math.ceil(amount * minFeeCoefficient);
+
+  fee = fee > maxFee ? maxFee : fee;
+
+  return amount - fee;
+};
+
+export const calculateProvideOneAsset = (
+  pool: any,
+  firstToken: string,
+  swapAmountTokenFirst: string,
+  receivedAmountTokenSecond: string
+) => {
+  const [assetFirst, assetSecond] = pool.assets.sort((asset) => {
+    return getTokenDenom(asset) === firstToken ? -1 : 1;
+  });
+
+  const poolBalanceAfterSwap = {
+    amountFirst: Number(assetFirst.amount) + Number(swapAmountTokenFirst),
+    amountSecond:
+      Number(assetSecond.amount) - Number(receivedAmountTokenSecond),
+  };
+
+  console.log("receivedAmountTokenSecond", receivedAmountTokenSecond);
+  console.log("poolBalanceAfterSwap", poolBalanceAfterSwap);
+
+  const provideAmountSecond = isNativeToken(assetSecond.info)
+    ? minusFee(Number(receivedAmountTokenSecond))
+    : Number(receivedAmountTokenSecond);
+
+  return {
+    provideAmountFirst: String(
+      Math.ceil(
+        provideAmountSecond *
+          (poolBalanceAfterSwap.amountFirst / poolBalanceAfterSwap.amountSecond)
+      )
+    ),
+    provideAmountSecond: String(provideAmountSecond),
+  };
 };

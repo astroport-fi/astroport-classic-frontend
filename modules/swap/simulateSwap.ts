@@ -1,8 +1,10 @@
+import { LCDClient } from "@terra-money/terra.js";
+
 import { toToken, getTokenDenom, isNativeToken } from "modules/terra";
 import { findSwapRoute } from "modules/swap";
-import { Pair } from "types/common";
+import { Pair } from "types/contracts/terraswap";
 
-const createMonoSwapQuery = async (client, token, route, amount) => {
+const createMonoSwapQuery = async (client: LCDClient, token, route, amount) => {
   const [{ pair }] = route;
 
   return client.wasm.contractQuery(pair, {
@@ -54,7 +56,7 @@ export const createMultiSwapOperations = (
 };
 
 const createMultiSwapQuery = async (
-  client,
+  client: LCDClient,
   routeContract,
   from,
   route,
@@ -71,7 +73,7 @@ const createMultiSwapQuery = async (
 };
 
 export const simulateSwap = async (
-  client,
+  client: LCDClient,
   routeContract,
   routes,
   from,

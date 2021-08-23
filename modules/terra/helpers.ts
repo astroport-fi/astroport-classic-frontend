@@ -99,20 +99,6 @@ export const formatTokens = (
     };
   }, {} as Record<string, TokenItem>);
 
-export const filterPairs = (pairs: any[], tokenList: TokenList) => {
-  const nativeTokensList: Array<string> = Object.values(Denom);
-  const cw20TokensList = Object.keys(tokenList);
-
-  return pairs.filter((pair) => {
-    const tokens = getTokenDenoms(pair.assets);
-
-    return tokens.every(
-      (token) =>
-        nativeTokensList.includes(token) || cw20TokensList.includes(token)
-    );
-  });
-};
-
 export const toAssetInfo = (token: string) => {
   if (getIsTokenNative(token)) {
     return { native_token: { denom: token } };
@@ -129,10 +115,10 @@ export const toToken = ({ amount, token }: Asset) => {
 };
 
 export const findAssetInfo = (assetInfos: any[], token: string): AssetInfo => {
-  const assetInfo = assetInfos.find((asset) => {
-    return isNativeToken(asset)
-      ? asset.native_token.denom === token
-      : asset.token.contract_addr === token;
+  const assetInfo = assetInfos.find(({ info }) => {
+    return isNativeToken(info)
+      ? info.native_token.denom === token
+      : info.token.contract_addr === token;
   });
 
   if (!assetInfo) {
@@ -173,12 +159,11 @@ export const createAsset = (
   amount: string,
   route: Pair[]
 ): any => {
-  const [{ asset_infos }] = route;
-
-  const assetInfo = findAssetInfo(asset_infos, from);
+  const [{ assets }] = route;
+  const { info } = findAssetInfo(assets, from);
 
   return {
-    info: assetInfo,
+    info,
     amount,
   };
 };

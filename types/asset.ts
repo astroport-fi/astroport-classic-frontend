@@ -33,27 +33,3 @@ export interface DelistItem {
 }
 
 type ListedItemStatus = "PRE_IPO" | "LISTED" | "DELISTED";
-
-/* chain */
-export interface AssetInfo {
-  token: { contract_addr: string };
-}
-
-export interface NativeInfo {
-  native_token: { denom: string };
-}
-
-export interface AssetToken {
-  amount: string;
-  info: AssetInfo;
-}
-
-export interface NativeToken {
-  amount: string;
-  info: NativeInfo;
-}
-
-export interface Token {
-  amount: string;
-  info: AssetInfo | NativeInfo;
-}

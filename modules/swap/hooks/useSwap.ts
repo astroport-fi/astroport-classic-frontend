@@ -73,7 +73,7 @@ export const useSwap = ({
     const data = await createSwapTx(
       {
         token1,
-        route: swapRoute,
+        pairs: swapRoute,
         amount: amount1,
         slippage,
         minimumReceive,

@@ -2,14 +2,15 @@ import React from "react";
 import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
 
-import { useBalance } from "modules/terra";
+import { useBalance, useTokenInfo } from "modules/terra";
 import { useTokenPrice } from "modules/swap";
-import { format } from "libs/parse";
+import { format, lookupSymbol } from "libs/parse";
 
 const TokenItem = ({ token, onClick }) => {
   const { icon, symbol, protocol } = token;
   const balance = useBalance(token.token);
   const price = useTokenPrice(token.token);
+  const { getIcon, getSymbol } = useTokenInfo();
 
   return (
     <MenuItem
@@ -25,11 +26,11 @@ const TokenItem = ({ token, onClick }) => {
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="2">
-          <Image src={icon} alt={symbol} boxSize="10" />
+          <Image src={icon ?? getIcon(token.token)} alt={symbol} boxSize="10" />
         </Box>
         <Box flex="1">
           <Text fontSize="xl" fontWeight="500" lineHeight="normal">
-            {symbol}
+            {symbol ?? lookupSymbol(getSymbol(token.token))}
           </Text>
           <Text fontSize="sm" color="brand.dark" opacity="0.4">
             {protocol}
