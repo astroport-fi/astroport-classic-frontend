@@ -3,9 +3,9 @@ import { findSwapRoute } from "modules/swap";
 import { Pair } from "types/common";
 
 const createMonoSwapQuery = async (client, token, route, amount) => {
-  const [{ contract_addr }] = route;
+  const [{ pair }] = route;
 
-  return client.wasm.contractQuery(contract_addr, {
+  return client.wasm.contractQuery(pair, {
     simulation: {
       offer_asset: toToken({ token, amount }),
     },
@@ -14,34 +14,34 @@ const createMonoSwapQuery = async (client, token, route, amount) => {
 
 export const createMultiSwapOperations = (
   from: string,
-  route: Pair[],
+  route: any[],
   operations: any[] = []
 ): any[] => {
   if (route.length === 0) {
     return operations;
   }
 
-  const asset_infos = route[0]?.asset_infos;
+  const assets = route[0]?.assets;
 
-  if (!asset_infos) {
+  if (!assets) {
     return operations;
   }
 
-  const assetInfos = [...asset_infos].sort((a) =>
+  const assetInfos = [...assets].sort((a) =>
     getTokenDenom(a) === from ? -1 : 1
   );
 
   const operation = assetInfos.every(isNativeToken)
     ? {
         native_swap: {
-          offer_denom: assetInfos[0].native_token.denom,
-          ask_denom: assetInfos[1].native_token.denom,
+          offer_denom: assetInfos[0].info.native_token.denom,
+          ask_denom: assetInfos[1].info.native_token.denom,
         },
       }
     : {
         terra_swap: {
-          offer_asset_info: assetInfos[0],
-          ask_asset_info: assetInfos[1],
+          offer_asset_info: assetInfos[0].info,
+          ask_asset_info: assetInfos[1].info,
         },
       };
 

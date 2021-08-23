@@ -1,10 +1,9 @@
 import { useCallback } from "react";
 
-import { getIsTokenNative, lookupSymbol } from "libs/parse";
-import { ICON_URL } from "constants/constants";
+import { lookupSymbol } from "libs/parse";
 import { useTerra } from "contexts/TerraContext";
+import { getNativeTokenIconUrl } from "modules/terra";
 import whitelist from "constants/whitelist.json";
-import { Asset } from "types/asset";
 
 export const useTokenInfo = () => {
   const {
@@ -21,33 +20,20 @@ export const useTokenInfo = () => {
   const getIcon = useCallback(
     (token: string) => {
       const symbol = getSymbol(token);
+      const info = whitelist[name][token];
 
-      const ticker = getIsTokenNative(symbol)
-        ? lookupSymbol(symbol)
-        : symbol.startsWith("m")
-        ? symbol.slice(1)
-        : symbol;
+      if (info?.icon) {
+        return info?.icon;
+      }
 
-      const icon = ticker && `${ICON_URL}/${ticker}.png`;
-      return icon;
+      return getNativeTokenIconUrl(lookupSymbol(symbol));
     },
-    [getSymbol]
+    [getSymbol, name]
   );
-
-  const toAssetInfo = (token: string) =>
-    getIsTokenNative(token)
-      ? { native_token: { denom: token } }
-      : { token: { contract_addr: token } };
-
-  const toToken = ({ amount, token }: Asset) => ({
-    amount,
-    info: toAssetInfo(token),
-  });
 
   return {
     getSymbol,
     getIcon,
-    toToken,
   };
 };
 

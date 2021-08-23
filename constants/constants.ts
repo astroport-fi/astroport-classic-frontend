@@ -14,6 +14,7 @@ export const WASMQUERY = "WasmContractsContractAddressStore";
 export const SMALLEST = 1e6;
 
 /* astroport:configs */
+export const POOLS_TOKEN = Denom.LUNA;
 export const DEFAULT_SLIPPAGE = 0.01;
 export const COMMISSION = 0.003;
 export const ESTIMATE_TOKEN = Denom.USD;

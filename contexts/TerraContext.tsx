@@ -13,6 +13,7 @@ import {
   formatPairs,
   formatTokens,
   getCW20Balances,
+  getLpBalances,
   useAddress,
 } from "modules/terra";
 import { Pair, PairsMap, TokensMap } from "types/common";
@@ -24,7 +25,8 @@ type TerraContext = {
   pairs: Pair[] | any[];
   routes: PairsMap | any[];
   client: any;
-  balances: any;
+  balances: Coins | null;
+  lpBalances: Coins | null;
   tokens: TokensMap | any[];
   loadingPairs: boolean;
 };
@@ -39,6 +41,7 @@ export const TerraProvider: FC = (props) => {
   const { network } = useWallet();
   const address = useAddress();
   const [balances, setBalances] = useState<Coins | null>(null);
+  const [lpBalances, setLpBalances] = useState<Coins | null>(null);
   const [pairs, setPairs] = useState<Pair[] | null>(null);
   const [loadingPairs, setLoadingPairs] = useState(true);
   const tokenList = whitelist ? whitelist[network.name] : null;
@@ -72,15 +75,14 @@ export const TerraProvider: FC = (props) => {
 
   const fethPairs = useCallback(async () => {
     const { factory, mantle } = networkInfo;
-    if (!tokenList || !mantle || !factory) {
+    if (!mantle || !factory) {
       return;
     }
 
     const data = await getPairs(networkInfo);
-    const pairs = filterPairs(data, tokenList);
-    setPairs(pairs);
+    setPairs(data);
     setLoadingPairs(false);
-  }, [tokenList, networkInfo]);
+  }, [networkInfo]);
 
   useEffect(() => {
     fethPairs();
@@ -103,6 +105,20 @@ export const TerraProvider: FC = (props) => {
     fetchBalances();
   }, [fetchBalances]);
 
+  const fetchLpBalances = useCallback(async () => {
+    if (!(address && pairs)) {
+      return;
+    }
+
+    const result = await getLpBalances(networkInfo.mantle, address, pairs);
+
+    setLpBalances(result);
+  }, [address, networkInfo, pairs]);
+
+  useEffect(() => {
+    fetchLpBalances();
+  }, [fetchLpBalances]);
+
   const isReady = pairs?.length > 0 && !!balances && !!tokens && !!routes;
 
   return (
@@ -112,6 +128,7 @@ export const TerraProvider: FC = (props) => {
         networkInfo,
         pairs,
         balances,
+        lpBalances,
         routes,
         client,
         tokens,

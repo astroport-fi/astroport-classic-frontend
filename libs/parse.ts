@@ -54,7 +54,7 @@ export const lookupSymbol = (symbol?: string) => {
     return symbol.slice(1, 3).toUpperCase() + "T";
   }
 
-  return "";
+  return symbol;
 };
 
 export const isBig: Formatter<boolean> = (amount, symbol) => {

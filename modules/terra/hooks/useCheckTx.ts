@@ -1,23 +1,23 @@
 import { useMemo } from "react";
 import { Coins } from "@terra-money/terra.js";
-import { useTerraController } from "components/TerraController/TerraController";
-import { checkBalance } from "helpers";
+import { useTerra } from "contexts/TerraContext";
+import { checkBalance } from "modules/terra";
 
-export const useCheckTxAbility = (
+export const useCheckTx = (
   offerAssets: Coins | null,
   fee: Coins | null,
-  lpTokensBalance?: Coins | null
+  lpBalance?: Coins | null
 ) => {
-  const { balance } = useTerraController();
+  const { balances } = useTerra();
 
   const [isEnoughBalance, txCost] = useMemo(() => {
-    if (!(offerAssets && balance)) {
+    if (!(offerAssets && balances)) {
       return [true, null];
     }
 
-    const combinedBalance = lpTokensBalance
-      ? balance.toDecCoins().add(lpTokensBalance)
-      : balance;
+    const combinedBalance = lpBalance
+      ? balances.toDecCoins().add(lpBalance)
+      : balances;
 
     const { isEnough, txCost: cost } = checkBalance(
       combinedBalance,
@@ -26,7 +26,7 @@ export const useCheckTxAbility = (
     );
 
     return [isEnough, cost];
-  }, [balance, fee, lpTokensBalance, offerAssets]);
+  }, [balances, fee, lpBalance, offerAssets]);
 
   const isTxAvailable = fee && isEnoughBalance;
 

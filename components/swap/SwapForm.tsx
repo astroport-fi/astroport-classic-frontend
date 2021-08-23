@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
-import AmountInput from "components/swap/AmountInput";
+import AmountInput from "components/common/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import { useSwap } from "modules/swap";
 import { formatAmount } from "modules/terra";

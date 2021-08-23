@@ -36,11 +36,13 @@ const createMonoSwapMsg = (options: any, sender: string) => {
         },
       };
 
-  return isNative
-    ? new MsgExecuteContract(sender, contract_addr, executeMsg, [
-        new Coin(token1, amount),
-      ])
-    : new MsgExecuteContract(sender, token1, executeMsg);
+  if (isNative) {
+    return new MsgExecuteContract(sender, contract_addr, executeMsg, [
+      new Coin(token1, amount),
+    ]);
+  }
+
+  return new MsgExecuteContract(sender, token1, executeMsg);
 };
 
 const createMultiSwapMsg = (options: any, sender: any) => {
@@ -76,11 +78,13 @@ const createMultiSwapMsg = (options: any, sender: any) => {
         },
       };
 
-  return isNative
-    ? new MsgExecuteContract(sender, routeContract, executeMsg, [
-        new Coin(token1, amount),
-      ])
-    : new MsgExecuteContract(sender, token1, executeMsg);
+  if (isNative) {
+    return new MsgExecuteContract(sender, routeContract, executeMsg, [
+      new Coin(token1, amount),
+    ]);
+  }
+
+  return new MsgExecuteContract(sender, token1, executeMsg);
 };
 
 export const createSwapTx = async (options: any, sender: string) => {

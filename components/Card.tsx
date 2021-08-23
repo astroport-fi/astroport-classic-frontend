@@ -10,7 +10,9 @@ const Card: FC<Props> = ({ children, noPadding = false, ...props }) => {
   return (
     <Box
       bg="tile.dark"
-      p={!noPadding && "6"}
+      py={!noPadding && "6"}
+      px={!noPadding && "8"}
+      border="2px solid rgba(86, 67, 242, 0.4)"
       borderRadius="2xl"
       position="relative"
       overflow="hidden"

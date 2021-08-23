@@ -45,6 +45,7 @@
     "eslint": "^7.30.0",
     "eslint-config-next": "^11.0.1",
     "graphql": "^15.5.1",
+    "husky": "^7.0.1",
     "relay-compiler": "^11.0.2",
     "relay-compiler-language-typescript": "^14.0.0",
     "tslint": "^6.1.3",

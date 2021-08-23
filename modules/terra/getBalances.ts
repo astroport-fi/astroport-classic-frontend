@@ -41,18 +41,19 @@ const mapTokenList = (list: any, address: string): Item[] =>
   }));
 
 const mapPairs = (pairs: any[], address: string) =>
-  pairs.map(({ liquidity_token }) => ({
-    token: liquidity_token,
-    contract: liquidity_token,
+  pairs.map(({ lpToken }) => ({
+    token: lpToken,
+    contract: lpToken,
     msg: { balance: { address } },
   }));
 
-const mapTokens = (tokens: any) =>
-  Object.entries(tokens).map(([token, value]: any) => {
+const mapTokens = (tokens: any) => {
+  return Object.entries(tokens).map(([token, value]: any) => {
     const { balance } = JSON.parse(value.Result);
 
     return new Coin(token, balance);
   });
+};
 
 export const getCW20Balances = async (
   mantle: string,
@@ -74,7 +75,7 @@ export const getCW20Balances = async (
   return new Coins(mappedTokens);
 };
 
-export const requestLpBalance = async (
+export const getLpBalances = async (
   mantle: string,
   address: string,
   pairs: any[]

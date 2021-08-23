@@ -7,7 +7,9 @@ import Text from "./text";
 import Button from "./button";
 import Tabs from "./tabs";
 import NumberInput from "./numberInput";
+import Heading from "./heading";
 import Menu from "./menu";
+import Slider from "./slider";
 
 export default extendTheme({
   fonts: {
@@ -22,7 +24,9 @@ export default extendTheme({
     Text,
     Badge,
     Button,
+    Heading,
     NumberInput,
+    Slider,
     Tabs,
     Menu,
   },

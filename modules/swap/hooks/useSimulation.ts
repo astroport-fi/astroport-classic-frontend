@@ -34,7 +34,7 @@ export const useSimulation = (
       amount1
     );
 
-    setResult(result);
+    setResult(result as any);
   }, [client, routeContract, routes, token1, token2, amount1]);
 
   useEffect(() => {

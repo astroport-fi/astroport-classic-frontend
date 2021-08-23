@@ -9,7 +9,7 @@ import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const Navbar: FC = () => {
   return (
-    <Flex justify="space-between" align="center" maxW="80rem" m="0 auto">
+    <Flex justify="space-between" align="center" maxW="container.xl" m="0 auto">
       <Link href="/" passHref>
         <a>
           <Image src="/logo.svg" alt="WhiteWhale Logo" />

@@ -1,32 +1,67 @@
 import { LCDClient } from "@terra-money/terra.js";
+import { gql } from "graphql-request";
+
+import { getNativeQuery } from "libs/query";
+
+import data from "constants/data.json";
 
 const maxPairsLimit = 30;
 
+interface Msg {
+  pool: any;
+}
+
+interface Item {
+  pair: string;
+  msg: Msg;
+}
+
+const stringifyMsg = (msg: Msg) => JSON.stringify(msg).replace(/"/g, '\\"');
+
+const aliasItem = ({ pair, msg }: Item) => `
+  ${pair}: WasmContractsContractAddressStore(
+    ContractAddress: "${pair}"
+    QueryMsg: "${stringifyMsg(msg)}"
+  ) {
+    Height
+    Result
+  }
+`;
+
+const createQuery = (items: Item[]) => {
+  const list = items.map(({ pair }: any) => ({
+    pair,
+    msg: { pool: {} },
+  }));
+
+  return gql`
+    query {
+      ${list.map(aliasItem)}
+    }
+  `;
+};
+
+const mapResults = (pairs: any, result: any) => {
+  return Object.entries(result).map(([pairContract, value]: any) => {
+    const result = JSON.parse(value.Result);
+
+    return {
+      ...pairs.find(({ pair }) => {
+        return pair === pairContract;
+      }),
+      ...result,
+    };
+  });
+};
+
 export const getPairs = async (network): Promise<any> => {
-  const client = new LCDClient({
-    URL: network.lcd,
-    chainID: network.chainID,
+  const pairs = data[network.name];
+  const document = createQuery(pairs);
+
+  const result = await getNativeQuery({
+    url: network.mantle,
+    document,
   });
 
-  const request = async (lastPairs: any[] = []): Promise<any[]> => {
-    const lastPair = lastPairs[lastPairs.length - 1];
-
-    const response: { pairs: any[] } = await client.wasm.contractQuery(
-      network.factory,
-      {
-        pairs: {
-          start_after: lastPair && lastPair.asset_infos,
-          limit: maxPairsLimit,
-        },
-      }
-    );
-
-    if (response.pairs.length < maxPairsLimit) {
-      return [...lastPairs, ...response.pairs];
-    }
-
-    return request([...lastPairs, ...response.pairs]);
-  };
-
-  return request();
+  return mapResults(pairs, result);
 };

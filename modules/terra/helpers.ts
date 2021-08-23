@@ -1,4 +1,4 @@
-import { Denom } from "@terra-money/terra.js";
+import { Denom, Coin, Coins } from "@terra-money/terra.js";
 
 import { getIsTokenNative } from "libs/parse";
 import { ONE_TOKEN, DECIMALS } from "constants/constants";
@@ -16,7 +16,7 @@ import {
 
 export const isNativeToken = (
   token: CW20Token | NativeToken | AssetInfo
-): token is NativeToken => {
+): any => {
   if ("native_token" in token) {
     return true;
   }
@@ -24,22 +24,28 @@ export const isNativeToken = (
   return false;
 };
 
-export const getTokenDenom = (info: AssetInfo) => {
-  return isNativeToken(info)
-    ? info.native_token.denom
-    : info.token?.contract_addr;
+export const getTokenDenom = ({ info }: any) => {
+  if (isNativeToken(info)) {
+    return info.native_token.denom;
+  }
+
+  return info.token?.contract_addr;
 };
 
 export const getTokenDenoms = (assetInfos: AssetInfo[]) => {
   return assetInfos.map((info) => getTokenDenom(info));
 };
 
-const getNativeTokenIconUrl = (symbol: string) =>
-  `https://assets.terra.money/icon/60/${symbol}.png`;
+export const getNativeTokenIconUrl = (symbol: string) => {
+  return `https://assets.terra.money/icon/60/${symbol}.png`;
+};
 
-const getTokenSymbol = (denom: string, tokenList: TokenList) =>
-  tokenList[denom]?.symbol ||
-  (denom === "uluna" ? "Luna" : `${denom.slice(1, 3).toUpperCase()}T`);
+const getTokenSymbol = (denom: string, tokenList: TokenList) => {
+  return (
+    tokenList[denom]?.symbol ||
+    (denom === "uluna" ? "Luna" : `${denom.slice(1, 3).toUpperCase()}T`)
+  );
+};
 
 const formatPair = (
   pairsMap: PairsMap,
@@ -59,9 +65,9 @@ const formatPair = (
   };
 };
 
-export const formatPairs = (pairs: Pair[]): PairsMap => {
+export const formatPairs = (pairs: any[]): PairsMap => {
   return pairs.reduce<PairsMap>((pairsMap, pair) => {
-    const [tokenFirst, tokenSecond] = pair.asset_infos;
+    const [tokenFirst, tokenSecond] = pair.assets;
 
     return {
       ...pairsMap,
@@ -93,12 +99,12 @@ export const formatTokens = (
     };
   }, {} as Record<string, TokenItem>);
 
-export const filterPairs = (pairs: Pair[], tokenList: TokenList) => {
+export const filterPairs = (pairs: any[], tokenList: TokenList) => {
   const nativeTokensList: Array<string> = Object.values(Denom);
   const cw20TokensList = Object.keys(tokenList);
 
   return pairs.filter((pair) => {
-    const tokens = getTokenDenoms(pair.asset_infos);
+    const tokens = getTokenDenoms(pair.assets);
 
     return tokens.every(
       (token) =>
@@ -122,10 +128,7 @@ export const toToken = ({ amount, token }: Asset) => {
   };
 };
 
-export const findAssetInfo = (
-  assetInfos: AssetInfo[],
-  token: string
-): AssetInfo => {
+export const findAssetInfo = (assetInfos: any[], token: string): AssetInfo => {
   const assetInfo = assetInfos.find((asset) => {
     return isNativeToken(asset)
       ? asset.native_token.denom === token
@@ -144,11 +147,32 @@ export const findAssetInfo = (
   return assetInfo;
 };
 
+export const findAsset = (assets: any[], token: string) => {
+  const asset = assets.find(({ info }) => {
+    if (isNativeToken(info)) {
+      return info.native_token.denom === token;
+    }
+
+    return info.token.contract_addr === token;
+  });
+
+  if (!asset) {
+    throw new Error(
+      `Asset not found: ${JSON.stringify({
+        assets,
+        token,
+      })}`
+    );
+  }
+
+  return asset;
+};
+
 export const createAsset = (
   from: string,
   amount: string,
   route: Pair[]
-): AssetToken => {
+): any => {
   const [{ asset_infos }] = route;
 
   const assetInfo = findAssetInfo(asset_infos, from);
@@ -188,7 +212,7 @@ export const coinToString = (coin: any, tokensMap: TokensMap) => {
   return `${amount} ${symbol}`;
 };
 
-export const coinsToString = (coins: any, tokensMap: TokensMap) =>
+export const coinsToString = (coins: any, tokensMap: any) =>
   coins
     .toArray()
     .map((coin) => coinToString(coin, tokensMap))
@@ -196,4 +220,43 @@ export const coinsToString = (coins: any, tokensMap: TokensMap) =>
 
 export const toBase64 = (obj: any) => {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
+};
+
+export const checkBalance = (
+  balance: Coins,
+  offerAssets: Coins,
+  fee: Coins | null
+) => {
+  const copyBalance = balance.toDecCoins();
+
+  const txCost = new Coins([
+    ...offerAssets.toArray(),
+    ...(fee ? fee.toArray() : []),
+  ]);
+
+  txCost.toArray().forEach((coin) => {
+    const tokenBalance = copyBalance.get(coin.denom) || new Coin(coin.denom, 0);
+
+    copyBalance.set(
+      coin.denom,
+      tokenBalance.amount.toNumber() - coin.amount.toNumber()
+    );
+  });
+
+  const isEnough = copyBalance
+    .toArray()
+    .every((coin) => coin.amount.toNumber() >= 0);
+
+  return {
+    isEnough,
+    txCost,
+  };
+};
+
+export const calculatePercentage = (
+  from: string,
+  target: string,
+  fractionDigits = 5
+) => {
+  return String(trunc((Number(from) / Number(target)) * 100, fractionDigits));
 };

@@ -8,12 +8,12 @@ type Props = {
 
 const Tr: FC<Props> = ({ children, isHead = false }) => {
   let extraProps: any = {
-    py: "6",
-    bg: "white.900",
-    borderRadius: "2xl",
-    mb: "6",
+    py: "4",
     fontWeight: "500",
     align: "center",
+    borderBottomWidth: "1px",
+    borderBottomColor: "white.200",
+    px: "2",
     _last: {
       mb: 0,
     },
@@ -21,9 +21,11 @@ const Tr: FC<Props> = ({ children, isHead = false }) => {
 
   if (isHead) {
     extraProps = {
+      borderBottomWidth: "1px",
+      borderBottomColor: "white.200",
       fontSize: "sm",
-      color: "white.600",
-      py: "4",
+      py: "8",
+      px: "2",
     };
   }
 

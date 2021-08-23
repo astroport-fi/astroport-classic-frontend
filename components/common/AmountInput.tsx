@@ -12,6 +12,7 @@ import {
 
 import { lookup, formatAsset, format, toAmount } from "libs/parse";
 import TokenSelect from "components/swap/TokenSelect";
+import OneToken from "components/common/OneToken";
 import { useSimulation } from "modules/swap";
 import { useTokenInfo, useBalance } from "modules/terra";
 import { ESTIMATE_TOKEN } from "constants/constants";
@@ -20,6 +21,7 @@ type Props = {
   onChange: any;
   onBlur: any;
   isLoading: boolean;
+  isSingle?: boolean;
   value: {
     amount: string;
     asset: string;
@@ -27,7 +29,7 @@ type Props = {
 };
 
 const AmountInput: FC<Props> = forwardRef(
-  ({ onChange, onBlur, value, isLoading }, ref) => {
+  ({ onChange, onBlur, value, isLoading, isSingle }, ref) => {
     const { getSymbol } = useTokenInfo();
     const { amount: totalPrice } = useSimulation(
       value.asset,
@@ -45,11 +47,17 @@ const AmountInput: FC<Props> = forwardRef(
       <Box ref={ref}>
         <Flex justify="space-between">
           <Box flex="1">
-            <TokenSelect
-              token={value.asset}
-              onTokenClick={handleTokenClick}
-              isLoading={isLoading}
-            />
+            {isSingle ? (
+              <Box pr="8">
+                <OneToken token={value.asset} />
+              </Box>
+            ) : (
+              <TokenSelect
+                token={value.asset}
+                onTokenClick={handleTokenClick}
+                isLoading={isLoading}
+              />
+            )}
           </Box>
           <Box flex="1">
             <Box>

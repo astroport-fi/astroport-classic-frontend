@@ -3,16 +3,12 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
 
 import Navbar from "components/Navbar";
-import { useTerra } from "contexts/TerraContext";
+import { TerraProvider } from "contexts/TerraContext";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
   const isInitializing = wallet.status == WalletStatus.INITIALIZING;
-
-  if (isInitializing) {
-    return null;
-  }
 
   return (
     <Flex height="100vh" direction="column">
@@ -41,10 +37,14 @@ const Layout: FC = ({ children }) => {
           },
         }}
       />
-      <Box>
-        <Navbar />
-      </Box>
-      <Box flex="1">{children}</Box>
+      {!isInitializing && (
+        <TerraProvider>
+          <Box>
+            <Navbar />
+          </Box>
+          <Box flex="1">{children}</Box>
+        </TerraProvider>
+      )}
     </Flex>
   );
 };

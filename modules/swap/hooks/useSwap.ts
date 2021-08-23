@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
-import { Coins, StdSignMsg } from "@terra-money/terra.js";
+import { Coins, Coin, StdSignMsg } from "@terra-money/terra.js";
 import { useTerra } from "contexts/TerraContext";
 import { isValidAmount, useAddress } from "modules/terra";
 import {
@@ -87,7 +87,11 @@ export const useSwap = ({
       return;
     }
 
-    const tx = await client.tx.create(data.sender, { msgs: data.msgs });
+    const tx = await client.tx.create(data.sender, {
+      msgs: data.msgs,
+      gasPrices: new Coins([new Coin("uusd", 0.15)]),
+      feeDenoms: ["uusd"],
+    });
 
     setSwapTx(tx);
     setFee(tx.fee.amount);
