@@ -3,10 +3,11 @@ import { Box, Text } from "@chakra-ui/react";
 
 import { useTerra } from "contexts/TerraContext";
 import TokenItem from "components/swap/TokenItem";
+import { Token } from "types/common";
 
 type Props = {
   onTokenClick: () => void;
-  tokenList: string[];
+  tokenList?: string[];
 };
 
 const TokenList: FC<Props> = ({ onTokenClick, tokenList }) => {
@@ -37,7 +38,7 @@ const TokenList: FC<Props> = ({ onTokenClick, tokenList }) => {
       <Text variant="spaced">All whitelisted tokens</Text>
       <Box h="xs" overflowY="auto" px="2" mt="2">
         <Box>
-          {Object.values(tokens).map((token) => {
+          {Object.values(tokens).map((token: Token) => {
             return (
               <TokenItem
                 key={token.token}

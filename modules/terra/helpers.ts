@@ -2,15 +2,7 @@ import { Denom, Coin, Coins } from "@terra-money/terra.js";
 
 import { getIsTokenNative } from "libs/parse";
 import { ONE_TOKEN, DECIMALS } from "constants/constants";
-import {
-  PairsMap,
-  TokenItem,
-  TokenList,
-  TokensMap,
-  Pair,
-  AssetInfo,
-  Asset,
-} from "types/common";
+import { Routes, Tokens, Pair, AssetInfo, Asset } from "types/common";
 
 export const isNativeToken = (info: AssetInfo): any => {
   if ("native_token" in info) {
@@ -36,7 +28,7 @@ export const getNativeTokenIconUrl = (symbol: string) => {
   return `https://assets.terra.money/icon/60/${symbol}.png`;
 };
 
-const formatPair = (pairsMap: PairsMap, pair: Pair, from: Asset, to: Asset) => {
+const formatPair = (pairsMap: Routes, pair: Pair, from: Asset, to: Asset) => {
   const [tokenFrom, tokenTo] = getTokenDenoms([from, to]);
 
   const prevPairs = pairsMap[tokenFrom] || {};
@@ -49,8 +41,8 @@ const formatPair = (pairsMap: PairsMap, pair: Pair, from: Asset, to: Asset) => {
   };
 };
 
-export const formatPairsToRoutes = (pairs: any[]): PairsMap => {
-  return pairs.reduce<PairsMap>((pairsMap, pair) => {
+export const formatPairsToRoutes = (pairs: Pair[]): Routes => {
+  return pairs.reduce((pairsMap, pair) => {
     const [tokenFirst, tokenSecond] = pair.pool.assets;
 
     return {
@@ -128,7 +120,7 @@ export const isValidAmount = (amount?: string | null): amount is string => {
   return Boolean(amount && Number(amount));
 };
 
-export const coinToString = (coin: any, tokensMap: TokensMap) => {
+export const coinToString = (coin: any, tokensMap: Tokens) => {
   const amount = formatAmount(coin.amount.toString());
   const symbol = tokensMap[coin.denom]?.symbol || "LP"; // TODO: <<= refactoring
 

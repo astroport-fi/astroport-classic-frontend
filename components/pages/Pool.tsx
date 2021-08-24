@@ -9,17 +9,17 @@ import { usePool } from "modules/pool";
 import { useTerra } from "contexts/TerraContext";
 import { useTokenInfo } from "modules/terra";
 import { lookupSymbol } from "libs/parse";
+import { Pair } from "types/common";
 
 const Pool: FC = () => {
   const [mode, setMode] = useState(0);
   const { query } = useRouter();
   const { getSymbol } = useTokenInfo();
   const { pairs } = useTerra();
-  const pair = pairs?.find(({ contract }) => {
+  const pair: Pair = pairs?.find(({ contract }) => {
     return query?.pair === contract;
   });
-  console.log(pair);
-  const pool = usePool(pair);
+  const pool = usePool({ pool: pair.pool, lpToken: pair.lpToken });
   const tokens = [pool.token1, pool.token2];
 
   return (
@@ -59,7 +59,6 @@ const Pool: FC = () => {
       {pair && mode === 0 && (
         <ProvideForm
           pair={pair}
-          pool={pool}
           initialValues={{ token1: pool.token1, token2: pool.token2 }}
         />
       )}

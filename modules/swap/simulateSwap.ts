@@ -53,13 +53,17 @@ type CreateMultiSwapQueryOptions = {
   amount: string;
 };
 
+type CreateMultiSwapQueryResponse = {
+  amount: string;
+};
+
 const createMultiSwapQuery = async ({
   client,
   routeContract,
   from,
   route,
   amount,
-}: CreateMultiSwapQueryOptions) => {
+}: CreateMultiSwapQueryOptions): Promise<CreateMultiSwapQueryResponse> => {
   const operations = createMultiSwapOperations(from, route);
 
   return client.wasm.contractQuery(routeContract, {
@@ -77,12 +81,17 @@ type CreateMonoSwapQueryOptions = {
   amount: string;
 };
 
+type CreateMonoSwapQueryResponse = {
+  return_amount: string;
+  spread_amount: string;
+};
+
 const createMonoSwapQuery = async ({
   client,
   token,
   route,
   amount,
-}: CreateMonoSwapQueryOptions) => {
+}: CreateMonoSwapQueryOptions): Promise<CreateMonoSwapQueryResponse> => {
   const [{ contract }] = route;
 
   return client.wasm.contractQuery(contract, {

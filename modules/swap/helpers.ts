@@ -1,6 +1,6 @@
 import { Denom } from "@terra-money/terra.js";
 
-import { PairsMap, TokensMap, Pair } from "types/common";
+import { Routes, Tokens, Pair } from "types/common";
 import { getTokenDenoms } from "modules/terra";
 
 export const calculatePriceImpact = (
@@ -17,47 +17,47 @@ export const calculateMinimumReceive = (amount: string, slippage: string) => {
 };
 
 export const findSwapRoute = (
-  pairs: any[] | PairsMap,
+  routes: Routes | any[],
   from: string,
   to: string
 ) => {
-  if (!pairs[from]) {
+  if (!routes[from]) {
     return null;
   }
 
-  if (pairs[from][to]) {
-    return [pairs[from][to]];
+  if (routes[from][to]) {
+    return [routes[from][to]];
   }
 
-  if (pairs[from][Denom.USD] && pairs[Denom.USD][to]) {
-    return [pairs[from][Denom.USD], pairs[Denom.USD][to]];
+  if (routes[from][Denom.USD] && routes[Denom.USD][to]) {
+    return [routes[from][Denom.USD], routes[Denom.USD][to]];
   }
 
-  if (pairs[from][Denom.LUNA] && pairs[Denom.LUNA][to]) {
-    return [pairs[from][Denom.LUNA], pairs[Denom.LUNA][to]];
+  if (routes[from][Denom.LUNA] && routes[Denom.LUNA][to]) {
+    return [routes[from][Denom.LUNA], routes[Denom.LUNA][to]];
   }
 
-  if (pairs[from][Denom.LUNA] && pairs[Denom.USD][to]) {
+  if (routes[from][Denom.LUNA] && routes[Denom.USD][to]) {
     return [
-      pairs[from][Denom.LUNA],
-      pairs[Denom.LUNA][Denom.USD],
-      pairs[Denom.USD][to],
+      routes[from][Denom.LUNA],
+      routes[Denom.LUNA][Denom.USD],
+      routes[Denom.USD][to],
     ];
   }
 
   return [
-    pairs[from][Denom.USD],
-    pairs[Denom.USD][Denom.LUNA],
-    pairs[Denom.LUNA][to],
+    routes[from][Denom.USD],
+    routes[Denom.USD][Denom.LUNA],
+    routes[Denom.LUNA][to],
   ];
 };
 
 export const swapRouteToString = (
   from: string,
-  route: Pair[],
-  tokens: TokensMap
+  routes: Pair[],
+  tokens: Tokens | any[]
 ) => {
-  return route
+  return routes
     .reduce(
       (acc, { pool }) => {
         const [tokenFirst, secondeToken] = getTokenDenoms(pool.assets);

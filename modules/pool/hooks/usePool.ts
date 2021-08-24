@@ -4,23 +4,27 @@ import { useTerra } from "contexts/TerraContext";
 import { useTokenPrice } from "modules/swap";
 import { getTokenDenom } from "modules/terra";
 import { calculateSharePrice } from "modules/pool";
+import { Pair } from "types/common";
 
-export const usePool: any = (pair) => {
+type Options = {
+  pool: Pair;
+  lpToken: string;
+};
+
+export const usePool: any = ({ pool, lpToken }) => {
   const { lpBalances } = useTerra();
   const [sharePrice, setSharePrice] = useState(["0.00", "0.00"]);
-  const token1 =
-    pair?.pool?.assets?.[0] && getTokenDenom(pair?.pool.assets?.[0]);
-  const token2 =
-    pair?.pool?.assets?.[1] && getTokenDenom(pair?.pool.assets?.[1]);
+  const token1 = pool?.assets?.[0] && getTokenDenom(pool.assets?.[0]);
+  const token2 = pool?.assets?.[1] && getTokenDenom(pool.assets?.[1]);
   const token1Price = useTokenPrice(token1);
   const token2Price = useTokenPrice(token2);
 
   useEffect(() => {
-    if (lpBalances && token1Price && token2Price && pair) {
-      const lpTokenAmount = lpBalances.get(pair.lpToken)?.amount.toString();
+    if (lpBalances && token1Price && token2Price && lpToken && pool) {
+      const lpTokenAmount = lpBalances.get(lpToken)?.amount.toString();
 
       const resultMine = calculateSharePrice(
-        pair.pool,
+        pool,
         lpTokenAmount,
         token1,
         token2,
@@ -29,8 +33,8 @@ export const usePool: any = (pair) => {
       );
 
       const resultTotal = calculateSharePrice(
-        pair.pool,
-        pair.pool.total_share,
+        pool,
+        pool.total_share,
         token1,
         token2,
         token1Price,
@@ -39,37 +43,37 @@ export const usePool: any = (pair) => {
 
       setSharePrice([resultMine, resultTotal]);
     }
-  }, [lpBalances, pair, token1, token2, token1Price, token2Price]);
+  }, [lpBalances, pool, lpToken, token1, token2, token1Price, token2Price]);
 
   const totalSharePrice = useMemo(() => {
-    if (!(pair && token1Price && token2Price)) {
+    if (!(pool && token1Price && token2Price)) {
       return null;
     }
 
     return calculateSharePrice(
-      pair.pool,
-      pair.pool.total_share,
+      pool,
+      pool.total_share,
       token1,
       token2,
       token1Price,
       token2Price
     );
-  }, [pair, token1, token2, token1Price, token2Price]);
+  }, [pool, token1, token2, token1Price, token2Price]);
 
   const accountShare = useMemo(() => {
-    if (!pair || !accountShare) {
+    if (!pool || !accountShare) {
       return "0%";
     }
 
-    return "calculateShare(pair, token, amount)";
-  }, [pair]);
+    return "calculateShare(pool, token, amount)";
+  }, [pool]);
 
   return {
     name,
     accountShare,
     totalSharePrice,
     sharePrice,
-    pair,
+    pool,
     token1,
     token2,
     token1Price,

@@ -1,5 +1,4 @@
 import { Msg } from "@terra-money/terra.js";
-import { Pair } from "types/contracts/terraswap";
 
 export type ContractVariables = {
   contract: string;
@@ -47,20 +46,20 @@ export interface Network {
 
 export type Networks = Record<NetworkType, Network>;
 
-export interface PairsMap {
-  [from: string]: {
-    [to: string]: Pair;
-  };
-}
-
 // New
 
-import {
-  CW20Addr,
-  Denom,
-  HumanAddr,
-  StableDenom,
-} from "types/contracts/common";
+export type HumanAddr = string;
+export type CanonicalAddr = string;
+export type CW20Addr = string;
+
+export type StableDenom = string;
+export type bAssetDenom = string;
+export type AssetDenom = string;
+export type Denom = StableDenom | bAssetDenom | AssetDenom;
+
+export type WASMContractResult<T extends {} = {}> = {
+  Result: string;
+} & T;
 
 export type CW20AssetInfo = {
   native_token: never;
@@ -73,27 +72,35 @@ export type NativeAssetInfo = {
 
 export type AssetInfo = CW20AssetInfo | NativeAssetInfo;
 
-export interface Asset {
+export type Asset = {
   info: AssetInfo;
   amount: string;
-}
+};
 
-export interface Pool {
+export type Pool = {
   assets: [Asset, Asset];
   total_share: string;
-}
+};
 
-export interface Pair {
+export type Pair = {
   pool: Pool;
   contract: CW20Addr;
   lpToken: CW20Addr;
-}
+};
 
-export interface Token {
+export type Token = {
   protocol: string;
   symbol: string;
   token: string;
-  pair: string;
   icon: string;
-  lpToken: string;
-}
+};
+
+export type Tokens = {
+  [token: string]: Token;
+};
+
+export type Routes = {
+  [from: string]: {
+    [to: string]: Pair;
+  };
+};

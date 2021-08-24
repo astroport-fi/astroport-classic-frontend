@@ -2,6 +2,7 @@ import { gql } from "graphql-request";
 
 import { getNativeQuery } from "libs/query";
 import { Coin, Coins } from "@terra-money/terra.js";
+import { Token } from "types/common";
 
 interface Msg {
   balance: {
@@ -62,7 +63,7 @@ export const getCW20Balances = async (
   tokens: any,
   address: string
 ) => {
-  const filteredTokens = Object.values(tokens).filter((token) => {
+  const filteredTokens = Object.values(tokens).filter((token: Token) => {
     return token.protocol !== "Native";
   });
   const query = formatTokensToQuery(filteredTokens, address);

@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Box, Flex, chakra, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
+import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/common/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import SwapFormConfirm from "components/swap/SwapFormConfirm";
@@ -18,6 +19,7 @@ import { motion } from "framer-motion";
 import useThrottle from "hooks/useThrottle";
 
 const MotionBox = motion(Box);
+const MotionFlex = motion(Flex);
 
 type Props = {};
 
@@ -62,6 +64,11 @@ const SwapForm: FC<Props> = () => {
       amount: formatAmount(swapState.minimumReceive),
     });
   }, 300);
+
+  const switchTokens = () => {
+    setValue("token1", token2);
+    setValue("token2", token1);
+  };
 
   useEffect(() => {
     changeToken2Amount();
@@ -125,6 +132,26 @@ const SwapForm: FC<Props> = () => {
             />
           </MotionBox>
 
+          <MotionFlex
+            initial={{ opacity: 0, scale: 1.2 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+            justify="center"
+            mt="-3.5"
+            mb="-5"
+          >
+            <IconButton
+              aria-label="Switch"
+              icon={<ArrowIcon />}
+              onClick={switchTokens}
+              variant="icon"
+              borderRadius="full"
+              bg="black"
+              minWidth="8"
+              h="8"
+            />
+          </MotionFlex>
+
           <MotionBox
             key="card2"
             mt="2"
@@ -157,18 +184,10 @@ const SwapForm: FC<Props> = () => {
       )}
 
       {swapState.step === SwapStep.Confirm && (
-        <SwapFormConfirm
-          from={token1.asset}
-          to={token2.asset}
-          swapState={swapState}
-        />
+        <SwapFormConfirm from={token1} to={token2} swapState={swapState} />
       )}
       {swapState.step === SwapStep.Success && (
-        <SwapFormSuccess
-          from={token1.asset}
-          to={token2.asset}
-          swapState={swapState}
-        />
+        <SwapFormSuccess from={token1} to={token2} swapState={swapState} />
       )}
       {swapState.step === SwapStep.Error && (
         <SwapFormError swapState={swapState} />

@@ -14,19 +14,18 @@ import {
   getLpBalances,
   useAddress,
 } from "modules/terra";
-import { PairsMap, TokensMap } from "types/common";
-import { Pair } from "types/contracts/terraswap";
+import { Routes, Tokens, Pair } from "types/common";
 import whitelist from "constants/whitelist.json";
 
 type TerraContext = {
   isReady: boolean;
   networkInfo: AstroportNetworkInfo;
   pairs: Pair[] | any[];
-  routes: PairsMap | any[];
-  client: any;
+  routes: Routes | any[];
+  client: LCDClient;
   balances: Coins | null;
   lpBalances: Coins | null;
-  tokens: TokensMap | any[];
+  tokens: Tokens | any[];
   loadingPairs: boolean;
 };
 

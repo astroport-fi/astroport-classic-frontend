@@ -8,8 +8,7 @@ import { createMultiSwapOperations } from "modules/swap";
 import { toBase64 } from "modules/terra";
 import { Coin, MsgExecuteContract, Msg } from "@terra-money/terra.js";
 import { Pair } from "types/common";
-import { HumanAddr } from "types/contracts/common";
-import { CreateTxResponse } from "types/swap";
+import { HumanAddr } from "types/common";
 
 type CreateMonoSwapMsgOptions = {
   pairs: Pair[];
@@ -136,8 +135,10 @@ export const createSwapTx = async (
   }
 
   if (pairs.length === 1) {
+    //@ts-expect-error
     msg = createMonoSwapMsg(options, sender);
   } else {
+    //@ts-expect-error
     msg = createMultiSwapMsg(options, sender);
   }
 

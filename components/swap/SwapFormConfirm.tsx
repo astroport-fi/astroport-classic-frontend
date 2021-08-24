@@ -19,7 +19,7 @@ type Props = {
 
 const MotionBox = motion(Box);
 
-const SwapFormConfirm: FC<Props> = ({ from, to, swapState }) => {
+const SwapStepConfirm: FC<Props> = ({ from, to, swapState }) => {
   const { getSymbol } = useTokenInfo();
   const { exchangeRate, fee, swapRoute } = swapState;
   const { tokens } = useTerra();
@@ -120,4 +120,4 @@ const SwapFormConfirm: FC<Props> = ({ from, to, swapState }) => {
   );
 };
 
-export default SwapFormConfirm;
+export default SwapStepConfirm;
