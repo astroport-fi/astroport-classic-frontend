@@ -50,12 +50,12 @@ export const TerraProvider: FC = (props) => {
     });
   }, [network]);
 
-  const tokens = useMemo(() => {
-    return whitelist[network.name].tokens;
-  }, [network.name]);
-
   const networkInfo = useMemo(() => {
     return networks[network.name] ?? defaultNetwork;
+  }, [network.name]);
+
+  const tokens = useMemo(() => {
+    return whitelist[network.name].tokens;
   }, [network.name]);
 
   const routes = useMemo(() => {
@@ -114,7 +114,7 @@ export const TerraProvider: FC = (props) => {
     fetchLpBalances();
   }, [fetchLpBalances]);
 
-  const isReady = pairs?.length > 0 && !!balances && !!tokens && !!routes;
+  const isReady = pairs?.length > 0 && !!tokens && !!routes;
 
   return (
     <Provider

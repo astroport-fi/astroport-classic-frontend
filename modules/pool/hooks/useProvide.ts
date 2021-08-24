@@ -123,7 +123,7 @@ export const useProvide = ({
 
     setProvideTx(tx);
     setFee(tx.fee.amount);
-  }, [token1, token2, amount1, amount2, address, pool, client]);
+  }, [token1, token2, amount1, amount2, address, pool, client, contract]);
 
   const provideLiquidity = useCallback(async () => {
     if (!(provideTx && isProvideAvailable)) {

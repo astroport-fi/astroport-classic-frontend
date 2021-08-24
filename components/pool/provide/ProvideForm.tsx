@@ -63,7 +63,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
   const balance = useBalance(token1.asset);
   const amount = lookup(balance, token1.asset);
 
-  const changeToken2Amount = useThrottle(() => {
+  const changeToken2Amount = () => {
     if (!token1.amount || token1.amount === 0) {
       return;
     }
@@ -72,7 +72,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
       ...token2,
       amount: calculateToken2Amount(pair.pool, token1.asset, token1.amount),
     });
-  }, 300);
+  };
 
   useEffect(() => {
     changeToken2Amount();

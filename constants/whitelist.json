@@ -44,6 +44,10 @@
       {
         "contract": "terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3",
         "lpToken": "terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm"
+      },
+      {
+        "contract": "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
+        "lpToken": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr"
       }
     ]
   },
@@ -98,10 +102,6 @@
       {
         "contract": "terra1wfvczps2865j0awnurk9m04u7wdmd6qv3fdnvz",
         "lpToken": "terra1vg0qyq92ky9z9dp0j9fv5rmr2s80sg605dah6f"
-      },
-      {
-        "contract": "terra156v8s539wtz0sjpn8y8a8lfg8fhmwa7fy22aff",
-        "lpToken": "terra1srf30cs8ax73y59gm64lkztnx0zexl8fpv3kx2"
       },
       {
         "contract": "terra156v8s539wtz0sjpn8y8a8lfg8fhmwa7fy22aff",

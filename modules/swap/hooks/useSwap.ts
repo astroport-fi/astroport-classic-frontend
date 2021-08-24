@@ -96,14 +96,19 @@ export const useSwap = ({
       return;
     }
 
-    const tx = await client.tx.create(data.sender, {
-      msgs: data.msgs,
-      gasPrices: new Coins([new Coin("uusd", 0.15)]),
-      feeDenoms: ["uusd"],
-    });
+    try {
+      const tx = await client.tx.create(data.sender, {
+        msgs: data.msgs,
+        gasPrices: new Coins([new Coin("uusd", 0.15)]),
+        feeDenoms: ["uusd"],
+      });
 
-    setSwapTx(tx);
-    setFee(tx.fee.amount);
+      setSwapTx(tx);
+      setFee(tx.fee.amount);
+    } catch (e) {
+      setHasError(true);
+      setErrorMsg(e.response.data.error);
+    }
   }, [
     token1,
     amount1,

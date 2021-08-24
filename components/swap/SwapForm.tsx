@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
+import Card from "components/Card";
 import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/common/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
@@ -171,6 +172,12 @@ const SwapForm: FC<Props> = () => {
               )}
             />
           </MotionBox>
+
+          {swapState.hasError && (
+            <Card mt="3">
+              <Text variant="light">{swapState.errorMsg}</Text>
+            </Card>
+          )}
 
           <SwapFormFooter
             from={token1.asset}

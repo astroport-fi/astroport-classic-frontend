@@ -36,7 +36,7 @@ const SwapFormError: FC<Props> = ({ swapState }) => {
             aria-label="Close"
             icon={<CloseIcon />}
             variant="icon"
-            onClick={() => swapState.setStep(SwapStep.Initial)}
+            onClick={swapState.resetSwap}
           />
         </Flex>
 
