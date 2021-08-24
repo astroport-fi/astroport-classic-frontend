@@ -15,15 +15,23 @@ import {
   findSwapRoute,
   simulateSwap,
 } from "modules/swap";
+import { Pool } from "types/common";
 
 type Params = {
-  pair: any;
+  contract: string;
+  pool: Pool;
   token1: string;
   token2: string;
   amount: string;
 };
 
-export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
+export const useProvideSingle = ({
+  contract,
+  pool,
+  token1,
+  token2,
+  amount,
+}: Params) => {
   const { post } = useWallet();
   const address = useAddress();
   const {
@@ -42,21 +50,21 @@ export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
   const tokenPrice = useTokenPrice(token1);
 
   const totalSharePrice = useMemo(() => {
-    if (!(pair && tokenPrice)) {
+    if (!(pool && tokenPrice)) {
       return null;
     }
 
-    // return calculateSharePrice(pair, pair.total_share, token, tokenPrice);
+    // return calculateSharePrice(pool, pool.total_share, token, tokenPrice);
     return "0.00";
-  }, [pair, tokenPrice]);
+  }, [pool, tokenPrice]);
 
   const accountShare = useMemo(() => {
-    if (!(pair && token1 && amount)) {
+    if (!(pool && token1 && amount)) {
       return null;
     }
 
-    return calculateShare(pair, token1, amount);
-  }, [pair, token1, amount]);
+    return calculateShare(pool, token1, amount);
+  }, [pool, token1, amount]);
 
   const offerAssets = useMemo(() => {
     if (!isValidAmount(amount)) {
@@ -107,7 +115,7 @@ export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
 
     const { provideAmountFirst, provideAmountSecond } =
       calculateProvideOneAsset(
-        pair,
+        pool,
         token1,
         swapAmount,
         swapSimulationResult.amount
@@ -115,7 +123,8 @@ export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
 
     const data = await createProvideTx(
       {
-        pair,
+        contract,
+        pool,
         coin1: new Coin(token1, provideAmountFirst),
         coin2: new Coin(token2, provideAmountSecond),
       },
@@ -137,7 +146,7 @@ export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
 
     setProvideTx(tx);
     setFee(tx.fee.amount);
-  }, [token1, token2, routes, routeContract, amount, address, pair, client]);
+  }, [token1, token2, routes, routeContract, amount, address, pool, client]);
 
   const provideLiquidity = useCallback(async () => {
     if (!(provideTx && isProvideAvailable)) {
@@ -161,7 +170,7 @@ export const useProvideSingle = ({ pair, token1, token2, amount }: Params) => {
   return {
     fee,
     accountShare,
-    totalShare: pair.total_share,
+    totalShare: pool?.total_share,
     totalSharePrice,
     provideTx,
     provideResult,

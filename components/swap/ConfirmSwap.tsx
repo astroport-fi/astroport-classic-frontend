@@ -34,7 +34,10 @@ const ConfirmSwap: FC<Props> = ({ from, to, swapState, onCloseClick }) => {
   }, [swapRoute, from, tokens]);
 
   return (
-    <MotionBox initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}>
+    <MotionBox
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+    >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
           <Text fontSize="2xl">Confirm</Text>

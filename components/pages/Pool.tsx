@@ -15,9 +15,10 @@ const Pool: FC = () => {
   const { query } = useRouter();
   const { getSymbol } = useTokenInfo();
   const { pairs } = useTerra();
-  const pair = pairs?.find(({ pair }) => {
-    return query?.pair === pair;
+  const pair = pairs?.find(({ contract }) => {
+    return query?.pair === contract;
   });
+  console.log(pair);
   const pool = usePool(pair);
   const tokens = [pool.token1, pool.token2];
 

@@ -9,8 +9,6 @@ import { useTerra } from "contexts/TerraContext";
 const Pools: FC = () => {
   const { pairs } = useTerra();
 
-  console.log(pairs);
-
   return (
     <Box w="container.xl" m="0 auto" pt="12">
       <Box px="6" mb="4">

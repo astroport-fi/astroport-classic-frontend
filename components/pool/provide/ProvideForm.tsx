@@ -53,7 +53,8 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
   const token1 = watch("token1");
   const token2 = watch("token2");
   const provideState = useProvide({
-    pair: pair,
+    contract: pair.contract,
+    pool: pair.pool,
     token1: token1.asset,
     token2: token2.asset,
     amount1: toAmount(token1.amount),
@@ -69,7 +70,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
 
     setValue("token2", {
       ...token2,
-      amount: calculateToken2Amount(pair, token1.asset, token1.amount),
+      amount: calculateToken2Amount(pair.pool, token1.asset, token1.amount),
     });
   }, 300);
 

@@ -15,9 +15,11 @@ import {
   calculateShare,
 } from "modules/pool";
 import { useTokenPrice } from "modules/swap";
+import { Pool } from "types/common";
 
 type Params = {
-  pair: any;
+  contract: string;
+  pool: Pool;
   token1: string;
   amount1: string;
   token2: string;
@@ -25,7 +27,8 @@ type Params = {
 };
 
 export const useProvide = ({
-  pair,
+  contract,
+  pool,
   token1,
   token2,
   amount1,
@@ -46,27 +49,27 @@ export const useProvide = ({
   const token2Price = useTokenPrice(token2);
 
   const totalSharePrice = useMemo(() => {
-    if (!(pair && token1Price && token2Price)) {
+    if (!(pool && token1Price && token2Price)) {
       return null;
     }
 
     return calculateSharePrice(
-      pair,
-      pair.total_share,
+      pool,
+      pool.total_share,
       token1,
       token2,
       token1Price,
       token2Price
     );
-  }, [pair, token1, token2, token1Price, token2Price]);
+  }, [pool, token1, token2, token1Price, token2Price]);
 
   const accountShare = useMemo(() => {
-    if (!(pair && token1 && amount1)) {
+    if (!(pool && token1 && amount1)) {
       return null;
     }
 
-    return calculateShare(pair, token1, amount1);
-  }, [pair, token1, amount1]);
+    return calculateShare(pool, token1, amount1);
+  }, [pool, token1, amount1]);
 
   const offerAssets = useMemo(() => {
     if (!(isValidAmount(amount1) && isValidAmount(amount2))) {
@@ -97,7 +100,8 @@ export const useProvide = ({
 
     const data = await createProvideTx(
       {
-        pair,
+        contract,
+        pool,
         coin1: new Coin(token1, amount1),
         coin2: new Coin(token2, amount2),
       },
@@ -119,7 +123,7 @@ export const useProvide = ({
 
     setProvideTx(tx);
     setFee(tx.fee.amount);
-  }, [token1, token2, amount1, amount2, address, pair, client]);
+  }, [token1, token2, amount1, amount2, address, pool, client]);
 
   const provideLiquidity = useCallback(async () => {
     if (!(provideTx && isProvideAvailable)) {
@@ -143,7 +147,7 @@ export const useProvide = ({
   return {
     fee,
     accountShare,
-    totalShare: pair.total_share,
+    totalShare: pool?.total_share,
     totalSharePrice,
     provideTx,
     provideResult,

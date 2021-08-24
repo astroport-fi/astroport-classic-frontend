@@ -78,11 +78,13 @@ export interface Asset {
   amount: string;
 }
 
+export interface Pool {
+  assets: [Asset, Asset];
+  total_share: string;
+}
+
 export interface Pair {
-  pool: {
-    assets: [Asset, Asset];
-    total_share: string;
-  };
+  pool: Pool;
   contract: CW20Addr;
   lpToken: CW20Addr;
 }

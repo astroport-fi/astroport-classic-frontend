@@ -7,7 +7,10 @@ import { useTokenInfo, getTokenDenoms } from "modules/terra";
 import { lookupSymbol } from "libs/parse";
 
 const PoolItem = ({ pool }) => {
-  const { assets, pair } = pool;
+  const {
+    pool: { assets },
+    contract,
+  } = pool;
   const { getIcon, getSymbol } = useTokenInfo();
   const [token1, token2] = getTokenDenoms([assets[0], assets[1]]);
 
@@ -36,7 +39,7 @@ const PoolItem = ({ pool }) => {
       <Td>-</Td>
       <Td>-</Td>
       <Td>
-        <Link href={`/pools/${pair}`} passHref>
+        <Link href={`/pools/${contract}`} passHref>
           <Button as="a" variant="primary">
             Add Liquidity
           </Button>

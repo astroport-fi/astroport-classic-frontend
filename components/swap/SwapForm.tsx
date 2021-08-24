@@ -17,11 +17,19 @@ import useThrottle from "hooks/useThrottle";
 
 const MotionBox = motion(Box);
 
+enum SwapStep {
+  Initial = 1,
+  Confirm = 2,
+  Pending = 3,
+  Success = 4,
+  Error = 5,
+}
+
 type Props = {};
 
 const SwapForm: FC<Props> = () => {
   const { isReady } = useTerra();
-  const [isConfirming, setIsConfirming] = useState(false);
+  const [swapStep, setSwapStep] = useState(SwapStep.Initial);
 
   const {
     control,
@@ -74,7 +82,7 @@ const SwapForm: FC<Props> = () => {
 
   return (
     <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      {!isConfirming && (
+      {swapStep === SwapStep.Initial && (
         <>
           <Flex justify="space-between" color="white" mb="4" px="6">
             <MotionBox
@@ -150,17 +158,17 @@ const SwapForm: FC<Props> = () => {
             isLoading={!swapState.isReady}
             exchangeRate={swapState.exchangeRate}
             fee={swapState.fee}
-            onConfirmClick={() => setIsConfirming(true)}
+            onConfirmClick={() => setSwapStep(SwapStep.Confirm)}
           />
         </>
       )}
 
-      {isConfirming && (
+      {swapStep === SwapStep.Confirm && (
         <ConfirmSwap
           from={token1}
           to={token2}
           swapState={swapState}
-          onCloseClick={() => setIsConfirming(false)}
+          onCloseClick={() => setSwapStep(SwapStep.Initial)}
         />
       )}
     </chakra.form>

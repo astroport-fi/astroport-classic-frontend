@@ -2,14 +2,16 @@ import { useState, useEffect, useMemo } from "react";
 import { useTerra } from "contexts/TerraContext";
 
 import { useTokenPrice } from "modules/swap";
-import { getTokenDenom, calculatePercentage } from "modules/terra";
-import { calculateSharePrice, calculateShare } from "modules/pool";
+import { getTokenDenom } from "modules/terra";
+import { calculateSharePrice } from "modules/pool";
 
 export const usePool: any = (pair) => {
   const { lpBalances } = useTerra();
   const [sharePrice, setSharePrice] = useState(["0.00", "0.00"]);
-  const token1 = pair?.assets?.[0] && getTokenDenom(pair?.assets?.[0]);
-  const token2 = pair?.assets?.[1] && getTokenDenom(pair?.assets?.[1]);
+  const token1 =
+    pair?.pool?.assets?.[0] && getTokenDenom(pair?.pool.assets?.[0]);
+  const token2 =
+    pair?.pool?.assets?.[1] && getTokenDenom(pair?.pool.assets?.[1]);
   const token1Price = useTokenPrice(token1);
   const token2Price = useTokenPrice(token2);
 
@@ -18,7 +20,7 @@ export const usePool: any = (pair) => {
       const lpTokenAmount = lpBalances.get(pair.lpToken)?.amount.toString();
 
       const resultMine = calculateSharePrice(
-        pair,
+        pair.pool,
         lpTokenAmount,
         token1,
         token2,
@@ -27,8 +29,8 @@ export const usePool: any = (pair) => {
       );
 
       const resultTotal = calculateSharePrice(
-        pair,
-        pair.total_share,
+        pair.pool,
+        pair.pool.total_share,
         token1,
         token2,
         token1Price,
@@ -45,8 +47,8 @@ export const usePool: any = (pair) => {
     }
 
     return calculateSharePrice(
-      pair,
-      pair.total_share,
+      pair.pool,
+      pair.pool.total_share,
       token1,
       token2,
       token1Price,
@@ -55,13 +57,12 @@ export const usePool: any = (pair) => {
   }, [pair, token1, token2, token1Price, token2Price]);
 
   const accountShare = useMemo(() => {
-    console.log(pair);
     if (!pair || !accountShare) {
       return "0%";
     }
 
     return "calculateShare(pair, token, amount)";
-  }, pair);
+  }, [pair]);
 
   return {
     name,

@@ -4,9 +4,9 @@ import { getTokenDenom, isNativeToken } from "modules/terra";
 import { Asset } from "types/common";
 
 export const createProvideTx = async (options: any, sender: string) => {
-  const { pair, coin1, coin2 } = options;
+  const { contract, pool, coin1, coin2 } = options;
 
-  const assets: Asset[] = pair.pool.assets.map((asset) => ({
+  const assets: Asset[] = pool.assets.map((asset) => ({
     info: asset.info,
     amount:
       getTokenDenom(asset) === coin1.denom
@@ -35,7 +35,7 @@ export const createProvideTx = async (options: any, sender: string) => {
         {
           increase_allowance: {
             amount: asset.amount,
-            spender: pair.pair,
+            spender: contract,
           },
         },
         coins
@@ -43,7 +43,7 @@ export const createProvideTx = async (options: any, sender: string) => {
     ];
   }, []);
 
-  const msg = new MsgExecuteContract(sender, pair.pair, executeMsg, coins);
+  const msg = new MsgExecuteContract(sender, contract, executeMsg, coins);
 
   return {
     sender,

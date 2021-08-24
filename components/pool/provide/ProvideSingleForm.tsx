@@ -17,9 +17,8 @@ import AmountInput from "components/common/AmountInput";
 import { toAmount, lookup } from "libs/parse";
 import { useTerra } from "contexts/TerraContext";
 import { useBalance } from "modules/terra";
-import { useProvideSingle, calculateToken2Amount } from "modules/pool";
+import { useProvideSingle } from "modules/pool";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
-import useThrottle from "hooks/useThrottle";
 
 type Props = {
   pair: any;
@@ -59,7 +58,8 @@ const ProvideSingleForm: FC<Props> = ({
   const token1 = watch("token1");
   const token2 = watch("token2");
   const provideState = useProvideSingle({
-    pair: pair,
+    contract: pair.contract,
+    pool: pair.pool,
     token1: token1.asset,
     token2: token2.asset,
     amount: toAmount(token1.amount),
