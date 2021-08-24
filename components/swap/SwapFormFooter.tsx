@@ -11,6 +11,7 @@ type Props = {
   fee: any;
   exchangeRate: string;
   isLoading: boolean;
+  onConfirmClick: () => void;
 };
 
 const SwapFormFooter: FC<Props> = ({
@@ -19,6 +20,7 @@ const SwapFormFooter: FC<Props> = ({
   exchangeRate,
   isLoading,
   fee,
+  onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
 
@@ -36,7 +38,12 @@ const SwapFormFooter: FC<Props> = ({
         )}
       </Box>
       <Flex flex="1" align="center" flexDirection="column">
-        <Button variant="primary" type="submit" isDisabled={isLoading}>
+        <Button
+          variant="primary"
+          type="button"
+          onClick={onConfirmClick}
+          isDisabled={isLoading}
+        >
           Swap
         </Button>
         {!isLoading && <SwapFormFee fee={fee} />}

@@ -1,7 +1,7 @@
 import { Denom } from "@terra-money/terra.js";
 
-import { PairsMap, TokensMap } from "types/common";
-import { Pair } from "types/contracts/terraswap";
+import { PairsMap, TokensMap, Pair } from "types/common";
+import { getTokenDenoms } from "modules/terra";
 
 export const calculatePriceImpact = (
   amount: number,
@@ -50,4 +50,27 @@ export const findSwapRoute = (
     pairs[Denom.USD][Denom.LUNA],
     pairs[Denom.LUNA][to],
   ];
+};
+
+export const swapRouteToString = (
+  from: string,
+  route: Pair[],
+  tokens: TokensMap
+) => {
+  return route
+    .reduce(
+      (acc, { pool }) => {
+        const [tokenFirst, secondeToken] = getTokenDenoms(pool.assets);
+
+        const nextFrom =
+          tokenFirst === acc[acc.length - 1] ? secondeToken : tokenFirst;
+
+        return [...acc, nextFrom];
+      },
+      [from]
+    )
+    .map((token) => {
+      return tokens[token].symbol;
+    })
+    .join(" > ");
 };

@@ -2,29 +2,25 @@ import { Denom, Coin, Coins } from "@terra-money/terra.js";
 
 import { getIsTokenNative } from "libs/parse";
 import { ONE_TOKEN, DECIMALS } from "constants/constants";
-import { Asset, AssetToken } from "types/asset";
 import {
   PairsMap,
   TokenItem,
   TokenList,
   TokensMap,
-  NativeToken,
   Pair,
-  CW20Token,
   AssetInfo,
+  Asset,
 } from "types/common";
 
-export const isNativeToken = (
-  token: CW20Token | NativeToken | AssetInfo
-): any => {
-  if ("native_token" in token) {
+export const isNativeToken = (info: AssetInfo): any => {
+  if ("native_token" in info) {
     return true;
   }
 
   return false;
 };
 
-export const getTokenDenom = ({ info }: any) => {
+export const getTokenDenom = ({ info }: Asset) => {
   if (isNativeToken(info)) {
     return info.native_token.denom;
   }
@@ -32,27 +28,15 @@ export const getTokenDenom = ({ info }: any) => {
   return info.token?.contract_addr;
 };
 
-export const getTokenDenoms = (assetInfos: AssetInfo[]) => {
-  return assetInfos.map((info) => getTokenDenom(info));
+export const getTokenDenoms = (assets: Asset[]) => {
+  return assets.map((asset) => getTokenDenom(asset));
 };
 
 export const getNativeTokenIconUrl = (symbol: string) => {
   return `https://assets.terra.money/icon/60/${symbol}.png`;
 };
 
-const getTokenSymbol = (denom: string, tokenList: TokenList) => {
-  return (
-    tokenList[denom]?.symbol ||
-    (denom === "uluna" ? "Luna" : `${denom.slice(1, 3).toUpperCase()}T`)
-  );
-};
-
-const formatPair = (
-  pairsMap: PairsMap,
-  pair: Pair,
-  from: AssetInfo,
-  to: AssetInfo
-) => {
+const formatPair = (pairsMap: PairsMap, pair: Pair, from: Asset, to: Asset) => {
   const [tokenFrom, tokenTo] = getTokenDenoms([from, to]);
 
   const prevPairs = pairsMap[tokenFrom] || {};
@@ -65,9 +49,9 @@ const formatPair = (
   };
 };
 
-export const formatPairs = (pairs: any[]): PairsMap => {
+export const formatPairsToRoutes = (pairs: any[]): PairsMap => {
   return pairs.reduce<PairsMap>((pairsMap, pair) => {
-    const [tokenFirst, tokenSecond] = pair.assets;
+    const [tokenFirst, tokenSecond] = pair.pool.assets;
 
     return {
       ...pairsMap,
@@ -77,28 +61,6 @@ export const formatPairs = (pairs: any[]): PairsMap => {
   }, {});
 };
 
-export const formatTokens = (
-  pairs: PairsMap | any[],
-  tokenList: TokenList
-): TokensMap =>
-  Object.keys(pairs).reduce((acc, token) => {
-    const symbol = getTokenSymbol(token, tokenList);
-
-    const icon = tokenList[token]?.icon || getNativeTokenIconUrl(symbol);
-
-    const protocol = tokenList[token]?.protocol || "Terra";
-
-    return {
-      ...acc,
-      [token]: {
-        icon,
-        symbol,
-        token,
-        protocol,
-      },
-    };
-  }, {} as Record<string, TokenItem>);
-
 export const toAssetInfo = (token: string) => {
   if (getIsTokenNative(token)) {
     return { native_token: { denom: token } };
@@ -107,30 +69,11 @@ export const toAssetInfo = (token: string) => {
   return { token: { contract_addr: token } };
 };
 
-export const toToken = ({ amount, token }: Asset) => {
+export const toToken = ({ amount, token }: any) => {
   return {
     amount,
     info: toAssetInfo(token),
   };
-};
-
-export const findAssetInfo = (assetInfos: any[], token: string): AssetInfo => {
-  const assetInfo = assetInfos.find(({ info }) => {
-    return isNativeToken(info)
-      ? info.native_token.denom === token
-      : info.token.contract_addr === token;
-  });
-
-  if (!assetInfo) {
-    throw new Error(
-      `Asset info not found: ${JSON.stringify({
-        assetInfo,
-        token,
-      })}`
-    );
-  }
-
-  return assetInfo;
 };
 
 export const findAsset = (assets: any[], token: string) => {
@@ -143,12 +86,7 @@ export const findAsset = (assets: any[], token: string) => {
   });
 
   if (!asset) {
-    throw new Error(
-      `Asset not found: ${JSON.stringify({
-        assets,
-        token,
-      })}`
-    );
+    throw new Error("Asset not found");
   }
 
   return asset;
@@ -159,8 +97,8 @@ export const createAsset = (
   amount: string,
   route: Pair[]
 ): any => {
-  const [{ assets }] = route;
-  const { info } = findAssetInfo(assets, from);
+  const [{ pool }] = route;
+  const { info } = findAsset(pool.assets, from);
 
   return {
     info,

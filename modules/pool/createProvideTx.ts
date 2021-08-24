@@ -1,16 +1,12 @@
 import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
 import { getTokenDenom, isNativeToken } from "modules/terra";
-import { AssetToken } from "types/contracts/terraswap";
+import { Asset } from "types/common";
 
 export const createProvideTx = async (options: any, sender: string) => {
   const { pair, coin1, coin2 } = options;
 
-  console.log("pair", pair);
-  console.log("coin1", coin1);
-  console.log("coin2", coin2);
-
-  const assets: AssetToken[] = pair.assets.map((asset) => ({
+  const assets: Asset[] = pair.pool.assets.map((asset) => ({
     info: asset.info,
     amount:
       getTokenDenom(asset) === coin1.denom

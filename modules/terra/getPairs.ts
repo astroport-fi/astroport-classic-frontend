@@ -1,11 +1,6 @@
-import { LCDClient } from "@terra-money/terra.js";
 import { gql } from "graphql-request";
 
 import { getNativeQuery } from "libs/query";
-
-import data from "constants/data.json";
-
-const maxPairsLimit = 30;
 
 interface Msg {
   pool: any;
@@ -29,8 +24,8 @@ const aliasItem = ({ pair, msg }: Item) => `
 `;
 
 const createQuery = (items: Item[]) => {
-  const list = items.map(({ pair }: any) => ({
-    pair,
+  const list = items.map(({ contract }: any) => ({
+    pair: contract,
     msg: { pool: {} },
   }));
 
@@ -41,21 +36,21 @@ const createQuery = (items: Item[]) => {
   `;
 };
 
-const mapResults = (pairs: any, result: any) => {
+const formatResult = (result: any, pairs: any) => {
   return Object.entries(result).map(([pairContract, value]: any) => {
     const result = JSON.parse(value.Result);
+    const pair = pairs.find(({ contract }) => {
+      return contract === pairContract;
+    });
 
     return {
-      ...pairs.find(({ pair }) => {
-        return pair === pairContract;
-      }),
-      ...result,
+      ...pair,
+      pool: result,
     };
   });
 };
 
-export const getPairs = async (network): Promise<any> => {
-  const pairs = data[network.name];
+export const getPairs = async (network, pairs): Promise<any> => {
   const document = createQuery(pairs);
 
   const result = await getNativeQuery({
@@ -63,5 +58,7 @@ export const getPairs = async (network): Promise<any> => {
     document,
   });
 
-  return mapResults(pairs, result);
+  console.log(result);
+
+  return formatResult(result, pairs);
 };

@@ -53,17 +53,45 @@ export interface PairsMap {
   };
 }
 
-export interface TokenItem {
+// New
+
+import {
+  CW20Addr,
+  Denom,
+  HumanAddr,
+  StableDenom,
+} from "types/contracts/common";
+
+export type CW20AssetInfo = {
+  native_token: never;
+  token: { contract_addr: CW20Addr };
+};
+export type NativeAssetInfo = {
+  token: never;
+  native_token: { denom: StableDenom };
+};
+
+export type AssetInfo = CW20AssetInfo | NativeAssetInfo;
+
+export interface Asset {
+  info: AssetInfo;
+  amount: string;
+}
+
+export interface Pair {
+  pool: {
+    assets: [Asset, Asset];
+    total_share: string;
+  };
+  contract: CW20Addr;
+  lpToken: CW20Addr;
+}
+
+export interface Token {
   protocol: string;
   symbol: string;
   token: string;
+  pair: string;
   icon: string;
-}
-
-export interface TokenList {
-  [token: string]: TokenItem;
-}
-
-export interface TokensMap {
-  [token: string]: TokenItem;
+  lpToken: string;
 }

@@ -33,21 +33,15 @@ const createQuery = (list: Item[]) => gql`
   }
 `;
 
-const mapTokenList = (list: any, address: string): Item[] =>
-  Object.values(list).map(({ token }) => ({
-    token,
-    contract: token,
-    msg: { balance: { address } },
-  }));
-
-const mapPairs = (pairs: any[], address: string) =>
-  pairs.map(({ lpToken }) => ({
+const mapPairs = (pairs: any[], address: string) => {
+  return pairs.map(({ lpToken }) => ({
     token: lpToken,
     contract: lpToken,
     msg: { balance: { address } },
   }));
+};
 
-const mapTokens = (tokens: any) => {
+const formatResult = (tokens: any) => {
   return Object.entries(tokens).map(([token, value]: any) => {
     const { balance } = JSON.parse(value.Result);
 
@@ -55,14 +49,25 @@ const mapTokens = (tokens: any) => {
   });
 };
 
+const formatTokensToQuery = (list: any, address: string): Item[] => {
+  return Object.values(list).map(({ token }) => ({
+    token,
+    contract: token,
+    msg: { balance: { address } },
+  }));
+};
+
 export const getCW20Balances = async (
   mantle: string,
-  tokenList: any,
+  tokens: any,
   address: string
 ) => {
-  const mappedTokenList = mapTokenList(tokenList, address);
-
-  const document = createQuery(mappedTokenList);
+  const filteredTokens = Object.values(tokens).filter((token) => {
+    return token.protocol !== "Native";
+  });
+  const query = formatTokensToQuery(filteredTokens, address);
+  const document = createQuery(query);
+  console.log(document);
 
   const data = await getNativeQuery({
     url: mantle,
@@ -70,19 +75,19 @@ export const getCW20Balances = async (
     variables: { address },
   });
 
-  const mappedTokens = mapTokens(data);
+  const mappedTokens = formatResult(data);
 
   return new Coins(mappedTokens);
 };
 
 export const getLpBalances = async (
   mantle: string,
-  address: string,
-  pairs: any[]
+  pairs: any[],
+  address: string
 ) => {
-  const mappedPairs = mapPairs(pairs, address);
+  const query = mapPairs(pairs, address);
 
-  const document = createQuery(mappedPairs);
+  const document = createQuery(query);
 
   const data = await getNativeQuery({
     url: mantle,
@@ -90,7 +95,7 @@ export const getLpBalances = async (
     variables: { address },
   });
 
-  const mappedTokens = mapTokens(data);
+  const mappedTokens = formatResult(data);
 
   return new Coins(mappedTokens);
 };

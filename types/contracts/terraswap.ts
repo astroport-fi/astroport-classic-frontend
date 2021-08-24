@@ -11,13 +11,9 @@ export type NativeAssetInfo = { native_token: { denom: StableDenom } };
 export type AssetInfo = CW20AssetInfo | NativeAssetInfo;
 
 export interface Pair {
-  asset_infos: [AssetInfo, AssetInfo];
-
-  /** Pair contract address */
-  contract_addr: HumanAddr;
-
-  /** LP contract address */
-  liquidity_token: CW20Addr;
+  assets: [AssetInfo, AssetInfo];
+  pair: HumanAddr;
+  lpToken: CW20Addr;
 }
 
 export interface Pool {

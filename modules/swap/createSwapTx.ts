@@ -2,13 +2,14 @@ import {
   isValidAmount,
   isNativeToken,
   createAsset,
-  findAssetInfo,
+  findAsset,
 } from "modules/terra";
 import { createMultiSwapOperations } from "modules/swap";
 import { toBase64 } from "modules/terra";
-import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
-import { Pair } from "types/contracts/terraswap";
+import { Coin, MsgExecuteContract, Msg } from "@terra-money/terra.js";
+import { Pair } from "types/common";
 import { HumanAddr } from "types/contracts/common";
+import { CreateTxResponse } from "types/swap";
 
 type CreateMonoSwapMsgOptions = {
   pairs: Pair[];
@@ -20,10 +21,10 @@ type CreateMonoSwapMsgOptions = {
 const createMonoSwapMsg = (
   options: CreateMonoSwapMsgOptions,
   sender: string
-) => {
+): MsgExecuteContract => {
   const { pairs, token1, amount, slippage } = options;
 
-  const [{ pair }] = pairs;
+  const [{ contract }] = pairs;
 
   const offerAsset = createAsset(token1, amount, pairs);
 
@@ -32,7 +33,7 @@ const createMonoSwapMsg = (
   if (isNative) {
     return new MsgExecuteContract(
       sender,
-      pair,
+      contract,
       {
         swap: {
           offer_asset: offerAsset,
@@ -46,7 +47,7 @@ const createMonoSwapMsg = (
   return new MsgExecuteContract(sender, token1, {
     send: {
       amount,
-      contract: pair,
+      contract,
       msg: toBase64({
         swap: {
           max_spread: slippage,
@@ -67,12 +68,12 @@ type CreateMultiSwapMsgOptions = {
 const createMultiSwapMsg = (
   options: CreateMultiSwapMsgOptions,
   sender: HumanAddr
-) => {
+): MsgExecuteContract => {
   const { pairs, token1, amount, minimumReceive, routeContract } = options;
 
-  const [{ assets }] = pairs;
+  const [{ pool }] = pairs;
 
-  const { info } = findAssetInfo(assets, token1);
+  const { info } = findAsset(pool.assets, token1);
 
   const isNative = isNativeToken(info);
 
@@ -108,7 +109,24 @@ const createMultiSwapMsg = (
   });
 };
 
-export const createSwapTx = async (options: any, sender: string) => {
+type CreateSwapTxOptions = {
+  pairs: Pair[];
+  token1: string;
+  amount: string;
+  routeContract: string;
+  minimumReceive?: string;
+  slippage?: string;
+};
+
+type CreateSwapTxResponse = {
+  sender: HumanAddr;
+  msgs: Msg[];
+};
+
+export const createSwapTx = async (
+  options: CreateSwapTxOptions,
+  sender: string
+): Promise<CreateSwapTxResponse> => {
   const { pairs, amount } = options;
 
   let msg;

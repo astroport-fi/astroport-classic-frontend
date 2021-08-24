@@ -9,8 +9,7 @@ import networks, {
 } from "constants/networks";
 import {
   getPairs,
-  formatPairs,
-  formatTokens,
+  formatPairsToRoutes,
   getCW20Balances,
   getLpBalances,
   useAddress,
@@ -44,7 +43,6 @@ export const TerraProvider: FC = (props) => {
   const [lpBalances, setLpBalances] = useState<Coins | null>(null);
   const [pairs, setPairs] = useState<Pair[] | null>(null);
   const [loadingPairs, setLoadingPairs] = useState(true);
-  const tokenList = whitelist ? whitelist[network.name] : null;
 
   const client = useMemo(() => {
     return new LCDClient({
@@ -52,6 +50,10 @@ export const TerraProvider: FC = (props) => {
       chainID: network.chainID,
     });
   }, [network]);
+
+  const tokens = useMemo(() => {
+    return whitelist[network.name].tokens;
+  }, [network.name]);
 
   const networkInfo = useMemo(() => {
     return networks[network.name] ?? defaultNetwork;
@@ -62,44 +64,38 @@ export const TerraProvider: FC = (props) => {
       return [];
     }
 
-    return formatPairs(pairs);
+    return formatPairsToRoutes(pairs);
   }, [pairs]);
 
-  const tokens = useMemo(() => {
-    if (!(routes && tokenList)) {
-      return [];
-    }
-
-    return formatTokens(routes, tokenList);
-  }, [tokenList, routes]);
-
   const fethPairs = useCallback(async () => {
-    const { factory, mantle } = networkInfo;
-    if (!mantle || !factory) {
+    const { mantle } = networkInfo;
+    const pairs = whitelist[network.name].pairs;
+
+    if (!mantle || !pairs) {
       return;
     }
 
-    const data = await getPairs(networkInfo);
+    const data = await getPairs(networkInfo, pairs);
     setPairs(data);
     setLoadingPairs(false);
-  }, [networkInfo]);
+  }, [network, networkInfo]);
 
   useEffect(() => {
     fethPairs();
   }, [fethPairs]);
 
   const fetchBalances = useCallback(async () => {
-    if (!(address && tokenList)) {
+    if (!(address && tokens)) {
       return;
     }
 
     const [cw20TokensBalance, nativeTokensBalance] = await Promise.all([
-      getCW20Balances(networkInfo.mantle, tokenList, address),
+      getCW20Balances(networkInfo.mantle, tokens, address),
       client.bank.balance(address),
     ]);
 
     setBalances(nativeTokensBalance.add(cw20TokensBalance));
-  }, [address, client, networkInfo, tokenList]);
+  }, [address, client, networkInfo, tokens]);
 
   useEffect(() => {
     fetchBalances();
@@ -110,7 +106,7 @@ export const TerraProvider: FC = (props) => {
       return;
     }
 
-    const result = await getLpBalances(networkInfo.mantle, address, pairs);
+    const result = await getLpBalances(networkInfo.mantle, pairs, address);
 
     setLpBalances(result);
   }, [address, networkInfo, pairs]);

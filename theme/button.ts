@@ -23,7 +23,6 @@ const button = {
     mini: {
       outline: "none",
       borderRadius: "lg",
-
       color: "white.600",
       bg: "white.100",
       px: "4",
@@ -62,6 +61,21 @@ const button = {
       _focus: {
         boxShadow: "none",
       },
+    },
+    icon: {
+      bg: "transparent",
+      outline: "none",
+      _hover: {
+        color: "brand.purple",
+        bg: "transparent",
+      },
+      _active: {
+        bg: "transparent",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+      color: "transparent",
     },
   },
 };
