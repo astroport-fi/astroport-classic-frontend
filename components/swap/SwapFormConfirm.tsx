@@ -5,7 +5,7 @@ import CloseIcon from "components/icons/CloseIcon";
 import Card from "components/Card";
 import TokenCard from "components/swap/TokenCard";
 import SwapFormFee from "components/swap/SwapFormFee";
-import { swapRouteToString } from "modules/swap";
+import { swapRouteToString, SwapStep } from "modules/swap";
 import { useTokenInfo } from "modules/terra";
 import { lookupSymbol, format } from "libs/parse";
 import { useTerra } from "contexts/TerraContext";
@@ -15,12 +15,11 @@ type Props = {
   swapState: any;
   from: any;
   to: any;
-  onCloseClick: () => void;
 };
 
 const MotionBox = motion(Box);
 
-const ConfirmSwap: FC<Props> = ({ from, to, swapState, onCloseClick }) => {
+const SwapFormConfirm: FC<Props> = ({ from, to, swapState }) => {
   const { getSymbol } = useTokenInfo();
   const { exchangeRate, fee, swapRoute } = swapState;
   const { tokens } = useTerra();
@@ -45,9 +44,10 @@ const ConfirmSwap: FC<Props> = ({ from, to, swapState, onCloseClick }) => {
             aria-label="Close"
             icon={<CloseIcon />}
             variant="icon"
-            onClick={onCloseClick}
+            onClick={() => swapState.setStep(SwapStep.Initial)}
           />
         </Flex>
+
         <Text mb="1" px="2" variant="light">
           You are swapping from:
         </Text>
@@ -96,23 +96,28 @@ const ConfirmSwap: FC<Props> = ({ from, to, swapState, onCloseClick }) => {
             </Text>
           </HStack>
         </Box>
-        <Text variant="light" mt="3" px="2">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet.
-        </Text>
 
-        <Flex flexDir="column" align="center" mt="6">
-          <Button variant="primary" type="submit">
-            Confirm Swap
-          </Button>
-          <SwapFormFee fee={fee} />
-        </Flex>
+        {swapState.step === SwapStep.Confirm && (
+          <>
+            <Text variant="light" mt="3" px="2">
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+              erat, sed diam voluptua. At vero eos et accusam et justo duo
+              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+              sanctus est Lorem ipsum dolor sit amet.
+            </Text>
+
+            <Flex flexDir="column" align="center" mt="6">
+              <Button variant="primary" type="submit">
+                Confirm Swap
+              </Button>
+              <SwapFormFee fee={fee} />
+            </Flex>
+          </>
+        )}
       </Card>
     </MotionBox>
   );
 };
 
-export default ConfirmSwap;
+export default SwapFormConfirm;

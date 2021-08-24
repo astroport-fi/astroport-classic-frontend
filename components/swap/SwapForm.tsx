@@ -7,29 +7,22 @@ import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
 import AmountInput from "components/common/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
-import ConfirmSwap from "components/swap/ConfirmSwap";
-import { useSwap } from "modules/swap";
+import SwapFormConfirm from "components/swap/SwapFormConfirm";
+import SwapFormSuccess from "components/swap/SwapFormSuccess";
+import SwapFormError from "components/swap/SwapFormError";
+import { useSwap, SwapStep } from "modules/swap";
 import { formatAmount } from "modules/terra";
 import { toAmount } from "libs/parse";
 import { useTerra } from "contexts/TerraContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import useThrottle from "hooks/useThrottle";
 
 const MotionBox = motion(Box);
-
-enum SwapStep {
-  Initial = 1,
-  Confirm = 2,
-  Pending = 3,
-  Success = 4,
-  Error = 5,
-}
 
 type Props = {};
 
 const SwapForm: FC<Props> = () => {
   const { isReady } = useTerra();
-  const [swapStep, setSwapStep] = useState(SwapStep.Initial);
 
   const {
     control,
@@ -76,13 +69,13 @@ const SwapForm: FC<Props> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [swapState.minimumReceive]);
 
-  const submit = async (data) => {
+  const submit = async () => {
     swapState.swap();
   };
 
   return (
     <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      {swapStep === SwapStep.Initial && (
+      {swapState.step === SwapStep.Initial && (
         <>
           <Flex justify="space-between" color="white" mb="4" px="6">
             <MotionBox
@@ -158,18 +151,27 @@ const SwapForm: FC<Props> = () => {
             isLoading={!swapState.isReady}
             exchangeRate={swapState.exchangeRate}
             fee={swapState.fee}
-            onConfirmClick={() => setSwapStep(SwapStep.Confirm)}
+            onConfirmClick={() => swapState.setStep(SwapStep.Confirm)}
           />
         </>
       )}
 
-      {swapStep === SwapStep.Confirm && (
-        <ConfirmSwap
-          from={token1}
-          to={token2}
+      {swapState.step === SwapStep.Confirm && (
+        <SwapFormConfirm
+          from={token1.asset}
+          to={token2.asset}
           swapState={swapState}
-          onCloseClick={() => setSwapStep(SwapStep.Initial)}
         />
+      )}
+      {swapState.step === SwapStep.Success && (
+        <SwapFormSuccess
+          from={token1.asset}
+          to={token2.asset}
+          swapState={swapState}
+        />
+      )}
+      {swapState.step === SwapStep.Error && (
+        <SwapFormError swapState={swapState} />
       )}
     </chakra.form>
   );

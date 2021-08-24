@@ -11,6 +11,14 @@ import {
 import { useWallet } from "@terra-money/wallet-provider";
 import { ONE_TOKEN } from "constants/constants";
 
+export enum SwapStep {
+  Initial = 1,
+  Confirm = 2,
+  Pending = 3,
+  Success = 4,
+  Error = 5,
+}
+
 type Params = {
   token1: string;
   amount1: string;
@@ -26,6 +34,7 @@ export const useSwap = ({
   amount2,
   slippage,
 }: Params) => {
+  const [step, setStep] = useState<SwapStep>(SwapStep.Initial);
   const [swapResult, setSwapResult] = useState<any | null>(null);
   const [swapTx, setSwapTx] = useState<StdSignMsg | null>(null);
   const [fee, setFee] = useState<Coins | null>(null);
@@ -107,6 +116,12 @@ export const useSwap = ({
     client,
   ]);
 
+  const resetSwap = useCallback(() => {
+    setErrorMsg(null);
+    setHasError(false);
+    setStep(SwapStep.Initial);
+  }, []);
+
   const swap = useCallback(async () => {
     if (!swapTx) {
       return;
@@ -114,12 +129,16 @@ export const useSwap = ({
 
     const { msgs } = swapTx;
 
-    const result = await post({ msgs });
-
-    // eslint-disable-next-line no-console
-    console.log(result);
-
-    setSwapResult(result);
+    try {
+      const result = await post({ msgs });
+      setSwapResult(result);
+      setStep(SwapStep.Success);
+    } catch (e) {
+      setHasError(true);
+      setStep(SwapStep.Error);
+      setErrorMsg("Error");
+      return;
+    }
   }, [post, swapTx]);
 
   useEffect(() => {
@@ -129,6 +148,9 @@ export const useSwap = ({
   const isReady = !!minimumReceive && !!exchangeRate && !!swapTx;
 
   return {
+    setStep,
+    step,
+    resetSwap,
     isReady,
     swapRoute,
     isSwapMulti,

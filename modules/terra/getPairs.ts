@@ -58,7 +58,5 @@ export const getPairs = async (network, pairs): Promise<any> => {
     document,
   });
 
-  console.log(result);
-
   return formatResult(result, pairs);
 };

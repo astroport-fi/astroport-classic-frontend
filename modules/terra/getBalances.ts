@@ -67,7 +67,6 @@ export const getCW20Balances = async (
   });
   const query = formatTokensToQuery(filteredTokens, address);
   const document = createQuery(query);
-  console.log(document);
 
   const data = await getNativeQuery({
     url: mantle,
