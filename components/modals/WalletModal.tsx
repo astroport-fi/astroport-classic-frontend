@@ -43,7 +43,7 @@ const WalletModal: FC<Props> = ({ isOpen, onClose }) => {
               transition="0.2s all"
               p="6"
               borderRadius="xl"
-              bg="brand.dark"
+              bg="brand.purple"
               width="100%"
               mb="4"
               _hover={{
@@ -64,7 +64,7 @@ const WalletModal: FC<Props> = ({ isOpen, onClose }) => {
               transition="0.2s all"
               p="6"
               borderRadius="xl"
-              bg="brand.dark"
+              bg="brand.purple"
               width="100%"
               _hover={{
                 bg: "white",

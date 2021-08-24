@@ -23,9 +23,11 @@ import { format } from "libs/parse";
 
 const TerraWallet: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { status } = useWallet();
+  const { status, disconnect } = useWallet();
   const wallet = useConnectedWallet();
   const balance = useBalance(Denom.USD);
+
+  // console.log(disconnect());
 
   if (status === WalletStatus.WALLET_CONNECTED) {
     return (
@@ -72,18 +74,22 @@ const TerraWallet: FC = () => {
       <chakra.button
         type="button"
         color="white"
+        onClick={onOpen}
         _focus={{
           outline: "none",
           boxShadow: "none",
         }}
         _hover={{
-          color: "brand.purple",
+          bg: "brand.purple",
         }}
-        onClick={onOpen}
+        bg="brand.lightBlue"
+        py="2"
+        px="4"
+        borderRadius="full"
       >
         <HStack spacing="3">
           <TerraIcon width="1.25rem" height="1.25rem" />
-          <Text variant="light">Connect your wallet</Text>
+          <Text>Connect your wallet</Text>
         </HStack>
       </chakra.button>
       <WalletModal isOpen={isOpen} onClose={onClose} />
