@@ -1,5 +1,5 @@
-export * from "./createProvideTx";
-export * from "./createWithdrawalTx";
+export * from "./createProvideMsgs";
+export * from "./createWithdrawalMsgs";
 export * from "./getAccountShare";
 export * from "./hooks/usePool";
 export * from "./hooks/useProvide";

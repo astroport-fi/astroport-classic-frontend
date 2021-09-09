@@ -1,6 +1,6 @@
 import { MsgExecuteContract, Coins, Coin } from "@terra-money/terra.js";
 
-import { useAddress } from "modules/terra";
+import { useAddress } from "@arthuryeti/terra";
 
 const useNewContractMsg = () => {
   const sender = useAddress();

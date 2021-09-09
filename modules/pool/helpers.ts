@@ -1,15 +1,10 @@
-import { findAsset, getTokenDenom, trunc, isNativeToken } from "modules/terra";
+import {
+  findAsset,
+  getTokenDenom,
+  trunc,
+  isNativeToken,
+} from "@arthuryeti/terra";
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
-
-export const calculateShare = (pool: any, token: string, amount: string) => {
-  const asset = findAsset(pool.assets, token);
-
-  const share = trunc(
-    (Number(amount) / Number(asset.amount)) * Number(pool.total_share)
-  );
-
-  return String(share);
-};
 
 export const calculateWithdrawTotalPrice = (
   totalPrice1: string,
@@ -95,20 +90,17 @@ export const calculateProvideOneAsset = (
       Number(assetSecond.amount) - Number(receivedAmountTokenSecond),
   };
 
-  console.log("receivedAmountTokenSecond", receivedAmountTokenSecond);
-  console.log("poolBalanceAfterSwap", poolBalanceAfterSwap);
-
   const provideAmountSecond = isNativeToken(assetSecond.info)
     ? minusFee(Number(receivedAmountTokenSecond))
     : Number(receivedAmountTokenSecond);
 
   return {
-    provideAmountFirst: String(
+    provideAmount1: String(
       Math.ceil(
         provideAmountSecond *
           (poolBalanceAfterSwap.amountFirst / poolBalanceAfterSwap.amountSecond)
       )
     ),
-    provideAmountSecond: String(provideAmountSecond),
+    provideAmount2: String(provideAmountSecond),
   };
 };

@@ -1,15 +1,25 @@
 import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
-import { getTokenDenom, isNativeToken } from "modules/terra";
-import { Asset } from "types/common";
+import { getTokenDenom, isNativeToken } from "@arthuryeti/terra";
+import { Asset, Pool } from "types/common";
 
-export const createProvideTx = async (options: any, sender: string) => {
+type CreateProvideMsgsOptions = {
+  pool: Pool;
+  coin1: Coin;
+  coin2: Coin;
+  contract: string;
+};
+
+export const createProvideMsgs = (
+  options: CreateProvideMsgsOptions,
+  sender: string
+): MsgExecuteContract[] => {
   const { contract, pool, coin1, coin2 } = options;
 
   const assets: Asset[] = pool.assets.map((asset) => ({
     info: asset.info,
     amount:
-      getTokenDenom(asset) === coin1.denom
+      getTokenDenom(asset.info) === coin1.denom
         ? coin1.amount.toString()
         : coin2.amount.toString(),
   }));
@@ -20,7 +30,7 @@ export const createProvideTx = async (options: any, sender: string) => {
 
   const coins = assets
     .filter((asset) => isNativeToken(asset.info))
-    .map((asset) => new Coin(getTokenDenom(asset), asset.amount));
+    .map((asset) => new Coin(getTokenDenom(asset.info), asset.amount));
 
   const allowanceMsgs = assets.reduce<MsgExecuteContract[]>((acc, asset) => {
     if (isNativeToken(asset.info)) {
@@ -45,8 +55,5 @@ export const createProvideTx = async (options: any, sender: string) => {
 
   const msg = new MsgExecuteContract(sender, contract, executeMsg, coins);
 
-  return {
-    sender,
-    msgs: [...allowanceMsgs, msg],
-  };
+  return [...allowanceMsgs, msg];
 };

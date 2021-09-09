@@ -1,15 +1,19 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
-import { Coins, Coin, StdSignMsg } from "@terra-money/terra.js";
-import { useTerra } from "contexts/TerraContext";
-import { isValidAmount, useAddress } from "modules/terra";
+import { useCallback, useState, useMemo, useEffect } from "react";
+
+import {
+  isValidAmount,
+  useAddress,
+  useTransaction,
+  useTerra,
+} from "@arthuryeti/terra";
 import {
   findSwapRoute,
   calculateMinimumReceive,
   useSimulation,
-  createSwapTx,
+  createSwapMsgs,
 } from "modules/swap";
-import { useWallet } from "@terra-money/wallet-provider";
 import { ONE_TOKEN } from "constants/constants";
+import networks from "constants/networks";
 
 export enum SwapStep {
   Initial = 1,
@@ -27,26 +31,16 @@ type Params = {
   slippage: string;
 };
 
-export const useSwap = ({
-  token1,
-  token2,
-  amount1,
-  amount2,
-  slippage,
-}: Params) => {
+export const useSwap = ({ token1, token2, amount1, slippage }: Params) => {
   const [step, setStep] = useState<SwapStep>(SwapStep.Initial);
-  const [swapResult, setSwapResult] = useState<any | null>(null);
-  const [swapTx, setSwapTx] = useState<StdSignMsg | null>(null);
-  const [fee, setFee] = useState<Coins | null>(null);
-  const [hasError, setHasError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isReverse, setIsReverse] = useState<boolean>(false);
   const {
-    networkInfo: { routeContract },
-    client,
+    networkInfo: { name },
     routes,
   } = useTerra();
   const address = useAddress();
-  const { post } = useWallet();
+  const { routeContract } = networks[name];
+
   const { amount: exchangeRate } = useSimulation(
     token1,
     token2,
@@ -59,8 +53,6 @@ export const useSwap = ({
     [routes, token1, token2]
   );
 
-  const isSwapMulti = swapRoute ? swapRoute.length > 1 : true;
-
   const minimumReceive = useMemo(() => {
     if (!isValidAmount(amount)) {
       return null;
@@ -69,20 +61,15 @@ export const useSwap = ({
     return calculateMinimumReceive(amount, slippage);
   }, [amount, slippage]);
 
-  const createTx = useCallback(async () => {
-    setSwapTx(null);
-    setFee(null);
-    setErrorMsg(null);
-    setHasError(false);
-
-    if (!isValidAmount(amount1) || !isValidAmount(amount2) || !minimumReceive) {
+  const msgs = useMemo(() => {
+    if (!isValidAmount(amount1) || !minimumReceive || !swapRoute) {
       return;
     }
 
-    const data = await createSwapTx(
+    return createSwapMsgs(
       {
         token1,
-        pairs: swapRoute,
+        route: swapRoute,
         amount: amount1,
         slippage,
         minimumReceive,
@@ -90,82 +77,55 @@ export const useSwap = ({
       },
       address
     );
-
-    if (!data) {
-      setHasError(true);
-      return;
-    }
-
-    try {
-      const tx = await client.tx.create(data.sender, {
-        msgs: data.msgs,
-        gasPrices: new Coins([new Coin("uusd", 0.15)]),
-        feeDenoms: ["uusd"],
-      });
-
-      setSwapTx(tx);
-      setFee(tx.fee.amount);
-    } catch (e) {
-      setHasError(true);
-      setErrorMsg(e.response.data.error);
-    }
   }, [
+    address,
     token1,
     amount1,
-    amount2,
+    minimumReceive,
     slippage,
-    address,
     routeContract,
     swapRoute,
-    minimumReceive,
-    client,
   ]);
 
+  const toggleIsReverse = useCallback(() => {
+    setIsReverse(!isReverse);
+  }, [isReverse]);
+
+  const { fee, submit, result, error, reset } = useTransaction({
+    msgs,
+  });
+
   const resetSwap = useCallback(() => {
-    setErrorMsg(null);
-    setHasError(false);
+    reset();
     setStep(SwapStep.Initial);
-  }, []);
-
-  const swap = useCallback(async () => {
-    if (!swapTx) {
-      return;
-    }
-
-    const { msgs } = swapTx;
-
-    try {
-      const result = await post({ msgs });
-      setSwapResult(result);
-      setStep(SwapStep.Success);
-    } catch (e) {
-      setHasError(true);
-      setStep(SwapStep.Error);
-      setErrorMsg("Error");
-      return;
-    }
-  }, [post, swapTx]);
+  }, [reset]);
 
   useEffect(() => {
-    createTx();
-  }, [createTx]);
+    if (step === SwapStep.Confirm) {
+      if (result?.success) {
+        setStep(SwapStep.Success);
+      }
 
-  const isReady = !!minimumReceive && !!exchangeRate && !!swapTx;
+      if (error) {
+        setStep(SwapStep.Error);
+      }
+    }
+  }, [result, error, step]);
+
+  const isReady = !!minimumReceive && !!exchangeRate && !!fee;
 
   return {
     setStep,
     step,
+    isReverse,
+    toggleIsReverse,
     resetSwap,
     isReady,
-    swapRoute,
-    isSwapMulti,
-    hasError,
-    errorMsg,
-    swapResult,
     minimumReceive,
-    swapTx,
+    result,
+    error,
     fee,
-    swap,
+    swap: submit,
     exchangeRate,
   };
 };

@@ -12,12 +12,8 @@ export interface ExtNetworkConfig {
 
 export interface LocalNetworkConfig {
   /** Contract Addresses JSON URL */
-  contract: string;
   routeContract: string;
   /** Graphql server URL */
   mantle: string;
-  stats: string;
   factory: string;
-  /** Fixed fee */
-  fee: { gasPrice: number; amount: number };
 }

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
 
-import { useTerra } from "contexts/TerraContext";
+import { useTerra } from "@arthuryeti/terra";
 import TokenItem from "components/swap/TokenItem";
 import { Token } from "types/common";
 

@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import WalletModal from "components/modals/WalletModal";
-import { useBalance } from "modules/terra";
+import { useBalance } from "@arthuryeti/terra";
 import TerraIcon from "components/icons/TerraIcon";
 import { truncate } from "libs/text";
 import { format } from "libs/parse";

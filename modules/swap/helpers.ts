@@ -1,7 +1,7 @@
 import { Denom } from "@terra-money/terra.js";
 
 import { Routes, Tokens, Pair } from "types/common";
-import { getTokenDenoms } from "modules/terra";
+import { getTokenDenoms } from "@arthuryeti/terra";
 
 export const calculatePriceImpact = (
   amount: number,
@@ -59,8 +59,8 @@ export const swapRouteToString = (
 ) => {
   return routes
     .reduce(
-      (acc, { pool }) => {
-        const [tokenFirst, secondeToken] = getTokenDenoms(pool.assets);
+      (acc, { asset_infos }) => {
+        const [tokenFirst, secondeToken] = getTokenDenoms(asset_infos);
 
         const nextFrom =
           tokenFirst === acc[acc.length - 1] ? secondeToken : tokenFirst;

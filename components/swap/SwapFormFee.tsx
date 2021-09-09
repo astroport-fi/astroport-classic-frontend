@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 
-import { useFeeToString } from "modules/terra";
+import { useFeeToString } from "@arthuryeti/terra";
 
 const SwapFormFee = ({ fee }) => {
   const feeString = useFeeToString(fee);

@@ -83,7 +83,7 @@ export type Pool = {
 };
 
 export type Pair = {
-  pool: Pool;
+  asset_infos: [AssetInfo, AssetInfo];
   contract: CW20Addr;
   lpToken: CW20Addr;
 };

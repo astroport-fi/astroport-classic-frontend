@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Text, HStack } from "@chakra-ui/react";
 
-import { useTerra } from "contexts/TerraContext";
+import { useTerra } from "@arthuryeti/terra";
 
 const Footer: FC = () => {
   const {

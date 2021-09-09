@@ -4,7 +4,7 @@ import { Box, Flex, Text, Heading } from "@chakra-ui/react";
 import Card from "components/Card";
 import { POOLS_TOKEN } from "constants/constants";
 import { useTokenPrice } from "modules/swap";
-import { formatAmount } from "modules/terra";
+import { formatAmount } from "@arthuryeti/terra";
 
 type Props = {
   totalLiquidity: string | null;

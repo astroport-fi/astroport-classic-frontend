@@ -1,14 +1,13 @@
 import React, { FC, useMemo } from "react";
 import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
+import { useTokenInfo, useTerra } from "@arthuryeti/terra";
 
 import SuccessIcon from "components/icons/SuccessIcon";
 import CloseIcon from "components/icons/CloseIcon";
 import Card from "components/Card";
 import TokenCard from "components/swap/TokenCard";
 import { swapRouteToString, SwapStep } from "modules/swap";
-import { useTokenInfo } from "modules/terra";
 import { lookupSymbol, format } from "libs/parse";
-import { useTerra } from "contexts/TerraContext";
 import { motion } from "framer-motion";
 
 type Props = {

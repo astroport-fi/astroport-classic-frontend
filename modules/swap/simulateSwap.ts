@@ -1,6 +1,6 @@
 import { LCDClient } from "@terra-money/terra.js";
 
-import { toToken, getTokenDenom, isNativeToken } from "modules/terra";
+import { toToken, getTokenDenom, isNativeToken } from "@arthuryeti/terra";
 import { findSwapRoute } from "modules/swap";
 import { Pair } from "types/common";
 
@@ -13,27 +13,27 @@ export const createMultiSwapOperations = (
     return operations;
   }
 
-  const assets = route[0]?.pool.assets;
+  const assets = route[0]?.asset_infos;
 
   if (!assets) {
     return operations;
   }
 
-  const sortedAssets = [...assets].sort((a) =>
-    getTokenDenom(a) === from ? -1 : 1
-  );
+  const sortedAssets = [...assets].sort((a) => {
+    return getTokenDenom(a) === from ? -1 : 1;
+  });
 
   const operation = sortedAssets.every(isNativeToken)
     ? {
         native_swap: {
-          offer_denom: sortedAssets[0].info.native_token.denom,
-          ask_denom: sortedAssets[1].info.native_token.denom,
+          offer_denom: sortedAssets[0].native_token.denom,
+          ask_denom: sortedAssets[1].native_token.denom,
         },
       }
     : {
         terra_swap: {
-          offer_asset_info: sortedAssets[0].info,
-          ask_asset_info: sortedAssets[1].info,
+          offer_asset_info: sortedAssets[0],
+          ask_asset_info: sortedAssets[1],
         },
       };
 

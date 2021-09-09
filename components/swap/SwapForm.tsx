@@ -13,11 +13,11 @@ import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormSuccess from "components/swap/SwapFormSuccess";
 import SwapFormError from "components/swap/SwapFormError";
 import { useSwap, SwapStep } from "modules/swap";
-import { formatAmount } from "modules/terra";
+import { formatAmount, useTerra } from "@arthuryeti/terra";
 import { toAmount } from "libs/parse";
-import { useTerra } from "contexts/TerraContext";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import useThrottle from "hooks/useThrottle";
+import useDebounceValue from "hooks/useDebounceValue";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -25,7 +25,8 @@ const MotionFlex = motion(Flex);
 type Props = {};
 
 const SwapForm: FC<Props> = () => {
-  const { isReady } = useTerra();
+  const card1Control = useAnimation();
+  const card2Control = useAnimation();
 
   const {
     control,
@@ -47,11 +48,15 @@ const SwapForm: FC<Props> = () => {
   });
   const token1 = watch("token1");
   const token2 = watch("token2");
+
+  const debouncedAmount1 = useDebounceValue(token1.amount, 1000);
+  const debouncedAmount2 = useDebounceValue(token2.amount, 1000);
+
   const swapState = useSwap({
     token1: token1.asset,
     token2: token2.asset,
-    amount1: toAmount(token1.amount),
-    amount2: toAmount(token2.amount),
+    amount1: toAmount(debouncedAmount1),
+    amount2: toAmount(debouncedAmount2),
     slippage: String(DEFAULT_SLIPPAGE),
   });
 
@@ -67,8 +72,14 @@ const SwapForm: FC<Props> = () => {
   }, 300);
 
   const switchTokens = () => {
-    setValue("token1", token2);
-    setValue("token2", token1);
+    if (swapState.isReverse) {
+      card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [162, 162, 0, 0] });
+      card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [-162, -162, 0, 0] });
+    } else {
+      card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, 162, 162] });
+      card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, -162, -162] });
+    }
+    swapState.toggleIsReverse();
   };
 
   useEffect(() => {
@@ -76,6 +87,13 @@ const SwapForm: FC<Props> = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [swapState.minimumReceive]);
+
+  useEffect(() => {
+    card1Control.start({ y: 0 });
+    card2Control.start({ y: 0 });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const submit = async () => {
     swapState.swap();
@@ -121,15 +139,13 @@ const SwapForm: FC<Props> = () => {
             py="8"
             px="12"
             initial={{ y: -30 }}
-            animate={{ y: 0 }}
+            animate={card1Control}
           >
             <Controller
               name="token1"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => (
-                <AmountInput {...field} isLoading={!isReady} />
-              )}
+              render={({ field }) => <AmountInput {...field} />}
             />
           </MotionBox>
 
@@ -140,6 +156,8 @@ const SwapForm: FC<Props> = () => {
             justify="center"
             mt="-3.5"
             mb="-5"
+            zIndex="3"
+            position="relative"
           >
             <IconButton
               aria-label="Switch"
@@ -147,7 +165,6 @@ const SwapForm: FC<Props> = () => {
               onClick={switchTokens}
               variant="icon"
               borderRadius="full"
-              bg="black"
               minWidth="8"
               h="8"
             />
@@ -161,21 +178,19 @@ const SwapForm: FC<Props> = () => {
             py="8"
             px="12"
             initial={{ y: 30 }}
-            animate={{ y: 0 }}
+            animate={card2Control}
           >
             <Controller
               name="token2"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => (
-                <AmountInput {...field} isLoading={!isReady} />
-              )}
+              render={({ field }) => <AmountInput {...field} />}
             />
           </MotionBox>
 
-          {swapState.hasError && (
+          {swapState.error && (
             <Card mt="3">
-              <Text variant="light">{swapState.errorMsg}</Text>
+              <Text variant="light">{swapState.error}</Text>
             </Card>
           )}
 

@@ -1,15 +1,20 @@
 import React, { FC } from "react";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
+import { calculatePercentage, useFeeToString } from "@arthuryeti/terra";
 
-import { calculatePercentage, useFeeToString } from "modules/terra";
 import { format } from "libs/parse";
+import { Pool } from "types/common";
 
 type Props = {
+  pool: any;
   data: any;
 };
 
-const ProvideFormFooter: FC<Props> = ({ data }) => {
-  const percentage = calculatePercentage(data.accountShare, data.totalShare);
+const ProvideFormFooter: FC<Props> = ({ pool, data }) => {
+  const percentage = calculatePercentage(
+    pool.sharePrice[0],
+    pool.sharePrice[1]
+  );
   const feeString = useFeeToString(data.fee);
 
   return (
@@ -24,7 +29,7 @@ const ProvideFormFooter: FC<Props> = ({ data }) => {
           pl="4"
         >
           <Text color="white" fontSize="sm">
-            ${format(data.totalSharePrice, "uusd")}
+            ${format(pool.sharePrice[1], "uusd")}
           </Text>
           <Text variant="light">Liquidity</Text>
         </Box>
@@ -52,7 +57,7 @@ const ProvideFormFooter: FC<Props> = ({ data }) => {
         </Box>
       </Flex>
       <Flex flex="1" align="center" flexDirection="column">
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" isDisabled={!data.isReady}>
           Add Liquidity Now
         </Button>
       </Flex>

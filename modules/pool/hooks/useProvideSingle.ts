@@ -1,21 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useWallet } from "@terra-money/wallet-provider";
-import { Coin, Coins, StdSignMsg } from "@terra-money/terra.js";
-import { useTerra } from "contexts/TerraContext";
+import { useMemo } from "react";
+import { Coin } from "@terra-money/terra.js";
+import {
+  isValidAmount,
+  useAddress,
+  useTerra,
+  useTransaction,
+} from "@arthuryeti/terra";
 
-import { isValidAmount, useCheckTx, useAddress } from "modules/terra";
-import {
-  createProvideTx,
-  calculateProvideOneAsset,
-  calculateShare,
-} from "modules/pool";
-import {
-  useTokenPrice,
-  createSwapTx,
-  findSwapRoute,
-  simulateSwap,
-} from "modules/swap";
+import { createProvideMsgs, calculateProvideOneAsset } from "modules/pool";
+import { findSwapRoute, useSimulation, createSwapMsgs } from "modules/swap";
 import { Pool } from "types/common";
+import networks from "constants/networks";
 
 type Params = {
   contract: string;
@@ -32,154 +27,77 @@ export const useProvideSingle = ({
   token2,
   amount,
 }: Params) => {
-  const { post } = useWallet();
   const address = useAddress();
   const {
-    networkInfo: { routeContract },
-    client,
+    networkInfo: { name },
     routes,
   } = useTerra();
+  const { routeContract } = networks[name];
 
-  const [fee, setFee] = useState<Coins | null>(null);
-  const [provideTx, setProvideTx] = useState<StdSignMsg | null>(null);
-  const [provideResult, setProvideResult] = useState(null);
+  const swapRoute = useMemo(
+    () => findSwapRoute(routes, token1, token2),
+    [routes, token1, token2]
+  );
 
-  const [hasError, setHasError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const swapAmount = useMemo(
+    () => String(Math.floor(Number(amount) / 2)),
+    [amount]
+  );
 
-  const tokenPrice = useTokenPrice(token1);
+  const { amount: amount2 } = useSimulation(token1, token2, swapAmount);
 
-  const totalSharePrice = useMemo(() => {
-    if (!(pool && tokenPrice)) {
-      return null;
+  const swapMsgs = useMemo(() => {
+    if (!isValidAmount(swapAmount) || !swapRoute) {
+      return [];
     }
 
-    // return calculateSharePrice(pool, pool.total_share, token, tokenPrice);
-    return "0.00";
-  }, [pool, tokenPrice]);
-
-  const accountShare = useMemo(() => {
-    if (!(pool && token1 && amount)) {
-      return null;
-    }
-
-    return calculateShare(pool, token1, amount);
-  }, [pool, token1, amount]);
-
-  const offerAssets = useMemo(() => {
-    if (!isValidAmount(amount)) {
-      return null;
-    }
-
-    return new Coins({
-      [token1]: amount,
-    });
-  }, [token1, amount]);
-
-  const {
-    txCost,
-    isEnoughBalance,
-    isTxAvailable: isProvideAvailable,
-  } = useCheckTx(offerAssets, fee);
-
-  const createTx = useCallback(async () => {
-    setProvideTx(null);
-    setFee(null);
-    setErrorMsg(null);
-    setHasError(false);
-
-    if (!isValidAmount(amount)) {
-      return;
-    }
-
-    const swapRoute = findSwapRoute(routes, token1, token2);
-
-    const swapAmount = String(Math.floor(Number(amount) / 2));
-
-    const [swapTx, swapSimulationResult] = await Promise.all([
-      createSwapTx(
-        {
-          token1,
-          pairs: swapRoute,
-          amount: swapAmount,
-          routeContract,
-        },
-        address
-      ),
-      simulateSwap(client, routeContract, routes, token1, token2, swapAmount),
-    ]);
-
-    if (!(swapTx.msgs && swapSimulationResult?.amount)) {
-      return;
-    }
-
-    const { provideAmountFirst, provideAmountSecond } =
-      calculateProvideOneAsset(
-        pool,
-        token1,
-        swapAmount,
-        swapSimulationResult.amount
-      );
-
-    const data = await createProvideTx(
+    return createSwapMsgs(
       {
-        contract,
-        pool,
-        coin1: new Coin(token1, provideAmountFirst),
-        coin2: new Coin(token2, provideAmountSecond),
+        token1,
+        route: swapRoute,
+        amount: swapAmount,
+        routeContract,
       },
       address
     );
+  }, [routeContract, swapAmount, swapRoute, address, token1]);
 
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const provideAmounts = useMemo(() => {
+    return calculateProvideOneAsset(pool, token1, swapAmount, amount2);
+  }, [pool, token1, swapAmount, amount2]);
 
-    if (!data) {
-      setHasError(true);
-      return;
+  const provideMsgs = useMemo(() => {
+    const { provideAmount1, provideAmount2 } = provideAmounts;
+
+    if (!(isValidAmount(provideAmount1) && isValidAmount(provideAmount2))) {
+      return [];
     }
 
-    const tx = await client.tx.create(data.sender, {
-      msgs: [...swapTx.msgs, ...data.msgs],
-      feeDenoms: ["uusd"],
-    });
+    return createProvideMsgs(
+      {
+        contract,
+        pool,
+        coin1: new Coin(token1, provideAmount1),
+        coin2: new Coin(token2, provideAmount2),
+      },
+      address
+    );
+  }, [provideAmounts, contract, address, pool, token1, token2]);
 
-    setProvideTx(tx);
-    setFee(tx.fee.amount);
-  }, [token1, token2, routes, routeContract, amount, address, pool, client]);
+  const msgs = useMemo(() => {
+    return [...swapMsgs, ...provideMsgs];
+  }, [swapMsgs, provideMsgs]);
 
-  const provideLiquidity = useCallback(async () => {
-    if (!(provideTx && isProvideAvailable)) {
-      return;
-    }
-
-    const { msgs } = provideTx;
-
-    const response = await post({ msgs });
-
-    // eslint-disable-next-line no-console
-    console.log(response);
-
-    setProvideResult(response);
-  }, [isProvideAvailable, post, provideTx]);
-
-  useEffect(() => {
-    createTx();
-  }, [createTx]);
+  const { fee, submit, result, error, isReady } = useTransaction({
+    msgs,
+  });
 
   return {
     fee,
-    accountShare,
-    totalShare: pool?.total_share,
-    totalSharePrice,
-    provideTx,
-    provideResult,
-    isEnoughBalance,
-    isProvideAvailable,
-    txCost,
-    hasError,
-    errorMsg,
-    provideLiquidity,
+    isReady,
+    result,
+    error,
+    provideLiquidity: submit,
   };
 };
 

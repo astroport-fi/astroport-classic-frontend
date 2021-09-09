@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
+import { TerraProvider } from "@arthuryeti/terra";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import Navbar from "components/Navbar";
-import { TerraProvider } from "contexts/TerraContext";
-import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import whitelist from "constants/whitelist.json";
 
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
@@ -38,7 +39,7 @@ const Layout: FC = ({ children }) => {
         }}
       />
       {!isInitializing && (
-        <TerraProvider>
+        <TerraProvider data={whitelist}>
           <Box>
             <Navbar />
           </Box>

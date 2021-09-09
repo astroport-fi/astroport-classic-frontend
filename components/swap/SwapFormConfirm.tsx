@@ -6,9 +6,8 @@ import Card from "components/Card";
 import TokenCard from "components/swap/TokenCard";
 import SwapFormFee from "components/swap/SwapFormFee";
 import { swapRouteToString, SwapStep } from "modules/swap";
-import { useTokenInfo } from "modules/terra";
+import { useTokenInfo, useTerra } from "@arthuryeti/terra";
 import { lookupSymbol, format } from "libs/parse";
-import { useTerra } from "contexts/TerraContext";
 import { motion } from "framer-motion";
 
 type Props = {

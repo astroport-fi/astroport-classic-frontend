@@ -4,7 +4,7 @@ import { Denom } from "@terra-money/terra.js";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenPrice, useSimulation } from "modules/swap";
-import { useTokenInfo } from "modules/terra";
+import { useTokenInfo } from "@arthuryeti/terra";
 import { lookupSymbol, format, toAmount } from "libs/parse";
 
 type Props = {

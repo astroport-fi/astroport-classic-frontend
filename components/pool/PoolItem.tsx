@@ -3,16 +3,13 @@ import Link from "next/link";
 import { Box, Text, Image, Button, HStack } from "@chakra-ui/react";
 
 import Td from "components/Td";
-import { useTokenInfo, getTokenDenoms } from "modules/terra";
+import { useTokenInfo, getTokenDenoms } from "@arthuryeti/terra";
 import { lookupSymbol } from "libs/parse";
 
 const PoolItem = ({ pool }) => {
-  const {
-    pool: { assets },
-    contract,
-  } = pool;
+  const { asset_infos, contract } = pool;
   const { getIcon, getSymbol } = useTokenInfo();
-  const [token1, token2] = getTokenDenoms([assets[0], assets[1]]);
+  const [token1, token2] = getTokenDenoms([asset_infos[0], asset_infos[1]]);
 
   return (
     <>

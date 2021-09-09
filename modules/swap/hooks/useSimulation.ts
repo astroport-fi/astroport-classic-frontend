@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { isEmpty } from "lodash";
+import { useTerra } from "@arthuryeti/terra";
 
-import { useTerra } from "contexts/TerraContext";
 import { simulateSwap } from "modules/swap";
+import networks from "constants/networks";
 
 export const useSimulation = (
   token1: string,
@@ -15,10 +16,11 @@ export const useSimulation = (
   });
 
   const {
-    networkInfo: { routeContract },
+    networkInfo: { name },
     client,
     routes,
   } = useTerra();
+  const { routeContract } = networks[name];
 
   const getData = useCallback(async () => {
     if (!token1 || isEmpty(routes)) {

@@ -3,21 +3,22 @@ import React from "react";
 export default function ArrowIcon(props) {
   return (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
+      <circle cx="15" cy="15" r="15" fill="black" />
       <path
-        d="M0.500001 12C0.500002 5.64873 5.64873 0.500002 12 0.500003C18.3513 0.500003 23.5 5.64873 23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.500001 12Z"
+        d="M3.49988 15C3.49988 8.64873 8.64861 3.5 14.9999 3.5C21.3512 3.5 26.4999 8.64873 26.4999 15C26.4999 21.3513 21.3512 26.5 14.9999 26.5C8.64861 26.5 3.49988 21.3513 3.49988 15Z"
         stroke="white"
         strokeOpacity="0.9"
         fill="currentColor"
       />
-      <path d="M12 18L10.2679 14.4654L13.7321 14.4654L12 18Z" fill="white" />
-      <rect x="11.5" y="6" width="1" height="8.61154" fill="white" />
+      <path d="M15 21L13.2679 17.4654H16.7321L15 21Z" fill="white" />
+      <path d="M15.5001 9H14.5001V17.6115H15.5001V9Z" fill="white" />
     </svg>
   );
 }

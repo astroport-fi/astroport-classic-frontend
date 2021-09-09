@@ -15,7 +15,7 @@ import { lookupSymbol, format } from "libs/parse";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import TokenList from "components/swap/TokenList";
 import { useTokenPrice } from "modules/swap";
-import { useTokenInfo } from "modules/terra";
+import { useTokenInfo } from "@arthuryeti/terra";
 
 type Props = {
   isLoading: boolean;

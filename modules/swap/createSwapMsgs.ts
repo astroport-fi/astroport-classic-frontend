@@ -1,17 +1,16 @@
+import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 import {
-  isValidAmount,
   isNativeToken,
   createAsset,
   findAsset,
-} from "modules/terra";
+  toBase64,
+} from "@arthuryeti/terra";
+
 import { createMultiSwapOperations } from "modules/swap";
-import { toBase64 } from "modules/terra";
-import { Coin, MsgExecuteContract, Msg } from "@terra-money/terra.js";
-import { Pair } from "types/common";
-import { HumanAddr } from "types/common";
+import { Pair, HumanAddr } from "types/common";
 
 type CreateMonoSwapMsgOptions = {
-  pairs: Pair[];
+  route: Pair[];
   token1: string;
   amount: string;
   slippage: string;
@@ -21,11 +20,11 @@ const createMonoSwapMsg = (
   options: CreateMonoSwapMsgOptions,
   sender: string
 ): MsgExecuteContract => {
-  const { pairs, token1, amount, slippage } = options;
+  const { route, token1, amount, slippage } = options;
 
-  const [{ contract }] = pairs;
+  const [{ contract }] = route;
 
-  const offerAsset = createAsset(token1, amount, pairs);
+  const offerAsset = createAsset(token1, amount, route);
 
   const isNative = isNativeToken(offerAsset.info);
 
@@ -57,7 +56,7 @@ const createMonoSwapMsg = (
 };
 
 type CreateMultiSwapMsgOptions = {
-  pairs: Pair[];
+  route: Pair[];
   token1: string;
   amount: string;
   minimumReceive: string;
@@ -68,15 +67,15 @@ const createMultiSwapMsg = (
   options: CreateMultiSwapMsgOptions,
   sender: HumanAddr
 ): MsgExecuteContract => {
-  const { pairs, token1, amount, minimumReceive, routeContract } = options;
+  const { route, token1, amount, minimumReceive, routeContract } = options;
 
-  const [{ pool }] = pairs;
+  const [{ asset_infos }] = route;
 
-  const { info } = findAsset(pool.assets, token1);
+  const info = findAsset(asset_infos, token1);
 
   const isNative = isNativeToken(info);
 
-  const operations = createMultiSwapOperations(token1, pairs);
+  const operations = createMultiSwapOperations(token1, route);
 
   if (isNative) {
     return new MsgExecuteContract(
@@ -108,8 +107,8 @@ const createMultiSwapMsg = (
   });
 };
 
-type CreateSwapTxOptions = {
-  pairs: Pair[];
+type CreateSwapMsgsOptions = {
+  route: Pair[];
   token1: string;
   amount: string;
   routeContract: string;
@@ -117,33 +116,21 @@ type CreateSwapTxOptions = {
   slippage?: string;
 };
 
-type CreateSwapTxResponse = {
-  sender: HumanAddr;
-  msgs: Msg[];
-};
-
-export const createSwapTx = async (
-  options: CreateSwapTxOptions,
+export const createSwapMsgs = (
+  options: CreateSwapMsgsOptions,
   sender: string
-): Promise<CreateSwapTxResponse> => {
-  const { pairs, amount } = options;
+): MsgExecuteContract[] => {
+  const { route } = options;
 
   let msg;
 
-  if (!isValidAmount(amount)) {
-    throw new Error("Invalid amount");
-  }
-
-  if (pairs.length === 1) {
-    //@ts-expect-error
+  if (route.length === 1) {
+    // @ts-expect-error
     msg = createMonoSwapMsg(options, sender);
   } else {
-    //@ts-expect-error
+    // @ts-expect-error
     msg = createMultiSwapMsg(options, sender);
   }
 
-  return {
-    sender,
-    msgs: [msg],
-  };
+  return [msg];
 };

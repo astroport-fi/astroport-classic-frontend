@@ -4,7 +4,7 @@ import { Box, Text, Flex, Image, Button } from "@chakra-ui/react";
 
 import { lookupSymbol, format } from "libs/parse";
 import { useTokenPrice } from "modules/swap";
-import { useTokenInfo } from "modules/terra";
+import { useTokenInfo } from "@arthuryeti/terra";
 
 type Props = {
   token: string;

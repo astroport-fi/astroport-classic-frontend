@@ -11,34 +11,28 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
+import { useBalance, useTerra } from "@arthuryeti/terra";
 
 import Card from "components/Card";
 import AmountInput from "components/common/AmountInput";
 import { toAmount, lookup } from "libs/parse";
-import { useTerra } from "contexts/TerraContext";
-import { useBalance } from "modules/terra";
 import { useProvide, calculateToken2Amount } from "modules/pool";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
-import useThrottle from "hooks/useThrottle";
+import { Pool } from "types/common";
+import useDebounceValue from "hooks/useDebounceValue";
 
 type Props = {
   pair: any;
+  pool: Pool;
   initialValues: {
     token1: string;
     token2: string;
   };
 };
 
-const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
+const ProvideForm: FC<Props> = ({ pair, pool, initialValues }) => {
   const { isReady } = useTerra();
-
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { isValid },
-  } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       token1: {
         amount: undefined,
@@ -50,15 +44,20 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
       },
     },
   });
+
   const token1 = watch("token1");
   const token2 = watch("token2");
+
+  const debouncedAmount1 = useDebounceValue(token1.amount, 1000);
+  const debouncedAmount2 = useDebounceValue(token2.amount, 1000);
+
   const provideState = useProvide({
     contract: pair.contract,
-    pool: pair.pool,
+    pool: pool,
     token1: token1.asset,
     token2: token2.asset,
-    amount1: toAmount(token1.amount),
-    amount2: toAmount(token2.amount),
+    amount1: toAmount(debouncedAmount1),
+    amount2: toAmount(debouncedAmount2),
   });
   const balance = useBalance(token1.asset);
   const amount = lookup(balance, token1.asset);
@@ -70,7 +69,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
 
     setValue("token2", {
       ...token2,
-      amount: calculateToken2Amount(pair.pool, token1.asset, token1.amount),
+      amount: calculateToken2Amount(pool, token1.asset, debouncedAmount1),
     });
   };
 
@@ -78,10 +77,10 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
     changeToken2Amount();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token1]);
+  }, [debouncedAmount1]);
 
-  const submit = async (data) => {
-    // provideState.swap();
+  const submit = async () => {
+    provideState.provideLiquidity();
   };
 
   const handleChange = (value) => {
@@ -98,9 +97,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
           name="token1"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
-            <AmountInput {...field} isLoading={!isReady} isSingle />
-          )}
+          render={({ field }) => <AmountInput {...field} isSingle />}
         />
       </Card>
 
@@ -109,9 +106,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
           name="token2"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
-            <AmountInput {...field} isLoading={!isReady} isSingle />
-          )}
+          render={({ field }) => <AmountInput {...field} isSingle />}
         />
       </Card>
 
@@ -132,7 +127,7 @@ const ProvideForm: FC<Props> = ({ pair, initialValues }) => {
         </Slider>
       </Card>
 
-      <ProvideFormFooter data={provideState} />
+      <ProvideFormFooter pool={pool} data={provideState} />
     </chakra.form>
   );
 };

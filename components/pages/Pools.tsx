@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Box, Heading } from "@chakra-ui/react";
+import { useTerra } from "@arthuryeti/terra";
 
 import PoolsOverview from "components/pool/PoolsOverview";
 import PoolList from "components/pool/PoolList";
 import Card from "components/Card";
-import { useTerra } from "contexts/TerraContext";
 
 const Pools: FC = () => {
   const { pairs } = useTerra();

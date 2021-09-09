@@ -6,8 +6,7 @@ import Card from "components/Card";
 import ProvideSingleForm from "components/pool/provide/ProvideSingleForm";
 import ProvideForm from "components/pool/provide/ProvideForm";
 import { usePool } from "modules/pool";
-import { useTerra } from "contexts/TerraContext";
-import { useTokenInfo } from "modules/terra";
+import { useTokenInfo, useTerra } from "@arthuryeti/terra";
 import { lookupSymbol } from "libs/parse";
 import { Pair } from "types/common";
 
@@ -19,8 +18,8 @@ const Pool: FC = () => {
   const pair: Pair = pairs?.find(({ contract }) => {
     return query?.pair === contract;
   });
-  const pool = usePool({ pool: pair.pool, lpToken: pair.lpToken });
-  const tokens = [pool.token1, pool.token2];
+  const pool = usePool(pair);
+  const tokens = [pool?.token1, pool?.token2];
 
   return (
     <Box w="container.sm" m="0 auto" pt="12">
@@ -59,6 +58,7 @@ const Pool: FC = () => {
       {pair && mode === 0 && (
         <ProvideForm
           pair={pair}
+          pool={pool}
           initialValues={{ token1: pool.token1, token2: pool.token2 }}
         />
       )}
