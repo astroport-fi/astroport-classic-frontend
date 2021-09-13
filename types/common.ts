@@ -104,3 +104,16 @@ export type Routes = {
     [to: string]: Pair;
   };
 };
+
+export interface ISelect {
+  list: string[],
+  setValue: () => void,
+  value: string,
+}
+
+export interface IButton {
+  title: string;
+  onClick: () => void;
+  isActive: boolean,
+  type: string,
+};

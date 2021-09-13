@@ -3,8 +3,10 @@ import {
   getTokenDenom,
   trunc,
   isNativeToken,
+  useTokenInfo
 } from "@arthuryeti/terra";
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
+import { lookupSymbol } from "libs/parse";
 
 export const calculateWithdrawTotalPrice = (
   totalPrice1: string,
@@ -104,3 +106,35 @@ export const calculateProvideOneAsset = (
     provideAmount2: String(provideAmountSecond),
   };
 };
+
+
+export const preparingSelectList = (tokens) => {
+  const { getSymbol } = useTokenInfo();
+
+  if (tokens.includes('uusd')) {
+    const preparedTokens = [...tokens].sort();
+
+    const lookupedToken = lookupSymbol(getSymbol(preparedTokens[0]));
+
+    return [
+      `${lookupedToken} / UST`
+    ];
+  }
+
+  const firstLookupedToken = lookupSymbol(getSymbol(tokens[0]));
+  const secondLookupedToken = lookupSymbol(getSymbol(tokens[1]));
+
+  return [
+    `${firstLookupedToken} / UST`,
+    `${secondLookupedToken} / UST`,
+    `${firstLookupedToken} / ${secondLookupedToken}`,
+  ];
+}
+
+export const findRegularToken = (tokens) => {
+  return tokens[0] === "uusd" ? tokens[1] : tokens[0];
+}
+
+export const enumToArray = (enumeration) => {
+  return Object.keys(enumeration).map(key => enumeration[key]).filter(value => typeof value === 'string');
+}

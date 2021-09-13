@@ -3,6 +3,7 @@ import Head from "next/head";
 import { NextPage } from "next";
 
 import Pool from "components/pages/Pool";
+import { Flex } from "@chakra-ui/react";
 
 const PoolPage: NextPage = () => {
   return (
@@ -10,7 +11,9 @@ const PoolPage: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <Pool />
+      <Flex>
+        <Pool />
+      </Flex>
     </>
   );
 };

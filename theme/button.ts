@@ -44,6 +44,30 @@ const button = {
         color: "white",
       },
     },
+    filter: {
+      outline: "none",
+      color: "white.600",
+      bg: "white.100",
+      minWidth: "3rem",
+      height: "1.5rem",
+      fontSize: "xs",
+      borderRadius: "0.25rem",
+      px: "0",
+      letterSpacing: "0.15rem",
+      textTransform: "uppercase",
+      fontWeight: "bold",
+      _hover: {
+        bg: "brand.purple",
+        color: "white",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+      _active: {
+        bg: "brand.purple",
+        color: "white",
+      },
+    },
     secondary: {
       outline: "none",
       borderRadius: "none",
@@ -70,6 +94,7 @@ const button = {
         bg: "transparent",
       },
       _active: {
+        color: "brand.purple",
         bg: "transparent",
       },
       _focus: {
