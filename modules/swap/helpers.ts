@@ -1,6 +1,7 @@
 import { Denom } from "@terra-money/terra.js";
 
 import { Routes, Tokens, Pair } from "types/common";
+
 import { getTokenDenoms } from "@arthuryeti/terra";
 
 export const calculatePriceImpact = (
@@ -23,6 +24,10 @@ export const findSwapRoute = (
 ) => {
   if (!routes[from]) {
     return null;
+  }
+
+  if (routes[from][Denom.SDR] && routes[Denom.SDR][to]) {
+    return [routes[from][Denom.SDR], routes[Denom.SDR][to]];
   }
 
   if (routes[from][to]) {

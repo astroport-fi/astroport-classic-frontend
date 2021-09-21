@@ -14,6 +14,7 @@ export interface LocalNetworkConfig {
   /** Contract Addresses JSON URL */
   routeContract: string;
   /** Graphql server URL */
+  gauge: string;
   mantle: string;
   factory: string;
 }

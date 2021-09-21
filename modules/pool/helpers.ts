@@ -7,6 +7,7 @@ import {
 } from "@arthuryeti/terra";
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
 import { lookupSymbol } from "libs/parse";
+import { Pool } from 'types/common';
 
 export const calculateWithdrawTotalPrice = (
   totalPrice1: string,
@@ -30,15 +31,15 @@ export const calculateToken2Amount = (
 };
 
 export const calculateTokensAmounts = (
-  pool: any,
+  pool: Pool,
   share: string
 ): Record<string, string> => {
   return pool.assets.reduce(
     (acc, asset) => ({
       ...acc,
-      [getTokenDenom(asset)]: Math.floor(
+      [getTokenDenom(asset.info)]: String(Math.floor(
         (Number(asset.amount) / Number(pool.total_share)) * Number(share)
-      ),
+      )),
     }),
     {}
   );

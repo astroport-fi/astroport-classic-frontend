@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { isEmpty } from "lodash";
-import { useTerra } from "@arthuryeti/terra";
+import { useTerra, isValidAmount } from "@arthuryeti/terra";
 
 import { simulateSwap } from "modules/swap";
 import networks from "constants/networks";
@@ -23,7 +23,12 @@ export const useSimulation = (
   const { routeContract } = networks[name];
 
   const getData = useCallback(async () => {
-    if (!token1 || isEmpty(routes)) {
+    if (!token1 || isEmpty(routes) || !isValidAmount(amount1)) {
+      setResult({
+        amount: "0",
+        spreadAmount: "0",
+      });
+
       return;
     }
 
@@ -37,7 +42,7 @@ export const useSimulation = (
     );
 
     setResult(result as any);
-  }, [client, routeContract, routes, token1, token2, amount1]);
+  }, [token1, routes, amount1, client, routeContract, token2]);
 
   useEffect(() => {
     getData();

@@ -107,7 +107,7 @@ export type Routes = {
 
 export interface ISelect {
   list: string[],
-  setValue: () => void,
+  setValue: any,
   value: string,
 }
 

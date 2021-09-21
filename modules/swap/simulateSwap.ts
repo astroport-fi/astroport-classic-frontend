@@ -31,7 +31,7 @@ export const createMultiSwapOperations = (
         },
       }
     : {
-        terra_swap: {
+        astro_swap: {
           offer_asset_info: sortedAssets[0],
           ask_asset_info: sortedAssets[1],
         },

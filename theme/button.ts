@@ -102,6 +102,24 @@ const button = {
       },
       color: "transparent",
     },
+    simple: {
+      outline: "none",
+      borderRadius: "none",
+      bg: "none",
+      px: "none",
+      color: "white.400",
+      fontWeight: "400",
+      fontSize: "lg",
+      _hover: {
+        color: "white",
+      },
+      _active: {
+        color: "white",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    }
   },
 };
 

@@ -1,5 +1,5 @@
-export const getAccountShare = async (client, pair, address) => {
-  const response: any = await client.wasm.contractQuery(pair.liquidity_token, {
+export const getAccountShare = async (client, lpToken, address) => {
+  const response: any = await client.wasm.contractQuery(lpToken, {
     balance: {
       address,
     },
