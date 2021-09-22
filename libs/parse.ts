@@ -82,7 +82,7 @@ export const formatAsset: Formatter = (amount, symbol, config) => {
     return "";
   }
 
-  return `${lookupSymbol(symbol)} ${format(amount, symbol, config)}`;
+  return `${format(amount, symbol, config)} ${lookupSymbol(symbol)}`;
 };
 
 export const toAmount = (value: string | null) => {

@@ -1,19 +1,16 @@
-import React,
-{
-  useEffect,
-  useMemo,
-  useState,
-  FC,
-  ButtonHTMLAttributes,
-  ReactNode
-}  from "react";
+import React, { useEffect, useMemo, useState, FC, ReactNode } from "react";
+import { Text } from "@chakra-ui/react";
+import { useTokenInfo, formatAmount } from "@arthuryeti/terra";
+
 import Card from "components/Card";
 import Graph from "components/graph/Graph";
-import { Flex, Box, Text, Button } from "@chakra-ui/react";
 import { lookupSymbol } from "libs/parse";
-import { useTokenInfo, formatAmount } from "@arthuryeti/terra";
 import { useTokenPrice } from "modules/swap";
-import {enumToArray, findRegularToken, preparingSelectList } from "modules/pool";
+import {
+  enumToArray,
+  findRegularToken,
+  preparingSelectList,
+} from "modules/pool";
 
 enum TypeFilter {
   Log,
@@ -22,7 +19,7 @@ enum TypeFilter {
 
 enum TimeFilter {
   FiveMinutes,
-  FifteenMinutes ,
+  FifteenMinutes,
   ThirteenMinutes,
   OneHour,
   FourHours,
@@ -56,55 +53,52 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   const [selectedToken, setSelectedToken] = useState(findRegularToken(tokens));
 
   const list = preparingSelectList(tokens);
-  const [selectFilter, setSelectFilter] = useState(list[0])
-
+  const [selectFilter, setSelectFilter] = useState(list[0]);
 
   const { getSymbol } = useTokenInfo();
 
   const filteredPoints = useMemo(() => [...points], [points]);
 
-  const rightButtonsGroup = useMemo(() => (
-    enumToArray(TimeFilter).map((filter) => (
-      {
+  const rightButtonsGroup = useMemo(
+    () =>
+      enumToArray(TimeFilter).map((filter) => ({
         onClick: () => setTimeFilter(filter),
         isActive: timeFilter === filter,
         type: filter,
         title: buttonTitleByTimeFilters[TimeFilter[filter]],
-      }
-    ))
-  ), [timeFilter])
+      })),
+    [timeFilter]
+  );
 
-  const leftButtonsGroup = useMemo(() => (
-    enumToArray(TypeFilter).map((filter) => (
-      {
+  const leftButtonsGroup = useMemo(
+    () =>
+      enumToArray(TypeFilter).map((filter) => ({
         onClick: () => setTypeFilter(filter),
         isActive: typeFilter === filter,
         type: filter,
         title: buttonTitleByTypeFilters[TypeFilter[filter]],
-      }
-    ))
-  ), [typeFilter])
+      })),
+    [typeFilter]
+  );
 
   // mock data for graph
   useEffect(() => {
-    const pointsArray = () => Array(50).fill('').map((el, index) => (
-      {
-        x: index,
-        y: Math.random(),
-      }
-    ));
+    const pointsArray = () =>
+      Array(50)
+        .fill("")
+        .map((el, index) => ({
+          x: index,
+          y: Math.random(),
+        }));
 
     setPoints(pointsArray);
-  },[]);
+  }, []);
 
   const cardTitle = (
     <>
-      <Text
-        fontSize="xl"
-        fontWeight="medium"
-      >
-        {lookupSymbol(getSymbol(selectedToken))} {' '}
-        ${formatAmount(useTokenPrice(selectedToken))}
+      <Text fontSize="xl" fontWeight="medium">
+        {lookupSymbol(getSymbol(selectedToken))} $
+        {formatAmount(useTokenPrice(selectedToken))}
       </Text>
       <Text
         fontSize="xs"
@@ -119,19 +113,14 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   );
 
   return (
-    <Card
-      w="xl"
-      h="sm"
-      px="8"
-      py="10"
-    >
+    <Card w="xl" h="sm" px="8" py="10">
       <Graph
         h="200"
-        select={({
+        select={{
           list: list,
           setValue: setSelectFilter,
           value: selectFilter,
-        })}
+        }}
         points={filteredPoints}
         title={cardTitle as ReactNode & string}
         rightButtonsGroup={rightButtonsGroup}

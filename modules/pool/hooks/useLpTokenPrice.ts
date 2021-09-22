@@ -7,7 +7,10 @@ import { useSimulation } from "modules/swap";
 import { Pair } from "types/common";
 
 export const useLpTokenPrice = (pair?: Pair | null, amount?: string | null) => {
-  const pool = usePool(pair);
+  const pool = usePool({
+    pairContract: pair.contract,
+    lpTokenContract: pair.lpToken,
+  });
 
   const [token1, token2] = useMemo(() => {
     if (!pair) {

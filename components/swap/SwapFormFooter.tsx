@@ -1,9 +1,9 @@
 import React, { FC } from "react";
+import { useTokenInfo } from "@arthuryeti/terra";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 import { format, lookupSymbol } from "libs/parse";
 import SwapFormFee from "components/swap/SwapFormFee";
-import { useTokenInfo } from "@arthuryeti/terra";
 
 type Props = {
   from: string;

@@ -1,11 +1,11 @@
+import React, { ReactNode, useMemo } from "react";
+import { Box, BoxProps, Button, Flex, Text } from "@chakra-ui/react";
 import { Line } from "react-chartjs-2";
 import { Point } from "chart.js";
-import React, {ReactNode, useMemo } from "react";
-import { getGraphConfig } from "libs/graphConfig";
-import { Box, BoxProps, Button, Flex, Text } from "@chakra-ui/react";
-import GraphSelector from "./GraphSelector";
 import { ISelect, IButton } from "types/common";
 
+import { getGraphConfig } from "libs/graphConfig";
+import GraphSelector from "./GraphSelector";
 
 type Props = {
   points: Point[];
@@ -16,42 +16,21 @@ type Props = {
 } & BoxProps;
 
 const Chart: React.FC<Props> = (props) => {
-  const {
-    points,
-    leftButtonsGroup,
-    rightButtonsGroup,
-    select,
-    title,
-  } = props;
+  const { points, leftButtonsGroup, rightButtonsGroup, select, title } = props;
   const [chartData, chartOptions] = useMemo(
-    () => getGraphConfig(points), [points],
+    () => getGraphConfig(points),
+    [points]
   );
 
   return (
-    <Flex
-      direction="column"
-      w="100%"
-    >
-      <Flex
-        justify="space-between"
-        align="center"
-        mb="6"
-      >
-        <Box>
-          {select && <GraphSelector {...select}  />}
-        </Box>
+    <Flex direction="column" w="100%">
+      <Flex justify="space-between" align="center" mb="6">
+        <Box>{select && <GraphSelector {...select} />}</Box>
 
-        <Box>
-          {title}
-        </Box>
+        <Box>{title}</Box>
       </Flex>
 
-      <Flex
-        justify="flex-end"
-        align="center"
-        mb="6"
-        px="2"
-      >
+      <Flex justify="flex-end" align="center" mb="6" px="2">
         <Flex w="100%" justify="space-between">
           {leftButtonsGroup && (
             <Flex gridGap="1">
@@ -85,14 +64,9 @@ const Chart: React.FC<Props> = (props) => {
         </Flex>
       </Flex>
 
-      <Box
-        w="100%"
-        {...props}
-      >
-        <Line
-          data={chartData}
-          options={chartOptions}
-        />
+      <Box w="100%" {...props}>
+        {/* @ts-expect-error */}
+        <Line data={chartData} options={chartOptions} />
       </Box>
     </Flex>
   );

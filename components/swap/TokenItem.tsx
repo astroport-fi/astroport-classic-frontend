@@ -1,10 +1,11 @@
 import React from "react";
 import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
+import { useTokenInfo } from "@arthuryeti/terra";
 
-import { useBalance, useTokenInfo } from "@arthuryeti/terra";
 import { useTokenPrice } from "modules/swap";
 import { format, lookupSymbol } from "libs/parse";
+import { useBalance } from "hooks/useBalance";
 
 const TokenItem = ({ token, onClick }) => {
   const { icon, symbol, protocol } = token;
@@ -48,7 +49,7 @@ const TokenItem = ({ token, onClick }) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                {format(balance, symbol)}
+                {format(balance, Denom.USD)}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
                 ${format(price, Denom.USD)}

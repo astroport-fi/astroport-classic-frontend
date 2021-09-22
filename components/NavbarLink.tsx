@@ -20,6 +20,7 @@ const NavbarLink: FC<Props> = ({ text, href }) => {
         transition="0.2s all"
         px="2"
         py="8"
+        whiteSpace="nowrap"
         _hover={{
           color: "brand.teal",
         }}

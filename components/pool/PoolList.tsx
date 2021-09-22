@@ -5,26 +5,25 @@ import Table from "components/Table";
 import Tr from "components/Tr";
 import Td from "components/Td";
 import PoolItem from "components/pool/PoolItem";
+import { Pair } from "types/common";
 
 type Props = {
-  pools: any[];
+  items: Pair[];
 };
 
-const PoolList: FC<Props> = ({ pools }) => {
+const PoolList: FC<Props> = ({ items }) => {
   return (
     <Table>
       <Tr isHead>
-        <Td>Pool Name</Td>
-        <Td>My Liquidity</Td>
-        <Td>APY</Td>
-        <Td>Depth</Td>
-        <Td>24h Volume</Td>
-        <Td></Td>
+        <Td color="white.700">Pool Name</Td>
+        <Td color="white.700">My Liquidity</Td>
+        <Td color="white.700">Depth</Td>
+        <Td color="white.700"></Td>
       </Tr>
-      {pools.map((pool) => {
+      {items.map((item) => {
         return (
-          <Tr key={pool}>
-            <PoolItem pool={pool} />
+          <Tr key={item.contract}>
+            <PoolItem item={item} />
           </Tr>
         );
       })}

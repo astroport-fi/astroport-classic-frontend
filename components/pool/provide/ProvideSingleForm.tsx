@@ -1,10 +1,6 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
-  Box,
-  Flex,
   chakra,
-  Text,
-  HStack,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -13,31 +9,37 @@ import {
 import { useForm, Controller } from "react-hook-form";
 
 import Card from "components/Card";
-import AmountInput from "components/common/AmountInput";
+import AmountInput from "components/AmountInput";
 import { toAmount, lookup } from "libs/parse";
-import { useBalance, useTerra } from "@arthuryeti/terra";
-import { useProvideSingle } from "modules/pool";
+import { useProvideSingle, ProvideSingleStep } from "modules/pool";
+import { useBalance } from "hooks/useBalance";
+import PoolHeader from "components/pool/PoolHeader";
+import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
 import useDebounceValue from "hooks/useDebounceValue";
+import { PoolFormType, ProvideFormMode } from "types/common";
 
 type Props = {
   pair: any;
   pool: any;
-  initialValues: {
-    token: string;
-  };
   tokens: string[];
+  mode: ProvideFormMode;
+  onModeClick: (v: ProvideFormMode) => void;
+  type: PoolFormType;
+  onTypeClick: (v: PoolFormType) => void;
 };
 
-const ProvideSingleForm: FC<Props> = ({ pair, pool, tokens }) => {
-  const { isReady } = useTerra();
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { isValid },
-  } = useForm({
+const ProvideSingleForm: FC<Props> = ({
+  pair,
+  pool,
+  tokens,
+  mode,
+  onModeClick,
+  type,
+  onTypeClick,
+}) => {
+  const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
+  const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       token1: {
         amount: undefined,
@@ -98,6 +100,19 @@ const ProvideSingleForm: FC<Props> = ({ pair, pool, tokens }) => {
 
   return (
     <chakra.form onSubmit={handleSubmit(submit)} width="full">
+      <PoolActions
+        pool={pool}
+        type={type}
+        isChartOpen={isChartOpen}
+        onChartClick={setIsChartOpen}
+        onTypeClick={onTypeClick}
+      />
+      <PoolHeader
+        pool={pool}
+        type={type}
+        mode={mode}
+        onModeClick={onModeClick}
+      />
       <Card>
         <Controller
           name="token1"
@@ -124,7 +139,11 @@ const ProvideSingleForm: FC<Props> = ({ pair, pool, tokens }) => {
         </Slider>
       </Card>
 
-      <ProvideFormFooter pool={pool} data={provideState} />
+      <ProvideFormFooter
+        pool={pool}
+        data={provideState}
+        onConfirmClick={() => provideState.setStep(ProvideSingleStep.Confirm)}
+      />
     </chakra.form>
   );
 };

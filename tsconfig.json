@@ -16,15 +16,10 @@
     "paths": {
       "*": ["/*"],
       "components/*": ["components/*"],
-      "queries/*": ["queries/*"],
-      "mutations/*": ["mutations/*"],
       "libs/*": ["libs/*"],
       "hooks/*": ["hooks/*"],
-      "contexts/*": ["contexts/*"],
       "pages/*": ["pages/*"],
       "types/*": ["types/*"],
-      "fragments/*": ["fragments/*"],
-      "configs/*": ["configs/*"],
       "constants/*": ["constants/*"],
       "modules/*": ["modules/*"]
     },

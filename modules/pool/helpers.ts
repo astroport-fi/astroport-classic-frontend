@@ -3,7 +3,7 @@ import {
   getTokenDenom,
   trunc,
   isNativeToken,
-  useTokenInfo
+  useTokenInfo,
 } from "@arthuryeti/terra";
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
 import { lookupSymbol } from "libs/parse";
@@ -27,7 +27,7 @@ export const calculateToken2Amount = (
 
   const result = Number(amount) * (Number(totalAmount2) / Number(totalAmount1));
 
-  return String(result);
+  return String(result.toFixed(6));
 };
 
 export const calculateTokensAmounts = (
@@ -108,34 +108,33 @@ export const calculateProvideOneAsset = (
   };
 };
 
-
 export const preparingSelectList = (tokens) => {
-  const { getSymbol } = useTokenInfo();
+  // const { getSymbol } = useTokenInfo();
 
-  if (tokens.includes('uusd')) {
+  if (tokens.includes("uusd")) {
     const preparedTokens = [...tokens].sort();
 
-    const lookupedToken = lookupSymbol(getSymbol(preparedTokens[0]));
+    const lookupedToken = lookupSymbol(preparedTokens[0]);
 
-    return [
-      `${lookupedToken} / UST`
-    ];
+    return [`${lookupedToken} / UST`];
   }
 
-  const firstLookupedToken = lookupSymbol(getSymbol(tokens[0]));
-  const secondLookupedToken = lookupSymbol(getSymbol(tokens[1]));
+  const firstLookupedToken = lookupSymbol(tokens[0]);
+  const secondLookupedToken = lookupSymbol(tokens[1]);
 
   return [
     `${firstLookupedToken} / UST`,
     `${secondLookupedToken} / UST`,
     `${firstLookupedToken} / ${secondLookupedToken}`,
   ];
-}
+};
 
 export const findRegularToken = (tokens) => {
   return tokens[0] === "uusd" ? tokens[1] : tokens[0];
-}
+};
 
 export const enumToArray = (enumeration) => {
-  return Object.keys(enumeration).map(key => enumeration[key]).filter(value => typeof value === 'string');
-}
+  return Object.keys(enumeration)
+    .map((key) => enumeration[key])
+    .filter((value) => typeof value === "string");
+};

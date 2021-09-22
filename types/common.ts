@@ -106,14 +106,24 @@ export type Routes = {
 };
 
 export interface ISelect {
-  list: string[],
-  setValue: any,
-  value: string,
+  list: string[];
+  setValue: (v: string) => void;
+  value: string;
 }
 
 export interface IButton {
   title: string;
   onClick: () => void;
-  isActive: boolean,
-  type: string,
-};
+  isActive: boolean;
+  type: string;
+}
+
+export enum PoolFormType {
+  Provide = 0,
+  Withdraw = 1,
+}
+
+export enum ProvideFormMode {
+  Single = 0,
+  Double = 1,
+}

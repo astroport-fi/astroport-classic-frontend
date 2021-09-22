@@ -1,101 +1,96 @@
 import React, { FC, useEffect, useState } from "react";
-import { Box, Heading, HStack, Text, Button, Flex, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  HStack,
+  Text,
+  Button,
+  Flex,
+  IconButton,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import Card from "components/Card";
-import ProvideSingleForm from "components/pool/provide/ProvideSingleForm";
+import { useTerra } from "@arthuryeti/terra";
+
+import PoolHeader from "components/pool/PoolHeader";
+import WithdrawForm from "components/pool/withdraw/WithdrawForm";
 import ProvideForm from "components/pool/provide/ProvideForm";
+import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
+import ProvideSingleForm from "components/pool/provide/ProvideSingleForm";
 import { usePool } from "modules/pool";
-import { useTokenInfo, useTerra } from "@arthuryeti/terra";
-import { lookupSymbol } from "libs/parse";
-import { Pair } from "types/common";
 import GraphIcon from "components/icons/GraphIcon";
 import PoolGraph from "components/pool/PoolGraph";
+import { Pair, PoolFormType, ProvideFormMode } from "types/common";
 
-const Pool: FC = () => {
-  const [mode, setMode] = useState(0);
+type Props = {
+  pair: Pair;
+};
+
+const Pool: FC<Props> = ({ pair }) => {
+  const [type, setType] = useState(PoolFormType.Provide);
+  const [mode, setMode] = useState(ProvideFormMode.Double);
   const [isChartOpen, setIsChartOpen] = useState(false);
 
-  const { query } = useRouter();
-  const { getSymbol } = useTokenInfo();
-  const { pairs } = useTerra();
-
-  const pair: Pair = pairs?.find(({ contract }) => {
-    return query?.pair === contract;
+  const pool = usePool({
+    pairContract: pair.contract,
+    lpTokenContract: pair?.lpToken,
   });
-  const pool = usePool(pair);
   const tokens = [pool?.token1, pool?.token2];
 
-  return (
-    <Box
-      m="0 auto"
-      pt="12"
-    >
-      <Flex
-        justify="space-between"
-        alignItems="center"
-        px="6"
-        mb="4"
-      >
-        <Box>
-          <Heading variant="brand">Provide</Heading>
-        </Box>
-        <IconButton
-          aria-label="Graph"
-          icon={<GraphIcon />}
-          color="white"
-          variant="icon"
-          isActive={isChartOpen}
-          onClick={() => setIsChartOpen(!isChartOpen)}
+  const renderProvideForm = () => {
+    if (pool.token1 == null || pool.token2 == null) {
+      return null;
+    }
+
+    if (mode === ProvideFormMode.Double) {
+      return (
+        <ProvideForm
+          pair={pair}
+          pool={pool}
+          mode={mode}
+          onModeClick={setMode}
+          type={type}
+          onTypeClick={setType}
+          isChartOpen={isChartOpen}
+          onChartClick={() => setIsChartOpen(!isChartOpen)}
         />
-      </Flex>
-      <Flex gridGap="30px">
+      );
+    }
+
+    return (
+      <ProvideSingleForm
+        pair={pair}
+        pool={pool}
+        tokens={tokens}
+        mode={mode}
+        onModeClick={setMode}
+        type={type}
+        onTypeClick={setType}
+      />
+    );
+  };
+
+  const renderWithdrawForm = () => {
+    return (
+      <WithdrawForm
+        pair={pair}
+        pool={pool}
+        mode={mode}
+        onModeClick={setMode}
+        type={type}
+        onTypeClick={setType}
+      />
+    );
+  };
+
+  return (
+    <Box m="0 auto" pt="12">
+      <Flex gridGap="8">
         <Box w="container.sm">
-          <Card mb="2">
-            <Flex justify="space-between">
-              <Box>
-                <Text variant="light">
-                  Selected Pool:{' '}
-                  <Text as="span" color="white" fontSize="md">
-                    {lookupSymbol(getSymbol(pool.token1))} /{' '}
-                    {lookupSymbol(getSymbol(pool.token2))}
-                  </Text>
-                </Text>
-              </Box>
-              <HStack>
-                <Button
-                  variant="mini"
-                  isActive={mode === 0}
-                  onClick={() => setMode(0)}
-                >
-                  Doublesided
-                </Button>
-                <Button
-                  variant="mini"
-                  isActive={mode === 1}
-                  onClick={() => setMode(1)}
-                >
-                  Onesided
-                </Button>
-              </HStack>
-            </Flex>
-          </Card>
-          {pair && mode === 0 && (
-            <ProvideForm
-              pair={pair}
-              pool={pool}
-              initialValues={{ token1: pool.token1, token2: pool.token2 }}
-            />
-          )}
-          {pair && mode === 1 && (
-            <ProvideSingleForm
-              pair={pair}
-              pool={pool}
-              initialValues={{ token: pool.token1 }}
-              tokens={tokens}
-            />
-          )}
+          {type === PoolFormType.Provide && renderProvideForm()}
+          {type === PoolFormType.Withdraw && renderWithdrawForm()}
         </Box>
-        {isChartOpen && <PoolGraph tokens={tokens}/>}
+
+        {isChartOpen && <PoolGraph tokens={tokens} />}
       </Flex>
     </Box>
   );

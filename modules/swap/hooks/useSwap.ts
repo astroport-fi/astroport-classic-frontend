@@ -1,5 +1,4 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
-
 import {
   isValidAmount,
   useAddress,
@@ -12,6 +11,9 @@ import {
   useSimulation,
   createSwapMsgs,
 } from "modules/swap";
+import { StdFee } from "@terra-money/terra.js";
+import { TxResult } from "@terra-dev/wallet-types";
+
 import { ONE_TOKEN } from "constants/constants";
 import networks from "constants/networks";
 
@@ -31,7 +33,27 @@ type Params = {
   slippage: string;
 };
 
-export const useSwap = ({ token1, token2, amount1, slippage }: Params) => {
+export type SwapState = {
+  setStep: (a: SwapStep) => void;
+  step: SwapStep;
+  isReverse: boolean;
+  toggleIsReverse: () => void;
+  resetSwap: () => void;
+  isReady: boolean;
+  minimumReceive: string;
+  result: TxResult;
+  error: string;
+  fee: StdFee;
+  swap: () => void;
+  exchangeRate: string;
+};
+
+export const useSwap = ({
+  token1,
+  token2,
+  amount1,
+  slippage,
+}: Params): SwapState => {
   const [step, setStep] = useState<SwapStep>(SwapStep.Initial);
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const {

@@ -1,46 +1,55 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
-  Box,
-  Flex,
   chakra,
-  Text,
-  HStack,
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
-import { useBalance, useTerra } from "@arthuryeti/terra";
 
 import Card from "components/Card";
-import AmountInput from "components/common/AmountInput";
+import AmountInput from "components/AmountInput";
 import { toAmount, lookup } from "libs/parse";
-import { useProvide, calculateToken2Amount } from "modules/pool";
+import { useBalance } from "hooks/useBalance";
+import { useProvide, calculateToken2Amount, ProvideStep } from "modules/pool";
+import PoolHeader from "components/pool/PoolHeader";
+import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
-import { Pool } from "types/common";
+import ProvideFormConfirm from "components/pool/provide/ProvideFormConfirm";
 import useDebounceValue from "hooks/useDebounceValue";
+import { PoolFormType, ProvideFormMode } from "types/common";
 
 type Props = {
   pair: any;
-  pool: Pool;
-  initialValues: {
-    token1: string;
-    token2: string;
-  };
+  pool: any;
+  mode: ProvideFormMode;
+  type: PoolFormType;
+  onModeClick: any;
+  onTypeClick: any;
+  isChartOpen: boolean;
+  onChartClick: () => void;
 };
 
-const ProvideForm: FC<Props> = ({ pair, pool, initialValues }) => {
-  const { isReady } = useTerra();
+const ProvideForm: FC<Props> = ({
+  pair,
+  pool,
+  mode,
+  onModeClick,
+  type,
+  onTypeClick,
+  isChartOpen,
+  onChartClick,
+}) => {
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       token1: {
         amount: undefined,
-        asset: initialValues?.token1,
+        asset: pool?.token1,
       },
       token2: {
         amount: undefined,
-        asset: initialValues?.token2,
+        asset: pool?.token2,
       },
     },
   });
@@ -92,42 +101,67 @@ const ProvideForm: FC<Props> = ({ pair, pool, initialValues }) => {
 
   return (
     <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      <Card>
-        <Controller
-          name="token1"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle />}
-        />
-      </Card>
+      {provideState.step === ProvideStep.Initial && (
+        <>
+          <PoolActions
+            pool={pool}
+            type={type}
+            isChartOpen={isChartOpen}
+            onChartClick={onChartClick}
+            onTypeClick={onTypeClick}
+          />
+          <PoolHeader
+            pool={pool}
+            type={type}
+            mode={mode}
+            onModeClick={onModeClick}
+          />
+          <Card>
+            <Controller
+              name="token1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <AmountInput {...field} isSingle />}
+            />
+          </Card>
 
-      <Card mt="2">
-        <Controller
-          name="token2"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle />}
-        />
-      </Card>
+          <Card mt="2">
+            <Controller
+              name="token2"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <AmountInput {...field} isSingle />}
+            />
+          </Card>
 
-      <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
-          min={0}
-          defaultValue={0}
-          // value={token1.amount}
-          max={Number(amount)}
-          onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
-      </Card>
+          <Card mt="2">
+            <Slider
+              variant="brand"
+              size="lg"
+              min={0}
+              defaultValue={0}
+              // value={token1.amount}
+              max={Number(amount)}
+              onChange={handleChange}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Card>
 
-      <ProvideFormFooter pool={pool} data={provideState} />
+          <ProvideFormFooter
+            pool={pool}
+            data={provideState}
+            onConfirmClick={() => provideState.setStep(ProvideStep.Confirm)}
+          />
+        </>
+      )}
+
+      {provideState.step === ProvideStep.Confirm && (
+        <ProvideFormConfirm from={token1} to={token2} state={provideState} />
+      )}
     </chakra.form>
   );
 };

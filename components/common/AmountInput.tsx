@@ -9,13 +9,14 @@ import {
   forwardRef,
   chakra,
 } from "@chakra-ui/react";
-import { useTokenInfo, useBalance } from "@arthuryeti/terra";
+import { useTokenInfo } from "@arthuryeti/terra";
 
+import { ESTIMATE_TOKEN } from "constants/constants";
 import { lookup, formatAsset, format, toAmount } from "libs/parse";
 import TokenSelect from "components/swap/TokenSelect";
 import OneToken from "components/common/OneToken";
 import { useSimulation } from "modules/swap";
-import { ESTIMATE_TOKEN } from "constants/constants";
+import { useBalance } from "hooks/useBalance";
 
 type Props = {
   onChange: any;

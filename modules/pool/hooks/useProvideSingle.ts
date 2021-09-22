@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Coin } from "@terra-money/terra.js";
 import {
   isValidAmount,
@@ -20,6 +20,14 @@ type Params = {
   amount: string;
 };
 
+export enum ProvideSingleStep {
+  Initial = 1,
+  Confirm = 2,
+  Pending = 3,
+  Success = 4,
+  Error = 5,
+}
+
 export const useProvideSingle = ({
   contract,
   pool,
@@ -27,6 +35,9 @@ export const useProvideSingle = ({
   token2,
   amount,
 }: Params) => {
+  const [step, setStep] = useState<ProvideSingleStep>(
+    ProvideSingleStep.Initial
+  );
   const address = useAddress();
   const {
     networkInfo: { name },
@@ -93,6 +104,8 @@ export const useProvideSingle = ({
   });
 
   return {
+    setStep,
+    step,
     fee,
     isReady,
     result,

@@ -1,15 +1,33 @@
-import React from "react";
+import React, { FC } from "react";
 import Link from "next/link";
-import { Box, Text, Image, Button, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Image,
+  Button,
+  HStack,
+  IconButton,
+  Flex,
+} from "@chakra-ui/react";
+import { useTokenInfo } from "@arthuryeti/terra";
 
+import GraphIcon from "components/icons/GraphIcon";
 import Td from "components/Td";
-import { useTokenInfo, getTokenDenoms } from "@arthuryeti/terra";
-import { lookupSymbol } from "libs/parse";
+import { lookupSymbol, format } from "libs/parse";
+import { Pair } from "types/common";
+import { usePool } from "modules/pool";
 
-const PoolItem = ({ pool }) => {
-  const { asset_infos, contract } = pool;
+type Props = {
+  item: Pair;
+};
+
+const PoolItem: FC<Props> = ({ item }) => {
+  const { contract, lpToken } = item;
   const { getIcon, getSymbol } = useTokenInfo();
-  const [token1, token2] = getTokenDenoms([asset_infos[0], asset_infos[1]]);
+  const { token1, token2, totalShareInUST, myShareInUST } = usePool({
+    pairContract: contract,
+    lpTokenContract: lpToken,
+  });
 
   return (
     <>
@@ -31,16 +49,17 @@ const PoolItem = ({ pool }) => {
           </Box>
         </HStack>
       </Td>
-      <Td>-</Td>
-      <Td>-</Td>
-      <Td>-</Td>
-      <Td>-</Td>
+      <Td>{`${format(myShareInUST, "uusd")} UST`}</Td>
+      <Td>{`${format(totalShareInUST, "uusd")} UST`}</Td>
       <Td>
-        <Link href={`/pools/${contract}`} passHref>
-          <Button as="a" variant="primary">
-            Add Liquidity
-          </Button>
-        </Link>
+        <Flex justify="flex-end" align="center">
+          <Link href={`/pools/${contract}`} passHref>
+            <Button as="a" variant="primary" size="sm">
+              Add Liquidity
+            </Button>
+          </Link>
+          <IconButton aria-label="Graph" icon={<GraphIcon />} variant="icon" />
+        </Flex>
       </Td>
     </>
   );

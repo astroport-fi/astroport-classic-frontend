@@ -40,7 +40,7 @@ const TokenSelect: FC<Props> = ({ token, isLoading, onTokenClick, tokens }) => {
 
           <Box ml="3" fontWeight="500" flex="1">
             <Text fontSize="2xl" color="white">
-              {lookupSymbol(getSymbol(token))}
+              {getSymbol(token)}
             </Text>
             <Text fontSize="xs" color="white.400">
               Price: ${format(price, Denom.USD)}

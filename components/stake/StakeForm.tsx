@@ -1,15 +1,31 @@
 import React, { useState } from "react";
-import { chakra, Button, HStack, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
+import {
+  chakra,
+  Button,
+  HStack,
+  Flex,
+  Box,
+  Text,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
 import { trunc, useFeeToString, useTerra } from "@arthuryeti/terra";
 
 import Card from "components/Card";
-import LpAmountInput from "components/common/LpAmountInput";
-import { useDepositLpToken } from "modules/pool/hooks/useDepositLpToken";
-import { useWithdrawLpToken } from "modules/pool/hooks/useWithdrawLpToken";
-import { CommonFooter } from 'components/CommonFooter';
-import { useAccountShare } from 'modules/pool/hooks/useAccountShare';
-import { ONE_TOKEN } from 'constants/constants';
+import AmountInput from "components/AmountInput";
+import {
+  useDepositLpToken,
+  useWithdrawLpToken,
+  useAccountShare,
+} from "modules/pool";
+import { ONE_TOKEN } from "constants/constants";
+
+import FormHeader from "components/common/FormHeader";
+import FormHeaderItem from "components/common/FormHeaderItem";
+import CommonFooter from "components/CommonFooter";
 
 enum StakeMode {
   Deposit = "deposit",
@@ -25,36 +41,39 @@ const StakeForm = () => {
     defaultValues: {
       lpToken: {
         amount: "",
-        pair: pairs[0],
+        asset: pairs[0].lpToken,
       },
     },
   });
 
   const lpToken = watch("lpToken");
 
-  const accountShare = useAccountShare(lpToken?.pair?.lpToken);
+  const accountShare = useAccountShare(lpToken?.asset);
 
   const depositOptions =
-    mode === StakeMode.Deposit ? [lpToken.amount, lpToken.pair?.lpToken] : [];
+    mode === StakeMode.Deposit ? [lpToken.amount, lpToken.asset] : [];
 
   const withdrawOptions =
-    mode === StakeMode.Withdraw ? [lpToken.amount, lpToken.pair?.lpToken] : [];
+    mode === StakeMode.Withdraw ? [lpToken.amount, lpToken.asset] : [];
 
   const {
     submit: deposit,
     fee: depositFee,
     error: depositError,
-  } = useDepositLpToken(
-    ...(depositOptions as [string, string])
-  );
+  } = useDepositLpToken(...(depositOptions as [string, string]));
 
   const {
     submit: withdraw,
     fee: withdrawFee,
     error: withdrawError,
-  } = useWithdrawLpToken(
-    ...(withdrawOptions as [string, string])
-  );
+  } = useWithdrawLpToken(...(withdrawOptions as [string, string]));
+
+  const handleChange = (value) => {
+    setValue("lpToken", {
+      ...lpToken,
+      amount: value,
+    });
+  };
 
   const submit = async () => {
     mode === StakeMode.Deposit ? deposit() : withdraw();
@@ -64,37 +83,28 @@ const StakeForm = () => {
 
   return (
     <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      <HStack spacing="32px" px="32px">
-        <Button
-          position="relative"
-          _before={{
-            position: "absolute",
-            content: "''",
-            h: "20px",
-            bg: "white",
-            w: "1px",
-            right: "-16px",
-          }}
-
-          variant="simple"
-          isActive={mode === StakeMode.Deposit}
+      <FormHeader>
+        <FormHeaderItem
+          label="Farm"
+          value={mode}
+          type={StakeMode.Deposit}
           onClick={() => setMode(StakeMode.Deposit)}
-        >
-          Farm
-        </Button>
-
-        <Button
-          variant="simple"
-          isActive={mode === StakeMode.Withdraw}
+        />
+        <Text fontSize="xl">|</Text>
+        <FormHeaderItem
+          label="Withdraw"
+          value={mode}
+          type={StakeMode.Withdraw}
           onClick={() => setMode(StakeMode.Withdraw)}
-        >
-          Withdraw
-        </Button>
-      </HStack>
+        />
+      </FormHeader>
 
       <Card mb="2">
         <Text variant="light">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus beatae error sit autem quidem deserunt delectus quisquam ullam arthuryetihuety dolor ex in, eveniet ratione voluptates fuga sed doloremque impedit eligendi perferendis?
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus beatae
+          error sit autem quidem deserunt delectus quisquam ullam
+          arthuryetihuety dolor ex in, eveniet ratione voluptates fuga sed
+          doloremque impedit eligendi perferendis?
         </Text>
       </Card>
 
@@ -103,9 +113,7 @@ const StakeForm = () => {
           name="lpToken"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
-            <LpAmountInput {...field} pairs={pairs} isLoading={!isReady} />
-          )}
+          render={({ field }) => <AmountInput {...field} isLpToken />}
         />
       </Card>
 
@@ -119,12 +127,7 @@ const StakeForm = () => {
           max={Number(accountShare) / ONE_TOKEN}
           focusThumbOnChange={false}
           step={0.0001}
-          onChange={(value) => {
-            setValue("lpToken", {
-              amount: String(trunc(value, 6)),
-              pair: lpToken.pair,
-            });
-          }}
+          onChange={handleChange}
         >
           <SliderTrack>
             <SliderFilledTrack />
@@ -133,21 +136,24 @@ const StakeForm = () => {
         </Slider>
       </Card>
 
-      {depositError || withdrawError && (
-        <Card mt="3">
-          <Text variant="light">{depositError || withdrawError}</Text>
-        </Card>
-      )}
+      {depositError ||
+        (withdrawError && (
+          <Card mt="3">
+            <Text variant="light">{depositError || withdrawError}</Text>
+          </Card>
+        ))}
 
       <CommonFooter
-        cells={[{
-          title: "TX fee",
-          value: feeString
-        }]}
+        cells={[
+          {
+            title: "TX fee",
+            value: feeString,
+          },
+        ]}
         confirmButton={{
           title: "Confirm",
           isDisabled: !isReady,
-          type: "submit"
+          type: "submit",
         }}
       />
     </chakra.form>

@@ -2,7 +2,7 @@ import React from "react";
 import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
 
-import { useBalance } from "@arthuryeti/terra";
+import { useBalance } from "hooks/useBalance";
 import { useTokenPrice } from "modules/swap";
 import { format } from "libs/parse";
 

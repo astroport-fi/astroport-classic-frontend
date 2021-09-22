@@ -2,34 +2,31 @@ import React, { FC } from "react";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 export interface Cell {
-  title: string
-  value: string
+  title: string;
+  value: string;
 }
 
 export interface ConfirmButton {
-  title: string
-  isDisabled?: boolean
-  onClick?: () => void
-  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
+  title: string;
+  isDisabled?: boolean;
+  onClick?: () => void;
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
 
 interface Props {
-  cells: Cell[]
-  confirmButton: ConfirmButton
+  cells: Cell[];
+  confirmButton: ConfirmButton;
 }
 
-export const CommonFooter: FC<Props> = (props) => {
-  const {
-    cells,
-    confirmButton,
-  } = props;
+const CommonFooter: FC<Props> = (props) => {
+  const { cells, confirmButton } = props;
 
   return (
     <Box>
       <Flex justify="space-between" px="12" my="8">
         {cells.map((cell) => (
           <Box
-            key={cell.value}
+            key={cell.title}
             flex="1"
             borderRightColor="whiteAlpha.600"
             borderRightWidth="1px"
@@ -42,9 +39,7 @@ export const CommonFooter: FC<Props> = (props) => {
             <Text color="white" fontSize="sm">
               {cell.value}
             </Text>
-            <Text variant="light">
-              {cell.title}
-            </Text>
+            <Text variant="light">{cell.title}</Text>
           </Box>
         ))}
       </Flex>
@@ -61,3 +56,5 @@ export const CommonFooter: FC<Props> = (props) => {
     </Box>
   );
 };
+
+export default CommonFooter;
