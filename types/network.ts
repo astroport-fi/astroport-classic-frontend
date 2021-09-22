@@ -11,10 +11,11 @@ export interface ExtNetworkConfig {
 }
 
 export interface LocalNetworkConfig {
-  /** Contract Addresses JSON URL */
-  routeContract: string;
-  /** Graphql server URL */
-  gauge: string;
   mantle: string;
+  gauge: string;
   factory: string;
+  router: string;
+  vesting: string;
+  staking: string;
+  maker: string;
 }

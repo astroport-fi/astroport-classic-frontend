@@ -61,7 +61,7 @@ export const useSwap = ({
     routes,
   } = useTerra();
   const address = useAddress();
-  const { routeContract } = networks[name];
+  const { router } = networks[name];
 
   const { amount: exchangeRate } = useSimulation(
     token1,
@@ -95,19 +95,11 @@ export const useSwap = ({
         amount: amount1,
         slippage,
         minimumReceive,
-        routeContract,
+        router,
       },
       address
     );
-  }, [
-    address,
-    token1,
-    amount1,
-    minimumReceive,
-    slippage,
-    routeContract,
-    swapRoute,
-  ]);
+  }, [address, token1, amount1, minimumReceive, slippage, router, swapRoute]);
 
   const toggleIsReverse = useCallback(() => {
     setIsReverse(!isReverse);

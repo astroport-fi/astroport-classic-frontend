@@ -115,6 +115,12 @@
         "token": "uusd",
         "icon": "https://assets.terra.money/icon/60/UST.png"
       },
+      "usdr": {
+        "protocol": "Native",
+        "symbol": "SDT",
+        "token": "usdr",
+        "icon": "https://assets.terra.money/icon/60/SDT.png"
+      },
       "terra19mkj9nec6e3y5754tlnuz4vem7lzh4n0lc2s3l": {
         "protocol": "Anchor",
         "symbol": "bETH",
@@ -135,6 +141,22 @@
           {
             "native_token": {
               "denom": "uluna"
+            }
+          }
+        ]
+      },
+      {
+        "contract": "terra1wfvczps2865j0awnurk9m04u7wdmd6qv3fdnvz",
+        "lpToken": "terra1vg0qyq92ky9z9dp0j9fv5rmr2s80sg605dah6f",
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
             }
           }
         ]

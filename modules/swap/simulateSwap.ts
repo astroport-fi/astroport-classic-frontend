@@ -47,7 +47,7 @@ export const createMultiSwapOperations = (
 
 type CreateMultiSwapQueryOptions = {
   client: LCDClient;
-  routeContract: string;
+  router: string;
   from: string;
   route: Pair[];
   amount: string;
@@ -59,14 +59,14 @@ type CreateMultiSwapQueryResponse = {
 
 const createMultiSwapQuery = async ({
   client,
-  routeContract,
+  router,
   from,
   route,
   amount,
 }: CreateMultiSwapQueryOptions): Promise<CreateMultiSwapQueryResponse> => {
   const operations = createMultiSwapOperations(from, route);
 
-  return client.wasm.contractQuery(routeContract, {
+  return client.wasm.contractQuery(router, {
     simulate_swap_operations: {
       offer_amount: amount,
       operations,
@@ -103,7 +103,7 @@ const createMonoSwapQuery = async ({
 
 export const simulateSwap = async (
   client: LCDClient,
-  routeContract,
+  router,
   routes,
   from,
   to,
@@ -145,7 +145,7 @@ export const simulateSwap = async (
   try {
     const result = await createMultiSwapQuery({
       client,
-      routeContract,
+      router,
       from,
       route,
       amount,

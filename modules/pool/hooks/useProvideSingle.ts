@@ -43,7 +43,7 @@ export const useProvideSingle = ({
     networkInfo: { name },
     routes,
   } = useTerra();
-  const { routeContract } = networks[name];
+  const { router } = networks[name];
 
   const swapRoute = useMemo(
     () => findSwapRoute(routes, token1, token2),
@@ -67,11 +67,11 @@ export const useProvideSingle = ({
         token1,
         route: swapRoute,
         amount: swapAmount,
-        routeContract,
+        router,
       },
       address
     );
-  }, [routeContract, swapAmount, swapRoute, address, token1]);
+  }, [router, swapAmount, swapRoute, address, token1]);
 
   const provideAmounts = useMemo(() => {
     return calculateProvideOneAsset(pool, token1, swapAmount, amount2);

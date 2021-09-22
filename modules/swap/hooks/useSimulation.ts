@@ -20,7 +20,7 @@ export const useSimulation = (
     client,
     routes,
   } = useTerra();
-  const { routeContract } = networks[name];
+  const { router } = networks[name];
 
   const getData = useCallback(async () => {
     if (!token1 || isEmpty(routes) || !isValidAmount(amount1)) {
@@ -34,7 +34,7 @@ export const useSimulation = (
 
     const result = await simulateSwap(
       client,
-      routeContract,
+      router,
       routes,
       token1,
       token2,
@@ -42,7 +42,7 @@ export const useSimulation = (
     );
 
     setResult(result as any);
-  }, [token1, routes, amount1, client, routeContract, token2]);
+  }, [token1, routes, amount1, client, router, token2]);
 
   useEffect(() => {
     getData();

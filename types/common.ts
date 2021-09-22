@@ -41,7 +41,7 @@ export interface Network {
   lcd: string;
   mantle: string;
   factory: string;
-  routeContract: string;
+  router: string;
 }
 
 export type Networks = Record<NetworkType, Network>;

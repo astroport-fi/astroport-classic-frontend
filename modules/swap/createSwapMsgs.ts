@@ -60,14 +60,14 @@ type CreateMultiSwapMsgOptions = {
   token1: string;
   amount: string;
   minimumReceive: string;
-  routeContract: string;
+  router: string;
 };
 
 const createMultiSwapMsg = (
   options: CreateMultiSwapMsgOptions,
   sender: HumanAddr
 ): MsgExecuteContract => {
-  const { route, token1, amount, minimumReceive, routeContract } = options;
+  const { route, token1, amount, minimumReceive, router } = options;
 
   const [{ asset_infos }] = route;
 
@@ -80,7 +80,7 @@ const createMultiSwapMsg = (
   if (isNative) {
     return new MsgExecuteContract(
       sender,
-      routeContract,
+      router,
       {
         execute_swap_operations: {
           offer_amount: amount,
@@ -95,7 +95,7 @@ const createMultiSwapMsg = (
   return new MsgExecuteContract(sender, token1, {
     send: {
       amount,
-      contract: routeContract,
+      contract: router,
       msg: toBase64({
         execute_swap_operations: {
           offer_amount: amount,
@@ -111,7 +111,7 @@ type CreateSwapMsgsOptions = {
   route: Pair[];
   token1: string;
   amount: string;
-  routeContract: string;
+  router: string;
   minimumReceive?: string;
   slippage?: string;
 };

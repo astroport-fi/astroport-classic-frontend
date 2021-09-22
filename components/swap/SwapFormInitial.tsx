@@ -146,7 +146,6 @@ const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
         justify="center"
         mt="-3.5"
         mb="-5"
-        zIndex="3"
         position="relative"
       >
         <IconButton
