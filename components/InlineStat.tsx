@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { Flex, Box, Text, HStack, Tooltip } from "@chakra-ui/react";
 
 import InfoIcon from "components/icons/InfoIcon";

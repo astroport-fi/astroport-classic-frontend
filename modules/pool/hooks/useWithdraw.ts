@@ -1,19 +1,30 @@
 import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { StdFee } from "@terra-money/terra.js";
+import { TxResult } from "@terra-dev/wallet-types";
 import {
   getTokenDenom,
   isValidAmount,
   useAddress,
-  useTerra,
   useTransaction,
 } from "@arthuryeti/terra";
 
-import { Pool } from "types/common";
-
 import { createWithdrawMsgs, useGetPool } from "modules/pool";
-import { useBalance } from "hooks/useBalance";
 import { useTokenPrice } from "modules/swap";
 import { ONE_TOKEN } from "constants/constants";
+
+export type WithdrawState = {
+  token1?: string;
+  token1Amount?: string;
+  token1Price: string;
+  token2?: string;
+  token2Amount?: string;
+  token2Price: string;
+  isReady: boolean;
+  result: TxResult;
+  error: string | null;
+  fee: StdFee | null;
+  withdrawLiquidity: () => void;
+};
 
 type Params = {
   contract: string;
@@ -21,11 +32,15 @@ type Params = {
   lpToken: string;
 };
 
-export const useWithdraw = ({ contract, lpToken, amount }: Params) => {
+export const useWithdraw = ({
+  contract,
+  lpToken,
+  amount,
+}: Params): WithdrawState => {
   const address = useAddress();
   const { data: pool } = useGetPool(contract);
 
-  const ratio = useMemo(() => {
+  const ratio: any = useMemo(() => {
     if (pool == null) {
       return {};
     }
@@ -54,12 +69,14 @@ export const useWithdraw = ({ contract, lpToken, amount }: Params) => {
     };
   }, [pool, ratio, amount]);
 
+  // @ts-expect-error
   const token1Price = useTokenPrice(tokens.token1);
+  // @ts-expect-error
   const token2Price = useTokenPrice(tokens.token2);
 
   const msgs = useMemo(() => {
     if (!isValidAmount(amount)) {
-      return;
+      return [];
     }
 
     return createWithdrawMsgs(

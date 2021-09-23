@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function TerraMobileIcon(props) {
+export default function TerraMobileIcon(props: any) {
   return (
     <svg
       width="300px"

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function PlusIcon(props) {
+export default function PlusIcon(props: any) {
   return (
     <svg
       width="24"

@@ -1,23 +1,10 @@
-import React, { FC, useEffect, useState } from "react";
-import {
-  Box,
-  Heading,
-  HStack,
-  Text,
-  Button,
-  Flex,
-  IconButton,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useTerra } from "@arthuryeti/terra";
+import React, { FC, useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 
-import PoolHeader from "components/pool/PoolHeader";
 import WithdrawForm from "components/pool/withdraw/WithdrawForm";
 import ProvideForm from "components/pool/provide/ProvideForm";
-import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
 import ProvideSingleForm from "components/pool/provide/ProvideSingleForm";
 import { usePool } from "modules/pool";
-import GraphIcon from "components/icons/GraphIcon";
 import PoolGraph from "components/pool/PoolGraph";
 import { Pair, PoolFormType, ProvideFormMode } from "types/common";
 
@@ -60,7 +47,7 @@ const Pool: FC<Props> = ({ pair }) => {
       <ProvideSingleForm
         pair={pair}
         pool={pool}
-        tokens={tokens}
+        tokens={[pool.token1, pool.token2]}
         mode={mode}
         onModeClick={setMode}
         type={type}
@@ -90,6 +77,7 @@ const Pool: FC<Props> = ({ pair }) => {
           {type === PoolFormType.Withdraw && renderWithdrawForm()}
         </Box>
 
+        {/* @ts-expect-error */}
         {isChartOpen && <PoolGraph tokens={tokens} />}
       </Flex>
     </Box>

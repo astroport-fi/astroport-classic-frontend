@@ -58,6 +58,8 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
         </Flex>
       );
     }
+
+    return null;
   };
 
   return (

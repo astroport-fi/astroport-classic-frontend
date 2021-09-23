@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function WaterIcon(props) {
+export default function WaterIcon(props: any) {
   return (
     <svg
       width="24"

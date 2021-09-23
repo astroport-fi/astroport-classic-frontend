@@ -103,11 +103,11 @@ const createMonoSwapQuery = async ({
 
 export const simulateSwap = async (
   client: LCDClient,
-  router,
-  routes,
-  from,
-  to,
-  amount
+  router: any,
+  routes: any,
+  from: string,
+  to: string,
+  amount: string
 ) => {
   const route = findSwapRoute(routes, from, to);
 
@@ -133,7 +133,7 @@ export const simulateSwap = async (
         amount: result.return_amount,
         spreadAmount: result.spread_amount,
       };
-    } catch (e) {
+    } catch (e: any) {
       return {
         error: true,
         message: e.response.data.error,
@@ -157,7 +157,7 @@ export const simulateSwap = async (
       amount: result.amount,
       spreadAmount: null,
     };
-  } catch (e) {
+  } catch (e: any) {
     return {
       error: true,
       message: e.response.data.error,

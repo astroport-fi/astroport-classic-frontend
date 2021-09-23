@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function ThumbsUpIcon(props) {
+export default function ThumbsUpIcon(props: any) {
   return (
     <svg
       width="24"

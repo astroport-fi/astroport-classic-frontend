@@ -23,5 +23,6 @@ module.exports = {
   plugins: ["react", "@typescript-eslint"],
   rules: {
     "no-console": 2,
+    "no-ternary": 1,
   },
 };

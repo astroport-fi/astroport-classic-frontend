@@ -1,17 +1,14 @@
 import React, { FC, useState } from "react";
 import {
   Box,
-  Flex,
   chakra,
   Text,
-  HStack,
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
-import { useTokenInfo } from "@arthuryeti/terra";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
@@ -23,11 +20,18 @@ import PoolActions from "components/pool/PoolActions";
 import PoolHeader from "components/pool/PoolHeader";
 import useDebounceValue from "hooks/useDebounceValue";
 import { useBalance } from "hooks/useBalance";
-import { PoolFormType, ProvideFormMode, Pool } from "types/common";
+import { PoolFormType, ProvideFormMode, Pair } from "types/common";
+
+type FormValues = {
+  token: {
+    amount: string;
+    asset: string;
+  };
+};
 
 type Props = {
-  pair: any;
-  pool: Pool;
+  pair: Pair;
+  pool: any;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
@@ -43,7 +47,7 @@ const WithdrawForm: FC<Props> = ({
   onTypeClick,
 }) => {
   const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
-  const { control, handleSubmit, watch, setValue } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
     defaultValues: {
       token: {
         amount: undefined,
@@ -69,11 +73,38 @@ const WithdrawForm: FC<Props> = ({
     withdrawState.withdrawLiquidity();
   };
 
-  const handleChange = (value) => {
+  const handleChange = (value: number) => {
     setValue("token", {
       ...token,
-      amount: value,
+      amount: String(value),
     });
+  };
+
+  const renderWithdrawFormItem1 = () => {
+    if (withdrawState.token1 == null || withdrawState.token1Amount == null) {
+      return;
+    }
+
+    return (
+      <WithdrawFormItem
+        token={withdrawState.token1}
+        amount={withdrawState.token1Amount}
+        mb="4"
+      />
+    );
+  };
+
+  const renderWithdrawFormItem2 = () => {
+    if (withdrawState.token2 == null || withdrawState.token2Amount == null) {
+      return;
+    }
+
+    return (
+      <WithdrawFormItem
+        token={withdrawState.token2}
+        amount={withdrawState.token2Amount}
+      />
+    );
   };
 
   return (
@@ -105,16 +136,8 @@ const WithdrawForm: FC<Props> = ({
         <Text variant="light">Recovered Assets</Text>
 
         <Box mt="6">
-          <WithdrawFormItem
-            token={withdrawState.token1}
-            amount={withdrawState.token1Amount}
-          />
-
-          <WithdrawFormItem
-            token={withdrawState.token2}
-            amount={withdrawState.token2Amount}
-            pt="4"
-          />
+          {renderWithdrawFormItem1()}
+          {renderWithdrawFormItem2()}
         </Box>
       </Card>
 

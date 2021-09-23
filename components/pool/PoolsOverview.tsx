@@ -1,16 +1,12 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, Heading } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import Card from "components/Card";
 import { POOLS_TOKEN } from "constants/constants";
 import { useTokenPrice } from "modules/swap";
 import { formatAmount } from "@arthuryeti/terra";
 
-type Props = {
-  totalLiquidity: string | null;
-};
-
-const PoolsOverview: FC<Props> = ({ totalLiquidity }) => {
+const PoolsOverview: FC = () => {
   const price = useTokenPrice(POOLS_TOKEN);
 
   return (

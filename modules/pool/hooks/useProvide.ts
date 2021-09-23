@@ -27,9 +27,9 @@ export type ProvideState = {
   setStep: (a: ProvideStep) => void;
   step: ProvideStep;
   resetForm: () => void;
-  fee: StdFee;
+  fee: StdFee | null;
   result: TxResult;
-  error: string;
+  error: string | null;
   isReady: boolean;
   provideLiquidity: () => void;
 };
@@ -47,7 +47,7 @@ export const useProvide = ({
 
   const msgs = useMemo(() => {
     if (!isValidAmount(amount1) || !isValidAmount(amount2) || pool == null) {
-      return;
+      return [];
     }
 
     return createProvideMsgs(

@@ -43,14 +43,14 @@ const buttonTitleByTimeFilters: Record<TimeFilter, string> = {
 };
 
 interface Props {
-  tokens: string[];
+  tokens?: string[];
 }
 
 const PoolGraph: FC<Props> = ({ tokens }) => {
-  const [points, setPoints] = useState([]);
+  const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
   const [typeFilter, setTypeFilter] = useState(TypeFilter[0]);
   const [timeFilter, setTimeFilter] = useState(TimeFilter[4]);
-  const [selectedToken, setSelectedToken] = useState(findRegularToken(tokens));
+  const selectedToken = findRegularToken(tokens);
 
   const list = preparingSelectList(tokens);
   const [selectFilter, setSelectFilter] = useState(list[0]);
@@ -65,6 +65,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
         onClick: () => setTimeFilter(filter),
         isActive: timeFilter === filter,
         type: filter,
+        // @ts-expect-error
         title: buttonTitleByTimeFilters[TimeFilter[filter]],
       })),
     [timeFilter]
@@ -76,6 +77,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
         onClick: () => setTypeFilter(filter),
         isActive: typeFilter === filter,
         type: filter,
+        // @ts-expect-error
         title: buttonTitleByTypeFilters[TypeFilter[filter]],
       })),
     [typeFilter]
@@ -83,15 +85,19 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
 
   // mock data for graph
   useEffect(() => {
-    const pointsArray = () =>
-      Array(50)
-        .fill("")
-        .map((el, index) => ({
-          x: index,
-          y: Math.random(),
-        }));
+    const pointsArray = () => {
+      return (
+        Array(50)
+          .fill("")
+          // @ts-expect-error
+          .map((el, index) => ({
+            x: index,
+            y: Math.random(),
+          }))
+      );
+    };
 
-    setPoints(pointsArray);
+    setPoints(pointsArray());
   }, []);
 
   const cardTitle = (

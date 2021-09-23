@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 import { Box, Flex, Text, HStack, IconButton, Button } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
@@ -94,7 +94,7 @@ const ProvideFormConfirm: FC<Props> = ({ from, to, state }) => {
               <Button variant="primary" type="submit">
                 Confirm Swap
               </Button>
-              <SwapFormFee fee={fee} />
+              {fee && <SwapFormFee fee={fee} />}
             </Flex>
           </>
         )}

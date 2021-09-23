@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import {
   chakra,
-  Button,
-  HStack,
-  Flex,
-  Box,
   Text,
   Slider,
   SliderTrack,
@@ -12,7 +8,7 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
-import { trunc, useFeeToString, useTerra } from "@arthuryeti/terra";
+import { useFeeToString, useTerra } from "@arthuryeti/terra";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
@@ -32,12 +28,19 @@ enum StakeMode {
   Withdraw = "withdraw",
 }
 
+type FormValues = {
+  lpToken: {
+    amount: string;
+    asset: string;
+  };
+};
+
 const StakeForm = () => {
   const { isReady, pairs } = useTerra();
 
   const [mode, setMode] = useState<StakeMode>(StakeMode.Deposit);
 
-  const { control, handleSubmit, watch, setValue } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
     defaultValues: {
       lpToken: {
         amount: "",
@@ -68,17 +71,22 @@ const StakeForm = () => {
     error: withdrawError,
   } = useWithdrawLpToken(...(withdrawOptions as [string, string]));
 
-  const handleChange = (value) => {
+  const handleChange = (value: number) => {
     setValue("lpToken", {
       ...lpToken,
-      amount: value,
+      amount: String(value),
     });
   };
 
   const submit = async () => {
-    mode === StakeMode.Deposit ? deposit() : withdraw();
+    if (mode === StakeMode.Deposit) {
+      return deposit();
+    }
+
+    withdraw();
   };
 
+  // @ts-expect-error
   const feeString = useFeeToString(depositFee || withdrawFee);
 
   return (

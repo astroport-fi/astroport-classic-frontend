@@ -30,11 +30,15 @@ export const usePool = ({ pairContract, lpTokenContract }: Params) => {
     return getTokenDenom(pool.assets[1].info);
   }, [pool]);
 
+  // @ts-expect-error
   const token1Price = useTokenPrice(token1);
+  // @ts-expect-error
   const token2Price = useTokenPrice(token2);
 
   const myShareInUST = useMemo(() => {
     if (
+      token1 == null ||
+      token2 == null ||
       token1Price == null ||
       token2Price == null ||
       lpBalance == null ||
@@ -54,7 +58,13 @@ export const usePool = ({ pairContract, lpTokenContract }: Params) => {
   }, [pool, lpBalance, token1, token2, token1Price, token2Price]);
 
   const totalShareInUST = useMemo(() => {
-    if (token1Price == null || token2Price == null || pool == null) {
+    if (
+      token1 == null ||
+      token2 == null ||
+      token1Price == null ||
+      token2Price == null ||
+      pool == null
+    ) {
       return "0.00";
     }
 

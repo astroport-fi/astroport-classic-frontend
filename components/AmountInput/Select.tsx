@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
-import { lookupSymbol, format } from "libs/parse";
+import { format } from "libs/parse";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { List } from "components/AmountInput";
 import { useTokenPrice } from "modules/swap";
@@ -52,6 +52,8 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
         </Flex>
       );
     }
+
+    return null;
   };
 
   return (

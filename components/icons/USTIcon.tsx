@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function USTIcon(props) {
+export default function USTIcon(props: any) {
   return (
     <svg
       width="40"

@@ -40,10 +40,10 @@ export type SwapState = {
   toggleIsReverse: () => void;
   resetSwap: () => void;
   isReady: boolean;
-  minimumReceive: string;
+  minimumReceive: string | null;
   result: TxResult;
-  error: string;
-  fee: StdFee;
+  error: string | null;
+  fee: StdFee | null;
   swap: () => void;
   exchangeRate: string;
 };
@@ -85,7 +85,7 @@ export const useSwap = ({
 
   const msgs = useMemo(() => {
     if (!isValidAmount(amount1) || !minimumReceive || !swapRoute) {
-      return;
+      return [];
     }
 
     return createSwapMsgs(

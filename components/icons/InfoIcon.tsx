@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function InfoIcon(props) {
+export default function InfoIcon(props: any) {
   return (
     <svg
       width="16"

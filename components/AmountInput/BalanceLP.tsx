@@ -13,7 +13,7 @@ type Props = {
 
 const BalanceLP: FC<Props> = ({ asset, initial, onChange }) => {
   const { pairs } = useTerra();
-  const { getIcon, getSymbol } = useTokenInfo();
+  const { getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.lpToken == asset);
   const balance = useBalance(asset);
   const [token1, token2] = getTokenDenoms(pair.asset_infos);

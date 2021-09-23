@@ -4,7 +4,6 @@ import { Box, Flex, Text, IconButton, Button, HStack } from "@chakra-ui/react";
 import CloseIcon from "components/icons/CloseIcon";
 import FailedIcon from "components/icons/FailedIcon";
 import Card from "components/Card";
-import { SwapStep } from "modules/swap";
 import { motion } from "framer-motion";
 
 type Props = {

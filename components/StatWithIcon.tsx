@@ -1,8 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Box, Text, HStack, Tooltip } from "@chakra-ui/react";
-import { transparentize } from "@chakra-ui/theme-tools";
-
-import InfoIcon from "components/icons/InfoIcon";
+import { Box, Text, HStack } from "@chakra-ui/react";
 
 type Props = {
   label: string;

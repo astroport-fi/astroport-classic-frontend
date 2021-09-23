@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo } from "react";
-import { Box, BoxProps, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Button, Flex } from "@chakra-ui/react";
 import { Line } from "react-chartjs-2";
 import { Point } from "chart.js";
 import { ISelect, IButton } from "types/common";

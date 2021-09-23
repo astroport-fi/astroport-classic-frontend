@@ -4,13 +4,17 @@ import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
 import { useTokenPrice } from "modules/swap";
-import { format, lookupSymbol } from "libs/parse";
+import { format } from "libs/parse";
 import { useBalance } from "hooks/useBalance";
 
-const ListItem = ({ token, onClick }) => {
-  const { icon, symbol, protocol } = token;
-  const balance = useBalance(token.token);
-  const price = useTokenPrice(token.token);
+type Props = {
+  token: string;
+  onClick: (token: string) => void;
+};
+
+const ListItem = ({ token, onClick }: Props) => {
+  const balance = useBalance(token);
+  const price = useTokenPrice(token);
   const { getIcon, getSymbol } = useTokenInfo();
 
   return (
@@ -23,18 +27,18 @@ const ListItem = ({ token, onClick }) => {
       _hover={{
         bg: "white.500",
       }}
-      onClick={() => onClick(token.token)}
+      onClick={() => onClick(token)}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="2">
-          <Image src={icon ?? getIcon(token.token)} alt={symbol} boxSize="10" />
+          <Image src={getIcon(token)} alt={getSymbol(token)} boxSize="10" />
         </Box>
         <Box flex="1">
           <Text fontSize="xl" fontWeight="500" lineHeight="normal">
-            {symbol ?? lookupSymbol(getSymbol(token.token))}
+            {getSymbol(token)}
           </Text>
           <Text fontSize="sm" color="brand.dark" opacity="0.4">
-            {protocol}
+            Terra
           </Text>
         </Box>
         <Box>

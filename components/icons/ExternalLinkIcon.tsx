@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function ExternalLinkIcon(props) {
+export default function ExternalLinkIcon(props: any) {
   return (
     <svg
       width="16"

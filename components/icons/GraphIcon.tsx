@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function GraphIcon(props) {
+export default function GraphIcon(props: any) {
   return (
     <svg
       width="24"

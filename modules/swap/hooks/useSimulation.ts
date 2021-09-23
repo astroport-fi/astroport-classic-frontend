@@ -23,7 +23,7 @@ export const useSimulation = (
   const { router } = networks[name];
 
   const getData = useCallback(async () => {
-    if (!token1 || isEmpty(routes) || !isValidAmount(amount1)) {
+    if (!token1 || !token2 || isEmpty(routes) || !isValidAmount(amount1)) {
       setResult({
         amount: "0",
         spreadAmount: "0",

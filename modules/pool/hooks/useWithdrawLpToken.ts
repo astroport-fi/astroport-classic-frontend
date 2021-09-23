@@ -1,4 +1,9 @@
-import { isValidAmount, useAddress, useTerra, useTransaction } from "@arthuryeti/terra";
+import {
+  isValidAmount,
+  useAddress,
+  useTerra,
+  useTransaction,
+} from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import networks from "constants/networks";
@@ -17,7 +22,7 @@ export const useWithdrawLpToken = (
 
   const executeMsgs = useMemo(() => {
     if (!(isValidAmount(amount) && address && tokenAddr)) {
-      return null;
+      return [];
     }
 
     return [
@@ -31,13 +36,9 @@ export const useWithdrawLpToken = (
     ];
   }, [address, amount, gauge, tokenAddr]);
 
-  const {
-    fee,
-    submit,
-    result,
-    error,
-    isReady,
-  } = useTransaction({ msgs: executeMsgs });
+  const { fee, submit, result, error, isReady } = useTransaction({
+    msgs: executeMsgs,
+  });
 
   return {
     fee,

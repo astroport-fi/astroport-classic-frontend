@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SwapIcon(props) {
+export default function SwapIcon(props: any) {
   return (
     <svg
       width="24"

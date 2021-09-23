@@ -19,9 +19,7 @@ const List: FC<Props> = ({ tokens, onClick }) => {
         <Box h="xs" overflowY="auto" px="2" mt="2">
           <Box>
             {tokens.map((token) => {
-              return (
-                <ListItem key={token} token={{ token }} onClick={onClick} />
-              );
+              return <ListItem key={token} token={token} onClick={onClick} />;
             })}
           </Box>
         </Box>
@@ -36,7 +34,11 @@ const List: FC<Props> = ({ tokens, onClick }) => {
         <Box>
           {Object.values(terraTokens).map((token: Token) => {
             return (
-              <ListItem key={token.token} token={token} onClick={onClick} />
+              <ListItem
+                key={token.token}
+                token={token.token}
+                onClick={onClick}
+              />
             );
           })}
         </Box>

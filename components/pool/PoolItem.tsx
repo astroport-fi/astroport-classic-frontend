@@ -29,6 +29,10 @@ const PoolItem: FC<Props> = ({ item }) => {
     lpTokenContract: lpToken,
   });
 
+  if (token1 == null || token2 == null) {
+    return null;
+  }
+
   return (
     <>
       <Td>

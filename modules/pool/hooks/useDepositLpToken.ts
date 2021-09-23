@@ -1,23 +1,30 @@
 import { useMemo } from "react";
-import { useTerra, useAddress, isValidAmount, useTransaction } from "@arthuryeti/terra";
+import {
+  useTerra,
+  useAddress,
+  isValidAmount,
+  useTransaction,
+} from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
   createDepositExecuteMsg,
   createIncreaseAllowanceExecuteMsg,
 } from "modules/pool/stakeLpToken";
-import networks from 'constants/networks';
+import networks from "constants/networks";
 
 export const useDepositLpToken = (
   amount: string | null,
   tokenAddr: string | null
 ) => {
-  const { networkInfo: { name } } = useTerra();
+  const {
+    networkInfo: { name },
+  } = useTerra();
   const address = useAddress();
 
   const executeMsgs = useMemo(() => {
     if (!(isValidAmount(amount) && address && tokenAddr)) {
-      return null;
+      return [];
     }
 
     return [
@@ -36,13 +43,9 @@ export const useDepositLpToken = (
     ];
   }, [address, amount, name, tokenAddr]);
 
-  const {
-    fee,
-    submit,
-    result,
-    error,
-    isReady,
-  } = useTransaction({ msgs: executeMsgs });
+  const { fee, submit, result, error, isReady } = useTransaction({
+    msgs: executeMsgs,
+  });
 
   return {
     fee,

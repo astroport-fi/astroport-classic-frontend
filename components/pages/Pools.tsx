@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Box, Heading } from "@chakra-ui/react";
-import { useTerra } from "@arthuryeti/terra";
+
+import { usePools } from "modules/pool";
 
 import PoolsOverview from "components/pool/PoolsOverview";
 import PoolList from "components/pool/PoolList";
 import Card from "components/Card";
-import { usePools } from "modules/pool";
 
 const Pools: FC = () => {
   const pools = usePools();
@@ -15,7 +15,7 @@ const Pools: FC = () => {
       <Box px="6" mb="4">
         <Heading variant="brand">Pools Overview</Heading>
       </Box>
-      <PoolsOverview totalLiquidity="0" />
+      <PoolsOverview />
 
       <Box px="6" mb="4" mt="12">
         <Heading variant="brand">My Pools</Heading>

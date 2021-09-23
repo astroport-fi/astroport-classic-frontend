@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ArrowIcon(props) {
+export default function ArrowIcon(props: any) {
   return (
     <svg
       width="30"

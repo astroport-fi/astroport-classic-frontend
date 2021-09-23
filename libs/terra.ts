@@ -1,6 +1,6 @@
 import { getTokenDenom } from "@arthuryeti/terra";
 
-import { Pool, Asset } from "types/common";
+import { Pool } from "types/common";
 
 export const findAssetInPool = (pool: Pool, asset: string) => {
   return pool.assets.find((a) => {

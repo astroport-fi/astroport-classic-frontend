@@ -1,13 +1,8 @@
-import {
-  findAsset,
-  getTokenDenom,
-  trunc,
-  isNativeToken,
-  useTokenInfo,
-} from "@arthuryeti/terra";
+import { getTokenDenom, trunc, isNativeToken } from "@arthuryeti/terra";
+
 import { DECIMALS, ONE_TOKEN } from "constants/constants";
 import { lookupSymbol } from "libs/parse";
-import { Pool } from 'types/common';
+import { AssetInfo, Pool } from "types/common";
 
 export const calculateWithdrawTotalPrice = (
   totalPrice1: string,
@@ -22,7 +17,13 @@ export const calculateToken2Amount = (
   const { assets } = pool;
 
   const [{ amount: totalAmount1 }, { amount: totalAmount2 }] = [...assets].sort(
-    (a) => (getTokenDenom(a) === token ? -1 : 1)
+    (a) => {
+      if (getTokenDenom(a) === token) {
+        return -1;
+      }
+
+      return 1;
+    }
   );
 
   const result = Number(amount) * (Number(totalAmount2) / Number(totalAmount1));
@@ -37,9 +38,11 @@ export const calculateTokensAmounts = (
   return pool.assets.reduce(
     (acc, asset) => ({
       ...acc,
-      [getTokenDenom(asset.info)]: String(Math.floor(
-        (Number(asset.amount) / Number(pool.total_share)) * Number(share)
-      )),
+      [getTokenDenom(asset.info)]: String(
+        Math.floor(
+          (Number(asset.amount) / Number(pool.total_share)) * Number(share)
+        )
+      ),
     }),
     {}
   );
@@ -72,7 +75,9 @@ const minusFee = (amount: number) => {
 
   let fee = Math.ceil(amount * minFeeCoefficient);
 
-  fee = fee > maxFee ? maxFee : fee;
+  if (fee > maxFee) {
+    fee = maxFee;
+  }
 
   return amount - fee;
 };
@@ -83,8 +88,12 @@ export const calculateProvideOneAsset = (
   swapAmountTokenFirst: string,
   receivedAmountTokenSecond: string
 ) => {
-  const [assetFirst, assetSecond] = pool.assets.sort((asset) => {
-    return getTokenDenom(asset) === firstToken ? -1 : 1;
+  const [assetFirst, assetSecond] = pool.assets.sort((asset: AssetInfo) => {
+    if (getTokenDenom(asset) === firstToken) {
+      return -1;
+    }
+
+    return 1;
   });
 
   const poolBalanceAfterSwap = {
@@ -93,9 +102,11 @@ export const calculateProvideOneAsset = (
       Number(assetSecond.amount) - Number(receivedAmountTokenSecond),
   };
 
-  const provideAmountSecond = isNativeToken(assetSecond.info)
-    ? minusFee(Number(receivedAmountTokenSecond))
-    : Number(receivedAmountTokenSecond);
+  let provideAmountSecond = Number(receivedAmountTokenSecond);
+
+  if (isNativeToken(assetSecond.info)) {
+    provideAmountSecond = minusFee(Number(receivedAmountTokenSecond));
+  }
 
   return {
     provideAmount1: String(
@@ -108,7 +119,7 @@ export const calculateProvideOneAsset = (
   };
 };
 
-export const preparingSelectList = (tokens) => {
+export const preparingSelectList = (tokens: any) => {
   // const { getSymbol } = useTokenInfo();
 
   if (tokens.includes("uusd")) {
@@ -129,11 +140,15 @@ export const preparingSelectList = (tokens) => {
   ];
 };
 
-export const findRegularToken = (tokens) => {
-  return tokens[0] === "uusd" ? tokens[1] : tokens[0];
+export const findRegularToken = (tokens: any) => {
+  if (tokens[0] === "uusd") {
+    return tokens[1];
+  }
+
+  return tokens[0];
 };
 
-export const enumToArray = (enumeration) => {
+export const enumToArray = (enumeration: any) => {
   return Object.keys(enumeration)
     .map((key) => enumeration[key])
     .filter((value) => typeof value === "string");

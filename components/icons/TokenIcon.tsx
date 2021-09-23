@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function TokenIcon(props) {
+export default function TokenIcon(props: any) {
   return (
     <svg
       width="40"

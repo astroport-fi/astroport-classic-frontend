@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
   chakra,
   Slider,
@@ -18,10 +18,21 @@ import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
 import ProvideFormConfirm from "components/pool/provide/ProvideFormConfirm";
 import useDebounceValue from "hooks/useDebounceValue";
-import { PoolFormType, ProvideFormMode } from "types/common";
+import { PoolFormType, ProvideFormMode, Pair } from "types/common";
+
+type FormValues = {
+  token1: {
+    amount: string;
+    asset: string;
+  };
+  token2: {
+    amount: string;
+    asset: string;
+  };
+};
 
 type Props = {
-  pair: any;
+  pair: Pair;
   pool: any;
   mode: ProvideFormMode;
   type: PoolFormType;
@@ -41,7 +52,7 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const { control, handleSubmit, watch, setValue } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
     defaultValues: {
       token1: {
         amount: undefined,
@@ -72,7 +83,7 @@ const ProvideForm: FC<Props> = ({
   const amount = lookup(balance, token1.asset);
 
   const changeToken2Amount = () => {
-    if (!token1.amount || token1.amount === 0) {
+    if (!token1.amount || Number(token1.amount) === 0) {
       return;
     }
 
@@ -92,10 +103,10 @@ const ProvideForm: FC<Props> = ({
     provideState.provideLiquidity();
   };
 
-  const handleChange = (value) => {
+  const handleChange = (value: number) => {
     setValue("token1", {
       ...token1,
-      amount: value,
+      amount: String(value),
     });
   };
 

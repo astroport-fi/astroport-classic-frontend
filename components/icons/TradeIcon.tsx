@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function TradeIcon(props) {
+export default function TradeIcon(props: any) {
   return (
     <svg
       width="24"

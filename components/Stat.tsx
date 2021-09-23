@@ -39,7 +39,7 @@ const Stat: FC<Props> = ({
     </>
   );
 
-  if (tooltip?.length > 0) {
+  if (tooltip && tooltip.length > 0) {
     tooltipContent = (
       <Box>
         <Tooltip

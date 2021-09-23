@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, Button, IconButton, HStack } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, HStack } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
 import Card from "components/Card";

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function WalletIcon(props) {
+export default function WalletIcon(props: any) {
   return (
     <svg
       width="24"

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FailedIcon(props) {
+export default function FailedIcon(props: any) {
   return (
     <svg
       width="24"

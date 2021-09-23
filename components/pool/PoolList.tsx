@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Box, Text } from "@chakra-ui/react";
 
 import Table from "components/Table";
 import Tr from "components/Tr";

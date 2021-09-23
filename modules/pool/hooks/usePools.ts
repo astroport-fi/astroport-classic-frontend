@@ -6,7 +6,7 @@ import { useLpBalances } from "modules/pool";
 
 export const usePools = () => {
   const { pairs } = useTerra();
-  const lpBalances = useLpBalances();
+  const lpBalances: any = useLpBalances();
 
   const mine = useMemo(() => {
     return pairs.filter((v) => {

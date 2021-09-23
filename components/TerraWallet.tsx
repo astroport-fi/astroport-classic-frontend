@@ -23,7 +23,7 @@ import { format } from "libs/parse";
 
 const TerraWallet: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { status, disconnect } = useWallet();
+  const { status } = useWallet();
   const wallet = useConnectedWallet();
   const balance = useBalance(Denom.USD);
 
@@ -44,7 +44,7 @@ const TerraWallet: FC = () => {
           <HStack spacing="3">
             <TerraIcon width="1.25rem" height="1.25rem" />
             <Text fontSize="sm" color="white">
-              {truncate(wallet.terraAddress)}
+              {wallet && truncate(wallet.terraAddress)}
             </Text>
           </HStack>
         </Box>

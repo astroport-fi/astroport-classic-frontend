@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useTerra, useAddress } from "@arthuryeti/terra";
 
 import { getAccountShare } from "modules/pool";
 
 export const useAccountShare = (lpToken?: string | null) => {
   const { client } = useTerra();
-
   const address = useAddress();
+  const [accountShare, setAccountShare] = useState<string>("0");
 
-  const [accountShare, setAccountShare] = useState<string>(null);
-
-  useEffect(() => {
-    if (!(lpToken && address)) {
-      setAccountShare(null);
-
+  const getShare = useCallback(async () => {
+    if (lpToken == null || address == null) {
       return;
     }
 
-    (async () => {
-      setAccountShare(await getAccountShare(client, lpToken, address));
-    })();
-  }, [address, client, lpToken]);
+    const result = await getAccountShare(client, lpToken, address);
+
+    setAccountShare(result);
+  }, [client, lpToken, address]);
+
+  useEffect(() => {
+    getShare();
+  }, [getShare]);
 
   return accountShare;
 };

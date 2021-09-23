@@ -11,8 +11,19 @@ import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormSuccess from "components/swap/SwapFormSuccess";
 import SwapFormError from "components/swap/SwapFormError";
 
+type FormValues = {
+  token1: {
+    amount: string;
+    asset: string;
+  };
+  token2: {
+    amount: string;
+    asset: string;
+  };
+};
+
 const SwapForm: FC = () => {
-  const methods = useForm({
+  const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
         amount: undefined,

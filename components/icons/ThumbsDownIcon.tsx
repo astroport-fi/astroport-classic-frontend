@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default function ThumbsDownIcon(props) {
+export default function ThumbsDownIcon(props: any) {
   return (
     <svg
       width="24"

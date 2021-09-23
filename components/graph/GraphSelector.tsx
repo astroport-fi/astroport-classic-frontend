@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC } from "react";
 import {
   Menu,
   MenuButton,
@@ -6,17 +6,14 @@ import {
   Button,
   Stack,
   RadioGroup,
-  Radio
+  Radio,
 } from "@chakra-ui/react";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { ISelect } from "types/common";
 
-const GraphSelector: FC<ISelect> = ({list, value, setValue}) => {
-
+const GraphSelector: FC<ISelect> = ({ list, value, setValue }) => {
   return (
-    <Menu
-      closeOnSelect={false}
-    >
+    <Menu closeOnSelect={false}>
       <MenuButton
         as={Button}
         bg="white.100"
@@ -30,30 +27,23 @@ const GraphSelector: FC<ISelect> = ({list, value, setValue}) => {
         h="8"
         w="31"
         _active={{
-          bg: 'white.200',
+          bg: "white.200",
         }}
         _focus={{
-          outline: 'none',
+          outline: "none",
         }}
         _hover={{
-          bg: 'white.200',
+          bg: "white.200",
         }}
         rightIcon={<ChevronDownIcon width="1rem" height="1rem" />}
       >
         {value}
       </MenuButton>
-      <MenuList
-        color="#000"
-        px="5"
-      >
+      <MenuList color="#000" px="5">
         <RadioGroup onChange={setValue} value={value}>
           <Stack direction="column">
             {list.map((el) => (
-              <Radio
-                colorScheme="gray"
-                key={el}
-                value={el}
-              >
+              <Radio colorScheme="gray" key={el} value={el}>
                 {el}
               </Radio>
             ))}

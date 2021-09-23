@@ -1,26 +1,19 @@
 import React, { FC, useEffect } from "react";
 import { Box, Flex, chakra, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { formatAmount, isValidAmount } from "@arthuryeti/terra";
+import { isValidAmount } from "@arthuryeti/terra";
 import numeral from "numeral";
 import { motion, useAnimation } from "framer-motion";
 
-import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
-import { useSwap, SwapStep, SwapState } from "modules/swap";
-import { toAmount } from "libs/parse";
-import { useThrottle } from "hooks/useThrottle";
-import useDebounceValue from "hooks/useDebounceValue";
+import { ONE_TOKEN } from "constants/constants";
+import { SwapStep, SwapState } from "modules/swap";
 
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
 import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
-import SwapFormInitial from "components/swap/SwapFormInitial";
 import SwapFormFooter from "components/swap/SwapFormFooter";
-import SwapFormConfirm from "components/swap/SwapFormConfirm";
-import SwapFormSuccess from "components/swap/SwapFormSuccess";
-import SwapFormError from "components/swap/SwapFormError";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -68,6 +61,7 @@ const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
     // @ts-expect-error
     if (formState.name == "token2" && isValidAmount(token2.amount)) {
       const rate = numeral(swapState.exchangeRate).divide(ONE_TOKEN).value();
+      // @ts-expect-error
       const newAmount = numeral(token2.amount).divide(rate).value().toFixed(6);
 
       setValue("token1.amount", newAmount);

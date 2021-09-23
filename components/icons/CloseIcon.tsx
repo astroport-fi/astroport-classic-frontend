@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CloseIcon(props) {
+export default function CloseIcon(props: any) {
   return (
     <svg
       width="24"

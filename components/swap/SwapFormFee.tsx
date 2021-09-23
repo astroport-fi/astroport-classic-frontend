@@ -1,8 +1,12 @@
 import { Text } from "@chakra-ui/react";
-
 import { useFeeToString } from "@arthuryeti/terra";
+import { StdFee } from "@terra-money/terra.js";
 
-const SwapFormFee = ({ fee }) => {
+type Props = {
+  fee: StdFee;
+};
+
+const SwapFormFee = ({ fee }: Props) => {
   const feeString = useFeeToString(fee);
 
   if (!feeString) {

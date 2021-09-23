@@ -1,6 +1,6 @@
 import { Denom } from "@terra-money/terra.js";
 
-import { Routes, Tokens, Pair } from "types/common";
+import { Pair } from "types/common";
 
 import { getTokenDenoms } from "@arthuryeti/terra";
 
@@ -17,11 +17,7 @@ export const calculateMinimumReceive = (amount: string, slippage: string) => {
   return String(Math.floor(Number(amount) - Number(amount) * Number(slippage)));
 };
 
-export const findSwapRoute = (
-  routes: Routes | any[],
-  from: string,
-  to: string
-) => {
+export const findSwapRoute = (routes: any, from: string, to: string) => {
   if (!routes[from]) {
     return null;
   }
@@ -60,7 +56,7 @@ export const findSwapRoute = (
 export const swapRouteToString = (
   from: string,
   routes: Pair[],
-  tokens: Tokens | any[]
+  tokens: any
 ) => {
   return routes
     .reduce(
