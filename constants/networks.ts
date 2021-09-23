@@ -14,7 +14,6 @@ const networks: Record<string, AstroportNetworkInfo> = {
     router: "",
     vesting: "",
     staking: "",
-    maker: "",
   },
   testnet: {
     name: "testnet",
@@ -26,19 +25,17 @@ const networks: Record<string, AstroportNetworkInfo> = {
     router: "",
     vesting: "",
     staking: "",
-    maker: "",
   },
   bombay: {
     name: "bombay",
     chainID: "bombay-11",
     lcd: "https://bombay-lcd.terra.dev",
     mantle: "https://tequila-mantle.terra.dev",
-    factory: "terra18m9txldd9257km6yt5073dkapz6k2fupeyph9c",
-    gauge: "terra1qn3n64k2uwfq88305t4p98mrgre8qvjavmrwtw",
-    router: "terra1gy0223u4nu68vtp77k2dkq0wjt7m52tu37lvdr",
-    vesting: "terra18kcyyfkmkt84808qfdhwxf4sejh7nnacv2rhpc",
-    staking: "terra1j5m6f63hs9f5s3rx7tnu4a750dx9fcvpvt3vq3",
-    maker: "terra1whs7psy9lr7xlputhamdvy82t4wylcwuzcehxl",
+    factory: "terra1r7pvpgy885tsaytshglvax564u29gjezsy444s",
+    router: "terra13xjkn6cu6fpf0mdaj7lh3659ula362amds44ky",
+    vesting: "terra17c5aqj76y0y5jkrhazeh0afsusc32r7fwj0k7n",
+    staking: "terra1vmetq58w2fcrqfz0v3g6l9ecu6j6ee5004vaz9",
+    gauge: "terra108dtc5yp4rwee8s8xesxczx68twdyp26c6w3mf",
   },
 };
 

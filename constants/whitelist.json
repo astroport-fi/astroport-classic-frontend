@@ -181,10 +181,10 @@
   },
   "bombay": {
     "tokens": {
-      "terra1twy2zud9yaq2wtm2ndu9lgx9zxfn4ckv03sgmy": {
+      "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u": {
         "protocol": "Terra",
         "symbol": "ASTRO",
-        "token": "terra1twy2zud9yaq2wtm2ndu9lgx9zxfn4ckv03sgmy",
+        "token": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u",
         "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
       },
       "uusd": {
@@ -198,16 +198,36 @@
         "symbol": "SDR",
         "token": "usdr",
         "icon": "https://assets.terra.money/icon/60/SDT.png"
+      },
+      "uluna": {
+        "protocol": "Native",
+        "symbol": "Luna",
+        "token": "uluna",
+        "icon": "https://assets.terra.money/icon/60/Luna.png"
       }
     },
     "pairs": [
       {
-        "contract": "terra1ax9eec680vt39hygrn568qlrvnc4dl8uaxgdvm",
-        "lpToken": "terra1h5fp5f6zpn69lv0mzkjcqxc4mqlguhy6cucazm",
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uluna"
+            }
+          }
+        ],
+        "contract": "terra1v52jed0vurfltkkfl0utzpehhhluvn4hvljv2c",
+        "lpToken": "terra1zlrm3aevr23vnu5uxc054sqauvpztkcgnum0ut"
+      },
+      {
         "asset_infos": [
           {
             "native_token": {
-              "denom": "usdr"
+              "denom": "uluna"
             }
           },
           {
@@ -215,23 +235,9 @@
               "denom": "uusd"
             }
           }
-        ]
-      },
-      {
-        "contract": "terra1r57hjtqw0qjarzhwglwjmtf837vvtnje4mym7t",
-        "lpToken": "terra1u5f3sg4hkd28zj8n2kh8sh7vvvyzsrzvtncyhs",
-        "asset_infos": [
-          {
-            "token": {
-              "contract_addr": "terra1twy2zud9yaq2wtm2ndu9lgx9zxfn4ckv03sgmy"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "usdr"
-            }
-          }
-        ]
+        ],
+        "contract": "terra1ddzg2836sw3heqh4nwpse2nhv3pkl705rxrghh",
+        "lpToken": "terra1d93nntzujyjwp374f7wu4nqk5lfw8kj5mkqc0h"
       }
     ]
   }

@@ -17,5 +17,4 @@ export interface LocalNetworkConfig {
   router: string;
   vesting: string;
   staking: string;
-  maker: string;
 }
