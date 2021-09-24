@@ -1,26 +1,16 @@
-import React, { FC, useState } from "react";
-import {
-  Box,
-  chakra,
-  Text,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
+import React, { FC } from "react";
+import { chakra } from "@chakra-ui/react";
+import { useForm, FormProvider } from "react-hook-form";
 
-import Card from "components/Card";
-import AmountInput from "components/AmountInput";
-import { toAmount, lookup } from "libs/parse";
-import { useWithdraw } from "modules/pool";
-import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
-import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
-import PoolActions from "components/pool/PoolActions";
-import PoolHeader from "components/pool/PoolHeader";
 import useDebounceValue from "hooks/useDebounceValue";
-import { useBalance } from "hooks/useBalance";
-import { PoolFormType, ProvideFormMode, Pair } from "types/common";
+import { PoolFormType, ProvideFormMode, Pair, FormStep } from "types/common";
+import { toAmount } from "libs/parse";
+import { useWithdraw } from "modules/pool";
+
+import FormError from "components/common/FormError";
+import FormSummary from "components/common/FormSummary";
+import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
+import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
 
 type FormValues = {
   token: {
@@ -46,8 +36,7 @@ const WithdrawForm: FC<Props> = ({
   onModeClick,
   onTypeClick,
 }) => {
-  const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
-  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
+  const methods = useForm<FormValues>({
     defaultValues: {
       token: {
         amount: undefined,
@@ -56,110 +45,95 @@ const WithdrawForm: FC<Props> = ({
     },
   });
 
-  const token = watch("token");
+  const token = methods.watch("token");
 
-  const debouncedAmount = useDebounceValue(token.amount, 1000);
+  const debouncedAmount = useDebounceValue(token.amount, 500);
 
-  const withdrawState = useWithdraw({
+  const state = useWithdraw({
     contract: pair.contract,
     lpToken: pair.lpToken,
     amount: toAmount(debouncedAmount),
   });
 
-  const balance = useBalance(token.asset);
-  const amount = lookup(balance, token.asset);
+  const {
+    fee,
+    step,
+    resetForm,
+    setStep,
+    withdraw,
+    token1,
+    token1Amount,
+    token2,
+    token2Amount,
+  } = state;
 
   const submit = async () => {
-    withdrawState.withdrawLiquidity();
-  };
-
-  const handleChange = (value: number) => {
-    setValue("token", {
-      ...token,
-      amount: String(value),
-    });
-  };
-
-  const renderWithdrawFormItem1 = () => {
-    if (withdrawState.token1 == null || withdrawState.token1Amount == null) {
-      return;
-    }
-
-    return (
-      <WithdrawFormItem
-        token={withdrawState.token1}
-        amount={withdrawState.token1Amount}
-        mb="4"
-      />
-    );
-  };
-
-  const renderWithdrawFormItem2 = () => {
-    if (withdrawState.token2 == null || withdrawState.token2Amount == null) {
-      return;
-    }
-
-    return (
-      <WithdrawFormItem
-        token={withdrawState.token2}
-        amount={withdrawState.token2Amount}
-      />
-    );
+    withdraw();
   };
 
   return (
-    <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      <PoolActions
-        pool={pool}
-        type={type}
-        isChartOpen={isChartOpen}
-        onChartClick={setIsChartOpen}
-        onTypeClick={onTypeClick}
-      />
-      <PoolHeader
-        pool={pool}
-        type={type}
-        mode={mode}
-        onModeClick={onModeClick}
-      />
+    <FormProvider {...methods}>
+      <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
+        {step === FormStep.Initial && (
+          <WithdrawFormInitial
+            pool={pool}
+            mode={mode}
+            type={type}
+            onModeClick={onModeClick}
+            onTypeClick={onTypeClick}
+            token={token}
+            state={state}
+          />
+        )}
 
-      <Card>
-        <Controller
-          name="token"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle isLpToken />}
+        {step === FormStep.Confirm && (
+          <FormConfirmOrSuccess
+            isConfirm
+            fee={fee}
+            actionLabel="Confirm Withdraw"
+            contentComponent={
+              <FormSummary
+                label1="You are receving"
+                label2="and"
+                // @ts-expect-error
+                token1={{ asset: token1, amount: token1Amount }}
+                // @ts-expect-error
+                token2={{ asset: token2, amount: token2Amount }}
+              />
+            }
+            details={[{ label: "Price Impact", value: "0.02%" }]}
+            onCloseClick={resetForm}
+          />
+        )}
+      </chakra.form>
+
+      {step === FormStep.Success && (
+        <FormConfirmOrSuccess
+          contentComponent={
+            <FormSummary
+              label1="You are receving"
+              label2="and"
+              // @ts-expect-error
+              token1={{ asset: token1, amount: token1Amount }}
+              // @ts-expect-error
+              token2={{ asset: token2, amount: token2Amount }}
+            />
+          }
+          details={[{ label: "Price Impact", value: "0.02%" }]}
+          onCloseClick={resetForm}
         />
-      </Card>
+      )}
 
-      <Card mt="2" border="0">
-        <Text variant="light">Recovered Assets</Text>
-
-        <Box mt="6">
-          {renderWithdrawFormItem1()}
-          {renderWithdrawFormItem2()}
-        </Box>
-      </Card>
-
-      <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
-          min={0}
-          defaultValue={0}
-          // value={token1.amount}
-          max={Number(amount)}
-          onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
-      </Card>
-
-      <WithdrawFormFooter pool={pool} data={withdrawState} />
-    </chakra.form>
+      {step === FormStep.Error && (
+        <FormError
+          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+            sed diam voluptua."
+          onCloseClick={() => setStep(FormStep.Initial)}
+          onClick={() => setStep(FormStep.Initial)}
+        />
+      )}
+    </FormProvider>
   );
 };
 

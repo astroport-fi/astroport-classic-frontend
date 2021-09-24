@@ -6,7 +6,7 @@ import { simulateSwap } from "modules/swap";
 import networks from "constants/networks";
 
 export const useSimulation = (
-  token1: string,
+  token1?: string,
   token2?: string,
   amount1?: string
 ) => {
@@ -20,6 +20,7 @@ export const useSimulation = (
     client,
     routes,
   } = useTerra();
+
   const { router } = networks[name];
 
   const getData = useCallback(async () => {

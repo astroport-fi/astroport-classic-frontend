@@ -66,7 +66,7 @@ const ProvideSingleForm: FC<Props> = ({
   const token1 = watch("token1");
   const token2 = watch("token2");
 
-  const debouncedToken1 = useDebounceValue(token1, 1000);
+  const debouncedToken1 = useDebounceValue(token1, 500);
 
   const provideState = useProvideSingle({
     contract: pair.contract,

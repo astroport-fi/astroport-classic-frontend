@@ -6,7 +6,7 @@ type Props = {
   fee: StdFee;
 };
 
-const SwapFormFee = ({ fee }: Props) => {
+const FormFee = ({ fee }: Props) => {
   const feeString = useFeeToString(fee);
 
   if (!feeString) {
@@ -20,4 +20,4 @@ const SwapFormFee = ({ fee }: Props) => {
   );
 };
 
-export default SwapFormFee;
+export default FormFee;

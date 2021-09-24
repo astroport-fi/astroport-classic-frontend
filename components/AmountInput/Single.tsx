@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
+import { useTokenInfo } from "@arthuryeti/terra";
 
 import { format } from "libs/parse";
 import { useTokenPrice } from "modules/swap";
-import { useTokenInfo } from "@arthuryeti/terra";
 
 type Props = {
   asset: string;

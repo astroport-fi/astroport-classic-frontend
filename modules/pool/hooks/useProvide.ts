@@ -4,15 +4,7 @@ import { Coin, StdFee } from "@terra-money/terra.js";
 import { isValidAmount, useAddress, useTransaction } from "@arthuryeti/terra";
 
 import { createProvideMsgs } from "modules/pool";
-import { Pool } from "types/common";
-
-export enum ProvideStep {
-  Initial = 1,
-  Confirm = 2,
-  Pending = 3,
-  Success = 4,
-  Error = 5,
-}
+import { Pool, FormStep } from "types/common";
 
 type Params = {
   pool: Pool;
@@ -24,8 +16,8 @@ type Params = {
 };
 
 export type ProvideState = {
-  setStep: (a: ProvideStep) => void;
-  step: ProvideStep;
+  setStep: (a: FormStep) => void;
+  step: FormStep;
   resetForm: () => void;
   fee: StdFee | null;
   result: TxResult;
@@ -42,7 +34,7 @@ export const useProvide = ({
   amount1,
   amount2,
 }: Params): ProvideState => {
-  const [step, setStep] = useState<ProvideStep>(ProvideStep.Initial);
+  const [step, setStep] = useState<FormStep>(FormStep.Initial);
   const address = useAddress();
 
   const msgs = useMemo(() => {
@@ -67,17 +59,17 @@ export const useProvide = ({
 
   const resetForm = useCallback(() => {
     reset();
-    setStep(ProvideStep.Initial);
+    setStep(FormStep.Initial);
   }, [reset]);
 
   useEffect(() => {
-    if (step === ProvideStep.Confirm) {
+    if (step === FormStep.Confirm) {
       if (result?.success) {
-        setStep(ProvideStep.Success);
+        setStep(FormStep.Success);
       }
 
       if (error) {
-        setStep(ProvideStep.Error);
+        setStep(FormStep.Error);
       }
     }
   }, [result, error, step]);

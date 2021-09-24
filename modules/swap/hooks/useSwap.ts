@@ -14,16 +14,9 @@ import {
 import { StdFee } from "@terra-money/terra.js";
 import { TxResult } from "@terra-dev/wallet-types";
 
+import { FormStep } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 import networks from "constants/networks";
-
-export enum SwapStep {
-  Initial = 1,
-  Confirm = 2,
-  Pending = 3,
-  Success = 4,
-  Error = 5,
-}
 
 type Params = {
   token1: string;
@@ -34,11 +27,11 @@ type Params = {
 };
 
 export type SwapState = {
-  setStep: (a: SwapStep) => void;
-  step: SwapStep;
+  setStep: (a: FormStep) => void;
+  step: FormStep;
   isReverse: boolean;
   toggleIsReverse: () => void;
-  resetSwap: () => void;
+  resetForm: () => void;
   isReady: boolean;
   minimumReceive: string | null;
   result: TxResult;
@@ -54,7 +47,7 @@ export const useSwap = ({
   amount1,
   slippage,
 }: Params): SwapState => {
-  const [step, setStep] = useState<SwapStep>(SwapStep.Initial);
+  const [step, setStep] = useState<FormStep>(FormStep.Initial);
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const {
     networkInfo: { name },
@@ -109,19 +102,19 @@ export const useSwap = ({
     msgs,
   });
 
-  const resetSwap = useCallback(() => {
+  const resetForm = useCallback(() => {
     reset();
-    setStep(SwapStep.Initial);
+    setStep(FormStep.Initial);
   }, [reset]);
 
   useEffect(() => {
-    if (step === SwapStep.Confirm) {
+    if (step === FormStep.Confirm) {
       if (result?.success) {
-        setStep(SwapStep.Success);
+        setStep(FormStep.Success);
       }
 
       if (error) {
-        setStep(SwapStep.Error);
+        setStep(FormStep.Error);
       }
     }
   }, [result, error, step]);
@@ -133,7 +126,7 @@ export const useSwap = ({
     step,
     isReverse,
     toggleIsReverse,
-    resetSwap,
+    resetForm,
     isReady,
     minimumReceive,
     result,

@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { calculatePercentage, useFeeToString } from "@arthuryeti/terra";
+
 import { format } from "libs/parse";
+
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
@@ -32,7 +34,7 @@ const ProvideFormFooter: FC<Props> = ({ pool, data, onConfirmClick }) => {
   ];
 
   const confirmButton: ConfirmButton = {
-    title: "Add Liquidity Now",
+    title: "Provide Liquidity",
     isDisabled: !data.isReady,
     type: "submit",
     onClick: onConfirmClick,

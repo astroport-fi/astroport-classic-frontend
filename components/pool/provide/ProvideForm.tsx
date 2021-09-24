@@ -1,24 +1,16 @@
-import React, { FC, useEffect } from "react";
-import {
-  chakra,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
+import React, { FC } from "react";
+import { chakra } from "@chakra-ui/react";
+import { useForm, FormProvider } from "react-hook-form";
 
-import Card from "components/Card";
-import AmountInput from "components/AmountInput";
-import { toAmount, lookup } from "libs/parse";
-import { useBalance } from "hooks/useBalance";
-import { useProvide, calculateToken2Amount, ProvideStep } from "modules/pool";
-import PoolHeader from "components/pool/PoolHeader";
-import PoolActions from "components/pool/PoolActions";
-import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
-import ProvideFormConfirm from "components/pool/provide/ProvideFormConfirm";
+import { toAmount } from "libs/parse";
+import { PoolFormType, ProvideFormMode, Pair, FormStep } from "types/common";
+import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
-import { PoolFormType, ProvideFormMode, Pair } from "types/common";
+
+import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
+import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
+import FormSummary from "components/common/FormSummary";
+import FormError from "components/common/FormError";
 
 type FormValues = {
   token1: {
@@ -52,7 +44,7 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
+  const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
         amount: undefined,
@@ -65,11 +57,11 @@ const ProvideForm: FC<Props> = ({
     },
   });
 
-  const token1 = watch("token1");
-  const token2 = watch("token2");
+  const token1 = methods.watch("token1");
+  const token2 = methods.watch("token2");
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 1000);
-  const debouncedAmount2 = useDebounceValue(token2.amount, 1000);
+  const debouncedAmount1 = useDebounceValue(token1.amount, 500);
+  const debouncedAmount2 = useDebounceValue(token2.amount, 500);
 
   const provideState = useProvide({
     contract: pair.contract,
@@ -79,101 +71,73 @@ const ProvideForm: FC<Props> = ({
     amount1: toAmount(debouncedAmount1),
     amount2: toAmount(debouncedAmount2),
   });
-  const balance = useBalance(token1.asset);
-  const amount = lookup(balance, token1.asset);
-
-  const changeToken2Amount = () => {
-    if (!token1.amount || Number(token1.amount) === 0) {
-      return;
-    }
-
-    setValue("token2", {
-      ...token2,
-      amount: calculateToken2Amount(pool, token1.asset, debouncedAmount1),
-    });
-  };
-
-  useEffect(() => {
-    changeToken2Amount();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedAmount1]);
 
   const submit = async () => {
     provideState.provideLiquidity();
   };
 
-  const handleChange = (value: number) => {
-    setValue("token1", {
-      ...token1,
-      amount: String(value),
-    });
-  };
-
   return (
-    <chakra.form onSubmit={handleSubmit(submit)} width="full">
-      {provideState.step === ProvideStep.Initial && (
-        <>
-          <PoolActions
+    <FormProvider {...methods}>
+      <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
+        {provideState.step === FormStep.Initial && (
+          <ProvideFormInitial
+            token1={token1}
+            token2={token2}
             pool={pool}
-            type={type}
-            isChartOpen={isChartOpen}
-            onChartClick={onChartClick}
-            onTypeClick={onTypeClick}
-          />
-          <PoolHeader
-            pool={pool}
-            type={type}
             mode={mode}
             onModeClick={onModeClick}
+            type={type}
+            onTypeClick={onTypeClick}
+            isChartOpen={isChartOpen}
+            onChartClick={onChartClick}
+            state={provideState}
           />
-          <Card>
-            <Controller
-              name="token1"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => <AmountInput {...field} isSingle />}
-            />
-          </Card>
+        )}
 
-          <Card mt="2">
-            <Controller
-              name="token2"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => <AmountInput {...field} isSingle />}
-            />
-          </Card>
-
-          <Card mt="2">
-            <Slider
-              variant="brand"
-              size="lg"
-              min={0}
-              defaultValue={0}
-              // value={token1.amount}
-              max={Number(amount)}
-              onChange={handleChange}
-            >
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </Card>
-
-          <ProvideFormFooter
-            pool={pool}
-            data={provideState}
-            onConfirmClick={() => provideState.setStep(ProvideStep.Confirm)}
+        {provideState.step === FormStep.Confirm && (
+          <FormConfirmOrSuccess
+            fee={provideState.fee}
+            actionLabel="Confirm Provide"
+            isConfirm
+            contentComponent={
+              <FormSummary
+                label1="You are providing"
+                label2="and"
+                token1={token1}
+                token2={token2}
+              />
+            }
+            details={[{ label: "APY", value: "12%" }]}
+            onCloseClick={() => provideState.resetForm()}
           />
-        </>
+        )}
+      </chakra.form>
+
+      {provideState.step === FormStep.Success && (
+        <FormConfirmOrSuccess
+          contentComponent={
+            <FormSummary
+              label1="You are providing"
+              label2="and"
+              token1={token1}
+              token2={token2}
+            />
+          }
+          details={[{ label: "APY", value: "12%" }]}
+          onCloseClick={() => provideState.resetForm()}
+        />
       )}
 
-      {provideState.step === ProvideStep.Confirm && (
-        <ProvideFormConfirm from={token1} to={token2} state={provideState} />
+      {provideState.step === FormStep.Error && (
+        <FormError
+          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+            sed diam voluptua."
+          onCloseClick={() => provideState.setStep(FormStep.Initial)}
+          onClick={() => provideState.setStep(FormStep.Initial)}
+        />
       )}
-    </chakra.form>
+    </FormProvider>
   );
 };
 

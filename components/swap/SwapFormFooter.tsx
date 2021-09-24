@@ -3,7 +3,7 @@ import { useTokenInfo } from "@arthuryeti/terra";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 import { format, lookupSymbol } from "libs/parse";
-import SwapFormFee from "components/swap/SwapFormFee";
+import FormFee from "components/common/FormFee";
 
 type Props = {
   from: string;
@@ -46,7 +46,7 @@ const SwapFormFooter: FC<Props> = ({
         >
           Swap
         </Button>
-        {!isLoading && <SwapFormFee fee={fee} />}
+        {!isLoading && <FormFee fee={fee} />}
       </Flex>
       <Box flex="1" textAlign="right">
         {!isLoading && (

@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from "react";
-import { Box, Flex, chakra, Text, HStack, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { isValidAmount } from "@arthuryeti/terra";
 import numeral from "numeral";
 import { motion, useAnimation } from "framer-motion";
 
 import { ONE_TOKEN } from "constants/constants";
-import { SwapStep, SwapState } from "modules/swap";
+import { SwapState } from "modules/swap";
+import { FormStep } from "types/common";
 
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
@@ -27,29 +28,29 @@ type Props = {
     asset: string;
     amount: string;
   };
-  swapState: SwapState;
+  state: SwapState;
 };
 
-const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
-  const { control, formState, handleSubmit, setValue } = useFormContext();
+const SwapForm: FC<Props> = ({ token1, token2, state }) => {
+  const { control, formState, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
 
   const switchTokens = () => {
-    if (swapState.isReverse) {
+    if (state.isReverse) {
       card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [162, 162, 0, 0] });
       card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [-162, -162, 0, 0] });
     } else {
       card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, 162, 162] });
       card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, -162, -162] });
     }
-    swapState.toggleIsReverse();
+    state.toggleIsReverse();
   };
 
   useEffect(() => {
     // @ts-expect-error
     if (formState.name == "token1" && isValidAmount(token1.amount)) {
-      const rate = numeral(swapState.exchangeRate).divide(ONE_TOKEN).value();
+      const rate = numeral(state.exchangeRate).divide(ONE_TOKEN).value();
 
       setValue("token2.amount", numeral(token1.amount).multiply(rate).value());
     }
@@ -60,7 +61,7 @@ const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
   useEffect(() => {
     // @ts-expect-error
     if (formState.name == "token2" && isValidAmount(token2.amount)) {
-      const rate = numeral(swapState.exchangeRate).divide(ONE_TOKEN).value();
+      const rate = numeral(state.exchangeRate).divide(ONE_TOKEN).value();
       // @ts-expect-error
       const newAmount = numeral(token2.amount).divide(rate).value().toFixed(6);
 
@@ -77,12 +78,8 @@ const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const submit = async () => {
-    swapState.swap();
-  };
-
   return (
-    <chakra.form onSubmit={handleSubmit(submit)} width="full">
+    <>
       <Flex justify="space-between" color="white" mb="4" px="6">
         <MotionBox
           flex="1"
@@ -171,21 +168,21 @@ const SwapForm: FC<Props> = ({ token1, token2, swapState }) => {
         />
       </MotionBox>
 
-      {swapState.error && (
+      {state.error && (
         <Card mt="3">
-          <Text variant="light">{swapState.error}</Text>
+          <Text variant="light">{state.error}</Text>
         </Card>
       )}
 
       <SwapFormFooter
         from={token1.asset}
         to={token2.asset}
-        isLoading={!swapState.isReady}
-        exchangeRate={swapState.exchangeRate}
-        fee={swapState.fee}
-        onConfirmClick={() => swapState.setStep(SwapStep.Confirm)}
+        isLoading={!state.isReady}
+        exchangeRate={state.exchangeRate}
+        fee={state.fee}
+        onConfirmClick={() => state.setStep(FormStep.Confirm)}
       />
-    </chakra.form>
+    </>
   );
 };
 

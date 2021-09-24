@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { StdFee } from "@terra-money/terra.js";
 import { TxResult } from "@terra-dev/wallet-types";
 import {
@@ -11,8 +11,12 @@ import {
 import { createWithdrawMsgs, useGetPool } from "modules/pool";
 import { useTokenPrice } from "modules/swap";
 import { ONE_TOKEN } from "constants/constants";
+import { FormStep } from "types/common";
 
 export type WithdrawState = {
+  setStep: (a: FormStep) => void;
+  step: FormStep;
+  resetForm: () => void;
   token1?: string;
   token1Amount?: string;
   token1Price: string;
@@ -23,7 +27,7 @@ export type WithdrawState = {
   result: TxResult;
   error: string | null;
   fee: StdFee | null;
-  withdrawLiquidity: () => void;
+  withdraw: () => void;
 };
 
 type Params = {
@@ -37,8 +41,9 @@ export const useWithdraw = ({
   lpToken,
   amount,
 }: Params): WithdrawState => {
-  const address = useAddress();
+  const [step, setStep] = useState<FormStep>(FormStep.Initial);
   const { data: pool } = useGetPool(contract);
+  const address = useAddress();
 
   const ratio: any = useMemo(() => {
     if (pool == null) {
@@ -89,17 +94,39 @@ export const useWithdraw = ({
     );
   }, [address, contract, lpToken, amount]);
 
-  const { fee, submit, result, error, isReady } = useTransaction({ msgs });
+  const { fee, submit, result, error, isReady, reset } = useTransaction({
+    msgs,
+  });
+
+  const resetForm = useCallback(() => {
+    reset();
+    setStep(FormStep.Initial);
+  }, [reset]);
+
+  useEffect(() => {
+    if (step === FormStep.Confirm) {
+      if (result?.success) {
+        setStep(FormStep.Success);
+      }
+
+      if (error) {
+        setStep(FormStep.Error);
+      }
+    }
+  }, [result, error, step]);
 
   return {
     ...tokens,
     token1Price,
     token2Price,
+    resetForm,
+    step,
+    setStep,
     fee,
     result,
     error,
     isReady,
-    withdrawLiquidity: submit,
+    withdraw: submit,
   };
 };
 

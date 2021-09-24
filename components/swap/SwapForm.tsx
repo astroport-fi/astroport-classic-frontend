@@ -1,15 +1,17 @@
 import React, { FC } from "react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 
+import { FormStep } from "types/common";
 import { DEFAULT_SLIPPAGE } from "constants/constants";
-import { useSwap, SwapStep } from "modules/swap";
+import { useSwap } from "modules/swap";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
 
+import FormError from "components/common/FormError";
+import FormSummary from "components/common/FormSummary";
+import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
 import SwapFormInitial from "components/swap/SwapFormInitial";
-import SwapFormConfirm from "components/swap/SwapFormConfirm";
-import SwapFormSuccess from "components/swap/SwapFormSuccess";
-import SwapFormError from "components/swap/SwapFormError";
 
 type FormValues = {
   token1: {
@@ -27,7 +29,7 @@ const SwapForm: FC = () => {
     defaultValues: {
       token1: {
         amount: undefined,
-        asset: "usdr",
+        asset: "uluna",
       },
       token2: {
         amount: undefined,
@@ -41,7 +43,7 @@ const SwapForm: FC = () => {
   const debouncedAmount1 = useDebounceValue(token1.amount, 500);
   const debouncedAmount2 = useDebounceValue(token2.amount, 500);
 
-  const swapState = useSwap({
+  const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
     amount1: toAmount(debouncedAmount1),
@@ -49,23 +51,61 @@ const SwapForm: FC = () => {
     slippage: String(DEFAULT_SLIPPAGE),
   });
 
+  const { fee, step, resetForm, setStep, swap } = state;
+
+  const submit = async () => {
+    swap();
+  };
+
   return (
     <FormProvider {...methods}>
-      {swapState.step === SwapStep.Initial && (
-        <SwapFormInitial
-          token1={token1}
-          token2={token2}
-          swapState={swapState}
+      <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
+        {step === FormStep.Initial && (
+          <SwapFormInitial token1={token1} token2={token2} state={state} />
+        )}
+
+        {step === FormStep.Confirm && (
+          <FormConfirmOrSuccess
+            isConfirm
+            fee={fee}
+            actionLabel="Confirm Swap"
+            contentComponent={
+              <FormSummary
+                label1="You are swapping from"
+                label2="to"
+                token1={token1}
+                token2={token2}
+              />
+            }
+            details={[{ label: "Price Impact", value: "0.02%" }]}
+            onCloseClick={resetForm}
+          />
+        )}
+      </chakra.form>
+
+      {step === FormStep.Success && (
+        <FormConfirmOrSuccess
+          contentComponent={
+            <FormSummary
+              label1="You are swapping from"
+              label2="to"
+              token1={token1}
+              token2={token2}
+            />
+          }
+          details={[{ label: "Price Impact", value: "0.02%" }]}
+          onCloseClick={resetForm}
         />
       )}
-      {swapState.step === SwapStep.Confirm && (
-        <SwapFormConfirm from={token1} to={token2} swapState={swapState} />
-      )}
-      {swapState.step === SwapStep.Success && (
-        <SwapFormSuccess from={token1} to={token2} swapState={swapState} />
-      )}
-      {swapState.step === SwapStep.Error && (
-        <SwapFormError swapState={swapState} />
+
+      {step === FormStep.Error && (
+        <FormError
+          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+            sed diam voluptua."
+          onCloseClick={() => setStep(FormStep.Initial)}
+          onClick={() => setStep(FormStep.Initial)}
+        />
       )}
     </FormProvider>
   );

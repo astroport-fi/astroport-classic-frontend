@@ -1,6 +1,11 @@
 import React, { FC } from "react";
+import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Flex, Image, HStack } from "@chakra-ui/react";
 import { useTokenInfo, useTerra, getTokenDenoms } from "@arthuryeti/terra";
+
+import { format } from "libs/parse";
+import { useLpTokenPrice } from "modules/pool/hooks/useLpTokenPrice";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   asset: string;
@@ -11,6 +16,7 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.lpToken == asset);
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
+  const lpTokenPrice = useLpTokenPrice(pair, String(ONE_TOKEN));
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);
@@ -41,6 +47,9 @@ const SingleLP: FC<Props> = ({ asset }) => {
         <Box ml="3" fontWeight="500" flex="1">
           <Text fontSize="2xl" color="white">
             {symbol1} - {symbol2}
+          </Text>
+          <Text fontSize="xs" color="white.400">
+            Price: ${format(lpTokenPrice, Denom.USD)}
           </Text>
         </Box>
       </Flex>

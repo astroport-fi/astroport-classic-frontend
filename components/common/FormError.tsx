@@ -1,18 +1,26 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, IconButton, Button, HStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 import CloseIcon from "components/icons/CloseIcon";
 import FailedIcon from "components/icons/FailedIcon";
 import Card from "components/Card";
-import { motion } from "framer-motion";
 
 type Props = {
-  swapState: any;
+  label?: string;
+  content: string;
+  onClick: () => void;
+  onCloseClick: () => void;
 };
 
 const MotionBox = motion(Box);
 
-const SwapFormError: FC<Props> = ({ swapState }) => {
+const FormError: FC<Props> = ({
+  label = "Try Again",
+  content,
+  onClick,
+  onCloseClick,
+}) => {
   return (
     <MotionBox
       initial={{ x: 0 }}
@@ -35,26 +43,22 @@ const SwapFormError: FC<Props> = ({ swapState }) => {
             aria-label="Close"
             icon={<CloseIcon />}
             variant="icon"
-            onClick={swapState.resetSwap}
+            onClick={onCloseClick}
           />
         </Flex>
 
         <Text variant="light" mt="3">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet.
+          {content}
         </Text>
       </Card>
 
       <Flex flexDir="column" align="center" mt="6">
-        <Button variant="primary" type="button" onClick={swapState.resetSwap}>
-          Try Again
+        <Button variant="primary" type="button" onClick={onClick}>
+          {label}
         </Button>
       </Flex>
     </MotionBox>
   );
 };
 
-export default SwapFormError;
+export default FormError;

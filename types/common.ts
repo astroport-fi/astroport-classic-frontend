@@ -127,3 +127,11 @@ export enum ProvideFormMode {
   Single = 0,
   Double = 1,
 }
+
+export enum FormStep {
+  Initial = 1,
+  Confirm = 2,
+  Pending = 3,
+  Success = 4,
+  Error = 5,
+}
