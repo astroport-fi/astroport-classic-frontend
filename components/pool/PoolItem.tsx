@@ -11,18 +11,18 @@ import {
 } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
+import { usePool } from "modules/pool";
+import { lookupSymbol, format } from "libs/parse";
+
 import GraphIcon from "components/icons/GraphIcon";
 import Td from "components/Td";
-import { lookupSymbol, format } from "libs/parse";
-import { Pair } from "types/common";
-import { usePool } from "modules/pool";
 
 type Props = {
-  item: Pair;
+  row: any;
 };
 
-const PoolItem: FC<Props> = ({ item }) => {
-  const { contract, lpToken } = item;
+const PoolItem: FC<Props> = ({ row }) => {
+  const { contract, lpToken } = row.original;
   const { getIcon, getSymbol } = useTokenInfo();
   const { token1, token2, totalShareInUST, myShareInUST } = usePool({
     pairContract: contract,
