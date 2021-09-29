@@ -1,5 +1,3 @@
-import { Denom } from "@terra-money/terra.js";
-
 import { Pair } from "types/common";
 
 import { getTokenDenoms } from "@arthuryeti/terra";
@@ -22,35 +20,27 @@ export const findSwapRoute = (routes: any, from: string, to: string) => {
     return null;
   }
 
-  if (routes[from][Denom.SDR] && routes[Denom.SDR][to]) {
-    return [routes[from][Denom.SDR], routes[Denom.SDR][to]];
+  if (routes[from]["usdr"] && routes["usdr"][to]) {
+    return [routes[from]["usdr"], routes["usdr"][to]];
   }
 
   if (routes[from][to]) {
     return [routes[from][to]];
   }
 
-  if (routes[from][Denom.USD] && routes[Denom.USD][to]) {
-    return [routes[from][Denom.USD], routes[Denom.USD][to]];
+  if (routes[from]["uusd"] && routes["uusd"][to]) {
+    return [routes[from]["uusd"], routes["uusd"][to]];
   }
 
-  if (routes[from][Denom.LUNA] && routes[Denom.LUNA][to]) {
-    return [routes[from][Denom.LUNA], routes[Denom.LUNA][to]];
+  if (routes[from]["uluna"] && routes["uluna"][to]) {
+    return [routes[from]["uluna"], routes["uluna"][to]];
   }
 
-  if (routes[from][Denom.LUNA] && routes[Denom.USD][to]) {
-    return [
-      routes[from][Denom.LUNA],
-      routes[Denom.LUNA][Denom.USD],
-      routes[Denom.USD][to],
-    ];
+  if (routes[from]["uluna"] && routes["uusd"][to]) {
+    return [routes[from]["uluna"], routes["uluna"]["uusd"], routes["uusd"][to]];
   }
 
-  return [
-    routes[from][Denom.USD],
-    routes[Denom.USD][Denom.LUNA],
-    routes[Denom.LUNA][to],
-  ];
+  return [routes[from]["uusd"], routes["uusd"]["uluna"], routes["uluna"][to]];
 };
 
 export const swapRouteToString = (

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import {
   useWallet,
   WalletStatus,
@@ -25,7 +24,7 @@ const TerraWallet: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { status } = useWallet();
   const wallet = useConnectedWallet();
-  const balance = useBalance(Denom.USD);
+  const balance = useBalance("uusd");
 
   // console.log(disconnect());
 
@@ -61,7 +60,7 @@ const TerraWallet: FC = () => {
               UST
             </Text>
             <Text fontSize="sm" color="white">
-              {format(balance, Denom.USD)}
+              {format(balance, "uusd")}
             </Text>
           </HStack>
         </Center>

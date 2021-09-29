@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
-import { Denom } from "@terra-money/terra.js";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenPrice, useSimulation } from "modules/swap";
@@ -45,7 +44,7 @@ const TokenCard: FC<Props> = ({ token }) => {
                 {lookupSymbol(getSymbol(token.asset))}
               </Text>
               <Text fontSize="sm" color="white.400">
-                Price: ${format(fromPrice, Denom.USD)}
+                Price: ${format(fromPrice, "uusd")}
               </Text>
             </Box>
           </HStack>
@@ -55,7 +54,7 @@ const TokenCard: FC<Props> = ({ token }) => {
             {format(token.amount)}
           </Text>
           <Text fontSize="sm" color="white.400">
-            Price: ${format(fromTotalPrice, Denom.USD)}
+            Price: ${format(fromTotalPrice, "uusd")}
           </Text>
         </Box>
       </Flex>

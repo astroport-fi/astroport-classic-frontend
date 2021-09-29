@@ -1,5 +1,3 @@
-import { Denom } from "@terra-money/terra.js";
-
 /* terra:network */
 export const FINDER = "https://finder.terra.money";
 export const EXTENSION = "https://terra.money/extension";
@@ -14,10 +12,10 @@ export const WASMQUERY = "WasmContractsContractAddressStore";
 export const SMALLEST = 1e6;
 
 /* astroport:configs */
-export const POOLS_TOKEN = Denom.LUNA;
+export const POOLS_TOKEN = "uluna";
 export const DEFAULT_SLIPPAGE = "0.01";
 export const COMMISSION = 0.003;
-export const ESTIMATE_TOKEN = Denom.USD;
+export const ESTIMATE_TOKEN = "uusd";
 
 export const ONE_TOKEN = 1000000;
 export const DECIMALS = 4;

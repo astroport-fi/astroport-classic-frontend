@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
 import { useTokenInfo, getTokenDenoms } from "@arthuryeti/terra";
 
@@ -60,10 +59,10 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                {format(balance, Denom.USD)}
+                {format(balance, "uusd")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                ${format("0", Denom.USD)}
+                ${format("0", "uusd")}
               </Text>
             </Box>
           </HStack>

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import {
   Box,
   Text,
@@ -42,7 +41,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               {getSymbol(value)}
             </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${format(price, Denom.USD)}
+              Price: ${format(price, "uusd")}
             </Text>
           </Box>
 

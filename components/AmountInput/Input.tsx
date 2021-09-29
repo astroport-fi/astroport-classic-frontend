@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import { Box, Text, NumberInput, NumberInputField } from "@chakra-ui/react";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
@@ -34,7 +33,7 @@ const Input: FC<Props> = ({ onChange, onBlur, value }) => {
         <NumberInputField placeholder="0.0" />
         <Box position="absolute" bottom="2" right="4">
           <Text fontSize="xs" color="white.400">
-            ${format(totalPrice, Denom.USD)}
+            ${format(totalPrice, "uusd")}
           </Text>
         </Box>
       </NumberInput>

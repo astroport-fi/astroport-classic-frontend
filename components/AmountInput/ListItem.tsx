@@ -1,5 +1,4 @@
 import React from "react";
-import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
@@ -53,10 +52,10 @@ const ListItem = ({ token, onClick }: Props) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                {format(balance, Denom.USD)}
+                {format(balance, "uusd")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                ${format(price, Denom.USD)}
+                ${format(price, "uusd")}
               </Text>
             </Box>
           </HStack>

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
 import { useTokenInfo } from "@arthuryeti/terra";
 
@@ -41,7 +40,7 @@ const Single: FC<Props> = ({ asset }) => {
             {getSymbol(asset)}
           </Text>
           <Text fontSize="xs" color="white.400">
-            Price: ${format(price, Denom.USD)}
+            Price: ${format(price, "uusd")}
           </Text>
         </Box>
       </Flex>

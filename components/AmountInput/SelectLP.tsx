@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Denom } from "@terra-money/terra.js";
 import {
   Box,
   HStack,
@@ -48,7 +47,7 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
               {symbol1} - {symbol2}
             </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${format(price, Denom.USD)}
+              Price: ${format(price, "uusd")}
             </Text>
           </Box>
 
