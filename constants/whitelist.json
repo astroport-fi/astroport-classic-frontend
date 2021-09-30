@@ -180,65 +180,7 @@
     ]
   },
   "bombay": {
-    "tokens": {
-      "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u": {
-        "protocol": "Terra",
-        "symbol": "ASTRO",
-        "token": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u",
-        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
-      },
-      "uusd": {
-        "protocol": "Native",
-        "symbol": "UST",
-        "token": "uusd",
-        "icon": "https://assets.terra.money/icon/60/UST.png"
-      },
-      "usdr": {
-        "protocol": "Native",
-        "symbol": "SDR",
-        "token": "usdr",
-        "icon": "https://assets.terra.money/icon/60/SDT.png"
-      },
-      "uluna": {
-        "protocol": "Native",
-        "symbol": "Luna",
-        "token": "uluna",
-        "icon": "https://assets.terra.money/icon/60/Luna.png"
-      }
-    },
-    "pairs": [
-      {
-        "asset_infos": [
-          {
-            "token": {
-              "contract_addr": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "uluna"
-            }
-          }
-        ],
-        "contract": "terra1v52jed0vurfltkkfl0utzpehhhluvn4hvljv2c",
-        "lpToken": "terra1zlrm3aevr23vnu5uxc054sqauvpztkcgnum0ut"
-      },
-      {
-        "asset_infos": [
-          {
-            "native_token": {
-              "denom": "uluna"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "uusd"
-            }
-          }
-        ],
-        "contract": "terra1ddzg2836sw3heqh4nwpse2nhv3pkl705rxrghh",
-        "lpToken": "terra1d93nntzujyjwp374f7wu4nqk5lfw8kj5mkqc0h"
-      }
-    ]
+    "pairs": [],
+    "tokens": []
   }
 }

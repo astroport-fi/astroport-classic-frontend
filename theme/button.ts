@@ -48,11 +48,12 @@ const button = {
       outline: "none",
       color: "white.600",
       bg: "white.100",
-      minWidth: "3rem",
-      height: "1.5rem",
-      fontSize: "xs",
-      borderRadius: "0.25rem",
-      px: "0",
+      fontSize: "0.65rem",
+      borderRadius: "sm",
+      minWidht: "16",
+      py: "1",
+      px: "2.5",
+      height: "auto",
       letterSpacing: "0.15rem",
       textTransform: "uppercase",
       fontWeight: "bold",
@@ -119,7 +120,7 @@ const button = {
       _focus: {
         boxShadow: "none",
       },
-    }
+    },
   },
 };
 

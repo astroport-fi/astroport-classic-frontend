@@ -24,18 +24,20 @@ type FormValues = {
   };
 };
 
+const defaultValues = {
+  token1: {
+    amount: undefined,
+    asset: "uluna",
+  },
+  token2: {
+    amount: undefined,
+    asset: "uusd",
+  },
+};
+
 const SwapForm: FC = () => {
   const methods = useForm<FormValues>({
-    defaultValues: {
-      token1: {
-        amount: undefined,
-        asset: "uluna",
-      },
-      token2: {
-        amount: undefined,
-        asset: "uusd",
-      },
-    },
+    defaultValues,
   });
   const token1 = methods.watch("token1");
   const token2 = methods.watch("token2");

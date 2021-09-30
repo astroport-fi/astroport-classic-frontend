@@ -1,12 +1,12 @@
 import React, { FC, ReactNode } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, BoxProps } from "@chakra-ui/react";
 
 type Props = {
   children: ReactNode;
   isHead?: boolean;
-};
+} & BoxProps;
 
-const Tr: FC<Props> = ({ children, isHead = false }) => {
+const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
   let extraProps: any = {
     py: "4",
     fontWeight: "500",
@@ -30,7 +30,7 @@ const Tr: FC<Props> = ({ children, isHead = false }) => {
   }
 
   return (
-    <Flex justify="space-between" {...extraProps}>
+    <Flex justify="space-between" {...extraProps} {...rest}>
       {children}
     </Flex>
   );

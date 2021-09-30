@@ -11,7 +11,6 @@ export interface ExtNetworkConfig {
 }
 
 export interface LocalNetworkConfig {
-  mantle: string;
   gauge: string;
   factory: string;
   router: string;

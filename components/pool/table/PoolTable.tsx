@@ -16,10 +16,10 @@ import { Pair } from "types/common";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 
 type Props = {
-  items: Pair[];
+  data: Pair[];
 };
 
-const PoolList: FC<Props> = ({ items }) => {
+const PoolTable: FC<Props> = ({ data }) => {
   const columns = useMemo(
     () => [
       {
@@ -68,12 +68,8 @@ const PoolList: FC<Props> = ({ items }) => {
     []
   );
 
-  const tableInstance = useTable(
-    // @ts-expect-error
-    { columns, data: items },
-    useSortBy,
-    useExpanded
-  );
+  // @ts-expect-error
+  const tableInstance = useTable({ columns, data }, useSortBy, useExpanded);
 
   const {
     getTableProps,
@@ -116,4 +112,4 @@ const PoolList: FC<Props> = ({ items }) => {
   );
 };
 
-export default PoolList;
+export default PoolTable;

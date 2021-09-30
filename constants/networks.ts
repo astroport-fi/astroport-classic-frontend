@@ -6,9 +6,8 @@ export type AstroportNetworkInfo = NetworkInfo & LocalNetworkConfig;
 const networks: Record<string, AstroportNetworkInfo> = {
   mainnet: {
     name: "mainnet",
-    chainID: "columbus-4",
+    chainID: "columbus-5",
     lcd: "https://lcd.terra.dev",
-    mantle: "https://mantle.terra.dev",
     factory: "",
     gauge: "",
     router: "",
@@ -17,20 +16,8 @@ const networks: Record<string, AstroportNetworkInfo> = {
   },
   testnet: {
     name: "testnet",
-    chainID: "tequila-0004",
-    lcd: "https://tequila-lcd.terra.dev",
-    mantle: "https://tequila-mantle.terra.dev",
-    factory: "",
-    gauge: "",
-    router: "",
-    vesting: "",
-    staking: "",
-  },
-  bombay: {
-    name: "bombay",
-    chainID: "bombay-11",
+    chainID: "bombay-12",
     lcd: "https://bombay-lcd.terra.dev",
-    mantle: "https://tequila-mantle.terra.dev",
     factory: "terra1r7pvpgy885tsaytshglvax564u29gjezsy444s",
     router: "terra13xjkn6cu6fpf0mdaj7lh3659ula362amds44ky",
     vesting: "terra17c5aqj76y0y5jkrhazeh0afsusc32r7fwj0k7n",

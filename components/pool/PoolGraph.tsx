@@ -9,7 +9,7 @@ import { useTokenPrice } from "modules/swap";
 import {
   enumToArray,
   findRegularToken,
-  preparingSelectList,
+  // preparingSelectList,
 } from "modules/pool";
 
 enum TypeFilter {
@@ -52,14 +52,14 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   const [timeFilter, setTimeFilter] = useState(TimeFilter[4]);
   const selectedToken = findRegularToken(tokens);
 
-  const list = preparingSelectList(tokens);
-  const [selectFilter, setSelectFilter] = useState(list[0]);
+  // const list = preparingSelectList(tokens);
+  // const [selectFilter, setSelectFilter] = useState(list[0]);
 
   const { getSymbol } = useTokenInfo();
 
   const filteredPoints = useMemo(() => [...points], [points]);
 
-  const rightButtonsGroup = useMemo(
+  const rightButtons = useMemo(
     () =>
       enumToArray(TimeFilter).map((filter) => ({
         onClick: () => setTimeFilter(filter),
@@ -71,7 +71,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
     [timeFilter]
   );
 
-  const leftButtonsGroup = useMemo(
+  const leftButtons = useMemo(
     () =>
       enumToArray(TypeFilter).map((filter) => ({
         onClick: () => setTypeFilter(filter),
@@ -122,15 +122,15 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
     <Card w="xl" h="sm" px="8" py="10">
       <Graph
         h="200"
-        select={{
-          list: list,
-          setValue: setSelectFilter,
-          value: selectFilter,
-        }}
+        // select={{
+        //   list: list,
+        //   setValue: setSelectFilter,
+        //   value: selectFilter,
+        // }}
         points={filteredPoints}
         title={cardTitle as ReactNode & string}
-        rightButtonsGroup={rightButtonsGroup}
-        leftButtonsGroup={leftButtonsGroup}
+        rightButtons={rightButtons}
+        leftButtons={leftButtons}
       />
     </Card>
   );

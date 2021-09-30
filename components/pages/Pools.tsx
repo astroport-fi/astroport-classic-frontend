@@ -4,14 +4,14 @@ import { Box, Heading } from "@chakra-ui/react";
 import { usePools } from "modules/pool";
 
 import PoolsOverview from "components/pool/PoolsOverview";
-import PoolList from "components/pool/PoolList";
+import PoolTable from "components/pool/table/PoolTable";
 import Card from "components/Card";
 
 const Pools: FC = () => {
   const pools = usePools();
 
   return (
-    <Box w="container.xl" m="0 auto" pt="12">
+    <Box w="container.xl" m="0 auto" pt="12" pb="64">
       <Box px="6" mb="4">
         <Heading variant="brand">Pools Overview</Heading>
       </Box>
@@ -22,7 +22,7 @@ const Pools: FC = () => {
       </Box>
       {pools.mine && (
         <Card noPadding>
-          <PoolList items={pools.mine} />
+          <PoolTable data={pools.mine} />
         </Card>
       )}
 
@@ -31,7 +31,7 @@ const Pools: FC = () => {
       </Box>
       {pools.all && (
         <Card noPadding>
-          <PoolList items={pools.all} />
+          <PoolTable data={pools.all} />
         </Card>
       )}
     </Box>
