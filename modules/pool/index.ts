@@ -14,3 +14,4 @@ export * from "./hooks/useWithdraw";
 export * from "./hooks/useProvide";
 export * from "./hooks/useProvideSingle";
 export * from "./helpers";
+export * from "./stakeLpToken";

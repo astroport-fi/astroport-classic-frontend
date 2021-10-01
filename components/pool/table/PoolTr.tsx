@@ -1,5 +1,6 @@
 import React, { FC, Fragment, useMemo, useState } from "react";
 import { Flex, Box, Text, HStack, Button } from "@chakra-ui/react";
+import Link from "next/link";
 
 import Tr from "components/Tr";
 import Td from "components/Td";
@@ -119,7 +120,11 @@ const PoolTr: FC<Props> = ({ row }) => {
                 </Box>
 
                 <Flex align="center" justify="center" mt="6">
-                  <Button variant="primary">Stake Lp Token</Button>
+                  <Link href="/stake" passHref>
+                    <Button variant="primary" as="a">
+                      Stake Lp Token
+                    </Button>
+                  </Link>
                 </Flex>
               </Box>
             </Flex>

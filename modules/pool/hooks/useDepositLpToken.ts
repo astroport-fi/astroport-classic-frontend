@@ -10,7 +10,7 @@ import { ONE_TOKEN } from "constants/constants";
 import {
   createDepositExecuteMsg,
   createIncreaseAllowanceExecuteMsg,
-} from "modules/pool/stakeLpToken";
+} from "modules/pool";
 import networks from "constants/networks";
 
 export const useDepositLpToken = (
@@ -22,7 +22,7 @@ export const useDepositLpToken = (
   } = useTerra();
   const address = useAddress();
 
-  const executeMsgs = useMemo(() => {
+  const msgs = useMemo(() => {
     if (!(isValidAmount(amount) && address && tokenAddr)) {
       return [];
     }
@@ -44,7 +44,7 @@ export const useDepositLpToken = (
   }, [address, amount, name, tokenAddr]);
 
   const { fee, submit, result, error, isReady } = useTransaction({
-    msgs: executeMsgs,
+    msgs,
   });
 
   return {

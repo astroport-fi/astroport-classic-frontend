@@ -1,7 +1,6 @@
 export type NetworkConfig = ExtNetworkConfig & LocalNetworkConfig;
 
 export interface Network extends NetworkConfig {
-  /** Get finder link */
   finder: (address: string, path?: string) => string;
 }
 

@@ -1,6 +1,6 @@
-import { Pair } from "types/common";
-
 import { getTokenDenoms } from "@arthuryeti/terra";
+
+import { Pair } from "types/common";
 
 export const calculatePriceImpact = (
   amount: number,

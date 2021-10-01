@@ -20,7 +20,7 @@ export const useWithdrawLpToken = (
   const gauge = networks[name].gauge;
   const address = useAddress();
 
-  const executeMsgs = useMemo(() => {
+  const msgs = useMemo(() => {
     if (!(isValidAmount(amount) && address && tokenAddr)) {
       return [];
     }
@@ -37,7 +37,7 @@ export const useWithdrawLpToken = (
   }, [address, amount, gauge, tokenAddr]);
 
   const { fee, submit, result, error, isReady } = useTransaction({
-    msgs: executeMsgs,
+    msgs,
   });
 
   return {
