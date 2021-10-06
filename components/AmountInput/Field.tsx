@@ -22,10 +22,14 @@ type Props = {
     amount: string;
     asset: string;
   };
+  limit?: number;
 };
 
 const Field: FC<Props> = forwardRef(
-  ({ onChange, onBlur, value, isSingle, isLpToken, balance, tokens }, ref) => {
+  (
+    { onChange, onBlur, value, limit, isSingle, isLpToken, balance, tokens },
+    ref
+  ) => {
     const handleClick = (asset: string) => {
       onChange({ asset, amount: undefined });
     };
@@ -83,6 +87,7 @@ const Field: FC<Props> = forwardRef(
           <Box flex="1">
             <Input
               value={value}
+              limit={limit}
               onChange={(amount: string) => onChange({ ...value, amount })}
               onBlur={onBlur}
             />

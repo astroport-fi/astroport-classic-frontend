@@ -130,7 +130,9 @@ const ProvideSingleForm: FC<Props> = ({
           name="token1"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} tokens={tokens} />}
+          render={({ field }) => (
+            <AmountInput {...field} limit={Number(amount)} tokens={tokens} />
+          )}
         />
       </Card>
 
@@ -140,7 +142,8 @@ const ProvideSingleForm: FC<Props> = ({
           size="lg"
           min={0}
           defaultValue={0}
-          // value={token1.amount}
+          focusThumbOnChange={false}
+          value={Number(token1.amount)}
           max={Number(amount)}
           onChange={handleChange}
         >

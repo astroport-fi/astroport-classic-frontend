@@ -58,7 +58,7 @@ const ProvideFormInitial: FC<Props> = ({
   const amount = lookup(balance, token1.asset);
 
   const changeToken2Amount = () => {
-    if (!token1.amount || Number(token1.amount) === 0) {
+    if (!token1.amount) {
       return;
     }
 
@@ -101,7 +101,9 @@ const ProvideFormInitial: FC<Props> = ({
           name="token1"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle />}
+          render={({ field }) => (
+            <AmountInput {...field} limit={Number(amount)} isSingle />
+          )}
         />
       </Card>
 
@@ -120,7 +122,8 @@ const ProvideFormInitial: FC<Props> = ({
           size="lg"
           min={0}
           defaultValue={0}
-          // value={token1.amount}
+          focusThumbOnChange={false}
+          value={Number(token1.amount)}
           max={Number(amount)}
           onChange={handleChange}
         >

@@ -101,7 +101,9 @@ const WithdrawFormInitial: FC<Props> = ({
           name="token"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle isLpToken />}
+          render={({ field }) => (
+            <AmountInput {...field} limit={Number(amount)} isSingle isLpToken />
+          )}
         />
       </Card>
 
@@ -120,7 +122,8 @@ const WithdrawFormInitial: FC<Props> = ({
           size="lg"
           min={0}
           defaultValue={0}
-          // value={token1.amount}
+          value={Number(token.amount)}
+          focusThumbOnChange={false}
           max={Number(amount)}
           onChange={handleChange}
         >

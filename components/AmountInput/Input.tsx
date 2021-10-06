@@ -12,9 +12,10 @@ type Props = {
     amount: string;
     asset: string;
   };
+  limit?: number;
 };
 
-const Input: FC<Props> = ({ onChange, onBlur, value }) => {
+const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
   const { amount: totalPrice } = useSimulation(
     value.asset,
     ESTIMATE_TOKEN,
@@ -27,6 +28,7 @@ const Input: FC<Props> = ({ onChange, onBlur, value }) => {
         variant="brand"
         size="lg"
         value={value.amount}
+        max={limit}
         onChange={onChange}
         onBlur={onBlur}
       >
