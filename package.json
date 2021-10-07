@@ -11,7 +11,8 @@
     "lint:formatting": "prettier --check \"**/*.(ts|tsx|js|json)\"",
     "format:": "prettier --write \"**/*.(ts|tsx|js|json)\"",
     "precommit": "lint-staged",
-    "prepush": "npm run build"
+    "prepush": "npm run build",
+    "_postinstall": "husky install"
   },
   "dependencies": {
     "@arthuryeti/terra": "^0.1.5",
