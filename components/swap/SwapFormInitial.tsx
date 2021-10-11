@@ -124,7 +124,7 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
       <MotionBox
         key="card1"
         borderRadius="xl"
-        bg="rgba(22,41,230,0.8)"
+        bg="brand.purple"
         py="8"
         px="12"
         initial={{ y: -30 }}
@@ -162,7 +162,7 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
         key="card2"
         mt="2"
         borderRadius="xl"
-        bg="rgba(89,183,221,0.8)"
+        bg="brand.lightPurple"
         py="8"
         px="12"
         initial={{ y: 30 }}

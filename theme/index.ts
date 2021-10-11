@@ -31,8 +31,8 @@ export default extendTheme({
     Menu,
   },
   colors: {
-    green: { 500: "#23C7AA" },
-    red: { 500: "#EE5467" },
+    green: { 500: "#7FE6A2" },
+    red: { 500: "#EF5177" },
     white: {
       50: "rgba(255,255,255,0.05)",
       100: "rgba(255,255,255,0.1)",

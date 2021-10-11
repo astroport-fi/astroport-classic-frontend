@@ -44,7 +44,7 @@ const SwapFormFooter: FC<Props> = ({
           onClick={onConfirmClick}
           isDisabled={isLoading}
         >
-          Swap
+          Swap Tokens
         </Button>
         {!isLoading && <FormFee fee={fee} />}
       </Flex>

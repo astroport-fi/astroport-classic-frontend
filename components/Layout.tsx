@@ -23,8 +23,7 @@ const Layout: FC = ({ children }) => {
             position: "relative",
           },
           body: {
-            background: "url(/bg.jpg) no-repeat no-repeat",
-            backgroundSize: "cover",
+            backgroundColor: "#000D37",
           },
           "*::-webkit-scrollbar": {
             width: "6px",

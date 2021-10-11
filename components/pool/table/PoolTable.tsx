@@ -102,12 +102,14 @@ const PoolTable: FC<Props> = ({ data }) => {
           ))}
         </Tr>
       ))}
-      <Box {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return <PoolTr row={row} />;
-        })}
-      </Box>
+      {rows.length ? (
+        <Box {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return <PoolTr row={row} />;
+          })}
+        </Box>
+      ) : null}
     </Table>
   );
 };

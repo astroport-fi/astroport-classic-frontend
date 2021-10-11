@@ -39,7 +39,9 @@ const CommonFooter: FC<Props> = (props) => {
             <Text color="white" fontSize="sm">
               {cell.value}
             </Text>
-            <Text variant="light">{cell.title}</Text>
+            <Text variant="light" color="white.400" fontSize="sm">
+              {cell.title}
+            </Text>
           </Box>
         ))}
       </Flex>

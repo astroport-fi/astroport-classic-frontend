@@ -16,16 +16,19 @@ const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
     px: "2",
     _last: {
       mb: 0,
+      borderBottomWidth: "0px",
     },
   };
 
   if (isHead) {
     extraProps = {
-      borderBottomWidth: "1px",
-      borderBottomColor: "white.200",
       fontSize: "sm",
       py: "8",
       px: "2",
+      _notLast: {
+        borderBottomWidth: "1px",
+        borderBottomColor: "white.200",
+      },
     };
   }
 

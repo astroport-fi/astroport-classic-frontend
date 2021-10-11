@@ -12,7 +12,13 @@ const NavbarLink: FC<Props> = ({ text, href }) => {
   const { asPath } = useRouter();
 
   const wrapperStyle =
-    asPath === href ? { color: "brand.teal" } : { color: "white" };
+    asPath === href
+      ? {
+          color: "brand.lightPurple",
+          textDecoration: "underline",
+          textUnderlineOffset: "5px",
+        }
+      : { color: "white" };
 
   return (
     <Link href={href} passHref>
@@ -22,7 +28,7 @@ const NavbarLink: FC<Props> = ({ text, href }) => {
         py="8"
         whiteSpace="nowrap"
         _hover={{
-          color: "brand.teal",
+          color: "brand.lightPurple",
         }}
         {...wrapperStyle}
       >

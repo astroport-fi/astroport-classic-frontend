@@ -12,6 +12,7 @@ const button = {
       bg: "brand.purple",
       color: "white",
       px: "6",
+      py: "2",
       _hover: {
         bg: "white",
         color: "brand.purple",

@@ -1,7 +1,7 @@
 const styles = {
   baseStyle: {
     overlay: {
-      bg: "rgba(17, 17, 17, 0.2)",
+      bg: "#0C516D",
       backdropFilter: "blur(12px)",
     },
     dialog: {
