@@ -1,15 +1,15 @@
 import { useMemo } from "react";
-import { getTokenDenoms, isValidAmount } from "@arthuryeti/terra";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { calculateTokensAmounts, usePool } from "modules/pool";
-import { useSimulation } from "modules/swap";
-import { Pair } from "types/common";
+import { useSwapSimulate } from "modules/swap";
+import { PairResponse, getTokenDenoms } from "modules/common";
+import { num } from "@arthuryeti/terra";
 
-export const useLpTokenPrice = (pair: Pair, amount?: string | null) => {
+export const useLpTokenPrice = (pair: PairResponse, amount?: string | null) => {
   const pool = usePool({
-    pairContract: pair.contract,
-    lpTokenContract: pair.lpToken,
+    pairContract: pair.contract_addr,
+    lpTokenContract: pair.liquidity_token,
   });
 
   const [token1, token2] = useMemo(() => {
@@ -21,32 +21,32 @@ export const useLpTokenPrice = (pair: Pair, amount?: string | null) => {
   }, [pair]);
 
   const tokensAmounts = useMemo(() => {
-    if (!(pool && isValidAmount(amount))) {
+    if (pool == null || amount == null) {
       return null;
     }
 
     return calculateTokensAmounts(pool, amount);
   }, [amount, pool]);
 
-  const { amount: totalPrice1 } = useSimulation(
-    // @ts-expect-error
+  // @ts-expect-error
+  const { amount: totalPrice1 } = useSwapSimulate({
     token1,
-    ESTIMATE_TOKEN,
+    token2: ESTIMATE_TOKEN,
     // @ts-expect-error
-    tokensAmounts && tokensAmounts[token1]
-  );
+    amount: tokensAmounts && tokensAmounts[token1],
+  });
 
-  const { amount: totalPrice2 } = useSimulation(
+  // @ts-expect-error
+  const { amount: totalPrice2 } = useSwapSimulate({
+    token1: token2,
+    token2: ESTIMATE_TOKEN,
     // @ts-expect-error
-    token2,
-    ESTIMATE_TOKEN,
-    // @ts-expect-error
-    tokensAmounts && tokensAmounts[token2]
-  );
+    amount: tokensAmounts && tokensAmounts[token2],
+  });
 
-  if (isValidAmount(totalPrice1) && isValidAmount(totalPrice2)) {
-    return String(Number(totalPrice1) + Number(totalPrice2));
+  if (totalPrice1 == null || totalPrice2 == null) {
+    return "0";
   }
 
-  return "0";
+  return num(totalPrice1).plus(totalPrice2).toString();
 };

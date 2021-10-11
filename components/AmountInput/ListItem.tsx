@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
+import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
-import { useTokenPrice } from "modules/swap";
+import { useTokenPriceInUst } from "modules/swap";
 import { format } from "libs/parse";
-import { useBalance } from "hooks/useBalance";
+import { useTokenInfo } from "modules/common";
 
 type Props = {
   token: string;
@@ -13,7 +13,7 @@ type Props = {
 
 const ListItem = ({ token, onClick }: Props) => {
   const balance = useBalance(token);
-  const price = useTokenPrice(token);
+  const price = useTokenPriceInUst(token);
   const { getIcon, getSymbol } = useTokenInfo();
 
   return (
@@ -55,7 +55,7 @@ const ListItem = ({ token, onClick }: Props) => {
                 {format(balance, "uusd")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                ${format(price, "uusd")}
+                {/* TODO: Fix type */}${fromTerraAmount(price as any)}
               </Text>
             </Box>
           </HStack>

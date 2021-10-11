@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { calculatePercentage, useFeeToString } from "@arthuryeti/terra";
 
+import { useFeeToString } from "hooks/useFeeToString";
 import { format } from "libs/parse";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
@@ -12,10 +12,11 @@ type Props = {
 };
 
 const WithdrawFormFooter: FC<Props> = ({ pool, data, onConfirmClick }) => {
-  const percentage = calculatePercentage(
-    pool.myShareInUST,
-    pool.totalShareInUST
-  );
+  const percentage = "100";
+  // const percentage = calculatePercentage(
+  //   pool.myShareInUST,
+  //   pool.totalShareInUST
+  // );
   const feeString = useFeeToString(data.fee);
 
   const cells = [

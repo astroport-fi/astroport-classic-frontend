@@ -1,6 +1,7 @@
-import { useTerra } from "@arthuryeti/terra";
+import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
-import { Asset } from "types/common";
+
+import { Asset } from "modules/common";
 
 type Response = {
   assets: [Asset, Asset];
@@ -8,7 +9,7 @@ type Response = {
 };
 
 export const useGetPool = (pairContract: string) => {
-  const { client } = useTerra();
+  const { client } = useTerraWebapp();
 
   return useQuery(["pool", pairContract], () => {
     return client.wasm.contractQuery<Response>(pairContract, {

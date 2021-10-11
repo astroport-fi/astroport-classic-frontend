@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, chakra } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
+import { useBalance } from "@arthuryeti/terra";
 
+import { useTokenInfo } from "modules/common";
 import { lookup, formatAsset } from "libs/parse";
-import { useBalance } from "hooks/useBalance";
 
 type Props = {
   asset: string;

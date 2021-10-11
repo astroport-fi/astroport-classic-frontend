@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { getTokenDenom } from "@arthuryeti/terra";
+import { useBalance } from "@arthuryeti/terra";
 
-import { useTokenPrice } from "modules/swap";
+import { useTokenPriceInUst } from "modules/swap";
 import { calculateSharePrice, useGetPool } from "modules/pool";
-import { useBalance } from "hooks/useBalance";
+import { getTokenDenom } from "modules/common";
 
 type Params = {
   pairContract: string;
@@ -31,9 +31,9 @@ export const usePool = ({ pairContract, lpTokenContract }: Params) => {
   }, [pool]);
 
   // @ts-expect-error
-  const token1Price = useTokenPrice(token1);
+  const token1Price = useTokenPriceInUst(token1);
   // @ts-expect-error
-  const token2Price = useTokenPrice(token2);
+  const token2Price = useTokenPriceInUst(token2);
 
   const myShareInUST = useMemo(() => {
     if (

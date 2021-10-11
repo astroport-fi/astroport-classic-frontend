@@ -1,4 +1,5 @@
-import { useAddress, useTerra } from "@arthuryeti/terra";
+import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useAstroswap } from "modules/common";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 
@@ -7,25 +8,39 @@ type Response = {
 };
 
 export const useLpBalances = () => {
-  const { client, pairs } = useTerra();
+  const { client } = useTerraWebapp();
+  const { pairs } = useAstroswap();
   const address = useAddress();
 
-  const { data } = useQuery("lpBalances", () => {
-    return Promise.all(
-      pairs.map(async (pair) => {
-        const res = await client.wasm.contractQuery<Response>(pair.lpToken, {
-          balance: {
-            address,
-          },
-        });
+  const { data } = useQuery(
+    "lpBalances",
+    () => {
+      if (pairs == null) {
+        return null;
+      }
 
-        return {
-          contract: pair.lpToken,
-          balance: res.balance,
-        };
-      })
-    );
-  });
+      return Promise.all(
+        pairs.map(async (pair) => {
+          const res = await client.wasm.contractQuery<Response>(
+            pair.liquidity_token,
+            {
+              balance: {
+                address,
+              },
+            }
+          );
+
+          return {
+            contract: pair.liquidity_token,
+            balance: res.balance,
+          };
+        })
+      );
+    },
+    {
+      enabled: pairs != null,
+    }
+  );
 
   return useMemo(() => {
     if (data == null) {

@@ -1,20 +1,23 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image, HStack } from "@chakra-ui/react";
-import { useTokenInfo, useTerra, getTokenDenoms } from "@arthuryeti/terra";
 
 import { format } from "libs/parse";
-import { useLpTokenPrice } from "modules/pool/hooks/useLpTokenPrice";
+import { useLpTokenPrice } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
+import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
 
 type Props = {
   asset: string;
 };
 
 const SingleLP: FC<Props> = ({ asset }) => {
-  const { pairs } = useTerra();
+  const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.lpToken == asset);
+  //@ts-expect-error
+  const pair = pairs.find((v) => v.liquidity_token == asset);
+  //@ts-expect-error
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
+  //@ts-expect-error
   const lpTokenPrice = useLpTokenPrice(pair, String(ONE_TOKEN));
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);

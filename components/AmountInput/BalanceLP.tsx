@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, chakra } from "@chakra-ui/react";
-import { useTokenInfo, useTerra, getTokenDenoms } from "@arthuryeti/terra";
+import { useBalance } from "@arthuryeti/terra";
+
+import { getTokenDenoms, useAstroswap, useTokenInfo } from "modules/common";
 
 import { lookup, format } from "libs/parse";
-import { useBalance } from "hooks/useBalance";
 
 type Props = {
   asset: string;
@@ -12,10 +13,12 @@ type Props = {
 };
 
 const BalanceLP: FC<Props> = ({ asset, initial, onChange }) => {
-  const { pairs } = useTerra();
+  const { pairs } = useAstroswap();
   const { getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.lpToken == asset);
+  // @ts-expect-error
+  const pair = pairs.find((v) => v.liquidity_token == asset);
   const balance = useBalance(asset);
+  // @ts-expect-error
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
   const amount = lookup(balance, asset);
 

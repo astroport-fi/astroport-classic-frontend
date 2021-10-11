@@ -1,47 +1,41 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { StdFee } from "@terra-money/terra.js";
-import { TxResult } from "@terra-dev/wallet-types";
-import {
-  getTokenDenom,
-  isValidAmount,
-  useAddress,
-  useTransaction,
-} from "@arthuryeti/terra";
+import { useMemo } from "react";
+import { useAddress, useTransaction, TxStep } from "@arthuryeti/terra";
 
-import { createWithdrawMsgs, useGetPool } from "modules/pool";
-import { useTokenPrice } from "modules/swap";
 import { ONE_TOKEN } from "constants/constants";
-import { FormStep } from "types/common";
+import { getTokenDenom } from "modules/common";
+import { useTokenPriceInUst } from "modules/swap";
+import { createWithdrawMsgs, useGetPool } from "modules/pool";
 
 export type WithdrawState = {
-  setStep: (a: FormStep) => void;
-  step: FormStep;
-  resetForm: () => void;
   token1?: string;
   token1Amount?: string;
   token1Price: string;
   token2?: string;
   token2Amount?: string;
   token2Price: string;
-  isReady: boolean;
-  result: TxResult;
-  error: string | null;
-  fee: StdFee | null;
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
   withdraw: () => void;
 };
 
 type Params = {
   contract: string;
-  amount: string;
   lpToken: string;
+  amount: string | null;
+  onSuccess?: (txHash: string) => void;
+  onError?: (txHash?: string) => void;
 };
 
 export const useWithdraw = ({
   contract,
   lpToken,
   amount,
+  onSuccess,
+  onError,
 }: Params): WithdrawState => {
-  const [step, setStep] = useState<FormStep>(FormStep.Initial);
   const { data: pool } = useGetPool(contract);
   const address = useAddress();
 
@@ -75,12 +69,12 @@ export const useWithdraw = ({
   }, [pool, ratio, amount]);
 
   // @ts-expect-error
-  const token1Price = useTokenPrice(tokens.token1);
+  const token1Price = useTokenPriceInUst(tokens.token1);
   // @ts-expect-error
-  const token2Price = useTokenPrice(tokens.token2);
+  const token2Price = useTokenPriceInUst(tokens.token2);
 
   const msgs = useMemo(() => {
-    if (!isValidAmount(amount)) {
+    if (amount == null) {
       return [];
     }
 
@@ -94,38 +88,17 @@ export const useWithdraw = ({
     );
   }, [address, contract, lpToken, amount]);
 
-  const { fee, submit, result, error, isReady, reset } = useTransaction({
+  const { submit, ...rest } = useTransaction({
     msgs,
+    onSuccess,
+    onError,
   });
-
-  const resetForm = useCallback(() => {
-    reset();
-    setStep(FormStep.Initial);
-  }, [reset]);
-
-  useEffect(() => {
-    if (step === FormStep.Confirm) {
-      if (result?.success) {
-        setStep(FormStep.Success);
-      }
-
-      if (error) {
-        setStep(FormStep.Error);
-      }
-    }
-  }, [result, error, step]);
 
   return {
     ...tokens,
     token1Price,
     token2Price,
-    resetForm,
-    step,
-    setStep,
-    fee,
-    result,
-    error,
-    isReady,
+    ...rest,
     withdraw: submit,
   };
 };

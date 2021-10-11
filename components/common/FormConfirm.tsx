@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
-import SuccessIcon from "components/icons/SuccessIcon";
 import FormFee from "components/common/FormFee";
 
 type Props = {
@@ -16,35 +15,18 @@ type Props = {
   }[];
   fee?: StdFee | null;
   actionLabel?: string;
-  isConfirm?: boolean;
   onCloseClick: () => void;
 };
 
 const MotionBox = motion(Box);
 
-const FormConfirmOrSuccess: FC<Props> = ({
+const FormConfirm: FC<Props> = ({
   actionLabel,
-  isConfirm = false,
   fee,
   contentComponent,
   details,
   onCloseClick,
 }) => {
-  const renderHeader = () => {
-    if (isConfirm) {
-      return <Text fontSize="2xl">Confirm</Text>;
-    }
-
-    return (
-      <HStack>
-        <SuccessIcon />
-        <Text fontSize="2xl" color="green.500">
-          Successful
-        </Text>
-      </HStack>
-    );
-  };
-
   return (
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
@@ -52,7 +34,7 @@ const FormConfirmOrSuccess: FC<Props> = ({
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          {renderHeader()}
+          <Text fontSize="2xl">Confirm</Text>
           <IconButton
             aria-label="Close"
             icon={<CloseIcon />}
@@ -86,27 +68,23 @@ const FormConfirmOrSuccess: FC<Props> = ({
           })}
         </Box>
 
-        {isConfirm && (
-          <>
-            <Text variant="light" mt="3" px="2">
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-              sanctus est Lorem ipsum dolor sit amet.
-            </Text>
+        <Text variant="light" mt="3" px="2">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+          ipsum dolor sit amet.
+        </Text>
 
-            <Flex flexDir="column" align="center" mt="6">
-              <Button variant="primary" type="submit">
-                {actionLabel}
-              </Button>
-              {fee && <FormFee fee={fee} />}
-            </Flex>
-          </>
-        )}
+        <Flex flexDir="column" align="center" mt="6">
+          <Button variant="primary" type="submit">
+            {actionLabel}
+          </Button>
+          {fee && <FormFee fee={fee} />}
+        </Flex>
       </Card>
     </MotionBox>
   );
 };
 
-export default FormConfirmOrSuccess;
+export default FormConfirm;

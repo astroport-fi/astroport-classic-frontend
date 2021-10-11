@@ -1,15 +1,15 @@
 import React, { FC } from "react";
-import { useTokenInfo } from "@arthuryeti/terra";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 import { format, lookupSymbol } from "libs/parse";
+import { useTokenInfo } from "modules/common";
 import FormFee from "components/common/FormFee";
 
 type Props = {
   from: string;
   to: string;
   fee: any;
-  exchangeRate: string;
+  price: string;
   isLoading: boolean;
   onConfirmClick: () => void;
 };
@@ -17,7 +17,7 @@ type Props = {
 const SwapFormFooter: FC<Props> = ({
   from,
   to,
-  exchangeRate,
+  price,
   isLoading,
   fee,
   onConfirmClick,
@@ -30,7 +30,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isLoading && (
           <>
             <Text color="white" fontSize="sm">
-              1 {lookupSymbol(getSymbol(from))} = {format(exchangeRate, to)}{" "}
+              1 {lookupSymbol(getSymbol(from))} = {format(price, to)}{" "}
               {lookupSymbol(getSymbol(to))}
             </Text>
             <Text variant="light">Exchange Rate</Text>

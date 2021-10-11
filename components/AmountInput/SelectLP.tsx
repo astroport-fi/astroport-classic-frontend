@@ -10,12 +10,13 @@ import {
   MenuList,
   Image,
 } from "@chakra-ui/react";
-import { useTokenInfo, getTokenDenoms, useTerra } from "@arthuryeti/terra";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
-import { format } from "libs/parse";
+import { useTokenPriceInUst } from "modules/swap";
+import { useAstroswap, useTokenInfo, getTokenDenoms } from "modules/common";
+
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { ListLP } from "components/AmountInput";
-import { useTokenPrice } from "modules/swap";
 
 type Props = {
   value: string;
@@ -23,15 +24,17 @@ type Props = {
 };
 
 const SelectLP: FC<Props> = ({ value, onClick }) => {
-  const { pairs } = useTerra();
+  const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.lpToken == value);
+  //@ts-expect-error
+  const pair = pairs.find((v) => v.liquidity_token == value);
+  //@ts-expect-error
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);
   const symbol2 = getSymbol(token2);
-  const price = useTokenPrice(value);
+  const price = useTokenPriceInUst(value);
 
   const renderButton = () => {
     if (pair) {
@@ -47,7 +50,8 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
               {symbol1} - {symbol2}
             </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${format(price, "uusd")}
+              {/* TODO: Fix type */}
+              Price: ${fromTerraAmount(price as any)}
             </Text>
           </Box>
 

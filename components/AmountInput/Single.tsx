@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
-import { format } from "libs/parse";
-import { useTokenPrice } from "modules/swap";
+import { useTokenInfo } from "modules/common";
+import { useTokenPriceInUst } from "modules/swap";
 
 type Props = {
   asset: string;
@@ -11,7 +11,7 @@ type Props = {
 
 const Single: FC<Props> = ({ asset }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPrice(asset);
+  const price = useTokenPriceInUst(asset);
   const icon = getIcon(asset);
 
   return (
@@ -40,7 +40,8 @@ const Single: FC<Props> = ({ asset }) => {
             {getSymbol(asset)}
           </Text>
           <Text fontSize="xs" color="white.400">
-            Price: ${format(price, "uusd")}
+            {/* TODO: Fix issue */}
+            Price: ${fromTerraAmount(price as any, "uusd")}
           </Text>
         </Box>
       </Flex>

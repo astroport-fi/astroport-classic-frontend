@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { TxStep } from "@arthuryeti/terra";
 
-import { FormStep } from "types/common";
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import { useSwap } from "modules/swap";
 import { toAmount } from "libs/parse";
@@ -10,8 +10,10 @@ import useDebounceValue from "hooks/useDebounceValue";
 
 import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
-import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
+import FormConfirm from "components/common/FormConfirm";
+import FormSuccess from "components/common/FormSuccess";
 import SwapFormInitial from "components/swap/SwapFormInitial";
+import FormLoading from "components/common/FormLoading";
 
 type FormValues = {
   token1: {
@@ -36,39 +38,81 @@ const defaultValues = {
 };
 
 const SwapForm: FC = () => {
+  const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues,
   });
   const token1 = methods.watch("token1");
   const token2 = methods.watch("token2");
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 500);
-  const debouncedAmount2 = useDebounceValue(token2.amount, 500);
+  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
   const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
-    amount1: toAmount(debouncedAmount1),
-    amount2: toAmount(debouncedAmount2),
+    amount: toAmount(debouncedAmount1),
     slippage: String(DEFAULT_SLIPPAGE),
   });
 
-  const { fee, step, resetForm, setStep, swap } = state;
+  const { fee, txHash, txStep, reset, swap } = state;
+
+  useEffect(() => {
+    if (txStep == TxStep.Broadcasting) {
+      setShowConfirm(false);
+    }
+  }, [txStep]);
 
   const submit = async () => {
     swap();
   };
 
+  if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
+    return <FormLoading txHash={txHash} />;
+  }
+
+  if (txStep == TxStep.Success) {
+    return (
+      <FormSuccess
+        contentComponent={
+          <FormSummary
+            label1="You are swapping from"
+            label2="to"
+            token1={token1}
+            token2={token2}
+          />
+        }
+        details={[{ label: "Price Impact", value: "0.02%" }]}
+        onCloseClick={reset}
+      />
+    );
+  }
+
+  if (txStep == TxStep.Failed) {
+    return (
+      <FormError
+        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+        sed diam voluptua."
+        onCloseClick={reset}
+        onClick={reset}
+      />
+    );
+  }
+
   return (
     <FormProvider {...methods}>
       <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
-        {step === FormStep.Initial && (
-          <SwapFormInitial token1={token1} token2={token2} state={state} />
+        {!showConfirm && (
+          <SwapFormInitial
+            token1={token1}
+            token2={token2}
+            state={state}
+            onClick={() => setShowConfirm(true)}
+          />
         )}
 
-        {step === FormStep.Confirm && (
-          <FormConfirmOrSuccess
-            isConfirm
+        {showConfirm && (
+          <FormConfirm
             fee={fee}
             actionLabel="Confirm Swap"
             contentComponent={
@@ -80,35 +124,10 @@ const SwapForm: FC = () => {
               />
             }
             details={[{ label: "Price Impact", value: "0.02%" }]}
-            onCloseClick={resetForm}
+            onCloseClick={reset}
           />
         )}
       </chakra.form>
-
-      {step === FormStep.Success && (
-        <FormConfirmOrSuccess
-          contentComponent={
-            <FormSummary
-              label1="You are swapping from"
-              label2="to"
-              token1={token1}
-              token2={token2}
-            />
-          }
-          details={[{ label: "Price Impact", value: "0.02%" }]}
-          onCloseClick={resetForm}
-        />
-      )}
-
-      {step === FormStep.Error && (
-        <FormError
-          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua."
-          onCloseClick={() => setStep(FormStep.Initial)}
-          onClick={() => setStep(FormStep.Initial)}
-        />
-      )}
     </FormProvider>
   );
 };

@@ -3,7 +3,7 @@ import { Box, Text, NumberInput, NumberInputField } from "@chakra-ui/react";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { format, toAmount } from "libs/parse";
-import { useSimulation } from "modules/swap";
+import { useSwapSimulate } from "modules/swap";
 
 type Props = {
   onChange: any;
@@ -16,11 +16,12 @@ type Props = {
 };
 
 const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
-  const { amount: totalPrice } = useSimulation(
-    value.asset,
-    ESTIMATE_TOKEN,
-    toAmount(value.amount)
-  );
+  const simulate = useSwapSimulate({
+    token1: value.asset,
+    token2: ESTIMATE_TOKEN,
+    amount: toAmount(value.amount),
+    reverse: false,
+  });
 
   return (
     <Box>
@@ -35,7 +36,7 @@ const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
         <NumberInputField placeholder="0.0" />
         <Box position="absolute" bottom="2" right="4">
           <Text fontSize="xs" color="white.400">
-            ${format(totalPrice, "uusd")}
+            ${format(simulate?.amount, "uusd")}
           </Text>
         </Box>
       </NumberInput>

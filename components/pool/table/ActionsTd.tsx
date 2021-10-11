@@ -9,11 +9,11 @@ type Props = {
 };
 
 const ActionsTd: FC<Props> = ({ row }) => {
-  const { contract } = row.original;
+  const { contract_addr } = row.original;
 
   return (
     <Flex justify="flex-end" align="center">
-      <Link href={`/pools/${contract}`} passHref>
+      <Link href={`/pools/${contract_addr}`} passHref>
         <Button as="a" variant="primary" size="sm">
           Add Liquidity
         </Button>

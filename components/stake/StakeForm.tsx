@@ -8,20 +8,21 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
-import { useFeeToString, useTerra } from "@arthuryeti/terra";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
 import {
-  useDepositLpToken,
-  useWithdrawLpToken,
+  useStakeLpToken,
+  useUnstakeLpToken,
   useAccountShare,
 } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
+import { useFeeToString } from "hooks/useFeeToString";
 
 import FormHeader from "components/common/FormHeader";
 import FormHeaderItem from "components/common/FormHeaderItem";
 import CommonFooter from "components/CommonFooter";
+import { useAstroswap } from "modules/common";
 
 enum StakeMode {
   Deposit = "deposit",
@@ -36,7 +37,7 @@ type FormValues = {
 };
 
 const StakeForm = () => {
-  const { isReady, pairs } = useTerra();
+  const { pairs } = useAstroswap();
 
   const [mode, setMode] = useState<StakeMode>(StakeMode.Deposit);
 
@@ -44,7 +45,7 @@ const StakeForm = () => {
     defaultValues: {
       lpToken: {
         amount: "",
-        asset: pairs[0].lpToken,
+        asset: pairs != null ? pairs[0].liquidity_token : "",
       },
     },
   });
@@ -53,23 +54,8 @@ const StakeForm = () => {
 
   const accountShare = useAccountShare(lpToken?.asset);
 
-  const depositOptions =
-    mode === StakeMode.Deposit ? [lpToken.amount, lpToken.asset] : [];
-
-  const withdrawOptions =
-    mode === StakeMode.Withdraw ? [lpToken.amount, lpToken.asset] : [];
-
-  const {
-    submit: deposit,
-    fee: depositFee,
-    error: depositError,
-  } = useDepositLpToken(...(depositOptions as [string, string]));
-
-  const {
-    submit: withdraw,
-    fee: withdrawFee,
-    error: withdrawError,
-  } = useWithdrawLpToken(...(withdrawOptions as [string, string]));
+  const stakeLpState = useStakeLpToken(lpToken);
+  const unstakeLpState = useUnstakeLpToken(lpToken);
 
   const handleChange = (value: number) => {
     setValue("lpToken", {
@@ -80,10 +66,10 @@ const StakeForm = () => {
 
   const submit = async () => {
     if (mode === StakeMode.Deposit) {
-      return deposit();
+      stakeLpState.submit();
     }
 
-    withdraw();
+    return unstakeLpState.submit();
   };
 
   // @ts-expect-error
@@ -144,10 +130,10 @@ const StakeForm = () => {
         </Slider>
       </Card>
 
-      {depositError ||
-        (withdrawError && (
+      {stakeLpState.error ||
+        (unstakeLpState.error && (
           <Card mt="3">
-            <Text variant="light">{depositError || withdrawError}</Text>
+            <Text variant="light">depositError</Text>
           </Card>
         ))}
 
@@ -160,7 +146,6 @@ const StakeForm = () => {
         ]}
         confirmButton={{
           title: "Confirm",
-          isDisabled: !isReady,
           type: "submit",
         }}
       />

@@ -1,29 +1,28 @@
-import { useCallback, useMemo, useState, useEffect } from "react";
-import { TxResult } from "@terra-dev/wallet-types";
-import { Coin, StdFee } from "@terra-money/terra.js";
-import { isValidAmount, useAddress, useTransaction } from "@arthuryeti/terra";
+import { useMemo } from "react";
+import { Coin } from "@terra-money/terra.js";
+import { useAddress, useTransaction, TxStep } from "@arthuryeti/terra";
 
 import { createProvideMsgs } from "modules/pool";
-import { Pool, FormStep } from "types/common";
+import { Pool } from "types/common";
+
+export type ProvideState = {
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
+  provideLiquidity: () => void;
+};
 
 type Params = {
   pool: Pool;
   contract: string;
   token1: string;
-  amount1: string;
+  amount1: string | null;
   token2: string;
-  amount2: string;
-};
-
-export type ProvideState = {
-  setStep: (a: FormStep) => void;
-  step: FormStep;
-  resetForm: () => void;
-  fee: StdFee | null;
-  result: TxResult;
-  error: string | null;
-  isReady: boolean;
-  provideLiquidity: () => void;
+  amount2: string | null;
+  onSuccess?: (txHash: string) => void;
+  onError?: (txHash?: string) => void;
 };
 
 export const useProvide = ({
@@ -33,12 +32,13 @@ export const useProvide = ({
   token2,
   amount1,
   amount2,
+  onSuccess,
+  onError,
 }: Params): ProvideState => {
-  const [step, setStep] = useState<FormStep>(FormStep.Initial);
   const address = useAddress();
 
   const msgs = useMemo(() => {
-    if (!isValidAmount(amount1) || !isValidAmount(amount2) || pool == null) {
+    if (amount1 == null || amount2 == null || pool == null) {
       return [];
     }
 
@@ -48,40 +48,20 @@ export const useProvide = ({
         pool,
         coin1: new Coin(token1, amount1),
         coin2: new Coin(token2, amount2),
+        slippage: "0.02",
       },
       address
     );
   }, [address, contract, pool, token1, token2, amount1, amount2]);
 
-  const { fee, submit, result, error, isReady, reset } = useTransaction({
+  const { submit, ...rest } = useTransaction({
     msgs,
+    onSuccess,
+    onError,
   });
 
-  const resetForm = useCallback(() => {
-    reset();
-    setStep(FormStep.Initial);
-  }, [reset]);
-
-  useEffect(() => {
-    if (step === FormStep.Confirm) {
-      if (result?.success) {
-        setStep(FormStep.Success);
-      }
-
-      if (error) {
-        setStep(FormStep.Error);
-      }
-    }
-  }, [result, error, step]);
-
   return {
-    setStep,
-    step,
-    resetForm,
-    fee,
-    result,
-    error,
-    isReady,
+    ...rest,
     provideLiquidity: submit,
   };
 };

@@ -1,32 +1,30 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Coin } from "@terra-money/terra.js";
-import {
-  isValidAmount,
-  useAddress,
-  useTerra,
-  useTransaction,
-} from "@arthuryeti/terra";
+import { useAddress, TxStep, useTransaction } from "@arthuryeti/terra";
 
 import { createProvideMsgs, calculateProvideOneAsset } from "modules/pool";
-import { findSwapRoute, useSimulation, createSwapMsgs } from "modules/swap";
+import { useSwapRoute, useSwapSimulate } from "modules/swap";
 import { Pool } from "types/common";
-import networks from "constants/networks";
+import { useAstroswap, useContracts } from "modules/common";
+
+export type ProvideSingleState = {
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
+  provideLiquidity: () => void;
+};
 
 type Params = {
   contract: string;
   pool: Pool;
   token1: string;
   token2: string;
-  amount: string;
+  amount: string | null;
+  onSuccess?: (txHash: string) => void;
+  onError?: (txHash?: string) => void;
 };
-
-export enum ProvideSingleStep {
-  Initial = 1,
-  Confirm = 2,
-  Pending = 3,
-  Success = 4,
-  Error = 5,
-}
 
 export const useProvideSingle = ({
   contract,
@@ -34,43 +32,45 @@ export const useProvideSingle = ({
   token1,
   token2,
   amount,
+  onSuccess,
+  onError,
 }: Params) => {
-  const [step, setStep] = useState<ProvideSingleStep>(
-    ProvideSingleStep.Initial
-  );
   const address = useAddress();
-  const {
-    networkInfo: { name },
-    routes,
-  } = useTerra();
-  const { router } = networks[name];
+  const { routes } = useAstroswap();
+  const { router } = useContracts();
 
-  const swapRoute = useMemo(
-    () => findSwapRoute(routes, token1, token2),
-    [routes, token1, token2]
-  );
+  const swapRoute = useSwapRoute({ routes, token1, token2 });
 
   const swapAmount = useMemo(
     () => String(Math.floor(Number(amount) / 2)),
     [amount]
   );
 
-  const { amount: amount2 } = useSimulation(token1, token2, swapAmount);
+  //@ts-expect-error
+  const { amount: amount2 } = useSwapSimulate({
+    token1,
+    token2,
+    amount: swapAmount,
+    reverse: false,
+  });
 
   const swapMsgs = useMemo(() => {
-    if (!isValidAmount(swapAmount) || !swapRoute) {
+    if (swapAmount == null || swapRoute == null) {
       return [];
     }
 
-    return createSwapMsgs(
-      {
-        token1,
-        route: swapRoute,
-        amount: swapAmount,
-        router,
-      },
-      address
-    );
+    return [];
+
+    // TODO: Fix createSwapMsgs
+    // return createSwapMsgs(
+    //   {
+    //     token1,
+    //     route: swapRoute,
+    //     amount: swapAmount,
+    //     router,
+    //   },
+    //   address
+    // );
   }, [router, swapAmount, swapRoute, address, token1]);
 
   const provideAmounts = useMemo(() => {
@@ -80,7 +80,7 @@ export const useProvideSingle = ({
   const provideMsgs = useMemo(() => {
     const { provideAmount1, provideAmount2 } = provideAmounts;
 
-    if (!(isValidAmount(provideAmount1) && isValidAmount(provideAmount2))) {
+    if (provideAmount1 == null || provideAmount2 == null) {
       return [];
     }
 
@@ -90,6 +90,7 @@ export const useProvideSingle = ({
         pool,
         coin1: new Coin(token1, provideAmount1),
         coin2: new Coin(token2, provideAmount2),
+        slippage: "0.01",
       },
       address
     );
@@ -99,17 +100,14 @@ export const useProvideSingle = ({
     return [...swapMsgs, ...provideMsgs];
   }, [swapMsgs, provideMsgs]);
 
-  const { fee, submit, result, error, isReady } = useTransaction({
+  const { submit, ...rest } = useTransaction({
     msgs,
+    onSuccess,
+    onError,
   });
 
   return {
-    setStep,
-    step,
-    fee,
-    isReady,
-    result,
-    error,
+    ...rest,
     provideLiquidity: submit,
   };
 };

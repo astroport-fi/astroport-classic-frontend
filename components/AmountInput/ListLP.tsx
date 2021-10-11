@@ -1,15 +1,19 @@
 import React, { FC } from "react";
 import { Box } from "@chakra-ui/react";
-import { useTerra } from "@arthuryeti/terra";
 
 import { ListLPItem } from "components/AmountInput";
+import { useAstroswap } from "modules/common";
 
 type Props = {
   onClick: (v: string) => void;
 };
 
 const ListLP: FC<Props> = ({ onClick }) => {
-  const { pairs } = useTerra();
+  const { pairs } = useAstroswap();
+
+  if (pairs == null) {
+    return null;
+  }
 
   return (
     <Box>
@@ -17,7 +21,11 @@ const ListLP: FC<Props> = ({ onClick }) => {
         <Box>
           {pairs.map((pair) => {
             return (
-              <ListLPItem key={pair.contract} pair={pair} onClick={onClick} />
+              <ListLPItem
+                key={pair.contract_addr}
+                pair={pair}
+                onClick={onClick}
+              />
             );
           })}
         </Box>

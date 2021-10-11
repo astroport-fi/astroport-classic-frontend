@@ -9,10 +9,10 @@ type Props = {
 };
 
 const MyLiquidityTd: FC<Props> = ({ row }) => {
-  const { contract, lpToken } = row.original;
+  const { contract_addr, liquidity_token } = row.original;
   const { myShareInUST } = usePool({
-    pairContract: contract,
-    lpTokenContract: lpToken,
+    pairContract: contract_addr,
+    lpTokenContract: liquidity_token,
   });
 
   if (myShareInUST == null) {

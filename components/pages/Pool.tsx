@@ -1,15 +1,16 @@
 import React, { FC, useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 
+import { usePool } from "modules/pool";
+import { PairResponse } from "modules/common";
+import { PoolFormType, ProvideFormMode } from "types/common";
+
 import WithdrawForm from "components/pool/withdraw/WithdrawForm";
 import ProvideForm from "components/pool/provide/ProvideForm";
-import ProvideSingleForm from "components/pool/provide/ProvideSingleForm";
-import { usePool } from "modules/pool";
 import PoolGraph from "components/pool/PoolGraph";
-import { Pair, PoolFormType, ProvideFormMode } from "types/common";
 
 type Props = {
-  pair: Pair;
+  pair: PairResponse;
 };
 
 const Pool: FC<Props> = ({ pair }) => {
@@ -18,8 +19,8 @@ const Pool: FC<Props> = ({ pair }) => {
   const [isChartOpen, setIsChartOpen] = useState(false);
 
   const pool = usePool({
-    pairContract: pair.contract,
-    lpTokenContract: pair?.lpToken,
+    pairContract: pair.contract_addr,
+    lpTokenContract: pair?.liquidity_token,
   });
   const tokens = [pool?.token1, pool?.token2];
 
@@ -28,30 +29,16 @@ const Pool: FC<Props> = ({ pair }) => {
       return null;
     }
 
-    if (mode === ProvideFormMode.Double) {
-      return (
-        <ProvideForm
-          pair={pair}
-          pool={pool}
-          mode={mode}
-          onModeClick={setMode}
-          type={type}
-          onTypeClick={setType}
-          isChartOpen={isChartOpen}
-          onChartClick={() => setIsChartOpen(!isChartOpen)}
-        />
-      );
-    }
-
     return (
-      <ProvideSingleForm
+      <ProvideForm
         pair={pair}
         pool={pool}
-        tokens={[pool.token1, pool.token2]}
         mode={mode}
         onModeClick={setMode}
         type={type}
         onTypeClick={setType}
+        isChartOpen={isChartOpen}
+        onChartClick={() => setIsChartOpen(!isChartOpen)}
       />
     );
   };

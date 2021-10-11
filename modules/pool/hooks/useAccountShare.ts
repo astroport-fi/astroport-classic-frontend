@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
-import { useTerra, useAddress } from "@arthuryeti/terra";
+import { useTerraWebapp, useAddress } from "@arthuryeti/terra";
 
 import { getAccountShare } from "modules/pool";
 
 export const useAccountShare = (lpToken?: string | null) => {
-  const { client } = useTerra();
+  const { client } = useTerraWebapp();
   const address = useAddress();
   const [accountShare, setAccountShare] = useState<string>("0");
 

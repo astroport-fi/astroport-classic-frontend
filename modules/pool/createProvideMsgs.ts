@@ -1,22 +1,22 @@
 import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
-import { getTokenDenom, isNativeToken } from "@arthuryeti/terra";
-import { Asset, Pool } from "types/common";
+import { PoolResponse, getTokenDenom, isNativeAsset } from "modules/common";
 
 type CreateProvideMsgsOptions = {
-  pool: Pool;
+  pool: PoolResponse;
   coin1: Coin;
   coin2: Coin;
   contract: string;
+  slippage: string;
 };
 
 export const createProvideMsgs = (
   options: CreateProvideMsgsOptions,
   sender: string
 ): MsgExecuteContract[] => {
-  const { contract, pool, coin1, coin2 } = options;
+  const { contract, pool, coin1, coin2, slippage } = options;
 
-  const assets: Asset[] = pool.assets.map((asset) => ({
+  const assets = pool.assets.map((asset) => ({
     info: asset.info,
     amount:
       getTokenDenom(asset.info) === coin1.denom
@@ -24,16 +24,12 @@ export const createProvideMsgs = (
         : coin2.amount.toString(),
   }));
 
-  const executeMsg = {
-    provide_liquidity: { assets },
-  };
-
   const coins = assets
-    .filter((asset) => isNativeToken(asset.info))
+    .filter((asset) => isNativeAsset(asset.info))
     .map((asset) => new Coin(getTokenDenom(asset.info), asset.amount));
 
   const allowanceMsgs = assets.reduce<MsgExecuteContract[]>((acc, asset) => {
-    if (isNativeToken(asset.info)) {
+    if (isNativeAsset(asset.info)) {
       return acc;
     }
 
@@ -41,6 +37,7 @@ export const createProvideMsgs = (
       ...acc,
       new MsgExecuteContract(
         sender,
+        // @ts-expect-error
         asset.info.token.contract_addr,
         {
           increase_allowance: {
@@ -53,7 +50,13 @@ export const createProvideMsgs = (
     ];
   }, []);
 
+  const executeMsg = {
+    auto_stake: { assets, slippage_tolerance: slippage },
+  };
+
   const msg = new MsgExecuteContract(sender, contract, executeMsg, coins);
 
   return [...allowanceMsgs, msg];
 };
+
+export default createProvideMsgs;

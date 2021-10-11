@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
 
-import { useTokenInfo } from "@arthuryeti/terra";
+import { useTokenInfo } from "modules/common";
 
 type Props = {
   token: string;

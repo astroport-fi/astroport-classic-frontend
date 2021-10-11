@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Text, Image, HStack } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
 
+import { useTokenInfo } from "modules/common";
 import { usePool } from "modules/pool";
 import { lookupSymbol } from "libs/parse";
 
@@ -10,11 +10,11 @@ type Props = {
 };
 
 const PoolItem: FC<Props> = ({ row }) => {
-  const { contract, lpToken } = row.original;
+  const { contract_addr, liquidity_token } = row.original;
   const { getIcon, getSymbol } = useTokenInfo();
   const { token1, token2 } = usePool({
-    pairContract: contract,
-    lpTokenContract: lpToken,
+    pairContract: contract_addr,
+    lpTokenContract: liquidity_token,
   });
 
   if (token1 == null || token2 == null) {

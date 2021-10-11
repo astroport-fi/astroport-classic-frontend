@@ -34,8 +34,8 @@
     },
     "pairs": [
       {
-        "contract": "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
-        "lpToken": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr",
+        "contract_addr": "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
+        "liquidity_token": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr",
         "asset_infos": [
           {
             "native_token": {
@@ -50,8 +50,8 @@
         ]
       },
       {
-        "contract": "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p",
-        "lpToken": "terra1nuy34nwnsh53ygpc4xprlj263cztw7vc99leh2",
+        "contract_addr": "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p",
+        "liquidity_token": "terra1nuy34nwnsh53ygpc4xprlj263cztw7vc99leh2",
         "asset_infos": [
           {
             "token": {
@@ -66,8 +66,8 @@
         ]
       },
       {
-        "contract": "terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3",
-        "lpToken": "terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm",
+        "contract_addr": "terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3",
+        "liquidity_token": "terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm",
         "asset_infos": [
           {
             "token": {
@@ -130,8 +130,8 @@
     },
     "pairs": [
       {
-        "contract": "terra13e4jmcjnwrauvl2fnjdwex0exuzd8zrh5xk29v",
-        "lpToken": "terra1tj4pavqjqjfm0wh73sh7yy9m4uq3m2cpmgva6n",
+        "contract_addr": "terra13e4jmcjnwrauvl2fnjdwex0exuzd8zrh5xk29v",
+        "liquidity_token": "terra1tj4pavqjqjfm0wh73sh7yy9m4uq3m2cpmgva6n",
         "asset_infos": [
           {
             "token": {
@@ -146,8 +146,8 @@
         ]
       },
       {
-        "contract": "terra1wfvczps2865j0awnurk9m04u7wdmd6qv3fdnvz",
-        "lpToken": "terra1vg0qyq92ky9z9dp0j9fv5rmr2s80sg605dah6f",
+        "contract_addr": "terra1wfvczps2865j0awnurk9m04u7wdmd6qv3fdnvz",
+        "liquidity_token": "terra1vg0qyq92ky9z9dp0j9fv5rmr2s80sg605dah6f",
         "asset_infos": [
           {
             "token": {
@@ -162,8 +162,8 @@
         ]
       },
       {
-        "contract": "terra156v8s539wtz0sjpn8y8a8lfg8fhmwa7fy22aff",
-        "lpToken": "terra1srf30cs8ax73y59gm64lkztnx0zexl8fpv3kx2",
+        "contract_addr": "terra156v8s539wtz0sjpn8y8a8lfg8fhmwa7fy22aff",
+        "liquidity_token": "terra1srf30cs8ax73y59gm64lkztnx0zexl8fpv3kx2",
         "asset_infos": [
           {
             "native_token": {

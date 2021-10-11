@@ -1,14 +1,17 @@
 import React, { FC, ReactNode } from "react";
-import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, IconButton } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
-import SuccessIcon from "components/icons/SuccessIcon";
-import CloseIcon from "components/icons/CloseIcon";
 import Card from "components/Card";
+import CloseIcon from "components/icons/CloseIcon";
+import SuccessIcon from "components/icons/SuccessIcon";
 
 type Props = {
   contentComponent: ReactNode;
-  detailsComponent: ReactNode;
+  details: {
+    label: string;
+    value: string;
+  }[];
   onCloseClick: () => void;
 };
 
@@ -16,11 +19,14 @@ const MotionBox = motion(Box);
 
 const FormSuccess: FC<Props> = ({
   contentComponent,
-  detailsComponent,
+  details,
   onCloseClick,
 }) => {
   return (
-    <MotionBox initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }}>
+    <MotionBox
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+    >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
           <HStack>
@@ -50,7 +56,16 @@ const FormSuccess: FC<Props> = ({
           px="4"
           py="4"
         >
-          {detailsComponent}
+          {details.map((detail) => {
+            return (
+              <HStack key={detail.label} justify="space-between" mb="1">
+                <Text fontSize="sm" color="white.600">
+                  {detail.label}
+                </Text>
+                <Text color="white">{detail.value}</Text>
+              </HStack>
+            );
+          })}
         </Box>
       </Card>
     </MotionBox>

@@ -9,12 +9,12 @@ import {
   MenuList,
   Image,
 } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
-import { format } from "libs/parse";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { List } from "components/AmountInput";
-import { useTokenPrice } from "modules/swap";
+import { useTokenPriceInUst } from "modules/swap";
+import { useTokenInfo } from "modules/common";
 
 type Props = {
   value: string;
@@ -24,7 +24,7 @@ type Props = {
 
 const Select: FC<Props> = ({ value, onClick, tokens }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPrice(value);
+  const price = useTokenPriceInUst(value);
 
   const renderButton = () => {
     const icon = getIcon(value);
@@ -41,7 +41,8 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               {getSymbol(value)}
             </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${format(price, "uusd")}
+              {/* TODO: Fix type */}
+              Price: ${fromTerraAmount(price as string)}
             </Text>
           </Box>
 

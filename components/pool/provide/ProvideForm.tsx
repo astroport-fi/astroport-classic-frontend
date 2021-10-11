@@ -1,14 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { TxStep } from "@arthuryeti/terra";
 
 import { toAmount } from "libs/parse";
-import { PoolFormType, ProvideFormMode, Pair, FormStep } from "types/common";
+import { PairResponse } from "modules/common";
+import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
 
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
-import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
+import FormConfirm from "components/common/FormConfirm";
+import FormLoading from "components/common/FormLoading";
+import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import FormError from "components/common/FormError";
 
@@ -24,12 +28,12 @@ type FormValues = {
 };
 
 type Props = {
-  pair: Pair;
+  pair: PairResponse;
   pool: any;
   mode: ProvideFormMode;
   type: PoolFormType;
-  onModeClick: any;
-  onTypeClick: any;
+  onModeClick: (v: ProvideFormMode) => void;
+  onTypeClick: (v: PoolFormType) => void;
   isChartOpen: boolean;
   onChartClick: () => void;
 };
@@ -44,6 +48,7 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
@@ -60,11 +65,11 @@ const ProvideForm: FC<Props> = ({
   const token1 = methods.watch("token1");
   const token2 = methods.watch("token2");
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 500);
-  const debouncedAmount2 = useDebounceValue(token2.amount, 500);
+  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
+  const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
-  const provideState = useProvide({
-    contract: pair.contract,
+  const state = useProvide({
+    contract: pair.contract_addr,
     pool: pool,
     token1: token1.asset,
     token2: token2.asset,
@@ -73,13 +78,52 @@ const ProvideForm: FC<Props> = ({
   });
 
   const submit = async () => {
-    provideState.provideLiquidity();
+    state.provideLiquidity();
   };
+
+  useEffect(() => {
+    if (state.txStep == TxStep.Broadcasting) {
+      setShowConfirm(false);
+    }
+  }, [state.txStep]);
+
+  if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
+    return <FormLoading txHash={state.txHash} />;
+  }
+
+  if (state.txStep == TxStep.Success) {
+    return (
+      <FormSuccess
+        contentComponent={
+          <FormSummary
+            label1="You are providing"
+            label2="and"
+            token1={token1}
+            token2={token2}
+          />
+        }
+        details={[{ label: "APY", value: "12%" }]}
+        onCloseClick={state.reset}
+      />
+    );
+  }
+
+  if (state.txStep == TxStep.Failed) {
+    return (
+      <FormError
+        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+        sed diam voluptua."
+        onCloseClick={state.reset}
+        onClick={state.reset}
+      />
+    );
+  }
 
   return (
     <FormProvider {...methods}>
       <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
-        {provideState.step === FormStep.Initial && (
+        {!showConfirm && (
           <ProvideFormInitial
             token1={token1}
             token2={token2}
@@ -90,15 +134,15 @@ const ProvideForm: FC<Props> = ({
             onTypeClick={onTypeClick}
             isChartOpen={isChartOpen}
             onChartClick={onChartClick}
-            state={provideState}
+            state={state}
+            onClick={() => setShowConfirm(true)}
           />
         )}
 
-        {provideState.step === FormStep.Confirm && (
-          <FormConfirmOrSuccess
-            fee={provideState.fee}
+        {showConfirm && (
+          <FormConfirm
+            fee={state.fee}
             actionLabel="Confirm Provide"
-            isConfirm
             contentComponent={
               <FormSummary
                 label1="You are providing"
@@ -108,35 +152,10 @@ const ProvideForm: FC<Props> = ({
               />
             }
             details={[{ label: "APY", value: "12%" }]}
-            onCloseClick={() => provideState.resetForm()}
+            onCloseClick={state.reset}
           />
         )}
       </chakra.form>
-
-      {provideState.step === FormStep.Success && (
-        <FormConfirmOrSuccess
-          contentComponent={
-            <FormSummary
-              label1="You are providing"
-              label2="and"
-              token1={token1}
-              token2={token2}
-            />
-          }
-          details={[{ label: "APY", value: "12%" }]}
-          onCloseClick={() => provideState.resetForm()}
-        />
-      )}
-
-      {provideState.step === FormStep.Error && (
-        <FormError
-          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua."
-          onCloseClick={() => provideState.setStep(FormStep.Initial)}
-          onClick={() => provideState.setStep(FormStep.Initial)}
-        />
-      )}
     </FormProvider>
   );
 };

@@ -8,11 +8,11 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
+import { useBalance } from "@arthuryeti/terra";
 
 import { lookup } from "libs/parse";
 import { WithdrawState } from "modules/pool";
-import { useBalance } from "hooks/useBalance";
-import { PoolFormType, ProvideFormMode, FormStep } from "types/common";
+import { PoolFormType, ProvideFormMode } from "types/common";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
@@ -32,6 +32,7 @@ type Props = {
   onModeClick: (v: ProvideFormMode) => void;
   onTypeClick: (v: PoolFormType) => void;
   state: WithdrawState;
+  onClick: () => void;
 };
 
 const WithdrawFormInitial: FC<Props> = ({
@@ -42,6 +43,7 @@ const WithdrawFormInitial: FC<Props> = ({
   onModeClick,
   onTypeClick,
   state,
+  onClick,
 }) => {
   const { control, setValue } = useFormContext();
   const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
@@ -134,11 +136,7 @@ const WithdrawFormInitial: FC<Props> = ({
         </Slider>
       </Card>
 
-      <WithdrawFormFooter
-        pool={pool}
-        data={state}
-        onConfirmClick={() => state.setStep(FormStep.Confirm)}
-      />
+      <WithdrawFormFooter pool={pool} data={state} onConfirmClick={onClick} />
     </>
   );
 };

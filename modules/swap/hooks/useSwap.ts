@@ -1,139 +1,114 @@
-import { useCallback, useState, useMemo, useEffect } from "react";
-import {
-  isValidAmount,
-  useAddress,
-  useTransaction,
-  useTerra,
-} from "@arthuryeti/terra";
-import {
-  findSwapRoute,
-  calculateMinimumReceive,
-  useSimulation,
-  createSwapMsgs,
-} from "modules/swap";
-import { StdFee } from "@terra-money/terra.js";
-import { TxResult } from "@terra-dev/wallet-types";
+import { useMemo } from "react";
+import { TxStep, useAddress, useTransaction } from "@arthuryeti/terra";
 
-import { FormStep } from "types/common";
-import { ONE_TOKEN } from "constants/constants";
-import networks from "constants/networks";
-
-type Params = {
-  token1: string;
-  amount1: string;
-  token2: string;
-  amount2: string;
-  slippage: string;
-};
+import { useContracts, useAstroswap } from "modules/common";
+import { useSwapRoute, useSwapSimulate, minAmountReceive } from "modules/swap";
+import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
+import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
 
 export type SwapState = {
-  setStep: (a: FormStep) => void;
-  step: FormStep;
-  isReverse: boolean;
-  toggleIsReverse: () => void;
-  resetForm: () => void;
-  isReady: boolean;
-  minimumReceive: string | null;
-  result: TxResult;
-  error: string | null;
-  fee: StdFee | null;
+  simulated: any;
+  minReceive: any;
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
   swap: () => void;
-  exchangeRate: string;
+};
+
+type Params = {
+  token1: string | null;
+  token2: string | null;
+  amount: string | null;
+  slippage: string;
+  onSuccess?: (txHash: string) => void;
+  onError?: (txHash?: string) => void;
 };
 
 export const useSwap = ({
   token1,
   token2,
-  amount1,
+  amount,
   slippage,
-}: Params): SwapState => {
-  const [step, setStep] = useState<FormStep>(FormStep.Initial);
-  const [isReverse, setIsReverse] = useState<boolean>(false);
-  const {
-    networkInfo: { name },
-    routes,
-  } = useTerra();
+  onSuccess,
+  onError,
+}: Params) => {
+  const { routes } = useAstroswap();
   const address = useAddress();
-  const { router } = networks[name];
+  const contracts = useContracts();
+  const swapRoute = useSwapRoute({ routes, token1, token2 });
+  const router = contracts.router;
 
-  const { amount: exchangeRate } = useSimulation(
+  const simulated = useSwapSimulate({
+    amount: amount ?? "1000000",
     token1,
     token2,
-    String(ONE_TOKEN)
-  );
-  const { amount } = useSimulation(token1, token2, amount1);
+    reverse: false,
+  });
 
-  const swapRoute = useMemo(
-    () => findSwapRoute(routes, token1, token2),
-    [routes, token1, token2]
-  );
-
-  const minimumReceive = useMemo(() => {
-    if (!isValidAmount(amount)) {
+  const minReceive = useMemo(() => {
+    if (simulated == null) {
       return null;
     }
 
-    return calculateMinimumReceive(amount, slippage);
-  }, [amount, slippage]);
+    return minAmountReceive({
+      amount: simulated.amount,
+      maxSpread: slippage,
+    });
+  }, [simulated, slippage]);
 
   const msgs = useMemo(() => {
-    if (!isValidAmount(amount1) || !minimumReceive || !swapRoute) {
-      return [];
+    if (
+      swapRoute == null ||
+      token1 == null ||
+      amount == null ||
+      simulated == null
+    ) {
+      return null;
     }
 
-    return createSwapMsgs(
+    if (swapRoute.length > 1) {
+      return createMultiSwapMsgs(
+        {
+          token: token1,
+          swapRoute,
+          amount,
+          minReceive,
+          router,
+        },
+        address
+      );
+    }
+
+    return createMonoSwapMsgs(
       {
-        token1,
-        route: swapRoute,
-        amount: amount1,
+        token: token1,
+        swapRoute,
+        amount,
         slippage,
-        minimumReceive,
-        router,
+        price: simulated.price,
       },
       address
     );
-  }, [address, token1, amount1, minimumReceive, slippage, router, swapRoute]);
+  }, [
+    address,
+    token1,
+    amount,
+    simulated,
+    minReceive,
+    slippage,
+    router,
+    swapRoute,
+  ]);
 
-  const toggleIsReverse = useCallback(() => {
-    setIsReverse(!isReverse);
-  }, [isReverse]);
-
-  const { fee, submit, result, error, reset } = useTransaction({
-    msgs,
-  });
-
-  const resetForm = useCallback(() => {
-    reset();
-    setStep(FormStep.Initial);
-  }, [reset]);
-
-  useEffect(() => {
-    if (step === FormStep.Confirm) {
-      if (result?.success) {
-        setStep(FormStep.Success);
-      }
-
-      if (error) {
-        setStep(FormStep.Error);
-      }
-    }
-  }, [result, error, step]);
-
-  const isReady = !!minimumReceive && !!exchangeRate && !!fee;
+  const { submit, ...rest } = useTransaction({ msgs, onSuccess, onError });
 
   return {
-    setStep,
-    step,
-    isReverse,
-    toggleIsReverse,
-    resetForm,
-    isReady,
-    minimumReceive,
-    result,
-    error,
-    fee,
+    ...rest,
+    simulated,
+    minReceive,
     swap: submit,
-    exchangeRate,
   };
 };
 

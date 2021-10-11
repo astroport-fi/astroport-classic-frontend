@@ -1,14 +1,12 @@
-import { getTokenDenom } from "@arthuryeti/terra";
+import { getTokenDenom, PoolResponse } from "modules/common";
 
-import { Pool } from "types/common";
-
-export const findAssetInPool = (pool: Pool, asset: string) => {
+export const findAssetInPool = (pool: PoolResponse, asset: string) => {
   return pool.assets.find((a) => {
     return getTokenDenom(a.info) === asset;
   });
 };
 
-export const getAssetAmountsInPool = (pool: Pool) => {
+export const getAssetAmountsInPool = (pool: PoolResponse) => {
   return pool.assets.reduce(
     (prev, a) => {
       const key = getTokenDenom(a.info) === "uusd" ? "uusd" : "other";

@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
-import { TerraProvider } from "@arthuryeti/terra";
+import { TerraWebappProvider } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import Navbar from "components/Navbar";
 import whitelist from "constants/whitelist.json";
+import { AstroswapProvider } from "modules/common";
 
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
@@ -39,12 +40,14 @@ const Layout: FC = ({ children }) => {
         }}
       />
       {!isInitializing && (
-        <TerraProvider data={whitelist}>
-          <Box>
-            <Navbar />
-          </Box>
-          <Box flex="1">{children}</Box>
-        </TerraProvider>
+        <TerraWebappProvider>
+          <AstroswapProvider data={whitelist}>
+            <Box>
+              <Navbar />
+            </Box>
+            <Box flex="1">{children}</Box>
+          </AstroswapProvider>
+        </TerraWebappProvider>
       )}
     </Flex>
   );

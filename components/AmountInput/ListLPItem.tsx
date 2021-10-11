@@ -1,19 +1,18 @@
 import React, { FC } from "react";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
-import { useTokenInfo, getTokenDenoms } from "@arthuryeti/terra";
+import { useBalance } from "@arthuryeti/terra";
 
 import { format } from "libs/parse";
-import { useBalance } from "hooks/useBalance";
-import { Pair } from "types/common";
+import { useTokenInfo, getTokenDenoms, PairResponse } from "modules/common";
 
 type Props = {
-  pair: Pair;
+  pair: PairResponse;
   onClick: (v: string) => void;
 };
 
 const ListLPItem: FC<Props> = ({ pair, onClick }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const balance = useBalance(pair.contract);
+  const balance = useBalance(pair.liquidity_token);
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
@@ -30,7 +29,7 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
       _hover={{
         bg: "white.500",
       }}
-      onClick={() => onClick(pair.lpToken)}
+      onClick={() => onClick(pair.liquidity_token)}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="2">

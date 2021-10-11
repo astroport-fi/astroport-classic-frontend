@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, Button, HStack } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
 
-import Card from "components/Card";
+import { useTokenInfo } from "modules/common";
 import { lookupSymbol } from "libs/parse";
 import { PoolFormType, ProvideFormMode } from "types/common";
+
+import Card from "components/Card";
 
 type Props = {
   pool: any;

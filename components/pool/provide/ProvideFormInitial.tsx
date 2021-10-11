@@ -6,9 +6,9 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
+import { useBalance } from "@arthuryeti/terra";
 
-import { PoolFormType, ProvideFormMode, FormStep } from "types/common";
-import { useBalance } from "hooks/useBalance";
+import { PoolFormType, ProvideFormMode } from "types/common";
 import { calculateToken2Amount, ProvideState } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
 import { lookup } from "libs/parse";
@@ -36,6 +36,7 @@ type Props = {
   isChartOpen: boolean;
   onChartClick: () => void;
   state: ProvideState;
+  onClick: () => void;
 };
 
 const ProvideFormInitial: FC<Props> = ({
@@ -49,10 +50,11 @@ const ProvideFormInitial: FC<Props> = ({
   token1,
   token2,
   state,
+  onClick,
 }) => {
   const { control, setValue } = useFormContext();
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 500);
+  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
   const balance = useBalance(token1.asset);
   const amount = lookup(balance, token1.asset);
@@ -107,14 +109,16 @@ const ProvideFormInitial: FC<Props> = ({
         />
       </Card>
 
-      <Card mt="2">
-        <Controller
-          name="token2"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isSingle />}
-        />
-      </Card>
+      {mode == ProvideFormMode.Double && (
+        <Card mt="2">
+          <Controller
+            name="token2"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => <AmountInput {...field} isSingle />}
+          />
+        </Card>
+      )}
 
       <Card mt="2">
         <Slider
@@ -134,11 +138,7 @@ const ProvideFormInitial: FC<Props> = ({
         </Slider>
       </Card>
 
-      <ProvideFormFooter
-        pool={pool}
-        data={state}
-        onConfirmClick={() => state.setStep(FormStep.Confirm)}
-      />
+      <ProvideFormFooter pool={pool} data={state} onConfirmClick={onClick} />
     </>
   );
 };

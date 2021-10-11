@@ -1,67 +1,31 @@
-import { getTokenDenoms } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
-import { Pair } from "types/common";
-
-export const calculatePriceImpact = (
-  amount: number,
-  spreadAmount: number
-): number => {
-  const price = (spreadAmount / (amount + spreadAmount)) * 100;
-
-  return Math.ceil(price * 1000) / 1000;
+type minAmountReceiveParams = {
+  amount: string;
+  maxSpread: string;
 };
 
-export const calculateMinimumReceive = (amount: string, slippage: string) => {
-  return String(Math.floor(Number(amount) - Number(amount) * Number(slippage)));
+export const minAmountReceive = ({
+  amount,
+  maxSpread,
+}: minAmountReceiveParams): string => {
+  const rate1 = num("1").minus(maxSpread);
+  const rate2 = num("1").minus("0.003"); // astroswap commission
+
+  return num(amount).times(rate1).times(rate2).toString();
 };
 
-export const findSwapRoute = (routes: any, from: string, to: string) => {
-  if (!routes[from]) {
-    return null;
-  }
-
-  if (routes[from]["usdr"] && routes["usdr"][to]) {
-    return [routes[from]["usdr"], routes["usdr"][to]];
-  }
-
-  if (routes[from][to]) {
-    return [routes[from][to]];
-  }
-
-  if (routes[from]["uusd"] && routes["uusd"][to]) {
-    return [routes[from]["uusd"], routes["uusd"][to]];
-  }
-
-  if (routes[from]["uluna"] && routes["uluna"][to]) {
-    return [routes[from]["uluna"], routes["uluna"][to]];
-  }
-
-  if (routes[from]["uluna"] && routes["uusd"][to]) {
-    return [routes[from]["uluna"], routes["uluna"]["uusd"], routes["uusd"][to]];
-  }
-
-  return [routes[from]["uusd"], routes["uusd"]["uluna"], routes["uluna"][to]];
+type PriceImpactParams = {
+  offerAmount: string;
+  maxSpread: string;
 };
 
-export const swapRouteToString = (
-  from: string,
-  routes: Pair[],
-  tokens: any
-) => {
-  return routes
-    .reduce(
-      (acc, { asset_infos }) => {
-        const [tokenFirst, secondeToken] = getTokenDenoms(asset_infos);
+export const priceImpact = ({
+  offerAmount,
+  maxSpread,
+}: PriceImpactParams): string => {
+  const amount = num(offerAmount);
+  const spread = num(maxSpread);
 
-        const nextFrom =
-          tokenFirst === acc[acc.length - 1] ? secondeToken : tokenFirst;
-
-        return [...acc, nextFrom];
-      },
-      [from]
-    )
-    .map((token) => {
-      return tokens[token].symbol;
-    })
-    .join(" > ");
+  return spread.div(amount.plus(spread)).times("100").toString();
 };

@@ -2,7 +2,8 @@
 import React, { FC, useMemo } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { useTable, useSortBy, useExpanded } from "react-table";
-import { getTokenDenom } from "@arthuryeti/terra";
+
+import { PairResponse, getTokenDenom } from "modules/common";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
@@ -12,11 +13,10 @@ import PoolNameTd from "components/pool/table/PoolNameTd";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
 import DepthTd from "components/pool/table/DepthTd";
 import ActionsTd from "components/pool/table/ActionsTd";
-import { Pair } from "types/common";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 
 type Props = {
-  data: Pair[];
+  data: PairResponse[];
 };
 
 const PoolTable: FC<Props> = ({ data }) => {

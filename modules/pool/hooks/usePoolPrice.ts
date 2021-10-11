@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import { toAssetInfo, useTerra } from "@arthuryeti/terra";
+import { useTerraWebapp } from "@arthuryeti/terra";
 
 import { getAssetAmountsInPool } from "libs/terra";
 import { toAmount } from "libs/parse";
+import { toAssetInfo } from "modules/common";
 import networks from "constants/networks";
 
 export const usePoolPrice: any = (token: string) => {
   const {
     client,
-    networkInfo: { name },
-  } = useTerra();
+    network: { name },
+  } = useTerraWebapp();
   const factory = networks[name].factory;
-  const [price, setPrice] = useState<string>("0.00");
+  const [price, setPrice] = useState<string | null>("0.00");
 
   const getPool = useCallback(async () => {
     try {
@@ -49,7 +50,7 @@ export const usePoolPrice: any = (token: string) => {
       // eslint-disable-next-line no-console
       console.log(e);
     }
-  }, [client, token]);
+  }, [client, token, factory]);
 
   useEffect(() => {
     getPool();

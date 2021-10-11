@@ -1,13 +1,10 @@
 import React, { FC, useEffect } from "react";
 import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { isValidAmount } from "@arthuryeti/terra";
-import numeral from "numeral";
 import { motion, useAnimation } from "framer-motion";
+import { TxStep, num } from "@arthuryeti/terra";
 
-import { ONE_TOKEN } from "constants/constants";
 import { SwapState } from "modules/swap";
-import { FormStep } from "types/common";
 
 import GearIcon from "components/icons/GearIcon";
 import GraphIcon from "components/icons/GraphIcon";
@@ -29,41 +26,52 @@ type Props = {
     amount: string;
   };
   state: SwapState;
+  onClick: () => void;
 };
 
-const SwapForm: FC<Props> = ({ token1, token2, state }) => {
+const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
   const { control, formState, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
 
-  const switchTokens = () => {
-    if (state.isReverse) {
-      card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [162, 162, 0, 0] });
-      card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [-162, -162, 0, 0] });
-    } else {
-      card1Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, 162, 162] });
-      card2Control.start({ scale: [1, 0.8, 0.8, 1], y: [0, 0, -162, -162] });
-    }
-    state.toggleIsReverse();
+  const reverse = () => {
+    setValue("token1", {
+      asset: token2.asset,
+      amount: undefined,
+    });
+    setValue("token2", {
+      asset: token1.asset,
+      amount: undefined,
+    });
   };
 
   useEffect(() => {
-    // @ts-expect-error
-    if (formState.name == "token1" && isValidAmount(token1.amount)) {
-      const rate = numeral(state.exchangeRate).divide(ONE_TOKEN).value();
+    if (
+      // @ts-expect-error
+      formState.name == "token1" &&
+      token1.amount != null &&
+      state.simulated != null
+    ) {
+      const newAmount = num(token1.amount)
+        .div(state.simulated.price)
+        .toFixed(6);
 
-      setValue("token2.amount", numeral(token1.amount).multiply(rate).value());
+      setValue("token2.amount", newAmount);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token1.amount]);
 
   useEffect(() => {
-    // @ts-expect-error
-    if (formState.name == "token2" && isValidAmount(token2.amount)) {
-      const rate = numeral(state.exchangeRate).divide(ONE_TOKEN).value();
+    if (
       // @ts-expect-error
-      const newAmount = numeral(token2.amount).divide(rate).value().toFixed(6);
+      formState.name == "token2" &&
+      token2.amount != null &&
+      state.simulated != null
+    ) {
+      const newAmount = num(token2.amount)
+        .times(state.simulated.price)
+        .toFixed(6);
 
       setValue("token1.amount", newAmount);
     }
@@ -142,7 +150,7 @@ const SwapForm: FC<Props> = ({ token1, token2, state }) => {
         <IconButton
           aria-label="Switch"
           icon={<ArrowIcon />}
-          onClick={switchTokens}
+          onClick={reverse}
           variant="icon"
           borderRadius="full"
           minWidth="8"
@@ -177,10 +185,10 @@ const SwapForm: FC<Props> = ({ token1, token2, state }) => {
       <SwapFormFooter
         from={token1.asset}
         to={token2.asset}
-        isLoading={!state.isReady}
-        exchangeRate={state.exchangeRate}
+        isLoading={state.txStep != TxStep.Ready}
+        price={state.simulated?.price}
         fee={state.fee}
-        onConfirmClick={() => state.setStep(FormStep.Confirm)}
+        onConfirmClick={onClick}
       />
     </>
   );

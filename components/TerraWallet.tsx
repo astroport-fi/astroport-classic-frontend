@@ -13,11 +13,11 @@ import {
   Flex,
   Center,
 } from "@chakra-ui/react";
+import { useBalance } from "@arthuryeti/terra";
 
 import WalletModal from "components/modals/WalletModal";
 import TerraIcon from "components/icons/TerraIcon";
 import { truncate } from "libs/text";
-import { useBalance } from "hooks/useBalance";
 import { format } from "libs/parse";
 
 const TerraWallet: FC = () => {

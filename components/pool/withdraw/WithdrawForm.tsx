@@ -1,15 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { TxStep } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PoolFormType, ProvideFormMode, Pair, FormStep } from "types/common";
+import { PairResponse } from "modules/common";
+import { PoolFormType, ProvideFormMode } from "types/common";
 import { toAmount } from "libs/parse";
 import { useWithdraw } from "modules/pool";
 
 import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
-import FormConfirmOrSuccess from "components/common/FormConfirmOrSuccess";
+import FormLoading from "components/common/FormLoading";
+import FormSuccess from "components/common/FormSuccess";
+import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
 
 type FormValues = {
@@ -20,7 +24,7 @@ type FormValues = {
 };
 
 type Props = {
-  pair: Pair;
+  pair: PairResponse;
   pool: any;
   mode: ProvideFormMode;
   type: PoolFormType;
@@ -36,11 +40,12 @@ const WithdrawForm: FC<Props> = ({
   onModeClick,
   onTypeClick,
 }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
       token: {
         amount: undefined,
-        asset: pair.lpToken,
+        asset: pair.liquidity_token,
       },
     },
   });
@@ -50,31 +55,71 @@ const WithdrawForm: FC<Props> = ({
   const debouncedAmount = useDebounceValue(token.amount, 500);
 
   const state = useWithdraw({
-    contract: pair.contract,
-    lpToken: pair.lpToken,
+    contract: pair.contract_addr,
+    lpToken: pair.liquidity_token,
     amount: toAmount(debouncedAmount),
   });
 
   const {
     fee,
-    step,
-    resetForm,
-    setStep,
+    txStep,
     withdraw,
     token1,
     token1Amount,
     token2,
     token2Amount,
+    reset,
   } = state;
 
   const submit = async () => {
     withdraw();
   };
 
+  useEffect(() => {
+    if (txStep == TxStep.Broadcasting) {
+      setShowConfirm(false);
+    }
+  }, [txStep]);
+
+  if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
+    return <FormLoading txHash={state.txHash} />;
+  }
+
+  if (txStep == TxStep.Success) {
+    return (
+      <FormSuccess
+        contentComponent={
+          <FormSummary
+            label1="You are receving"
+            label2="and"
+            // @ts-expect-error
+            token1={{ asset: token1, amount: token1Amount }}
+            // @ts-expect-error
+            token2={{ asset: token2, amount: token2Amount }}
+          />
+        }
+        details={[{ label: "Price Impact", value: "0.02%" }]}
+        onCloseClick={reset}
+      />
+    );
+  }
+
+  if (txStep == TxStep.Failed) {
+    return (
+      <FormError
+        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+        sed diam voluptua."
+        onCloseClick={state.reset}
+        onClick={state.reset}
+      />
+    );
+  }
+
   return (
     <FormProvider {...methods}>
       <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
-        {step === FormStep.Initial && (
+        {!showConfirm && (
           <WithdrawFormInitial
             pool={pool}
             mode={mode}
@@ -83,12 +128,12 @@ const WithdrawForm: FC<Props> = ({
             onTypeClick={onTypeClick}
             token={token}
             state={state}
+            onClick={() => setShowConfirm(true)}
           />
         )}
 
-        {step === FormStep.Confirm && (
-          <FormConfirmOrSuccess
-            isConfirm
+        {showConfirm && (
+          <FormConfirm
             fee={fee}
             actionLabel="Confirm Withdraw"
             contentComponent={
@@ -102,37 +147,10 @@ const WithdrawForm: FC<Props> = ({
               />
             }
             details={[{ label: "Price Impact", value: "0.02%" }]}
-            onCloseClick={resetForm}
+            onCloseClick={reset}
           />
         )}
       </chakra.form>
-
-      {step === FormStep.Success && (
-        <FormConfirmOrSuccess
-          contentComponent={
-            <FormSummary
-              label1="You are receving"
-              label2="and"
-              // @ts-expect-error
-              token1={{ asset: token1, amount: token1Amount }}
-              // @ts-expect-error
-              token2={{ asset: token2, amount: token2Amount }}
-            />
-          }
-          details={[{ label: "Price Impact", value: "0.02%" }]}
-          onCloseClick={resetForm}
-        />
-      )}
-
-      {step === FormStep.Error && (
-        <FormError
-          content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua."
-          onCloseClick={() => setStep(FormStep.Initial)}
-          onClick={() => setStep(FormStep.Initial)}
-        />
-      )}
     </FormProvider>
   );
 };

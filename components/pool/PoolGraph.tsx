@@ -1,16 +1,17 @@
 import React, { useEffect, useMemo, useState, FC, ReactNode } from "react";
 import { Text } from "@chakra-ui/react";
-import { useTokenInfo, formatAmount } from "@arthuryeti/terra";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
-import Card from "components/Card";
-import Graph from "components/graph/Graph";
-import { lookupSymbol } from "libs/parse";
-import { useTokenPrice } from "modules/swap";
+import { useTokenInfo } from "modules/common";
+import { useTokenPriceInUst } from "modules/swap";
 import {
   enumToArray,
   findRegularToken,
   // preparingSelectList,
 } from "modules/pool";
+
+import Card from "components/Card";
+import Graph from "components/graph/Graph";
 
 enum TypeFilter {
   Log,
@@ -51,6 +52,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   const [typeFilter, setTypeFilter] = useState(TypeFilter[0]);
   const [timeFilter, setTimeFilter] = useState(TimeFilter[4]);
   const selectedToken = findRegularToken(tokens);
+  const price = useTokenPriceInUst(selectedToken);
 
   // const list = preparingSelectList(tokens);
   // const [selectFilter, setSelectFilter] = useState(list[0]);
@@ -103,8 +105,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   const cardTitle = (
     <>
       <Text fontSize="xl" fontWeight="medium">
-        {lookupSymbol(getSymbol(selectedToken))} $
-        {formatAmount(useTokenPrice(selectedToken))}
+        {getSymbol(selectedToken)} ${fromTerraAmount(price)}
       </Text>
       <Text
         fontSize="xs"

@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
+import { fromTerraAmount } from "@arthuryeti/terra";
+
+import { POOLS_TOKEN } from "constants/constants";
+import { useTokenPriceInUst } from "modules/swap";
 
 import Card from "components/Card";
-import { POOLS_TOKEN } from "constants/constants";
-import { useTokenPrice } from "modules/swap";
-import { formatAmount } from "@arthuryeti/terra";
 
 const PoolsOverview: FC = () => {
-  const price = useTokenPrice(POOLS_TOKEN);
+  const price = useTokenPriceInUst(POOLS_TOKEN);
 
   return (
     <Card>
@@ -26,7 +27,7 @@ const PoolsOverview: FC = () => {
         </Box>
         <Box>
           <Text fontWeight="500" fontSize="xl">
-            ${formatAmount(price)}
+            ${fromTerraAmount(price)}
           </Text>
           <Text variant="light">ASTRO price</Text>
         </Box>

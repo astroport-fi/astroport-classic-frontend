@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Box, Flex, BoxProps, Text, HStack } from "@chakra-ui/react";
-import { useTokenInfo } from "@arthuryeti/terra";
 
 import { format } from "libs/parse";
-import { useTokenPrice } from "modules/swap";
+import { useTokenInfo } from "modules/common";
+import { useTokenPriceInUst } from "modules/swap";
 
 type Props = {
   token: string;
@@ -12,7 +12,7 @@ type Props = {
 
 const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
   const { getSymbol } = useTokenInfo();
-  const price = useTokenPrice(token);
+  const price = useTokenPriceInUst(token);
   const totalPrice = String(Number(price) * Number(amount));
 
   return (

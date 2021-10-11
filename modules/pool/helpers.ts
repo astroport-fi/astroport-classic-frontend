@@ -1,13 +1,6 @@
-import { getTokenDenom, trunc, isNativeToken } from "@arthuryeti/terra";
-
-import { DECIMALS, ONE_TOKEN } from "constants/constants";
+import { ONE_TOKEN } from "constants/constants";
 import { lookupSymbol } from "libs/parse";
-import { AssetInfo } from "types/common";
-
-export const calculateWithdrawTotalPrice = (
-  totalPrice1: string,
-  totalPrice2: string
-) => String(trunc(Number(totalPrice1) + Number(totalPrice2), DECIMALS));
+import { AssetInfo, getTokenDenom, isNativeToken } from "modules/common";
 
 export const calculateToken2Amount = (
   pool: any,
@@ -58,13 +51,11 @@ export const calculateSharePrice = (
 ) => {
   const tokensAmounts = calculateTokensAmounts(pool, share);
 
-  const token1TotalPrice = trunc(
-    (Number(tokensAmounts[token1]) * Number(token1Price)) / ONE_TOKEN
-  );
+  const token1TotalPrice =
+    (Number(tokensAmounts[token1]) * Number(token1Price)) / ONE_TOKEN;
 
-  const token2TotalPrice = trunc(
-    (Number(tokensAmounts[token2]) * Number(token2Price)) / ONE_TOKEN
-  );
+  const token2TotalPrice =
+    (Number(tokensAmounts[token2]) * Number(token2Price)) / ONE_TOKEN;
 
   return String(token1TotalPrice + token2TotalPrice);
 };

@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
-import { useTokenPrice, useSimulation } from "modules/swap";
-import { useTokenInfo } from "@arthuryeti/terra";
-import { lookupSymbol, format, toAmount } from "libs/parse";
+import { useTokenInfo } from "modules/common";
+import { useTokenPriceInUst, useSwapSimulate } from "modules/swap";
+import { toAmount } from "libs/parse";
 
 type Props = {
   token: any;
@@ -12,12 +13,13 @@ type Props = {
 
 const TokenCard: FC<Props> = ({ token }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const fromPrice = useTokenPrice(token.asset);
-  const { amount: fromTotalPrice } = useSimulation(
-    token.asset,
-    ESTIMATE_TOKEN,
-    toAmount(token.amount)
-  );
+  const fromPrice = useTokenPriceInUst(token.asset);
+  const simulated = useSwapSimulate({
+    token1: token.asset,
+    token2: ESTIMATE_TOKEN,
+    amount: toAmount(token.amount),
+    reverse: false,
+  });
 
   return (
     <Box
@@ -41,20 +43,21 @@ const TokenCard: FC<Props> = ({ token }) => {
             </Box>
             <Box>
               <Text fontSize="2xl" color="white">
-                {lookupSymbol(getSymbol(token.asset))}
+                {getSymbol(token.asset)}
               </Text>
               <Text fontSize="sm" color="white.400">
-                Price: ${format(fromPrice, "uusd")}
+                {/* TODO: Fix type */}
+                Price: ${fromTerraAmount(fromPrice, "0.00")}
               </Text>
             </Box>
           </HStack>
         </Box>
         <Box fontWeight="500" textAlign="right">
           <Text fontSize="2xl" color="white">
-            {format(token.amount)}
+            {token.amount}
           </Text>
           <Text fontSize="sm" color="white.400">
-            Price: ${format(fromTotalPrice, "uusd")}
+            Price: ${fromTerraAmount(simulated?.amount, "0.00")}
           </Text>
         </Box>
       </Flex>
