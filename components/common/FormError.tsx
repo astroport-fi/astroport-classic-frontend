@@ -28,6 +28,9 @@ const FormError: FC<Props> = ({
       transition={{
         duration: 0.3,
       }}
+      w="470px"
+      m="0 auto"
+      mt="10"
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
@@ -35,7 +38,7 @@ const FormError: FC<Props> = ({
             <Box>
               <FailedIcon />
             </Box>
-            <Text fontSize="2xl" color="red.500">
+            <Text fontSize="lg" color="red.500">
               Failed
             </Text>
           </HStack>
@@ -50,13 +53,13 @@ const FormError: FC<Props> = ({
         <Text variant="light" mt="3">
           {content}
         </Text>
-      </Card>
 
-      <Flex flexDir="column" align="center" mt="6">
-        <Button variant="primary" type="button" onClick={onClick}>
-          {label}
-        </Button>
-      </Flex>
+        <Flex flexDir="column" align="center" mt="8">
+          <Button variant="primary" size="sm" type="button" onClick={onClick}>
+            {label}
+          </Button>
+        </Flex>
+      </Card>
     </MotionBox>
   );
 };

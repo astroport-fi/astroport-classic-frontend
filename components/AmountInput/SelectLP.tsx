@@ -50,13 +50,12 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
               {symbol1} - {symbol2}
             </Text>
             <Text fontSize="xs" color="white.400">
-              {/* TODO: Fix type */}
-              Price: ${fromTerraAmount(price as any)}
+              Price: ${fromTerraAmount(price)}
             </Text>
           </Box>
 
           <Box>
-            <ChevronDownIcon width="1rem" height="1rem" />
+            <ChevronDownIcon />
           </Box>
         </Flex>
       );

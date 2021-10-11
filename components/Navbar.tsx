@@ -4,7 +4,7 @@ import { Flex, HStack, Image, chakra, Text } from "@chakra-ui/react";
 
 import TerraWallet from "components/TerraWallet";
 import NavbarLink from "components/NavbarLink";
-import MenuIcon from "components/icons/MenuIcon";
+// import MenuIcon from "components/icons/MenuIcon";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const Navbar: FC = () => {
@@ -15,14 +15,14 @@ const Navbar: FC = () => {
           <Image src="/logo.svg" alt="WhiteWhale Logo" />
         </a>
       </Link>
-      <Flex justify="space-between" align="center" flex="1" px="16">
+      <HStack flex="1" px="16" spacing="12">
         <NavbarLink text="Swap" href="/swap" />
         <NavbarLink text="Pools" href="/pools" />
-        <NavbarLink text="Dashboard" href="/dashboard" />
-        <NavbarLink text="Governance" href="/gov" />
-        <NavbarLink text="Token Sale" href="/sale" />
-        <NavbarLink text="Airdrop" href="/airdrop" />
-      </Flex>
+        {/* <NavbarLink text="Dashboard" href="/dashboard" /> */}
+        {/* <NavbarLink text="Governance" href="/gov" /> */}
+        {/* <NavbarLink text="Token Sale" href="/sale" /> */}
+        {/* <NavbarLink text="Airdrop" href="/airdrop" /> */}
+      </HStack>
       <HStack spacing="4" justify="flex-end">
         <chakra.button
           color="white"
@@ -39,9 +39,9 @@ const Navbar: FC = () => {
           </HStack>
         </chakra.button>
         <TerraWallet />
-        <chakra.button color="white" outline="none">
+        {/* <chakra.button color="white" outline="none">
           <MenuIcon />
-        </chakra.button>
+        </chakra.button> */}
       </HStack>
     </Flex>
   );

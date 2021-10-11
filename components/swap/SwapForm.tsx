@@ -75,8 +75,8 @@ const SwapForm: FC = () => {
       <FormSuccess
         contentComponent={
           <FormSummary
-            label1="You are swapping from"
-            label2="to"
+            label1="You swapped from"
+            label2="You received:"
             token1={token1}
             token2={token2}
           />
@@ -118,13 +118,13 @@ const SwapForm: FC = () => {
             contentComponent={
               <FormSummary
                 label1="You are swapping from"
-                label2="to"
+                label2="You are swapping to"
                 token1={token1}
                 token2={token2}
               />
             }
             details={[{ label: "Price Impact", value: "0.02%" }]}
-            onCloseClick={reset}
+            onCloseClick={() => setShowConfirm(false)}
           />
         )}
       </chakra.form>

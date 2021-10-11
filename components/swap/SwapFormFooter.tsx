@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
-import { format, lookupSymbol } from "libs/parse";
 import { useTokenInfo } from "modules/common";
 import FormFee from "components/common/FormFee";
 
@@ -30,8 +29,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isLoading && (
           <>
             <Text color="white" fontSize="sm">
-              1 {lookupSymbol(getSymbol(from))} = {format(price, to)}{" "}
-              {lookupSymbol(getSymbol(to))}
+              1 {getSymbol(from)} = {price} {getSymbol(to)}
             </Text>
             <Text variant="light">Exchange Rate</Text>
           </>

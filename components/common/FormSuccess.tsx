@@ -26,12 +26,15 @@ const FormSuccess: FC<Props> = ({
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
+      w="470px"
+      m="0 auto"
+      mt="10"
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
           <HStack>
             <SuccessIcon />
-            <Text fontSize="2xl" color="green.500">
+            <Text fontSize="lg" color="green.500">
               Successful
             </Text>
           </HStack>
@@ -46,7 +49,7 @@ const FormSuccess: FC<Props> = ({
         <Box>{contentComponent}</Box>
 
         <Text mt="6" mb="1" px="2" variant="light">
-          Further Information:
+          Breakdown:
         </Text>
         <Box
           borderWidth="1px"

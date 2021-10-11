@@ -14,7 +14,12 @@ export const useSwapRoute = ({
   token2,
 }: Params): PairResponse[] | null => {
   return useMemo(() => {
-    if (token1 == null || token2 == null || routes == null) {
+    if (
+      token1 == null ||
+      token2 == null ||
+      routes == null ||
+      token1 == token2
+    ) {
       return null;
     }
 

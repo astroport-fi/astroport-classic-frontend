@@ -47,7 +47,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
           </Box>
 
           <Box>
-            <ChevronDownIcon width="1rem" height="1rem" />
+            <ChevronDownIcon />
           </Box>
         </Flex>
       );

@@ -26,9 +26,10 @@ const TokenCard: FC<Props> = ({ token }) => {
       borderWidth="1px"
       borderRadius="xl"
       borderColor="white.200"
-      bg="white.50"
+      bg="white.100"
       px="4"
-      py="4"
+      py="3"
+      lineHeight="1.3"
     >
       <Flex justify="space-between">
         <Box>
@@ -45,7 +46,7 @@ const TokenCard: FC<Props> = ({ token }) => {
               <Text fontSize="2xl" color="white">
                 {getSymbol(token.asset)}
               </Text>
-              <Text fontSize="sm" color="white.400">
+              <Text fontSize="sm" color="white.400" fontWeight="500">
                 {/* TODO: Fix type */}
                 Price: ${fromTerraAmount(fromPrice, "0.00")}
               </Text>
@@ -56,8 +57,8 @@ const TokenCard: FC<Props> = ({ token }) => {
           <Text fontSize="2xl" color="white">
             {token.amount}
           </Text>
-          <Text fontSize="sm" color="white.400">
-            Price: ${fromTerraAmount(simulated?.amount, "0.00")}
+          <Text fontSize="sm" color="white.400" fontWeight="500">
+            ${fromTerraAmount(simulated?.amount, "0.00")}
           </Text>
         </Box>
       </Flex>

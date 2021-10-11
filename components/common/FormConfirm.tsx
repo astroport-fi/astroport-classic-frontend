@@ -31,10 +31,13 @@ const FormConfirm: FC<Props> = ({
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
+      w="470px"
+      m="0 auto"
+      mt="10"
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text fontSize="2xl">Confirm</Text>
+          <Text fontSize="lg">Confirm</Text>
           <IconButton
             aria-label="Close"
             icon={<CloseIcon />}
@@ -68,7 +71,7 @@ const FormConfirm: FC<Props> = ({
           })}
         </Box>
 
-        <Text variant="light" mt="3" px="2">
+        <Text variant="light" fontSize="xs" mt="6" px="2" lineHeight="1.2">
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
           nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
           sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
@@ -76,8 +79,8 @@ const FormConfirm: FC<Props> = ({
           ipsum dolor sit amet.
         </Text>
 
-        <Flex flexDir="column" align="center" mt="6">
-          <Button variant="primary" type="submit">
+        <Flex flexDir="column" align="center" mt="8">
+          <Button variant="primary" minW="64" size="sm" type="submit">
             {actionLabel}
           </Button>
           {fee && <FormFee fee={fee} />}

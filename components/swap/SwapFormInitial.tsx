@@ -15,6 +15,7 @@ import SwapFormFooter from "components/swap/SwapFormFooter";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
+const MotionHStack = motion(HStack);
 
 type Props = {
   token1: {
@@ -87,8 +88,8 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
   }, []);
 
   return (
-    <>
-      <Flex justify="space-between" color="white" mb="4" px="6">
+    <Box mt="24">
+      <Flex justify="space-between" align="center" color="white" mb="4" px="6">
         <MotionBox
           flex="1"
           initial={{ opacity: 0 }}
@@ -97,28 +98,25 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
         >
           <Text fontSize="xl">Swap</Text>
         </MotionBox>
-        <MotionBox
+        <MotionHStack
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
+          spacing="2"
         >
-          <HStack>
-            <Box>
-              <IconButton
-                aria-label="Settings"
-                icon={<GearIcon />}
-                variant="icon"
-              />
-            </Box>
-            <Box>
-              <IconButton
-                aria-label="Graph"
-                icon={<GraphIcon />}
-                variant="icon"
-              />
-            </Box>
-          </HStack>
-        </MotionBox>
+          <IconButton
+            aria-label="Settings"
+            icon={<GearIcon />}
+            variant="icon"
+            minW="0"
+          />
+          <IconButton
+            aria-label="Graph"
+            icon={<GraphIcon />}
+            variant="icon"
+            minW="0"
+          />
+        </MotionHStack>
       </Flex>
 
       <MotionBox
@@ -186,11 +184,11 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
         from={token1.asset}
         to={token2.asset}
         isLoading={state.txStep != TxStep.Ready}
-        price={state.simulated?.price}
+        price={state.simulated?.price2}
         fee={state.fee}
         onConfirmClick={onClick}
       />
-    </>
+    </Box>
   );
 };
 

@@ -35,7 +35,7 @@ const GraphSelector: FC<ISelect> = ({ list, value, setValue }) => {
         _hover={{
           bg: "white.200",
         }}
-        rightIcon={<ChevronDownIcon width="1rem" height="1rem" />}
+        rightIcon={<ChevronDownIcon />}
       >
         {value}
       </MenuButton>

@@ -62,6 +62,7 @@ export const useSwap = ({
     if (
       swapRoute == null ||
       token1 == null ||
+      token2 == null ||
       amount == null ||
       simulated == null
     ) {
@@ -94,6 +95,7 @@ export const useSwap = ({
   }, [
     address,
     token1,
+    token2,
     amount,
     simulated,
     minReceive,

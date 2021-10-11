@@ -2,7 +2,8 @@ import React from "react";
 import Head from "next/head";
 import { NextPage } from "next";
 
-import Dashboard from "components/pages/Dashboard";
+import Swap from "components/pages/Swap";
+// import Dashboard from "components/pages/Dashboard";
 
 const DashboardPage: NextPage = () => {
   return (
@@ -10,7 +11,8 @@ const DashboardPage: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <Dashboard />
+      <Swap />
+      {/* <Dashboard /> */}
     </>
   );
 };
