@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, useTransaction, num } from "@arthuryeti/terra";
+import { useAddress, useTransaction, num, TxStep } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
@@ -7,6 +7,15 @@ import {
   createIncreaseAllowanceExecuteMsg,
 } from "modules/pool";
 import { useContracts } from "modules/common";
+
+export type StakeLpTokenState = {
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
+  submit: () => void;
+};
 
 type Params = {
   amount: string | null;
@@ -20,30 +29,30 @@ export const useStakeLpToken = ({
   asset,
   onSuccess,
   onError,
-}: Params) => {
+}: Params): StakeLpTokenState => {
   const address = useAddress();
-  const { gauge } = useContracts();
+  const { generator } = useContracts();
 
   const msgs = useMemo(() => {
     if (amount == null || address == null || asset == null) {
-      return [];
+      return null;
     }
 
     return [
       createIncreaseAllowanceExecuteMsg(
         address,
         asset,
-        gauge,
+        generator,
         num(amount).times(ONE_TOKEN).toString()
       ),
       createDepositExecuteMsg(
         address,
-        gauge,
+        generator,
         asset,
         num(amount).times(ONE_TOKEN).toString()
       ),
     ];
-  }, [address, amount, gauge, asset]);
+  }, [address, amount, generator, asset]);
 
   return useTransaction({ msgs, onSuccess, onError });
 };

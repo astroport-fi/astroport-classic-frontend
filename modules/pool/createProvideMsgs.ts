@@ -1,6 +1,11 @@
 import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
-import { PoolResponse, getTokenDenom, isNativeAsset } from "modules/common";
+import {
+  PoolResponse,
+  getTokenDenom,
+  isNativeAsset,
+  isTypeNativeAssetInfo,
+} from "modules/common";
 
 type CreateProvideMsgsOptions = {
   pool: PoolResponse;
@@ -29,29 +34,23 @@ export const createProvideMsgs = (
     .map((asset) => new Coin(getTokenDenom(asset.info), asset.amount));
 
   const allowanceMsgs = assets.reduce<MsgExecuteContract[]>((acc, asset) => {
-    if (isNativeAsset(asset.info)) {
+    if (isTypeNativeAssetInfo(asset.info)) {
       return acc;
     }
 
     return [
       ...acc,
-      new MsgExecuteContract(
-        sender,
-        // @ts-expect-error
-        asset.info.token.contract_addr,
-        {
-          increase_allowance: {
-            amount: asset.amount,
-            spender: contract,
-          },
+      new MsgExecuteContract(sender, asset.info.token.contract_addr, {
+        increase_allowance: {
+          amount: asset.amount,
+          spender: contract,
         },
-        coins
-      ),
+      }),
     ];
   }, []);
 
   const executeMsg = {
-    auto_stake: { assets, slippage_tolerance: slippage },
+    provide_liquidity: { assets, slippage_tolerance: slippage },
   };
 
   const msg = new MsgExecuteContract(sender, contract, executeMsg, coins);

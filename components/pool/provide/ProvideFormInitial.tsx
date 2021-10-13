@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import {
   Slider,
   SliderTrack,
@@ -6,12 +6,10 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { calculateToken2Amount, ProvideState } from "modules/pool";
-import useDebounceValue from "hooks/useDebounceValue";
-import { lookup } from "libs/parse";
+import { calculateTokenAmount, ProvideState } from "modules/pool";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
@@ -52,35 +50,78 @@ const ProvideFormInitial: FC<Props> = ({
   state,
   onClick,
 }) => {
+  const token1Balance = useBalance(token1.asset);
+  const token2Balance = useBalance(token2.asset);
   const { control, setValue } = useFormContext();
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
-
   const balance = useBalance(token1.asset);
-  const amount = lookup(balance, token1.asset);
+  const amount = fromTerraAmount(balance, "0.00");
 
-  const changeToken2Amount = () => {
-    if (!token1.amount) {
-      return;
+  //TODO: refactor with function below
+  const handleToken1Change = (value: any, onChange: (value: any) => void) => {
+    const formattedToken2Balance = fromTerraAmount(token2Balance, "0.0[00000]");
+    const token2amount = calculateTokenAmount(pool, value.asset, value.amount);
+    const potentialToken1amount = calculateTokenAmount(
+      pool,
+      token2.asset,
+      formattedToken2Balance
+    );
+
+    if (num(token2amount).gt(formattedToken2Balance)) {
+      setValue(
+        "token2.amount",
+        num(formattedToken2Balance).minus("4").toString()
+      );
+      onChange({ ...value, amount: potentialToken1amount });
+    } else {
+      onChange(value);
+      setValue("token2.amount", token2amount);
     }
-
-    setValue("token2", {
-      ...token2,
-      amount: calculateToken2Amount(pool, token1.asset, debouncedAmount1),
-    });
   };
 
-  useEffect(() => {
-    changeToken2Amount();
+  //TODO: refactor with above function
+  const handleToken2Change = (value: any, onChange: (value: any) => void) => {
+    const formattedToken1Balance = fromTerraAmount(token1Balance, "0.0[00000]");
+    const token1amount = calculateTokenAmount(pool, value.asset, value.amount);
+    const potentialToken1amount = calculateTokenAmount(
+      pool,
+      token1.asset,
+      formattedToken1Balance
+    );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedAmount1]);
+    if (num(token1amount).gt(formattedToken1Balance)) {
+      setValue("token2.amount", formattedToken1Balance);
+      onChange({ ...value, amount: potentialToken1amount });
+    } else {
+      onChange(value);
+      setValue("token1.amount", token1amount);
+    }
+  };
 
+  //TODO: refactor with above function
   const handleChange = (value: number) => {
-    setValue("token1", {
-      ...token1,
-      amount: String(value),
-    });
+    const formattedToken2Balance = fromTerraAmount(token2Balance, "0.0[00000]");
+    const token2amount = calculateTokenAmount(
+      pool,
+      token1.asset,
+      String(value)
+    );
+    const potentialToken1amount = calculateTokenAmount(
+      pool,
+      token2.asset,
+      formattedToken2Balance
+    );
+
+    if (num(token2amount).gt(formattedToken2Balance)) {
+      setValue(
+        "token2.amount",
+        num(formattedToken2Balance).minus("4").toString()
+      );
+      setValue("token1.amount", potentialToken1amount);
+    } else {
+      setValue("token1.amount", String(value));
+      setValue("token2.amount", token2amount);
+    }
   };
 
   return (
@@ -104,7 +145,12 @@ const ProvideFormInitial: FC<Props> = ({
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <AmountInput {...field} limit={Number(amount)} isSingle />
+            <AmountInput
+              {...field}
+              limit={Number(amount)}
+              isSingle
+              onChange={(v: any) => handleToken1Change(v, field.onChange)}
+            />
           )}
         />
       </Card>
@@ -115,7 +161,13 @@ const ProvideFormInitial: FC<Props> = ({
             name="token2"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => <AmountInput {...field} isSingle />}
+            render={({ field }) => (
+              <AmountInput
+                {...field}
+                isSingle
+                onChange={(v: any) => handleToken2Change(v, field.onChange)}
+              />
+            )}
           />
         </Card>
       )}
@@ -138,7 +190,12 @@ const ProvideFormInitial: FC<Props> = ({
         </Slider>
       </Card>
 
-      <ProvideFormFooter pool={pool} data={state} onConfirmClick={onClick} />
+      <ProvideFormFooter
+        pool={pool}
+        amount={token1.amount}
+        data={state}
+        onConfirmClick={onClick}
+      />
     </>
   );
 };

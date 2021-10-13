@@ -15,7 +15,7 @@
     "_postinstall": "husky install"
   },
   "dependencies": {
-    "@arthuryeti/terra": "^0.3.5",
+    "@arthuryeti/terra": "^0.3.6",
     "@chakra-ui/icons": "^1.0.15",
     "@chakra-ui/react": "^1.6.9",
     "@emotion/react": "^11.4.1",

@@ -8,7 +8,7 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { useBalance } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
 import { lookup } from "libs/parse";
 import { WithdrawState } from "modules/pool";
@@ -136,7 +136,14 @@ const WithdrawFormInitial: FC<Props> = ({
         </Slider>
       </Card>
 
-      <WithdrawFormFooter pool={pool} data={state} onConfirmClick={onClick} />
+      <WithdrawFormFooter
+        pool={pool}
+        data={state}
+        amount={num(amount)
+          .minus(token.amount || "0")
+          .toString()}
+        onConfirmClick={onClick}
+      />
     </>
   );
 };

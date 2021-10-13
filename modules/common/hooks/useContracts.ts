@@ -4,7 +4,10 @@ import { useWallet } from "@terra-money/wallet-provider";
 type Contracts = {
   factory: string;
   router: string;
-  gauge: string;
+  vesting: string;
+  staking: string;
+  maker: string;
+  generator: string;
 };
 
 type Networks = {
@@ -14,14 +17,20 @@ type Networks = {
 
 const defaultContracts: { [key: string]: any } = {
   mainnet: {
-    factory: "terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj",
-    router: "terra19qx5xe6q9ll4w0890ux7lv2p4mf3csd4qvt3ex",
-    gauge: "terra108dtc5yp4rwee8s8xesxczx68twdyp26c6w3mf",
+    factory: "terra1q5fku2rf8mcdjz4ud9rsjf2srcd9mhz2d7mwxw",
+    router: "terra1n5wm7mehc2xrkm02pzsvvz8cxacwpgjzxn6sv6",
+    vesting: "terra1cprn5wzs2zjt7d53yc5k9x7428tdn238u0708a",
+    staking: "terra12spzaqkfjmce6fe0llpz97nmwsn8jznwacw97r",
+    maker: "terra14ynfe88j53xg2lrprdf2g9enghlyv7ag0p3drn",
+    generator: "terra109ksx0vmvh2efjlh4j4sxkr027xctmkhxa2825",
   },
   testnet: {
-    factory: "terra18qpjm4zkvqnpjpw0zn0tdr8gdzvt8au35v45xf",
-    router: "terra14z80rwpd0alzj4xdtgqdmcqt9wd9xj5ffd60wp",
-    gauge: "terra108dtc5yp4rwee8s8xesxczx68twdyp26c6w3mf",
+    factory: "terra1q5fku2rf8mcdjz4ud9rsjf2srcd9mhz2d7mwxw",
+    router: "terra1n5wm7mehc2xrkm02pzsvvz8cxacwpgjzxn6sv6",
+    vesting: "terra1cprn5wzs2zjt7d53yc5k9x7428tdn238u0708a",
+    staking: "terra12spzaqkfjmce6fe0llpz97nmwsn8jznwacw97r",
+    maker: "terra14ynfe88j53xg2lrprdf2g9enghlyv7ag0p3drn",
+    generator: "terra109ksx0vmvh2efjlh4j4sxkr027xctmkhxa2825",
   },
 };
 

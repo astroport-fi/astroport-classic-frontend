@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
@@ -42,8 +42,11 @@ const SwapForm: FC = () => {
   const methods = useForm<FormValues>({
     defaultValues,
   });
-  const token1 = methods.watch("token1");
-  const token2 = methods.watch("token2");
+
+  const { watch } = methods;
+
+  const token1 = watch("token1");
+  const token2 = watch("token2");
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
@@ -61,6 +64,11 @@ const SwapForm: FC = () => {
       setShowConfirm(false);
     }
   }, [txStep]);
+
+  const resetForm = useCallback(() => {
+    methods.reset();
+    reset();
+  }, [reset, methods]);
 
   const submit = async () => {
     swap();
@@ -82,7 +90,7 @@ const SwapForm: FC = () => {
           />
         }
         details={[{ label: "Price Impact", value: "0.02%" }]}
-        onCloseClick={reset}
+        onCloseClick={resetForm}
       />
     );
   }

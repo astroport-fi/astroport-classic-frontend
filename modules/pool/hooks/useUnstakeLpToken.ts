@@ -1,9 +1,18 @@
 import { useMemo } from "react";
-import { useAddress, num, useTransaction } from "@arthuryeti/terra";
+import { useAddress, num, useTransaction, TxStep } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
 import { createEmergencyWithdrawExecuteMsg } from "modules/pool";
+
+export type UnstakeLpTokenState = {
+  error: any;
+  fee: any;
+  txHash?: string;
+  txStep: TxStep;
+  reset: () => void;
+  submit: () => void;
+};
 
 type Params = {
   amount: string | null;
@@ -17,25 +26,25 @@ export const useUnstakeLpToken = ({
   asset,
   onSuccess,
   onError,
-}: Params) => {
-  const { gauge } = useContracts();
+}: Params): UnstakeLpTokenState => {
+  const { generator } = useContracts();
   const address = useAddress();
 
   const msgs = useMemo(() => {
     if (amount == null || address == null || asset == null) {
-      return [];
+      return null;
     }
 
     return [
       // TODO: change emergency withdraw to withdraw
       createEmergencyWithdrawExecuteMsg(
         address,
-        gauge,
+        generator,
         asset,
         num(amount).times(ONE_TOKEN).toString()
       ),
     ];
-  }, [address, amount, gauge, asset]);
+  }, [address, amount, generator, asset]);
 
   return useTransaction({
     msgs,

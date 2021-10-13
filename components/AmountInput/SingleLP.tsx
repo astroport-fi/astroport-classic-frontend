@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image, HStack } from "@chakra-ui/react";
 
-import { format } from "libs/parse";
-import { useLpTokenPrice } from "modules/pool";
-import { ONE_TOKEN } from "constants/constants";
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
 
 type Props = {
@@ -17,8 +14,7 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const pair = pairs.find((v) => v.liquidity_token == asset);
   //@ts-expect-error
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
-  //@ts-expect-error
-  const lpTokenPrice = useLpTokenPrice(pair, String(ONE_TOKEN));
+  // const lpTokenPrice = useLpTokenPrice(pair, String(ONE_TOKEN));
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);
@@ -41,17 +37,17 @@ const SingleLP: FC<Props> = ({ asset }) => {
       isFullWidth
     >
       <Flex align="center">
-        <HStack spacing="-4">
-          <Image src={icon1} width="2.5rem" height="2.5rem" alt="Logo" />
-          <Image src={icon2} width="2.5rem" height="2.5rem" alt="Logo" />
+        <HStack spacing="-2">
+          <Image src={icon1} width="1.5rem" height="1.5rem" alt="Logo" />
+          <Image src={icon2} width="1.5rem" height="1.5rem" alt="Logo" />
         </HStack>
 
         <Box ml="3" fontWeight="500" flex="1">
-          <Text fontSize="2xl" color="white">
+          <Text fontSize="xl" color="white">
             {symbol1} - {symbol2}
           </Text>
           <Text fontSize="xs" color="white.400">
-            Price: ${format(lpTokenPrice, "uusd")}
+            Astro - Terra
           </Text>
         </Box>
       </Flex>

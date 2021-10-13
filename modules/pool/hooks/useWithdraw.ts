@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, useTransaction, TxStep } from "@arthuryeti/terra";
+import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import { getTokenDenom } from "modules/common";
@@ -53,7 +53,7 @@ export const useWithdraw = ({
   }, [pool]);
 
   const tokens = useMemo(() => {
-    if (pool == null || ratio == null) {
+    if (pool == null || ratio == null || amount == null) {
       return {};
     }
 
@@ -63,8 +63,8 @@ export const useWithdraw = ({
     return {
       token1,
       token2,
-      token1Amount: String((Number(amount) * ratio[token1]) / ONE_TOKEN),
-      token2Amount: String((Number(amount) * ratio[token2]) / ONE_TOKEN),
+      token1Amount: num(amount).times(ratio[token1]).div(ONE_TOKEN).toFixed(6),
+      token2Amount: num(amount).times(ratio[token2]).div(ONE_TOKEN).toFixed(6),
     };
   }, [pool, ratio, amount]);
 

@@ -3,11 +3,11 @@ import { num } from "@arthuryeti/terra";
 import { ONE_TOKEN, ESTIMATE_TOKEN } from "constants/constants";
 import { useSwapSimulate } from "modules/swap";
 
-export const useTokenPriceInUst = (token1: string) => {
+export const useTokenPriceInUst = (token1: string | null) => {
   const data = useSwapSimulate({
-    amount: String(ONE_TOKEN),
     token1,
     token2: ESTIMATE_TOKEN,
+    amount: String(ONE_TOKEN),
     reverse: false,
   });
 

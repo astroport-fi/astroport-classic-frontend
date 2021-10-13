@@ -8,6 +8,7 @@ export interface Cell {
 
 export interface ConfirmButton {
   title: string;
+  isLoading?: boolean;
   isDisabled?: boolean;
   onClick?: () => void;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
@@ -18,9 +19,7 @@ interface Props {
   confirmButton: ConfirmButton;
 }
 
-const CommonFooter: FC<Props> = (props) => {
-  const { cells, confirmButton } = props;
-
+const CommonFooter: FC<Props> = ({ cells, confirmButton }) => {
   return (
     <Box>
       <Flex justify="space-between" px="12" my="8">
@@ -50,6 +49,7 @@ const CommonFooter: FC<Props> = (props) => {
           variant="primary"
           type={confirmButton.type || "button"}
           isDisabled={confirmButton.isDisabled}
+          isLoading={confirmButton.isLoading}
           onClick={confirmButton.onClick}
         >
           {confirmButton.title}

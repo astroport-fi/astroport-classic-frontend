@@ -121,17 +121,11 @@ export interface IButton {
 export enum PoolFormType {
   Provide = 0,
   Withdraw = 1,
+  Stake = 2,
+  Unstake = 3,
 }
 
 export enum ProvideFormMode {
   Single = 0,
   Double = 1,
-}
-
-export enum FormStep {
-  Initial = 1,
-  Confirm = 2,
-  Pending = 3,
-  Success = 4,
-  Error = 5,
 }

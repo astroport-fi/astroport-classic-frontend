@@ -1,28 +1,8 @@
-import { ONE_TOKEN } from "constants/constants";
+import { num } from "@arthuryeti/terra";
+
 import { lookupSymbol } from "libs/parse";
 import { AssetInfo, getTokenDenom, isNativeToken } from "modules/common";
-
-export const calculateToken2Amount = (
-  pool: any,
-  token: string,
-  amount: string
-) => {
-  const { assets } = pool;
-
-  const [{ amount: totalAmount1 }, { amount: totalAmount2 }] = [...assets].sort(
-    (a) => {
-      if (getTokenDenom(a) === token) {
-        return -1;
-      }
-
-      return 1;
-    }
-  );
-
-  const result = Number(amount) * (Number(totalAmount2) / Number(totalAmount1));
-
-  return String(result.toFixed(6));
-};
+import { Pool } from "modules/pool";
 
 export const calculateTokensAmounts = (
   pool: any,
@@ -41,25 +21,6 @@ export const calculateTokensAmounts = (
   );
 };
 
-export const calculateSharePrice = (
-  pool: any,
-  share: string,
-  token1: string,
-  token2: string,
-  token1Price: string,
-  token2Price: string
-) => {
-  const tokensAmounts = calculateTokensAmounts(pool, share);
-
-  const token1TotalPrice =
-    (Number(tokensAmounts[token1]) * Number(token1Price)) / ONE_TOKEN;
-
-  const token2TotalPrice =
-    (Number(tokensAmounts[token2]) * Number(token2Price)) / ONE_TOKEN;
-
-  return String(token1TotalPrice + token2TotalPrice);
-};
-
 const minusFee = (amount: number) => {
   const minFeeCoefficient = 0.03;
   const maxFee = 1500000;
@@ -73,6 +34,7 @@ const minusFee = (amount: number) => {
   return amount - fee;
 };
 
+// TODO: refactor
 export const calculateProvideOneAsset = (
   pool: any,
   firstToken: string,
@@ -110,6 +72,7 @@ export const calculateProvideOneAsset = (
   };
 };
 
+// TODO: remove
 export const preparingSelectList = (tokens: any) => {
   // const { getSymbol } = useTokenInfo();
 
@@ -131,6 +94,7 @@ export const preparingSelectList = (tokens: any) => {
   ];
 };
 
+// TODO: remove
 export const findRegularToken = (tokens: any) => {
   if (tokens[0] === "uusd") {
     return tokens[1];
@@ -139,8 +103,25 @@ export const findRegularToken = (tokens: any) => {
   return tokens[0];
 };
 
+// TODO: remove
 export const enumToArray = (enumeration: any) => {
   return Object.keys(enumeration)
     .map((key) => enumeration[key])
     .filter((value) => typeof value === "string");
+};
+
+export const calculateTokenAmount = (
+  pool: Pool,
+  token: string,
+  amount: string
+) => {
+  let token1Share = pool.token1.share;
+  let token2Share = pool.token2.share;
+
+  if (token != pool.token1.asset) {
+    token1Share = pool.token2.share;
+    token2Share = pool.token1.share;
+  }
+
+  return num(token2Share).div(token1Share).times(amount).toFixed(6);
 };

@@ -10,9 +10,7 @@ import {
   MenuList,
   Image,
 } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
 
-import { useTokenPriceInUst } from "modules/swap";
 import { useAstroswap, useTokenInfo, getTokenDenoms } from "modules/common";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
@@ -34,15 +32,14 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);
   const symbol2 = getSymbol(token2);
-  const price = useTokenPriceInUst(value);
 
   const renderButton = () => {
     if (pair) {
       return (
         <Flex align="center" justify="space-between">
-          <HStack spacing="-4">
-            <Image src={icon1} width="2.5rem" height="2.5rem" alt="Logo" />
-            <Image src={icon2} width="2.5rem" height="2.5rem" alt="Logo" />
+          <HStack spacing="-2">
+            <Image src={icon1} width="1.5rem" height="1.5rem" alt="Logo" />
+            <Image src={icon2} width="1.5rem" height="1.5rem" alt="Logo" />
           </HStack>
 
           <Box ml="3" fontWeight="500" flex="1">
@@ -50,7 +47,7 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
               {symbol1} - {symbol2}
             </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${fromTerraAmount(price)}
+              Mars - Terra
             </Text>
           </Box>
 

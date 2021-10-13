@@ -88,6 +88,10 @@ export type SimulationResponse = {
   spread_amount: string;
 };
 
+export type MultiSimulationResponse = {
+  amount: string;
+};
+
 export type ReverseSimulation = {
   reverse_simulation: {
     ask_asset: {
@@ -118,3 +122,5 @@ export type CW20SwapOperation = {
 };
 
 export type SwapOperation = NativeSwapOperation | CW20SwapOperation;
+
+export type LpDepositResponse = string;

@@ -3,7 +3,6 @@ import { Box, Text, Image, HStack } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
 import { usePool } from "modules/pool";
-import { lookupSymbol } from "libs/parse";
 
 type Props = {
   row: any;
@@ -12,12 +11,12 @@ type Props = {
 const PoolItem: FC<Props> = ({ row }) => {
   const { contract_addr, liquidity_token } = row.original;
   const { getIcon, getSymbol } = useTokenInfo();
-  const { token1, token2 } = usePool({
+  const pool = usePool({
     pairContract: contract_addr,
     lpTokenContract: liquidity_token,
   });
 
-  if (token1 == null || token2 == null) {
+  if (pool == null) {
     return null;
   }
 
@@ -25,15 +24,15 @@ const PoolItem: FC<Props> = ({ row }) => {
     <HStack>
       <HStack spacing="0.5">
         <Box>
-          <Image src={getIcon(token1)} alt="Logo" boxSize="4" />
+          <Image src={getIcon(pool.token1.asset)} alt="Logo" boxSize="4" />
         </Box>
         <Box>
-          <Image src={getIcon(token2)} alt="Logo" boxSize="4" />
+          <Image src={getIcon(pool.token2.asset)} alt="Logo" boxSize="4" />
         </Box>
       </HStack>
       <Box>
         <Text fontSize="sm">
-          {lookupSymbol(getSymbol(token1))}-{lookupSymbol(getSymbol(token2))}
+          {getSymbol(pool.token1.asset)}-{getSymbol(pool.token2.asset)}
         </Text>
       </Box>
     </HStack>

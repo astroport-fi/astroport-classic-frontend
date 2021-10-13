@@ -25,7 +25,7 @@ const Pool: FC<Props> = ({ pair }) => {
   const tokens = [pool?.token1, pool?.token2];
 
   const renderProvideForm = () => {
-    if (pool.token1 == null || pool.token2 == null) {
+    if (pool == null || pool.token1 == null || pool.token2 == null) {
       return null;
     }
 

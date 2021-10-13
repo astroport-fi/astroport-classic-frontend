@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import {
   useContracts,
   ReverseSimulationResponse,
+  MultiSimulationResponse,
   SimulationResponse,
   useAstroswap,
 } from "modules/common";
@@ -12,7 +13,16 @@ import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
 
-function isTypeReverseSimulationResponse(
+function isMultiSimulation(
+  value:
+    | ReverseSimulationResponse
+    | SimulationResponse
+    | MultiSimulationResponse
+): value is MultiSimulationResponse {
+  return value.hasOwnProperty("amount");
+}
+
+function isReverseSimulation(
   value: ReverseSimulationResponse | SimulationResponse
 ): value is ReverseSimulationResponse {
   return value.hasOwnProperty("offer_amount");
@@ -40,7 +50,7 @@ export const useSwapSimulate = ({
   const { data, isLoading } = useQuery<
     unknown,
     unknown,
-    SimulationResponse | ReverseSimulationResponse
+    SimulationResponse | ReverseSimulationResponse | MultiSimulationResponse
   >(
     ["simulation", swapRoute, router, token1, amount, reverse],
     () => {
@@ -76,10 +86,23 @@ export const useSwapSimulate = ({
       return null;
     }
 
+    if (isMultiSimulation(data)) {
+      return {
+        amount: data.amount,
+        spread: "0",
+        commission: "0",
+        price: num(amount).div(data.amount).toFixed(6).toString(),
+        price2: num("1")
+          .div(num(amount).div(data.amount))
+          .toFixed(6)
+          .toString(),
+      };
+    }
+
     const spread = data.spread_amount;
     const commission = data.commission_amount;
 
-    if (isTypeReverseSimulationResponse(data)) {
+    if (isReverseSimulation(data)) {
       return {
         amount: data.offer_amount,
         spread,

@@ -183,7 +183,8 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
       <SwapFormFooter
         from={token1.asset}
         to={token2.asset}
-        isLoading={state.txStep != TxStep.Ready}
+        isLoading={state.txStep == TxStep.Estimating}
+        isDisabled={state.txStep != TxStep.Ready}
         price={state.simulated?.price2}
         fee={state.fee}
         onConfirmClick={onClick}

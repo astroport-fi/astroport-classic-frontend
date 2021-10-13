@@ -51,7 +51,7 @@ const PoolTable: FC<Props> = ({ data }) => {
         Cell: ({ row }: any) => <DepthTd row={row} />,
         accessor: "totalShareInUst",
         sortType: (rowA, rowB) => {
-          return rowA.original.total_share - rowB.original.total_share;
+          return rowB.original.total_share - rowA.original.total_share;
         },
       },
       {

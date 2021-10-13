@@ -39,7 +39,7 @@ export const useProvide = ({
 
   const msgs = useMemo(() => {
     if (amount1 == null || amount2 == null || pool == null) {
-      return [];
+      return null;
     }
 
     return createProvideMsgs(

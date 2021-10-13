@@ -8,12 +8,12 @@ type Props = {
     asset: string;
     amount: string;
   };
-  token2: {
+  token2?: {
     asset: string;
     amount: string;
   };
   label1: string;
-  label2: string;
+  label2?: string;
 };
 
 const FormSummary: FC<Props> = ({ label1, label2, token1, token2 }) => {
@@ -23,10 +23,14 @@ const FormSummary: FC<Props> = ({ label1, label2, token1, token2 }) => {
         {label1}
       </Text>
       <TokenCard token={token1} />
-      <Text mt="6" mb="1" px="2" variant="light">
-        {label2}
-      </Text>
-      <TokenCard token={token2} />
+      {token2 && label2 && (
+        <>
+          <Text mt="6" mb="1" px="2" variant="light">
+            {label2}
+          </Text>
+          <TokenCard token={token2} />
+        </>
+      )}
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Text } from "@chakra-ui/react";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { usePool } from "modules/pool";
-import { format } from "libs/parse";
 
 type Props = {
   row: any;
@@ -10,16 +10,18 @@ type Props = {
 
 const MyLiquidityTd: FC<Props> = ({ row }) => {
   const { contract_addr, liquidity_token } = row.original;
-  const { myShareInUST } = usePool({
+  const pool = usePool({
     pairContract: contract_addr,
     lpTokenContract: liquidity_token,
   });
 
-  if (myShareInUST == null) {
-    return null;
+  if (pool == null || pool.mine.shareInUst == null) {
+    return <Text fontSize="sm">xxxx</Text>;
   }
 
-  return <Text fontSize="sm">{`${format(myShareInUST, "uusd")} UST`}</Text>;
+  return (
+    <Text fontSize="sm">{`${fromTerraAmount(pool.mine.shareInUst)} UST`}</Text>
+  );
 };
 
 export default MyLiquidityTd;

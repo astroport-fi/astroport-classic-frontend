@@ -28,25 +28,27 @@ export const useLpTokenPrice = (pair: PairResponse, amount?: string | null) => {
     return calculateTokensAmounts(pool, amount);
   }, [amount, pool]);
 
-  // @ts-expect-error
-  const { amount: totalPrice1 } = useSwapSimulate({
+  const totalPrice1 = useSwapSimulate({
     token1,
     token2: ESTIMATE_TOKEN,
     // @ts-expect-error
     amount: tokensAmounts && tokensAmounts[token1],
+    reverse: false,
   });
 
-  // @ts-expect-error
-  const { amount: totalPrice2 } = useSwapSimulate({
+  const totalPrice2 = useSwapSimulate({
     token1: token2,
     token2: ESTIMATE_TOKEN,
     // @ts-expect-error
     amount: tokensAmounts && tokensAmounts[token2],
+    reverse: false,
   });
 
-  if (totalPrice1 == null || totalPrice2 == null) {
-    return "0";
-  }
+  return useMemo(() => {
+    if (totalPrice1 == null || totalPrice2 == null) {
+      return "0";
+    }
 
-  return num(totalPrice1).plus(totalPrice2).toString();
+    return num(totalPrice1.amount).plus(totalPrice2.amount).toString();
+  }, [totalPrice1, totalPrice2]);
 };

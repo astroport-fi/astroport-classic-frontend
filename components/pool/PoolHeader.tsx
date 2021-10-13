@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { Box, Flex, Text, Button, HStack } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
-import { lookupSymbol } from "libs/parse";
 import { PoolFormType, ProvideFormMode } from "types/common";
 
 import Card from "components/Card";
@@ -25,8 +24,7 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
             <Text variant="light">
               Selected Pool:{" "}
               <Text as="span" color="white" fontSize="md">
-                {lookupSymbol(getSymbol(pool.token1))} /{" "}
-                {lookupSymbol(getSymbol(pool.token2))}
+                {getSymbol(pool.token1.asset)} / {getSymbol(pool.token2.asset)}
               </Text>
             </Text>
           </Box>
@@ -39,16 +37,16 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
               >
                 Doublesided
               </Button>
-              <Button
+              {/* <Button
                 variant="mini"
                 isActive={mode === ProvideFormMode.Single}
                 onClick={() => onModeClick(ProvideFormMode.Single)}
               >
                 Onesided
-              </Button>
+              </Button> */}
             </HStack>
           )}
-          {type === PoolFormType.Withdraw && (
+          {/* {type === PoolFormType.Withdraw && (
             <HStack>
               <Button
                 variant="mini"
@@ -58,7 +56,7 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
                 Withdraw all
               </Button>
             </HStack>
-          )}
+          )} */}
         </Flex>
       </Card>
     </Box>

@@ -33,6 +33,7 @@ type Props = {
 };
 
 const PoolTr: FC<Props> = ({ row }) => {
+  const { contract_addr } = row.original;
   const [timeFilter, setTimeFilter] = useState(TimeFilter[4]);
 
   const rightButtons = useMemo(
@@ -120,7 +121,7 @@ const PoolTr: FC<Props> = ({ row }) => {
                 </Box>
 
                 <Flex align="center" justify="center" mt="6">
-                  <Link href="/stake" passHref>
+                  <Link href={`/stake/${contract_addr}`} passHref>
                     <Button variant="primary" as="a">
                       Stake Lp Token
                     </Button>

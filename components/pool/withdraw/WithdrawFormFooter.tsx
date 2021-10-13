@@ -1,33 +1,33 @@
 import React, { FC } from "react";
+import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
 
 import { useFeeToString } from "hooks/useFeeToString";
-import { format } from "libs/parse";
+import { useShareOfPool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
   pool: any;
   data: any;
+  amount: string;
   onConfirmClick: () => void;
 };
 
-const WithdrawFormFooter: FC<Props> = ({ pool, data, onConfirmClick }) => {
-  const percentage = "100";
-  // const percentage = calculatePercentage(
-  //   pool.myShareInUST,
-  //   pool.totalShareInUST
-  // );
+const WithdrawFormFooter: FC<Props> = ({
+  pool,
+  data,
+  amount,
+  onConfirmClick,
+}) => {
+  const shareOfPool = useShareOfPool({ pool, amount1: toTerraAmount(amount) });
   const feeString = useFeeToString(data.fee);
 
   const cells = [
     {
       title: "Liquidity",
-      value: format(pool.totalShareInUST, "uusd"),
+      value: fromTerraAmount(pool.total.shareInUst),
     },
-    {
-      title: "Share of Pool",
-      value: `${percentage || "0"}%`,
-    },
+    { title: "Share of Pool", value: `${shareOfPool || "0"}%` },
     {
       title: "TX Fee",
       value: feeString || "0.00",
@@ -36,7 +36,8 @@ const WithdrawFormFooter: FC<Props> = ({ pool, data, onConfirmClick }) => {
 
   const confirmButton: ConfirmButton = {
     title: "Withdraw Liquidity",
-    isDisabled: !data.isReady,
+    isLoading: data.txStep == TxStep.Estimating,
+    isDisabled: data.txStep != TxStep.Ready,
     type: "submit",
     onClick: onConfirmClick,
   };
