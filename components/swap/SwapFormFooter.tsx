@@ -3,6 +3,7 @@ import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
 import FormFee from "components/common/FormFee";
+import numeral from "numeral";
 
 type Props = {
   from: string;
@@ -24,6 +25,7 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
+  const formattedPrice = numeral(price).format("0,0.00[0]").toString();
 
   return (
     <Flex justify="space-between" px="12" mt="8">
@@ -31,7 +33,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text color="white" fontSize="sm">
-              1 {getSymbol(from)} = {price} {getSymbol(to)}
+              1 {getSymbol(from)} = {formattedPrice} {getSymbol(to)}
             </Text>
             <Text variant="light">Exchange Rate</Text>
           </>

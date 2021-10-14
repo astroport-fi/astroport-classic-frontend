@@ -29,6 +29,7 @@ const FormLoading: FC<Props> = ({ txHash }) => {
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
+      mt="10"
     >
       <Card>
         <Lottie

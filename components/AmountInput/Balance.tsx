@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, chakra } from "@chakra-ui/react";
-import { useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
-import { useTokenInfo } from "modules/common";
-import { lookup, formatAsset } from "libs/parse";
+import { lookup } from "libs/parse";
 
 type Props = {
   asset: string;
@@ -12,7 +11,6 @@ type Props = {
 };
 
 const Balance: FC<Props> = ({ asset, initial, onChange }) => {
-  const { getSymbol } = useTokenInfo();
   const balance = useBalance(asset);
   const amount = lookup(balance, asset);
 
@@ -20,11 +18,11 @@ const Balance: FC<Props> = ({ asset, initial, onChange }) => {
     <Flex align="center" justify="space-between" mt="1">
       <Box>
         <Text>
-          <Text as="span" fontSize="sm" fontWeight="500" color="white.400">
+          <Text as="span" fontSize="xs" fontWeight="500" color="white.400">
             In Wallet:
-          </Text>{" "}
+          </Text>
           <Text as="span" fontSize="sm" color="white" ml="2">
-            {formatAsset(initial ?? balance, getSymbol(asset))}
+            {fromTerraAmount(initial ?? balance, "0,0.00[0]")}
           </Text>
         </Text>
       </Box>

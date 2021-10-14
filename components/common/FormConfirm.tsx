@@ -9,7 +9,7 @@ import FormFee from "components/common/FormFee";
 
 type Props = {
   contentComponent: ReactNode;
-  details: {
+  details?: {
     label: string;
     value: string;
   }[];
@@ -48,28 +48,32 @@ const FormConfirm: FC<Props> = ({
 
         <Box>{contentComponent}</Box>
 
-        <Text mt="6" mb="1" px="2" variant="light">
-          Further Information:
-        </Text>
-        <Box
-          borderWidth="1px"
-          borderRadius="xl"
-          borderColor="white.200"
-          bg="white.100"
-          px="4"
-          py="4"
-        >
-          {details.map((detail) => {
-            return (
-              <HStack key={detail.label} justify="space-between" mb="1">
-                <Text fontSize="sm" color="white.600">
-                  {detail.label}
-                </Text>
-                <Text color="white">{detail.value}</Text>
-              </HStack>
-            );
-          })}
-        </Box>
+        {details && (
+          <>
+            <Text mt="6" mb="1" px="2" variant="light">
+              Further Information:
+            </Text>
+            <Box
+              borderWidth="1px"
+              borderRadius="xl"
+              borderColor="white.200"
+              bg="white.100"
+              px="4"
+              py="4"
+            >
+              {details.map((detail) => {
+                return (
+                  <HStack key={detail.label} justify="space-between" mb="1">
+                    <Text fontSize="sm" color="white.600">
+                      {detail.label}
+                    </Text>
+                    <Text color="white">{detail.value}</Text>
+                  </HStack>
+                );
+              })}
+            </Box>
+          </>
+        )}
 
         <Text variant="light" fontSize="xs" mt="6" px="2" lineHeight="1.2">
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam

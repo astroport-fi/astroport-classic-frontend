@@ -59,7 +59,7 @@ export default extendTheme({
       teal: "#A1F4EF",
       dark: "#000D37",
       turquoise: "#59B7DD",
-      blue: "#1629E6",
+      blue: "#1121B8",
       lightBlue: "rgba(131,179,253,0.3)",
     },
   },

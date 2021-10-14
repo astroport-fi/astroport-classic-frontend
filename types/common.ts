@@ -125,6 +125,11 @@ export enum PoolFormType {
   Unstake = 3,
 }
 
+export enum AstroFormType {
+  Stake = 0,
+  Unstake = 1,
+}
+
 export enum ProvideFormMode {
   Single = 0,
   Double = 1,

@@ -1,6 +1,18 @@
 {
   "mainnet": {
     "tokens": {
+      "terra1am7gpv35q80c6x2w8vfg4kp9mnedujjj73g3dr": {
+        "protocol": "Terra",
+        "symbol": "ASTRO",
+        "token": "terra1am7gpv35q80c6x2w8vfg4kp9mnedujjj73g3dr",
+        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
+      },
+      "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445": {
+        "protocol": "Terra",
+        "symbol": "XASTRO",
+        "token": "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445",
+        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
+      },
       "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6": {
         "protocol": "Mirror",
         "symbol": "MIR",
@@ -95,7 +107,13 @@
         "protocol": "Astroport",
         "symbol": "ASTRO",
         "token": "terra14z0vngwxczcvqjw6k3pl5tj9zuaky2svwxp52g",
-        "icon": "https://whitelist.mirror.finance/icon/MIR.png"
+        "icon": "/tokens/astro.png"
+      },
+      "terra1xjjey2fhvv6drcltmv8v7kr4w6zzv0z5a4ffpd": {
+        "protocol": "Astroport",
+        "symbol": "xASTRO",
+        "token": "terra1xjjey2fhvv6drcltmv8v7kr4w6zzv0z5a4ffpd",
+        "icon": "/tokens/xAstro.png"
       },
       "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x": {
         "protocol": "Anchor",

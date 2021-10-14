@@ -38,11 +38,11 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
   const reverse = () => {
     setValue("token1", {
       asset: token2.asset,
-      amount: undefined,
+      amount: "",
     });
     setValue("token2", {
       asset: token1.asset,
-      amount: undefined,
+      amount: "",
     });
   };
 
@@ -160,7 +160,7 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
         key="card2"
         mt="2"
         borderRadius="xl"
-        bg="brand.lightPurple"
+        bg="brand.blue"
         py="8"
         px="12"
         initial={{ y: 30 }}

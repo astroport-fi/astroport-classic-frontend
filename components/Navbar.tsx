@@ -18,10 +18,7 @@ const Navbar: FC = () => {
       <HStack flex="1" px="16" spacing="12">
         <NavbarLink text="Swap" href="/swap" />
         <NavbarLink text="Pools" href="/pools" />
-        {/* <NavbarLink text="Dashboard" href="/dashboard" /> */}
-        {/* <NavbarLink text="Governance" href="/gov" /> */}
-        {/* <NavbarLink text="Token Sale" href="/sale" /> */}
-        {/* <NavbarLink text="Airdrop" href="/airdrop" /> */}
+        <NavbarLink text="Governance" href="/governance" />
       </HStack>
       <HStack spacing="4" justify="flex-end">
         <chakra.button

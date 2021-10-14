@@ -16,11 +16,11 @@ const BalanceLP: FC<Props> = ({ asset, initial, onChange }) => {
     <Flex align="center" justify="space-between" mt="1">
       <Box>
         <Text>
-          <Text as="span" fontSize="sm" fontWeight="500" color="white.400">
+          <Text as="span" fontSize="xs" fontWeight="500" color="white.400">
             In Wallet:
-          </Text>{" "}
+          </Text>
           <Text as="span" fontSize="sm" color="white" ml="2">
-            {fromTerraAmount(initial ?? balance, "0,0.00")}
+            {fromTerraAmount(initial ?? balance, "0,0.00[0]")}
           </Text>
         </Text>
       </Box>
