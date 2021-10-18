@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
 import Modal from "./modal";
+import Popover from "./popover";
 import Badge from "./badge";
 import Tooltip from "./tooltip";
 import Text from "./text";
@@ -20,6 +21,7 @@ export default extendTheme({
   },
   components: {
     Modal,
+    Popover,
     Tooltip,
     Text,
     Badge,
@@ -61,6 +63,25 @@ export default extendTheme({
       turquoise: "#59B7DD",
       blue: "#1121B8",
       lightBlue: "rgba(131,179,253,0.3)",
+    },
+  },
+  textStyles: {
+    h3: {
+      fontWeight: "medium",
+      fontSize: "2xl",
+      lineHeight: 1.6,
+    },
+    minibutton: {
+      fontWeight: "bold",
+      fontSize: "xs",
+      lineHeight: "12px",
+      letterSpacing: "0.15rem",
+      textTransform: "uppercase",
+    },
+    small: {
+      fontWeight: "medium",
+      fontSize: "xs",
+      lineHeight: "shorter",
     },
   },
 });

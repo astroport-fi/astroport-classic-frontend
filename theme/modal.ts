@@ -1,18 +1,26 @@
 const styles = {
   baseStyle: {
     overlay: {
-      bg: "#0C516D",
       backdropFilter: "blur(12px)",
     },
     dialog: {
       borderRadius: "2xl",
-      bg: "tile.dark",
-      py: "8",
-      color: "white",
+      bg: "#C2D9FF",
+      p: "6",
+      color: "brand.deepBlue",
       boxShadow: "2xl",
     },
+    header: {
+      flex: 1,
+      px: "0",
+    },
     closeButton: {
-      color: "rgba(255, 255, 255, 0.6)",
+      position: "static",
+      color: "brand.deepBlue",
+      p: "3",
+      borderWidth: "1px",
+      borderColor: "#000D37",
+      borderRadius: "full",
       _focus: {
         boxShadow: "none",
       },

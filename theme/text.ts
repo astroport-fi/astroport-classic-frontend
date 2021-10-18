@@ -1,5 +1,8 @@
 const styles = {
   variants: {
+    dimmed: {
+      opacity: 0.4,
+    },
     spaced: {
       fontWeight: "bold",
       fontSize: "xs",
