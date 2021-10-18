@@ -5,7 +5,7 @@ import { AstroFormType } from "types/common";
 
 import StakeAstroForm from "components/astro/StakeAstroForm";
 
-const AstroStake = () => {
+const Astro = () => {
   const [type, setType] = useState(AstroFormType.Stake);
 
   return (
@@ -17,4 +17,4 @@ const AstroStake = () => {
   );
 };
 
-export default AstroStake;
+export default Astro;

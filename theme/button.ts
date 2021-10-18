@@ -11,7 +11,7 @@ const button = {
       fontWeight: "400",
       bg: "brand.purple",
       color: "white",
-      px: "6",
+      px: "10",
       py: "2",
       _hover: {
         bg: "white",
