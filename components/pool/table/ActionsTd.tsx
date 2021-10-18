@@ -13,7 +13,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
   return (
     <Flex justify="flex-end" align="center">
-      <Link href={`/pools/${contract_addr}`} passHref>
+      <Link href={`/pairs/${contract_addr}`} passHref>
         <Button as="a" variant="primary" size="sm">
           Add Liquidity
         </Button>

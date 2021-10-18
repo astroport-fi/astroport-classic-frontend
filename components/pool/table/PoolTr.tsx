@@ -121,7 +121,7 @@ const PoolTr: FC<Props> = ({ row }) => {
                 </Box>
 
                 <Flex align="center" justify="center" mt="6">
-                  <Link href={`/stake/${contract_addr}`} passHref>
+                  <Link href={`/pairs/${contract_addr}/stake`} passHref>
                     <Button variant="primary" as="a">
                       Stake Lp Token
                     </Button>
