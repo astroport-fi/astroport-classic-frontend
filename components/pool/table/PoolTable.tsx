@@ -2,6 +2,7 @@
 import React, { FC, useMemo } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { useTable, useSortBy, useExpanded } from "react-table";
+import { useConnectedWallet } from "@terra-dev/use-wallet";
 
 import { PairResponse, getTokenDenom } from "modules/common";
 
@@ -11,6 +12,7 @@ import Td from "components/Td";
 import PoolTr from "components/pool/table/PoolTr";
 import PoolNameTd from "components/pool/table/PoolNameTd";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
+import PoolConnectWallet from "components/pool/table/PoolConnectWallet";
 import DepthTd from "components/pool/table/DepthTd";
 import ActionsTd from "components/pool/table/ActionsTd";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
@@ -20,6 +22,8 @@ type Props = {
 };
 
 const PoolTable: FC<Props> = ({ data }) => {
+  const wallet = useConnectedWallet();
+
   const columns = useMemo(
     () => [
       {
@@ -63,6 +67,7 @@ const PoolTable: FC<Props> = ({ data }) => {
         Header: "",
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
+        disableSortBy: true,
       },
     ],
     []
@@ -102,6 +107,9 @@ const PoolTable: FC<Props> = ({ data }) => {
           ))}
         </Tr>
       ))}
+
+      {!wallet ? <PoolConnectWallet /> : null}
+
       {rows.length ? (
         <Box {...getTableBodyProps()}>
           {rows.map((row) => {
