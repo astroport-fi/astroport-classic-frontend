@@ -41,18 +41,18 @@ const FormLoading: FC<Props> = ({ txHash }) => {
         />
 
         {txHash == null && (
-          <Heading fontSize="xl" fontWeight="500" textAlign="center">
+          <Heading textStyle="h3" textAlign="center">
             Waiting for Terra Station...
           </Heading>
         )}
 
         {txHash != null && (
           <>
-            <Heading fontSize="xl" fontWeight="500" textAlign="center">
+            <Heading textStyle="h3" textAlign="center">
               Waiting for receipt...
             </Heading>
             <Flex justify="space-between" align="center" mt="12" w="full">
-              <Text variant="light" fontSize="md">
+              <Text textStyle="small" variant="secondary">
                 Tx Hash
               </Text>
               <Link

@@ -4,6 +4,8 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -40,23 +42,34 @@ const StakeAstroFooter: FC<Props> = ({
 
   return (
     <>
-      <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
-          min={0}
-          defaultValue={0}
-          value={Number(token.amount) || 0}
-          max={Number(accountShare) / ONE_TOKEN}
-          focusThumbOnChange={false}
-          step={0.0001}
-          onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+      <Card>
+        <VStack spacing={4}>
+          <Slider
+            variant="brand"
+            size="lg"
+            min={0}
+            defaultValue={0}
+            value={Number(token.amount) || 0}
+            max={Number(accountShare) / ONE_TOKEN}
+            focusThumbOnChange={false}
+            step={0.0001}
+            onChange={handleChange}
+          >
+            <SliderTrack>
+              <SliderFilledTrack />
+            </SliderTrack>
+            <SliderThumb />
+          </Slider>
+          {token.amount && Number(accountShare) ? (
+            <Text textStyle="medium">
+              {(
+                (token.amount / (Number(accountShare) / ONE_TOKEN)) *
+                100
+              ).toFixed(2)}
+              %
+            </Text>
+          ) : null}
+        </VStack>
       </Card>
 
       <CommonFooter

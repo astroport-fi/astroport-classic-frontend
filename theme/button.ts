@@ -1,5 +1,9 @@
 const button = {
   sizes: {
+    md: {
+      fontSize: "sm",
+      lineHeight: "shorter",
+    },
     lg: {
       fontSize: "sm",
     },

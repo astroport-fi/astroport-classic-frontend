@@ -89,18 +89,21 @@ const PoolTr: FC<Props> = ({ row }) => {
               <Box flex="3">
                 <Graph points={data} rightButtons={rightButtons} />
               </Box>
-              <Box flex="1" pl="8">
-                <Text mb="3">LP Token Farming</Text>
+              <Box flex="1" pl="8" color="white">
+                <Text mb="3" textStyle="medium">
+                  LP Token Farming
+                </Text>
 
-                <Text variant="light" mb="2">
+                <Text mb="2" textStyle="small" variant="secondary">
                   Reward (Rewards + Fee APY)
                 </Text>
                 <LpCard token="uusd" apy="17.11%" />
 
-                <Text variant="light" mt="6" mb="2">
+                <Text mt="6" mb="2" textStyle="small" variant="secondary">
                   Breakdown
                 </Text>
                 <Box
+                  color="white"
                   borderWidth="1px"
                   borderRadius="xl"
                   borderColor="white.200"
@@ -111,10 +114,10 @@ const PoolTr: FC<Props> = ({ row }) => {
                   {details.map((detail) => {
                     return (
                       <HStack key={detail.label} justify="space-between" mb="1">
-                        <Text fontSize="sm" color="white.600">
+                        <Text textStyle="small" variant="secondary">
                           {detail.label}
                         </Text>
-                        <Text color="white">{detail.value}</Text>
+                        <Text textStyle="medium">{detail.value}</Text>
                       </HStack>
                     );
                   })}

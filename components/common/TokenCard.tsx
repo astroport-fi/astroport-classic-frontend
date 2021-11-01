@@ -43,10 +43,8 @@ const TokenCard: FC<Props> = ({ token }) => {
               />
             </Box>
             <Box>
-              <Text fontSize="2xl" color="white">
-                {getSymbol(token.asset)}
-              </Text>
-              <Text fontSize="sm" color="white.400" fontWeight="500">
+              <Text textStyle="h3">{getSymbol(token.asset)}</Text>
+              <Text textStyle="small" variant="dimmed">
                 {/* TODO: Fix type */}
                 Price: ${fromTerraAmount(fromPrice, "0.00")}
               </Text>
@@ -54,10 +52,8 @@ const TokenCard: FC<Props> = ({ token }) => {
           </HStack>
         </Box>
         <Box fontWeight="500" textAlign="right">
-          <Text fontSize="2xl" color="white">
-            {token.amount}
-          </Text>
-          <Text fontSize="sm" color="white.400" fontWeight="500">
+          <Text textStyle="h3">{token.amount}</Text>
+          <Text textStyle="small" variant="dimmed">
             ${fromTerraAmount(simulated?.amount, "0.00")}
           </Text>
         </Box>

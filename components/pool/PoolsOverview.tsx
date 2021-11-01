@@ -14,22 +14,22 @@ const PoolsOverview: FC = () => {
     <Card>
       <Flex justify="space-between">
         <Box>
-          <Text fontWeight="500" fontSize="xl">
-            $500,000,000
+          <Text textStyle="h3">$500,000,000</Text>
+          <Text textStyle="small" variant="dimmed">
+            Total Liquidity
           </Text>
-          <Text variant="light">Total Liquidity</Text>
         </Box>
         <Box>
-          <Text fontWeight="500" fontSize="xl">
-            $500,000,000
+          <Text textStyle="h3">$500,000,000</Text>
+          <Text textStyle="small" variant="dimmed">
+            24h Volume
           </Text>
-          <Text variant="light">24h Volume</Text>
         </Box>
         <Box>
-          <Text fontWeight="500" fontSize="xl">
-            ${fromTerraAmount(price)}
+          <Text textStyle="h3">${fromTerraAmount(price)}</Text>
+          <Text textStyle="small" variant="dimmed">
+            ASTRO price
           </Text>
-          <Text variant="light">ASTRO price</Text>
         </Box>
       </Flex>
     </Card>

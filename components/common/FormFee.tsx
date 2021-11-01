@@ -15,7 +15,7 @@ const FormFee = ({ fee }: Props) => {
   }
 
   return (
-    <Text variant="light" mt="2" textAlign="center">
+    <Text mt="2" textStyle="small" variant="dimmed" textAlign="center">
       {`TX Fee: ${feeString}`}
     </Text>
   );

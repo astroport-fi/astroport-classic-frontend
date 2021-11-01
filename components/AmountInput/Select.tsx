@@ -37,9 +37,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
           </Box>
 
           <Box ml="3" fontWeight="500" flex="1">
-            <Text fontSize="2xl" color="white">
-              {getSymbol(value)}
-            </Text>
+            <Text textStyle="h3">{getSymbol(value)}</Text>
             <Text fontSize="xs" color="white.400">
               {/* TODO: Fix type */}
               Price: ${fromTerraAmount(price as string)}

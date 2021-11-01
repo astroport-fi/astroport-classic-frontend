@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { useFormContext } from "react-hook-form";
-import { Box } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 
 import { AstroFormType } from "types/common";
 import { StakeState } from "modules/astro";
 
+import Card from "components/Card";
 import StakeAstroFormInput from "components/astro/StakeAstroFormInput";
 import StakeAstroFooter from "components/astro/StakeAstroFooter";
 import StakeAstroHeader from "components/astro/StakeAstroHeader";
@@ -36,20 +37,30 @@ const StakeAstroFormInitial: FC<Props> = ({
   };
 
   return (
-    <Box mt="24">
+    <Box py="12">
       <StakeAstroHeader type={type} setType={setType} />
+      <Stack direction="column" space={2}>
+        <Card py={5} px={12}>
+          <Text textStyle="small" variant="secondary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
+            beatae error sit autem quidem deserunt delectus quisquam ullam
+            arthuryetihuety dolor ex in, eveniet ratione voluptates fuga sed
+            doloremque impedit eligendi perferendis?
+          </Text>
+        </Card>
 
-      {type == AstroFormType.Stake && <StakeAstroFormInput />}
-      {type == AstroFormType.Unstake && <UnstakeAstroFormInput />}
+        {type == AstroFormType.Stake && <StakeAstroFormInput />}
+        {type == AstroFormType.Unstake && <UnstakeAstroFormInput />}
 
-      <StakeAstroFooter
-        isLoading={state.txStep == TxStep.Estimating}
-        isDisabled={state.txStep != TxStep.Ready}
-        handleChange={handleChange}
-        token={token}
-        title="Stake Astro"
-        onClick={onClick}
-      />
+        <StakeAstroFooter
+          isLoading={state.txStep == TxStep.Estimating}
+          isDisabled={state.txStep != TxStep.Ready}
+          handleChange={handleChange}
+          token={token}
+          title={type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake ASTRO"}
+          onClick={onClick}
+        />
+      </Stack>
     </Box>
   );
 };

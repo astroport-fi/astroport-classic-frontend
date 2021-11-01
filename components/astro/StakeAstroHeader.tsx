@@ -5,7 +5,6 @@ import { AstroFormType } from "types/common";
 
 import FormHeader from "components/common/FormHeader";
 import FormHeaderItem from "components/common/FormHeaderItem";
-import Card from "components/Card";
 
 type Props = {
   type: AstroFormType;
@@ -23,7 +22,7 @@ const StakeAstroHeader: FC<Props> = ({ type, setType }) => {
             type={AstroFormType.Stake}
             onClick={() => setType(AstroFormType.Stake)}
           />
-          <Text fontSize="xl">|</Text>
+          <Text>|</Text>
           <FormHeaderItem
             label="Unstake"
             value={type}
@@ -32,15 +31,6 @@ const StakeAstroHeader: FC<Props> = ({ type, setType }) => {
           />
         </FormHeader>
       </Flex>
-
-      <Card mb="2">
-        <Text variant="light">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus beatae
-          error sit autem quidem deserunt delectus quisquam ullam
-          arthuryetihuety dolor ex in, eveniet ratione voluptates fuga sed
-          doloremque impedit eligendi perferendis?
-        </Text>
-      </Card>
     </>
   );
 };

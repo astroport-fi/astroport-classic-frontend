@@ -22,10 +22,10 @@ const SummaryCard: FC<Props> = ({ data }) => {
               textAlign="center"
               _last={{ textAlign: "right" }}
             >
-              <Text fontWeight="500" fontSize="xl">
-                {item.value}
+              <Text textStyle="h3">{item.value}</Text>
+              <Text textStyle="small" variant="dimmed">
+                {item.label}
               </Text>
-              <Text variant="light">{item.label}</Text>
             </Box>
           );
         })}

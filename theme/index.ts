@@ -32,6 +32,13 @@ export default extendTheme({
     Tabs,
     Menu,
   },
+  fontSizes: {
+    "2xs": "0.625rem",
+    xs: "0.6875rem",
+    sm: "0.8125rem",
+    md: "1rem",
+    xl: "1.25rem",
+  },
   colors: {
     green: { 500: "#7FE6A2" },
     red: { 500: "#EF5177" },
@@ -68,15 +75,20 @@ export default extendTheme({
   textStyles: {
     h3: {
       fontWeight: "medium",
-      fontSize: "2xl",
+      fontSize: "xl",
       lineHeight: 1.6,
     },
     minibutton: {
       fontWeight: "bold",
-      fontSize: "xs",
-      lineHeight: "12px",
-      letterSpacing: "0.15rem",
+      fontSize: "2xs",
+      lineHeight: "1.2",
+      letterSpacing: "0.18rem",
       textTransform: "uppercase",
+    },
+    medium: {
+      fontWeight: "medium",
+      fontSize: "sm",
+      lineHeight: "16px",
     },
     small: {
       fontWeight: "medium",

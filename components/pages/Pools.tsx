@@ -11,14 +11,14 @@ const Pools: FC = () => {
   const pools = usePools();
 
   return (
-    <Box w="container.xl" m="0 auto" pt="12" pb="64">
+    <Box w="container.xl" m="0 auto" pt="12" pb="64" color="white">
       <Box px="6" mb="4">
-        <Heading variant="brand">Pools Overview</Heading>
+        <Heading>Pools Overview</Heading>
       </Box>
       <PoolsOverview />
 
       <Box px="6" mb="4" mt="12">
-        <Heading variant="brand">My Pools</Heading>
+        <Heading>My Pools</Heading>
       </Box>
       {pools.mine && (
         <Card noPadding>
@@ -27,7 +27,7 @@ const Pools: FC = () => {
       )}
 
       <Box px="6" mb="4" mt="12">
-        <Heading variant="brand">All Pools</Heading>
+        <Heading>All Pools</Heading>
       </Box>
       {pools.all && (
         <Card noPadding>

@@ -22,41 +22,49 @@ const Governance = () => {
     <Box w="container.xl" m="0 auto" pt="12" pb="64">
       <SummaryCard data={data} />
 
-      <HStack spacing="8" mt="12">
-        <Card flex="1">
-          <Text fontWeight="500" mb="4">
-            About Governance
-          </Text>
-          <Text variant="light" fontSize="xs">
+      <HStack spacing={8} mt="12" align="stretch">
+        <Card
+          flex={1}
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="start"
+        >
+          <Text textStyle="medium">About Governance</Text>
+          <Text textStyle="small" variant="secondary" mt={4}>
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
             nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
             erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
             et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
             Lorem ipsum dolor sit amet. [Read More]
           </Text>
-          <Button type="button" variant="primary" mt="6">
+          <Button variant="primary" mt={6}>
             Go to Forum
           </Button>
         </Card>
-        <Card flex="1">
+        <Card flex={1} display="flex" flexDir="column" justifyContent="center">
           <Flex justify="space-between">
             <Box>
-              <Text fontWeight="500" fontSize="xl">
+              <Text textStyle="h3">
                 {fromTerraAmount(astroBalance, "0,0.00")}
               </Text>
-              <Text variant="light">Astro in my Wallet</Text>
+              <Text textStyle="small" variant="dimmed">
+                Astro in my Wallet
+              </Text>
             </Box>
             <Box textAlign="right">
-              <Text fontWeight="500" fontSize="xl">
+              <Text textStyle="h3">
                 {fromTerraAmount(xAstroBalance, "0,0.00")}
               </Text>
-              <Text variant="light">My staked xAstro</Text>
+              <Text textStyle="small" variant="dimmed">
+                My staked xAstro
+              </Text>
             </Box>
           </Flex>
 
           <Divider bg="white.200" my="8" />
 
-          <Flex justify="center" mb="6">
+          <Flex justify="center">
             <Link href="/governance/stake" passHref>
               <Button as="a" type="button" variant="primary">
                 Stake Astro

@@ -34,9 +34,7 @@ const FormSuccess: FC<Props> = ({
         <Flex justify="space-between" align="center" mb="6">
           <HStack>
             <SuccessIcon />
-            <Text fontSize="lg" color="green.500">
-              Successful
-            </Text>
+            <Text color="green.500">Successful</Text>
           </HStack>
           <IconButton
             aria-label="Close"
@@ -48,10 +46,11 @@ const FormSuccess: FC<Props> = ({
 
         <Box>{contentComponent}</Box>
 
-        <Text mt="6" mb="1" px="2" variant="light">
+        <Text mt="6" mb="1" textStyle="small" variant="secondary">
           Breakdown:
         </Text>
         <Box
+          color="white"
           borderWidth="1px"
           borderRadius="xl"
           borderColor="white.200"
@@ -62,10 +61,10 @@ const FormSuccess: FC<Props> = ({
           {details.map((detail) => {
             return (
               <HStack key={detail.label} justify="space-between" mb="1">
-                <Text fontSize="sm" color="white.600">
+                <Text textStyle="small" variant="secondary">
                   {detail.label}
                 </Text>
-                <Text color="white">{detail.value}</Text>
+                <Text textStyle="medium">{detail.value}</Text>
               </HStack>
             );
           })}

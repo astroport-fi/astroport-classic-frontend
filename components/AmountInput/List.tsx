@@ -32,7 +32,7 @@ const List: FC<Props> = ({ tokens, onClick }) => {
 
   return (
     <Box>
-      <Text variant="spaced">All whitelisted tokens</Text>
+      <Text textStyle="minibutton">All whitelisted tokens</Text>
       <Box h="xs" overflowY="auto" px="2" mt="2">
         <Box>
           {Object.values(terraTokens).map(({ token }) => {

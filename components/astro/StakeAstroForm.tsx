@@ -124,10 +124,21 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
 
         {showConfirm && (
           <FormConfirm
-            actionLabel="Confirm Staking"
+            actionLabel={
+              type === AstroFormType.Stake
+                ? "Confirm Staking"
+                : "Confirm Unstaking"
+            }
             fee={state.fee}
             contentComponent={
-              <FormSummary label1="Staking Astro" token1={token} />
+              <FormSummary
+                label1={
+                  type === AstroFormType.Stake
+                    ? "You are staking:"
+                    : "You are receiving:"
+                }
+                token1={token}
+              />
             }
             onCloseClick={() => setShowConfirm(false)}
           />

@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import { Flex, Text, Box } from "@chakra-ui/react";
+import { chakra, Flex, Text, Box, VStack } from "@chakra-ui/react";
 import { Controller, useFormContext } from "react-hook-form";
-import { useBalance, fromTerraAmount } from "@arthuryeti/terra";
+import { useBalance, fromTerraAmount, num } from "@arthuryeti/terra";
+import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
 import { Input } from "components/AmountInput";
@@ -10,15 +11,14 @@ const UnstakeAstroFormInput: FC = () => {
   const { control, watch } = useFormContext();
   const token = watch("token");
   const balance = useBalance(token.asset);
+  const max = num(balance).div(ONE_TOKEN).toNumber();
 
   return (
-    <Card py="12" px="12">
+    <Card py="12">
       <Flex align="center" justify="space-between">
         <Box>
-          <Text fontSize="xl" fontWeight="500">
-            {fromTerraAmount(balance, "0,0.00")}
-          </Text>
-          <Text color="white.400" fontSize="xs">
+          <Text textStyle="h3">{fromTerraAmount(balance, "0,0.00")}</Text>
+          <Text textStyle="small" variant="dimmed">
             Total xAstro able to unstake
           </Text>
         </Box>
@@ -28,13 +28,30 @@ const UnstakeAstroFormInput: FC = () => {
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <Input
-              value={field.value}
-              onChange={(amount: string) =>
-                field.onChange({ ...field.value, amount })
-              }
-              onBlur={field.onBlur}
-            />
+            <VStack spacing={2} align="end">
+              <Input
+                value={field.value}
+                onChange={(amount: string) =>
+                  field.onChange({ ...field.value, amount })
+                }
+                onBlur={field.onBlur}
+              />
+              <chakra.button
+                type="button"
+                outline="none"
+                color="white.600"
+                fontSize="xs"
+                textTransform="uppercase"
+                bg="white.100"
+                fontWeight="bold"
+                px="3"
+                borderRadius="md"
+                letterSpacing="widest"
+                onClick={() => field.onChange({ ...field.value, amount: max })}
+              >
+                Max
+              </chakra.button>
+            </VStack>
           )}
         />
       </Flex>

@@ -37,7 +37,7 @@ const FormConfirm: FC<Props> = ({
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text fontSize="lg">Confirm</Text>
+          <Text>{actionLabel}</Text>
           <IconButton
             aria-label="Close"
             icon={<CloseIcon />}
@@ -50,10 +50,11 @@ const FormConfirm: FC<Props> = ({
 
         {details && (
           <>
-            <Text mt="6" mb="1" px="2" variant="light">
-              Further Information:
+            <Text mt="6" mb="2" textStyle="small" variant="secondary">
+              Breakdown
             </Text>
             <Box
+              color="white"
               borderWidth="1px"
               borderRadius="xl"
               borderColor="white.200"
@@ -64,10 +65,10 @@ const FormConfirm: FC<Props> = ({
               {details.map((detail) => {
                 return (
                   <HStack key={detail.label} justify="space-between" mb="1">
-                    <Text fontSize="sm" color="white.600">
+                    <Text textStyle="small" variant="secondary">
                       {detail.label}
                     </Text>
-                    <Text color="white">{detail.value}</Text>
+                    <Text textStyle="medium">{detail.value}</Text>
                   </HStack>
                 );
               })}
@@ -75,7 +76,7 @@ const FormConfirm: FC<Props> = ({
           </>
         )}
 
-        <Text variant="light" fontSize="xs" mt="6" px="2" lineHeight="1.2">
+        <Text mt="6" px="2" textStyle="small" variant="secondary">
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
           nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
           sed diam voluptua. At vero eos et accusam et justo duo dolores et ea

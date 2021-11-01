@@ -14,10 +14,9 @@ const HeaderItem: FC<Props> = ({ label, value, type, onClick }) => {
   return (
     <Text
       as="button"
-      fontSize="xl"
       type="button"
       onClick={onClick}
-      color={isActive ? "white" : "white.500"}
+      variant={isActive ? undefined : "dimmed"}
     >
       {label}
     </Text>

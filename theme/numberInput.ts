@@ -10,7 +10,7 @@ const styles = {
     lg: {
       field: {
         borderRadius: "xl",
-        fontSize: "xl",
+        fontSize: "2xl",
         height: "16",
       },
     },

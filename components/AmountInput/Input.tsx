@@ -34,8 +34,8 @@ const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
         onBlur={onBlur}
       >
         <NumberInputField placeholder="0.0" />
-        <Box position="absolute" bottom="2" right="4">
-          <Text fontSize="xs" color="white.400">
+        <Box position="absolute" bottom="2" right="4" color="white">
+          <Text textStyle="small" variant="dimmed">
             ${format(simulate?.amount, "uusd")}
           </Text>
         </Box>

@@ -36,10 +36,8 @@ const Single: FC<Props> = ({ asset }) => {
         </Box>
 
         <Box ml="3" fontWeight="500" flex="1">
-          <Text fontSize="2xl" color="white">
-            {getSymbol(asset)}
-          </Text>
-          <Text fontSize="xs" color="white.400">
+          <Text textStyle="h3">{getSymbol(asset)}</Text>
+          <Text textStyle="small" variant="dimmed">
             {/* TODO: Fix issue */}
             Price: ${fromTerraAmount(price as any, "uusd")}
           </Text>

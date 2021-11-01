@@ -29,13 +29,15 @@ const SwapFormFooter: FC<Props> = ({
 
   return (
     <Flex justify="space-between" px="12" mt="8">
-      <Box flex="1">
+      <Box flex="1" color="white">
         {!isDisabled && (
           <>
-            <Text color="white" fontSize="sm">
+            <Text textStyle="medium">
               1 {getSymbol(from)} = {formattedPrice} {getSymbol(to)}
             </Text>
-            <Text variant="light">Exchange Rate</Text>
+            <Text textStyle="small" variant="dimmed">
+              Exchange Rate
+            </Text>
           </>
         )}
       </Box>
@@ -49,15 +51,17 @@ const SwapFormFooter: FC<Props> = ({
         >
           Swap Tokens
         </Button>
-        {!isDisabled && <FormFee fee={fee} />}
+        <Box color="white">{!isDisabled && <FormFee fee={fee} />}</Box>
       </Flex>
-      <Box flex="1" textAlign="right">
+      <Box flex="1" textAlign="right" color="white">
         {!isDisabled && (
           <>
-            <Text color="green.500" fontSize="sm">
+            <Text textStyle="medium" color="green.500">
               0.002%
             </Text>
-            <Text variant="light">Price Impact</Text>
+            <Text textStyle="small" variant="dimmed">
+              Price Impact
+            </Text>
           </>
         )}
       </Box>

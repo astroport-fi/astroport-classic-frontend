@@ -25,6 +25,7 @@ const CommonFooter: FC<Props> = ({ cells, confirmButton }) => {
       <Flex justify="space-between" px="12" my="8">
         {cells.map((cell) => (
           <Box
+            color="white"
             key={cell.title}
             flex="1"
             borderRightColor="whiteAlpha.600"
@@ -35,10 +36,8 @@ const CommonFooter: FC<Props> = ({ cells, confirmButton }) => {
               borderLeftWidth: "1px",
             }}
           >
-            <Text color="white" fontSize="sm">
-              {cell.value}
-            </Text>
-            <Text variant="light" color="white.400" fontSize="sm">
+            <Text textStyle="medium">{cell.value}</Text>
+            <Text textStyle="small" variant="dimmed">
               {cell.title}
             </Text>
           </Box>

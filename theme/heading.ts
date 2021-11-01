@@ -1,10 +1,14 @@
 const styles = {
-  variants: {
-    brand: {
-      fontWeight: "400",
-      fontSize: "lg",
-      color: "white",
+  baseStyle: {
+    fontWeight: 400,
+  },
+  sizes: {
+    md: {
+      fontSize: "md",
     },
+  },
+  defaultProps: {
+    size: "md",
   },
 };
 

@@ -38,9 +38,7 @@ const FormError: FC<Props> = ({
             <Box>
               <FailedIcon />
             </Box>
-            <Text fontSize="lg" color="red.500">
-              Failed
-            </Text>
+            <Text color="red.500">Failed</Text>
           </HStack>
           <IconButton
             aria-label="Close"
@@ -50,7 +48,7 @@ const FormError: FC<Props> = ({
           />
         </Flex>
 
-        <Text variant="light" mt="3">
+        <Text mt="3" textStyle="small" variant="secondary">
           {content}
         </Text>
 
