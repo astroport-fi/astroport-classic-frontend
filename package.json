@@ -52,7 +52,7 @@
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
     "@types/react-lottie": "^1.2.6",
-    "@types/react-table": "^7.7.6",
+    "@types/react-table": "^7.7.7",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "babel-plugin-relay": "^12.0.0",

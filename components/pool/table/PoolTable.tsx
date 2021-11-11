@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { FC, useMemo } from "react";
-import { Box, HStack, Text } from "@chakra-ui/react";
-import { useTable, useSortBy, useExpanded } from "react-table";
-import { useConnectedWallet } from "@terra-dev/use-wallet";
+import { Box, Button, HStack, Text } from "@chakra-ui/react";
+import { useTable, useSortBy, useExpanded, usePagination } from "react-table";
 
 import { PairResponse, getTokenDenom } from "modules/common";
 
@@ -12,18 +11,16 @@ import Td from "components/Td";
 import PoolTr from "components/pool/table/PoolTr";
 import PoolNameTd from "components/pool/table/PoolNameTd";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
-import PoolConnectWallet from "components/pool/table/PoolConnectWallet";
 import DepthTd from "components/pool/table/DepthTd";
 import ActionsTd from "components/pool/table/ActionsTd";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 
 type Props = {
   data: PairResponse[];
+  paginationSize?: number;
 };
 
-const PoolTable: FC<Props> = ({ data }) => {
-  const wallet = useConnectedWallet();
-
+const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
   const columns = useMemo(
     () => [
       {
@@ -73,15 +70,23 @@ const PoolTable: FC<Props> = ({ data }) => {
     []
   );
 
-  // @ts-expect-error
-  const tableInstance = useTable({ columns, data }, useSortBy, useExpanded);
+  const tableInstance = useTable(
+    // @ts-expect-error
+    { columns, data, initialState: { pageSize: paginationSize } },
+    useSortBy,
+    useExpanded,
+    usePagination
+  );
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
+    page,
+    canNextPage,
+    setPageSize,
+    state: { pageSize },
     // state: { expanded },
   } = tableInstance;
 
@@ -108,16 +113,28 @@ const PoolTable: FC<Props> = ({ data }) => {
         </Tr>
       ))}
 
-      {!wallet ? <PoolConnectWallet /> : null}
-
-      {rows.length ? (
+      {page.length ? (
         <Box {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row: any) => {
             prepareRow(row);
-            return <PoolTr row={row} />;
+            return <PoolTr key={row.id} row={row} />;
           })}
         </Box>
       ) : null}
+
+      {canNextPage && (
+        <Tr borderTopWidth={1} borderTopColor="white.200">
+          <Td textAlign="center">
+            <Button
+              variant="simple"
+              color="brand.purple"
+              onClick={() => setPageSize(pageSize + paginationSize)}
+            >
+              Show more
+            </Button>
+          </Td>
+        </Tr>
+      )}
     </Table>
   );
 };

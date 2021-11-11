@@ -31,7 +31,7 @@ const Pools: FC = () => {
       </Box>
       {pools.all && (
         <Card noPadding>
-          <PoolTable data={pools.all} />
+          <PoolTable data={pools.all} paginationSize={1} />
         </Card>
       )}
     </Box>
