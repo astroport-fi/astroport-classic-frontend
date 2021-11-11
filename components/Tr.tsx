@@ -9,11 +9,11 @@ type Props = {
 const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
   let extraProps: any = {
     py: "4",
+    px: "6",
     fontWeight: "500",
     align: "center",
     borderBottomWidth: "1px",
     borderBottomColor: "white.200",
-    px: "2",
     _last: {
       mb: 0,
       borderBottomWidth: "0px",
@@ -24,7 +24,8 @@ const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
     extraProps = {
       fontSize: "sm",
       py: "8",
-      px: "2",
+      px: "6",
+      alignItems: "center",
       _notLast: {
         borderBottomWidth: "1px",
         borderBottomColor: "white.200",

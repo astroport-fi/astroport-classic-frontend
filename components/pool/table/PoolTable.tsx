@@ -1,13 +1,19 @@
 /* eslint-disable react/jsx-key */
 import React, { FC, useMemo } from "react";
 import { Box, Button, HStack, Text } from "@chakra-ui/react";
-import { useTable, useSortBy, useExpanded, usePagination } from "react-table";
-
+import {
+  useTable,
+  useSortBy,
+  useExpanded,
+  usePagination,
+  useGlobalFilter,
+} from "react-table";
 import { PairResponse, getTokenDenom } from "modules/common";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
 import Td from "components/Td";
+import PoolTableFilter from "components/pool/table/PoolTableFilter";
 import PoolTr from "components/pool/table/PoolTr";
 import PoolNameTd from "components/pool/table/PoolNameTd";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
@@ -26,7 +32,10 @@ const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => <PoolNameTd row={row} />,
-        accessor: "name",
+        accessor: ({ asset_infos }: any) => {
+          const token = getTokenDenom(asset_infos[0]);
+          return token;
+        },
         sortType: (rowA: any, rowB: any) => {
           const rowAToken = getTokenDenom(rowA.original.asset_infos[0]);
           const rowBToken = getTokenDenom(rowB.original.asset_infos[0]);
@@ -38,7 +47,7 @@ const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
         Header: "My Liquidity",
         Cell: ({ row }: any) => <MyLiquidityTd row={row} />,
         accessor: "myShareInUst",
-        sortType: (rowA, rowB) => {
+        sortType: (rowA: any, rowB: any) => {
           return rowA.original.total_share - rowB.original.total_share;
         },
       },
@@ -51,7 +60,7 @@ const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
         Header: "Depth",
         Cell: ({ row }: any) => <DepthTd row={row} />,
         accessor: "totalShareInUst",
-        sortType: (rowA, rowB) => {
+        sortType: (rowA: any, rowB: any) => {
           return rowB.original.total_share - rowA.original.total_share;
         },
       },
@@ -61,7 +70,7 @@ const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
         accessor: "volume",
       },
       {
-        Header: "",
+        Header: PoolTableFilter,
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
         disableSortBy: true,
@@ -73,6 +82,7 @@ const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
   const tableInstance = useTable(
     // @ts-expect-error
     { columns, data, initialState: { pageSize: paginationSize } },
+    useGlobalFilter,
     useSortBy,
     useExpanded,
     usePagination
