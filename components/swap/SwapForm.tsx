@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
@@ -26,27 +27,33 @@ type FormValues = {
   };
 };
 
-const defaultValues = {
-  token1: {
-    amount: undefined,
-    asset: "uluna",
-  },
-  token2: {
-    amount: undefined,
-    asset: "uusd",
-  },
-};
-
 const SwapForm: FC = () => {
+  const router = useRouter();
+
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
-    defaultValues,
+    defaultValues: {
+      token1: {
+        asset: router.query.from?.toString() || "uluna",
+        amount: undefined,
+      },
+      token2: {
+        asset: router.query.to?.toString() || "uusd",
+        amount: undefined,
+      },
+    },
   });
 
   const { watch } = methods;
 
   const token1 = watch("token1");
   const token2 = watch("token2");
+
+  useEffect(() => {
+    router.push(`/?from=${token1.asset}&to=${token2.asset}`, undefined, {
+      shallow: true,
+    });
+  }, [token1, token2]);
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
