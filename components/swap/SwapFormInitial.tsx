@@ -36,14 +36,8 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
   const card2Control = useAnimation();
 
   const reverse = () => {
-    setValue("token1", {
-      asset: token2.asset,
-      amount: "",
-    });
-    setValue("token2", {
-      asset: token1.asset,
-      amount: "",
-    });
+    setValue("token1", token2);
+    setValue("token2", token1);
   };
 
   useEffect(() => {
