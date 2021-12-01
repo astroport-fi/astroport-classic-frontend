@@ -12,7 +12,7 @@ const button = {
     primary: {
       outline: "none",
       borderRadius: "full",
-      fontWeight: "400",
+      fontWeight: "500",
       bg: "brand.purple",
       color: "white",
       px: "10",

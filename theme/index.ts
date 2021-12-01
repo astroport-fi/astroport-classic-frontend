@@ -38,7 +38,7 @@ export default extendTheme({
   },
   fontSizes: {
     "2xs": "0.625rem",
-    xs: "0.6875rem",
+    // xs: "0.6875rem",
     sm: "0.8125rem",
     md: "1rem",
     xl: "1.25rem",
@@ -85,7 +85,7 @@ export default extendTheme({
     },
     minibutton: {
       fontWeight: "bold",
-      fontSize: "2xs",
+      fontSize: "xs",
       lineHeight: "1.2",
       letterSpacing: "0.18rem",
       textTransform: "uppercase",
