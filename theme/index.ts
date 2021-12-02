@@ -11,6 +11,8 @@ import NumberInput from "./numberInput";
 import Heading from "./heading";
 import Menu from "./menu";
 import Slider from "./slider";
+import Input from "./input";
+import Alert from "./alert";
 
 export default extendTheme({
   fonts: {
@@ -31,6 +33,8 @@ export default extendTheme({
     Slider,
     Tabs,
     Menu,
+    Input,
+    Alert,
   },
   fontSizes: {
     "2xs": "0.625rem",
