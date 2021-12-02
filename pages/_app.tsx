@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   NetworkInfo,
   StaticWalletProvider,
@@ -14,8 +14,10 @@ import timezone from "dayjs/plugin/timezone";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import { useLocalStorage } from "hooks/useLocalStorage";
 import Layout from "components/Layout";
 import theme from "../theme";
+import AstroportDisclaimer from "components/pages/Disclaimer";
 
 dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
@@ -42,6 +44,13 @@ const walletConnectChainIds: Record<number, NetworkInfo> = {
 export const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [termsAgreed, setTermsAgreed] = useLocalStorage(
+    "accepted_terms_conditions",
+    false
+  );
+  const [showingDisclaimer, setShowingDisclaimer] = useState(
+    () => !termsAgreed
+  );
   const main = (
     <>
       <Head>
@@ -52,7 +61,17 @@ const App = ({ Component, pageProps }: AppProps) => {
           <ChakraProvider theme={theme}>
             <CSSReset />
             <Layout>
-              <Component {...pageProps} />
+              {showingDisclaimer ? (
+                <AstroportDisclaimer
+                  onCloseClick={() => setShowingDisclaimer(false)}
+                  onConfirmClick={() => {
+                    setTermsAgreed(true);
+                    setShowingDisclaimer(false);
+                  }}
+                />
+              ) : (
+                <Component {...pageProps} />
+              )}
             </Layout>
           </ChakraProvider>
         </Hydrate>
