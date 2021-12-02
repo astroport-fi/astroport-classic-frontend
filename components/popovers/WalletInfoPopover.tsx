@@ -62,78 +62,80 @@ const WalletInfoPopover: FC<Props> = ({ triggerElement }) => {
         <PopoverCloseButton />
         <PopoverHeader>In my Wallet</PopoverHeader>
         <PopoverBody>
-          <Flex direction="column" justify="center" width="96">
-            <Flex flex={1} justify="space-between" align="center" py="2">
-              <HStack flex={1}>
-                <Image boxSize="8" src={icon} />
-                <Box>
-                  <Text textStyle="h3" lineHeight="1">
-                    {symbol}
-                  </Text>
-                  <Text textStyle="small" variant="dimmed">
-                    Terra
-                  </Text>
-                </Box>
-              </HStack>
-              <Flex direction="column" width={1 / 3} gridRowGap={1}>
-                <HStack flex={1} justify="space-between">
-                  <Text flex={1} textStyle="small" variant="dimmed">
-                    In Wallet:{" "}
-                  </Text>
-                  <Text textStyle="small">$ {fromTerraAmount(balance)}</Text>
+          <Box px="6" width="96">
+            <Flex direction="column" justify="center">
+              <Flex flex={1} justify="space-between" align="center" py="2">
+                <HStack flex={1}>
+                  <Image boxSize="8" src={icon} />
+                  <Box>
+                    <Text textStyle="h3" lineHeight="1">
+                      {symbol}
+                    </Text>
+                    <Text textStyle="small" variant="dimmed">
+                      Terra
+                    </Text>
+                  </Box>
                 </HStack>
-                <HStack justify="space-between">
-                  <Text flex={1} textStyle="small" variant="dimmed">
-                    Price:{" "}
-                  </Text>
-                  <Text textStyle="small" variant="dimmed">
-                    {fromTerraAmount(price)}
-                  </Text>
-                </HStack>
+                <Flex direction="column" width={1 / 3} gridRowGap={1}>
+                  <HStack flex={1} justify="space-between">
+                    <Text flex={1} textStyle="small" variant="dimmed">
+                      In Wallet:{" "}
+                    </Text>
+                    <Text textStyle="small">$ {fromTerraAmount(balance)}</Text>
+                  </HStack>
+                  <HStack justify="space-between">
+                    <Text flex={1} textStyle="small" variant="dimmed">
+                      Price:{" "}
+                    </Text>
+                    <Text textStyle="small" variant="dimmed">
+                      {fromTerraAmount(price)}
+                    </Text>
+                  </HStack>
+                </Flex>
+              </Flex>
+              <VStack mt={6} align="flex-start">
+                <Text textStyle="minibutton">My Address</Text>
+                <Text textStyle="small" variant="dimmed">
+                  {truncate(terraAddress, [16, 16])}
+                </Text>
+              </VStack>
+              <Flex mt={6} justify="space-between">
+                <chakra.button onClick={copyAddress}>
+                  <HStack>
+                    <CopyIcon
+                      width="1.5rem"
+                      height="1.5rem"
+                      fill="brand.deepBlue"
+                    />
+                    <Text textStyle="small" variant="dimmed">
+                      Copy Address
+                    </Text>
+                  </HStack>
+                </chakra.button>
+                <Link isExternal href={finder(terraAddress)}>
+                  <HStack>
+                    <ViewIcon
+                      width="1.5rem"
+                      height="1.5rem"
+                      fill="brand.deepBlue"
+                    />
+                    <Text textStyle="small" variant="dimmed">
+                      View on Terra Finder
+                    </Text>
+                  </HStack>
+                </Link>
               </Flex>
             </Flex>
-            <VStack mt={6} align="flex-start">
-              <Text textStyle="minibutton">My Address</Text>
-              <Text textStyle="small" variant="dimmed">
-                {truncate(terraAddress, [16, 16])}
-              </Text>
-            </VStack>
-            <Flex mt={6} justify="space-between">
-              <chakra.button onClick={copyAddress}>
-                <HStack>
-                  <CopyIcon
-                    width="1.5rem"
-                    height="1.5rem"
-                    fill="brand.deepBlue"
-                  />
-                  <Text textStyle="small" variant="dimmed">
-                    Copy Address
-                  </Text>
-                </HStack>
-              </chakra.button>
-              <Link isExternal href={finder(terraAddress)}>
-                <HStack>
-                  <ViewIcon
-                    width="1.5rem"
-                    height="1.5rem"
-                    fill="brand.deepBlue"
-                  />
-                  <Text textStyle="small" variant="dimmed">
-                    View on Terra Finder
-                  </Text>
-                </HStack>
-              </Link>
-            </Flex>
-          </Flex>
-          <Box mt="6">
-            <Button
-              type="button"
-              variant="primary"
-              isFullWidth
-              onClick={() => disconnect()}
-            >
-              Disconnect
-            </Button>
+            <Box mt="6">
+              <Button
+                type="button"
+                variant="primary"
+                isFullWidth
+                onClick={() => disconnect()}
+              >
+                Disconnect
+              </Button>
+            </Box>
           </Box>
         </PopoverBody>
       </PopoverContent>

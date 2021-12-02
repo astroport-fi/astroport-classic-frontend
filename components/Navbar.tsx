@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { Flex, HStack, Image, chakra, Text } from "@chakra-ui/react";
-
 import TerraWallet from "components/TerraWallet";
 import NavbarLink from "components/NavbarLink";
-// import MenuIcon from "components/icons/MenuIcon";
+import BurgerMenuPopover from "components/popovers/BurgerMenuPopover";
+import MenuIcon from "components/icons/MenuIcon";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const Navbar: FC = () => {
@@ -37,9 +37,13 @@ const Navbar: FC = () => {
           </HStack>
         </chakra.button>
         <TerraWallet />
-        {/* <chakra.button color="white" outline="none">
-          <MenuIcon />
-        </chakra.button> */}
+        <BurgerMenuPopover
+          triggerElement={() => (
+            <chakra.button color="white" outline="none">
+              <MenuIcon />
+            </chakra.button>
+          )}
+        />
       </HStack>
     </Flex>
   );

@@ -5,15 +5,19 @@ const styles = {
       bg: "#C2D9FF",
       color: "brand.deepBlue",
       width: "full",
-      p: 4,
       boxShadow: "xl",
       borderRadius: "2xl",
       _focus: {
         boxShadow: "none",
       },
+      pb: 6,
     },
     header: {
       borderBottomWidth: 0,
+      p: 6,
+    },
+    body: {
+      p: 0,
     },
   },
   sizes: {
