@@ -2,10 +2,12 @@ import React, { FC, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep } from "@arthuryeti/terra";
+import { TxStep, fromTerraAmount, num } from "@arthuryeti/terra";
+import { StdFee } from "@terra-money/terra.js";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import { useSwap } from "modules/swap";
+import { useTokenInfo } from "modules/common";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
 
@@ -29,6 +31,9 @@ type FormValues = {
 
 const SwapForm: FC = () => {
   const router = useRouter();
+  const { getSymbol } = useTokenInfo();
+  const [slippage, setSlippage] = useState(DEFAULT_SLIPPAGE);
+  const [expertMode, setExpertMode] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
@@ -61,7 +66,7 @@ const SwapForm: FC = () => {
     token1: token1.asset,
     token2: token2.asset,
     amount: toAmount(debouncedAmount1),
-    slippage: String(DEFAULT_SLIPPAGE),
+    slippage: String(slippage),
   });
 
   const { fee, txHash, txStep, reset, swap } = state;
@@ -80,6 +85,14 @@ const SwapForm: FC = () => {
   const submit = async () => {
     swap();
   };
+
+  const estimateFees = (fee?: StdFee | null) =>
+    fromTerraAmount(String(fee?.gas), "0.[000]");
+
+  const estimateExchangeRate = (simulated: any) =>
+    `1 ${getSymbol(token2.asset)} = ${num(simulated.price).toPrecision(
+      3
+    )} ${getSymbol(token1.asset)}`;
 
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
@@ -122,7 +135,11 @@ const SwapForm: FC = () => {
             token1={token1}
             token2={token2}
             state={state}
-            onClick={() => setShowConfirm(true)}
+            slippage={slippage}
+            onSlippageChange={setSlippage}
+            expertMode={expertMode}
+            onExpertModeChange={setExpertMode}
+            onClick={() => setShowConfirm(!expertMode)}
           />
         )}
 
@@ -138,7 +155,21 @@ const SwapForm: FC = () => {
                 token2={token2}
               />
             }
-            details={[{ label: "Price Impact", value: "0.02%" }]}
+            details={[
+              { label: "Price Impact", value: "0.02%" },
+              {
+                label: "Liquidity Provider fee",
+                value: `${estimateFees(state.fee)} UST`,
+              },
+              {
+                label: "Slippage Tolerance",
+                value: `${slippage.toPrecision(1)}%`,
+              },
+              {
+                label: "Exchange Rate",
+                value: estimateExchangeRate(state.simulated),
+              },
+            ]}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}
