@@ -1,8 +1,7 @@
-import React, { FC, useState, useEffect } from "react";
-import { chakra, Link, Text, useToast } from "@chakra-ui/react";
+import React, { FC, useCallback, useState, useEffect } from "react";
+import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
-import useFinder from "hooks/useFinder";
 
 import { useUnstakeLpToken } from "modules/pool";
 import { useFeeToString } from "hooks/useFeeToString";
@@ -15,7 +14,8 @@ import FormConfirm from "components/common/FormConfirm";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import UnstakeFormInitial from "components/lp/unstake/UnstakeFormInitial";
-import NotificationSuccess from "components/notifications/NotificationSuccess";
+import TransactionSuccess from "components/notifications/TransactionSuccess";
+import TransactionError from "components/notifications/TransactionError";
 
 type FormValues = {
   lpToken: {
@@ -41,7 +41,6 @@ const UnstakeForm: FC<Props> = ({
   onChartClick,
 }) => {
   const toast = useToast();
-  const finder = useFinder();
   const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -57,29 +56,46 @@ const UnstakeForm: FC<Props> = ({
   const { watch, getValues, handleSubmit } = methods;
   const lpToken = watch("lpToken");
 
-  const showNotification = (txHash: string) => {
+  const showSuccessNotification = useCallback((txHash: string) => {
     const { lpToken } = getValues();
-    toast({
-      position: "top-right",
-      duration: 9000,
-      render: ({ onClose }) => (
-        <NotificationSuccess onClose={onClose}>
-          <Text textStyle="medium">
-            Unstaked {lpToken.amount} {getSymbol(lpToken.asset)}
-          </Text>
-          <Link href={finder(txHash, "tx")} isExternal>
-            <Text textStyle="medium" color="otherColours.overlay">
-              View on Terra Finder
+    if (!toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionSuccess onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              Unstaked {lpToken.amount} {getSymbol(lpToken.asset)}
             </Text>
-          </Link>
-        </NotificationSuccess>
-      ),
-    });
-  };
+          </TransactionSuccess>
+        ),
+      });
+    }
+  }, []);
+
+  const showErrorNotification = useCallback((txHash?: string) => {
+    const { lpToken } = methods.getValues();
+    if (!txHash || !toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionError onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              You failed to unstake {lpToken.amount} {getSymbol(lpToken.asset)}
+            </Text>
+          </TransactionError>
+        ),
+      });
+    }
+  }, []);
 
   const state = useUnstakeLpToken({
     ...lpToken,
-    onSuccess: showNotification,
+    onSuccess: showSuccessNotification,
+    onError: showErrorNotification,
   });
 
   const submit = async () => {

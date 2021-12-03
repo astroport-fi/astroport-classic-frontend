@@ -1,5 +1,5 @@
-import React, { FC, useState, useEffect } from "react";
-import { chakra, Link, Text, useToast } from "@chakra-ui/react";
+import React, { FC, useCallback, useState, useEffect } from "react";
+import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
@@ -8,7 +8,6 @@ import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { toAmount } from "libs/parse";
 import { useWithdraw } from "modules/pool";
-import useFinder from "hooks/useFinder";
 
 import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
@@ -16,7 +15,8 @@ import FormLoading from "components/common/FormLoading";
 import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
-import NotificationSuccess from "components/notifications/NotificationSuccess";
+import TransactionSuccess from "components/notifications/TransactionSuccess";
+import TransactionError from "components/notifications/TransactionError";
 
 type FormValues = {
   token: {
@@ -43,7 +43,6 @@ const WithdrawForm: FC<Props> = ({
   onTypeClick,
 }) => {
   const toast = useToast();
-  const finder = useFinder();
   const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
@@ -59,31 +58,48 @@ const WithdrawForm: FC<Props> = ({
 
   const debouncedAmount = useDebounceValue(token.amount, 500);
 
-  const showNotification = (txHash: string) => {
+  const showSuccessNotification = useCallback((txHash: string) => {
     const { token } = methods.getValues();
-    toast({
-      position: "top-right",
-      duration: 9000,
-      render: ({ onClose }) => (
-        <NotificationSuccess onClose={onClose}>
-          <Text textStyle="medium">
-            You withdrew {token.amount} {getSymbol(token.asset)}
-          </Text>
-          <Link href={finder(txHash, "tx")} isExternal>
-            <Text textStyle="medium" color="otherColours.overlay">
-              View on Terra Finder
+    if (!toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionSuccess onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              You withdrew {token.amount} {getSymbol(token.asset)}
             </Text>
-          </Link>
-        </NotificationSuccess>
-      ),
-    });
-  };
+          </TransactionSuccess>
+        ),
+      });
+    }
+  }, []);
+
+  const showErrorNotification = useCallback((txHash?: string) => {
+    const { token } = methods.getValues();
+    if (!txHash || !toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionError onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              You failed to withdraw {token.amount} {getSymbol(token.asset)}
+            </Text>
+          </TransactionError>
+        ),
+      });
+    }
+  }, []);
 
   const state = useWithdraw({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toAmount(debouncedAmount),
-    onSuccess: showNotification,
+    onSuccess: showSuccessNotification,
+    onError: showErrorNotification,
   });
 
   const {
