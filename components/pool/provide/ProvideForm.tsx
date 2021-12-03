@@ -1,13 +1,14 @@
 import React, { FC, useEffect, useState, useCallback } from "react";
-import { chakra } from "@chakra-ui/react";
+import { chakra, useToast, Link, Text } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
 import { toAmount } from "libs/parse";
-import { PairResponse } from "modules/common";
+import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
+import useFinder from "hooks/useFinder";
 
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
 import FormConfirm from "components/common/FormConfirm";
@@ -15,6 +16,7 @@ import FormLoading from "components/common/FormLoading";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import FormError from "components/common/FormError";
+import NotificationSuccess from "components/notifications/NotificationSuccess";
 
 type FormValues = {
   token1: {
@@ -48,6 +50,9 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
+  const toast = useToast();
+  const finder = useFinder();
+  const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -68,6 +73,30 @@ const ProvideForm: FC<Props> = ({
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
   const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
+  const showNotification = useCallback((txHash) => {
+    const { token1, token2 } = methods.getValues();
+    if (!toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <NotificationSuccess onClose={onClose}>
+            <Text textStyle="medium">
+              Provided {token1.amount} {getSymbol(token1.asset)} and{" "}
+              {token2.amount} {getSymbol(token2.asset)}
+            </Text>
+            <Link href={finder(txHash, "tx")} isExternal>
+              <Text textStyle="medium" color="otherColours.overlay">
+                View on Terra Finder
+              </Text>
+            </Link>
+          </NotificationSuccess>
+        ),
+      });
+    }
+  }, []);
+
   const state = useProvide({
     contract: pair.contract_addr,
     pool: pool,
@@ -75,6 +104,7 @@ const ProvideForm: FC<Props> = ({
     token2: token2.asset,
     amount1: toAmount(debouncedAmount1),
     amount2: toAmount(debouncedAmount2),
+    onSuccess: showNotification,
   });
 
   const submit = async () => {

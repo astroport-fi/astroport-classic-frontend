@@ -1,12 +1,13 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useCallback, useState, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { chakra } from "@chakra-ui/react";
+import { chakra, Link, Text, useToast } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
 import { TxStep } from "@arthuryeti/terra";
 
 import { useAstro } from "modules/astro";
 import { AstroFormType } from "types/common";
-import { useContracts } from "modules/common";
+import { useContracts, useTokenInfo } from "modules/common";
+import useFinder from "hooks/useFinder";
 
 import StakeAstroFormInitial from "components/astro/StakeAstroFormInitial";
 import FormLoading from "components/common/FormLoading";
@@ -14,6 +15,7 @@ import FormSummary from "components/common/FormSummary";
 import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import FormError from "components/common/FormError";
+import NotificationSuccess from "components/notifications/NotificationSuccess";
 
 type FormValue = {
   token: {
@@ -28,6 +30,9 @@ type Props = {
 };
 
 const StakeAstroForm: FC<Props> = ({ type, setType }) => {
+  const toast = useToast();
+  const finder = useFinder();
+  const { getSymbol } = useTokenInfo();
   const queryClient = useQueryClient();
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const { astroToken, xAstroToken } = useContracts();
@@ -40,13 +45,37 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
     },
   });
 
-  const handleSuccess = () => {
-    queryClient.invalidateQueries(["balance", astroToken]);
-    queryClient.invalidateQueries(["balance", xAstroToken]);
-  };
+  const handleSuccess = useCallback(
+    (txHash: string) => () => {
+      queryClient.invalidateQueries(["balance", astroToken]);
+      queryClient.invalidateQueries(["balance", xAstroToken]);
+      showNotification(txHash);
+    },
+    []
+  );
 
-  const { watch, setValue, reset: resetForm } = methods;
+  const { watch, getValues, setValue, reset: resetForm } = methods;
   const token = watch("token");
+
+  const showNotification = (txHash: string) => {
+    const { token } = getValues();
+    toast({
+      position: "top-right",
+      duration: 9000,
+      render: ({ onClose }) => (
+        <NotificationSuccess onClose={onClose}>
+          <Text textStyle="medium">
+            Staked {token.amount} {getSymbol(token.asset)}
+          </Text>
+          <Link href={finder(txHash, "tx")} isExternal>
+            <Text textStyle="medium" color="otherColours.overlay">
+              View on Terra Finder
+            </Text>
+          </Link>
+        </NotificationSuccess>
+      ),
+    });
+  };
 
   // TODO: refactor to use one function for staking and unstaking
   const state = useAstro({

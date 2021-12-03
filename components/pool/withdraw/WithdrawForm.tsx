@@ -1,13 +1,14 @@
 import React, { FC, useState, useEffect } from "react";
-import { chakra } from "@chakra-ui/react";
+import { chakra, Link, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse } from "modules/common";
+import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { toAmount } from "libs/parse";
 import { useWithdraw } from "modules/pool";
+import useFinder from "hooks/useFinder";
 
 import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
@@ -15,6 +16,7 @@ import FormLoading from "components/common/FormLoading";
 import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
+import NotificationSuccess from "components/notifications/NotificationSuccess";
 
 type FormValues = {
   token: {
@@ -40,6 +42,9 @@ const WithdrawForm: FC<Props> = ({
   onModeClick,
   onTypeClick,
 }) => {
+  const toast = useToast();
+  const finder = useFinder();
+  const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -54,10 +59,31 @@ const WithdrawForm: FC<Props> = ({
 
   const debouncedAmount = useDebounceValue(token.amount, 500);
 
+  const showNotification = (txHash: string) => {
+    const { token } = methods.getValues();
+    toast({
+      position: "top-right",
+      duration: 9000,
+      render: ({ onClose }) => (
+        <NotificationSuccess onClose={onClose}>
+          <Text textStyle="medium">
+            You withdrew {token.amount} {getSymbol(token.asset)}
+          </Text>
+          <Link href={finder(txHash, "tx")} isExternal>
+            <Text textStyle="medium" color="otherColours.overlay">
+              View on Terra Finder
+            </Text>
+          </Link>
+        </NotificationSuccess>
+      ),
+    });
+  };
+
   const state = useWithdraw({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toAmount(debouncedAmount),
+    onSuccess: showNotification,
   });
 
   const {

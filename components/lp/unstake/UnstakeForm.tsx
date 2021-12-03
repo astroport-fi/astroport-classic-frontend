@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect } from "react";
-import { chakra } from "@chakra-ui/react";
+import { chakra, Link, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
+import useFinder from "hooks/useFinder";
 
 import { useUnstakeLpToken } from "modules/pool";
 import { useFeeToString } from "hooks/useFeeToString";
-import { PairResponse } from "modules/common";
+import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType } from "types/common";
 
 import FormLoading from "components/common/FormLoading";
@@ -14,6 +15,7 @@ import FormConfirm from "components/common/FormConfirm";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import UnstakeFormInitial from "components/lp/unstake/UnstakeFormInitial";
+import NotificationSuccess from "components/notifications/NotificationSuccess";
 
 type FormValues = {
   lpToken: {
@@ -38,6 +40,9 @@ const UnstakeForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
+  const toast = useToast();
+  const finder = useFinder();
+  const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
@@ -49,10 +54,33 @@ const UnstakeForm: FC<Props> = ({
     },
   });
 
-  const { watch, handleSubmit } = methods;
+  const { watch, getValues, handleSubmit } = methods;
   const lpToken = watch("lpToken");
 
-  const state = useUnstakeLpToken(lpToken);
+  const showNotification = (txHash: string) => {
+    const { lpToken } = getValues();
+    toast({
+      position: "top-right",
+      duration: 9000,
+      render: ({ onClose }) => (
+        <NotificationSuccess onClose={onClose}>
+          <Text textStyle="medium">
+            Unstaked {lpToken.amount} {getSymbol(lpToken.asset)}
+          </Text>
+          <Link href={finder(txHash, "tx")} isExternal>
+            <Text textStyle="medium" color="otherColours.overlay">
+              View on Terra Finder
+            </Text>
+          </Link>
+        </NotificationSuccess>
+      ),
+    });
+  };
+
+  const state = useUnstakeLpToken({
+    ...lpToken,
+    onSuccess: showNotification,
+  });
 
   const submit = async () => {
     state.submit();

@@ -76,6 +76,10 @@ export default extendTheme({
       lightBlue: "rgba(131,179,253,0.3)",
       deepBlue: "#000D37",
     },
+    otherColours: {
+      green: "#7FE6A2",
+      overlay: "#C2D9FF",
+    },
   },
   textStyles: {
     h3: {

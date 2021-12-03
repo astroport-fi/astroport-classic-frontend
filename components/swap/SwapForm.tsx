@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
-import { chakra } from "@chakra-ui/react";
+import { chakra, Link, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, fromTerraAmount, num } from "@arthuryeti/terra";
 import { StdFee } from "@terra-money/terra.js";
@@ -17,6 +17,7 @@ import FormConfirm from "components/common/FormConfirm";
 import FormSuccess from "components/common/FormSuccess";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import FormLoading from "components/common/FormLoading";
+import NotificationSuccess from "components/notifications/NotificationSuccess";
 
 type FormValues = {
   token1: {
@@ -30,8 +31,10 @@ type FormValues = {
 };
 
 const SwapForm: FC = () => {
-  const router = useRouter();
+  const toast = useToast();
+  const finder = useFinder();
   const { getSymbol } = useTokenInfo();
+  const router = useRouter();
   const [slippage, setSlippage] = useState(DEFAULT_SLIPPAGE);
   const [expertMode, setExpertMode] = useState(false);
 
@@ -49,7 +52,7 @@ const SwapForm: FC = () => {
     },
   });
 
-  const { watch } = methods;
+  const { getValues, watch } = methods;
 
   const token1 = watch("token1");
   const token2 = watch("token2");
@@ -62,11 +65,33 @@ const SwapForm: FC = () => {
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
+  const showNotification = (txHash: string) => {
+    const { token1, token2 } = getValues();
+    toast({
+      position: "top-right",
+      duration: 9000,
+      render: ({ onClose }) => (
+        <NotificationSuccess onClose={onClose}>
+          <Text textStyle="medium">
+            You swapped {token1.amount} {getSymbol(token1.asset)} for{" "}
+            {token2.amount} {getSymbol(token2.asset)}
+          </Text>
+          <Link href={finder(txHash, "tx")} isExternal>
+            <Text textStyle="medium" color="otherColours.overlay">
+              View on Terra Finder
+            </Text>
+          </Link>
+        </NotificationSuccess>
+      ),
+    });
+  };
+
   const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
     amount: toAmount(debouncedAmount1),
     slippage: String(slippage),
+    onSuccess: showNotification,
   });
 
   const { fee, txHash, txStep, reset, swap } = state;
