@@ -108,6 +108,20 @@ const button = {
       },
       color: "transparent",
     },
+    silent: {
+      outline: "none",
+      borderRadius: "full",
+      fontWeight: "400",
+      bg: "white.200",
+      borderWidth: "1px",
+      borderColor: "white.300",
+      color: "white",
+      px: "10",
+      py: "2",
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     simple: {
       outline: "none",
       borderRadius: "none",
