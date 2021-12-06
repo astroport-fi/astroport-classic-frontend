@@ -21,3 +21,4 @@ export const ONE_TOKEN = 1000000;
 export const DECIMALS = 4;
 
 export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
+export const COMMON_TOKENS = ["uusd", "uluna"];

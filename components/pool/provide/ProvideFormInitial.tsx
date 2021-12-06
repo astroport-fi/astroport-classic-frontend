@@ -147,7 +147,7 @@ const ProvideFormInitial: FC<Props> = ({
           render={({ field }) => (
             <AmountInput
               {...field}
-              limit={Number(amount)}
+              max={Number(amount)}
               isSingle
               onChange={(v: any) => handleToken1Change(v, field.onChange)}
             />

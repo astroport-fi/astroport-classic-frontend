@@ -12,10 +12,11 @@ type Props = {
     amount: string;
     asset: string;
   };
-  limit?: number;
+  min?: number;
+  max?: number;
 };
 
-const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
+const Input: FC<Props> = ({ onChange, onBlur, value, min, max }) => {
   const simulate = useSwapSimulate({
     token1: value.asset,
     token2: ESTIMATE_TOKEN,
@@ -29,7 +30,8 @@ const Input: FC<Props> = ({ onChange, onBlur, value, limit }) => {
         variant="brand"
         size="lg"
         value={value.amount}
-        max={limit}
+        min={min}
+        max={max}
         onChange={onChange}
         onBlur={onBlur}
       >
