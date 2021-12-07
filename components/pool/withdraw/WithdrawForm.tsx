@@ -48,7 +48,7 @@ const WithdrawForm: FC<Props> = ({
   const methods = useForm<FormValues>({
     defaultValues: {
       token: {
-        amount: undefined,
+        amount: "0",
         asset: pair.liquidity_token,
       },
     },
