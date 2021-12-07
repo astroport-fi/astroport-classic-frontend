@@ -36,6 +36,10 @@ const Layout: FC = ({ children }) => {
             right: "32px!important",
             bottom: "32px!important",
           },
+          "#chakra-toast-manager-top-right": {
+            top: "64px!important",
+            right: "32px!important",
+          },
         }}
       />
       {!isInitializing && (

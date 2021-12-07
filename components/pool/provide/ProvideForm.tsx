@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState, useCallback } from "react";
-import { chakra } from "@chakra-ui/react";
+import { chakra, useToast, Text } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
 import { toAmount } from "libs/parse";
-import { PairResponse } from "modules/common";
+import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -15,6 +15,8 @@ import FormLoading from "components/common/FormLoading";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import FormError from "components/common/FormError";
+import TransactionSuccess from "components/notifications/TransactionSuccess";
+import TransactionError from "components/notifications/TransactionError";
 
 type FormValues = {
   token1: {
@@ -48,6 +50,8 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
+  const toast = useToast();
+  const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -68,6 +72,44 @@ const ProvideForm: FC<Props> = ({
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
   const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
+  const showSuccessNotification = useCallback((txHash) => {
+    const { token1, token2 } = methods.getValues();
+    if (!toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionSuccess onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              You provided {token1.amount} {getSymbol(token1.asset)} and{" "}
+              {token2.amount} {getSymbol(token2.asset)}
+            </Text>
+          </TransactionSuccess>
+        ),
+      });
+    }
+  }, []);
+
+  const showErrorNotification = useCallback((txHash?: string) => {
+    const { token1, token2 } = methods.getValues();
+    if (!txHash || !toast.isActive(txHash)) {
+      toast({
+        id: txHash,
+        position: "top-right",
+        duration: 9000,
+        render: ({ onClose }) => (
+          <TransactionError onClose={onClose} txHash={txHash}>
+            <Text textStyle="medium">
+              You failed to provide {token1.amount} {getSymbol(token1.asset)}{" "}
+              and {token2.amount} {getSymbol(token2.asset)}
+            </Text>
+          </TransactionError>
+        ),
+      });
+    }
+  }, []);
+
   const state = useProvide({
     contract: pair.contract_addr,
     pool: pool,
@@ -75,6 +117,8 @@ const ProvideForm: FC<Props> = ({
     token2: token2.asset,
     amount1: toAmount(debouncedAmount1),
     amount2: toAmount(debouncedAmount2),
+    onSuccess: showSuccessNotification,
+    onError: showErrorNotification,
   });
 
   const submit = async () => {
