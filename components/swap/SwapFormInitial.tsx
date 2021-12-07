@@ -12,6 +12,7 @@ import Card from "components/Card";
 import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
+import SlippagePopover from "components/popovers/SlippagePopover";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -27,10 +28,23 @@ type Props = {
     amount: string;
   };
   state: SwapState;
+  slippage: number;
+  onSlippageChange: (slippage: number) => void;
+  expertMode: boolean;
+  onExpertModeChange: (expertMode: boolean) => void;
   onClick: () => void;
 };
 
-const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
+const SwapForm: FC<Props> = ({
+  token1,
+  token2,
+  state,
+  slippage,
+  onSlippageChange,
+  expertMode,
+  onExpertModeChange,
+  onClick,
+}) => {
   const { control, formState, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
@@ -44,8 +58,8 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
     if (
       // @ts-expect-error
       formState.name == "token1" &&
-      token1.amount != null &&
-      state.simulated != null
+      token1.amount &&
+      state.simulated
     ) {
       const newAmount = num(token1.amount)
         .div(state.simulated.price)
@@ -61,8 +75,8 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
     if (
       // @ts-expect-error
       formState.name == "token2" &&
-      token2.amount != null &&
-      state.simulated != null
+      token2.amount &&
+      state.simulated
     ) {
       const newAmount = num(token2.amount)
         .times(state.simulated.price)
@@ -98,11 +112,19 @@ const SwapForm: FC<Props> = ({ token1, token2, state, onClick }) => {
           transition={{ delay: 0.2 }}
           spacing="2"
         >
-          <IconButton
-            aria-label="Settings"
-            icon={<GearIcon />}
-            variant="icon"
-            minW="0"
+          <SlippagePopover
+            triggerElement={
+              <IconButton
+                aria-label="Settings"
+                icon={<GearIcon />}
+                variant="icon"
+                minW="0"
+              />
+            }
+            slippage={slippage}
+            onSlippageChange={onSlippageChange}
+            expertMode={expertMode}
+            onExpertModeChange={onExpertModeChange}
           />
           <IconButton
             aria-label="Graph"

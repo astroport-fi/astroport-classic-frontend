@@ -74,6 +74,7 @@ export default extendTheme({
       turquoise: "#59B7DD",
       blue: "#1121B8",
       lightBlue: "rgba(131,179,253,0.3)",
+      deepBlue: "#000D37",
     },
   },
   textStyles: {

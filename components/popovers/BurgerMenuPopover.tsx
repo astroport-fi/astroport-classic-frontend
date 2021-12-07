@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 type Props = {
-  triggerElement: () => React.ReactElement;
+  triggerElement: React.ReactElement;
 };
 
 const items = [
@@ -31,7 +31,7 @@ const items = [
 const BurgerMenuPopover: FC<Props> = ({ triggerElement }) => {
   return (
     <Popover placement="left" offset={[200, 0]}>
-      <PopoverTrigger>{triggerElement()}</PopoverTrigger>
+      <PopoverTrigger>{triggerElement}</PopoverTrigger>
       <PopoverContent>
         <PopoverCloseButton />
         <PopoverHeader>Menu</PopoverHeader>

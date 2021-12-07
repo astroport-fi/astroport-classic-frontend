@@ -38,11 +38,11 @@ const Navbar: FC = () => {
         </chakra.button>
         <TerraWallet />
         <BurgerMenuPopover
-          triggerElement={() => (
+          triggerElement={
             <chakra.button color="white" outline="none">
               <MenuIcon />
             </chakra.button>
-          )}
+          }
         />
       </HStack>
     </Flex>
