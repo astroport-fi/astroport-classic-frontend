@@ -28,6 +28,7 @@ import { useTokenPriceInUst } from "modules/swap";
 
 import CopyIcon from "components/icons/CopyIcon";
 import ViewIcon from "components/icons/ViewIcon";
+import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
   triggerElement: () => React.ReactElement;
@@ -58,15 +59,19 @@ const WalletInfoPopover: FC<Props> = ({ triggerElement }) => {
   return (
     <Popover placement="left" offset={[160, 20]}>
       <PopoverTrigger>{triggerElement()}</PopoverTrigger>
-      <PopoverContent>
-        <PopoverCloseButton />
-        <PopoverHeader>In my Wallet</PopoverHeader>
+      <PopoverContent w="96">
+        <Flex align="center" justify="space-between" mb="4" pr={6}>
+          <PopoverHeader>My Wallet</PopoverHeader>
+          <PopoverCloseButton position="static" borderRadius="xl">
+            <CloseIcon w="6" h="6" BackgroundOpacity="0" />
+          </PopoverCloseButton>
+        </Flex>
         <PopoverBody>
-          <Box px="6" width="96">
+          <Box px={6}>
             <Flex direction="column" justify="center">
-              <Flex flex={1} justify="space-between" align="center" py="2">
+              <Flex justify="space-between" align="center" py="2">
                 <HStack flex={1}>
-                  <Image boxSize="8" src={icon} />
+                  <Image boxSize="8" src={icon} alt="" />
                   <Box>
                     <Text textStyle="h3" lineHeight="1">
                       {symbol}
@@ -76,7 +81,7 @@ const WalletInfoPopover: FC<Props> = ({ triggerElement }) => {
                     </Text>
                   </Box>
                 </HStack>
-                <Flex direction="column" width={1 / 3} gridRowGap={1}>
+                <Flex direction="column" w="40%" gridRowGap={2}>
                   <HStack flex={1} justify="space-between">
                     <Text flex={1} textStyle="small" variant="dimmed">
                       In Wallet:{" "}
@@ -100,7 +105,12 @@ const WalletInfoPopover: FC<Props> = ({ triggerElement }) => {
                 </Text>
               </VStack>
               <Flex mt={6} justify="space-between">
-                <chakra.button onClick={copyAddress}>
+                <chakra.button
+                  onClick={copyAddress}
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
                   <HStack>
                     <CopyIcon
                       width="1.5rem"
