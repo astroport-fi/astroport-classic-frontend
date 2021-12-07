@@ -18,6 +18,7 @@ const ListItem = ({ token, onClick }: Props) => {
 
   return (
     <MenuItem
+      isFocusable={false}
       transition="0.2s all"
       type="button"
       outline="none"

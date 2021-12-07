@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Box,
   Text,
@@ -8,11 +8,13 @@ import {
   MenuButton,
   MenuList,
   Image,
+  VStack,
 } from "@chakra-ui/react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import { List } from "components/AmountInput";
+import { CommonTokensList, List } from "components/AmountInput";
+import Search from "components/common/Search";
 import { useTokenPriceInUst } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 
@@ -25,6 +27,7 @@ type Props = {
 const Select: FC<Props> = ({ value, onClick, tokens }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(value);
+  const [filter, setFilter] = useState("");
 
   const renderButton = () => {
     const icon = getIcon(value);
@@ -43,7 +46,6 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               Price: ${fromTerraAmount(price as string)}
             </Text>
           </Box>
-
           <Box>
             <ChevronDownIcon />
           </Box>
@@ -58,8 +60,8 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
     <Box>
       <Flex justify="space-between">
         <Box flex="1">
-          <Menu isLazy>
-            <Box pr="8">
+          <Menu>
+            <Flex pr="8">
               <MenuButton
                 as={Button}
                 bg="white.100"
@@ -82,11 +84,20 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               >
                 {renderButton()}
               </MenuButton>
-            </Box>
-            <MenuList>
-              <Box p="4" minW="26rem">
-                <List onClick={onClick} tokens={tokens} />
-              </Box>
+            </Flex>
+            <MenuList bg="otherColours.overlay">
+              <VStack spacing={6} align="stretch" p="4" minW="26rem">
+                <Text>Select Token</Text>
+                <Search
+                  placeholder="Search token or address"
+                  borderColor="brand.deepBlue"
+                  color="brand.deepBlue"
+                  bg="white.200"
+                  onChange={(e) => setFilter(e.target.value)}
+                />
+                <CommonTokensList onClick={onClick} />
+                <List onClick={onClick} tokens={tokens} filter={filter} />
+              </VStack>
             </MenuList>
           </Menu>
         </Box>

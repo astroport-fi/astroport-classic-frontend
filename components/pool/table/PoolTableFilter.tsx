@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { Input, InputGroup, InputLeftElement, Stack } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import Search from "components/common/Search";
 
 type Props = {
   state: { globalFilter: any };
@@ -12,19 +11,13 @@ const PoolTableFilter: FC<Props> = ({
   setGlobalFilter,
 }) => {
   return (
-    <Stack spacing={4}>
-      <InputGroup size="sm">
-        <InputLeftElement pointerEvents="none">
-          <SearchIcon />
-        </InputLeftElement>
-        <Input
-          value={globalFilter || ""}
-          onChange={(e) => setGlobalFilter(e.target.value || undefined)}
-          placeholder="Search Token or Address"
-        />
-        ,
-      </InputGroup>
-    </Stack>
+    <Search
+      value={globalFilter || ""}
+      onChange={(e) => setGlobalFilter(e.target.value || undefined)}
+      placeholder="Search Token or Address"
+      containerStyle={{ background: "black.200", color: "white.200" }}
+      borderColor="white.200"
+    />
   );
 };
 

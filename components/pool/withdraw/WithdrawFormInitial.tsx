@@ -104,7 +104,7 @@ const WithdrawFormInitial: FC<Props> = ({
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <AmountInput {...field} limit={Number(amount)} isSingle isLpToken />
+            <AmountInput {...field} max={Number(amount)} isSingle isLpToken />
           )}
         />
       </Card>
