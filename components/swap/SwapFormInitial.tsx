@@ -1,8 +1,17 @@
 import React, { FC, useEffect } from "react";
-import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
+import {
+  Button,
+  Box,
+  Flex,
+  Text,
+  HStack,
+  IconButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
 import { TxStep, num } from "@arthuryeti/terra";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import { SwapState } from "modules/swap";
 
@@ -13,6 +22,7 @@ import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import SlippagePopover from "components/popovers/SlippagePopover";
+import ConnectWalletModal from "components/modals/ConnectWalletModal";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -45,6 +55,8 @@ const SwapForm: FC<Props> = ({
   onExpertModeChange,
   onClick,
 }) => {
+  const wallet = useWallet();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { control, formState, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
@@ -190,21 +202,30 @@ const SwapForm: FC<Props> = ({
         />
       </MotionBox>
 
-      {state.error && (
+      {wallet.status === WalletStatus.WALLET_CONNECTED && state.error && (
         <Card mt="3">
           <Text variant="light">{state.error}</Text>
         </Card>
       )}
 
-      <SwapFormFooter
-        from={token1.asset}
-        to={token2.asset}
-        isLoading={state.txStep == TxStep.Estimating}
-        isDisabled={state.txStep != TxStep.Ready}
-        price={state.simulated?.price2}
-        fee={state.fee}
-        onConfirmClick={onClick}
-      />
+      {wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
+        <Flex justify="center" mt="8">
+          <Button variant="primary" type="button" onClick={onOpen}>
+            Connect your wallet
+          </Button>
+          <ConnectWalletModal isOpen={isOpen} onClose={onClose} />
+        </Flex>
+      ) : (
+        <SwapFormFooter
+          from={token1.asset}
+          to={token2.asset}
+          isLoading={state.txStep == TxStep.Estimating}
+          isDisabled={state.txStep != TxStep.Ready}
+          price={state.simulated?.price2}
+          fee={state.fee}
+          onConfirmClick={onClick}
+        />
+      )}
     </Box>
   );
 };
