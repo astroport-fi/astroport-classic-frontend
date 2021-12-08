@@ -2,12 +2,18 @@ import React, { FC } from "react";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
+import { usePriceImpact } from "modules/swap";
 import FormFee from "components/common/FormFee";
 import numeral from "numeral";
 
+type Token = {
+  asset: string;
+  amount: string;
+};
+
 type Props = {
-  from: string;
-  to: string;
+  from: Token;
+  to: Token;
   fee: any;
   price: string;
   isLoading: boolean;
@@ -25,6 +31,7 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
+  const priceImpact = usePriceImpact({ token1: from, token2: to });
   const formattedPrice = numeral(price).format("0,0.00[0]").toString();
 
   return (
@@ -33,7 +40,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text textStyle="medium">
-              1 {getSymbol(from)} = {formattedPrice} {getSymbol(to)}
+              1 {getSymbol(from.asset)} = {formattedPrice} {getSymbol(to.asset)}
             </Text>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate
@@ -57,7 +64,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text textStyle="medium" color="green.500">
-              0.002%
+              {priceImpact}%
             </Text>
             <Text textStyle="small" variant="dimmed">
               Price Impact
