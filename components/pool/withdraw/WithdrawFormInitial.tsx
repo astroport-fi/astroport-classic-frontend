@@ -58,28 +58,8 @@ const WithdrawFormInitial: FC<Props> = ({
     });
   };
 
-  const renderWithdrawFormItem1 = () => {
-    if (state.token1 == null || state.token1Amount == null) {
-      return;
-    }
-
-    return (
-      <WithdrawFormItem
-        token={state.token1}
-        amount={state.token1Amount}
-        mb="4"
-      />
-    );
-  };
-
-  const renderWithdrawFormItem2 = () => {
-    if (state.token2 == null || state.token2Amount == null) {
-      return;
-    }
-
-    return (
-      <WithdrawFormItem token={state.token2} amount={state.token2Amount} />
-    );
+  const renderWithdrawFormItem = (token: any, amount: any) => {
+    return <WithdrawFormItem token={token} amount={amount} mb="4" />;
   };
 
   return (
@@ -112,9 +92,9 @@ const WithdrawFormInitial: FC<Props> = ({
       <Card mt="2" border="0">
         <Text variant="light">Recovered Assets</Text>
 
-        <Box mt="6">
-          {renderWithdrawFormItem1()}
-          {renderWithdrawFormItem2()}
+        <Box mt="6" mb="4">
+          {renderWithdrawFormItem(state.token1, state.token1Amount)}
+          {renderWithdrawFormItem(state.token2, state.token2Amount)}
         </Box>
       </Card>
 
