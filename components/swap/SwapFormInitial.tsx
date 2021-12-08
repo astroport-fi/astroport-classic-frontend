@@ -7,7 +7,7 @@ import { TxStep, num } from "@arthuryeti/terra";
 import { SwapState } from "modules/swap";
 
 import GearIcon from "components/icons/GearIcon";
-import GraphIcon from "components/icons/GraphIcon";
+// import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
 import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
@@ -126,12 +126,12 @@ const SwapForm: FC<Props> = ({
             expertMode={expertMode}
             onExpertModeChange={onExpertModeChange}
           />
-          <IconButton
+          {/* <IconButton
             aria-label="Graph"
             icon={<GraphIcon />}
             variant="icon"
             minW="0"
-          />
+          /> */}
         </MotionHStack>
       </Flex>
 
