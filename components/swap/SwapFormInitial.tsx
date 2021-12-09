@@ -217,8 +217,8 @@ const SwapForm: FC<Props> = ({
         </Flex>
       ) : (
         <SwapFormFooter
-          from={token1.asset}
-          to={token2.asset}
+          from={token1}
+          to={token2}
           isLoading={state.txStep == TxStep.Estimating}
           isDisabled={state.txStep != TxStep.Ready}
           price={state.simulated?.price2}

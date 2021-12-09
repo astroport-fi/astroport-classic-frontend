@@ -6,7 +6,7 @@ import { TxStep, fromTerraAmount, num } from "@arthuryeti/terra";
 import { StdFee } from "@terra-money/terra.js";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
-import { useSwap } from "modules/swap";
+import { useSwap, usePriceImpact } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -56,6 +56,8 @@ const SwapForm: FC = () => {
 
   const token1 = watch("token1");
   const token2 = watch("token2");
+
+  const priceImpact = usePriceImpact({ token1, token2 });
 
   useEffect(() => {
     router.push(`/?from=${token1.asset}&to=${token2.asset}`, undefined, {
@@ -199,7 +201,7 @@ const SwapForm: FC = () => {
               />
             }
             details={[
-              { label: "Price Impact", value: "0.02%" },
+              { label: "Price Impact", value: `${priceImpact}%` },
               {
                 label: "Liquidity Provider fee",
                 value: `${estimateFees(state.fee)} UST`,
