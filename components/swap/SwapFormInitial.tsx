@@ -21,6 +21,7 @@ import Card from "components/Card";
 import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 import SlippagePopover from "components/popovers/SlippagePopover";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 
@@ -202,10 +203,12 @@ const SwapForm: FC<Props> = ({
         />
       </MotionBox>
 
-      {wallet.status === WalletStatus.WALLET_CONNECTED && state.error && (
+      {wallet.status === WalletStatus.WALLET_CONNECTED && state.error ? (
         <Card mt="3">
           <Text variant="light">{state.error}</Text>
         </Card>
+      ) : (
+        <SwapFormWarning />
       )}
 
       {wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
