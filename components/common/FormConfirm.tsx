@@ -1,5 +1,13 @@
 import React, { FC, ReactNode } from "react";
-import { Box, Flex, HStack, Text, IconButton, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  IconButton,
+  Button,
+  VStack,
+} from "@chakra-ui/react";
 import { StdFee } from "@terra-money/terra.js";
 import { motion } from "framer-motion";
 
@@ -26,6 +34,7 @@ const FormConfirm: FC<Props> = ({
   contentComponent,
   details,
   onCloseClick,
+  children,
 }) => {
   return (
     <MotionBox
@@ -49,11 +58,12 @@ const FormConfirm: FC<Props> = ({
         <Box>{contentComponent}</Box>
 
         {details && (
-          <>
-            <Text mt="6" mb="2" textStyle="small" variant="secondary">
+          <VStack mt={6} align="stretch">
+            <Text textStyle="small" variant="secondary">
               Breakdown
             </Text>
-            <Box
+            <VStack
+              align="stretch"
               color="white"
               borderWidth="1px"
               borderRadius="xl"
@@ -62,27 +72,19 @@ const FormConfirm: FC<Props> = ({
               px="4"
               py="4"
             >
-              {details.map((detail) => {
-                return (
-                  <HStack key={detail.label} justify="space-between" mb="1">
-                    <Text textStyle="small" variant="secondary">
-                      {detail.label}
-                    </Text>
-                    <Text textStyle="medium">{detail.value}</Text>
-                  </HStack>
-                );
-              })}
-            </Box>
-          </>
+              {details.map((detail) => (
+                <HStack key={detail.label} justify="space-between">
+                  <Text textStyle="small" variant="secondary">
+                    {detail.label}
+                  </Text>
+                  <Text textStyle="medium">{detail.value}</Text>
+                </HStack>
+              ))}
+            </VStack>
+          </VStack>
         )}
 
-        <Text mt="6" px="2" textStyle="small" variant="secondary">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet.
-        </Text>
+        {children}
 
         <Flex flexDir="column" align="center" mt="8">
           <Button variant="primary" minW="64" size="sm" type="submit">
