@@ -45,7 +45,10 @@ export default extendTheme({
   },
   colors: {
     green: { 500: "#7FE6A2" },
-    red: { 500: "#EF5177" },
+    red: {
+      300: "rgba(239, 81, 119, 0.3)",
+      500: "#EF5177",
+    },
     white: {
       50: "rgba(255,255,255,0.05)",
       100: "rgba(255,255,255,0.1)",
