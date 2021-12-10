@@ -25,27 +25,30 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
   return (
     <Flex justify="flex-end" align="center">
-      {needTokens && (
+      {needTokens ? (
         <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
           <Button as="a" size="sm" variant="silent">
             Get Token
           </Button>
         </Link>
-      )}
-      {mustProvideLiquidity && (
+      ) : null}
+
+      {mustProvideLiquidity ? (
         <Link href={`/pairs/${contract_addr}`} passHref>
           <Button as="a" variant="primary" size="sm">
             Add Liquidity
           </Button>
         </Link>
-      )}
-      {canManageLiquidity && (
+      ) : null}
+
+      {canManageLiquidity ? (
         <Link href={`/pairs/${contract_addr}`} passHref>
           <Button as="a" variant="primary" size="sm">
             Manage Liquidity
           </Button>
         </Link>
-      )}
+      ) : null}
+
       <IconButton
         aria-label="Graph"
         icon={<GraphIcon />}
