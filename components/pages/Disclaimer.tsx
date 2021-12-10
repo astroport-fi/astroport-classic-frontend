@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react";
 import {
+  chakra,
   Box,
+  Link,
   Flex,
   VStack,
   Text,
@@ -45,9 +47,17 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           />
         </Flex>
 
-        <Text variant="light" fontSize="xs" mt="6" lineHeight="1.2">
-          Please check the boxes below to confirm your agreement to the
-          [Astroport Terms and Conditions] (the “Terms”):
+        <Text fontSize="sm" mt="6">
+          <chakra.span opacity={0.6}>
+            Please check the boxes below to confirm your agreement to the{" "}
+          </chakra.span>
+          <Link
+            href="https://astroport.fi/terms-and-conditions"
+            color="brand.lightPurple"
+            isExternal
+          >
+            Astroport Terms and Conditions
+          </Link>
         </Text>
 
         <VStack mt="8" pl="4" spacing="6">
@@ -60,7 +70,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
               setCheckedItems([e.target.checked, checkedItems[1]])
             }
           >
-            <Text fontSize="sm" ml="4" lineHeight="1.2" fontWeight="bold">
+            <Text fontSize="sm" ml="4" fontWeight="medium">
               I have read and understood, and do hereby agree to be legally
               bound as a ‘User’ under, the Terms, including all future
               amendments thereto. Such agreement is irrevocable and will apply
@@ -77,7 +87,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
               setCheckedItems([checkedItems[0], e.target.checked])
             }
           >
-            <Text fontSize="sm" ml="4" lineHeight="1.2" fontWeight="bold">
+            <Text fontSize="sm" ml="4" fontWeight="medium">
               I acknowledge and agree that the Site solely provides information
               about data on the Terra blockchain. I accept that the Site
               operators have no custody over my funds, ability or duty to
