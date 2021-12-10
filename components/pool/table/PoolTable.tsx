@@ -26,7 +26,7 @@ type Props = {
   paginationSize?: number;
 };
 
-const PoolTable: FC<Props> = ({ data, paginationSize = Infinity }) => {
+const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
   const columns = useMemo(
     () => [
       {
