@@ -19,9 +19,9 @@ const ActionsTd: FC<Props> = ({ row }) => {
   const balance2 = Number(useBalance(token2));
   const balanceLP = Number(useBalance(liquidity_token));
 
-  const needTokens = !balance1 || !balance2;
-  const mustAddLiquidity = !needTokens && !balanceLP;
-  const canManageLiquidity = !needTokens && !mustAddLiquidity;
+  const needTokens = !balance1 && !balance2;
+  const mustProvideLiquidity = !needTokens && !balanceLP;
+  const canManageLiquidity = !needTokens && balanceLP;
 
   return (
     <Flex justify="flex-end" align="center">
@@ -32,7 +32,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
           </Button>
         </Link>
       )}
-      {mustAddLiquidity && (
+      {mustProvideLiquidity && (
         <Link href={`/pairs/${contract_addr}`} passHref>
           <Button as="a" variant="primary" size="sm">
             Add Liquidity
@@ -40,9 +40,11 @@ const ActionsTd: FC<Props> = ({ row }) => {
         </Link>
       )}
       {canManageLiquidity && (
-        <Button as="a" variant="primary" size="sm">
-          Manage Liquidity
-        </Button>
+        <Link href={`/pairs/${contract_addr}`} passHref>
+          <Button as="a" variant="primary" size="sm">
+            Manage Liquidity
+          </Button>
+        </Link>
       )}
       <IconButton
         aria-label="Graph"
