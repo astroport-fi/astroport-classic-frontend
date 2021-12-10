@@ -13,7 +13,7 @@ import FormError from "components/common/FormError";
 import FormConfirm from "components/common/FormConfirm";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
-import TransactionSuccess from "components/notifications/TransactionSuccess";
+import TransactionNotification from "components/notifications/Transaction";
 
 import StakeFormInitial from "./StakeFormInitial";
 
@@ -62,11 +62,11 @@ const StakeForm: FC<Props> = ({
       position: "top-right",
       duration: 9000,
       render: ({ onClose }) => (
-        <TransactionSuccess onClose={onClose} txHash={txHash}>
+        <TransactionNotification onClose={onClose} txHash={txHash}>
           <Text textStyle="medium">
-            You staked {lpToken.amount} {getSymbol(lpToken.asset)}
+            Stake {lpToken.amount} {getSymbol(lpToken.asset)}
           </Text>
-        </TransactionSuccess>
+        </TransactionNotification>
       ),
     });
   }, []);

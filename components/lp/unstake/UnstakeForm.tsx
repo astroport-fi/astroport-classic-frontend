@@ -14,8 +14,7 @@ import FormConfirm from "components/common/FormConfirm";
 import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
 import UnstakeFormInitial from "components/lp/unstake/UnstakeFormInitial";
-import TransactionSuccess from "components/notifications/TransactionSuccess";
-import TransactionError from "components/notifications/TransactionError";
+import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
   lpToken: {
@@ -56,46 +55,35 @@ const UnstakeForm: FC<Props> = ({
   const { watch, getValues, handleSubmit } = methods;
   const lpToken = watch("lpToken");
 
-  const showSuccessNotification = useCallback((txHash: string) => {
-    const { lpToken } = getValues();
-    if (!toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionSuccess onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              Unstaked {lpToken.amount} {getSymbol(lpToken.asset)}
-            </Text>
-          </TransactionSuccess>
-        ),
-      });
-    }
-  }, []);
-
-  const showErrorNotification = useCallback((txHash?: string) => {
-    const { lpToken } = methods.getValues();
-    if (!txHash || !toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionError onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              You failed to unstake {lpToken.amount} {getSymbol(lpToken.asset)}
-            </Text>
-          </TransactionError>
-        ),
-      });
-    }
-  }, []);
+  const showNotification = useCallback(
+    (type: "success" | "error", txHash?: string) => {
+      const { lpToken } = getValues();
+      if (!txHash || !toast.isActive(txHash)) {
+        toast({
+          id: txHash,
+          position: "top-right",
+          duration: 9000,
+          render: ({ onClose }) => (
+            <TransactionNotification
+              onClose={onClose}
+              txHash={txHash}
+              type={type}
+            >
+              <Text textStyle="medium">
+                Unstake {lpToken.amount} {getSymbol(lpToken.asset)}
+              </Text>
+            </TransactionNotification>
+          ),
+        });
+      }
+    },
+    []
+  );
 
   const state = useUnstakeLpToken({
     ...lpToken,
-    onSuccess: showSuccessNotification,
-    onError: showErrorNotification,
+    onSuccess: (txHash) => showNotification("success", txHash),
+    onError: (txHash) => showNotification("error", txHash),
   });
 
   const submit = async () => {

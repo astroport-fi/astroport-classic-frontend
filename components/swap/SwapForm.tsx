@@ -11,14 +11,11 @@ import { useTokenInfo } from "modules/common";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
 
-import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
-import FormSuccess from "components/common/FormSuccess";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import FormLoading from "components/common/FormLoading";
-import TransactionSuccess from "components/notifications/TransactionSuccess";
-import TransactionError from "components/notifications/TransactionError";
+import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
   token1: {
@@ -67,51 +64,43 @@ const SwapForm: FC = () => {
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
-  const showSuccessNotification = (txHash: string) => {
-    const { token1, token2 } = getValues();
-    if (!toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionSuccess onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              You swapped {token1.amount} {getSymbol(token1.asset)} for{" "}
-              {token2.amount} {getSymbol(token2.asset)}
-            </Text>
-          </TransactionSuccess>
-        ),
-      });
-    }
-  };
+  const showNotification = useCallback(
+    (type: "success" | "error", txHash?: string) => {
+      const { token1, token2 } = getValues();
 
-  const showErrorNotification = useCallback((txHash?: string) => {
-    const { token1, token2 } = methods.getValues();
-    if (!txHash || !toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionError onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              You failed to swap {token1.amount} {getSymbol(token1.asset)} and{" "}
-              {token2.amount} {getSymbol(token2.asset)}
-            </Text>
-          </TransactionError>
-        ),
-      });
-    }
-  }, []);
+      if (!txHash || !toast.isActive(txHash)) {
+        toast({
+          id: txHash,
+          position: "top-right",
+          duration: 9000,
+          render: ({ onClose }) => (
+            <TransactionNotification
+              onClose={onClose}
+              txHash={txHash}
+              type={type}
+            >
+              <Text textStyle="medium">
+                Swap {token1.amount} {getSymbol(token1.asset)} for{" "}
+                {token2.amount} {getSymbol(token2.asset)}
+              </Text>
+            </TransactionNotification>
+          ),
+        });
+      }
+    },
+    []
+  );
 
   const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
     amount: toAmount(debouncedAmount1),
     slippage: String(slippage),
-    onSuccess: showSuccessNotification,
-    onError: showErrorNotification,
+    onSuccess: (txHash) => showNotification("success", txHash),
+    onError: (txHash) => {
+      showNotification("error", txHash);
+      reset();
+    },
   });
 
   const { fee, txHash, txStep, reset, swap } = state;
@@ -121,11 +110,6 @@ const SwapForm: FC = () => {
       setShowConfirm(false);
     }
   }, [txStep]);
-
-  const resetForm = useCallback(() => {
-    methods.reset();
-    reset();
-  }, [reset, methods]);
 
   const submit = async () => {
     swap();
@@ -141,35 +125,6 @@ const SwapForm: FC = () => {
 
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
-  }
-
-  if (txStep == TxStep.Success) {
-    return (
-      <FormSuccess
-        contentComponent={
-          <FormSummary
-            label1="You swapped from"
-            label2="You received:"
-            token1={token1}
-            token2={token2}
-          />
-        }
-        details={[{ label: "Price Impact", value: "0.02%" }]}
-        onCloseClick={resetForm}
-      />
-    );
-  }
-
-  if (txStep == TxStep.Failed) {
-    return (
-      <FormError
-        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua."
-        onCloseClick={reset}
-        onClick={reset}
-      />
-    );
   }
 
   return (
