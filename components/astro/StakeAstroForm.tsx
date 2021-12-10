@@ -14,7 +14,7 @@ import FormSummary from "components/common/FormSummary";
 import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import FormError from "components/common/FormError";
-import TransactionSuccess from "components/notifications/TransactionSuccess";
+import TransactionNotification from "components/notifications/Transaction";
 
 type FormValue = {
   token: {
@@ -47,7 +47,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
     (txHash: string) => () => {
       queryClient.invalidateQueries(["balance", astroToken]);
       queryClient.invalidateQueries(["balance", xAstroToken]);
-      showSuccessNotification(txHash);
+      showNotification(txHash);
     },
     []
   );
@@ -55,7 +55,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
   const { watch, getValues, setValue, reset: resetForm } = methods;
   const token = watch("token");
 
-  const showSuccessNotification = (txHash: string) => {
+  const showNotification = (txHash: string) => {
     const { token } = getValues();
     if (!toast.isActive(txHash)) {
       toast({
@@ -63,11 +63,11 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
         position: "top-right",
         duration: 9000,
         render: ({ onClose }) => (
-          <TransactionSuccess onClose={onClose} txHash={txHash}>
+          <TransactionNotification onClose={onClose} txHash={txHash}>
             <Text textStyle="medium">
-              You staked {token.amount} {getSymbol(token.asset)}
+              Stake {token.amount} {getSymbol(token.asset)}
             </Text>
-          </TransactionSuccess>
+          </TransactionNotification>
         ),
       });
     }

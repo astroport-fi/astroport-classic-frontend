@@ -15,8 +15,7 @@ import FormLoading from "components/common/FormLoading";
 import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
-import TransactionSuccess from "components/notifications/TransactionSuccess";
-import TransactionError from "components/notifications/TransactionError";
+import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
   token: {
@@ -58,48 +57,37 @@ const WithdrawForm: FC<Props> = ({
 
   const debouncedAmount = useDebounceValue(token.amount, 500);
 
-  const showSuccessNotification = useCallback((txHash: string) => {
-    const { token } = methods.getValues();
-    if (!toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionSuccess onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              You withdrew {token.amount} {getSymbol(token.asset)}
-            </Text>
-          </TransactionSuccess>
-        ),
-      });
-    }
-  }, []);
-
-  const showErrorNotification = useCallback((txHash?: string) => {
-    const { token } = methods.getValues();
-    if (!txHash || !toast.isActive(txHash)) {
-      toast({
-        id: txHash,
-        position: "top-right",
-        duration: 9000,
-        render: ({ onClose }) => (
-          <TransactionError onClose={onClose} txHash={txHash}>
-            <Text textStyle="medium">
-              You failed to withdraw {token.amount} {getSymbol(token.asset)}
-            </Text>
-          </TransactionError>
-        ),
-      });
-    }
-  }, []);
+  const showNotification = useCallback(
+    (type: "success" | "error", txHash?: string) => {
+      const { token } = methods.getValues();
+      if (!txHash || !toast.isActive(txHash)) {
+        toast({
+          id: txHash,
+          position: "top-right",
+          duration: 9000,
+          render: ({ onClose }) => (
+            <TransactionNotification
+              onClose={onClose}
+              txHash={txHash}
+              type={type}
+            >
+              <Text textStyle="medium">
+                Withdraw {token.amount} {getSymbol(token.asset)}
+              </Text>
+            </TransactionNotification>
+          ),
+        });
+      }
+    },
+    []
+  );
 
   const state = useWithdraw({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toAmount(debouncedAmount),
-    onSuccess: showSuccessNotification,
-    onError: showErrorNotification,
+    onSuccess: (txHash) => showNotification("success", txHash),
+    onError: (txHash) => showNotification("error", txHash),
   });
 
   const {
