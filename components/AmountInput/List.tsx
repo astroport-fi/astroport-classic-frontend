@@ -32,10 +32,7 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
   }
 
   const matchToken = (token: string) => {
-    return (
-      token.toLowerCase().includes(filter.toLowerCase()) ||
-      getSymbol(token).toLowerCase().includes(filter.toLowerCase())
-    );
+    return getSymbol(token).toLowerCase().includes(filter.toLowerCase());
   };
 
   const filteredTokens = Object.values(terraTokens).filter(({ token }) =>
