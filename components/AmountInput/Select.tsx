@@ -89,7 +89,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               <VStack spacing={6} align="stretch" p="4" minW="26rem">
                 <Text>Select Token</Text>
                 <Search
-                  placeholder="Search token or address"
+                  placeholder="Search token"
                   borderColor="brand.deepBlue"
                   color="brand.deepBlue"
                   bg="white.200"

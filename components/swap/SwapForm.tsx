@@ -4,10 +4,11 @@ import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, fromTerraAmount, num } from "@arthuryeti/terra";
 import { StdFee } from "@terra-money/terra.js";
+import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import { useSwap, usePriceImpact } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, useAstroswap } from "modules/common";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
 
@@ -30,20 +31,33 @@ type FormValues = {
 
 const SwapForm: FC = () => {
   const toast = useToast();
+  const {
+    network: { name: networkName },
+  } = useWallet();
   const { getSymbol } = useTokenInfo();
+  const { tokens: terraTokens } = useAstroswap();
   const router = useRouter();
   const [slippage, setSlippage] = useState(DEFAULT_SLIPPAGE);
   const [expertMode, setExpertMode] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const getTokenFromUrlParam = (
+    param: string | undefined,
+    defaultValue: string
+  ) => {
+    const token = param && terraTokens?.[param]?.token;
+    return token ?? defaultValue;
+  };
+
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
-        asset: router.query.from?.toString() || "uluna",
+        asset: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
         amount: undefined,
       },
       token2: {
-        asset: router.query.to?.toString() || "uusd",
+        asset: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
         amount: undefined,
       },
     },
@@ -61,6 +75,10 @@ const SwapForm: FC = () => {
       shallow: true,
     });
   }, [token1, token2]);
+
+  useEffect(() => {
+    methods.reset();
+  }, [networkName]);
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
 
