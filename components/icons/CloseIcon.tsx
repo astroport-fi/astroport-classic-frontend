@@ -1,39 +1,21 @@
-import React, { FC } from "react";
-import { Icon, IconProps } from "@chakra-ui/react";
+import React from "react";
 
-type Props = {
-  BackgroundOpacity?: string;
-} & IconProps;
-
-const CloseIcon: FC<Props> = ({ BackgroundOpacity = "0.1", ...props }) => {
+export default function CloseIcon(props: any) {
   return (
-    <Icon viewBox="0 0 24 24" {...props}>
-      <path
-        d="M0 12C0 5.37258 5.37258 0 12 0V0C18.6274 0 24 5.37258 24 12V12C24 18.6274 18.6274 24 12 24V24C5.37258 24 0 18.6274 0 12V12Z"
-        fill="currentColor"
-        fillOpacity={BackgroundOpacity}
-      />
-      <path
-        d="M0.500001 12C0.500002 5.64873 5.64873 0.500002 12 0.500003C18.3513 0.500003 23.5 5.64873 23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.500001 12Z"
-        stroke="currentColor"
-        fill="currentColor"
-        strokeOpacity="0.9"
-        fillOpacity={BackgroundOpacity}
-      />
+    <svg
+      width="10"
+      height="11"
+      viewBox="0 0 10 11"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M12.9424 12.001L16.7144 8.22906L15.7716 7.28625L11.9996 11.0582L8.22804 7.28661L7.28523 8.22942L11.0568 12.001L7.28632 15.7715L8.22913 16.7143L11.9996 12.9438L15.7705 16.7147L16.7133 15.7719L12.9424 12.001Z"
+        d="M5.94244 5.48637L9.71441 1.71441L8.7716 0.7716L4.99964 4.54356L1.22804 0.771965L0.285226 1.71477L4.05683 5.48637L0.286318 9.25688L1.22913 10.1997L4.99964 6.42918L8.77051 10.2001L9.71332 9.25725L5.94244 5.48637Z"
         fill="currentColor"
       />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12.9424 12.001L16.7144 8.22906L15.7716 7.28625L11.9996 11.0582L8.22804 7.28661L7.28523 8.22942L11.0568 12.001L7.28632 15.7715L8.22913 16.7143L11.9996 12.9438L15.7705 16.7147L16.7133 15.7719L12.9424 12.001Z"
-        fill="currentColor"
-      />
-    </Icon>
+    </svg>
   );
-};
-
-export default CloseIcon;
+}

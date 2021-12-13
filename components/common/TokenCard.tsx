@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount, toTerraAmount } from "@arthuryeti/terra";
 
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenInfo } from "modules/common";
@@ -20,6 +20,10 @@ const TokenCard: FC<Props> = ({ token }) => {
     amount: toAmount(token.amount),
     reverse: false,
   });
+  const totalAmount =
+    token.asset === ESTIMATE_TOKEN
+      ? toTerraAmount(token.amount)
+      : simulated?.amount;
 
   return (
     <Box
@@ -54,7 +58,7 @@ const TokenCard: FC<Props> = ({ token }) => {
         <Box fontWeight="500" textAlign="right">
           <Text textStyle="h3">{token.amount}</Text>
           <Text textStyle="small" variant="dimmed">
-            ${fromTerraAmount(simulated?.amount, "0.00")}
+            ${fromTerraAmount(totalAmount, "0.00")}
           </Text>
         </Box>
       </Flex>

@@ -93,20 +93,22 @@ const button = {
       },
     },
     icon: {
-      bg: "transparent",
-      outline: "none",
+      bg: "white.100",
+      color: "white",
+      borderColor: "white",
+      borderWidth: 1,
       _hover: {
-        color: "brand.purple",
-        bg: "transparent",
+        bg: "brand.purple",
       },
       _active: {
-        color: "brand.purple",
-        bg: "transparent",
-      },
-      _focus: {
+        bg: "brand.purple",
+        outline: "none",
         boxShadow: "none",
       },
-      color: "transparent",
+      _focus: {
+        outline: "none",
+        boxShadow: "none",
+      },
     },
     silent: {
       outline: "none",

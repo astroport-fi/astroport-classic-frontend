@@ -12,8 +12,8 @@ import { StdFee } from "@terra-money/terra.js";
 import { motion } from "framer-motion";
 
 import Card from "components/Card";
-import CloseIcon from "components/icons/CloseIcon";
 import FormFee from "components/common/FormFee";
+import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
   contentComponent: ReactNode;
@@ -50,6 +50,8 @@ const FormConfirm: FC<Props> = ({
           <IconButton
             aria-label="Close"
             icon={<CloseIcon />}
+            size="xs"
+            isRound
             variant="icon"
             onClick={onCloseClick}
           />

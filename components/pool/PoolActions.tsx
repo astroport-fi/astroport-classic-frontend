@@ -4,6 +4,7 @@ import { Box, Flex, Text, IconButton, HStack } from "@chakra-ui/react";
 import GraphIcon from "components/icons/GraphIcon";
 import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
 import { PoolFormType } from "types/common";
+import BackButton from "components/BackButton";
 
 type Props = {
   pool: any;
@@ -23,6 +24,7 @@ const PoolActions: FC<Props> = ({
     <Flex justify="space-between" color="white" mb="4" px="6">
       <Box flex="1">
         <HStack>
+          <BackButton />
           <PoolHeaderTypeItem
             label="Provide"
             value={type}
@@ -43,6 +45,8 @@ const PoolActions: FC<Props> = ({
           aria-label="Graph"
           icon={<GraphIcon />}
           variant="icon"
+          size="xs"
+          isRound
           isActive={isChartOpen}
           onClick={() => onChartClick(!isChartOpen)}
         />

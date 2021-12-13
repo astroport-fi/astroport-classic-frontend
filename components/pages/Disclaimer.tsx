@@ -41,8 +41,10 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           </Text>
           <IconButton
             aria-label="Close"
-            icon={<CloseIcon w="1.5rem" h="1.5rem" />}
+            icon={<CloseIcon />}
             variant="icon"
+            size="xs"
+            isRound
             onClick={onCloseClick}
           />
         </Flex>

@@ -18,12 +18,12 @@ import { SwapState } from "modules/swap";
 import GearIcon from "components/icons/GearIcon";
 // import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
-import ArrowIcon from "components/icons/ArrowIcon";
 import AmountInput from "components/AmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import SwapFormWarning from "components/swap/SwapFormWarning";
 import SlippagePopover from "components/popovers/SlippagePopover";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
+import ArrowDownIcon from "components/icons/ArrowDown";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -130,8 +130,9 @@ const SwapForm: FC<Props> = ({
               <IconButton
                 aria-label="Settings"
                 icon={<GearIcon />}
+                size="xs"
+                isRound
                 variant="icon"
-                minW="0"
               />
             }
             slippage={slippage}
@@ -176,12 +177,12 @@ const SwapForm: FC<Props> = ({
       >
         <IconButton
           aria-label="Switch"
-          icon={<ArrowIcon />}
+          icon={<ArrowDownIcon />}
           onClick={reverse}
           variant="icon"
-          borderRadius="full"
-          minWidth="8"
-          h="8"
+          size="xs"
+          bg="brand.deepBlue"
+          isRound
         />
       </MotionFlex>
 
