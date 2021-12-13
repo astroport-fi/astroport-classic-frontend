@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, IconButton, Flex } from "@chakra-ui/react";
+import { Button, IconButton, HStack } from "@chakra-ui/react";
 import GraphIcon from "components/icons/GraphIcon";
 
 import { useBalance } from "@arthuryeti/terra";
@@ -24,7 +24,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
   const canManageLiquidity = !needTokens && balanceLP;
 
   return (
-    <Flex justify="flex-end" align="center">
+    <HStack justify="flex-end">
       {needTokens ? (
         <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
           <Button as="a" size="sm" variant="silent">
@@ -53,9 +53,11 @@ const ActionsTd: FC<Props> = ({ row }) => {
         aria-label="Graph"
         icon={<GraphIcon />}
         variant="icon"
+        size="xs"
+        isRound
         {...row.getToggleRowExpandedProps()}
       />
-    </Flex>
+    </HStack>
   );
 };
 

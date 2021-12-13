@@ -1,29 +1,24 @@
 import React, { FC } from "react";
-import { HStack, Text, chakra } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 
 type Props = {};
 
-const VaultChart: FC<Props> = () => {
+const BackButton: FC<Props> = () => {
   const router = useRouter();
 
   return (
-    <chakra.button
-      cursor="pointer"
-      onClick={() => router.back()}
-      color="brand.purple"
-      outline="none"
-    >
-      <HStack spacing="2">
-        <ArrowLeftIcon />
-        <Text fontSize="sm" fontWeight="500">
-          Back
-        </Text>
-      </HStack>
-    </chakra.button>
+    <IconButton
+      onClick={router.back}
+      aria-label="Back"
+      icon={<ArrowLeftIcon />}
+      size="xs"
+      isRound
+      variant="icon"
+    />
   );
 };
 
-export default VaultChart;
+export default BackButton;

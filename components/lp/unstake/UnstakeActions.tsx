@@ -43,6 +43,8 @@ const UnstakeActions: FC<Props> = ({
           aria-label="Graph"
           icon={<GraphIcon />}
           variant="icon"
+          size="xs"
+          isRound
           isActive={isChartOpen}
           onClick={() => onChartClick(!isChartOpen)}
         />
