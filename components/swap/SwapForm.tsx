@@ -164,11 +164,11 @@ const SwapForm: FC = () => {
         {showConfirm && (
           <FormConfirm
             fee={fee}
-            actionLabel="Confirm Swap"
+            actionLabel="Confirm swap"
             contentComponent={
               <FormSummary
-                label1="You are swapping from"
-                label2="You are swapping to"
+                label1="You are swapping from:"
+                label2="↓You are swapping to:"
                 token1={token1}
                 token2={token2}
               />
