@@ -114,7 +114,10 @@ const SwapForm: FC = () => {
     token2: token2.asset,
     amount: toAmount(debouncedAmount1),
     slippage: String(slippage),
-    onSuccess: (txHash) => showNotification("success", txHash),
+    onSuccess: (txHash) => {
+      showNotification("success", txHash);
+      resetForm();
+    },
     onError: (txHash) => {
       showNotification("error", txHash);
       reset();
@@ -122,6 +125,11 @@ const SwapForm: FC = () => {
   });
 
   const { fee, txHash, txStep, reset, swap } = state;
+
+  const resetForm = () => {
+    reset();
+    methods.reset();
+  };
 
   useEffect(() => {
     if (txStep == TxStep.Broadcasting) {
