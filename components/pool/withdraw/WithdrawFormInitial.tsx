@@ -1,12 +1,5 @@
 import React, { FC, useState } from "react";
-import {
-  Box,
-  Text,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { num, useBalance } from "@arthuryeti/terra";
 
@@ -20,6 +13,7 @@ import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
 import PoolActions from "components/pool/PoolActions";
 import PoolHeader from "components/pool/PoolHeader";
+import Slider from "components/common/Slider";
 
 type Props = {
   pool: any;
@@ -84,18 +78,15 @@ const WithdrawFormInitial: FC<Props> = ({
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <AmountInput {...field} max={Number(amount)} isSingle isLpToken />
+            <AmountInput
+              {...field}
+              max={Number(amount)}
+              isSingle
+              isLpToken
+              balanceLabel="Provided"
+            />
           )}
         />
-      </Card>
-
-      <Card mt="2" border="0">
-        <Text variant="light">Recovered Assets</Text>
-
-        <Box mt="6" mb="4">
-          {renderWithdrawFormItem(state.token1, state.token1Amount)}
-          {renderWithdrawFormItem(state.token2, state.token2Amount)}
-        </Box>
       </Card>
 
       <Card mt="2">
@@ -108,12 +99,18 @@ const WithdrawFormInitial: FC<Props> = ({
           focusThumbOnChange={false}
           max={Number(amount)}
           onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+        />
+      </Card>
+
+      <Card mt="2" border="0">
+        <Text textStyle="small" variant="dimmed">
+          Receivable Asset
+        </Text>
+
+        <Box mt="6" mb="4">
+          {renderWithdrawFormItem(state.token1, state.token1Amount)}
+          {renderWithdrawFormItem(state.token2, state.token2Amount)}
+        </Box>
       </Card>
 
       <WithdrawFormFooter

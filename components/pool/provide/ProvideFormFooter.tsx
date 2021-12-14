@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
-
 import { useFeeToString } from "hooks/useFeeToString";
 import { useShareOfPool } from "modules/pool";
 

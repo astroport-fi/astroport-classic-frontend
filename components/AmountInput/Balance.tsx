@@ -7,10 +7,11 @@ import { lookup } from "libs/parse";
 type Props = {
   asset: string;
   initial?: string;
+  label?: string;
   onChange: (value: string) => void;
 };
 
-const Balance: FC<Props> = ({ asset, initial, onChange }) => {
+const Balance: FC<Props> = ({ asset, initial, label, onChange }) => {
   const balance = useBalance(asset);
   const amount = lookup(balance, asset);
 
@@ -19,7 +20,7 @@ const Balance: FC<Props> = ({ asset, initial, onChange }) => {
       <Box color="white">
         <Text>
           <Text as="span" textStyle="small" variant="dimmed">
-            In Wallet:
+            {label ?? "In Wallet"}:
           </Text>
           <Text as="span" textStyle="small" ml="2">
             {fromTerraAmount(initial ?? balance, "0,0.00[0]")}

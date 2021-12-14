@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
+import { format } from "libs/parse";
+import { fromTerraAmount, num, TxStep } from "@arthuryeti/terra";
 
 import { useFeeToString } from "hooks/useFeeToString";
-import { useShareOfPool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
@@ -19,13 +19,26 @@ const WithdrawFormFooter: FC<Props> = ({
   amount,
   onConfirmClick,
 }) => {
-  const shareOfPool = useShareOfPool({ pool, amount1: toTerraAmount(amount) });
+  const { token1Amount, token2Amount, token1Price, token2Price } = data;
+  const myLiquidity = format(
+    String(
+      Number(token1Amount) * Number(token1Price) +
+        Number(token2Amount) * Number(token2Price)
+    ),
+    "uusd"
+  );
+
+  const shareOfPool = num(amount)
+    .div(num(fromTerraAmount(pool.assets[0].amount, "0.[00]")))
+    .times("100")
+    .toFixed(2)
+    .toString();
   const feeString = useFeeToString(data.fee);
 
   const cells = [
     {
-      title: "Liquidity",
-      value: fromTerraAmount(pool.total.shareInUst),
+      title: "My Liquidity",
+      value: `$ ${myLiquidity}`,
     },
     { title: "Share of Pool", value: `${shareOfPool || "0"}%` },
     {

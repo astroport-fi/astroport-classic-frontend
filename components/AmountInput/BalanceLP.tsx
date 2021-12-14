@@ -5,10 +5,11 @@ import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 type Props = {
   asset: string;
   initial?: string;
+  label?: string;
   onChange: (value: string) => void;
 };
 
-const BalanceLP: FC<Props> = ({ asset, initial, onChange }) => {
+const BalanceLP: FC<Props> = ({ asset, initial, label, onChange }) => {
   const balance = useBalance(asset);
   const amount = fromTerraAmount(initial ?? balance, "0.0[00000]");
 
@@ -17,7 +18,7 @@ const BalanceLP: FC<Props> = ({ asset, initial, onChange }) => {
       <Box>
         <Text>
           <Text as="span" fontSize="xs" fontWeight="500" color="white.400">
-            In Wallet:
+            {label ?? "In Wallet"}:
           </Text>
           <Text as="span" fontSize="sm" color="white" ml="2">
             {fromTerraAmount(initial ?? balance, "0,0.00[0]")}
