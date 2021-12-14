@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, IconButton, HStack } from "@chakra-ui/react";
+import { Box, Flex, Text, HStack } from "@chakra-ui/react";
 
-import GraphIcon from "components/icons/GraphIcon";
+// import GraphIcon from "components/icons/GraphIcon";
 import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
 import { PoolFormType } from "types/common";
 import BackButton from "components/BackButton";
@@ -16,8 +16,8 @@ type Props = {
 
 const PoolActions: FC<Props> = ({
   type,
-  isChartOpen,
-  onChartClick,
+  // isChartOpen,
+  // onChartClick,
   onTypeClick,
 }) => {
   return (
@@ -40,7 +40,7 @@ const PoolActions: FC<Props> = ({
           />
         </HStack>
       </Box>
-      <Box>
+      {/* <Box>
         <IconButton
           aria-label="Graph"
           icon={<GraphIcon />}
@@ -50,7 +50,7 @@ const PoolActions: FC<Props> = ({
           isActive={isChartOpen}
           onClick={() => onChartClick(!isChartOpen)}
         />
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, BoxProps, Text, HStack } from "@chakra-ui/react";
+import { Box, Flex, BoxProps, Image, Text, HStack } from "@chakra-ui/react";
 
 import { format } from "libs/parse";
 import { useTokenInfo } from "modules/common";
@@ -11,31 +11,35 @@ type Props = {
 } & BoxProps;
 
 const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
-  const { getSymbol } = useTokenInfo();
+  const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(token);
   const totalPrice = String(Number(price) * Number(amount));
 
   return (
-    <Flex
+    <Box
       justify="space-between"
       borderBottomWidth="1px"
       borderBottomColor="white.300"
       pb="4"
       {...props}
     >
-      <Box>
+      <Flex justify="space-between">
         <HStack>
-          <Text>{getSymbol(token)}</Text>
+          <Image src={getIcon(token)} alt={getSymbol(token)} boxSize={3} />
+          <Text textStyle="medium">{getSymbol(token)}</Text>
         </HStack>
-        <Box>
-          <Text variant="light">Price: ${format(totalPrice, "uusd")}</Text>
-        </Box>
-      </Box>
-      <Box textAlign="right">
-        <Text>{format(amount)}</Text>
-        <Text variant="light">Price: ${format(price, "uusd")}</Text>
-      </Box>
-    </Flex>
+        <Text textStyle="medium">{format(amount)}</Text>
+      </Flex>
+
+      <Flex mt={2} justify="space-between">
+        <Text textStyle="small" variant="dimmed">
+          Price: ${format(price, "uusd")}
+        </Text>
+        <Text textStyle="small" variant="dimmed">
+          ${format(totalPrice, "uusd")}
+        </Text>
+      </Flex>
+    </Box>
   );
 };
 

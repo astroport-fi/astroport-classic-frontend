@@ -9,6 +9,17 @@ export const useTokenInfo = () => {
   } = useWallet();
   const { data } = useAstroswap();
 
+  const getProtocol = useCallback(
+    (token: string) => {
+      if (data == null) {
+        return token;
+      }
+
+      return data[name].tokens[token]?.protocol ?? token;
+    },
+    [name, data]
+  );
+
   const getSymbol = useCallback(
     (token: string) => {
       if (data == null) {
@@ -38,6 +49,7 @@ export const useTokenInfo = () => {
   );
 
   return {
+    getProtocol,
     getSymbol,
     getIcon,
   };
