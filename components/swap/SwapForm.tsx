@@ -192,8 +192,16 @@ const SwapForm: FC = () => {
                 value: `${slippage.toPrecision(1)}%`,
               },
               {
+                label: "Route",
+                value: `${getSymbol(token1.asset)}→${getSymbol(token2.asset)}`,
+              },
+              {
                 label: "Exchange Rate",
                 value: estimateExchangeRate(state.simulated),
+              },
+              {
+                label: "Minimum received",
+                value: token2.amount,
               },
             ]}
             onCloseClick={() => setShowConfirm(false)}
