@@ -1,18 +1,16 @@
 import React, { FC, useCallback, useState, useEffect } from "react";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep } from "@arthuryeti/terra";
+import { TxStep, num, fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
 import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { toAmount } from "libs/parse";
+import { toAmount, lookup } from "libs/parse";
 import { useWithdraw } from "modules/pool";
 
-import FormError from "components/common/FormError";
 import FormSummary from "components/common/FormSummary";
 import FormLoading from "components/common/FormLoading";
-import FormSuccess from "components/common/FormSuccess";
 import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
 import TransactionNotification from "components/notifications/Transaction";
@@ -86,8 +84,14 @@ const WithdrawForm: FC<Props> = ({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toAmount(debouncedAmount),
-    onSuccess: (txHash) => showNotification("success", txHash),
-    onError: (txHash) => showNotification("error", txHash),
+    onSuccess: (txHash) => {
+      showNotification("success", txHash);
+      resetForm();
+    },
+    onError: (txHash) => {
+      showNotification("error", txHash);
+      reset();
+    },
   });
 
   const {
@@ -101,6 +105,11 @@ const WithdrawForm: FC<Props> = ({
     reset,
   } = state;
 
+  const resetForm = () => {
+    reset();
+    methods.reset();
+  };
+
   const submit = async () => {
     withdraw();
   };
@@ -111,39 +120,24 @@ const WithdrawForm: FC<Props> = ({
     }
   }, [txStep]);
 
+  const estimateExchangeRate = () =>
+    // @ts-expect-error
+    `1 ${getSymbol(token1)} = ${num(token2Amount).div(token1Amount).toPrecision(
+      2
+      // @ts-expect-error
+    )} ${getSymbol(token2)}`;
+
+  const balance = useBalance(token.asset);
+  const amount = lookup(balance, token.asset);
+  const shareOfPool = num(amount)
+    .minus(token.amount || "0")
+    .div(num(fromTerraAmount(pool.assets[0].amount, "0.[00]")))
+    .times("100")
+    .toFixed(2)
+    .toString();
+
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
-  }
-
-  if (txStep == TxStep.Success) {
-    return (
-      <FormSuccess
-        contentComponent={
-          <FormSummary
-            label1="You are receving"
-            label2="and"
-            // @ts-expect-error
-            token1={{ asset: token1, amount: token1Amount }}
-            // @ts-expect-error
-            token2={{ asset: token2, amount: token2Amount }}
-          />
-        }
-        details={[{ label: "Price Impact", value: "0.02%" }]}
-        onCloseClick={reset}
-      />
-    );
-  }
-
-  if (txStep == TxStep.Failed) {
-    return (
-      <FormError
-        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua."
-        onCloseClick={state.reset}
-        onClick={state.reset}
-      />
-    );
   }
 
   return (
@@ -165,20 +159,29 @@ const WithdrawForm: FC<Props> = ({
         {showConfirm && (
           <FormConfirm
             fee={fee}
-            actionLabel="Confirm Withdraw"
+            title="Confirm withdraw liquidity"
+            actionLabel="Confirm withdraw"
             contentComponent={
               <FormSummary
-                label1="You are receving"
-                label2="and"
+                label1="You are receving:"
                 // @ts-expect-error
                 token1={{ asset: token1, amount: token1Amount }}
                 // @ts-expect-error
                 token2={{ asset: token2, amount: token2Amount }}
               />
             }
-            details={[{ label: "Price Impact", value: "0.02%" }]}
-            onCloseClick={reset}
-          />
+            details={[
+              { label: "Rates", value: estimateExchangeRate() },
+              { label: "Share of Pool", value: `${shareOfPool || "0"}%` },
+            ]}
+            onCloseClick={() => setShowConfirm(false)}
+          >
+            <Text mt={6} textStyle="small" variant="secondary">
+              The numbers above are estimates based on the current composition
+              of the pool. These numbers could change between now and the time
+              your transaction completes.
+            </Text>
+          </FormConfirm>
         )}
       </chakra.form>
     </FormProvider>

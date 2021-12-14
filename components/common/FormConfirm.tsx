@@ -16,6 +16,7 @@ import FormFee from "components/common/FormFee";
 import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
+  title?: string;
   contentComponent: ReactNode;
   details?: {
     label: string;
@@ -29,6 +30,7 @@ type Props = {
 const MotionBox = motion(Box);
 
 const FormConfirm: FC<Props> = ({
+  title,
   actionLabel,
   fee,
   contentComponent,
@@ -46,7 +48,7 @@ const FormConfirm: FC<Props> = ({
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text>{actionLabel}</Text>
+          <Text>{title}</Text>
           <IconButton
             aria-label="Close"
             icon={<CloseIcon />}

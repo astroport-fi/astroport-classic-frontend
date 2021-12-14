@@ -39,12 +39,7 @@ const TokenCard: FC<Props> = ({ token }) => {
         <Box>
           <HStack spacing="4">
             <Box>
-              <Image
-                src={getIcon(token.asset)}
-                width="2.5rem"
-                height="2.5rem"
-                alt="Logo"
-              />
+              <Image src={getIcon(token.asset)} w={8} h={8} alt="Logo" />
             </Box>
             <Box>
               <Text textStyle="h3">{getSymbol(token.asset)}</Text>
