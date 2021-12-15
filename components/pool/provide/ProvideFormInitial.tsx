@@ -1,10 +1,5 @@
 import React, { FC } from "react";
-import {
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
+
 import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -13,6 +8,7 @@ import { calculateTokenAmount, ProvideState } from "modules/pool";
 
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
+import Slider from "components/common/Slider";
 import PoolHeader from "components/pool/PoolHeader";
 import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
@@ -182,12 +178,7 @@ const ProvideFormInitial: FC<Props> = ({
           value={Number(token1.amount)}
           max={Number(amount)}
           onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+        />
       </Card>
 
       <ProvideFormFooter
