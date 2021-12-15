@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, IconButton, HStack } from "@chakra-ui/react";
-import GraphIcon from "components/icons/GraphIcon";
+import { Button, HStack } from "@chakra-ui/react";
+// import GraphIcon from "components/icons/GraphIcon";
 
 import { useBalance } from "@arthuryeti/terra";
 
@@ -49,14 +49,14 @@ const ActionsTd: FC<Props> = ({ row }) => {
         </Link>
       ) : null}
 
-      <IconButton
+      {/* <IconButton
         aria-label="Graph"
         icon={<GraphIcon />}
         variant="icon"
         size="xs"
         isRound
         {...row.getToggleRowExpandedProps()}
-      />
+      /> */}
     </HStack>
   );
 };
