@@ -14,14 +14,19 @@ type Props = {
   containerStyle?: InputGroupProps;
 } & InputProps;
 
-const Search: FC<Props> = ({ iconStyle, containerStyle, ...props }) => {
+const Search: FC<Props> = ({
+  iconStyle,
+  containerStyle,
+  size = "sm",
+  ...props
+}) => {
   return (
     <Stack spacing={4}>
-      <InputGroup size="sm" {...containerStyle}>
+      <InputGroup size={size} {...containerStyle}>
         <InputLeftElement pointerEvents="none">
           <SearchIcon {...iconStyle} />
         </InputLeftElement>
-        <Input {...props} />
+        <Input size={size} {...props} />
       </InputGroup>
     </Stack>
   );

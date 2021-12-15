@@ -12,6 +12,7 @@ const PoolTableFilter: FC<Props> = ({
 }) => {
   return (
     <Search
+      size="sm"
       value={globalFilter || ""}
       onChange={(e) => setGlobalFilter(e.target.value || undefined)}
       placeholder="Search Token or Address"

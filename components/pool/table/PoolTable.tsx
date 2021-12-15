@@ -64,13 +64,14 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
           return rowB.original.total_share - rowA.original.total_share;
         },
       },
-      {
-        Header: "Volume",
-        Cell: () => <Text>xxxx</Text>,
-        accessor: "volume",
-      },
+      // {
+      //   Header: "Volume",
+      //   Cell: () => <Text>xxxx</Text>,
+      //   accessor: "volume",
+      // },
       {
         Header: PoolTableFilter,
+        width: 1000,
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
         disableSortBy: true,
@@ -104,13 +105,12 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
     <Table {...getTableProps()}>
       {headerGroups.map((headerGroup) => (
         <Tr isHead {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column: any) => (
-            <Td
-              color="white.700"
-              {...column.getHeaderProps(column.getSortByToggleProps())}
-            >
+          {headerGroup.headers.map((column) => (
+            <Td color="white.700">
               <HStack>
-                <Box>{column.render("Header")}</Box>
+                <Box flex={1} {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                </Box>
                 {column.isSorted &&
                   (column.isSortedDesc ? (
                     <ChevronDownIcon />
