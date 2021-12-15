@@ -11,6 +11,7 @@ import { useSwap, usePriceImpact } from "modules/swap";
 import { useTokenInfo, useAstroswap } from "modules/common";
 import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
@@ -37,8 +38,8 @@ const SwapForm: FC = () => {
   const { getSymbol } = useTokenInfo();
   const { tokens: terraTokens } = useAstroswap();
   const router = useRouter();
-  const [slippage, setSlippage] = useState(DEFAULT_SLIPPAGE);
-  const [expertMode, setExpertMode] = useState(false);
+  const [slippage, setSlippage] = useLocalStorage("slippage", DEFAULT_SLIPPAGE);
+  const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -165,7 +166,11 @@ const SwapForm: FC = () => {
             onSlippageChange={setSlippage}
             expertMode={expertMode}
             onExpertModeChange={setExpertMode}
-            onClick={() => setShowConfirm(!expertMode)}
+            onClick={() => {
+              expertMode
+                ? methods.handleSubmit(submit)()
+                : setShowConfirm(true);
+            }}
           />
         )}
 
