@@ -64,7 +64,7 @@ const HamburgerMenu: FC<Props> = ({}) => (
           <Box pb={4}>
             <Divider borderColor="black.100" />
             {items.map(({ label, url }) => (
-              <>
+              <Box key={label}>
                 <Link
                   href={url}
                   isExternal
@@ -77,7 +77,7 @@ const HamburgerMenu: FC<Props> = ({}) => (
                   </Text>
                 </Link>
                 <Divider borderColor="black.100" />
-              </>
+              </Box>
             ))}
           </Box>
         </MenuList>

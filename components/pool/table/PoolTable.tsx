@@ -57,7 +57,7 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
         accessor: "apy",
       },
       {
-        Header: "Depth",
+        Header: "Total Liquidity",
         Cell: ({ row }: any) => <DepthTd row={row} />,
         accessor: "totalShareInUst",
         sortType: (rowA: any, rowB: any) => {

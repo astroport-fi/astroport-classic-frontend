@@ -63,7 +63,7 @@ const WalletInfoPopover: FC<Props> = ({ triggerElement }) => {
         <Flex align="center" justify="space-between" mb="4" pr={6}>
           <PopoverHeader>My Wallet</PopoverHeader>
           <PopoverCloseButton position="static" borderRadius="xl">
-            <CloseIcon w="6" h="6" BackgroundOpacity="0" />
+            <CloseIcon w="6" h="6" />
           </PopoverCloseButton>
         </Flex>
         <PopoverBody>
