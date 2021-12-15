@@ -15,7 +15,15 @@ const PoolTableFilter: FC<Props> = ({
       value={globalFilter || ""}
       onChange={(e) => setGlobalFilter(e.target.value || undefined)}
       placeholder="Search Token or Address"
-      containerStyle={{ background: "black.200", color: "white.200" }}
+      containerStyle={{
+        background: "black.200",
+        _focusWithin: {
+          color: "white",
+        },
+        _placeholder: {
+          color: "white.400",
+        },
+      }}
       borderColor="white.200"
     />
   );
