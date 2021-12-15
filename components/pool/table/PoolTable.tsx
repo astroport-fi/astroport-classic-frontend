@@ -8,7 +8,7 @@ import {
   usePagination,
   useGlobalFilter,
 } from "react-table";
-import { PairResponse, getTokenDenom } from "modules/common";
+import { PairResponse, getTokenDenom, useTokenInfo } from "modules/common";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
@@ -27,14 +27,17 @@ type Props = {
 };
 
 const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
+  const { getSymbol } = useTokenInfo();
+
   const columns = useMemo(
     () => [
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => <PoolNameTd row={row} />,
         accessor: ({ asset_infos }: any) => {
-          const token = getTokenDenom(asset_infos[0]);
-          return token;
+          const token1 = getSymbol(getTokenDenom(asset_infos[0]));
+          const token2 = getSymbol(getTokenDenom(asset_infos[1]));
+          return `${token1}-${token2}`;
         },
         sortType: (rowA: any, rowB: any) => {
           const rowAToken = getTokenDenom(rowA.original.asset_infos[0]);
