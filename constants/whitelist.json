@@ -1,137 +1,69 @@
 {
   "mainnet": {
-    "tokens": {
-      "terra1am7gpv35q80c6x2w8vfg4kp9mnedujjj73g3dr": {
-        "protocol": "Terra",
-        "symbol": "ASTRO",
-        "token": "terra1am7gpv35q80c6x2w8vfg4kp9mnedujjj73g3dr",
-        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
-      },
-      "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445": {
-        "protocol": "Terra",
-        "symbol": "XASTRO",
-        "token": "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445",
-        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
-      },
-      "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6": {
-        "protocol": "Mirror",
-        "symbol": "MIR",
-        "token": "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6",
-        "icon": "https://whitelist.mirror.finance/icon/MIR.png"
-      },
-      "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp": {
-        "protocol": "Anchor",
-        "symbol": "bLUNA",
-        "token": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
-        "icon": "https://whitelist.anchorprotocol.com/logo/bLUNA.png"
-      },
-      "uluna": {
-        "protocol": "Native",
-        "symbol": "LUNA",
-        "token": "uluna",
-        "icon": "https://assets.terra.money/icon/60/Luna.png"
-      },
-      "uusd": {
-        "protocol": "Native",
-        "symbol": "UST",
-        "token": "uusd",
-        "icon": "https://assets.terra.money/icon/60/UST.png"
-      },
-      "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76": {
-        "protocol": "Anchor",
-        "symbol": "ANC",
-        "token": "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76",
-        "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
-      }
-    },
-    "pairs": [
-      {
-        "contract_addr": "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
-        "liquidity_token": "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr",
-        "asset_infos": [
-          {
-            "native_token": {
-              "denom": "uusd"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "uluna"
-            }
-          }
-        ]
-      },
-      {
-        "contract_addr": "terra1jxazgm67et0ce260kvrpfv50acuushpjsz2y0p",
-        "liquidity_token": "terra1nuy34nwnsh53ygpc4xprlj263cztw7vc99leh2",
-        "asset_infos": [
-          {
-            "token": {
-              "contract_addr": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "uluna"
-            }
-          }
-        ]
-      },
-      {
-        "contract_addr": "terra1gm5p3ner9x9xpwugn9sp6gvhd0lwrtkyrecdn3",
-        "liquidity_token": "terra1gecs98vcuktyfkrve9czrpgtg0m3aq586x6gzm",
-        "asset_infos": [
-          {
-            "token": {
-              "contract_addr": "terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76"
-            }
-          },
-          {
-            "native_token": {
-              "denom": "uusd"
-            }
-          }
-        ]
-      }
-    ]
+    "tokens": {},
+    "pairs": []
   },
   "testnet": {
     "tokens": {
-      "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u": {
-        "protocol": "Mirror",
-        "symbol": "MIR",
-        "token": "terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u",
-        "icon": "https://whitelist.mirror.finance/icon/MIR.png"
+      "terra1zc020yr66n0xe8pkcxmyjx6ya5jxgh3t7qvkaq": {
+        "protocol": "StarTerra",
+        "symbol": "STT",
+        "token": "terra1zc020yr66n0xe8pkcxmyjx6ya5jxgh3t7qvkaq",
+        "icon": "https://starterra.io/assets/100x100_starterra.png"
       },
-      "terra14z0vngwxczcvqjw6k3pl5tj9zuaky2svwxp52g": {
+      "terra159x8kqc5g62k8272ynh94gqamwwvptva2msxm0": {
+        "protocol": "Orion",
+        "symbol": "ORION",
+        "token": "terra159x8kqc5g62k8272ynh94gqamwwvptva2msxm0",
+        "icon": "https://orion.money/assets/ORION-LOGO-2.1-GREEN@256x256.png"
+      },
+      "terra15ye804hqvlnptjfrt42tdg96q7kxpxr9pxjxnp": {
+        "protocol": "Apollo",
+        "symbol": "APOLLO",
+        "token": "terra15ye804hqvlnptjfrt42tdg96q7kxpxr9pxjxnp",
+        "icon": "https://i.ibb.co/VC517zj/apollo.png"
+      },
+      "terra17axkd5gz9z4hwhxus5rhwmxk65ga4f83rq53mh": {
+        "protocol": "Nexus",
+        "symbol": "PSI",
+        "token": "terra17axkd5gz9z4hwhxus5rhwmxk65ga4f83rq53mh",
+        "icon": "https://terra.nexusprotocol.app/assets/psi.png"
+      },
+      "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy": {
+        "protocol": "Valkyrie",
+        "symbol": "VKR",
+        "token": "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy",
+        "icon": "https://app.valkyrieprotocol.com/icon_vkr.png"
+      },
+      "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry": {
         "protocol": "Astroport",
         "symbol": "ASTRO",
-        "token": "terra14z0vngwxczcvqjw6k3pl5tj9zuaky2svwxp52g",
+        "token": "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry",
         "icon": "/tokens/astro.png"
       },
-      "terra1xjjey2fhvv6drcltmv8v7kr4w6zzv0z5a4ffpd": {
-        "protocol": "Astroport",
-        "symbol": "xASTRO",
-        "token": "terra1xjjey2fhvv6drcltmv8v7kr4w6zzv0z5a4ffpd",
-        "icon": "/tokens/xAstro.png"
+      "terra1krzfsvl9tgce2f2wsq23s0jmqqd69uwpcd3579": {
+        "protocol": "Mirror",
+        "symbol": "MIR",
+        "token": "terra1krzfsvl9tgce2f2wsq23s0jmqqd69uwpcd3579",
+        "icon": "https://whitelist.mirror.finance/icon/MIR.png"
       },
-      "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x": {
+      "terra1p3y0upsgamleljwz0z522320ke9ug5w5jxuxqa": {
+        "protocol": "Pylon",
+        "symbol": "MINE",
+        "token": "terra1p3y0upsgamleljwz0z522320ke9ug5w5jxuxqa",
+        "icon": "https://assets.pylon.rocks/logo/MINE.png"
+      },
+      "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp": {
         "protocol": "Anchor",
-        "symbol": "bLUNA",
-        "token": "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
+        "symbol": "bLuna",
+        "token": "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp",
         "icon": "https://whitelist.anchorprotocol.com/logo/bLUNA.png"
       },
-      "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc": {
+      "terra1yz03fpmuhf7w999fng5l5z82cufszlr92ncpzx": {
         "protocol": "Anchor",
         "symbol": "ANC",
-        "token": "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc",
+        "token": "terra1yz03fpmuhf7w999fng5l5z82cufszlr92ncpzx",
         "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
-      },
-      "terra19mkj9nec6e3y5754tlnuz4vem7lzh4n0lc2s3l": {
-        "protocol": "Anchor",
-        "symbol": "bETH",
-        "token": "terra19mkj9nec6e3y5754tlnuz4vem7lzh4n0lc2s3l",
-        "icon": "https://whitelist.anchorprotocol.com/logo/bETH.png"
       },
       "uluna": {
         "protocol": "Native",
@@ -151,7 +83,7 @@
         "asset_infos": [
           {
             "token": {
-              "contract_addr": "terra14z0vngwxczcvqjw6k3pl5tj9zuaky2svwxp52g"
+              "contract_addr": "terra159x8kqc5g62k8272ynh94gqamwwvptva2msxm0"
             }
           },
           {
@@ -160,8 +92,179 @@
             }
           }
         ],
-        "contract_addr": "terra1wxjae8ttrsuy4gpz82lemj003m954lj4rlj4yd",
-        "liquidity_token": "terra1hv6caf7s0mdnexacmjc06vd4xyzhrgn4mjchtj",
+        "contract_addr": "terra1v75g4jcvxlsnc3v7uw0uznzsee5lt2hprku3dr",
+        "liquidity_token": "terra1tn7rn78grfvkcqjkrtq973h8zckzyxwf7azzdr",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra15ye804hqvlnptjfrt42tdg96q7kxpxr9pxjxnp"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra17ngzkakv7wqkdh9m8x9fsagjxt6jv88g37v57u",
+        "liquidity_token": "terra1qy4mgmlwwz2jtfngf98fwt5usym9f3qptgz0qd",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra17axkd5gz9z4hwhxus5rhwmxk65ga4f83rq53mh"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra16zyxw4mhhrzaj30nylvngcgskq4nzxp60lrny7",
+        "liquidity_token": "terra1qvkxqfjrvjv4ert4pyl5ggn73npgf8ch8h6ffg",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1dnwrjmsck9rk3vlg58arthvgrz7z02avcxgr3d",
+        "liquidity_token": "terra1htxdmplcha8cfkxg7jg389k7uf4lg7cw4fndg6",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1q96sylxe23tqh9e3s6c6whcncnn2vsl8tkx6az",
+        "liquidity_token": "terra1ge8fllzfr3l8wh5626cx232a3yt9gxvz3paaj6",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1krzfsvl9tgce2f2wsq23s0jmqqd69uwpcd3579"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1dldy5f5cwzx8dtd0rx68rhdk7n9wzxnwdjkxda",
+        "liquidity_token": "terra1wuja95f6awu0xtl5u89dqn05wtaaf0g3qrzxqy",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1p3y0upsgamleljwz0z522320ke9ug5w5jxuxqa"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra12sam2wuvrddzyaf60yd90elhvthrmpvq0ty24l",
+        "liquidity_token": "terra1tqnnlyaf0ekcur909lmxd6n8djfzxehrcfkgts",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uluna"
+            }
+          }
+        ],
+        "contract_addr": "terra13kc58ccl3rl0wttccr83fqslxyudyel2mu0tv8",
+        "liquidity_token": "terra1q0mkr6ca5y5t6gkdxsm26fy9e93egtp3lwll3f",
+        "pair_type": {
+          "stable": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1yz03fpmuhf7w999fng5l5z82cufszlr92ncpzx"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1dq0yxg7awwcyzzmuvv2kem32gepxr5d23t7cr4",
+        "liquidity_token": "terra1uzr2p4j4gra2yv987z350r6cw2qwldv5k3zme4",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1zc020yr66n0xe8pkcxmyjx6ya5jxgh3t7qvkaq"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1nkv4vy2jpfaes5yhznv9pq56ktynl769sqrx9h",
+        "liquidity_token": "terra1g5hnwr5geddsz5hvmt68t3ftxsapxmr9lsrcft",
         "pair_type": {
           "xyk": {}
         }
@@ -179,10 +282,10 @@
             }
           }
         ],
-        "contract_addr": "terra16flc56k4ujcqve8p7a6qz2pmqjvrxuv49zdvv8",
-        "liquidity_token": "terra1dxj6tcuxetnj7gaft4mmmvchlrdlg2xt85mklw",
+        "contract_addr": "terra1qs27xqn2a7agyjcmun06vk00stfpza3lq3vahy",
+        "liquidity_token": "terra1k62cshvw4jeuwyfj4s62tvkhvm7dx0l0vafrhz",
         "pair_type": {
-          "stable": {}
+          "xyk": {}
         }
       }
     ]
