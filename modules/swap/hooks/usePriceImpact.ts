@@ -26,11 +26,6 @@ export function usePriceImpact({ token1, token2 }: Params) {
     to: token2.asset,
   });
 
-  console.log({
-    from: token1.asset,
-    to: token2.asset,
-  });
-
   const token2PriceInUst = useTokenPriceInUst(token2.asset);
 
   const result = useSwapSimulate({

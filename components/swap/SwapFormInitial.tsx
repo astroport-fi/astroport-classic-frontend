@@ -171,7 +171,7 @@ const SwapForm: FC<Props> = ({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4 }}
         justify="center"
-        mt="-3.5"
+        mt="-2"
         mb="-5"
         position="relative"
       >
@@ -188,7 +188,7 @@ const SwapForm: FC<Props> = ({
 
       <MotionBox
         key="card2"
-        mt="2"
+        mt="3"
         borderRadius="xl"
         bg="brand.blue"
         py="8"

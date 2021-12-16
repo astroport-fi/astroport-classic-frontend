@@ -94,22 +94,22 @@ const button = {
       },
     },
     icon: {
-      bg: "white.100",
-      color: "white",
-      borderColor: "white",
-      borderWidth: 1,
+      bg: "transparent",
+      outline: "none",
+      border: "0",
+      px: "0",
       _hover: {
-        bg: "brand.purple",
+        color: "brand.purple",
+        bg: "transparent",
       },
       _active: {
-        bg: "brand.purple",
-        outline: "none",
-        boxShadow: "none",
+        color: "brand.purple",
+        bg: "transparent",
       },
       _focus: {
-        outline: "none",
         boxShadow: "none",
       },
+      color: "transparent",
     },
     silent: {
       outline: "none",

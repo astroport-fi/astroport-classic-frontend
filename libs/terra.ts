@@ -6,16 +6,16 @@ export const findAssetInPool = (pool: PoolResponse, asset: string) => {
   });
 };
 
-export const getAssetAmountsInPool = (pool: PoolResponse) => {
-  return pool.assets.reduce(
-    (prev, a) => {
-      const key = getTokenDenom(a.info) === "uusd" ? "uusd" : "other";
+export const getAssetAmountsInPool = (assets: any, token: string) => {
+  return assets.reduce(
+    (prev: any, a: any) => {
+      const key = getTokenDenom(a.info) === token ? "token1" : "token2";
 
       return {
         ...prev,
         [key]: a.amount,
       };
     },
-    { uusd: "0", other: "0" }
+    { token1: null, token2: null }
   );
 };

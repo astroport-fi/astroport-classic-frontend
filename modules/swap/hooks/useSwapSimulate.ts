@@ -60,8 +60,6 @@ export const useSwapSimulate = ({
         return;
       }
 
-      console.log("Ouii");
-
       if (swapRoute.length > 1) {
         return simulateMultiSwap({
           client,

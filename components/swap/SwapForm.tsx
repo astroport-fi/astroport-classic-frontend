@@ -54,11 +54,13 @@ const SwapForm: FC = () => {
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
-        asset: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
+        asset: "uusd",
+        // asset: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
         amount: undefined,
       },
       token2: {
-        asset: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
+        asset: "uluna",
+        // asset: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
         amount: undefined,
       },
     },
@@ -68,6 +70,9 @@ const SwapForm: FC = () => {
 
   const token1 = watch("token1");
   const token2 = watch("token2");
+
+  console.log("token1", token1);
+  console.log("token2", token2);
 
   const priceImpact = usePriceImpact({ token1, token2 });
 

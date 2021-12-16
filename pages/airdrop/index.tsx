@@ -12,8 +12,6 @@ const AirdropPage: NextPage = () => {
         <title>Astroport</title>
       </Head>
       <Airdrop />
-      {/* <Swap /> */}
-      {/* <Dashboard /> */}
     </>
   );
 };

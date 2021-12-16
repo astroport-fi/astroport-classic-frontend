@@ -1,20 +1,26 @@
 import React from "react";
-import { VStack, Container, Link } from "@chakra-ui/react";
+import { VStack, Container } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
-import Notification from "components/Notification";
-import AstroAirdrop from "components/AstroAirdrop";
+import AirdropCheck from "components/AirdropCheck";
+import AirdropResult from "components/AirdropResult";
 
 const Airdrop = () => {
+  const router = useRouter();
+  const address = router.query.address as string;
+
+  const renderContent = () => {
+    if (address) {
+      return <AirdropResult />;
+    }
+
+    return <AirdropCheck />;
+  };
+
   return (
     <VStack my="12" spacing="10">
-      {/* <Container px={["6", null, "12"]} maxWidth="container.xl">
-        <Notification variant="info">
-          You can claim 3,000 ASTRO in your rewards center.{" "}
-          <Link>Learn More</Link>
-        </Notification>
-      </Container> */}
       <Container px={["6", null, "12"]} maxWidth="container.md">
-        <AstroAirdrop />
+        {renderContent()}
       </Container>
     </VStack>
   );

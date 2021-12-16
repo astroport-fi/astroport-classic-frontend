@@ -60,7 +60,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
     <Box>
       <Flex justify="space-between">
         <Box flex="1">
-          <Menu>
+          <Menu isLazy>
             <Flex pr="8">
               <MenuButton
                 as={Button}

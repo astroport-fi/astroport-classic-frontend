@@ -15,8 +15,9 @@ const Navbar: FC = () => {
         </a>
       </Link>
       <HStack flex="1" px="16" spacing="12">
-        <NavbarLink text="Swap" href="/swap" />
-        <NavbarLink text="Pools" href="/pairs" />
+        <NavbarLink text="Swap" href="/" />
+        <NavbarLink text="Pool" href="/pairs" />
+        <NavbarLink text="Locked Liquidity" href="/locked-liquidity" />
         {/* <NavbarLink text="Governance" href="/governance" /> */}
         <NavbarLink text="Airdrop" href="/airdrop" />
       </HStack>

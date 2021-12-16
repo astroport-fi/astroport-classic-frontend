@@ -65,6 +65,10 @@ export const useSwapRoute = ({ routes, from, to }: Params): Route[] | null => {
       traverse(child, child.to);
     });
 
+    console.log("1");
+    console.log("from", from);
+    console.log("to", to);
+
     return result;
   }, [routes, from, to]);
 };
