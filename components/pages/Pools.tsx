@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Heading } from "@chakra-ui/react";
+import { Container, Box, Heading } from "@chakra-ui/react";
 
 import { usePools } from "modules/pool";
 
@@ -11,7 +11,13 @@ const Pools: FC = () => {
   const pools = usePools();
 
   return (
-    <Box w="container.xl" m="0 auto" pt="12" pb="64" color="white">
+    <Container
+      px={["6", null, "12"]}
+      maxWidth="container.xl"
+      pt="12"
+      pb="64"
+      color="white"
+    >
       {/* <Box px="6" mb="4">
         <Heading>Pools Overview</Heading>
       </Box>
@@ -34,7 +40,7 @@ const Pools: FC = () => {
           <PoolTable data={pools.all} />
         </Card>
       )}
-    </Box>
+    </Container>
   );
 };
 
