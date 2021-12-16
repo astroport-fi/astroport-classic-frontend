@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { Box, Text, NumberInput, NumberInputField } from "@chakra-ui/react";
-import { fromTerraAmount, toTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount, num } from "@arthuryeti/terra";
 
-import { ESTIMATE_TOKEN } from "constants/constants";
-import { useSwapSimulate } from "modules/swap";
+import { useTokenPriceInUst } from "modules/swap";
 
 type Props = {
   onChange: any;
@@ -25,17 +24,8 @@ const Input: FC<Props> = ({
   max,
   isDisabled,
 }) => {
-  const simulated = useSwapSimulate({
-    token1: value.asset,
-    token2: ESTIMATE_TOKEN,
-    amount: toTerraAmount(value.amount),
-    reverse: false,
-  });
-
-  const totalAmount =
-    value.asset === ESTIMATE_TOKEN
-      ? toTerraAmount(value.amount)
-      : simulated?.amount;
+  const price = useTokenPriceInUst(value.asset);
+  const totalInUst = num(value.amount).times(price).toFixed(6);
 
   return (
     <Box>
@@ -52,7 +42,7 @@ const Input: FC<Props> = ({
         <NumberInputField placeholder="0.0" />
         <Box position="absolute" bottom="2" right="4" color="white">
           <Text textStyle="small" variant="dimmed">
-            ${fromTerraAmount(totalAmount, "0,0.000")}
+            ${fromTerraAmount(totalInUst, "0,0.000")}
           </Text>
         </Box>
       </NumberInput>

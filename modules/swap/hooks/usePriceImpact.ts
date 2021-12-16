@@ -1,5 +1,12 @@
+import { useMemo } from "react";
 import { num, toTerraAmount } from "@arthuryeti/terra";
-import { useTokenPriceInUst, useSwapSimulate } from "modules/swap";
+
+import { useAstroswap } from "modules/common";
+import {
+  useTokenPriceInUst,
+  useSwapSimulate,
+  useSwapRoute,
+} from "modules/swap";
 
 type Token = {
   amount: string;
@@ -11,24 +18,42 @@ type Params = {
   token2: Token;
 };
 
-export const usePriceImpact = ({ token1, token2 }: Params) => {
-  const token2PriceInUst = num(useTokenPriceInUst(token2.asset));
+export function usePriceImpact({ token1, token2 }: Params) {
+  const { routes } = useAstroswap();
+  const swapRoute = useSwapRoute({
+    routes,
+    from: token1.asset,
+    to: token2.asset,
+  });
+
+  console.log({
+    from: token1.asset,
+    to: token2.asset,
+  });
+
+  const token2PriceInUst = useTokenPriceInUst(token2.asset);
 
   const result = useSwapSimulate({
-    token1: token1.asset,
-    token2: token2.asset,
+    swapRoute,
     amount: toTerraAmount(token1.amount),
+    token: token1.asset,
     reverse: false,
   });
 
-  const newToken2PriceInUst = num(toTerraAmount(result?.price));
+  return useMemo(() => {
+    if (result == null) {
+      return null;
+    }
 
-  return newToken2PriceInUst
-    .minus(token2PriceInUst)
-    .abs()
-    .div(token2PriceInUst)
-    .times(100)
-    .toNumber();
-};
+    const newToken2PriceInUst = toTerraAmount(result?.price);
+
+    return num(newToken2PriceInUst)
+      .minus(token2PriceInUst)
+      .abs()
+      .div(token2PriceInUst)
+      .times(100)
+      .toNumber();
+  }, [result, token2PriceInUst]);
+}
 
 export default usePriceImpact;

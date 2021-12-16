@@ -4,7 +4,7 @@ import {
   PoolResponse,
   getTokenDenom,
   isNativeAsset,
-  isTypeNativeAssetInfo,
+  isNativeAssetInfo,
 } from "modules/common";
 
 type CreateProvideMsgsOptions = {
@@ -34,7 +34,7 @@ export const createProvideMsgs = (
     .map((asset) => new Coin(getTokenDenom(asset.info), asset.amount));
 
   const allowanceMsgs = assets.reduce<MsgExecuteContract[]>((acc, asset) => {
-    if (isTypeNativeAssetInfo(asset.info)) {
+    if (isNativeAssetInfo(asset.info)) {
       return acc;
     }
 

@@ -4,12 +4,11 @@ import { useQuery } from "react-query";
 
 import {
   useContracts,
+  Route,
+  SimulationResponse,
   ReverseSimulationResponse,
   MultiSimulationResponse,
-  SimulationResponse,
-  useAstroswap,
 } from "modules/common";
-import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
 
@@ -29,41 +28,46 @@ function isReverseSimulation(
 }
 
 type Params = {
-  token1: string | null;
-  token2: string | null;
+  swapRoute: Route[] | null;
+  token: string | null;
   amount: string | null;
   reverse: boolean;
 };
 
 export const useSwapSimulate = ({
-  token1,
-  token2,
+  swapRoute,
+  token,
   amount,
   reverse,
 }: Params) => {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
-  const contracts = useContracts();
-  const swapRoute = useSwapRoute({ routes, token1, token2 });
-  const router = contracts.router;
+  const { router } = useContracts();
 
   const { data, isLoading } = useQuery<
     unknown,
     unknown,
     SimulationResponse | ReverseSimulationResponse | MultiSimulationResponse
   >(
-    ["simulation", swapRoute, router, token1, amount, reverse],
+    ["simulation", swapRoute, router, token, amount, reverse],
     () => {
-      if (swapRoute == null || token1 == null || amount == null) {
+      if (
+        swapRoute == null ||
+        token == null ||
+        amount == "" ||
+        num(amount).eq(0) ||
+        swapRoute.length == 0
+      ) {
         return;
       }
+
+      console.log("Ouii");
 
       if (swapRoute.length > 1) {
         return simulateMultiSwap({
           client,
           swapRoute,
           router,
-          token: token1,
+          token,
           amount,
         });
       }
@@ -71,7 +75,7 @@ export const useSwapSimulate = ({
       return simulateMonoSwap({
         client,
         swapRoute,
-        token: token1,
+        token,
         amount,
         reverse,
       });
@@ -82,7 +86,7 @@ export const useSwapSimulate = ({
   );
 
   return useMemo(() => {
-    if (data == null || amount == null || isLoading) {
+    if (data == null || amount == "" || num(amount).eq(0) || isLoading) {
       return null;
     }
 
@@ -91,11 +95,7 @@ export const useSwapSimulate = ({
         amount: data.amount,
         spread: "0",
         commission: "0",
-        price: num(amount).div(data.amount).toFixed(6).toString(),
-        price2: num("1")
-          .div(num(amount).div(data.amount))
-          .toFixed(6)
-          .toString(),
+        price: num(amount).div(data.amount).toFixed(18),
       };
     }
 
@@ -107,11 +107,7 @@ export const useSwapSimulate = ({
         amount: data.offer_amount,
         spread,
         commission,
-        price: num(amount).div(data.offer_amount).toFixed(6).toString(),
-        price2: num("1")
-          .div(num(amount).div(data.offer_amount))
-          .toFixed(6)
-          .toString(),
+        price: num(data.offer_amount).div(amount).toFixed(18),
       };
     }
 
@@ -119,11 +115,7 @@ export const useSwapSimulate = ({
       amount: data.return_amount,
       spread,
       commission,
-      price: num(amount).div(data.return_amount).toFixed(6).toString(),
-      price2: num("1")
-        .div(num(amount).div(data.return_amount))
-        .toFixed(6)
-        .toString(),
+      price: num(amount).div(data.return_amount).toFixed(18),
     };
   }, [amount, data, isLoading]);
 };

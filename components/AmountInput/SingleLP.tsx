@@ -12,7 +12,6 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == asset);
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
-  // const lpTokenPrice = useLpTokenPrice(pair, String(ONE_TOKEN));
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);

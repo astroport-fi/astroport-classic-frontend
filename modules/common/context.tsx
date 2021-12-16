@@ -7,14 +7,19 @@ import {
   useContext,
   Consumer,
 } from "react";
-import { useWallet } from "@terra-money/wallet-provider";
+import { useTerraWebapp } from "@arthuryeti/terra";
 
-import { PairResponse, Routes, Tokens, Data } from "./types";
-import { formatPairsToRoutes } from "./helpers";
+import {
+  formatPairsToRoutes,
+  PairResponse,
+  Route,
+  Tokens,
+  Data,
+} from "modules/common";
 
 type Astroswap = {
   pairs: PairResponse[] | null;
-  routes: Routes | null;
+  routes: Route[] | null;
   tokens: Tokens | null;
   data: Data | null;
 };
@@ -34,20 +39,21 @@ type Props = {
 export const AstroswapProvider: FC<Props> = ({ children, data }) => {
   const {
     network: { name },
-  } = useWallet();
+  } = useTerraWebapp();
 
   const pairs = useMemo(() => {
     return data[name].pairs;
-  }, [name, data]);
+  }, [data, name]);
 
   const tokens = useMemo(() => {
     return data[name].tokens;
-  }, [name, data]);
+  }, [data, name]);
 
   const routes = useMemo(() => {
-    if (!pairs) {
+    if (pairs.length == 0) {
       return null;
     }
+
     return formatPairsToRoutes(pairs);
   }, [pairs]);
 

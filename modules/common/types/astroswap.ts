@@ -124,3 +124,10 @@ export type CW20SwapOperation = {
 export type SwapOperation = NativeSwapOperation | CW20SwapOperation;
 
 export type LpDepositResponse = string;
+
+export type Route = {
+  contract_addr: string;
+  from: string;
+  to: string;
+  children: Route[];
+};

@@ -112,7 +112,6 @@ export const usePool = ({
     };
   }, [
     pool,
-    lpBalance,
     totalShareInUst,
     shareOfPool,
     tokenAmounts,
@@ -120,6 +119,7 @@ export const usePool = ({
     token2,
     token1Price,
     token2Price,
+    myShare,
     myShareInUst,
   ]);
 };

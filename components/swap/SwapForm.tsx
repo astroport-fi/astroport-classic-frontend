@@ -10,7 +10,7 @@ import { DEFAULT_SLIPPAGE } from "constants/constants";
 import { useSwap, usePriceImpact } from "modules/swap";
 import { useTokenInfo, useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
-import { useLocalStorage } from "hooks/useLocalStorage";
+import useLocalStorage from "hooks/useLocalStorage";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
@@ -37,6 +37,7 @@ const SwapForm: FC = () => {
   const { getSymbol } = useTokenInfo();
   const { tokens: terraTokens } = useAstroswap();
   const router = useRouter();
+  const [currentInput, setCurrentInput] = useState(null);
   const [slippage, setSlippage] = useLocalStorage("slippage", DEFAULT_SLIPPAGE);
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
 
@@ -70,17 +71,18 @@ const SwapForm: FC = () => {
 
   const priceImpact = usePriceImpact({ token1, token2 });
 
-  useEffect(() => {
-    router.push(`/?from=${token1.asset}&to=${token2.asset}`, undefined, {
-      shallow: true,
-    });
-  }, [token1, token2]);
+  // useEffect(() => {
+  //   router.push(`/?from=${token1.asset}&to=${token2.asset}`, undefined, {
+  //     shallow: true,
+  //   });
+  // }, [token1, token2, router]);
 
   useEffect(() => {
     methods.reset();
   }, [networkName]);
 
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
+  const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
   const showNotification = useCallback(
     (type: "success" | "error", txHash?: string) => {
@@ -112,8 +114,10 @@ const SwapForm: FC = () => {
   const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
-    amount: toTerraAmount(debouncedAmount1),
-    slippage: String(slippage),
+    amount1: toTerraAmount(debouncedAmount1),
+    amount2: toTerraAmount(debouncedAmount2),
+    slippage: slippage.toString(),
+    reverse: currentInput == "token2",
     onSuccess: (txHash) => {
       showNotification("success", txHash);
       resetForm();
@@ -136,6 +140,19 @@ const SwapForm: FC = () => {
       setShowConfirm(false);
     }
   }, [txStep]);
+
+  useEffect(() => {
+    if (num(state.simulated?.amount).gt(0)) {
+      const name = currentInput == "token2" ? "token1.amount" : "token2.amount";
+
+      methods.setValue(
+        name,
+        fromTerraAmount(state.simulated?.amount, "0.000000")
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.simulated]);
 
   const submit = async () => {
     swap();
@@ -188,7 +205,7 @@ const SwapForm: FC = () => {
               />
             }
             details={[
-              { label: "Price Impact", value: `${priceImpact}%` },
+              // { label: "Price Impact", value: `${priceImpact}%` },
               {
                 label: "Liquidity Provider fee",
                 value: `${estimateFees(state.fee)} UST`,

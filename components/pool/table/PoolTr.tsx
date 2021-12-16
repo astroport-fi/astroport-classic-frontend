@@ -66,8 +66,8 @@ const PoolTr: FC<Props> = ({ row }) => {
   }, []);
 
   return (
-    <Fragment {...row.getRowProps()}>
-      <Tr>
+    <Fragment>
+      <Tr {...row.getRowProps()}>
         {row.cells.map((cell) => {
           return (
             <Td key={cell} {...cell.getCellProps()}>

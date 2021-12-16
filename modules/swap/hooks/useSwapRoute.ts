@@ -1,54 +1,72 @@
 import { useMemo } from "react";
 
-import { Routes, PairResponse } from "modules/common";
+import { Route } from "modules/common";
 
 type Params = {
-  routes: Routes | null;
-  token1: string | null;
-  token2: string | null;
+  routes: Route[] | null;
+  from: string | null;
+  to: string | null;
 };
 
-export const useSwapRoute = ({
-  routes,
-  token1,
-  token2,
-}: Params): PairResponse[] | null => {
+export const useSwapRoute = ({ routes, from, to }: Params): Route[] | null => {
   return useMemo(() => {
-    if (
-      token1 == null ||
-      token2 == null ||
-      routes == null ||
-      token1 == token2
-    ) {
+    let result: Route[] = [];
+    let done = false;
+    const path: {
+      [key: string]: Route[];
+    } = {};
+
+    if (routes == null || from == null || to == null) {
       return null;
     }
 
-    if (routes[token1] == null) {
-      return null;
+    function traverse(route: Route, key: string): void {
+      route.children.forEach((child) => {
+        if (!done) {
+          if (child.to === to) {
+            //if we found our target push it to the path
+            path[key].push(child);
+            //set result to the completed path
+            result = path[key];
+            //set done to true to exit the search
+            done = true;
+          } else {
+            path[key].push(child);
+
+            return traverse(child, key);
+          }
+        }
+      });
+      //if we leave our for loop but we are not done that means we failed to find our target
+      //in this branch, as a result we need to pop each node out of our path before we return
+      if (!done) {
+        path[key].pop();
+      }
     }
 
-    if (routes[token1][token2]) {
-      return [routes[token1][token2]];
-    }
+    //set an array of the root nodes of our product tree. These are super-categories that are
+    //not saved in the item schema, possibly representing types of items, i.e. different schemas.
+    const filteredRoutes = routes.filter((route) => {
+      return route.from === from;
+    });
 
-    if (routes[token1].uusd && routes.uusd[token2]) {
-      return [routes[token1].uusd, routes.uusd[token2]];
-    }
+    filteredRoutes.forEach((child) => {
+      path[child.to] = [child];
 
-    if (routes[token1].uluna && routes.uluna[token2]) {
-      return [routes[token1].uluna, routes.uluna[token2]];
-    }
+      if (child.to === to) {
+        //set result to the completed path
+        result = path[child.to];
+        //set done to true to exit the search
+        done = true;
 
-    if (routes[token1].uluna && routes.uusd[token2]) {
-      return [routes[token1].uluna, routes.uluna.uusd, routes.uusd[token2]];
-    }
+        return;
+      }
 
-    if (routes[token1].uusd && routes.uluna[token2]) {
-      return [routes[token1].uusd, routes.uusd.uluna, routes.uluna[token2]];
-    }
+      traverse(child, child.to);
+    });
 
-    return null;
-  }, [routes, token1, token2]);
+    return result;
+  }, [routes, from, to]);
 };
 
 export default useSwapRoute;
