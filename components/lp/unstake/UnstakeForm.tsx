@@ -96,9 +96,6 @@ const UnstakeForm: FC<Props> = ({
     }
   }, [state.txStep]);
 
-  // @ts-expect-error
-  const feeString = useFeeToString(state.fee);
-
   if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
   }

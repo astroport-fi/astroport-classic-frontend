@@ -101,7 +101,7 @@ export default extendTheme({
     medium: {
       fontWeight: "medium",
       fontSize: "sm",
-      lineHeight: "16px",
+      lineHeight: "1",
     },
     small: {
       fontWeight: "medium",

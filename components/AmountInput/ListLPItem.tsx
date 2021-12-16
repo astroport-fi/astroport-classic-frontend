@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import { Box, Text, Image, Flex, HStack, MenuItem } from "@chakra-ui/react";
-import { useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
-import { format } from "libs/parse";
 import { useTokenInfo, getTokenDenoms, PairResponse } from "modules/common";
 
 type Props = {
@@ -58,10 +57,10 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                {format(balance, "uusd")}
+                {fromTerraAmount(balance, "0,0.000")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                ${format("0", "uusd")}
+                ${fromTerraAmount("0", "0,0.000")}
               </Text>
             </Box>
           </HStack>

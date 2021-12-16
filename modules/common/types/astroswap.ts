@@ -115,7 +115,7 @@ export type NativeSwapOperation = {
 };
 
 export type CW20SwapOperation = {
-  terra_swap: {
+  astro_swap: {
     offer_asset_info: AssetInfo;
     ask_asset_info: AssetInfo;
   };

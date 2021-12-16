@@ -67,7 +67,6 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
         onClick: () => setTimeFilter(filter),
         isActive: timeFilter === filter,
         type: filter,
-        // @ts-expect-error
         title: buttonTitleByTimeFilters[TimeFilter[filter]],
       })),
     [timeFilter]
@@ -79,7 +78,6 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
         onClick: () => setTypeFilter(filter),
         isActive: typeFilter === filter,
         type: filter,
-        // @ts-expect-error
         title: buttonTitleByTypeFilters[TypeFilter[filter]],
       })),
     [typeFilter]
@@ -88,15 +86,12 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   // mock data for graph
   useEffect(() => {
     const pointsArray = () => {
-      return (
-        Array(50)
-          .fill("")
-          // @ts-expect-error
-          .map((el, index) => ({
-            x: index,
-            y: Math.random(),
-          }))
-      );
+      return Array(50)
+        .fill("")
+        .map((el, index) => ({
+          x: index,
+          y: Math.random(),
+        }));
     };
 
     setPoints(pointsArray());

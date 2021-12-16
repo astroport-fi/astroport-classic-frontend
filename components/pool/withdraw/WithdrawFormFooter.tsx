@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { format } from "libs/parse";
 import { fromTerraAmount, num, TxStep } from "@arthuryeti/terra";
 
 import { useFeeToString } from "hooks/useFeeToString";
@@ -20,16 +19,18 @@ const WithdrawFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { token1Amount, token2Amount, token1Price, token2Price } = data;
-  const myLiquidity = format(
+  // TODO: Refactor in a hook
+  const myLiquidity = fromTerraAmount(
     String(
       Number(token1Amount) * Number(token1Price) +
         Number(token2Amount) * Number(token2Price)
     ),
-    "uusd"
+    "0.000000"
   );
 
+  // TODO: Refactor in a hook
   const shareOfPool = num(amount)
-    .div(num(fromTerraAmount(pool.assets[0].amount, "0.[00]")))
+    .div(num(fromTerraAmount(pool.assets[0].amount, "0.000000")))
     .times("100")
     .toFixed(2)
     .toString();

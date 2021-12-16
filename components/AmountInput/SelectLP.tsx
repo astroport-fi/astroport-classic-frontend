@@ -24,9 +24,7 @@ type Props = {
 const SelectLP: FC<Props> = ({ value, onClick }) => {
   const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  //@ts-expect-error
   const pair = pairs.find((v) => v.liquidity_token == value);
-  //@ts-expect-error
   const [token1, token2] = getTokenDenoms(pair.asset_infos);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);

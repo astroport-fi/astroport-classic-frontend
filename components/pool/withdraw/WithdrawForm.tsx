@@ -1,12 +1,17 @@
 import React, { FC, useCallback, useState, useEffect } from "react";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, num, fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import {
+  TxStep,
+  num,
+  fromTerraAmount,
+  useBalance,
+  toTerraAmount,
+} from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
 import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { toAmount, lookup } from "libs/parse";
 import { useWithdraw } from "modules/pool";
 
 import FormSummary from "components/common/FormSummary";
@@ -83,7 +88,7 @@ const WithdrawForm: FC<Props> = ({
   const state = useWithdraw({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
-    amount: toAmount(debouncedAmount),
+    amount: toTerraAmount(debouncedAmount),
     onSuccess: (txHash) => {
       showNotification("success", txHash);
       resetForm();
@@ -120,18 +125,19 @@ const WithdrawForm: FC<Props> = ({
     }
   }, [txStep]);
 
-  const estimateExchangeRate = () =>
-    // @ts-expect-error
-    `1 ${getSymbol(token1)} = ${num(token2Amount).div(token1Amount).toPrecision(
-      2
-      // @ts-expect-error
-    )} ${getSymbol(token2)}`;
+  // TODO: Create a component and remove it from here
+  const estimateExchangeRate = () => {
+    return `1 ${getSymbol(token1)} = ${num(token2Amount)
+      .div(token1Amount)
+      .toPrecision(2)} ${getSymbol(token2)}`;
+  };
 
   const balance = useBalance(token.asset);
-  const amount = lookup(balance, token.asset);
+  const amount = fromTerraAmount(balance, "0.000000");
+  // TODO: Create a hook for this calc
   const shareOfPool = num(amount)
     .minus(token.amount || "0")
-    .div(num(fromTerraAmount(pool.assets[0].amount, "0.[00]")))
+    .div(num(fromTerraAmount(pool.assets[0].amount, "0.000000")))
     .times("100")
     .toFixed(2)
     .toString();
@@ -164,9 +170,7 @@ const WithdrawForm: FC<Props> = ({
             contentComponent={
               <FormSummary
                 label1="You are receving:"
-                // @ts-expect-error
                 token1={{ asset: token1, amount: token1Amount }}
-                // @ts-expect-error
                 token2={{ asset: token2, amount: token2Amount }}
               />
             }

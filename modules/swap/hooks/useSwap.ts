@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { TxStep, useAddress, useTransaction } from "@arthuryeti/terra";
+import { num, TxStep, useAddress, useTransaction } from "@arthuryeti/terra";
 
 import { useContracts, useAstroswap } from "modules/common";
 import { useSwapRoute, useSwapSimulate, minAmountReceive } from "modules/swap";
@@ -64,6 +64,7 @@ export const useSwap = ({
       token1 == null ||
       token2 == null ||
       amount == null ||
+      num(amount).eq(0) ||
       simulated == null
     ) {
       return null;

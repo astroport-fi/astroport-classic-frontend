@@ -88,7 +88,7 @@ const Graph: React.FC<Props> = ({
       </Flex>
 
       <Box h="375">
-        <Line data={chartData} options={chartOptions} />
+        {/* <Line data={chartData} options={chartOptions} /> */}
       </Box>
     </Flex>
   );

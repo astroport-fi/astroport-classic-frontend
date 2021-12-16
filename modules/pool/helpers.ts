@@ -1,6 +1,5 @@
 import { num } from "@arthuryeti/terra";
 
-import { lookupSymbol } from "libs/parse";
 import { AssetInfo, getTokenDenom, isNativeToken } from "modules/common";
 import { Pool } from "modules/pool";
 
@@ -70,28 +69,6 @@ export const calculateProvideOneAsset = (
     ),
     provideAmount2: String(provideAmountSecond),
   };
-};
-
-// TODO: remove
-export const preparingSelectList = (tokens: any) => {
-  // const { getSymbol } = useTokenInfo();
-
-  if (tokens.includes("uusd")) {
-    const preparedTokens = [...tokens].sort();
-
-    const lookupedToken = lookupSymbol(preparedTokens[0]);
-
-    return [`${lookupedToken} / UST`];
-  }
-
-  const firstLookupedToken = lookupSymbol(tokens[0]);
-  const secondLookupedToken = lookupSymbol(tokens[1]);
-
-  return [
-    `${firstLookupedToken} / UST`,
-    `${secondLookupedToken} / UST`,
-    `${firstLookupedToken} / ${secondLookupedToken}`,
-  ];
 };
 
 // TODO: remove

@@ -8,7 +8,7 @@ type Props = {
 const CardHeader: FC<Props> = ({ label }) => {
   return (
     <Box p="6">
-      <Text variant="cardHeader">{label}</Text>
+      <Text color="white">{label}</Text>
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import BigNumber from "bignumber.js";
 
 import { useLpBalances } from "modules/pool";
 import { useAstroswap } from "modules/common";
+import { num } from "@arthuryeti/terra";
 
 export const usePools = () => {
   const { pairs } = useAstroswap();
@@ -15,8 +15,7 @@ export const usePools = () => {
     }
 
     return pairs.filter((v) => {
-      // @ts-expect-error
-      return new BigNumber(lpBalances[v.liquidity_token]).isEqualTo(0);
+      return num(lpBalances[v.liquidity_token]).eq(0);
     });
   }, [lpBalances, pairs]);
 
@@ -26,8 +25,7 @@ export const usePools = () => {
     }
 
     return pairs.filter((v) => {
-      // @ts-expect-error
-      return new BigNumber(lpBalances[v.liquidity_token]).isGreaterThan(0);
+      return num(lpBalances[v.liquidity_token]).gt(0);
     });
   }, [lpBalances, pairs]);
 

@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Box, Flex, BoxProps, Image, Text, HStack } from "@chakra-ui/react";
 
-import { format } from "libs/parse";
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst } from "modules/swap";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
 type Props = {
   token: string;
@@ -28,15 +28,15 @@ const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
           <Image src={getIcon(token)} alt={getSymbol(token)} boxSize={3} />
           <Text textStyle="medium">{getSymbol(token)}</Text>
         </HStack>
-        <Text textStyle="medium">{format(amount)}</Text>
+        <Text textStyle="medium">{fromTerraAmount(amount, "0,0.000")}</Text>
       </Flex>
 
       <Flex mt={2} justify="space-between">
         <Text textStyle="small" variant="dimmed">
-          Price: ${format(price, "uusd")}
+          Price: ${fromTerraAmount(price, "0,0.000")}
         </Text>
         <Text textStyle="small" variant="dimmed">
-          ${format(totalPrice, "uusd")}
+          ${fromTerraAmount(totalPrice, "0,0.000")}
         </Text>
       </Flex>
     </Box>

@@ -46,7 +46,6 @@ export const useProvideSingle = ({
     [amount]
   );
 
-  //@ts-expect-error
   const { amount: amount2 } = useSwapSimulate({
     token1,
     token2,

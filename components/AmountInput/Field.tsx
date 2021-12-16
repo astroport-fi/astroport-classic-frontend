@@ -19,12 +19,15 @@ type Props = {
   isSingle?: boolean;
   onBlur: any;
   onChange: any;
+  hideLabel?: boolean;
+  hideBalanceLabel?: boolean;
+  isDisabled?: boolean;
+  hideMaxButton?: boolean;
   value: {
     amount: string;
     asset: string;
   };
-  max?: number;
-  min?: number;
+  limit?: number;
 };
 
 const Field: FC<Props> = forwardRef(
@@ -33,12 +36,15 @@ const Field: FC<Props> = forwardRef(
       onChange,
       onBlur,
       value,
-      max,
-      min = 0,
+      limit,
       isSingle,
       isLpToken,
       balance,
       balanceLabel,
+      hideLabel = false,
+      hideBalanceLabel = false,
+      hideMaxButton = false,
+      isDisabled = false,
       tokens,
     },
     ref
@@ -70,6 +76,9 @@ const Field: FC<Props> = forwardRef(
             asset={value.asset}
             initial={balance}
             label={balanceLabel}
+            hideLabel={hideBalanceLabel}
+            hideButton={hideMaxButton}
+            isDisabled={isDisabled}
             onChange={(v: string) => onChange({ ...value, amount: v })}
           />
         );
@@ -80,6 +89,9 @@ const Field: FC<Props> = forwardRef(
           asset={value.asset}
           initial={balance}
           label={balanceLabel}
+          hideLabel={hideBalanceLabel}
+          hideButton={hideMaxButton}
+          isDisabled={isDisabled}
           onChange={(v: string) => onChange({ ...value, amount: v })}
         />
       );
@@ -98,14 +110,16 @@ const Field: FC<Props> = forwardRef(
     return (
       <Box ref={ref}>
         <Flex justify="space-between">
-          <Box flex="1">{isSingle ? renderSingle() : renderSelect()}</Box>
+          {!hideLabel && (
+            <Box flex="1">{isSingle ? renderSingle() : renderSelect()}</Box>
+          )}
           <Box flex="1">
             <Input
               value={value}
-              min={min}
-              max={max}
+              max={limit}
               onChange={(amount: string) => onChange({ ...value, amount })}
               onBlur={onBlur}
+              isDisabled={isDisabled}
             />
             {renderBalance()}
           </Box>

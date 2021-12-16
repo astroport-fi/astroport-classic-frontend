@@ -1,9 +1,8 @@
 import React, { FC, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num, useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
-import { lookup } from "libs/parse";
 import { WithdrawState } from "modules/pool";
 import { PoolFormType, ProvideFormMode } from "types/common";
 
@@ -43,7 +42,7 @@ const WithdrawFormInitial: FC<Props> = ({
   const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
 
   const balance = useBalance(token.asset);
-  const amount = lookup(balance, token.asset);
+  const amount = fromTerraAmount(balance, "0.000000");
 
   const handleChange = (value: number) => {
     setValue("token", {
@@ -80,7 +79,7 @@ const WithdrawFormInitial: FC<Props> = ({
           render={({ field }) => (
             <AmountInput
               {...field}
-              max={Number(amount)}
+              limit={+amount}
               isSingle
               isLpToken
               balanceLabel="Provided"
@@ -95,9 +94,9 @@ const WithdrawFormInitial: FC<Props> = ({
           size="lg"
           min={0}
           defaultValue={0}
-          value={Number(token.amount)}
+          value={+token.amount}
           focusThumbOnChange={false}
-          max={Number(amount)}
+          max={+amount}
           onChange={handleChange}
         />
       </Card>

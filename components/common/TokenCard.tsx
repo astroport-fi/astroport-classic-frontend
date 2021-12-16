@@ -5,7 +5,6 @@ import { fromTerraAmount, toTerraAmount } from "@arthuryeti/terra";
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst, useSwapSimulate } from "modules/swap";
-import { toAmount } from "libs/parse";
 
 type Props = {
   token: any;
@@ -17,7 +16,7 @@ const TokenCard: FC<Props> = ({ token }) => {
   const simulated = useSwapSimulate({
     token1: token.asset,
     token2: ESTIMATE_TOKEN,
-    amount: toAmount(token.amount),
+    amount: toTerraAmount(token.amount),
     reverse: false,
   });
   const totalAmount =

@@ -48,9 +48,6 @@ const StakeFormInitial = ({
     setValue("lpToken.amount", String(value));
   };
 
-  // @ts-expect-error
-  const feeString = useFeeToString(state.fee);
-
   return (
     <>
       <StakeActions

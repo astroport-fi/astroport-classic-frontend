@@ -42,7 +42,6 @@ const PoolTr: FC<Props> = ({ row }) => {
         onClick: () => setTimeFilter(filter),
         isActive: timeFilter === filter,
         type: filter,
-        // @ts-expect-error
         title: buttonTitleByTimeFilters[TimeFilter[filter]],
       })),
     [timeFilter]
@@ -58,21 +57,17 @@ const PoolTr: FC<Props> = ({ row }) => {
   }, []);
 
   const data = useMemo(() => {
-    return (
-      Array(50)
-        .fill("")
-        // @ts-expect-error
-        .map((el, index) => ({
-          x: index,
-          y: Math.random(),
-        }))
-    );
+    return Array(50)
+      .fill("")
+      .map((el, index) => ({
+        x: index,
+        y: Math.random(),
+      }));
   }, []);
 
   return (
     <Fragment {...row.getRowProps()}>
       <Tr>
-        {/* @ts-expect-error */}
         {row.cells.map((cell) => {
           return (
             <Td key={cell} {...cell.getCellProps()}>

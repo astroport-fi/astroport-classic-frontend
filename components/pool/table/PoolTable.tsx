@@ -84,7 +84,6 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
   );
 
   const tableInstance = useTable(
-    // @ts-expect-error
     { columns, data, initialState: { pageSize: paginationSize } },
     useGlobalFilter,
     useSortBy,

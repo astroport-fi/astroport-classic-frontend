@@ -2,14 +2,13 @@ import React, { FC, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, fromTerraAmount, num } from "@arthuryeti/terra";
-import { StdFee } from "@terra-money/terra.js";
+import { TxStep, fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
+import { Fee } from "@terra-money/terra.js";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
 import { useSwap, usePriceImpact } from "modules/swap";
 import { useTokenInfo, useAstroswap } from "modules/common";
-import { toAmount } from "libs/parse";
 import useDebounceValue from "hooks/useDebounceValue";
 import { useLocalStorage } from "hooks/useLocalStorage";
 
@@ -113,7 +112,7 @@ const SwapForm: FC = () => {
   const state = useSwap({
     token1: token1.asset,
     token2: token2.asset,
-    amount: toAmount(debouncedAmount1),
+    amount: toTerraAmount(debouncedAmount1),
     slippage: String(slippage),
     onSuccess: (txHash) => {
       showNotification("success", txHash);
@@ -142,8 +141,10 @@ const SwapForm: FC = () => {
     swap();
   };
 
-  const estimateFees = (fee?: StdFee | null) =>
-    fromTerraAmount(String(fee?.gas), "0.[000]");
+  const estimateFees = (fee?: Fee | null) => {
+    return fromTerraAmount(1000000, "0.[000]");
+    // return fromTerraAmount(String(fee?.gas), "0.[000]");
+  };
 
   const estimateExchangeRate = (simulated: any) =>
     `1 ${getSymbol(token2.asset)} = ${num(simulated.price).toPrecision(

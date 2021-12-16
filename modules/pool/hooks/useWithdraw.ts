@@ -68,9 +68,7 @@ export const useWithdraw = ({
     };
   }, [pool, ratio, amount]);
 
-  // @ts-expect-error
   const token1Price = useTokenPriceInUst(tokens.token1);
-  // @ts-expect-error
   const token2Price = useTokenPriceInUst(tokens.token2);
 
   const msgs = useMemo(() => {

@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState, useCallback } from "react";
 import { chakra, useToast, Text } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep } from "@arthuryeti/terra";
+import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
-import { toAmount } from "libs/parse";
 import { PairResponse, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
@@ -102,8 +101,8 @@ const ProvideForm: FC<Props> = ({
     pool: pool,
     token1: token1.asset,
     token2: token2.asset,
-    amount1: toAmount(debouncedAmount1),
-    amount2: toAmount(debouncedAmount2),
+    amount1: toTerraAmount(debouncedAmount1),
+    amount2: toTerraAmount(debouncedAmount2),
     onSuccess: (txHash) => showNotification("success", txHash),
     onError: (txHash) => showNotification("error", txHash),
   });

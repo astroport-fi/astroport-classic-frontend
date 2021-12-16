@@ -14,7 +14,7 @@ import Card from "components/Card";
 import SearchIcon from "components/icons/SearchIcon";
 import Timer from "components/Timer";
 
-const AstroAirdrop2 = () => {
+const AstroAirdrop = () => {
   return (
     <Box>
       <CardHeader label="ASTRO Airdrop" />
@@ -27,7 +27,7 @@ const AstroAirdrop2 = () => {
             <Text fontWeight="500" fontSize="14px" mb="1">
               Check your eligibility:
             </Text>
-            <Text variant="content" mb="3">
+            <Text textStyle="medium" variant="dimmed" mb="3">
               LUNA stakers and Terraswap LPs are eligible for an ASTRO airdrop.
               Please use the input field below to check which of your Terra
               addresses qualify for the airdrop.
@@ -44,7 +44,7 @@ const AstroAirdrop2 = () => {
                 />
               </InputGroup>
               <Button variant="primary" width="192px" mt="6">
-                Check
+                Check address
               </Button>
             </Box>
           </Box>
@@ -54,4 +54,4 @@ const AstroAirdrop2 = () => {
   );
 };
 
-export default AstroAirdrop2;
+export default AstroAirdrop;

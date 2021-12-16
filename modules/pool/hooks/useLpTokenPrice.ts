@@ -31,7 +31,6 @@ export const useLpTokenPrice = (pair: PairResponse, amount?: string | null) => {
   const totalPrice1 = useSwapSimulate({
     token1,
     token2: ESTIMATE_TOKEN,
-    // @ts-expect-error
     amount: tokensAmounts && tokensAmounts[token1],
     reverse: false,
   });
@@ -39,7 +38,6 @@ export const useLpTokenPrice = (pair: PairResponse, amount?: string | null) => {
   const totalPrice2 = useSwapSimulate({
     token1: token2,
     token2: ESTIMATE_TOKEN,
-    // @ts-expect-error
     amount: tokensAmounts && tokensAmounts[token2],
     reverse: false,
   });

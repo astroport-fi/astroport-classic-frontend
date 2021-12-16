@@ -1,15 +1,14 @@
 import React, { FC } from "react";
 import { detect } from "detect-browser";
 import { Extension } from "@terra-money/terra.js";
-import { format } from "libs/parse";
-import { truncate } from "libs/text";
+import { useBalance, fromTerraAmount } from "@arthuryeti/terra";
+
 import {
   useWallet,
   WalletStatus,
   useInstallChromeExtension,
   useConnectedWallet,
 } from "@terra-money/wallet-provider";
-import { useBalance } from "@arthuryeti/terra";
 import {
   Link,
   Text,
@@ -20,6 +19,8 @@ import {
   chakra,
   useDisclosure,
 } from "@chakra-ui/react";
+
+import { truncate } from "libs/text";
 
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import WalletInfoPopover from "components/popovers/WalletInfoPopover";
@@ -117,7 +118,7 @@ const TerraWallet: FC = () => {
                     UST
                   </Text>
                   <Text fontSize="sm" color="white">
-                    {format(balance, "uusd")}
+                    {fromTerraAmount(balance, "0,0.00")}
                   </Text>
                 </HStack>
               </Center>

@@ -8,7 +8,7 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { StdFee } from "@terra-money/terra.js";
+import { Fee } from "@terra-money/terra.js";
 import { motion } from "framer-motion";
 
 import Card from "components/Card";
@@ -22,7 +22,7 @@ type Props = {
     label: string;
     value: string;
   }[];
-  fee?: StdFee | null;
+  fee?: Fee | null;
   actionLabel?: string;
   onCloseClick: () => void;
 };

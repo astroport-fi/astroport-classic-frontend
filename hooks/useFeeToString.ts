@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { StdFee } from "@terra-money/terra.js";
+import { Fee } from "@terra-money/terra.js";
 import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { useAstroswap, Tokens } from "modules/common";
@@ -18,7 +18,7 @@ const coinsToString = (coins: any, tokens: Tokens) => {
     .join(" / ");
 };
 
-export const useFeeToString = (fee: StdFee) => {
+export const useFeeToString = (fee: Fee) => {
   const { tokens } = useAstroswap();
 
   return useMemo(() => {
