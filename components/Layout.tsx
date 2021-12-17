@@ -43,7 +43,12 @@ const Layout: FC = ({ children }) => {
         }}
       />
       {!isInitializing && (
-        <TerraWebappProvider>
+        <TerraWebappProvider
+          config={{
+            lcdClientUrl:
+              "https://terra-testnet-lcd.everstake.one/3WwtQlaFdSV3XHqGqkGFUX7terraTest",
+          }}
+        >
           <AstroswapProvider data={whitelist}>
             <Box>
               <Navbar />
