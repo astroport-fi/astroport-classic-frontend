@@ -26,8 +26,8 @@
     "chart.js": "^3.6.2",
     "dayjs": "^1.10.7",
     "detect-browser": "^5.3.0",
-    "framer-motion": "^5.5.4",
-    "graphql": "^16.1.0",
+    "framer-motion": "^5.5.5",
+    "graphql": "^16.2.0",
     "graphql-request": "^3.7.0",
     "lodash": "^4.17.21",
     "next": "^12.0.7",
@@ -35,9 +35,9 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.0",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.22.1",
+    "react-hook-form": "^7.22.2",
     "react-lottie": "^1.2.3",
-    "react-query": "^3.34.4",
+    "react-query": "^3.34.5",
     "react-table": "^7.7.0"
   },
   "devDependencies": {

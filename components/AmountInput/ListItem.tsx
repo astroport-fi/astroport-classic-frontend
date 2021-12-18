@@ -55,7 +55,7 @@ const ListItem = ({ token, onClick }: Props) => {
                 {fromTerraAmount(balance, "0,0.000")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                {/* TODO: Fix type */}${fromTerraAmount(price as any)}
+                ${price}
               </Text>
             </Box>
           </HStack>
