@@ -3,7 +3,7 @@ import { chakra, useToast, Text } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
-import { PairResponse, useTokenInfo } from "modules/common";
+import { PairResponse, useAstroswap, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -48,8 +48,7 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const toast = useToast();
-  const { getSymbol } = useTokenInfo();
+  const { addNotification } = useAstroswap();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -70,32 +69,6 @@ const ProvideForm: FC<Props> = ({
   const debouncedAmount1 = useDebounceValue(token1.amount, 200);
   const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
-  const showNotification = useCallback(
-    (type: "success" | "error", txHash?: string) => {
-      const { token1, token2 } = methods.getValues();
-      if (!txHash || !toast.isActive(txHash)) {
-        toast({
-          id: txHash,
-          position: "top-right",
-          duration: 9000,
-          render: ({ onClose }) => (
-            <TransactionNotification
-              onClose={onClose}
-              txHash={txHash}
-              type={type}
-            >
-              <Text textStyle="medium">
-                Provide {token1.amount} {getSymbol(token1.asset)} and{" "}
-                {token2.amount} {getSymbol(token2.asset)}
-              </Text>
-            </TransactionNotification>
-          ),
-        });
-      }
-    },
-    []
-  );
-
   const state = useProvide({
     contract: pair.contract_addr,
     pool: pool,
@@ -103,8 +76,28 @@ const ProvideForm: FC<Props> = ({
     token2: token2.asset,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
-    onSuccess: (txHash) => showNotification("success", txHash),
-    onError: (txHash) => showNotification("error", txHash),
+    onSuccess: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "succeed",
+          txHash,
+          txInfo,
+          txType: "provide",
+        },
+      });
+      resetForm();
+    },
+    onError: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "failed",
+          txHash,
+          txInfo,
+          txType: "provide",
+        },
+      });
+      resetForm();
+    },
   });
 
   const submit = async () => {
@@ -124,23 +117,6 @@ const ProvideForm: FC<Props> = ({
 
   if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
-  }
-
-  if (state.txStep == TxStep.Success) {
-    return (
-      <FormSuccess
-        contentComponent={
-          <FormSummary
-            label1="You are providing"
-            label2="and"
-            token1={token1}
-            token2={token2}
-          />
-        }
-        details={[{ label: "APY", value: "12%" }]}
-        onCloseClick={resetForm}
-      />
-    );
   }
 
   if (state.txStep == TxStep.Failed) {

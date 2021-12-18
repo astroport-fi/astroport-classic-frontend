@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
-import { chakra, Text, useToast } from "@chakra-ui/react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
 import { useWallet } from "@terra-money/wallet-provider";
@@ -30,12 +29,10 @@ type Props = {
 };
 
 const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
-  const toast = useToast();
-  const { routes } = useAstroswap();
+  const { routes, addNotification } = useAstroswap();
   const {
     network: { name: networkName },
   } = useWallet();
-  const { getSymbol } = useTokenInfo();
   const [currentInput, setCurrentInput] = useState(null);
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
   const isReverse = currentInput == "amount2";
@@ -52,7 +49,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     },
   });
 
-  const { getValues, watch } = methods;
+  const { watch } = methods;
 
   const { slippage, token1, amount1, token2, amount2 } = watch();
 
@@ -97,33 +94,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     methods.reset();
   }, [networkName]);
 
-  const showNotification = useCallback(
-    (type: "success" | "error", txHash?: string) => {
-      const { token1, token2 } = getValues();
-
-      if (!txHash || !toast.isActive(txHash)) {
-        toast({
-          id: txHash,
-          position: "top-right",
-          duration: 9000,
-          render: ({ onClose }) => (
-            <TransactionNotification
-              onClose={onClose}
-              txHash={txHash}
-              type={type}
-            >
-              <Text textStyle="medium">
-                Swap {amount1} {getSymbol(token1)} for {amount2}{" "}
-                {getSymbol(token2)}
-              </Text>
-            </TransactionNotification>
-          ),
-        });
-      }
-    },
-    []
-  );
-
   const handleInputChange = (value) => {
     setCurrentInput(value);
   };
@@ -137,12 +107,26 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     amount2: toTerraAmount(debouncedAmount2),
     slippage: num(slippage).div(100).toString(),
     reverse: isReverse,
-    onSuccess: (txHash) => {
-      showNotification("success", txHash);
+    onSuccess: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "succeed",
+          txHash,
+          txInfo,
+          txType: "swap",
+        },
+      });
       resetForm();
     },
-    onError: (txHash) => {
-      showNotification("error", txHash);
+    onError: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "failed",
+          txHash,
+          txInfo,
+          txType: "swap",
+        },
+      });
       reset();
     },
   });

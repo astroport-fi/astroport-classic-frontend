@@ -5,6 +5,7 @@ import { useContracts, useAstroswap, Route } from "modules/common";
 import { useSwapRoute, useSwapSimulate, minAmountReceive } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
+import { TxInfo } from "@terra-money/terra.js";
 
 export type SwapState = {
   minReceive: any;
@@ -25,8 +26,8 @@ type Params = {
   amount2: string | null;
   slippage: string;
   reverse: boolean;
-  onSuccess?: (txHash: string) => void;
-  onError?: (txHash?: string) => void;
+  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
+  onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
 
 export const useSwap = ({

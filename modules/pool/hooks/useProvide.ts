@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Coin } from "@terra-money/terra.js";
+import { Coin, TxInfo } from "@terra-money/terra.js";
 import { useAddress, useTransaction, TxStep } from "@arthuryeti/terra";
 
 import { createProvideMsgs } from "modules/pool";
@@ -21,8 +21,8 @@ type Params = {
   amount1: string | null;
   token2: string;
   amount2: string | null;
-  onSuccess?: (txHash: string) => void;
-  onError?: (txHash?: string) => void;
+  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
+  onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
 
 export const useProvide = ({

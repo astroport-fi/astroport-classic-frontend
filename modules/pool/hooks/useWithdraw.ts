@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
+import { TxInfo } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
 import { getTokenDenom } from "modules/common";
@@ -25,8 +26,8 @@ type Params = {
   contract: string;
   lpToken: string;
   amount: string | null;
-  onSuccess?: (txHash: string) => void;
-  onError?: (txHash?: string) => void;
+  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
+  onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
 
 export const useWithdraw = ({

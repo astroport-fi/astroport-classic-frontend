@@ -10,7 +10,7 @@ import {
 } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useTokenInfo } from "modules/common";
+import { PairResponse, useAstroswap, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw } from "modules/pool";
 
@@ -44,7 +44,7 @@ const WithdrawForm: FC<Props> = ({
   onModeClick,
   onTypeClick,
 }) => {
-  const toast = useToast();
+  const { addNotification } = useAstroswap();
   const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
@@ -60,42 +60,31 @@ const WithdrawForm: FC<Props> = ({
 
   const debouncedAmount = useDebounceValue(token.amount, 500);
 
-  const showNotification = useCallback(
-    (type: "success" | "error", txHash?: string) => {
-      const { token } = methods.getValues();
-      if (!txHash || !toast.isActive(txHash)) {
-        toast({
-          id: txHash,
-          position: "top-right",
-          duration: 9000,
-          render: ({ onClose }) => (
-            <TransactionNotification
-              onClose={onClose}
-              txHash={txHash}
-              type={type}
-            >
-              <Text textStyle="medium">
-                Withdraw {token.amount} {getSymbol(token.asset)}
-              </Text>
-            </TransactionNotification>
-          ),
-        });
-      }
-    },
-    []
-  );
-
   const state = useWithdraw({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toTerraAmount(debouncedAmount),
-    onSuccess: (txHash) => {
-      showNotification("success", txHash);
+    onSuccess: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "succeed",
+          txHash,
+          txInfo,
+          txType: "withdraw",
+        },
+      });
       resetForm();
     },
-    onError: (txHash) => {
-      showNotification("error", txHash);
-      reset();
+    onError: (txHash, txInfo) => {
+      addNotification({
+        notification: {
+          type: "failed",
+          txHash,
+          txInfo,
+          txType: "withdraw",
+        },
+      });
+      resetForm();
     },
   });
 

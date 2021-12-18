@@ -1,7 +1,11 @@
 import React, { FC } from "react";
 import { Box, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion";
+
 import useFinder from "hooks/useFinder";
+
+const MotionBox = motion(Box);
 
 type Props = {
   onClose: () => void;
@@ -9,29 +13,32 @@ type Props = {
   type?: string;
 };
 
-const NotificationSuccess: FC<Props> = ({
+const Transaction: FC<Props> = ({
   onClose,
   txHash,
-  type = "success",
+  type = "succeed",
   children,
 }) => {
   const finder = useFinder();
 
   const icon = {
-    success: <CheckIcon color="otherColours.green" w={3} />,
-    error: <CloseIcon color="red.500" w={3} />,
+    succeed: <CheckIcon color="otherColours.green" w={3} />,
+    failed: <CloseIcon color="red.500" w={3} />,
   }[type];
 
   return (
-    <Box
+    <MotionBox
       w="sm"
-      px={4}
-      py={2}
+      p={4}
       bg="#333D5F"
       borderWidth="2px"
       borderColor="white.100"
       borderRadius="xl"
       color="white"
+      layout
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
     >
       <HStack align="start" spacing={3}>
         {icon}
@@ -39,7 +46,7 @@ const NotificationSuccess: FC<Props> = ({
           {children}
           {txHash && (
             <Link href={finder(txHash, "tx")} isExternal>
-              <Text textStyle="medium" color="otherColours.overlay">
+              <Text textStyle="medium" variant="dimmed">
                 View on Terra Finder
               </Text>
             </Link>
@@ -49,12 +56,12 @@ const NotificationSuccess: FC<Props> = ({
           aria-label="close"
           cursor="pointer"
           onClick={onClose}
-          w={3}
+          w={2}
           color="white"
         />
       </HStack>
-    </Box>
+    </MotionBox>
   );
 };
 
-export default NotificationSuccess;
+export default Transaction;

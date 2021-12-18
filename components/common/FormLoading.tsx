@@ -31,35 +31,42 @@ const FormLoading: FC<Props> = ({ txHash }) => {
       animate={{ opacity: 1, scale: 1 }}
       mt="10"
     >
+      <Lottie
+        options={defaultOptions}
+        height={400}
+        width={400}
+        isStopped={false}
+        isPaused={false}
+      />
       <Card>
-        <Lottie
-          options={defaultOptions}
-          height={400}
-          width={400}
-          isStopped={false}
-          isPaused={false}
-        />
-
         {txHash == null && (
-          <Heading textStyle="h3" textAlign="center">
-            Waiting for Terra Station...
+          <Heading fontSize="xl" fontWeight="500">
+            Waiting for Terra Station
           </Heading>
         )}
 
         {txHash != null && (
           <>
-            <Heading textStyle="h3" textAlign="center">
-              Waiting for receipt...
+            <Heading fontSize="xl" fontWeight="500">
+              Broadcasting transaction
             </Heading>
-            <Flex justify="space-between" align="center" mt="12" w="full">
-              <Text textStyle="small" variant="secondary">
+            <Flex
+              justify="space-between"
+              align="center"
+              mt="8"
+              w="full"
+              px={4}
+              py={3}
+              bg="white.100"
+              borderWidth="2px"
+              borderColor="white.100"
+              borderRadius="xl"
+              color="white"
+            >
+              <Text textStyle="small" variant="dimmed">
                 Tx Hash
               </Text>
-              <Link
-                fontWeight="bold"
-                href={finder(txHash, "tx")}
-                target="_blank"
-              >
+              <Link href={finder(txHash, "tx")} target="_blank">
                 {truncate(txHash)}
               </Link>
             </Flex>
