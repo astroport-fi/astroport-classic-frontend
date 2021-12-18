@@ -27,9 +27,10 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
-  // const priceImpact = usePriceImpact({ token1: from, token2: to });
+  const priceImpact = usePriceImpact({ from, to, price });
   const realPrice = num(1).div(price).toString();
   const formattedPrice = numeral(realPrice).format("0,0.00[0]").toString();
+  const percent = num(priceImpact).times(100).dp(2).toNumber();
 
   return (
     <Flex justify="space-between" px="12" mt="8">
@@ -58,16 +59,16 @@ const SwapFormFooter: FC<Props> = ({
         <Box color="white">{!isDisabled && <FormFee fee={fee} />}</Box>
       </Flex>
       <Box flex="1" textAlign="right" color="white">
-        {/* {!isDisabled && (
+        {!isDisabled && (
           <>
             <Text textStyle="medium" color="green.500">
-              {priceImpact}%
+              {percent}%
             </Text>
             <Text textStyle="small" variant="dimmed">
               Price Impact
             </Text>
           </>
-        )} */}
+        )}
       </Box>
     </Flex>
   );

@@ -1,18 +1,15 @@
 import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
-import { ONE_TOKEN, ESTIMATE_TOKEN } from "constants/constants";
+import { ESTIMATE_TOKEN } from "constants/constants";
 import { useAstroswap } from "modules/common";
-import { useSwapSimulate, useSwapRoute } from "modules/swap";
+import { useSwapRoute } from "modules/swap";
 import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 
 export const useTokenPriceInUst = (token: string | null) => {
   const { routes } = useAstroswap();
   const swapRoute = useSwapRoute({ routes, from: token, to: ESTIMATE_TOKEN });
-
-  console.log("token", token);
-  console.log(swapRoute?.[0]?.contract_addr);
 
   const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
 

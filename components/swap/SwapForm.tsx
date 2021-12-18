@@ -98,7 +98,11 @@ const SwapForm: FC = () => {
     onSuccess: handleSuccess,
   });
 
-  // const priceImpact = usePriceImpact({ token1, token2 });
+  const priceImpact = usePriceImpact({
+    from: token1,
+    to: token2,
+    price: simulated?.price,
+  });
 
   // useEffect(() => {
   //   router.push(`/?from=${token1}&to=${token2}`, undefined, {
@@ -221,7 +225,7 @@ const SwapForm: FC = () => {
               />
             }
             details={[
-              // { label: "Price Impact", value: `${priceImpact}%` },
+              { label: "Price Impact", value: `${priceImpact * 100}%` },
               {
                 label: "Liquidity Provider fee",
                 value: `${estimateFees(state.fee)} UST`,

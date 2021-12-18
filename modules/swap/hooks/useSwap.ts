@@ -100,8 +100,6 @@ export const useSwap = ({
     router,
   ]);
 
-  console.log("msgs", msgs);
-
   const { submit, ...rest } = useTransaction({ msgs, onSuccess, onError });
 
   return {

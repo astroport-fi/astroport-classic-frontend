@@ -1,54 +1,48 @@
 import { useMemo } from "react";
-import { num, toTerraAmount } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 import { useAstroswap } from "modules/common";
-import {
-  useTokenPriceInUst,
-  useSwapSimulate,
-  useSwapRoute,
-} from "modules/swap";
+import { useSwapRoute } from "modules/swap";
+import { getAssetAmountsInPool } from "libs/terra";
 
-type Token = {
-  amount: string;
-  asset: string;
-};
+import { useGetPool } from "modules/pool";
 
 type Params = {
-  token1: Token;
-  token2: Token;
+  from: string;
+  to: string;
+  price: string;
 };
 
-export function usePriceImpact({ token1, token2 }: Params) {
+export function usePriceImpact({ from, to, price }: Params) {
   const { routes } = useAstroswap();
   const swapRoute = useSwapRoute({
     routes,
-    from: token1.asset,
-    to: token2.asset,
+    from,
+    to,
   });
 
-  const token2PriceInUst = useTokenPriceInUst(token2.asset);
-
-  const result = useSwapSimulate({
-    swapRoute,
-    amount: toTerraAmount(token1.amount),
-    token: token1.asset,
-    reverse: false,
-  });
+  const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
 
   return useMemo(() => {
-    if (result == null) {
-      return null;
+    if (swapRoute == null || data == null) {
+      return 0;
     }
 
-    const newToken2PriceInUst = toTerraAmount(result?.price);
+    if (swapRoute.length == 1) {
+      const { token1, token2 } = getAssetAmountsInPool(data.assets, to);
+      const poolPrice = num(token1).div(token2).dp(6).toNumber();
+      const realPrice = num(1).div(price).toString();
 
-    return num(newToken2PriceInUst)
-      .minus(token2PriceInUst)
-      .abs()
-      .div(token2PriceInUst)
-      .times(100)
-      .toNumber();
-  }, [result, token2PriceInUst]);
+      return num(realPrice)
+        .minus(poolPrice)
+        .div(poolPrice)
+        .abs()
+        .dp(4)
+        .toNumber();
+    }
+
+    return 0;
+  }, [data, price]);
 }
 
 export default usePriceImpact;
