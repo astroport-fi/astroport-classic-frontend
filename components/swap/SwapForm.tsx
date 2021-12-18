@@ -3,16 +3,10 @@ import { useRouter } from "next/router";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
-import { Fee } from "@terra-money/terra.js";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
-import {
-  useSwap,
-  usePriceImpact,
-  useSwapRoute,
-  useSwapSimulate,
-} from "modules/swap";
+import { useSwap, useSwapRoute, useSwapSimulate } from "modules/swap";
 import { useTokenInfo, useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
@@ -30,34 +24,28 @@ type FormValues = {
   slippage: number;
 };
 
-const SwapForm: FC = () => {
+type Props = {
+  defaultToken1?: string;
+  defaultToken2?: string;
+};
+
+const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const toast = useToast();
   const { routes } = useAstroswap();
   const {
     network: { name: networkName },
   } = useWallet();
   const { getSymbol } = useTokenInfo();
-  const { tokens: terraTokens } = useAstroswap();
-  const router = useRouter();
   const [currentInput, setCurrentInput] = useState(null);
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
+  const isReverse = currentInput == "amount2";
 
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const getTokenFromUrlParam = (
-    param: string | undefined,
-    defaultValue: string
-  ) => {
-    const token = param && terraTokens?.[param]?.token;
-    return token ?? defaultValue;
-  };
-
   const methods = useForm<FormValues>({
     defaultValues: {
-      // token1: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
       token1: "uusd",
       amount1: "",
-      //: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
       token2: "uluna",
       amount2: "",
       slippage: DEFAULT_SLIPPAGE,
@@ -79,19 +67,23 @@ const SwapForm: FC = () => {
 
   const handleSuccess = useCallback(
     (result) => {
+      const inputToUpdate = isReverse ? "amount1" : "amount2";
+
       methods.setValue(
-        "amount2",
+        inputToUpdate,
         fromTerraAmount(result?.amount, "0.000[000]")
       );
     },
-    [methods]
+    [methods, isReverse]
   );
 
   const simulated = useSwapSimulate({
     swapRoute,
-    amount: toTerraAmount(debouncedAmount1),
-    token: token1,
-    reverse: false,
+    amount: isReverse
+      ? toTerraAmount(debouncedAmount2)
+      : toTerraAmount(debouncedAmount1),
+    token: isReverse ? token2 : token1,
+    reverse: isReverse,
     onSuccess: handleSuccess,
   });
 
@@ -132,6 +124,10 @@ const SwapForm: FC = () => {
     []
   );
 
+  const handleInputChange = (value) => {
+    setCurrentInput(value);
+  };
+
   const state = useSwap({
     swapRoute,
     simulated,
@@ -140,7 +136,7 @@ const SwapForm: FC = () => {
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
     slippage: num(slippage).div(100).toString(),
-    reverse: currentInput == "token2",
+    reverse: isReverse,
     onSuccess: (txHash) => {
       showNotification("success", txHash);
       resetForm();
@@ -151,7 +147,7 @@ const SwapForm: FC = () => {
     },
   });
 
-  const { fee, txHash, txStep, reset, swap } = state;
+  const { fee, txHash, txStep, reset, submit } = state;
 
   const resetForm = () => {
     reset();
@@ -163,10 +159,6 @@ const SwapForm: FC = () => {
       setShowConfirm(false);
     }
   }, [txStep]);
-
-  const submit = async () => {
-    swap();
-  };
 
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
@@ -180,9 +172,12 @@ const SwapForm: FC = () => {
             token1={token1}
             token2={token2}
             state={state}
-            price={simulated?.price2}
+            isReverse={isReverse}
+            price={isReverse ? simulated?.price : simulated?.price2}
             expertMode={expertMode}
+            onInputChange={handleInputChange}
             onExpertModeChange={setExpertMode}
+            isSecondInputDisabled={swapRoute.length > 1}
             onClick={() => {
               expertMode
                 ? methods.handleSubmit(submit)()
@@ -200,7 +195,7 @@ const SwapForm: FC = () => {
             amount2={amount2}
             slippage={slippage}
             fee={fee}
-            price={simulated?.price2}
+            price={isReverse ? simulated?.price : simulated?.price2}
             commission={simulated?.commission}
             minReceive={state.minReceive}
             onCloseClick={() => setShowConfirm(false)}

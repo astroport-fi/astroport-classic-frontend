@@ -16,9 +16,7 @@ import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { SwapState } from "modules/swap";
 
 import GearIcon from "components/icons/GearIcon";
-// import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
-import AmountInput from "components/AmountInput";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
@@ -38,7 +36,10 @@ type Props = {
   amount2?: string;
   price: string;
   state: SwapState;
+  isReverse: boolean;
   expertMode: boolean;
+  isSecondInputDisabled: boolean;
+  onInputChange: (name: string) => void;
   onExpertModeChange: (expertMode: boolean) => void;
   onClick: () => void;
 };
@@ -49,6 +50,8 @@ const SwapFormInitial: FC<Props> = ({
   price,
   state,
   expertMode,
+  isSecondInputDisabled,
+  onInputChange,
   onExpertModeChange,
   onClick,
 }) => {
@@ -61,6 +64,16 @@ const SwapFormInitial: FC<Props> = ({
   const reverse = () => {
     setValue("token1", token2);
     setValue("token2", token1);
+  };
+
+  const getInputProps = (field) => {
+    return {
+      ...field,
+      onChange: (value) => {
+        onInputChange(field.name);
+        field.onChange(value);
+      },
+    };
   };
 
   useEffect(() => {
@@ -135,7 +148,7 @@ const SwapFormInitial: FC<Props> = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput asset={token1} {...field} />
+                <NewAmountInput asset={token1} {...getInputProps(field)} />
               )}
             />
           </Box>
@@ -187,7 +200,11 @@ const SwapFormInitial: FC<Props> = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput asset={token2} {...field} />
+                <NewAmountInput
+                  asset={token2}
+                  isDisabled={isSecondInputDisabled}
+                  {...getInputProps(field)}
+                />
               )}
             />
           </Box>
@@ -196,7 +213,9 @@ const SwapFormInitial: FC<Props> = ({
 
       {wallet.status === WalletStatus.WALLET_CONNECTED && state.error ? (
         <Card mt="3">
-          <Text variant="light">{state.error}</Text>
+          <Text textStyle="small" variant="secondary">
+            {state.error}
+          </Text>
         </Card>
       ) : (
         <SwapFormWarning />

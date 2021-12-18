@@ -13,7 +13,7 @@ export type SwapState = {
   txHash?: string;
   txStep: TxStep;
   reset: () => void;
-  swap: () => void;
+  submit: () => void;
 };
 
 type Params = {
@@ -33,7 +33,6 @@ export const useSwap = ({
   swapRoute,
   simulated,
   token1,
-  token2,
   amount1,
   amount2,
   slippage,
@@ -50,7 +49,7 @@ export const useSwap = ({
     }
 
     return minAmountReceive({
-      amount: simulated.amount,
+      amount: reverse ? amount2 : simulated.amount,
       maxSpread: slippage,
     });
   }, [simulated, slippage, amount2, reverse]);
@@ -85,7 +84,7 @@ export const useSwap = ({
         swapRoute,
         amount: amount1,
         slippage,
-        price: simulated.price,
+        price: reverse ? simulated.price2 : simulated.price,
       },
       address
     );
@@ -96,16 +95,16 @@ export const useSwap = ({
     simulated,
     slippage,
     swapRoute,
+    reverse,
     minReceive,
     router,
   ]);
 
-  const { submit, ...rest } = useTransaction({ msgs, onSuccess, onError });
+  const rest = useTransaction({ msgs, onSuccess, onError });
 
   return {
     ...rest,
     minReceive,
-    swap: submit,
   };
 };
 
