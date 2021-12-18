@@ -177,7 +177,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             expertMode={expertMode}
             onInputChange={handleInputChange}
             onExpertModeChange={setExpertMode}
-            isSecondInputDisabled={swapRoute.length > 1}
+            isSecondInputDisabled={swapRoute?.length > 1}
             onClick={() => {
               expertMode
                 ? methods.handleSubmit(submit)()

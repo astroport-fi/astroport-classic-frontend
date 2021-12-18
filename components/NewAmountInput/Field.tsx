@@ -16,7 +16,7 @@ type Props = {
   isDisabled?: boolean;
   hideMaxButton?: boolean;
   value: string;
-  limit?: number;
+  max?: number;
 };
 
 const Field: FC<Props> = forwardRef(
@@ -26,7 +26,7 @@ const Field: FC<Props> = forwardRef(
       onChange,
       onBlur,
       value,
-      limit,
+      max,
       isLpToken,
       balance,
       balanceLabel,
@@ -69,7 +69,7 @@ const Field: FC<Props> = forwardRef(
         <Input
           asset={asset}
           value={value}
-          max={limit}
+          max={max}
           onChange={(v: string) => onChange(v)}
           onBlur={onBlur}
           isDisabled={isDisabled}

@@ -71,6 +71,10 @@ const SwapFormInitial: FC<Props> = ({
       ...field,
       onChange: (value) => {
         onInputChange(field.name);
+        const fieldToUpdate = field.name === "amount1" ? "amount2" : "amount1";
+        if (num(value).eq(0) || value == "") {
+          setValue(fieldToUpdate, "");
+        }
         field.onChange(value);
       },
     };

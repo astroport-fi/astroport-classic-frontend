@@ -9,7 +9,6 @@ type Props = {
   onBlur: any;
   asset: string;
   value: string;
-  min?: number;
   max?: number;
   isDisabled?: boolean;
 };
@@ -19,7 +18,6 @@ const Input: FC<Props> = ({
   onChange,
   onBlur,
   value,
-  min,
   max,
   isDisabled,
 }) => {
@@ -39,7 +37,7 @@ const Input: FC<Props> = ({
         variant="brand"
         size="lg"
         value={value}
-        min={min}
+        min={0}
         max={max}
         onChange={onChange}
         onBlur={onBlur}
