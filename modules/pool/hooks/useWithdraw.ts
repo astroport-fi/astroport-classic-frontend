@@ -9,10 +9,10 @@ import { createWithdrawMsgs, useGetPool } from "modules/pool";
 export type WithdrawState = {
   token1?: string;
   token1Amount?: string;
-  token1Price: string;
+  token1Price: number;
   token2?: string;
   token2Amount?: string;
-  token2Price: string;
+  token2Price: number;
   error: any;
   fee: any;
   txHash?: string;

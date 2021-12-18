@@ -26,13 +26,13 @@ export type Pool = {
     asset: string;
     share: string;
     amount: string | undefined;
-    price: string | null;
+    price: number | null;
   };
   token2: {
     asset: string;
     share: string;
     amount: string | undefined;
-    price: string | null;
+    price: number | null;
   };
 };
 

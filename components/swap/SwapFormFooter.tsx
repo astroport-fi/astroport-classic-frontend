@@ -5,15 +5,11 @@ import { useTokenInfo } from "modules/common";
 import { usePriceImpact } from "modules/swap";
 import FormFee from "components/common/FormFee";
 import numeral from "numeral";
-
-type Token = {
-  asset: string;
-  amount: string;
-};
+import { num } from "@arthuryeti/terra";
 
 type Props = {
-  from: Token;
-  to: Token;
+  from: string;
+  to: string;
   fee: any;
   price: string;
   isLoading: boolean;
@@ -31,8 +27,9 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
-  const priceImpact = usePriceImpact({ token1: from, token2: to });
-  const formattedPrice = numeral(price).format("0,0.00[0]").toString();
+  // const priceImpact = usePriceImpact({ token1: from, token2: to });
+  const realPrice = num(1).div(price).toString();
+  const formattedPrice = numeral(realPrice).format("0,0.00[0]").toString();
 
   return (
     <Flex justify="space-between" px="12" mt="8">
@@ -40,7 +37,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text textStyle="medium">
-              1 {getSymbol(from.asset)} = {formattedPrice} {getSymbol(to.asset)}
+              1 {getSymbol(from)} = {formattedPrice} {getSymbol(to)}
             </Text>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate
@@ -61,7 +58,7 @@ const SwapFormFooter: FC<Props> = ({
         <Box color="white">{!isDisabled && <FormFee fee={fee} />}</Box>
       </Flex>
       <Box flex="1" textAlign="right" color="white">
-        {!isDisabled && (
+        {/* {!isDisabled && (
           <>
             <Text textStyle="medium" color="green.500">
               {priceImpact}%
@@ -70,7 +67,7 @@ const SwapFormFooter: FC<Props> = ({
               Price Impact
             </Text>
           </>
-        )}
+        )} */}
       </Box>
     </Flex>
   );

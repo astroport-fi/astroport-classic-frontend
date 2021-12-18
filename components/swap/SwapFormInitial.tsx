@@ -19,6 +19,8 @@ import GearIcon from "components/icons/GearIcon";
 // import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
 import AmountInput from "components/AmountInput";
+import TokenInput from "components/TokenInput";
+import NewAmountInput from "components/NewAmountInput";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import SwapFormWarning from "components/swap/SwapFormWarning";
 import SlippagePopover from "components/popovers/SlippagePopover";
@@ -30,14 +32,11 @@ const MotionFlex = motion(Flex);
 const MotionHStack = motion(HStack);
 
 type Props = {
-  token1: {
-    asset: string;
-    amount: string;
-  };
-  token2: {
-    asset: string;
-    amount: string;
-  };
+  token1: string;
+  amount1?: string;
+  token2: string;
+  amount2?: string;
+  price: string;
   state: SwapState;
   slippage: number;
   onSlippageChange: (slippage: number) => void;
@@ -46,9 +45,10 @@ type Props = {
   onClick: () => void;
 };
 
-const SwapForm: FC<Props> = ({
+const SwapFormInitial: FC<Props> = ({
   token1,
   token2,
+  price,
   state,
   slippage,
   onSlippageChange,
@@ -58,7 +58,7 @@ const SwapForm: FC<Props> = ({
 }) => {
   const wallet = useWallet();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { control, formState, setValue } = useFormContext();
+  const { control, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
 
@@ -66,40 +66,6 @@ const SwapForm: FC<Props> = ({
     setValue("token1", token2);
     setValue("token2", token1);
   };
-
-  useEffect(() => {
-    if (
-      // @ts-expect-error
-      formState.name == "token1" &&
-      token1.amount &&
-      state.simulated
-    ) {
-      const newAmount = num(token1.amount)
-        .div(state.simulated.price)
-        .toFixed(6);
-
-      setValue("token2.amount", newAmount);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token1.amount]);
-
-  useEffect(() => {
-    if (
-      // @ts-expect-error
-      formState.name == "token2" &&
-      token2.amount &&
-      state.simulated
-    ) {
-      const newAmount = num(token2.amount)
-        .times(state.simulated.price)
-        .toFixed(6);
-
-      setValue("token1.amount", newAmount);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token2.amount]);
 
   useEffect(() => {
     card1Control.start({ y: 0 });
@@ -158,12 +124,26 @@ const SwapForm: FC<Props> = ({
         initial={{ y: -30 }}
         animate={card1Control}
       >
-        <Controller
-          name="token1"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} />}
-        />
+        <Flex>
+          <Box flex="1">
+            <Controller
+              name="token1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <TokenInput {...field} />}
+            />
+          </Box>
+          <Box flex="1">
+            <Controller
+              name="amount1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput asset={token1} {...field} />
+              )}
+            />
+          </Box>
+        </Flex>
       </MotionBox>
 
       <MotionFlex
@@ -196,12 +176,26 @@ const SwapForm: FC<Props> = ({
         initial={{ y: 30 }}
         animate={card2Control}
       >
-        <Controller
-          name="token2"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} />}
-        />
+        <Flex>
+          <Box flex="1">
+            <Controller
+              name="token2"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <TokenInput {...field} />}
+            />
+          </Box>
+          <Box flex="1">
+            <Controller
+              name="amount2"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput asset={token2} {...field} />
+              )}
+            />
+          </Box>
+        </Flex>
       </MotionBox>
 
       {wallet.status === WalletStatus.WALLET_CONNECTED && state.error ? (
@@ -225,7 +219,7 @@ const SwapForm: FC<Props> = ({
           to={token2}
           isLoading={state.txStep == TxStep.Estimating}
           isDisabled={state.txStep != TxStep.Ready}
-          price={state.simulated?.price2}
+          price={price}
           fee={state.fee}
           onConfirmClick={onClick}
         />
@@ -234,4 +228,4 @@ const SwapForm: FC<Props> = ({
   );
 };
 
-export default SwapForm;
+export default SwapFormInitial;

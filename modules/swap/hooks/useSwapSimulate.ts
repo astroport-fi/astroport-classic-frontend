@@ -32,6 +32,8 @@ type Params = {
   token: string | null;
   amount: string | null;
   reverse: boolean;
+  onSuccess?: (item: any) => void;
+  onError?: (item: any) => void;
 };
 
 export const useSwapSimulate = ({
@@ -39,6 +41,8 @@ export const useSwapSimulate = ({
   token,
   amount,
   reverse,
+  onSuccess,
+  onError,
 }: Params) => {
   const { client } = useTerraWebapp();
   const { router } = useContracts();
@@ -55,6 +59,7 @@ export const useSwapSimulate = ({
         token == null ||
         amount == "" ||
         num(amount).eq(0) ||
+        num(amount).isNaN() ||
         swapRoute.length == 0
       ) {
         return;
@@ -80,41 +85,61 @@ export const useSwapSimulate = ({
     },
     {
       enabled: swapRoute != null,
+      refetchOnWindowFocus: false,
     }
   );
 
   return useMemo(() => {
-    if (data == null || amount == "" || num(amount).eq(0) || isLoading) {
+    if (isLoading) {
+      return {
+        isLoading: true,
+        amount: null,
+        spread: null,
+        commission: null,
+        price: null,
+      };
+    }
+
+    if (data == null || amount == "" || num(amount).eq(0)) {
       return null;
     }
 
     if (isMultiSimulation(data)) {
-      return {
+      const result = {
         amount: data.amount,
         spread: "0",
         commission: "0",
-        price: num(amount).div(data.amount).toFixed(18),
+        price: num(data.amount).div(amount).toFixed(18),
       };
+
+      onSuccess?.(result);
+      return result;
     }
 
     const spread = data.spread_amount;
     const commission = data.commission_amount;
 
     if (isReverseSimulation(data)) {
-      return {
+      const result = {
         amount: data.offer_amount,
         spread,
         commission,
-        price: num(data.offer_amount).div(amount).toFixed(18),
+        price: num(amount).div(data.offer_amount).toFixed(18),
       };
+
+      onSuccess?.(result);
+      return result;
     }
 
-    return {
+    const result = {
       amount: data.return_amount,
       spread,
       commission,
       price: num(amount).div(data.return_amount).toFixed(18),
     };
+
+    onSuccess?.(result);
+    return result;
   }, [amount, data, isLoading]);
 };
 

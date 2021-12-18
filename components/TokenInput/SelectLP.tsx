@@ -1,6 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {
   Box,
+  HStack,
   Text,
   Flex,
   Menu,
@@ -8,44 +9,46 @@ import {
   MenuButton,
   MenuList,
   Image,
-  VStack,
 } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+
+import { useAstroswap, useTokenInfo, getTokenDenoms } from "modules/common";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import { CommonTokensList, List } from "components/AmountInput";
-import Search from "components/common/Search";
-import { useTokenPriceInUst } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { ListLP } from "components/AmountInput";
 
 type Props = {
   value: string;
   onClick: (token: string) => void;
-  tokens?: string[];
 };
 
-const Select: FC<Props> = ({ value, onClick, tokens }) => {
+const SelectLP: FC<Props> = ({ value, onClick }) => {
+  const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUst(value);
-  const [filter, setFilter] = useState("");
+  const pair = pairs.find((v) => v.liquidity_token == value);
+  const [token1, token2] = getTokenDenoms(pair.asset_infos);
+  const icon1 = getIcon(token1);
+  const symbol1 = getSymbol(token1);
+  const icon2 = getIcon(token2);
+  const symbol2 = getSymbol(token2);
 
   const renderButton = () => {
-    const icon = getIcon(value);
-
-    if (value) {
+    if (pair) {
       return (
         <Flex align="center" justify="space-between">
-          <Box>
-            <Image src={icon} width="2.5rem" height="2.5rem" alt="Logo" />
-          </Box>
+          <HStack spacing="-2">
+            <Image src={icon1} width="1.5rem" height="1.5rem" alt="Logo" />
+            <Image src={icon2} width="1.5rem" height="1.5rem" alt="Logo" />
+          </HStack>
 
           <Box ml="3" fontWeight="500" flex="1">
-            <Text textStyle="h3">{getSymbol(value)}</Text>
-            {/* TODO: Fix type */}
+            <Text fontSize="2xl" color="white">
+              {symbol1} - {symbol2}
+            </Text>
             <Text fontSize="xs" color="white.400">
-              Price: ${fromTerraAmount(price)}
+              Mars - Terra
             </Text>
           </Box>
+
           <Box>
             <ChevronDownIcon />
           </Box>
@@ -61,7 +64,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
       <Flex justify="space-between">
         <Box flex="1">
           <Menu isLazy>
-            <Flex pr="8">
+            <Box pr="8">
               <MenuButton
                 as={Button}
                 bg="white.100"
@@ -84,20 +87,11 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
               >
                 {renderButton()}
               </MenuButton>
-            </Flex>
-            <MenuList bg="otherColours.overlay">
-              <VStack spacing={6} align="stretch" p="4" minW="26rem">
-                <Text>Select Token</Text>
-                <Search
-                  placeholder="Search token"
-                  borderColor="brand.deepBlue"
-                  color="brand.deepBlue"
-                  bg="white.200"
-                  onChange={(e) => setFilter(e.target.value)}
-                />
-                <CommonTokensList onClick={onClick} />
-                <List onClick={onClick} tokens={tokens} filter={filter} />
-              </VStack>
+            </Box>
+            <MenuList>
+              <Box p="4" minW="26rem">
+                <ListLP onClick={onClick} />
+              </Box>
             </MenuList>
           </Menu>
         </Box>
@@ -106,4 +100,4 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
   );
 };
 
-export default Select;
+export default SelectLP;

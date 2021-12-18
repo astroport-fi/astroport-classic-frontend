@@ -7,7 +7,12 @@ import { Fee } from "@terra-money/terra.js";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
-import { useSwap, usePriceImpact } from "modules/swap";
+import {
+  useSwap,
+  usePriceImpact,
+  useSwapRoute,
+  useSwapSimulate,
+} from "modules/swap";
 import { useTokenInfo, useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
@@ -19,18 +24,15 @@ import FormLoading from "components/common/FormLoading";
 import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
-  token1: {
-    amount: string;
-    asset: string;
-  };
-  token2: {
-    amount: string;
-    asset: string;
-  };
+  token1: string;
+  amount1: string;
+  token2: string;
+  amount2: string;
 };
 
 const SwapForm: FC = () => {
   const toast = useToast();
+  const { routes } = useAstroswap();
   const {
     network: { name: networkName },
   } = useWallet();
@@ -53,31 +55,53 @@ const SwapForm: FC = () => {
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      token1: {
-        asset: "uusd",
-        // asset: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
-        amount: undefined,
-      },
-      token2: {
-        asset: "uluna",
-        // asset: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
-        amount: undefined,
-      },
+      // token1: getTokenFromUrlParam(router.query.from?.toString(), "uluna"),
+      token1: "uusd",
+      amount1: "",
+      //: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
+      token2: "uluna",
+      amount2: "",
     },
   });
 
   const { getValues, watch } = methods;
 
   const token1 = watch("token1");
+  const amount1 = watch("amount1");
   const token2 = watch("token2");
+  const amount2 = watch("amount2");
 
-  console.log("token1", token1);
-  console.log("token2", token2);
+  const debouncedAmount1 = useDebounceValue(amount1, 200);
+  const debouncedAmount2 = useDebounceValue(amount2, 200);
 
-  const priceImpact = usePriceImpact({ token1, token2 });
+  const swapRoute = useSwapRoute({
+    routes,
+    from: token1,
+    to: token2,
+  });
+
+  const handleSuccess = useCallback(
+    (result) => {
+      methods.setValue(
+        "amount2",
+        fromTerraAmount(result?.amount, "0.000[000]")
+      );
+    },
+    [methods]
+  );
+
+  const simulated = useSwapSimulate({
+    swapRoute,
+    amount: toTerraAmount(debouncedAmount1),
+    token: token1,
+    reverse: false,
+    onSuccess: handleSuccess,
+  });
+
+  // const priceImpact = usePriceImpact({ token1, token2 });
 
   // useEffect(() => {
-  //   router.push(`/?from=${token1.asset}&to=${token2.asset}`, undefined, {
+  //   router.push(`/?from=${token1}&to=${token2}`, undefined, {
   //     shallow: true,
   //   });
   // }, [token1, token2, router]);
@@ -85,9 +109,6 @@ const SwapForm: FC = () => {
   useEffect(() => {
     methods.reset();
   }, [networkName]);
-
-  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
-  const debouncedAmount2 = useDebounceValue(token2.amount, 200);
 
   const showNotification = useCallback(
     (type: "success" | "error", txHash?: string) => {
@@ -105,8 +126,8 @@ const SwapForm: FC = () => {
               type={type}
             >
               <Text textStyle="medium">
-                Swap {token1.amount} {getSymbol(token1.asset)} for{" "}
-                {token2.amount} {getSymbol(token2.asset)}
+                Swap {amount1} {getSymbol(token1)} for {amount2}{" "}
+                {getSymbol(token2)}
               </Text>
             </TransactionNotification>
           ),
@@ -117,11 +138,13 @@ const SwapForm: FC = () => {
   );
 
   const state = useSwap({
-    token1: token1.asset,
-    token2: token2.asset,
+    swapRoute,
+    simulated,
+    token1: token1,
+    token2: token2,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
-    slippage: slippage.toString(),
+    slippage: "0.5",
     reverse: currentInput == "token2",
     onSuccess: (txHash) => {
       showNotification("success", txHash);
@@ -146,19 +169,6 @@ const SwapForm: FC = () => {
     }
   }, [txStep]);
 
-  useEffect(() => {
-    if (num(state.simulated?.amount).gt(0)) {
-      const name = currentInput == "token2" ? "token1.amount" : "token2.amount";
-
-      methods.setValue(
-        name,
-        fromTerraAmount(state.simulated?.amount, "0.000000")
-      );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.simulated]);
-
   const submit = async () => {
     swap();
   };
@@ -169,9 +179,9 @@ const SwapForm: FC = () => {
   };
 
   const estimateExchangeRate = (simulated: any) =>
-    `1 ${getSymbol(token2.asset)} = ${num(simulated.price).toPrecision(
+    `1 ${getSymbol(token2)} = ${num(simulated.price).toPrecision(
       3
-    )} ${getSymbol(token1.asset)}`;
+    )} ${getSymbol(token1)}`;
 
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
@@ -185,6 +195,7 @@ const SwapForm: FC = () => {
             token1={token1}
             token2={token2}
             state={state}
+            price={simulated?.price}
             slippage={slippage}
             onSlippageChange={setSlippage}
             expertMode={expertMode}
@@ -205,8 +216,8 @@ const SwapForm: FC = () => {
               <FormSummary
                 label1="You are swapping from:"
                 label2="↓You are swapping to:"
-                token1={token1}
-                token2={token2}
+                token1={{ asset: token1, amount: amount1 }}
+                token2={{ asset: token2, amount: amount2 }}
               />
             }
             details={[
@@ -221,15 +232,15 @@ const SwapForm: FC = () => {
               },
               {
                 label: "Route",
-                value: `${getSymbol(token1.asset)}→${getSymbol(token2.asset)}`,
+                value: `${getSymbol(token1)}→${getSymbol(token2)}`,
               },
               {
                 label: "Exchange Rate",
-                value: estimateExchangeRate(state.simulated),
+                value: estimateExchangeRate(simulated),
               },
               {
                 label: "Minimum received",
-                value: token2.amount,
+                value: amount2,
               },
             ]}
             onCloseClick={() => setShowConfirm(false)}

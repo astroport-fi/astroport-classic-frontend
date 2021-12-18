@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 import { num, TxStep, useAddress, useTransaction } from "@arthuryeti/terra";
 
-import { useContracts, useAstroswap } from "modules/common";
+import { useContracts, useAstroswap, Route } from "modules/common";
 import { useSwapRoute, useSwapSimulate, minAmountReceive } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
 
 export type SwapState = {
-  simulated: any;
   minReceive: any;
   error: any;
   fee: any;
@@ -18,6 +17,8 @@ export type SwapState = {
 };
 
 type Params = {
+  swapRoute: Route[] | null;
+  simulated: any | null;
   token1: string | null;
   token2: string | null;
   amount1: string | null;
@@ -29,6 +30,8 @@ type Params = {
 };
 
 export const useSwap = ({
+  swapRoute,
+  simulated,
   token1,
   token2,
   amount1,
@@ -38,17 +41,8 @@ export const useSwap = ({
   onSuccess,
   onError,
 }: Params) => {
-  const { routes } = useAstroswap();
   const address = useAddress();
   const { router } = useContracts();
-  const swapRoute = useSwapRoute({ routes, from: token1, to: token2 });
-
-  const simulated = useSwapSimulate({
-    swapRoute,
-    amount: reverse ? amount2 : amount1,
-    token: reverse ? token2 : token1,
-    reverse,
-  });
 
   const minReceive = useMemo(() => {
     if (simulated == null || amount2 == "") {
@@ -56,7 +50,7 @@ export const useSwap = ({
     }
 
     return minAmountReceive({
-      amount: reverse ? amount2 : simulated.amount,
+      amount: simulated.amount,
       maxSpread: slippage,
     });
   }, [simulated, slippage, amount2, reverse]);
@@ -112,7 +106,6 @@ export const useSwap = ({
 
   return {
     ...rest,
-    simulated,
     minReceive,
     swap: submit,
   };

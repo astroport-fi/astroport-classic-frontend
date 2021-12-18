@@ -1,4 +1,5 @@
 import { num } from "@arthuryeti/terra";
+import { ONE_TOKEN } from "constants/constants";
 
 type minAmountReceiveParams = {
   amount: string;
@@ -9,10 +10,9 @@ export const minAmountReceive = ({
   amount,
   maxSpread,
 }: minAmountReceiveParams): string => {
-  const rate1 = num("1").minus(maxSpread);
-  const rate2 = num("1").minus("0.003"); // astroswap commission
+  const rate1 = num("1").minus(num(maxSpread).div(ONE_TOKEN));
 
-  return num(amount).times(rate1).times(rate2).toString();
+  return num(amount).times(rate1).toFixed(0);
 };
 
 type PriceImpactParams = {

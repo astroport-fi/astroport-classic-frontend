@@ -58,6 +58,10 @@ export const createSwapMsgs = (
   { swapRoute, token, amount, slippage, price }: CreateSwapMsgsOpts,
   sender: string
 ): MsgExecuteContract[] => {
+  if (swapRoute[0] == null) {
+    return null;
+  }
+
   const [{ contract_addr }] = swapRoute;
 
   const offerAsset = createAsset(amount, swapRoute);
