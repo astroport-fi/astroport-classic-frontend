@@ -37,7 +37,8 @@ export function usePriceImpact({ from, to, price }: Params) {
         .minus(poolPrice)
         .div(poolPrice)
         .abs()
-        .dp(4)
+        .times(100)
+        .dp(2)
         .toNumber();
     }
 

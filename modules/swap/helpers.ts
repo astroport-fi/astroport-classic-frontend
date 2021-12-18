@@ -10,7 +10,7 @@ export const minAmountReceive = ({
   amount,
   maxSpread,
 }: minAmountReceiveParams): string => {
-  const rate1 = num("1").minus(num(maxSpread).div(ONE_TOKEN));
+  const rate1 = num("1").minus(num(maxSpread).div(100));
 
   return num(amount).times(rate1).toFixed(0);
 };

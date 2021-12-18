@@ -17,7 +17,8 @@ import { useTokenInfo, useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
 
-import SwapFormConfirm from "components/swap/SwapFormConfirm";
+import FormSummary from "components/common/FormSummary";
+import FormConfirm from "components/common/FormConfirm";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import FormLoading from "components/common/FormLoading";
 import TransactionNotification from "components/notifications/Transaction";
@@ -97,6 +98,12 @@ const SwapForm: FC = () => {
     onSuccess: handleSuccess,
   });
 
+  const priceImpact = usePriceImpact({
+    from: token1,
+    to: token2,
+    price: simulated?.price,
+  });
+
   // useEffect(() => {
   //   router.push(`/?from=${token1}&to=${token2}`, undefined, {
   //     shallow: true,
@@ -170,6 +177,16 @@ const SwapForm: FC = () => {
     swap();
   };
 
+  const estimateFees = (fee?: Fee | null) => {
+    return fromTerraAmount(1000000, "0.[000]");
+    // return fromTerraAmount(String(fee?.gas), "0.[000]");
+  };
+
+  const estimateExchangeRate = (simulated: any) =>
+    `1 ${getSymbol(token2)} = ${num(simulated.price).toPrecision(
+      3
+    )} ${getSymbol(token1)}`;
+
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
   }
@@ -196,17 +213,40 @@ const SwapForm: FC = () => {
         )}
 
         {showConfirm && (
-          <SwapFormConfirm
-            swapRoute={swapRoute}
-            token1={token1}
-            token2={token2}
-            amount1={amount1}
-            amount2={amount2}
-            slippage={slippage}
+          <FormConfirm
             fee={fee}
-            price={simulated?.price}
-            commission={simulated?.commission}
-            minReceive={state.minReceive}
+            actionLabel="Confirm swap"
+            contentComponent={
+              <FormSummary
+                label1="You are swapping from:"
+                label2="↓You are swapping to:"
+                token1={{ asset: token1, amount: amount1 }}
+                token2={{ asset: token2, amount: amount2 }}
+              />
+            }
+            details={[
+              { label: "Price Impact", value: `${priceImpact * 100}%` },
+              {
+                label: "Liquidity Provider fee",
+                value: `${estimateFees(state.fee)} UST`,
+              },
+              {
+                label: "Slippage Tolerance",
+                value: `${slippage.toPrecision(1)}%`,
+              },
+              {
+                label: "Route",
+                value: `${getSymbol(token1)}→${getSymbol(token2)}`,
+              },
+              {
+                label: "Exchange Rate",
+                value: estimateExchangeRate(simulated),
+              },
+              {
+                label: "Minimum received",
+                value: amount2,
+              },
+            ]}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

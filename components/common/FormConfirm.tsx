@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 
 import Card from "components/Card";
 import FormFee from "components/common/FormFee";
-import CloseIcon from "components/icons/CloseIcon";
+import CloseModalIcon from "components/icons/CloseModalIcon";
 
 type Props = {
   title?: string;
@@ -51,9 +51,7 @@ const FormConfirm: FC<Props> = ({
           <Text>{title}</Text>
           <IconButton
             aria-label="Close"
-            icon={<CloseIcon />}
-            size="xs"
-            isRound
+            icon={<CloseModalIcon w="1.5rem" h="1.5rem" />}
             variant="icon"
             onClick={onCloseClick}
           />

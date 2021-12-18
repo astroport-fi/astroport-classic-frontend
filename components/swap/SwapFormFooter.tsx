@@ -30,7 +30,6 @@ const SwapFormFooter: FC<Props> = ({
   const priceImpact = usePriceImpact({ from, to, price });
   const realPrice = num(1).div(price).toString();
   const formattedPrice = numeral(realPrice).format("0,0.00[0]").toString();
-  const percent = num(priceImpact).times(100).dp(2).toNumber();
 
   return (
     <Flex justify="space-between" px="12" mt="8">
@@ -62,7 +61,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text textStyle="medium" color="green.500">
-              {percent}%
+              {priceImpact}%
             </Text>
             <Text textStyle="small" variant="dimmed">
               Price Impact
