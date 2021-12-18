@@ -38,8 +38,6 @@ type Props = {
   amount2?: string;
   price: string;
   state: SwapState;
-  slippage: number;
-  onSlippageChange: (slippage: number) => void;
   expertMode: boolean;
   onExpertModeChange: (expertMode: boolean) => void;
   onClick: () => void;
@@ -50,8 +48,6 @@ const SwapFormInitial: FC<Props> = ({
   token2,
   price,
   state,
-  slippage,
-  onSlippageChange,
   expertMode,
   onExpertModeChange,
   onClick,
@@ -91,27 +87,27 @@ const SwapFormInitial: FC<Props> = ({
           transition={{ delay: 0.2 }}
           spacing="2"
         >
-          <SlippagePopover
-            triggerElement={
-              <IconButton
-                aria-label="Settings"
-                icon={<GearIcon />}
-                size="xs"
-                isRound
-                variant="icon"
+          <Controller
+            name="slippage"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <SlippagePopover
+                triggerElement={
+                  <IconButton
+                    aria-label="Settings"
+                    icon={<GearIcon />}
+                    size="xs"
+                    isRound
+                    variant="icon"
+                  />
+                }
+                {...field}
+                expertMode={expertMode}
+                onExpertModeChange={onExpertModeChange}
               />
-            }
-            slippage={slippage}
-            onSlippageChange={onSlippageChange}
-            expertMode={expertMode}
-            onExpertModeChange={onExpertModeChange}
+            )}
           />
-          {/* <IconButton
-            aria-label="Graph"
-            icon={<GraphIcon />}
-            variant="icon"
-            minW="0"
-          /> */}
         </MotionHStack>
       </Flex>
 

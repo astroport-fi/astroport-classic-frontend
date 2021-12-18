@@ -28,8 +28,7 @@ const SwapFormFooter: FC<Props> = ({
 }) => {
   const { getSymbol } = useTokenInfo();
   const priceImpact = usePriceImpact({ from, to, price });
-  const realPrice = num(1).div(price).toString();
-  const formattedPrice = numeral(realPrice).format("0,0.00[0]").toString();
+  const formattedPrice = numeral(price).format("0,0.00[0]").toString();
 
   return (
     <Flex justify="space-between" px="12" mt="8">

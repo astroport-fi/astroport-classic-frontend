@@ -5,6 +5,7 @@ import { fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
 import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst, useSwapSimulate } from "modules/swap";
+import numeral from "numeral";
 
 type Props = {
   token: any;
@@ -16,6 +17,7 @@ const TokenCard: FC<Props> = ({ token }) => {
   const totalInUst = num(token.amount).times(price).toFixed(6);
 
   const totalAmount = toTerraAmount(totalInUst);
+  const formattedAmount = numeral(token.amount).format("0,0.[000]");
 
   return (
     <Box
@@ -36,14 +38,13 @@ const TokenCard: FC<Props> = ({ token }) => {
             <Box>
               <Text textStyle="h3">{getSymbol(token.asset)}</Text>
               <Text textStyle="small" variant="dimmed">
-                {/* TODO: Fix type */}
-                Price: ${fromTerraAmount(price, "0.00")}
+                Price: ${price}
               </Text>
             </Box>
           </HStack>
         </Box>
         <Box fontWeight="500" textAlign="right">
-          <Text textStyle="h3">{token.amount}</Text>
+          <Text textStyle="h3">{formattedAmount}</Text>
           <Text textStyle="small" variant="dimmed">
             ${fromTerraAmount(totalAmount, "0.00")}
           </Text>

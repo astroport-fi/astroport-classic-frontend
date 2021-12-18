@@ -18,8 +18,8 @@ import { DEFAULT_SLIPPAGE } from "constants/constants";
 
 type Props = {
   triggerElement: React.ReactElement;
-  slippage: number;
-  onSlippageChange: (slippage: number) => void;
+  value: number;
+  onChange: (value: number) => void;
   expertMode: boolean;
   onExpertModeChange: (expertMode: boolean) => void;
 };
@@ -28,8 +28,8 @@ const tolerances = [DEFAULT_SLIPPAGE, 0.5, 1, 2];
 
 const SlippagePopover: FC<Props> = ({
   triggerElement,
-  slippage,
-  onSlippageChange,
+  value,
+  onChange,
   expertMode,
   onExpertModeChange,
 }) => {
@@ -70,9 +70,9 @@ const SlippagePopover: FC<Props> = ({
                   key={index}
                   variant="filter"
                   bg="brand.lightPurple"
-                  isActive={slippage === tolerance}
+                  isActive={value === tolerance}
                   onClick={() => {
-                    onSlippageChange(tolerance);
+                    onChange(tolerance);
                   }}
                 >
                   {tolerance.toPrecision(1)}%
@@ -89,8 +89,8 @@ const SlippagePopover: FC<Props> = ({
                   type="number"
                   min={DEFAULT_SLIPPAGE}
                   step={0.01}
-                  value={slippage || undefined}
-                  onChange={(e) => onSlippageChange(Number(e.target.value))}
+                  value={value || undefined}
+                  onChange={(e) => onChange(Number(e.target.value))}
                   placeholder="Custom"
                   borderColor="brand.deepBlue"
                   _focus={{

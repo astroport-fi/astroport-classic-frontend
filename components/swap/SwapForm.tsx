@@ -27,6 +27,7 @@ type FormValues = {
   amount1: string;
   token2: string;
   amount2: string;
+  slippage: number;
 };
 
 const SwapForm: FC = () => {
@@ -39,7 +40,6 @@ const SwapForm: FC = () => {
   const { tokens: terraTokens } = useAstroswap();
   const router = useRouter();
   const [currentInput, setCurrentInput] = useState(null);
-  const [slippage, setSlippage] = useLocalStorage("slippage", DEFAULT_SLIPPAGE);
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -60,15 +60,13 @@ const SwapForm: FC = () => {
       //: getTokenFromUrlParam(router.query.to?.toString(), "uusd"),
       token2: "uluna",
       amount2: "",
+      slippage: DEFAULT_SLIPPAGE,
     },
   });
 
   const { getValues, watch } = methods;
 
-  const token1 = watch("token1");
-  const amount1 = watch("amount1");
-  const token2 = watch("token2");
-  const amount2 = watch("amount2");
+  const { slippage, token1, amount1, token2, amount2 } = watch();
 
   const debouncedAmount1 = useDebounceValue(amount1, 200);
   const debouncedAmount2 = useDebounceValue(amount2, 200);
@@ -141,7 +139,7 @@ const SwapForm: FC = () => {
     token2: token2,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
-    slippage: "0.5",
+    slippage: num(slippage).div(100).toString(),
     reverse: currentInput == "token2",
     onSuccess: (txHash) => {
       showNotification("success", txHash);
@@ -182,9 +180,7 @@ const SwapForm: FC = () => {
             token1={token1}
             token2={token2}
             state={state}
-            price={simulated?.price}
-            slippage={slippage}
-            onSlippageChange={setSlippage}
+            price={simulated?.price2}
             expertMode={expertMode}
             onExpertModeChange={setExpertMode}
             onClick={() => {
@@ -204,7 +200,7 @@ const SwapForm: FC = () => {
             amount2={amount2}
             slippage={slippage}
             fee={fee}
-            price={simulated?.price}
+            price={simulated?.price2}
             commission={simulated?.commission}
             minReceive={state.minReceive}
             onCloseClick={() => setShowConfirm(false)}

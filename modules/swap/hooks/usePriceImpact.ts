@@ -24,19 +24,17 @@ export function usePriceImpact({ from, to, price }: Params) {
   const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
 
   return useMemo(() => {
-    if (swapRoute == null || data == null) {
+    if (swapRoute == null || data == null || price == null) {
       return 0;
     }
 
     if (swapRoute.length == 1) {
       const { token1, token2 } = getAssetAmountsInPool(data.assets, to);
       const poolPrice = num(token1).div(token2).dp(6).toNumber();
-      const realPrice = num(1).div(price).toString();
 
-      return num(realPrice)
-        .minus(poolPrice)
+      return num(poolPrice)
+        .minus(price)
         .div(poolPrice)
-        .abs()
         .times(100)
         .dp(2)
         .toNumber();
