@@ -9,6 +9,7 @@ import {
   useGlobalFilter,
 } from "react-table";
 import { PairResponse, getTokenDenom, useTokenInfo } from "modules/common";
+import { useConnectedWallet } from "@terra-money/wallet-provider";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
@@ -16,6 +17,7 @@ import Td from "components/Td";
 import PoolTableFilter from "components/pool/table/PoolTableFilter";
 import PoolTr from "components/pool/table/PoolTr";
 import PoolNameTd from "components/pool/table/PoolNameTd";
+import PoolConnectWallet from "components/pool/table/PoolConnectWallet";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
 import DepthTd from "components/pool/table/DepthTd";
 import ActionsTd from "components/pool/table/ActionsTd";
@@ -28,6 +30,7 @@ type Props = {
 
 const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
   const { getSymbol } = useTokenInfo();
+  const wallet = useConnectedWallet();
 
   const columns = useMemo(
     () => [
@@ -124,6 +127,12 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
           ))}
         </Tr>
       ))}
+
+      {!wallet ? (
+        <Box {...getTableBodyProps()}>
+          <PoolConnectWallet />
+        </Box>
+      ) : null}
 
       {page.length ? (
         <Box {...getTableBodyProps()}>

@@ -10,7 +10,7 @@ const PoolConnectWallet: FC = () => {
   return (
     <Tr>
       <Td>
-        <Text>You need to connect your Wallet. [Learn more]</Text>
+        <Text textStyle="medium">You need to connect your Wallet.</Text>
       </Td>
       <Td>
         <Flex justify="flex-end" align="center">
