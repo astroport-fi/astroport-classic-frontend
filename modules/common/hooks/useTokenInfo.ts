@@ -54,7 +54,7 @@ export const useTokenInfo = () => {
         return info?.icon;
       }
 
-      return "";
+      return "/tokens/default.png";
     },
     [name, data]
   );
