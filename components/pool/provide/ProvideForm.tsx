@@ -53,11 +53,11 @@ const ProvideForm: FC<Props> = ({
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: {
-        amount: undefined,
+        amount: "",
         asset: pool?.token1.asset,
       },
       token2: {
-        amount: undefined,
+        amount: "",
         asset: pool?.token2.asset,
       },
     },
@@ -76,26 +76,17 @@ const ProvideForm: FC<Props> = ({
     token2: token2.asset,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
-    onSuccess: (txHash, txInfo) => {
-      addNotification({
-        notification: {
-          type: "succeed",
-          txHash,
-          txInfo,
-          txType: "provide",
-        },
-      });
+    onBroadcasting: (txHash) => {
       resetForm();
-    },
-    onError: (txHash, txInfo) => {
       addNotification({
         notification: {
-          type: "failed",
+          type: "started",
           txHash,
-          txInfo,
           txType: "provide",
         },
       });
+    },
+    onError: () => {
       resetForm();
     },
   });
@@ -111,6 +102,7 @@ const ProvideForm: FC<Props> = ({
   }, [state.txStep]);
 
   const resetForm = useCallback(() => {
+    setShowConfirm(false);
     methods.reset();
     state.reset();
   }, [state, methods]);

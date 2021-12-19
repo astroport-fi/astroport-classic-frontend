@@ -21,6 +21,7 @@ type Params = {
   amount1: string | null;
   token2: string;
   amount2: string | null;
+  onBroadcasting?: (txHash: string) => void;
   onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
   onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
@@ -32,6 +33,7 @@ export const useProvide = ({
   token2,
   amount1,
   amount2,
+  onBroadcasting,
   onSuccess,
   onError,
 }: Params): ProvideState => {
@@ -56,6 +58,7 @@ export const useProvide = ({
 
   const { submit, ...rest } = useTransaction({
     msgs,
+    onBroadcasting,
     onSuccess,
     onError,
   });

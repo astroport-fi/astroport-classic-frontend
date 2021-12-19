@@ -19,7 +19,7 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
   const symbol2 = getSymbol(token2);
 
   return (
-    <MenuItem
+    <Box
       transition="0.2s all"
       type="button"
       outline="none"
@@ -66,7 +66,7 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
           </HStack>
         </Box>
       </Flex>
-    </MenuItem>
+    </Box>
   );
 };
 

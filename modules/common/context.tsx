@@ -98,8 +98,6 @@ export const AstroswapProvider: FC<Props> = ({ children, data }) => {
     [dispatch]
   );
 
-  console.log(notifications);
-
   return (
     <AstroswapContext.Provider
       value={{

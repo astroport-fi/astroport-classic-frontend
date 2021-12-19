@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
 
-import { TagItem } from "components/AmountInput";
+import { TagItem } from "components/TokenInput";
 import { COMMON_TOKENS } from "constants/constants";
 
 type Props = {

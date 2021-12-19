@@ -26,6 +26,7 @@ type Params = {
   amount2: string | null;
   slippage: string;
   reverse: boolean;
+  onBroadcasting?: (txHash: string) => void;
   onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
   onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
@@ -38,6 +39,7 @@ export const useSwap = ({
   amount2,
   slippage,
   reverse = false,
+  onBroadcasting,
   onSuccess,
   onError,
 }: Params) => {
@@ -101,7 +103,7 @@ export const useSwap = ({
     router,
   ]);
 
-  const rest = useTransaction({ msgs, onSuccess, onError });
+  const rest = useTransaction({ msgs, onBroadcasting, onSuccess, onError });
 
   return {
     ...rest,

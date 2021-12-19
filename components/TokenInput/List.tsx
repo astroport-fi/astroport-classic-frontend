@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { ListItem } from "components/AmountInput";
+import { ListItem } from "components/TokenInput";
 import { useAstroswap, useTokenInfo } from "modules/common";
 
 type Props = {
@@ -46,12 +46,10 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
           ? `${filteredTokens.length} token found`
           : "All tokens"}
       </Text>
-      <Box h="xs" overflowY="auto" px="2" mt="2">
-        <Box>
-          {filteredTokens.map(({ token }) => {
-            return <ListItem key={token} token={token} onClick={onClick} />;
-          })}
-        </Box>
+      <Box h="xs" overflowY="auto" mt="2">
+        {filteredTokens.map(({ token }) => {
+          return <ListItem key={token} token={token} onClick={onClick} />;
+        })}
       </Box>
     </Box>
   );

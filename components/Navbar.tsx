@@ -1,13 +1,35 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Flex, HStack, Image, chakra, Text, Box } from "@chakra-ui/react";
+import { Flex, HStack, Image, Box } from "@chakra-ui/react";
+
+import { useAstroswap } from "modules/common";
+
 import TerraWallet from "components/TerraWallet";
 import NavbarLink from "components/NavbarLink";
-import MoneyStackIcon from "components/icons/MoneyStackIcon";
 import HamburgerMenu from "components/HamburgerMenu";
 import Notifications from "components/Notifications";
+import RewardCenter from "components/RewardCenter";
+import PendingNotifications from "./PendingNotifications";
 
 const Navbar: FC = () => {
+  const { notifications } = useAstroswap();
+  const pending = notifications.items?.filter(
+    (item) => item.type === "started"
+  );
+
+  const renderRight = () => {
+    if (pending?.length > 0) {
+      return <PendingNotifications items={pending} />;
+    }
+
+    return (
+      <>
+        <TerraWallet />
+        <RewardCenter />
+      </>
+    );
+  };
+
   return (
     <Flex maxW="container.xl" m="0 auto" direction="column">
       <Flex justify="space-between" align="center">
@@ -24,21 +46,7 @@ const Navbar: FC = () => {
           <NavbarLink text="Airdrop" href="/airdrop" />
         </HStack>
         <HStack spacing="4" justify="flex-end">
-          <TerraWallet />
-          <chakra.button
-            color="white"
-            bg="brand.lightBlue"
-            py="2"
-            px="3"
-            borderRadius="full"
-            mr="0.5"
-            outline="none"
-          >
-            <HStack>
-              <MoneyStackIcon width="1.25rem" height="1.25rem" />
-              <Text>0.00</Text>
-            </HStack>
-          </chakra.button>
+          {renderRight()}
           <HamburgerMenu />
         </HStack>
       </Flex>

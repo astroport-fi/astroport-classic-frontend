@@ -13,7 +13,7 @@ const SwapNotification: FC<Props> = ({ txInfo }) => {
   const { getSymbol } = useTokenInfo();
   const { logs } = txInfo;
   const { eventsByType } = logs[0];
-  const token1 = eventsByType.wasm.ask_asset[0];
+  const token1 = eventsByType.wasm.offer_asset[0];
   const amount1 = eventsByType.wasm.offer_amount[0];
   const token2 = eventsByType.wasm.ask_asset[0];
   const amount2 = eventsByType.wasm.return_amount[0];

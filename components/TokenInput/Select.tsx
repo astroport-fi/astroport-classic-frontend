@@ -3,17 +3,17 @@ import {
   Box,
   Text,
   Flex,
-  Menu,
+  Popover,
   Button,
-  MenuButton,
-  MenuList,
+  PopoverTrigger,
+  PopoverContent,
+  useDisclosure,
   Image,
   VStack,
 } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import { CommonTokensList, List } from "components/AmountInput";
+import { CommonTokensList, List } from "components/TokenInput";
 import Search from "components/common/Search";
 import { useTokenPriceInUst } from "modules/swap";
 import { useTokenInfo } from "modules/common";
@@ -26,15 +26,21 @@ type Props = {
 
 const Select: FC<Props> = ({ value, onClick, tokens }) => {
   const { getIcon, getSymbol } = useTokenInfo();
+  const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUst(value);
   const [filter, setFilter] = useState("");
+
+  const handleClick = (token: string) => {
+    onClose();
+    onClick(token);
+  };
 
   const renderButton = () => {
     const icon = getIcon(value);
 
     if (value) {
       return (
-        <Flex align="center" justify="space-between">
+        <>
           <Box>
             <Image src={icon} width="2.5rem" height="2.5rem" alt="Logo" />
           </Box>
@@ -49,7 +55,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
           <Box>
             <ChevronDownIcon />
           </Box>
-        </Flex>
+        </>
       );
     }
 
@@ -57,52 +63,54 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
   };
 
   return (
-    <Box>
-      <Flex justify="space-between">
-        <Box flex="1">
-          <Menu isLazy>
-            <Flex pr="8">
-              <MenuButton
-                as={Button}
-                bg="white.100"
-                color="white"
-                borderRadius="full"
-                borderWidth="1px"
-                borderColor="white.200"
-                textAlign="left"
-                h="16"
-                w="full"
-                _active={{
-                  bg: "white.200",
-                }}
-                _focus={{
-                  outline: "none",
-                }}
-                _hover={{
-                  bg: "white.200",
-                }}
-              >
-                {renderButton()}
-              </MenuButton>
-            </Flex>
-            <MenuList bg="otherColours.overlay">
-              <VStack spacing={6} align="stretch" p="4" minW="26rem">
-                <Text>Select Token</Text>
-                <Search
-                  placeholder="Search token"
-                  borderColor="brand.deepBlue"
-                  color="brand.deepBlue"
-                  bg="white.200"
-                  onChange={(e) => setFilter(e.target.value)}
-                />
-                <CommonTokensList onClick={onClick} />
-                <List onClick={onClick} tokens={tokens} filter={filter} />
-              </VStack>
-            </MenuList>
-          </Menu>
-        </Box>
+    <Popover
+      isLazy
+      placement="top-start"
+      isOpen={isOpen}
+      onOpen={onOpen}
+      onClose={onClose}
+    >
+      <Flex pr="8">
+        <PopoverTrigger>
+          <Button
+            bg="white.100"
+            color="white"
+            borderRadius="full"
+            borderWidth="1px"
+            borderColor="white.200"
+            textAlign="left"
+            justifyContent="space-between"
+            h="16"
+            w="full"
+            _active={{
+              bg: "white.200",
+            }}
+            _focus={{
+              outline: "none",
+            }}
+            _hover={{
+              bg: "white.200",
+            }}
+          >
+            {renderButton()}
+          </Button>
+        </PopoverTrigger>
       </Flex>
-    </Box>
+      <PopoverContent>
+        <VStack spacing={6} align="stretch" p="4" minW="26rem">
+          <Text>Select Token</Text>
+          <Search
+            placeholder="Search token"
+            borderColor="brand.deepBlue"
+            color="brand.deepBlue"
+            bg="white.200"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          <CommonTokensList onClick={handleClick} />
+          <List onClick={handleClick} tokens={tokens} filter={filter} />
+        </VStack>
+      </PopoverContent>
+    </Popover>
   );
 };
 

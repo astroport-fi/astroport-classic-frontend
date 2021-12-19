@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, HStack, Image, MenuItem, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, Box, Text } from "@chakra-ui/react";
 import { useTokenInfo } from "modules/common";
 
 type Props = {
@@ -11,7 +11,7 @@ const TagItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol } = useTokenInfo();
 
   return (
-    <MenuItem
+    <Box
       isFocusable={false}
       as={Button}
       p={1}
@@ -26,7 +26,7 @@ const TagItem = ({ token, onClick }: Props) => {
         <Image src={getIcon(token)} alt={getSymbol(token)} boxSize={3} />
         <Text textStyle="minibutton">{getSymbol(token)}</Text>
       </HStack>
-    </MenuItem>
+    </Box>
   );
 };
 

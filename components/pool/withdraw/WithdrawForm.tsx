@@ -64,26 +64,17 @@ const WithdrawForm: FC<Props> = ({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toTerraAmount(debouncedAmount),
-    onSuccess: (txHash, txInfo) => {
-      addNotification({
-        notification: {
-          type: "succeed",
-          txHash,
-          txInfo,
-          txType: "withdraw",
-        },
-      });
+    onBroadcasting: (txHash) => {
       resetForm();
-    },
-    onError: (txHash, txInfo) => {
       addNotification({
         notification: {
-          type: "failed",
+          type: "started",
           txHash,
-          txInfo,
           txType: "withdraw",
         },
       });
+    },
+    onError: () => {
       resetForm();
     },
   });
@@ -99,10 +90,11 @@ const WithdrawForm: FC<Props> = ({
     reset,
   } = state;
 
-  const resetForm = () => {
-    reset();
+  const resetForm = useCallback(() => {
+    setShowConfirm(false);
     methods.reset();
-  };
+    reset();
+  }, [reset, methods]);
 
   const submit = async () => {
     withdraw();

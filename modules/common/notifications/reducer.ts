@@ -20,6 +20,17 @@ export function notificationReducer(
 
   switch (action.type) {
     case "ADD_NOTIFICATION":
+      const hasAlready = chainState.filter((item) => {
+        return (
+          action.notification.txHash == item.txHash &&
+          (item.type == "succeed" || item.type == "failed")
+        );
+      });
+
+      if (hasAlready.length > 0) {
+        return state;
+      }
+
       return {
         ...state,
         items: [action.notification, ...chainState],

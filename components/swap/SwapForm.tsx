@@ -107,44 +107,30 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     amount2: toTerraAmount(debouncedAmount2),
     slippage: num(slippage).div(100).toString(),
     reverse: isReverse,
-    onSuccess: (txHash, txInfo) => {
-      addNotification({
-        notification: {
-          type: "succeed",
-          txHash,
-          txInfo,
-          txType: "swap",
-        },
-      });
+    onBroadcasting: (txHash) => {
       resetForm();
-    },
-    onError: (txHash, txInfo) => {
       addNotification({
         notification: {
-          type: "failed",
+          type: "started",
           txHash,
-          txInfo,
           txType: "swap",
         },
       });
-      reset();
+    },
+    onError: () => {
+      resetForm();
     },
   });
 
   const { fee, txHash, txStep, reset, submit } = state;
 
-  const resetForm = () => {
-    reset();
+  const resetForm = useCallback(() => {
+    setShowConfirm(false);
     methods.reset();
-  };
+    reset();
+  }, [reset, methods]);
 
-  useEffect(() => {
-    if (txStep == TxStep.Broadcasting) {
-      setShowConfirm(false);
-    }
-  }, [txStep]);
-
-  if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
+  if (txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
   }
 
