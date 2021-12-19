@@ -16,7 +16,7 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
   if (tokens && tokens.length > 0) {
     return (
       <Box>
-        <Box h="xs" overflowY="auto" px="2" mt="2">
+        <Box h="3xs" overflowY="auto" px="2" mt="2">
           <Box>
             {tokens.map((token) => {
               return <ListItem key={token} token={token} onClick={onClick} />;
@@ -46,7 +46,7 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
           ? `${filteredTokens.length} token found`
           : "All tokens"}
       </Text>
-      <Box h="xs" overflowY="auto" mt="2">
+      <Box h="3xs" overflowY="auto" mt="2">
         {filteredTokens.map(({ token }) => {
           return <ListItem key={token} token={token} onClick={onClick} />;
         })}

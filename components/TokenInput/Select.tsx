@@ -65,7 +65,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
   return (
     <Popover
       isLazy
-      placement="top-start"
+      placement="left"
       isOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}

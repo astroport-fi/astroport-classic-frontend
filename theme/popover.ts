@@ -27,9 +27,6 @@ const styles = {
       },
     },
   },
-  defaultProps: {
-    flip: true,
-  },
 };
 
 export default styles;
