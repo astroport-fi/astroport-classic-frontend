@@ -111,6 +111,20 @@ const button = {
       },
       color: "transparent",
     },
+    slider: {
+      border: "0",
+      alignItems: "flex-start",
+      color: "white",
+      opacity: "0.4",
+      p: "0",
+      minW: "0",
+      _hover: {
+        opacity: "0.6",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     silent: {
       outline: "none",
       borderRadius: "full",

@@ -1,8 +1,6 @@
 import React, { FC } from "react";
 import { fromTerraAmount, num, TxStep } from "@arthuryeti/terra";
 
-import { useFeeToString } from "hooks/useFeeToString";
-
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
@@ -34,7 +32,6 @@ const WithdrawFormFooter: FC<Props> = ({
     .times("100")
     .toFixed(2)
     .toString();
-  const feeString = useFeeToString(data.fee);
 
   const cells = [
     {
@@ -42,10 +39,6 @@ const WithdrawFormFooter: FC<Props> = ({
       value: `$ ${myLiquidity}`,
     },
     { title: "Share of Pool", value: `${shareOfPool || "0"}%` },
-    {
-      title: "TX Fee",
-      value: feeString || "0.00",
-    },
   ];
 
   const confirmButton: ConfirmButton = {
@@ -56,7 +49,9 @@ const WithdrawFormFooter: FC<Props> = ({
     onClick: onConfirmClick,
   };
 
-  return <CommonFooter cells={cells} confirmButton={confirmButton} />;
+  return (
+    <CommonFooter fee={data.fee} cells={cells} confirmButton={confirmButton} />
+  );
 };
 
 export default WithdrawFormFooter;

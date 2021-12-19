@@ -1,3 +1,4 @@
+import { toBase64 } from "@arthuryeti/terra";
 import { LCDClient, MsgExecuteContract } from "@terra-money/terra.js";
 
 /* query */
@@ -111,10 +112,13 @@ export const createDepositExecuteMsg = (
   tokenAddr: string,
   amount: string
 ) => {
-  const executeMsg = new MsgExecuteContract(sender, generator, {
-    deposit: {
+  const executeMsg = new MsgExecuteContract(sender, tokenAddr, {
+    send: {
+      contract: generator,
       amount,
-      lp_token: tokenAddr,
+      msg: toBase64({
+        deposit: {},
+      }),
     },
   });
 

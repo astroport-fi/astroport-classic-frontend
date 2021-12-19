@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useTransaction, useAddress, TxStep, num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
-import { createIncreaseAllowanceExecuteMsg } from "modules/pool";
 import { useContracts } from "modules/common";
 import { createAstroStakeMsgs, createAstroUnstakeMsg } from "modules/astro";
 import { AstroFormType } from "types/common";
@@ -41,12 +40,13 @@ export const useAstro = ({ amount, type, onSuccess }: Params): StakeState => {
     }
 
     return [
-      createIncreaseAllowanceExecuteMsg(
-        address,
-        token,
-        staking,
-        num(amount).times(ONE_TOKEN).toFixed()
-      ),
+      // TODO: Activate once we need it
+      // createIncreaseAllowanceExecuteMsg(
+      //   address,
+      //   token,
+      //   staking,
+      //   num(amount).times(ONE_TOKEN).toFixed()
+      // ),
       msg,
     ];
   }, [address, staking, type, astroToken, xAstroToken, amount]);

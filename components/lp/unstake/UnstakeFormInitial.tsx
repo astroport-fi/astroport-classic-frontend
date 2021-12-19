@@ -1,26 +1,17 @@
 import React from "react";
-import {
-  Text,
-  Flex,
-  Button,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-} from "@chakra-ui/react";
+import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num, TxStep } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
-import { StakeLpTokenState } from "modules/pool";
+import { StakeLpTokenState, useStakedLpAmount } from "modules/lp";
+import { PoolFormType } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
-import { useFeeToString } from "hooks/useFeeToString";
 
 import Card from "components/Card";
-import FormFee from "components/common/FormFee";
-import AmountInput from "components/AmountInput";
-
-import { PoolFormType } from "types/common";
-import { useStakedLpAmount } from "modules/lp";
+import UnstakeFormFooter from "components/lp/unstake/UnstakeFormFooter";
+import TokenInput from "components/TokenInput";
+import NewAmountInput from "components/NewAmountInput";
+import AstroSlider from "components/AstroSlider";
 import StakeActions from "components/lp/stake/StakeActions";
 
 type Params = {
@@ -42,12 +33,13 @@ const UnstakeFormInitial = ({
 }: Params) => {
   const { control, watch, setValue } = useFormContext();
 
-  const lpToken = watch("lpToken");
-  const stakedAmount = useStakedLpAmount(lpToken.asset);
+  const token = watch("token");
+  const amount = watch("amount");
+  const stakedAmount = useStakedLpAmount(token);
   const max = num(stakedAmount).div(ONE_TOKEN).toNumber();
 
   const handleChange = (value: number) => {
-    setValue("lpToken.amount", String(value));
+    setValue("amount", String(value));
   };
 
   return (
@@ -60,61 +52,63 @@ const UnstakeFormInitial = ({
       />
 
       <Card mb="2">
-        <Text variant="light">
-          ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
-          Astroport LP tokens here to receive ASTRO governance tokens AND
-          third-party governance tokens.[Read More]
+        <Text textStyle="small" variant="secondary">
+          Unstake your LP tokens below. Any ASTRO rewards accrued can be claimed
+          in your rewards center. If you unstake all of your LP tokens, you stop
+          receiving ASTRO and potential third party rewards.
         </Text>
       </Card>
 
       <Card>
-        <Controller
-          name="lpToken"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <AmountInput balance={stakedAmount} {...field} isLpToken isSingle />
-          )}
-        />
+        <Flex>
+          <Box flex="1">
+            <Controller
+              name="token"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TokenInput {...field} isLpToken isSingle />
+              )}
+            />
+          </Box>
+          <Box flex="1">
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput
+                  asset={token}
+                  balance={stakedAmount}
+                  {...field}
+                />
+              )}
+            />
+          </Box>
+        </Flex>
       </Card>
 
       <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
+        <AstroSlider
           min={0}
-          defaultValue={0}
-          value={Number(lpToken.amount)}
+          minLabel="0%"
           max={max}
-          focusThumbOnChange={false}
-          step={0.0001}
+          maxLabel="100%"
+          step={0.01}
+          value={+amount}
           onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+        />
       </Card>
 
       {state.error && (
-        <Card mt="3">
-          <Text variant="light">{state.error}</Text>
+        <Card mt="2">
+          <Text textStyle="small" variant="secondary">
+            {state.error}
+          </Text>
         </Card>
       )}
 
-      <Flex flex="1" align="center" flexDirection="column" mt="8">
-        <Button
-          variant="primary"
-          isLoading={state.txStep == TxStep.Estimating}
-          isDisabled={state.txStep != TxStep.Ready}
-          minW="64"
-          onClick={onClick}
-        >
-          Unstake LP Token
-        </Button>
-        {state.txStep == TxStep.Ready && <FormFee fee={state.fee} />}
-      </Flex>
+      <UnstakeFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import {
   Text,
   Flex,
-  Button,
+  Box,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -11,16 +11,16 @@ import {
 import { useFormContext, Controller } from "react-hook-form";
 import { num, TxStep, useBalance } from "@arthuryeti/terra";
 
-import { StakeLpTokenState } from "modules/pool";
+import { StakeLpTokenState } from "modules/lp";
 import { ONE_TOKEN } from "constants/constants";
-import { useFeeToString } from "hooks/useFeeToString";
+import { PoolFormType } from "types/common";
 
 import Card from "components/Card";
-import FormFee from "components/common/FormFee";
-import AmountInput from "components/AmountInput";
-
-import { PoolFormType } from "types/common";
+import TokenInput from "components/TokenInput";
+import NewAmountInput from "components/NewAmountInput";
+import AstroSlider from "components/AstroSlider";
 import StakeActions from "components/lp/stake/StakeActions";
+import StakeFormFooter from "components/lp/stake/StakeFormFooter";
 
 type Params = {
   state: StakeLpTokenState;
@@ -41,11 +41,13 @@ const StakeFormInitial = ({
 }: Params) => {
   const { control, watch, setValue } = useFormContext();
 
-  const lpToken = watch("lpToken");
-  const balance = useBalance(lpToken.asset);
+  const token = watch("token");
+  const amount = watch("amount");
+  const balance = useBalance(token);
+  const max = num(balance).div(ONE_TOKEN).toNumber();
 
   const handleChange = (value: number) => {
-    setValue("lpToken.amount", String(value));
+    setValue("amount", String(value));
   };
 
   return (
@@ -58,59 +60,59 @@ const StakeFormInitial = ({
       />
 
       <Card mb="2">
-        <Text variant="light">
+        <Text textStyle="small" variant="secondary">
           ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
           Astroport LP tokens here to receive ASTRO governance tokens AND
-          third-party governance tokens.[Read More]
+          third-party governance tokens.
         </Text>
       </Card>
 
       <Card>
-        <Controller
-          name="lpToken"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <AmountInput {...field} isLpToken isSingle />}
-        />
+        <Flex>
+          <Box flex="1">
+            <Controller
+              name="token"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TokenInput {...field} isLpToken isSingle />
+              )}
+            />
+          </Box>
+          <Box flex="1">
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput asset={token} {...field} />
+              )}
+            />
+          </Box>
+        </Flex>
       </Card>
 
       <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
+        <AstroSlider
           min={0}
-          defaultValue={0}
-          value={Number(lpToken.amount)}
-          max={num(balance).div(ONE_TOKEN).toNumber()}
-          focusThumbOnChange={false}
-          step={0.0001}
+          minLabel="0%"
+          max={max}
+          maxLabel="100%"
+          step={0.01}
+          value={+amount}
           onChange={handleChange}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+        />
       </Card>
 
       {state.error && (
-        <Card mt="3">
-          <Text variant="light">{state.error}</Text>
+        <Card mt="2">
+          <Text textStyle="small" variant="secondary">
+            {state.error}
+          </Text>
         </Card>
       )}
 
-      <Flex flex="1" align="center" flexDirection="column" mt="8">
-        <Button
-          variant="primary"
-          isLoading={state.txStep == TxStep.Estimating}
-          isDisabled={state.txStep != TxStep.Ready}
-          minW="64"
-          onClick={onClick}
-        >
-          Stake LP Token
-        </Button>
-        {state.txStep == TxStep.Ready && <FormFee fee={state.fee} />}
-      </Flex>
+      <StakeFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };

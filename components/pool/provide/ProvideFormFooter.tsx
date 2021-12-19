@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
-import { useFeeToString } from "hooks/useFeeToString";
 import { useShareOfPool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
@@ -18,7 +17,6 @@ const ProvideFormFooter: FC<Props> = ({
   data,
   onConfirmClick,
 }) => {
-  const feeString = useFeeToString(data.fee);
   const shareOfPool = useShareOfPool({ pool, amount1: toTerraAmount(amount) });
 
   const cells = [
@@ -30,10 +28,6 @@ const ProvideFormFooter: FC<Props> = ({
       title: "Share of Pool",
       value: `${shareOfPool || "0"}%`,
     },
-    {
-      title: "TX Fee",
-      value: feeString || "0.00",
-    },
   ];
 
   const confirmButton: ConfirmButton = {
@@ -44,7 +38,9 @@ const ProvideFormFooter: FC<Props> = ({
     onClick: onConfirmClick,
   };
 
-  return <CommonFooter cells={cells} confirmButton={confirmButton} />;
+  return (
+    <CommonFooter fee={data.fee} cells={cells} confirmButton={confirmButton} />
+  );
 };
 
 export default ProvideFormFooter;

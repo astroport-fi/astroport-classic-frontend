@@ -9,6 +9,8 @@ import TransactionStartedNotification from "components/notifications/Transaction
 import SwapNotification from "components/notifications/SwapNotification";
 import ProvideNotification from "components/notifications/ProvideNotification";
 import WithdrawNotification from "components/notifications/WithdrawNotification";
+import StakeLpNotification from "components/notifications/StakeLpNotification";
+import UnstakeLpNotification from "components/notifications/UnstakeLpNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
@@ -25,6 +27,12 @@ const Notifications: FC = () => {
     }
     if (txType === "withdraw") {
       return <WithdrawNotification txInfo={txInfo} />;
+    }
+    if (txType === "stakeLp") {
+      return <StakeLpNotification txInfo={txInfo} />;
+    }
+    if (txType === "unstakeLp") {
+      return <UnstakeLpNotification txInfo={txInfo} />;
     }
   };
 

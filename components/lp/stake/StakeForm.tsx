@@ -1,27 +1,20 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
-import { chakra, Text, useToast } from "@chakra-ui/react";
+import React, { FC, useState, useCallback } from "react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
-import { useStakeLpToken } from "modules/pool";
-import { useFeeToString } from "hooks/useFeeToString";
-import { PairResponse, useTokenInfo } from "modules/common";
+import { useStakeLpToken } from "modules/lp";
+import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType } from "types/common";
 
 import FormLoading from "components/common/FormLoading";
-import FormError from "components/common/FormError";
 import FormConfirm from "components/common/FormConfirm";
-import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
-import TransactionNotification from "components/notifications/Transaction";
-
-import StakeFormInitial from "./StakeFormInitial";
+import StakeFormInitial from "components/lp/stake/StakeFormInitial";
 
 type FormValues = {
-  lpToken: {
-    amount: string;
-    asset: string;
-  };
+  token: string;
+  amount: string;
 };
 
 type Props = {
@@ -40,76 +33,48 @@ const StakeForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const toast = useToast();
-  const { getSymbol } = useTokenInfo();
+  const { addNotification } = useAstroswap();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      lpToken: {
-        amount: undefined,
-        asset: pair.liquidity_token,
-      },
+      token: pair.liquidity_token,
+      amount: "",
     },
   });
 
-  const { watch, getValues, handleSubmit } = methods;
-  const lpToken = watch("lpToken");
-
-  const showNotification = useCallback((txHash) => {
-    const { lpToken } = getValues();
-    toast({
-      position: "top-right",
-      duration: 9000,
-      render: ({ onClose }) => (
-        <TransactionNotification onClose={onClose} txHash={txHash}>
-          <Text textStyle="medium">
-            Stake {lpToken.amount} {getSymbol(lpToken.asset)}
-          </Text>
-        </TransactionNotification>
-      ),
-    });
-  }, []);
+  const { watch, handleSubmit } = methods;
+  const token = watch("token");
+  const amount = watch("amount");
 
   const state = useStakeLpToken({
-    ...lpToken,
-    onSuccess: showNotification,
+    token,
+    amount,
+    onBroadcasting: (txHash) => {
+      resetForm();
+      addNotification({
+        notification: {
+          type: "started",
+          txHash,
+          txType: "stakeLp",
+        },
+      });
+    },
+    onError: () => {
+      resetForm();
+    },
   });
 
-  const submit = async () => {
-    state.submit();
-  };
+  const { reset, submit } = state;
 
-  useEffect(() => {
-    if (state.txStep == TxStep.Broadcasting) {
-      setShowConfirm(false);
-    }
-  }, [state.txStep]);
+  const resetForm = useCallback(() => {
+    setShowConfirm(false);
+    methods.reset();
+    reset();
+  }, [reset, methods]);
 
-  if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
+  if (state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
-  }
-
-  if (state.txStep == TxStep.Success) {
-    return (
-      <FormSuccess
-        contentComponent={
-          <FormSummary label1="You are staking" token1={lpToken} />
-        }
-        details={[{ label: "APY", value: "12%" }]}
-        onCloseClick={state.reset}
-      />
-    );
-  }
-
-  if (state.txStep == TxStep.Failed) {
-    return (
-      <FormError
-        content={state.error}
-        onCloseClick={state.reset}
-        onClick={state.reset}
-      />
-    );
   }
 
   return (
@@ -129,11 +94,14 @@ const StakeForm: FC<Props> = ({
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
+            title="Confirm Staking LP Token"
             actionLabel="Confirm Staking LP Token"
             contentComponent={
-              <FormSummary label1="You are staking" token1={lpToken} />
+              <FormSummary
+                label1="You are staking"
+                token1={{ asset: token, amount }}
+              />
             }
-            details={[{ label: "APY", value: "12%" }]}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

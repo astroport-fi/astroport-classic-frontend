@@ -16,6 +16,7 @@ import Card from "components/Card";
 import { useContracts } from "modules/common";
 
 type Props = {
+  data: any;
   isLoading: boolean;
   isDisabled: boolean;
   handleChange: (v: number) => void;
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const StakeAstroFooter: FC<Props> = ({
+  data,
   isLoading,
   isDisabled,
   handleChange,
@@ -73,6 +75,7 @@ const StakeAstroFooter: FC<Props> = ({
       </Card>
 
       <CommonFooter
+        fee={data.fee}
         cells={[
           {
             title: "Current xAstro",

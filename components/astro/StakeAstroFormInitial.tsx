@@ -53,6 +53,7 @@ const StakeAstroFormInitial: FC<Props> = ({
         {type == AstroFormType.Unstake && <UnstakeAstroFormInput />}
 
         <StakeAstroFooter
+          data={state}
           isLoading={state.txStep == TxStep.Estimating}
           isDisabled={state.txStep != TxStep.Ready}
           handleChange={handleChange}

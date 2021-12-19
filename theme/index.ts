@@ -91,6 +91,11 @@ export default extendTheme({
       fontSize: "xl",
       lineHeight: 1.6,
     },
+    light: {
+      fontWeight: "medium",
+      fontSize: "xs",
+      lineHeight: "shorter",
+    },
     minibutton: {
       fontWeight: "bold",
       fontSize: "xs",

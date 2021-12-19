@@ -1,5 +1,8 @@
 import React, { FC } from "react";
+import { Fee } from "@terra-money/terra.js";
 import { Box, Flex, Button, Text } from "@chakra-ui/react";
+
+import FormFee from "components/common/FormFee";
 
 export interface Cell {
   title: string;
@@ -15,14 +18,15 @@ export interface ConfirmButton {
 }
 
 interface Props {
+  fee: Fee;
   cells: Cell[];
   confirmButton: ConfirmButton;
 }
 
-const CommonFooter: FC<Props> = ({ cells, confirmButton }) => {
+const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
   return (
     <Box>
-      <Flex justify="space-between" px="12" my="8">
+      <Flex justify="space-between" my="8">
         {cells.map((cell) => (
           <Box
             color="white"
@@ -53,6 +57,9 @@ const CommonFooter: FC<Props> = ({ cells, confirmButton }) => {
         >
           {confirmButton.title}
         </Button>
+        <Box color="white">
+          {!confirmButton.isDisabled && <FormFee fee={fee} />}
+        </Box>
       </Flex>
     </Box>
   );
