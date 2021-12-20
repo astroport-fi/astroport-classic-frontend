@@ -13,13 +13,14 @@ type CreateProvideMsgsOptions = {
   coin2: Coin;
   contract: string;
   slippage: string;
+  autoStake: boolean;
 };
 
 export const createProvideMsgs = (
   options: CreateProvideMsgsOptions,
   sender: string
 ): MsgExecuteContract[] => {
-  const { contract, pool, coin1, coin2, slippage } = options;
+  const { contract, pool, coin1, coin2, slippage, autoStake } = options;
 
   const assets = pool.assets.map((asset) => ({
     info: asset.info,
@@ -50,7 +51,11 @@ export const createProvideMsgs = (
   }, []);
 
   const executeMsg = {
-    provide_liquidity: { assets, slippage_tolerance: slippage },
+    provide_liquidity: {
+      assets,
+      slippage_tolerance: slippage,
+      auto_stake: autoStake,
+    },
   };
 
   const msg = new MsgExecuteContract(sender, contract, executeMsg, coins);

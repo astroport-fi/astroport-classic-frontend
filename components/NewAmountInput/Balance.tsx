@@ -7,15 +7,17 @@ import { useTokenInfo } from "modules/common";
 type Props = {
   asset: string;
   label?: string;
+  max?: string | number;
   initial?: string;
   hideLabel?: boolean;
   hideButton?: boolean;
   isDisabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
 };
 
 const Balance: FC<Props> = ({
   asset,
+  max,
   initial,
   label = "In Wallet",
   hideLabel = false,
@@ -33,7 +35,7 @@ const Balance: FC<Props> = ({
         <Button
           variant="mini"
           type="button"
-          onClick={() => onChange(amount)}
+          onClick={() => onChange(max ?? amount)}
           isDisabled={isDisabled}
         >
           Max

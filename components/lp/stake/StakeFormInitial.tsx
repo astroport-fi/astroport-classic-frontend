@@ -79,7 +79,7 @@ const StakeFormInitial = ({
               )}
             />
           </Box>
-          <Box flex="1">
+          <Box flex="1" pl="8">
             <Controller
               name="amount"
               control={control}

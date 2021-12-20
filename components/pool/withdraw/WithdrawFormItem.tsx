@@ -1,9 +1,10 @@
 import React, { FC } from "react";
+import numeral from "numeral";
 import { Box, Flex, BoxProps, Image, Text, HStack } from "@chakra-ui/react";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst } from "modules/swap";
-import { fromTerraAmount } from "@arthuryeti/terra";
 
 type Props = {
   token: string;
@@ -13,7 +14,9 @@ type Props = {
 const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(token);
-  const totalPrice = String(Number(price) * Number(amount));
+  const totalPrice = +price * +amount;
+  const formatted = numeral(amount).format("0,0.00").toString();
+  const formattedTotal = numeral(totalPrice).format("0,0.00").toString();
 
   return (
     <Box
@@ -28,15 +31,15 @@ const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
           <Image src={getIcon(token)} alt={getSymbol(token)} boxSize={3} />
           <Text textStyle="medium">{getSymbol(token)}</Text>
         </HStack>
-        <Text textStyle="medium">{fromTerraAmount(amount, "0,0.000")}</Text>
+        <Text textStyle="medium">{formatted}</Text>
       </Flex>
 
       <Flex mt={2} justify="space-between">
         <Text textStyle="small" variant="dimmed">
-          Price: ${fromTerraAmount(price, "0,0.000")}
+          Price: ${price}
         </Text>
         <Text textStyle="small" variant="dimmed">
-          ${fromTerraAmount(totalPrice, "0,0.000")}
+          ${formattedTotal}
         </Text>
       </Flex>
     </Box>

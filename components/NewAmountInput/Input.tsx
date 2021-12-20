@@ -39,6 +39,7 @@ const Input: FC<Props> = ({
         value={value}
         min={0}
         max={max}
+        step={0.01}
         onChange={onChange}
         onBlur={onBlur}
         isDisabled={isDisabled}

@@ -84,12 +84,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     onSuccess: handleSuccess,
   });
 
-  // useEffect(() => {
-  //   router.push(`/?from=${token1}&to=${token2}`, undefined, {
-  //     shallow: true,
-  //   });
-  // }, [token1, token2, router]);
-
   useEffect(() => {
     methods.reset();
   }, [networkName]);
@@ -141,6 +135,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
           <SwapFormInitial
             token1={token1}
             token2={token2}
+            amount2={amount2}
             state={state}
             isReverse={isReverse}
             price={isReverse ? simulated?.price : simulated?.price2}

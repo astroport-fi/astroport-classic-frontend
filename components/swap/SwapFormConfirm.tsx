@@ -1,27 +1,12 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
-import { chakra, Text, useToast } from "@chakra-ui/react";
-import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
+import React, { FC } from "react";
+import { fromTerraAmount } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
-import { useWallet } from "@terra-money/wallet-provider";
 
-import { DEFAULT_SLIPPAGE } from "constants/constants";
-import {
-  useSwap,
-  usePriceImpact,
-  useSwapRoute,
-  useSwapSimulate,
-} from "modules/swap";
-import { useTokenInfo, useAstroswap, Route } from "modules/common";
-import useDebounceValue from "hooks/useDebounceValue";
-import useLocalStorage from "hooks/useLocalStorage";
+import { usePriceImpact } from "modules/swap";
+import { useTokenInfo, Route } from "modules/common";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
-import SwapFormInitial from "components/swap/SwapFormInitial";
-import FormLoading from "components/common/FormLoading";
-import TransactionNotification from "components/notifications/Transaction";
 
 type Props = {
   swapRoute: Route[];

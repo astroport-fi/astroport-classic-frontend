@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
 // import GraphIcon from "components/icons/GraphIcon";
 
 import { useBalance } from "@arthuryeti/terra";
@@ -42,11 +42,26 @@ const ActionsTd: FC<Props> = ({ row }) => {
       ) : null}
 
       {canManageLiquidity ? (
-        <Link href={`/pairs/${contract_addr}`} passHref>
-          <Button as="a" variant="primary" size="sm">
-            Manage Liquidity
-          </Button>
-        </Link>
+        <ButtonGroup isAttached>
+          <Link href={`/pairs/${contract_addr}`} passHref>
+            <Button as="a" variant="primary" size="sm" px="0" minW="20">
+              Manage
+            </Button>
+          </Link>
+          <Link href={`/pairs/${contract_addr}/stake`} passHref>
+            <Button
+              as="a"
+              variant="primary"
+              size="sm"
+              px="0"
+              minW="20"
+              borderLeft="4px"
+              borderLeftColor="brand.deepBlue"
+            >
+              Stake
+            </Button>
+          </Link>
+        </ButtonGroup>
       ) : null}
 
       {/* <IconButton

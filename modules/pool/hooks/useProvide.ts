@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Coin, TxInfo } from "@terra-money/terra.js";
-import { useAddress, useTransaction, TxStep } from "@arthuryeti/terra";
+import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 
 import { createProvideMsgs } from "modules/pool";
 import { Pool } from "types/common";
@@ -11,7 +11,7 @@ export type ProvideState = {
   txHash?: string;
   txStep: TxStep;
   reset: () => void;
-  provideLiquidity: () => void;
+  submit: () => void;
 };
 
 type Params = {
@@ -21,6 +21,7 @@ type Params = {
   amount1: string | null;
   token2: string;
   amount2: string | null;
+  autoStake: boolean;
   onBroadcasting?: (txHash: string) => void;
   onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
   onError?: (txHash?: string, txInfo?: TxInfo) => void;
@@ -33,6 +34,7 @@ export const useProvide = ({
   token2,
   amount1,
   amount2,
+  autoStake,
   onBroadcasting,
   onSuccess,
   onError,
@@ -40,7 +42,14 @@ export const useProvide = ({
   const address = useAddress();
 
   const msgs = useMemo(() => {
-    if (amount1 == null || amount2 == null || pool == null) {
+    if (
+      amount1 == "" ||
+      amount2 == "" ||
+      contract == null ||
+      pool == null ||
+      num(amount1).eq(0) ||
+      num(amount2).eq(0)
+    ) {
       return null;
     }
 
@@ -50,23 +59,19 @@ export const useProvide = ({
         pool,
         coin1: new Coin(token1, amount1),
         coin2: new Coin(token2, amount2),
+        autoStake,
         slippage: "0.02",
       },
       address
     );
-  }, [address, contract, pool, token1, token2, amount1, amount2]);
+  }, [address, contract, pool, token1, token2, autoStake, amount1, amount2]);
 
-  const { submit, ...rest } = useTransaction({
+  return useTransaction({
     msgs,
     onBroadcasting,
     onSuccess,
     onError,
   });
-
-  return {
-    ...rest,
-    provideLiquidity: submit,
-  };
 };
 
 export default useProvide;

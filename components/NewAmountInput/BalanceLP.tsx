@@ -5,17 +5,19 @@ import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 type Props = {
   asset: string;
   initial?: string;
+  max?: string | number;
   label?: string;
   hideLabel?: boolean;
   hideButton?: boolean;
   isDisabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
 };
 
 const BalanceLP: FC<Props> = ({
   asset,
-  label = "In Wallet",
   initial,
+  max,
+  label = "In Wallet",
   hideLabel = false,
   hideButton = false,
   isDisabled = false,
@@ -30,7 +32,7 @@ const BalanceLP: FC<Props> = ({
         <Button
           variant="mini"
           type="button"
-          onClick={() => onChange(amount)}
+          onClick={() => onChange(max ?? amount)}
           isDisabled={isDisabled}
         >
           Max

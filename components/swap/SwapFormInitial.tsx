@@ -47,6 +47,8 @@ type Props = {
 const SwapFormInitial: FC<Props> = ({
   token1,
   token2,
+  amount2,
+  amount1,
   price,
   state,
   expertMode,
@@ -61,8 +63,9 @@ const SwapFormInitial: FC<Props> = ({
   const card1Control = useAnimation();
   const card2Control = useAnimation();
 
-  const reverse = () => {
+  const reverse = async () => {
     setValue("token1", token2);
+    // setValue("amount1", amount2);
     setValue("token2", token1);
   };
 

@@ -20,18 +20,10 @@ const Field: FC<Props> = forwardRef(
 
     const renderSingle = () => {
       if (isLpToken) {
-        return (
-          <Box pr="8">
-            <SingleLP asset={value} />
-          </Box>
-        );
+        return <SingleLP asset={value} />;
       }
 
-      return (
-        <Box pr="8">
-          <Single asset={value} />
-        </Box>
-      );
+      return <Single asset={value} />;
     };
 
     const renderSelect = () => {

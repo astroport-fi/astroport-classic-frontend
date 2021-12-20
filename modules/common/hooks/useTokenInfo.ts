@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { useAstroswap } from "../context";
+import { truncate } from "libs/text";
 
 export const useTokenInfo = () => {
   const {
@@ -15,7 +16,7 @@ export const useTokenInfo = () => {
         return token;
       }
 
-      return data[name].tokens[token]?.protocol ?? token;
+      return data[name].tokens[token]?.protocol ?? truncate(token, [3, 3]);
     },
     [name, data]
   );
@@ -26,7 +27,7 @@ export const useTokenInfo = () => {
         return token;
       }
 
-      return data[name].tokens[token]?.symbol ?? token;
+      return data[name].tokens[token]?.symbol ?? truncate(token, [3, 3]);
     },
     [name, data]
   );
@@ -37,7 +38,7 @@ export const useTokenInfo = () => {
         return token;
       }
 
-      return data[name].lpTokens[token]?.symbol ?? token;
+      return data[name].lpTokens[token]?.symbol ?? truncate(token, [3, 3]);
     },
     [name, data]
   );

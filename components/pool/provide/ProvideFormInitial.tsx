@@ -1,17 +1,19 @@
 import React, { FC } from "react";
-
+import { Flex, Box, Checkbox } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { calculateTokenAmount, ProvideState } from "modules/pool";
+import { ProvideState } from "modules/pool";
 
 import Card from "components/Card";
-import AmountInput from "components/AmountInput";
-import Slider from "components/common/Slider";
+import NewAmountInput from "components/NewAmountInput";
+import TokenInput from "components/TokenInput";
 import PoolHeader from "components/pool/PoolHeader";
 import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
+import AstroSlider from "components/AstroSlider";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   pool: any;
@@ -19,14 +21,10 @@ type Props = {
   type: PoolFormType;
   onModeClick: any;
   onTypeClick: any;
-  token1: {
-    amount: string;
-    asset: string;
-  };
-  token2: {
-    amount: string;
-    asset: string;
-  };
+  token1: string;
+  amount1: string;
+  token2: string;
+  amount2: string;
   isChartOpen: boolean;
   onChartClick: () => void;
   state: ProvideState;
@@ -42,82 +40,58 @@ const ProvideFormInitial: FC<Props> = ({
   isChartOpen,
   onChartClick,
   token1,
+  amount1,
   token2,
+  amount2,
   state,
   onClick,
 }) => {
-  const token1Balance = useBalance(token1.asset);
-  const token2Balance = useBalance(token2.asset);
+  const token1Balance = useBalance(token1);
+  const token2Balance = useBalance(token2);
   const { control, setValue } = useFormContext();
+  const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
 
-  const balance = useBalance(token1.asset);
-  const amount = fromTerraAmount(balance, "0.00");
-
-  //TODO: refactor with function below
-  const handleToken1Change = (value: any, onChange: (value: any) => void) => {
-    const formattedToken2Balance = fromTerraAmount(token2Balance, "0.0[00000]");
-    const token2amount = calculateTokenAmount(pool, value.asset, value.amount);
-    const potentialToken1amount = calculateTokenAmount(
-      pool,
-      token2.asset,
-      formattedToken2Balance
-    );
-
-    if (num(token2amount).gt(formattedToken2Balance)) {
-      setValue(
-        "token2.amount",
-        num(formattedToken2Balance).minus("4").toString()
-      );
-      onChange({ ...value, amount: potentialToken1amount });
-    } else {
-      onChange(value);
-      setValue("token2.amount", token2amount);
-    }
+  const balances = {
+    token1: num(token1Balance).div(ONE_TOKEN).dp(2).toNumber(),
+    token2: num(token2Balance).div(ONE_TOKEN).dp(2).toNumber(),
   };
 
-  //TODO: refactor with above function
-  const handleToken2Change = (value: any, onChange: (value: any) => void) => {
-    const formattedToken1Balance = fromTerraAmount(token1Balance, "0.0[00000]");
-    const token1amount = calculateTokenAmount(pool, value.asset, value.amount);
-    const potentialToken1amount = calculateTokenAmount(
-      pool,
-      token1.asset,
-      formattedToken1Balance
-    );
-
-    if (num(token1amount).gt(formattedToken1Balance)) {
-      setValue("token2.amount", formattedToken1Balance);
-      onChange({ ...value, amount: potentialToken1amount });
-    } else {
-      onChange(value);
-      setValue("token1.amount", token1amount);
-    }
+  const maxAmounts = {
+    token1: num(Math.min(balances.token1, balances.token2 / ratio))
+      .dp(2)
+      .toNumber(),
+    token2: num(Math.min(balances.token2, balances.token1 / ratio))
+      .dp(2)
+      .toNumber(),
   };
 
-  //TODO: refactor with above function
+  const getInputProps = (field) => {
+    return {
+      ...field,
+      onChange: (value) => {
+        let newAmount = num(value).times(ratio).dp(2).toString();
+        let fieldToUpdate = "amount2";
+
+        if (field.name === "amount2") {
+          fieldToUpdate = "amount1";
+          newAmount = num(value).div(ratio).dp(2).toString();
+        }
+
+        setValue(fieldToUpdate, newAmount);
+
+        if (num(value).eq(0) || value == "") {
+          setValue(fieldToUpdate, "");
+        }
+
+        field.onChange(value);
+      },
+    };
+  };
+
   const handleChange = (value: number) => {
-    const formattedToken2Balance = fromTerraAmount(token2Balance, "0.0[00000]");
-    const token2amount = calculateTokenAmount(
-      pool,
-      token1.asset,
-      String(value)
-    );
-    const potentialToken1amount = calculateTokenAmount(
-      pool,
-      token2.asset,
-      formattedToken2Balance
-    );
-
-    if (num(token2amount).gt(formattedToken2Balance)) {
-      setValue(
-        "token2.amount",
-        num(formattedToken2Balance).minus("4").toString()
-      );
-      setValue("token1.amount", potentialToken1amount);
-    } else {
-      setValue("token1.amount", String(value));
-      setValue("token2.amount", token2amount);
-    }
+    let newAmount = num(value).times(ratio).dp(2).toString();
+    setValue("amount2", newAmount);
+    setValue("amount1", String(value));
   };
 
   return (
@@ -129,64 +103,107 @@ const ProvideFormInitial: FC<Props> = ({
         onChartClick={onChartClick}
         onTypeClick={onTypeClick}
       />
+
       <PoolHeader
         pool={pool}
         type={type}
         mode={mode}
         onModeClick={onModeClick}
       />
+
       <Card>
-        <Controller
-          name="token1"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <AmountInput
-              {...field}
-              limit={+amount}
-              isSingle
-              onChange={(v: any) => handleToken1Change(v, field.onChange)}
+        <Flex>
+          <Box flex="1" pr="8">
+            <Controller
+              name="token1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => <TokenInput isSingle {...field} />}
             />
-          )}
-        />
+          </Box>
+          <Box flex="1">
+            <Controller
+              name="amount1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput
+                  asset={token1}
+                  max={maxAmounts.token1}
+                  {...getInputProps(field)}
+                />
+              )}
+            />
+          </Box>
+        </Flex>
       </Card>
 
       {mode == ProvideFormMode.Double && (
         <Card mt="2">
-          <Controller
-            name="token2"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <AmountInput
-                {...field}
-                isSingle
-                onChange={(v: any) => handleToken2Change(v, field.onChange)}
+          <Flex>
+            <Box flex="1" pr="8">
+              <Controller
+                name="token2"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => <TokenInput isSingle {...field} />}
               />
-            )}
-          />
+            </Box>
+            <Box flex="1">
+              <Controller
+                name="amount2"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <NewAmountInput
+                    asset={token2}
+                    max={maxAmounts.token2}
+                    {...getInputProps(field)}
+                  />
+                )}
+              />
+            </Box>
+          </Flex>
         </Card>
       )}
 
       <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
+        <AstroSlider
           min={0}
-          defaultValue={0}
-          focusThumbOnChange={false}
-          value={Number(token1.amount)}
-          max={Number(amount)}
+          minLabel="0%"
+          max={maxAmounts.token1}
+          maxLabel="100%"
+          step={0.01}
+          value={+amount1}
           onChange={handleChange}
         />
       </Card>
 
       <ProvideFormFooter
         pool={pool}
-        amount={token1.amount}
+        amount={amount1}
         data={state}
         onConfirmClick={onClick}
       />
+
+      <Flex mt={2} justifyContent="center">
+        <Controller
+          name="autoStake"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <Checkbox
+              colorScheme="whatsapp"
+              iconColor="brand.deepBlue"
+              color="green.500"
+              borderColor="green.500"
+              {...field}
+            >
+              Stake LP Token
+            </Checkbox>
+          )}
+        />
+      </Flex>
     </>
   );
 };

@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState, useCallback } from "react";
-import { chakra, useToast, Text } from "@chakra-ui/react";
+import React, { FC, useState, useCallback } from "react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
-import { PairResponse, useAstroswap, useTokenInfo } from "modules/common";
+import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -11,20 +11,14 @@ import useDebounceValue from "hooks/useDebounceValue";
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
 import FormConfirm from "components/common/FormConfirm";
 import FormLoading from "components/common/FormLoading";
-import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
-import FormError from "components/common/FormError";
-import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
-  token1: {
-    amount: string;
-    asset: string;
-  };
-  token2: {
-    amount: string;
-    asset: string;
-  };
+  token1: string;
+  amount1: string;
+  token2: string;
+  amount2: string;
+  autoStake: boolean;
 };
 
 type Props = {
@@ -52,30 +46,27 @@ const ProvideForm: FC<Props> = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
-      token1: {
-        amount: "",
-        asset: pool?.token1.asset,
-      },
-      token2: {
-        amount: "",
-        asset: pool?.token2.asset,
-      },
+      token1: pool?.token1.asset,
+      amount1: "",
+      token2: pool?.token2.asset,
+      amount2: "",
+      autoStake: false,
     },
   });
 
-  const token1 = methods.watch("token1");
-  const token2 = methods.watch("token2");
+  const { token1, amount1, token2, amount2, autoStake } = methods.watch();
 
-  const debouncedAmount1 = useDebounceValue(token1.amount, 200);
-  const debouncedAmount2 = useDebounceValue(token2.amount, 200);
+  const debouncedAmount1 = useDebounceValue(amount1, 200);
+  const debouncedAmount2 = useDebounceValue(amount2, 200);
 
   const state = useProvide({
     contract: pair.contract_addr,
     pool: pool,
-    token1: token1.asset,
-    token2: token2.asset,
+    token1: token1,
+    token2: token2,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
+    autoStake,
     onBroadcasting: (txHash) => {
       resetForm();
       addNotification({
@@ -92,14 +83,8 @@ const ProvideForm: FC<Props> = ({
   });
 
   const submit = async () => {
-    state.provideLiquidity();
+    state.submit();
   };
-
-  useEffect(() => {
-    if (state.txStep == TxStep.Broadcasting) {
-      setShowConfirm(false);
-    }
-  }, [state.txStep]);
 
   const resetForm = useCallback(() => {
     setShowConfirm(false);
@@ -107,18 +92,8 @@ const ProvideForm: FC<Props> = ({
     state.reset();
   }, [state, methods]);
 
-  if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
+  if (state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
-  }
-
-  if (state.txStep == TxStep.Failed) {
-    return (
-      <FormError
-        content={state.error}
-        onCloseClick={state.reset}
-        onClick={state.reset}
-      />
-    );
   }
 
   return (
@@ -127,7 +102,9 @@ const ProvideForm: FC<Props> = ({
         {!showConfirm && (
           <ProvideFormInitial
             token1={token1}
+            amount1={amount1}
             token2={token2}
+            amount2={amount2}
             pool={pool}
             mode={mode}
             onModeClick={onModeClick}
@@ -143,16 +120,16 @@ const ProvideForm: FC<Props> = ({
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
+            title="Confirm Provide"
             actionLabel="Confirm Provide"
             contentComponent={
               <FormSummary
                 label1="You are providing"
                 label2="and"
-                token1={token1}
-                token2={token2}
+                token1={{ asset: token1, amount: amount1 }}
+                token2={{ asset: token2, amount: amount2 }}
               />
             }
-            details={[{ label: "APY", value: "12%" }]}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

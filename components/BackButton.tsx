@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { IconButton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
+import BackIcon from "components/icons/BackIcon";
 
 type Props = {};
 
@@ -11,12 +11,10 @@ const BackButton: FC<Props> = () => {
 
   return (
     <IconButton
-      onClick={router.back}
       aria-label="Back"
-      icon={<ArrowLeftIcon />}
-      size="xs"
-      isRound
+      icon={<BackIcon w="1.5rem" h="1.5rem" />}
       variant="icon"
+      onClick={router.back}
     />
   );
 };

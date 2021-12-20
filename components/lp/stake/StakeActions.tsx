@@ -1,9 +1,11 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, IconButton, HStack } from "@chakra-ui/react";
 
+import { PoolFormType } from "types/common";
+
 import GraphIcon from "components/icons/GraphIcon";
 import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
-import { PoolFormType } from "types/common";
+import BackButton from "components/BackButton";
 
 type Props = {
   type: PoolFormType;
@@ -22,6 +24,7 @@ const StakeActions: FC<Props> = ({
     <Flex justify="space-between" color="white" mb="4" px="6">
       <Box flex="1">
         <HStack>
+          <BackButton />
           <PoolHeaderTypeItem
             label="Stake"
             value={type}
@@ -37,7 +40,7 @@ const StakeActions: FC<Props> = ({
           />
         </HStack>
       </Box>
-      <Box>
+      {/* <Box>
         <IconButton
           aria-label="Graph"
           icon={<GraphIcon />}
@@ -47,7 +50,7 @@ const StakeActions: FC<Props> = ({
           isActive={isChartOpen}
           onClick={() => onChartClick(!isChartOpen)}
         />
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

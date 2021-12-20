@@ -15,11 +15,11 @@ export type Pool = {
   assets: [Asset, Asset];
   total: {
     share: string;
-    shareInUst: string | null;
+    shareInUst: string | number | null;
   };
   mine: {
     share: string;
-    shareInUst: string | null;
+    shareInUst: string | number | null;
     shareOfPool: string | null;
   };
   token1: {

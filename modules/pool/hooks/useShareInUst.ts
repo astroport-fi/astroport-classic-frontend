@@ -57,7 +57,7 @@ export const useShareInUst = ({ pool, amount }: Params) => {
       .times(token2Price)
       .div(ONE_TOKEN);
 
-    return totalPrice1.plus(totalPrice2).toFixed(6);
+    return totalPrice1.plus(totalPrice2).dp(2).toNumber();
   }, [pool, amount, token1, token2, token1Price, token2Price, tokenAmounts]);
 };
 

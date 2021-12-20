@@ -41,6 +41,7 @@ const Field: FC<Props> = forwardRef(
         return (
           <BalanceLP
             asset={asset}
+            max={max}
             initial={balance}
             label={balanceLabel}
             hideLabel={hideBalanceLabel}
@@ -54,6 +55,7 @@ const Field: FC<Props> = forwardRef(
       return (
         <Balance
           asset={asset}
+          max={max}
           initial={balance}
           label={balanceLabel}
           hideLabel={hideBalanceLabel}

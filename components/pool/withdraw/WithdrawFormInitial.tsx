@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -7,19 +7,18 @@ import { WithdrawState } from "modules/pool";
 import { PoolFormType, ProvideFormMode } from "types/common";
 
 import Card from "components/Card";
-import AmountInput from "components/AmountInput";
+import NewAmountInput from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
 import PoolActions from "components/pool/PoolActions";
 import PoolHeader from "components/pool/PoolHeader";
-import Slider from "components/common/Slider";
+import AstroSlider from "components/AstroSlider";
+import TokenInput from "components/TokenInput";
 
 type Props = {
   pool: any;
-  token: {
-    asset: string;
-    amount: string;
-  };
+  token: string;
+  amount: string;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
@@ -33,6 +32,7 @@ const WithdrawFormInitial: FC<Props> = ({
   mode,
   type,
   token,
+  amount,
   onModeClick,
   onTypeClick,
   state,
@@ -41,14 +41,11 @@ const WithdrawFormInitial: FC<Props> = ({
   const { control, setValue } = useFormContext();
   const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
 
-  const balance = useBalance(token.asset);
-  const amount = fromTerraAmount(balance, "0.000000");
+  const balance = useBalance(token);
+  const formattedBalance = fromTerraAmount(balance, "0.000000");
 
   const handleChange = (value: number) => {
-    setValue("token", {
-      ...token,
-      amount: String(value),
-    });
+    setValue("amount", String(value));
   };
 
   const renderWithdrawFormItem = (token: any, amount: any) => {
@@ -64,44 +61,49 @@ const WithdrawFormInitial: FC<Props> = ({
         onChartClick={setIsChartOpen}
         onTypeClick={onTypeClick}
       />
-      <PoolHeader
-        pool={pool}
-        type={type}
-        mode={mode}
-        onModeClick={onModeClick}
-      />
 
       <Card>
-        <Controller
-          name="token"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <AmountInput
-              {...field}
-              limit={+amount}
-              isSingle
-              isLpToken
-              balanceLabel="Provided"
+        <Flex>
+          <Box flex="1">
+            <Controller
+              name="token"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TokenInput isLpToken isSingle {...field} />
+              )}
             />
-          )}
-        />
+          </Box>
+          <Box flex="1" pl="8">
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <NewAmountInput
+                  asset={token}
+                  balanceLabel="Provided"
+                  {...field}
+                />
+              )}
+            />
+          </Box>
+        </Flex>
       </Card>
 
       <Card mt="2">
-        <Slider
-          variant="brand"
-          size="lg"
+        <AstroSlider
           min={0}
-          defaultValue={0}
-          value={+token.amount}
-          focusThumbOnChange={false}
-          max={+amount}
+          minLabel="0%"
+          max={+formattedBalance}
+          maxLabel="100%"
+          step={0.01}
+          value={+amount}
           onChange={handleChange}
         />
       </Card>
 
-      <Card mt="2" border="0">
+      <Card mt="2">
         <Text textStyle="small" variant="dimmed">
           Receivable Asset
         </Text>
@@ -112,14 +114,7 @@ const WithdrawFormInitial: FC<Props> = ({
         </Box>
       </Card>
 
-      <WithdrawFormFooter
-        pool={pool}
-        data={state}
-        amount={num(amount)
-          .minus(token.amount || "0")
-          .toString()}
-        onConfirmClick={onClick}
-      />
+      <WithdrawFormFooter pool={pool} data={state} onConfirmClick={onClick} />
     </>
   );
 };

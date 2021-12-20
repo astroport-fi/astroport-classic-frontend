@@ -1,30 +1,20 @@
 import React, { FC, useCallback, useState, useEffect } from "react";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import {
-  TxStep,
-  num,
-  fromTerraAmount,
-  useBalance,
-  toTerraAmount,
-} from "@arthuryeti/terra";
+import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
 import { PairResponse, useAstroswap, useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw } from "modules/pool";
 
-import FormSummary from "components/common/FormSummary";
 import FormLoading from "components/common/FormLoading";
-import FormConfirm from "components/common/FormConfirm";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
-import TransactionNotification from "components/notifications/Transaction";
+import WithdrawFormConfirm from "components/pool/withdraw//WithdrawFormConfirm";
 
 type FormValues = {
-  token: {
-    amount: string;
-    asset: string;
-  };
+  amount: string;
+  token: string;
 };
 
 type Props = {
@@ -49,16 +39,14 @@ const WithdrawForm: FC<Props> = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
-      token: {
-        amount: "0",
-        asset: pair.liquidity_token,
-      },
+      token: pair.liquidity_token,
+      amount: "",
     },
   });
 
-  const token = methods.watch("token");
+  const { token, amount } = methods.watch();
 
-  const debouncedAmount = useDebounceValue(token.amount, 500);
+  const debouncedAmount = useDebounceValue(amount, 500);
 
   const state = useWithdraw({
     contract: pair.contract_addr,
@@ -80,7 +68,6 @@ const WithdrawForm: FC<Props> = ({
   });
 
   const {
-    fee,
     txStep,
     withdraw,
     token1,
@@ -106,23 +93,6 @@ const WithdrawForm: FC<Props> = ({
     }
   }, [txStep]);
 
-  // TODO: Create a component and remove it from here
-  const estimateExchangeRate = () => {
-    return `1 ${getSymbol(token1)} = ${num(token2Amount)
-      .div(token1Amount)
-      .toPrecision(2)} ${getSymbol(token2)}`;
-  };
-
-  const balance = useBalance(token.asset);
-  const amount = fromTerraAmount(balance, "0.000000");
-  // TODO: Create a hook for this calc
-  const shareOfPool = num(amount)
-    .minus(token.amount || "0")
-    .div(num(fromTerraAmount(pool.assets[0].amount, "0.000000")))
-    .times("100")
-    .toFixed(2)
-    .toString();
-
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
   }
@@ -138,35 +108,21 @@ const WithdrawForm: FC<Props> = ({
             onModeClick={onModeClick}
             onTypeClick={onTypeClick}
             token={token}
+            amount={amount}
             state={state}
             onClick={() => setShowConfirm(true)}
           />
         )}
 
         {showConfirm && (
-          <FormConfirm
-            fee={fee}
-            title="Confirm withdraw liquidity"
-            actionLabel="Confirm withdraw"
-            contentComponent={
-              <FormSummary
-                label1="You are receving:"
-                token1={{ asset: token1, amount: token1Amount }}
-                token2={{ asset: token2, amount: token2Amount }}
-              />
-            }
-            details={[
-              { label: "Rates", value: estimateExchangeRate() },
-              { label: "Share of Pool", value: `${shareOfPool || "0"}%` },
-            ]}
+          <WithdrawFormConfirm
+            token1={token1}
+            amount1={token1Amount}
+            token2={token2}
+            amount2={token2Amount}
+            fee={state.fee}
             onCloseClick={() => setShowConfirm(false)}
-          >
-            <Text mt={6} textStyle="small" variant="secondary">
-              The numbers above are estimates based on the current composition
-              of the pool. These numbers could change between now and the time
-              your transaction completes.
-            </Text>
-          </FormConfirm>
+          />
         )}
       </chakra.form>
     </FormProvider>
