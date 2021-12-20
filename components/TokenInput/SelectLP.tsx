@@ -14,7 +14,7 @@ import {
 import { useAstroswap, useTokenInfo, getTokenDenoms } from "modules/common";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import { ListLP } from "components/AmountInput";
+import { ListLP } from "components/TokenInput";
 
 type Props = {
   value: string;

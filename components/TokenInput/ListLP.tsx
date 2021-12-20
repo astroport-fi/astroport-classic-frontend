@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box } from "@chakra-ui/react";
 
-import { ListLPItem } from "components/AmountInput";
+import { ListLPItem } from "components/TokenInput";
 import { useAstroswap } from "modules/common";
 
 type Props = {

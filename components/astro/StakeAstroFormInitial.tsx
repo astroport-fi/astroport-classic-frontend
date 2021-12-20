@@ -30,10 +30,7 @@ const StakeAstroFormInitial: FC<Props> = ({
   const { setValue } = useFormContext();
 
   const handleChange = (value: number) => {
-    setValue("token", {
-      ...token,
-      amount: String(value),
-    });
+    setValue("amount", String(value));
   };
 
   return (

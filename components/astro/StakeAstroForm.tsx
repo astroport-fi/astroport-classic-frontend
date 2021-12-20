@@ -17,10 +17,8 @@ import FormError from "components/common/FormError";
 import TransactionNotification from "components/notifications/Transaction";
 
 type FormValue = {
-  token: {
-    amount: string;
-    asset: string;
-  };
+  amount: string;
+  token: string;
 };
 
 type Props = {
@@ -36,10 +34,8 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
   const { astroToken, xAstroToken } = useContracts();
   const methods = useForm<FormValue>({
     defaultValues: {
-      token: {
-        amount: undefined,
-        asset: astroToken,
-      },
+      amount: "",
+      token: astroToken,
     },
   });
 
@@ -53,7 +49,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
   );
 
   const { watch, getValues, setValue, reset: resetForm } = methods;
-  const token = watch("token");
+  const { token, amount } = watch();
 
   const showNotification = (txHash: string) => {
     const { token } = getValues();
@@ -65,7 +61,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
         render: ({ onClose }) => (
           <TransactionNotification onClose={onClose} txHash={txHash}>
             <Text textStyle="medium">
-              Stake {token.amount} {getSymbol(token.asset)}
+              Stake {amount} {getSymbol(token)}
             </Text>
           </TransactionNotification>
         ),
@@ -76,7 +72,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
   // TODO: refactor to use one function for staking and unstaking
   const state = useAstro({
     type,
-    amount: token.amount,
+    amount,
     onSuccess: handleSuccess,
   });
 
@@ -90,48 +86,24 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
 
   useEffect(() => {
     if (type == AstroFormType.Stake) {
-      setValue("token.asset", astroToken);
+      setValue("token", astroToken);
     }
     if (type == AstroFormType.Unstake) {
-      setValue("token.asset", xAstroToken);
+      setValue("token", xAstroToken);
     }
   }, [type, xAstroToken, astroToken, setValue]);
 
   const reset = () => {
     setShowConfirm(false);
     resetForm({
-      token: {
-        amount: undefined,
-        asset: astroToken,
-      },
+      amount: "",
+      token: astroToken,
     });
     resetTx();
   };
 
   if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
     return <FormLoading txHash={txHash} />;
-  }
-
-  if (txStep == TxStep.Success) {
-    return (
-      <FormSuccess
-        contentComponent={<FormSummary label1="Staking Astro" token1={token} />}
-        details={[{ label: "Price Impact", value: "0.02%" }]}
-        onCloseClick={reset}
-      />
-    );
-  }
-
-  if (txStep == TxStep.Failed) {
-    return (
-      <FormError
-        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua."
-        onCloseClick={reset}
-        onClick={reset}
-      />
-    );
   }
 
   return (
@@ -162,7 +134,7 @@ const StakeAstroForm: FC<Props> = ({ type, setType }) => {
                     ? "You are staking:"
                     : "You are receiving:"
                 }
-                token1={token}
+                token1={{ asset: token, amount }}
               />
             }
             onCloseClick={() => setShowConfirm(false)}
