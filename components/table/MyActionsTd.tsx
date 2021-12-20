@@ -14,25 +14,19 @@ const MyActionsTd: FC<Props> = ({ name, duration }) => {
 
   if (!logic.canWithdraw) {
     return (
-      <Flex justify={{ md: "flex-end" }}>
-        <Button
-          as="a"
-          variant="secondary"
-          size="sm"
-          isFullWidth
-          isDisabled={!logic.canWithdraw}
-        >
-          Unlock LP Tokens
+      <Flex justify="flex-end">
+        <Button as="a" variant="silent" size="sm" isFullWidth isDisabled>
+          Locked
         </Button>
       </Flex>
     );
   }
 
   return (
-    <Flex justify={{ md: "flex-end" }}>
+    <Flex justify="flex-end">
       <Link href={`/unlock/${name}/${duration}`} passHref>
-        <Button as="a" variant="secondary" size="sm" isFullWidth>
-          Unlock LP Tokens
+        <Button as="a" variant="primary" size="sm" isFullWidth>
+          Manage
         </Button>
       </Link>
     </Flex>

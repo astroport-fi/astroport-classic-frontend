@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import { HStack, Image, Text } from "@chakra-ui/react";
+import { Box, HStack, Image, Text } from "@chakra-ui/react";
 
+import { usePool } from "modules/pool";
 import { useTokenInfo } from "modules/common";
 
 type Props = {
@@ -8,13 +9,22 @@ type Props = {
 };
 
 const PoolNameTd: FC<Props> = ({ row }) => {
-  const { name } = row.original;
-  const { getSymbol, getIcon } = useTokenInfo();
-
+  console.log(row.original);
+  const { getIcon, getSymbol } = useTokenInfo();
+  const {
+    assets: [token1, token2],
+  } = row.original;
   return (
     <HStack>
-      <Image src={getIcon(name)} alt="Icon" />
-      <Text fontSize="sm">{getSymbol(name)}</Text>
+      <HStack spacing={0.5}>
+        <Image src={getIcon(token1)} alt={getSymbol(token1)} boxSize={4} />
+        <Image src={getIcon(token2)} alt={getSymbol(token2)} boxSize={4} />
+      </HStack>
+      <Box>
+        <Text textStyle="medium">
+          {getSymbol(token1)}-{getSymbol(token2)}
+        </Text>
+      </Box>
     </HStack>
   );
 };

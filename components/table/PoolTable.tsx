@@ -48,15 +48,7 @@ const PoolTable: FC<Props> = ({ columns, data }) => {
       ) : (
         <Tr>
           <Text fontSize="sm">
-            Migrate Terraswap LP Tokens to get ASTRO rewards.{" "}
-            <Link
-              href="https://astroport.medium.com/countdown-initiated-announcing-astroports-astrodrop-and-launch-date-229d3d8b61cb"
-              color="brand.purple"
-              ml="1"
-              isExternal
-            >
-              Learn More
-            </Link>
+            You do not have any locked LP tokens in lockdrop.
           </Text>
         </Tr>
       )}

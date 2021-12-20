@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 import { sortBy } from "lodash";
 
 import { ONE_TOKEN } from "constants/constants";
-import { useContracts, useLunaPrice } from "modules/common";
+import { getTokenDenoms, useContracts, useLunaPrice } from "modules/common";
 import { useUserInfo } from "modules/lockdrop";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -92,6 +92,7 @@ export const useAstroPools = () => {
 
     return {
       name: info.terraswap_lp_token,
+      assets: getTokenDenoms(assets.map(({ info }) => info)),
       totalLiquidity,
       totalLiquidityInUst: totalLiquidityLockedInUst,
       myLiquidity,

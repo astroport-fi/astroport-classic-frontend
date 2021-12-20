@@ -1,41 +1,34 @@
 import React, { useMemo } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
 
 import { useAstroPools } from "modules/lockdrop";
 
 import CardHeader from "components/CardHeader";
-import CheckIcon from "components/icons/CheckIcon";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
-import PoolTotalTd from "components/table/PoolTotalTd";
 import LockEndTd from "components/table/LockEndTd";
-import NumberTd from "components/table/NumberTd";
 import NumberWithUstTd from "components/table/NumberWithUstTd";
 import MyActionsTd from "components/table/MyActionsTd";
+import RewardedIcon from "components/icons/RewardedIcon";
 
 const MyLockedAstroLiquidity = () => {
   const pools = useAstroPools();
   const columns = useMemo(
     () => [
       {
+        id: "reward-icon",
+        width: 0,
+        Cell: () => <RewardedIcon color="#59B7DD" />,
+      },
+
+      {
         Header: "Pool Name",
         Cell: ({ row }: any) => <PoolNameTd row={row} />,
         accessor: "name",
-        width: 120,
       },
-      // {
-      //   Header: "Total Locked Liquidity",
-      //   Cell: ({ row }: any) => (
-      //     <NumberWithUstTd
-      //       value={row.original.totalLiquidity}
-      //       valueInUst={row.original.totalLiquidityInUst}
-      //     />
-      //   ),
-      //   accessor: "totalLockedAstroportLiquidity",
-      // },
       {
-        Header: "My Locked Liquidity",
+        Header: "My Liquidity",
         Cell: ({ row }: any) => (
           <NumberWithUstTd
             value={row.original.myLiquidity}
@@ -43,32 +36,24 @@ const MyLockedAstroLiquidity = () => {
           />
         ),
         accessor: "myLiquidity",
-        width: 80,
       },
       {
-        Header: "My Lock Ends",
+        Header: "Liquidity",
+        Cell: ({ row }: any) => (
+          <NumberWithUstTd
+            value={row.original.totalLiquidity}
+            valueInUst={row.original.totalLiquidityInUst}
+          />
+        ),
+        accessor: "totalLockedAstroportLiquidity",
+      },
+      {
+        Header: "Fully unlocks on",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
-        width: 75,
       },
       {
-        Header: "Est. ASTRO Rewards",
-        Cell: ({ row }: any) => <NumberTd value={row.original.astroRewards} />,
-        accessor: "astroRewards",
-        width: 80,
-      },
-      {
-        Header: "Dual Rewards",
-        Cell: () => (
-          <Box>
-            <CheckIcon />
-          </Box>
-        ),
-        accessor: "dualRewards",
-        width: 50,
-      },
-      {
-        Header: () => <Box width="167px" />,
+        id: "pool-actions",
         Cell: ({ row }: any) => (
           <MyActionsTd
             name={row.original.name}
@@ -84,8 +69,22 @@ const MyLockedAstroLiquidity = () => {
 
   return (
     <Box>
-      <CardHeader label="My Locked Astroport Liquidity" />
-      <Card noPadding>
+      <CardHeader label="My Locked LP Tokens from Phase 1 : The Lockdrop" />
+      <Card>
+        <Text textStyle="small" variant="secondary">
+          Your lockdrop positions will unlock on the dates you specified when
+          you made your deposit.{" "}
+          <Link
+            isExternal
+            target="_blank"
+            href="https://docs.astroport.fi/astroport/workstation/lockdrop/phase-1"
+            color="brand.lightPurple"
+          >
+            Read More
+          </Link>
+        </Text>
+      </Card>
+      <Card mt={6} noPadding>
         <PoolTable columns={columns} data={pools} />
       </Card>
     </Box>
