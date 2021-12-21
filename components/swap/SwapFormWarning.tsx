@@ -12,7 +12,6 @@ const SwapFormWarning: FC = () => (
     borderWidth={2}
     borderColor="red.300"
     mt={4}
-    d="none"
   >
     <Text display="inline" color="red.500" textStyle="small">
       Warning:{" "}
