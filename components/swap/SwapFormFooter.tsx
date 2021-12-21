@@ -31,8 +31,8 @@ const SwapFormFooter: FC<Props> = ({
   const formattedPrice = numeral(price).format("0,0.00[0]").toString();
 
   return (
-    <Flex justify="space-between" px="12" mt="8">
-      <Box flex="1" color="white">
+    <Flex justify="space-between" px="12" mt="6">
+      <Box flex="1" color="white" mt="1">
         {!isDisabled && (
           <>
             <Text textStyle="medium">
@@ -56,7 +56,7 @@ const SwapFormFooter: FC<Props> = ({
         </Button>
         <Box color="white">{!isDisabled && <FormFee fee={fee} />}</Box>
       </Flex>
-      <Box flex="1" textAlign="right" color="white">
+      <Box flex="1" textAlign="right" color="white" mt="1">
         {!isDisabled && (
           <>
             <Text textStyle="medium" color="green.500">

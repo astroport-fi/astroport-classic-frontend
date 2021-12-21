@@ -20,6 +20,10 @@ const button = {
       _hover: {
         bg: "white",
         color: "brand.purple",
+        _disabled: {
+          bg: "brand.purple",
+          color: "white",
+        },
       },
       _focus: {
         boxShadow: "none",
@@ -55,9 +59,10 @@ const button = {
       color: "white.600",
       bg: "white.100",
       fontSize: "0.65rem",
-      borderRadius: "sm",
+      borderRadius: "4px",
       minWidht: "16",
-      py: "1",
+      py: "1.5",
+      h: "7",
       px: "2.5",
       height: "auto",
       letterSpacing: "0.15rem",
@@ -94,13 +99,15 @@ const button = {
       },
     },
     icon: {
-      bg: "transparent",
+      bg: "#19254B",
       outline: "none",
-      border: "0",
+      border: "solid 1px",
+      w: "6",
+      h: "6",
       px: "0",
+      color: "white",
       _hover: {
-        color: "brand.purple",
-        bg: "transparent",
+        bg: "brand.purple",
       },
       _active: {
         color: "brand.purple",
@@ -109,7 +116,6 @@ const button = {
       _focus: {
         boxShadow: "none",
       },
-      color: "transparent",
     },
     slider: {
       border: "0",
@@ -143,7 +149,10 @@ const button = {
       outline: "none",
       borderRadius: "none",
       bg: "none",
-      px: "none",
+      p: "0",
+      w: "auto",
+      h: "auto",
+      minW: "0",
       color: "white.400",
       fontWeight: "400",
       fontSize: "lg",

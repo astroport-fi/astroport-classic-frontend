@@ -43,6 +43,15 @@ const styles = {
         },
       };
     },
+    search: {
+      field: {
+        bg: "rgba(255, 255, 255, 0.2)",
+        color: "#788DB2",
+        border: "solid 1px",
+        borderColor: "brand.deepBlue",
+        borderRadius: "md",
+      },
+    },
     filled: {
       field: {
         bg: "#071436",

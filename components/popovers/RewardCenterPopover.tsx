@@ -13,38 +13,28 @@ import {
 
 import CloseIcon from "components/icons/CloseIcon";
 import RewardList from "components/reward/RewardList";
+import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ClaimAllRewardsBtn from "components/reward/ClaimAllRewardsBtn";
 
 type Props = {
-  triggerElement: React.ReactElement;
+  triggerElement: () => React.ReactElement;
 };
 
 const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
-    <Popover
-      placement="left-end"
+    <PopoverWrapper
+      title="Rewards"
+      placement="left"
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}
+      triggerElement={triggerElement}
     >
-      <PopoverTrigger>{triggerElement}</PopoverTrigger>
-      <PopoverContent color="brand.deepBlue">
-        <Flex align="center" justify="space-between" mb="4" pr={6}>
-          <PopoverHeader>Rewards</PopoverHeader>
-          <PopoverCloseButton position="static" borderRadius="xl">
-            <CloseIcon w="6" h="6" />
-          </PopoverCloseButton>
-        </Flex>
-        <PopoverBody>
-          <Box width="sm" px={6}>
-            <RewardList />
-            <ClaimAllRewardsBtn onSuccess={onClose} />
-          </Box>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      <RewardList />
+      <ClaimAllRewardsBtn onSuccess={onClose} />
+    </PopoverWrapper>
   );
 };
 

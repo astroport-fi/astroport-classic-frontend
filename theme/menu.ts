@@ -1,6 +1,7 @@
 const styles = {
   baseStyle: {
     list: {
+      fontFamily: "WhyteInktrap",
       bg: "#EFF5FF",
       border: "none",
       boxShadow: "lg",

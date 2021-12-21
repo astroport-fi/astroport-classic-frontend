@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Flex, HStack, Image, Box } from "@chakra-ui/react";
+import { Container, Flex, HStack, Image, Box } from "@chakra-ui/react";
 
 import { useAstroswap } from "modules/common";
 
@@ -31,13 +31,21 @@ const Navbar: FC = () => {
   };
 
   return (
-    <Flex maxW="container.xl" m="0 auto" direction="column">
+    <Flex
+      mx="auto"
+      maxW="container.xl"
+      px={["6", null, "12"]}
+      pt="8"
+      direction="column"
+    >
       <Flex justify="space-between" align="center">
-        <Link href="/" passHref>
-          <a>
-            <Image src="/logo.svg" alt="WhiteWhale Logo" />
-          </a>
-        </Link>
+        <Box flexShrink={0}>
+          <Link href="/" passHref>
+            <a>
+              <Image src="/logo.svg" alt="WhiteWhale Logo" />
+            </a>
+          </Link>
+        </Box>
         <HStack flex="1" px="16" spacing="12">
           <NavbarLink text="Swap" href="/" />
           <NavbarLink text="Pool" href="/pairs" />

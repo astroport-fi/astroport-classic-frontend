@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 
 import Card from "components/Card";
 import FormFee from "components/common/FormFee";
-import CloseModalIcon from "components/icons/CloseModalIcon";
+import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
   title?: string;
@@ -51,8 +51,12 @@ const FormConfirm: FC<Props> = ({
           <Text>{title}</Text>
           <IconButton
             aria-label="Close"
-            icon={<CloseModalIcon w="1.5rem" h="1.5rem" />}
-            variant="icon"
+            variant="simple"
+            isRound
+            _hover={{
+              bg: "rgba(255,255,255,0.1)",
+            }}
+            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
             onClick={onCloseClick}
           />
         </Flex>
@@ -60,7 +64,7 @@ const FormConfirm: FC<Props> = ({
         <Box>{contentComponent}</Box>
 
         {details && (
-          <VStack mt={6} align="stretch">
+          <VStack mt={6} spacing={3} align="stretch">
             <Text textStyle="small" variant="secondary">
               Breakdown
             </Text>
@@ -79,7 +83,14 @@ const FormConfirm: FC<Props> = ({
                   <Text textStyle="small" variant="secondary">
                     {detail.label}
                   </Text>
-                  <Text textStyle="medium">{detail.value}</Text>
+                  <Text
+                    textStyle="medium"
+                    color={
+                      detail.label == "Price Impact" ? "green.500" : "inherit"
+                    }
+                  >
+                    {detail.value}
+                  </Text>
                 </HStack>
               ))}
             </VStack>
@@ -92,7 +103,7 @@ const FormConfirm: FC<Props> = ({
           <Button variant="primary" minW="64" size="sm" type="submit">
             {actionLabel}
           </Button>
-          {fee && <FormFee fee={fee} />}
+          {fee && <FormFee fee={fee} opacity={1} />}
         </Flex>
       </Card>
     </MotionBox>

@@ -37,27 +37,19 @@ const HamburgerMenu: FC<Props> = ({}) => (
           <HamburgerIcon />
         </MenuButton>
 
-        <MenuList bg="otherColours.overlay" color="brand.deepBlue">
+        <MenuList bg="otherColours.overlay" color="brand.deepBlue" p="0">
           <Flex p={6} justify="space-between" align="center">
             <Heading>Menu</Heading>
             <IconButton
               aria-label="Close"
-              variant="icon"
-              size="xs"
+              variant="simple"
               isRound
-              color="currentColor"
-              borderColor="currentColor"
               _hover={{
-                bg: "brand.purple",
-                color: "white",
-                borderColor: "brand.deepBlue",
+                bg: "rgba(0,0,0,0.1)",
               }}
-              _active={{
-                bg: "brand.purple",
-                color: "white",
-                borderColor: "brand.deepBlue",
-              }}
-              icon={<CloseIcon />}
+              icon={
+                <CloseIcon w="6" h="6" color="#000D37" BackgroundOpacity="0" />
+              }
               onClick={onClose}
             />
           </Flex>
@@ -65,14 +57,8 @@ const HamburgerMenu: FC<Props> = ({}) => (
             <Divider borderColor="black.100" />
             {items.map(({ label, url }) => (
               <Box key={label}>
-                <Link
-                  href={url}
-                  isExternal
-                  _hover={{
-                    textDecoration: "none",
-                  }}
-                >
-                  <Text px={6} py={1}>
+                <Link href={url} isExternal fontSize="sm">
+                  <Text px={6} py={2}>
                     {label}
                   </Text>
                 </Link>

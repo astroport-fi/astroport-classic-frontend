@@ -97,8 +97,8 @@ export default extendTheme({
       lineHeight: "shorter",
     },
     minibutton: {
-      fontWeight: "bold",
-      fontSize: "xs",
+      fontWeight: "bolder",
+      fontSize: "10px",
       lineHeight: "1.2",
       letterSpacing: "0.18rem",
       textTransform: "uppercase",

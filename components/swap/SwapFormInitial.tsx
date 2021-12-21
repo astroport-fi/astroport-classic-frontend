@@ -15,7 +15,8 @@ import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import { SwapState } from "modules/swap";
 
-import GearIcon from "components/icons/GearIcon";
+// import GearIcon from "components/icons/GearIcon";
+// import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
@@ -92,7 +93,7 @@ const SwapFormInitial: FC<Props> = ({
 
   return (
     <Box mt="24">
-      <Flex justify="space-between" align="center" color="white" mb="4" px="6">
+      <Flex justify="space-between" align="center" color="white" mb="6" px="6">
         <MotionBox
           flex="1"
           initial={{ opacity: 0 }}
@@ -113,30 +114,29 @@ const SwapFormInitial: FC<Props> = ({
             rules={{ required: true }}
             render={({ field }) => (
               <SlippagePopover
-                triggerElement={
-                  <IconButton
-                    aria-label="Settings"
-                    icon={<GearIcon />}
-                    size="xs"
-                    isRound
-                    variant="icon"
-                  />
-                }
                 {...field}
                 expertMode={expertMode}
                 onExpertModeChange={onExpertModeChange}
               />
             )}
           />
+          {/* <IconButton
+            aria-label="Graph"
+            icon={<GraphIcon />}
+            size="xs"
+            isRound
+            variant="icon"
+          /> */}
         </MotionHStack>
       </Flex>
 
       <MotionBox
         key="card1"
         borderRadius="xl"
-        bg="brand.purple"
+        bg="brand.blue"
         py="8"
         px="12"
+        border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: -30 }}
         animate={card1Control}
       >
@@ -149,7 +149,7 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => <TokenInput {...field} />}
             />
           </Box>
-          <Box flex="1">
+          <Box flex="1" ml="8">
             <Controller
               name="amount1"
               control={control}
@@ -167,28 +167,39 @@ const SwapFormInitial: FC<Props> = ({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4 }}
         justify="center"
-        mt="-2"
-        mb="-5"
         position="relative"
+        h="2"
       >
-        <IconButton
-          aria-label="Switch"
-          icon={<ArrowDownIcon />}
-          onClick={reverse}
-          variant="icon"
-          size="xs"
+        <Flex
+          justify="center"
+          align="center"
+          borderRadius="100%"
           bg="brand.deepBlue"
-          isRound
-        />
+          p="1"
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+        >
+          <IconButton
+            aria-label="Switch"
+            icon={<ArrowDownIcon />}
+            onClick={reverse}
+            variant="icon"
+            size="xs"
+            bg="brand.deepBlue"
+            isRound
+          />
+        </Flex>
       </MotionFlex>
 
       <MotionBox
         key="card2"
-        mt="3"
         borderRadius="xl"
-        bg="brand.blue"
+        bg="brand.purple"
         py="8"
         px="12"
+        border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: 30 }}
         animate={card2Control}
       >
@@ -201,7 +212,7 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => <TokenInput {...field} />}
             />
           </Box>
-          <Box flex="1">
+          <Box flex="1" ml="8">
             <Controller
               name="amount2"
               control={control}
@@ -229,7 +240,7 @@ const SwapFormInitial: FC<Props> = ({
       )}
 
       {wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
-        <Flex justify="center" mt="8">
+        <Flex justify="center" mt="6">
           <Button variant="primary" type="button" onClick={onOpen}>
             Connect your wallet
           </Button>

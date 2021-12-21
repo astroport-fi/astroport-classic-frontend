@@ -3,7 +3,11 @@ import { Box, Text, Flex, VStack } from "@chakra-ui/react";
 import numeral from "numeral";
 
 import { useContracts } from "modules/common";
-import { usePhase1Rewards, usePhase2Rewards } from "modules/reward";
+import {
+  usePhase1Rewards,
+  usePhase2Rewards,
+  useTotalRewardValueInUst,
+} from "modules/reward";
 import { useAirdropBalance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
@@ -16,8 +20,8 @@ const RewardList: FC = () => {
   const airdrop = numeral(airdropBalance).format("0,0.00");
   const phase1 = numeral(phase1Rewards).format("0,0.00");
   const phase2 = numeral(phase2Rewards).format("0,0.00");
-  const total = airdropBalance + phase1Rewards + phase2Rewards;
-  const totalFormatted = numeral(total).format("0,0.00");
+  const valueInUst = useTotalRewardValueInUst();
+  const formatted = numeral(valueInUst).format("0,0.00");
 
   return (
     <Box>
@@ -27,7 +31,7 @@ const RewardList: FC = () => {
         </Text>
         <VStack align="flex-end" spacing={1}>
           <Text textStyle="h3" lineHeight="1">
-            $ {totalFormatted}
+            $ {formatted}
           </Text>
           <Text textStyle="small" variant="dimmed">
             Unclaimed Balance

@@ -16,7 +16,10 @@ export const usePhase2Rewards = () => {
       return 0;
     }
 
-    num(userInfo.auction_incentive_amount).div(ONE_TOKEN).dp(6).toNumber();
+    return num(userInfo.auction_incentive_amount)
+      .div(ONE_TOKEN)
+      .dp(6)
+      .toNumber();
   }, [userInfo]);
 };
 

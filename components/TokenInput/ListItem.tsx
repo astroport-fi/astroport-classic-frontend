@@ -13,7 +13,7 @@ type Props = {
 const ListItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const balance = useBalance(token);
-  const price = useTokenPriceInUst(token);
+  const price = useTokenPriceInUst(token).toFixed(2);
 
   return (
     <chakra.button
@@ -32,14 +32,14 @@ const ListItem = ({ token, onClick }: Props) => {
       onClick={() => onClick(token)}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
-        <Box mr="2">
-          <Image src={getIcon(token)} alt={getSymbol(token)} boxSize="10" />
+        <Box mr="3">
+          <Image src={getIcon(token)} alt={getSymbol(token)} boxSize="8" />
         </Box>
         <Box flex="1">
           <Text fontSize="xl" fontWeight="500" lineHeight="normal">
             {getSymbol(token)}
           </Text>
-          <Text fontSize="sm" opacity="0.4">
+          <Text mt="-1" fontSize="sm" opacity="0.4">
             Terra
           </Text>
         </Box>
@@ -47,7 +47,7 @@ const ListItem = ({ token, onClick }: Props) => {
           <HStack>
             <Box>
               <Text fontSize="sm" opacity="0.4">
-                Balance:
+                In wallet:
               </Text>
               <Text fontSize="sm" opacity="0.4">
                 Price:
@@ -57,7 +57,7 @@ const ListItem = ({ token, onClick }: Props) => {
               <Text fontSize="sm" textAlign="right">
                 {fromTerraAmount(balance, "0,0.000")}
               </Text>
-              <Text fontSize="sm" textAlign="right">
+              <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
                 ${price}
               </Text>
             </Box>

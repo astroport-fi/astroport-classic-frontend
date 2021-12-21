@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { CommonTokensList, List } from "components/TokenInput";
 import Search from "components/common/Search";
@@ -42,7 +43,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
       return (
         <>
           <Box>
-            <Image src={icon} width="2.5rem" height="2.5rem" alt="Logo" />
+            <Image src={icon} width="8" height="8" alt="Logo" flexShrink={0} />
           </Box>
 
           <Box ml="3" fontWeight="500" flex="1">
@@ -63,54 +64,49 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
   };
 
   return (
-    <Popover
+    <PopoverWrapper
+      title="Select token"
       isLazy
       placement="left"
       isOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}
+      triggerElement={() => (
+        <Button
+          bg="white.100"
+          color="white"
+          borderRadius="full"
+          borderWidth="1px"
+          borderColor="white.200"
+          textAlign="left"
+          justifyContent="space-between"
+          h="16"
+          pr="6"
+          w="full"
+          _active={{
+            bg: "white.200",
+          }}
+          _focus={{
+            outline: "none",
+          }}
+          _hover={{
+            bg: "white.200",
+          }}
+        >
+          {renderButton()}
+        </Button>
+      )}
     >
-      <Flex pr="8">
-        <PopoverTrigger>
-          <Button
-            bg="white.100"
-            color="white"
-            borderRadius="full"
-            borderWidth="1px"
-            borderColor="white.200"
-            textAlign="left"
-            justifyContent="space-between"
-            h="16"
-            w="full"
-            _active={{
-              bg: "white.200",
-            }}
-            _focus={{
-              outline: "none",
-            }}
-            _hover={{
-              bg: "white.200",
-            }}
-          >
-            {renderButton()}
-          </Button>
-        </PopoverTrigger>
-      </Flex>
-      <PopoverContent>
-        <VStack spacing={6} align="stretch" p="4" minW="26rem">
-          <Text>Select Token</Text>
-          <Search
-            placeholder="Search token"
-            borderColor="brand.deepBlue"
-            color="brand.deepBlue"
-            bg="white.200"
-            onChange={(e) => setFilter(e.target.value)}
-          />
-          <CommonTokensList onClick={handleClick} />
-          <List onClick={handleClick} tokens={tokens} filter={filter} />
-        </VStack>
-      </PopoverContent>
-    </Popover>
+      <VStack spacing={6} align="stretch" mt="1">
+        <Search
+          placeholder="Search token"
+          onChange={(e) => setFilter(e.target.value)}
+          variant="search"
+        />
+        <CommonTokensList onClick={handleClick} />
+        <List onClick={handleClick} tokens={tokens} filter={filter} />
+      </VStack>
+    </PopoverWrapper>
   );
 };
 

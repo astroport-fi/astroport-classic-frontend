@@ -13,7 +13,7 @@ const RewardCenter: FC = () => {
 
   return (
     <RewardCenterPopover
-      triggerElement={
+      triggerElement={() => (
         <chakra.button
           color="white"
           bg="brand.lightBlue"
@@ -28,7 +28,7 @@ const RewardCenter: FC = () => {
             <Text fontSize="sm">$ {formatted}</Text>
           </Flex>
         </chakra.button>
-      }
+      )}
     />
   );
 };

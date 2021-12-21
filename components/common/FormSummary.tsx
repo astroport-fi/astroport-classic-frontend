@@ -19,14 +19,14 @@ type Props = {
 const FormSummary: FC<Props> = ({ label1, label2, token1, token2 }) => {
   return (
     <VStack align="stretch">
-      <Stack spacing={2}>
+      <Stack spacing={3}>
         <Text textStyle="small" variant="secondary">
           {label1}
         </Text>
         <TokenCard token={token1} />
       </Stack>
       {token2 && (
-        <Stack spacing={2}>
+        <Stack spacing={3}>
           {label2 && (
             <Text mt={4} textStyle="small" variant="secondary">
               {label2}

@@ -6,11 +6,13 @@ const SwapFormWarning: FC = () => (
     bg="whiteAlpha.50"
     color="white"
     px={12}
-    py={5}
+    pt={4}
+    pb={5}
     borderRadius="2xl"
     borderWidth={2}
     borderColor="red.300"
-    mt={2}
+    mt={4}
+    d="none"
   >
     <Text display="inline" color="red.500" textStyle="small">
       Warning:{" "}

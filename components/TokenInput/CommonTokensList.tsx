@@ -10,7 +10,7 @@ type Props = {
 
 const CommonTokensList: FC<Props> = ({ onClick }) => {
   return (
-    <Box>
+    <Box pb="2">
       <Text textStyle="minibutton">Common tokens</Text>
       <Box overflowY="auto" mt="2">
         <HStack>
