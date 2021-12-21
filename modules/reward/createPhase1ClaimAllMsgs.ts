@@ -1,0 +1,36 @@
+import { toBase64, toTerraAmount } from "@arthuryeti/terra";
+import { MsgExecuteContract } from "@terra-money/terra.js";
+
+type Item = {
+  contract: string;
+  duration: number;
+};
+
+type Opts = {
+  contract: string;
+  items: Item[];
+};
+
+export const createPhase1ClaimAllMsgs = (
+  options: Opts,
+  sender: string
+): MsgExecuteContract[] => {
+  const { contract, items } = options;
+  let msgs = [];
+
+  items.forEach((item) => {
+    msgs.push(
+      new MsgExecuteContract(sender, contract, {
+        claim_rewards_and_optionally_unlock: {
+          terraswap_lp_token: item.contract,
+          duration: item.duration,
+          withdraw_lp_stake: false,
+        },
+      })
+    );
+  });
+
+  return msgs;
+};
+
+export default createPhase1ClaimAllMsgs;

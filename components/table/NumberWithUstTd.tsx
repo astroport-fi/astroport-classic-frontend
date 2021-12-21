@@ -15,7 +15,7 @@ const NumberWithUstTd: FC<Props> = ({ value, valueInUst }) => {
     <HStack>
       <Text fontSize="sm">{formatted}</Text>
       {valueInUst > 0 && (
-        <Text fontSize="sm" variant="light">
+        <Text fontSize="sm" variant="dimmed">
           ($ {formattedInUst})
         </Text>
       )}

@@ -5,18 +5,25 @@ import { useQuery } from "react-query";
 import { useContracts } from "modules/common";
 
 type Response = {
-  airdrop_amount: string;
-  delegated_amount: string;
-  tokens_withdrawn: boolean;
+  astro_delegated: string;
+  ust_delegated: string;
+  ust_withdrawn: boolean;
+  lp_shares: string;
+  claimed_lp_shares: string;
+  withdrawable_lp_shares: string;
+  auction_incentive_amount: string;
+  astro_incentive_transferred: boolean;
+  claimable_generator_astro: string;
+  generator_astro_debt: string;
 };
 
 export const useUserInfo = () => {
   const { client } = useTerraWebapp();
   const address = useAddress();
-  const { airdrop } = useContracts();
+  const { auction } = useContracts();
 
-  const { data, isLoading } = useQuery(["userInfo", "airdrop", address], () => {
-    return client.wasm.contractQuery<Response>(airdrop, {
+  const { data, isLoading } = useQuery(["userInfo", "auction", address], () => {
+    return client.wasm.contractQuery<Response>(auction, {
       user_info: {
         address,
       },

@@ -1,10 +1,16 @@
 import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
 
+import { useTotalRewardValueInUst } from "modules/reward";
+
 import RewardCenterPopover from "components/popovers/RewardCenterPopover";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
+import numeral from "numeral";
 
 const RewardCenter: FC = () => {
+  const valueInUst = useTotalRewardValueInUst();
+  const formatted = numeral(valueInUst).format("0,0.00");
+
   return (
     <RewardCenterPopover
       triggerElement={
@@ -19,7 +25,7 @@ const RewardCenter: FC = () => {
         >
           <Flex justify="space-between" align="center">
             <MoneyStackIcon width="1.25rem" height="1.25rem" />
-            <Text fontSize="sm">$ 0.00</Text>
+            <Text fontSize="sm">$ {formatted}</Text>
           </Flex>
         </chakra.button>
       }

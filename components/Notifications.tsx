@@ -11,6 +11,7 @@ import ProvideNotification from "components/notifications/ProvideNotification";
 import WithdrawNotification from "components/notifications/WithdrawNotification";
 import StakeLpNotification from "components/notifications/StakeLpNotification";
 import UnstakeLpNotification from "components/notifications/UnstakeLpNotification";
+import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
@@ -33,6 +34,9 @@ const Notifications: FC = () => {
     }
     if (txType === "unstakeLp") {
       return <UnstakeLpNotification txInfo={txInfo} />;
+    }
+    if (txType === "claimRewards") {
+      return <ClaimRewardsNotification txInfo={txInfo} />;
     }
   };
 

@@ -1,8 +1,8 @@
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useMemo } from "react";
+import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
-import { ONE_TOKEN } from "constants/constants";
 
 type Response = {
   total_astro_rewards: string;
@@ -43,16 +43,13 @@ export const useUserInfo = () => {
     }
   );
 
-  if (isLoading || data == null) {
-    return null;
-  }
+  return useMemo(() => {
+    if (isLoading || data == null) {
+      return null;
+    }
 
-  return {
-    estimatedAstroReward: num(data.total_astro_rewards)
-      .div(ONE_TOKEN)
-      .toNumber(),
-    ...data,
-  };
+    return data;
+  }, [isLoading]);
 };
 
 export default useUserInfo;
