@@ -190,6 +190,25 @@
         "asset_infos": [
           {
             "token": {
+              "contract_addr": "uluna"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1e49fv4xm3c2znzpxmxs0z2z6y74xlwxspxt38s",
+        "liquidity_token": "terra1jszms07xrg0lfdhu8nrty2tzxe9vpakclpxyag",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
               "contract_addr": "terra15ye804hqvlnptjfrt42tdg96q7kxpxr9pxjxnp"
             }
           },
