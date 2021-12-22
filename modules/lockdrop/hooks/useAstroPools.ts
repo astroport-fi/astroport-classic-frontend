@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 import { gql } from "graphql-request";
 import { sortBy } from "lodash";
@@ -57,53 +58,55 @@ export const useAstroPools = () => {
     },
   });
 
-  if (userInfo == null || result == null) {
-    return [];
-  }
-
-  const items = userInfo.lockup_infos.map((info) => {
-    const { assets, total_share } =
-      result[`pool${info.terraswap_lp_token}`].contractQuery;
-    const { balance } =
-      result[`balance${info.terraswap_lp_token}`].contractQuery;
-
-    const { token1 } = getAssetAmountsInPool(assets, "uusd");
-
-    let amountOfUst = num(token1).div(ONE_TOKEN);
-
-    if (token1 == null) {
-      const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
-      amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
+  return useMemo(() => {
+    if (userInfo == null || result == null) {
+      return [];
     }
 
-    const totalLiquidityInUst = amountOfUst.times(2).toNumber();
+    const items = userInfo.lockup_infos.map((info) => {
+      const { assets, total_share } =
+        result[`pool${info.terraswap_lp_token}`].contractQuery;
+      const { balance } =
+        result[`balance${info.terraswap_lp_token}`].contractQuery;
 
-    const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
-    const totalLiquidityLockedInUst = num(balance)
-      .div(ONE_TOKEN)
-      .times(totalLiquidityInUst)
-      .div(num(total_share).div(ONE_TOKEN))
-      .toNumber();
-    const myLiquidity = num(info.lp_units_locked).div(ONE_TOKEN).toNumber();
-    const myLiquidityInUst = num(myLiquidity)
-      .times(totalLiquidityInUst)
-      .div(num(total_share).div(ONE_TOKEN))
-      .toNumber();
+      const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
-    return {
-      name: info.terraswap_lp_token,
-      assets: getTokenDenoms(assets.map(({ info }) => info)),
-      totalLiquidity,
-      totalLiquidityInUst: totalLiquidityLockedInUst,
-      myLiquidity,
-      myLiquidityInUst,
-      lockEnd: info.unlock_timestamp,
-      duration: info.duration,
-      astroRewards: +info.astro_rewards / ONE_TOKEN,
-    };
-  });
+      let amountOfUst = num(token1).div(ONE_TOKEN);
 
-  return sortBy(items, "myLiquidityInUst").reverse();
+      if (token1 == null) {
+        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
+        amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
+      }
+
+      const totalLiquidityInUst = amountOfUst.times(2).toNumber();
+
+      const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
+      const totalLiquidityLockedInUst = num(balance)
+        .div(ONE_TOKEN)
+        .times(totalLiquidityInUst)
+        .div(num(total_share).div(ONE_TOKEN))
+        .toNumber();
+      const myLiquidity = num(info.lp_units_locked).div(ONE_TOKEN).toNumber();
+      const myLiquidityInUst = num(myLiquidity)
+        .times(totalLiquidityInUst)
+        .div(num(total_share).div(ONE_TOKEN))
+        .toNumber();
+
+      return {
+        name: info.terraswap_lp_token,
+        assets: getTokenDenoms(assets.map(({ info }) => info)),
+        totalLiquidity,
+        totalLiquidityInUst: totalLiquidityLockedInUst,
+        myLiquidity,
+        myLiquidityInUst,
+        lockEnd: info.unlock_timestamp,
+        duration: info.duration,
+        astroRewards: +info.astro_rewards / ONE_TOKEN,
+      };
+    });
+
+    return sortBy(items, "myLiquidityInUst").reverse();
+  }, [userInfo, result, lunaPrice]);
 };
 
 export default useAstroPools;

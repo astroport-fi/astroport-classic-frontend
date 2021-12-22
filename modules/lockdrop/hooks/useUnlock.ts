@@ -51,16 +51,11 @@ export const useUnlock = ({
     );
   }, [address, lockdrop, token, duration]);
 
-  const { submit, ...rest } = useTransaction({
+  return useTransaction({
     msgs,
     onSuccess,
     onError,
   });
-
-  return {
-    ...rest,
-    submit,
-  };
 };
 
 export default useUnlock;

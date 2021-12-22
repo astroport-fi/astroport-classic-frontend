@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
@@ -28,11 +29,13 @@ export const useConfig = () => {
     });
   });
 
-  if (isLoading || data == null) {
-    return null;
-  }
+  return useMemo(() => {
+    if (isLoading || data == null) {
+      return null;
+    }
 
-  return data;
+    return data;
+  }, [isLoading]);
 };
 
 export default useConfig;

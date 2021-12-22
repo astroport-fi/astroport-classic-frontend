@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useContracts } from "modules/common";
 import { usePhase1Rewards, usePhase2Rewards } from "modules/reward";
 import { useAirdropBalance } from "modules/airdrop";
@@ -10,7 +12,9 @@ export const useTotalRewardValueInUst = () => {
   const phase2Rewards = usePhase2Rewards();
   const airdropBalance = useAirdropBalance();
 
-  return (airdropBalance + phase1Rewards + phase2Rewards) * price;
+  return useMemo(() => {
+    return (airdropBalance + phase1Rewards + phase2Rewards) * price;
+  }, [airdropBalance, phase1Rewards, phase2Rewards, price]);
 };
 
 export default useTotalRewardValueInUst;

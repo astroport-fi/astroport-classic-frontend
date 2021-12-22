@@ -105,10 +105,12 @@ export const useSwap = ({
 
   const rest = useTransaction({ msgs, onBroadcasting, onSuccess, onError });
 
-  return {
-    ...rest,
-    minReceive,
-  };
+  return useMemo(() => {
+    return {
+      ...rest,
+      minReceive,
+    };
+  }, [rest, minReceive]);
 };
 
 export default useSwap;

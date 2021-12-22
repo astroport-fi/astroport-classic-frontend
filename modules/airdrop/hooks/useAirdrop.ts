@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 
 export const useAirdrop = (address: string | undefined) => {
@@ -13,27 +14,23 @@ export const useAirdrop = (address: string | undefined) => {
   //   return res.json();
   // });
 
-  // TODO: change to api call
-  if (query.isLoading) {
+  return useMemo(() => {
+    if (query.isLoading) {
+      return {
+        isLoading: true,
+        data: null,
+      };
+    }
+
+    const data = [...query.data].find((item) => {
+      return item.address === address;
+    });
+
     return {
-      isLoading: true,
-      data: null,
+      isLoading: false,
+      data,
     };
-  }
-
-  const data = [...query.data].find((item) => {
-    return item.address === address;
-  });
-
-  // useEffect(() => {
-  //   if (data != null) {
-  //   }
-  // }, [data]);
-
-  return {
-    isLoading: false,
-    data,
-  };
+  }, [query.isLoading]);
 };
 
 export default useAirdrop;

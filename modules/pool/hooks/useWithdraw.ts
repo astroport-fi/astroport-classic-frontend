@@ -91,11 +91,13 @@ export const useWithdraw = ({
     onError,
   });
 
-  return {
-    ...tokens,
-    ...rest,
-    withdraw: submit,
-  };
+  return useMemo(() => {
+    return {
+      ...tokens,
+      ...rest,
+      withdraw: submit,
+    };
+  }, [rest, tokens]);
 };
 
 export default useWithdraw;
