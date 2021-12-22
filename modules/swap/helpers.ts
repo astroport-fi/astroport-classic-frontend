@@ -12,7 +12,7 @@ export const minAmountReceive = ({
 }: minAmountReceiveParams): number => {
   const rate = num(1).minus(maxSpread);
 
-  return num(amount).times(rate).dp(6).toNumber();
+  return num(amount).times(rate).dp(0).toNumber();
 };
 
 type PriceImpactParams = {

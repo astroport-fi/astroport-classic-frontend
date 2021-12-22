@@ -153,6 +153,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
         {showConfirm && (
           <SwapFormConfirm
+            swapRoute={swapRoute}
             token1={token1}
             token2={token2}
             amount1={amount1}

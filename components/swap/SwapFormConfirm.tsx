@@ -9,6 +9,7 @@ import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
 
 type Props = {
+  swapRoute: Route[];
   token1: string;
   amount1: string;
   token2: string;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 const SwapFormConfirm: FC<Props> = ({
+  swapRoute,
   token1,
   token2,
   amount1,
@@ -33,13 +35,13 @@ const SwapFormConfirm: FC<Props> = ({
   minReceive,
   onCloseClick,
 }) => {
+  const swapRoutePath = useSwapRoutePath(swapRoute);
   const { getSymbol } = useTokenInfo();
   const priceImpact = usePriceImpact({
     from: token1,
     to: token2,
     price,
   });
-  const swapRoutePath = useSwapRoutePath(swapRoute);
 
   return (
     <FormConfirm

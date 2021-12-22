@@ -1,4 +1,4 @@
-import { toBase64 } from "@arthuryeti/terra";
+import { toBase64, toTerraAmount } from "@arthuryeti/terra";
 import { LCDClient, Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
 import {
@@ -78,7 +78,7 @@ type CreateSwapMsgsOpts = {
   router: string;
   token: string;
   amount: string;
-  minReceive: string | number | null;
+  minReceive: number | null;
 };
 
 export const createSwapMsgs = (
@@ -129,7 +129,7 @@ export const createSwapMsgs = (
           execute_swap_operations: {
             offer_amount: amount,
             operations,
-            minimum_receive: minReceive,
+            minimum_receive: minReceive.toString(),
           },
         }),
       },
