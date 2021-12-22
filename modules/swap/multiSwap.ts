@@ -78,7 +78,7 @@ type CreateSwapMsgsOpts = {
   router: string;
   token: string;
   amount: string;
-  minReceive: string | null;
+  minReceive: string | number | null;
 };
 
 export const createSwapMsgs = (
@@ -129,7 +129,7 @@ export const createSwapMsgs = (
           execute_swap_operations: {
             offer_amount: amount,
             operations,
-            // minimum_receive: minReceive,
+            minimum_receive: minReceive,
           },
         }),
       },

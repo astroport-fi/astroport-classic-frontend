@@ -85,7 +85,11 @@ const MyLockedAstroLiquidity = () => {
         </Text>
       </Card>
       <Card mt={6} noPadding>
-        <PoolTable columns={columns} data={pools} />
+        <PoolTable
+          columns={columns}
+          data={pools}
+          emptyMsg="You didn't lock any positions."
+        />
       </Card>
     </Box>
   );

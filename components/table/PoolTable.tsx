@@ -11,10 +11,10 @@ import PoolTr from "components/table/PoolTr";
 type Props = {
   columns: any[];
   data: any;
-  emptyMsg: string;
+  emptyMsg?: string;
 };
 
-const PoolTable: FC<Props> = ({ columns, data, emptyMsg }) => {
+const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
   const tableInstance = useTable({ columns, data });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =

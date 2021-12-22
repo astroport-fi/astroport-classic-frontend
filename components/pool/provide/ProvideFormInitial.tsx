@@ -56,7 +56,7 @@ const ProvideFormInitial: FC<Props> = ({
     token2: num(token2Balance).div(ONE_TOKEN).dp(2).toNumber(),
   };
 
-  const maxAmounts = {
+  let maxAmounts = {
     token1: num(Math.min(balances.token1, balances.token2 / ratio))
       .dp(2)
       .toNumber(),
@@ -65,22 +65,28 @@ const ProvideFormInitial: FC<Props> = ({
       .toNumber(),
   };
 
+  if (num(ratio).isNaN()) {
+    maxAmounts = balances;
+  }
+
   const getInputProps = (field) => {
     return {
       ...field,
       onChange: (value) => {
-        let newAmount = num(value).times(ratio).dp(2).toString();
-        let fieldToUpdate = "amount2";
+        if (num(ratio).gt(0)) {
+          let newAmount = num(value).times(ratio).dp(2).toString();
+          let fieldToUpdate = "amount2";
 
-        if (field.name === "amount2") {
-          fieldToUpdate = "amount1";
-          newAmount = num(value).div(ratio).dp(2).toString();
-        }
+          if (field.name === "amount2") {
+            fieldToUpdate = "amount1";
+            newAmount = num(value).div(ratio).dp(2).toString();
+          }
 
-        setValue(fieldToUpdate, newAmount);
+          setValue(fieldToUpdate, newAmount);
 
-        if (num(value).eq(0) || value == "") {
-          setValue(fieldToUpdate, "");
+          if (num(value).eq(0) || value == "") {
+            setValue(fieldToUpdate, "");
+          }
         }
 
         field.onChange(value);

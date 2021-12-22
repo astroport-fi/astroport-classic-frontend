@@ -3,13 +3,12 @@ import { fromTerraAmount } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
 import { usePriceImpact } from "modules/swap";
-import { useTokenInfo, Route } from "modules/common";
+import { useTokenInfo } from "modules/common";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
 
 type Props = {
-  swapRoute: Route[];
   token1: string;
   amount1: string;
   token2: string;
@@ -18,12 +17,11 @@ type Props = {
   fee: Fee;
   price: string;
   commission: string;
-  minReceive: string;
+  minReceive: string | number;
   onCloseClick: () => void;
 };
 
 const SwapFormConfirm: FC<Props> = ({
-  swapRoute,
   token1,
   token2,
   amount1,
