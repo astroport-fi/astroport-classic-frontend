@@ -17,8 +17,7 @@ export const useHive = ({ name, query, variables, options }: Params) => {
   let GRAPHQL = "https://hive.terra.dev/graphql";
 
   if (network.name == "testnet") {
-    GRAPHQL =
-      "http://bombay-hive-graph-temp-862760293.ap-northeast-2.elb.amazonaws.com/graphql";
+    GRAPHQL = "https://testnet-hive.terra.dev/graphql";
   }
 
   const { data, isLoading } = useQuery(
