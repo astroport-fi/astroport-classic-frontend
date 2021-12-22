@@ -1,6 +1,14 @@
 import React from "react";
-import { Box, HStack, Text, Button, Flex, Divider } from "@chakra-ui/react";
-import Link from "next/link";
+import {
+  Box,
+  HStack,
+  Text,
+  Button,
+  Flex,
+  Divider,
+  Link,
+} from "@chakra-ui/react";
+import NextLink from "next/link";
 
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
@@ -36,7 +44,10 @@ const Governance = () => {
             nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
             erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
             et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. [Read More]
+            Lorem ipsum dolor sit amet.{" "}
+            <Link href="#" color="brand.lightPurple">
+              Read More
+            </Link>
           </Text>
           <Button variant="primary" mt={6}>
             Go to Forum
@@ -65,11 +76,11 @@ const Governance = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="center">
-            <Link href="/governance/stake" passHref>
+            <NextLink href="/governance/stake" passHref>
               <Button as="a" type="button" variant="primary">
                 Stake Astro
               </Button>
-            </Link>
+            </NextLink>
           </Flex>
         </Card>
       </HStack>
