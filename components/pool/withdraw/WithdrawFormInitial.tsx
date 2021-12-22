@@ -105,7 +105,7 @@ const WithdrawFormInitial: FC<Props> = ({
 
       <Card mt="2">
         <Text textStyle="small" variant="dimmed">
-          Receivable Asset
+          Receivable Assets
         </Text>
 
         <Box mt="6" mb="4">
