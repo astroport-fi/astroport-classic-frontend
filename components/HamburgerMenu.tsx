@@ -57,7 +57,7 @@ const HamburgerMenu: FC<Props> = ({}) => (
             <Divider borderColor="black.100" />
             {items.map(({ label, url }) => (
               <Box key={label}>
-                <Link href={url} isExternal fontSize="sm">
+                <Link href={url} isExternal fontSize="12px">
                   <Text px={6} py={2}>
                     {label}
                   </Text>
