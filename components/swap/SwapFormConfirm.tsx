@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
-import { usePriceImpact } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { usePriceImpact, useSwapRoutePath } from "modules/swap";
+import { useTokenInfo, Route } from "modules/common";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
@@ -39,6 +39,7 @@ const SwapFormConfirm: FC<Props> = ({
     to: token2,
     price,
   });
+  const swapRoutePath = useSwapRoutePath(swapRoute);
 
   return (
     <FormConfirm
@@ -63,10 +64,10 @@ const SwapFormConfirm: FC<Props> = ({
           label: "Slippage Tolerance",
           value: `${slippage}%`,
         },
-        // {
-        //   label: "Route",
-        //   value: `${getSymbol(token1)}→${getSymbol(token2)}`,
-        // },
+        {
+          label: "Route",
+          value: swapRoutePath,
+        },
         // {
         //   label: "Exchange Rate",
         //   value: estimateExchangeRate(simulated),
