@@ -26,7 +26,8 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
   return (
     <PopoverWrapper
       title="Rewards"
-      placement="left"
+      offset={[-115, -40]}
+      // placement="left"
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}

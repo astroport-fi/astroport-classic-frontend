@@ -40,19 +40,40 @@ const RewardList: FC = () => {
       </Flex>
 
       <Box mt={6}>
-        <Text textStyle="minibutton">Your ASTRO Airdrop</Text>
-        <RewardLineItem token={astroToken} amount={airdrop} />
+        <Text textStyle="minibutton" fontSize="xs">
+          Your ASTRO Airdrop
+        </Text>
       </Box>
 
-      <Box mt={6}>
-        <Text textStyle="minibutton">Your lockdrop phase 1 rewards</Text>
-        <RewardLineItem token={astroToken} amount={phase1} />
-      </Box>
+      {airdropBalance > 0 && (
+        <Box mt={6}>
+          <RewardLineItem
+            token={astroToken}
+            amount={airdrop}
+            desc="ASTRO from Airdrop"
+          />
+        </Box>
+      )}
 
-      <Box mt={6}>
-        <Text textStyle="minibutton">Your lockdrop phase 2 rewards</Text>
-        <RewardLineItem token={astroToken} amount={phase2} />
-      </Box>
+      {phase1Rewards > 0 && (
+        <Box mt={4}>
+          <RewardLineItem
+            token={astroToken}
+            amount={phase1}
+            desc="ASTRO from Phase 1"
+          />
+        </Box>
+      )}
+
+      {phase2Rewards > 0 && (
+        <Box mt={4}>
+          <RewardLineItem
+            token={astroToken}
+            amount={phase2}
+            desc="ASTRO from Phase 2"
+          />
+        </Box>
+      )}
     </Box>
   );
 };

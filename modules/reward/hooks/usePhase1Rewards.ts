@@ -1,20 +1,13 @@
 import { useMemo } from "react";
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
-import { useContracts } from "modules/common";
 import { useUserInfo } from "modules/lockdrop";
 import { ONE_TOKEN } from "constants/constants";
-
-type Response = {
-  airdrop_amount: string;
-  delegated_amount: string;
-  tokens_withdrawn: boolean;
-};
 
 export const usePhase1Rewards = () => {
   const userInfo = useUserInfo();
 
-  const oneTime = useMemo(() => {
+  return useMemo(() => {
     if (userInfo == null) {
       return 0;
     }
@@ -29,22 +22,6 @@ export const usePhase1Rewards = () => {
       .dp(6)
       .toNumber();
   }, [userInfo]);
-
-  const poolTotal = useMemo(() => {
-    if (userInfo == null) {
-      return 0;
-    }
-
-    return userInfo.lockup_infos.reduce((prev, info) => {
-      return num(info.claimable_generator_astro_debt)
-        .div(ONE_TOKEN)
-        .plus(prev)
-        .dp(6)
-        .toNumber();
-    }, 0);
-  }, [userInfo]);
-
-  return poolTotal + oneTime;
 };
 
 export default usePhase1Rewards;

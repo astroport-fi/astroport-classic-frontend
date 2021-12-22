@@ -21,7 +21,7 @@ const RewardCenter: FC = () => {
           px="4"
           borderRadius="full"
           outline="none"
-          minW="32"
+          minW="40"
         >
           <Flex justify="space-between" align="center">
             <MoneyStackIcon width="1.25rem" height="1.25rem" />

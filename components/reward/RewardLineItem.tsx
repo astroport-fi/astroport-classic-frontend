@@ -7,10 +7,11 @@ import { useTokenPriceInUst } from "modules/swap";
 
 type Props = {
   token: string;
+  desc: string;
   amount: number | string;
 };
 
-const RewardLineItem: FC<Props> = ({ token, amount }) => {
+const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(token);
   const balance = numeral(amount).format("0,0.00");
@@ -26,7 +27,7 @@ const RewardLineItem: FC<Props> = ({ token, amount }) => {
             {getSymbol(token)}
           </Text>
           <Text fontSize="sm" opacity="0.4">
-            Terra
+            {desc}
           </Text>
         </Box>
         <Box>
