@@ -25,7 +25,7 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
               Selected Pool:
             </Text>{" "}
             <Text as="span">
-              {getSymbol(pool.token1.asset)} / {getSymbol(pool.token2.asset)}
+              {getSymbol(pool.token1.asset)}-{getSymbol(pool.token2.asset)}
             </Text>
           </Box>
           {type === PoolFormType.Provide && (
