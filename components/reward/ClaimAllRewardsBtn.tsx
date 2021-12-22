@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
 import { Button, VStack } from "@chakra-ui/react";
+import { useQueryClient } from "react-query";
 
 import { useAstroswap } from "modules/common";
 import { useClaimAll } from "modules/reward";
@@ -13,9 +14,13 @@ type Props = {
 
 const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
   const { addNotification } = useAstroswap();
+  const queryClient = useQueryClient();
 
   const state = useClaimAll({
-    onSuccess,
+    onSuccess: () => {
+      queryClient.invalidateQueries("userInfo");
+      onSuccess();
+    },
     onBroadcasting: (txHash) => {
       addNotification({
         notification: {

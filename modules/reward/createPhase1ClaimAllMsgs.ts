@@ -18,17 +18,31 @@ export const createPhase1ClaimAllMsgs = (
   const { contract, items } = options;
   let msgs = [];
 
-  items.forEach((item) => {
-    msgs.push(
-      new MsgExecuteContract(sender, contract, {
-        claim_rewards_and_optionally_unlock: {
-          terraswap_lp_token: item.contract,
-          duration: item.duration,
-          withdraw_lp_stake: false,
-        },
-      })
-    );
-  });
+  if (items.length == 0) {
+    return msgs;
+  }
+
+  msgs.push(
+    new MsgExecuteContract(sender, contract, {
+      claim_rewards_and_optionally_unlock: {
+        terraswap_lp_token: items[0].contract,
+        duration: items[0].duration,
+        withdraw_lp_stake: false,
+      },
+    })
+  );
+
+  // items.forEach((item) => {
+  //   msgs.push(
+  //     new MsgExecuteContract(sender, contract, {
+  //       claim_rewards_and_optionally_unlock: {
+  //         terraswap_lp_token: item.contract,
+  //         duration: item.duration,
+  //         withdraw_lp_stake: false,
+  //       },
+  //     })
+  //   );
+  // });
 
   return msgs;
 };

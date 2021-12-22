@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useAddress, useTransaction, num } from "@arthuryeti/terra";
+import { TxInfo } from "@terra-money/terra.js";
 
 import { useContracts } from "modules/common";
 import { useUserInfo } from "modules/lockdrop";
@@ -14,7 +15,6 @@ import {
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
 } from "modules/reward";
-import { TxInfo } from "@terra-money/terra.js";
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;
@@ -71,7 +71,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...airdropMsgs);
     }
 
-    if (num(userInfo.total_astro_rewards).gt(0)) {
+    if (!userInfo.astro_transferred) {
       const phase1Msgs = createPhase1ClaimAllMsgs(
         {
           contract: lockdrop,
@@ -83,7 +83,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase1Msgs);
     }
 
-    if (num(auctionUserInfo.auction_incentive_amount).gt(0)) {
+    if (!auctionUserInfo.astro_incentive_transferred) {
       const phase2Msgs = createPhase2ClaimAllMsgs(
         {
           contract: auction,

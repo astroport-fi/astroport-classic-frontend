@@ -18,6 +18,10 @@ export const useAirdropBalance = () => {
       return 0;
     }
 
+    if (userInfo.tokens_withdrawn) {
+      return 0;
+    }
+
     if (num(userInfo.airdrop_amount).eq(0)) {
       return num(data.amount).div(ONE_TOKEN).dp(6).toNumber();
     }
