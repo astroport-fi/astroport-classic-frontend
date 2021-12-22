@@ -303,6 +303,25 @@
       {
         "asset_infos": [
           {
+            "native_token": {
+              "denom": "uluna"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1e49fv4xm3c2znzpxmxs0z2z6y74xlwxspxt38s",
+        "liquidity_token": "terra1dqjpcqej9nxej80u0p56rhkrzlr6w8tp7txkmj",
+        "pair_type": {
+          "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
             "token": {
               "contract_addr": "terra1p3y0upsgamleljwz0z522320ke9ug5w5jxuxqa"
             }
