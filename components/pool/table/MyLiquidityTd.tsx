@@ -19,9 +19,7 @@ const MyLiquidityTd: FC<Props> = ({ row }) => {
     return <Text fontSize="sm">xxxx</Text>;
   }
 
-  return (
-    <Text fontSize="sm">{`${fromTerraAmount(pool.mine.shareInUst)} UST`}</Text>
-  );
+  return <Text fontSize="sm">{`${pool.mine.shareInUst} UST`}</Text>;
 };
 
 export default MyLiquidityTd;

@@ -46,6 +46,7 @@ export const useSwapSimulate = ({
 }: Params) => {
   const { client } = useTerraWebapp();
   const { router } = useContracts();
+  const isQueryEnabled = !num(amount).isNaN() && swapRoute != null;
 
   const { data, isLoading } = useQuery<
     unknown,
@@ -84,7 +85,7 @@ export const useSwapSimulate = ({
       });
     },
     {
-      enabled: swapRoute != null,
+      enabled: isQueryEnabled,
       refetchOnWindowFocus: false,
     }
   );
@@ -102,11 +103,19 @@ export const useSwapSimulate = ({
     }
 
     if (data == null || amount == "" || num(amount).eq(0)) {
-      return null;
+      return {
+        isLoading: false,
+        amount: null,
+        spread: null,
+        commission: null,
+        price: null,
+        price2: null,
+      };
     }
 
     if (isMultiSimulation(data)) {
       const result = {
+        isLoading: false,
         amount: data.amount,
         spread: "0",
         commission: "0",
@@ -123,6 +132,7 @@ export const useSwapSimulate = ({
 
     if (isReverseSimulation(data)) {
       const result = {
+        isLoading: false,
         amount: data.offer_amount,
         spread,
         commission,
@@ -135,6 +145,7 @@ export const useSwapSimulate = ({
     }
 
     const result = {
+      isLoading: false,
       amount: data.return_amount,
       spread,
       commission,

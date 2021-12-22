@@ -35,6 +35,9 @@ const styles = {
             borderColor: "red.500",
             boxShadow: `0 0 0 1px ${getColor(theme, "red.500")}`,
           },
+          _disabled: {
+            opacity: 0.7,
+          },
           _focus: {
             zIndex: 1,
             borderColor: "brand.purple",

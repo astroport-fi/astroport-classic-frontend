@@ -19,9 +19,7 @@ const DepthTd: FC<Props> = ({ row }) => {
     return null;
   }
 
-  return (
-    <Text fontSize="sm">{`${fromTerraAmount(pool.total.shareInUst)} UST`}</Text>
-  );
+  return <Text fontSize="sm">{`${pool.total.shareInUst} UST`}</Text>;
 };
 
 export default DepthTd;

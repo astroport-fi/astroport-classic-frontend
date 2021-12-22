@@ -47,7 +47,7 @@ export const useSwap = ({
   const { router } = useContracts();
 
   const minReceive = useMemo(() => {
-    if (simulated == null || amount2 == "") {
+    if (simulated.isLoading || simulated.amount == null || amount2 == "") {
       return null;
     }
 
@@ -63,7 +63,8 @@ export const useSwap = ({
       token1 == null ||
       amount1 == "" ||
       num(amount1).eq(0) ||
-      simulated == null
+      simulated.isLoading ||
+      simulated.amount == null
     ) {
       return null;
     }

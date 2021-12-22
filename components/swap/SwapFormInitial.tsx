@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
-import { TxStep, num } from "@arthuryeti/terra";
+import { TxStep, num, useBalance } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import { SwapState } from "modules/swap";
@@ -25,6 +25,7 @@ import SwapFormWarning from "components/swap/SwapFormWarning";
 import SlippagePopover from "components/popovers/SlippagePopover";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import ArrowDownIcon from "components/icons/ArrowDown";
+import { ONE_TOKEN } from "constants/constants";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -63,6 +64,7 @@ const SwapFormInitial: FC<Props> = ({
   const { control, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
+  const token1Balance = useBalance(token1);
 
   const reverse = async () => {
     setValue("token1", token2);
@@ -155,7 +157,11 @@ const SwapFormInitial: FC<Props> = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput asset={token1} {...getInputProps(field)} />
+                <NewAmountInput
+                  asset={token1}
+                  max={num(token1Balance).div(ONE_TOKEN).dp(6).toNumber()}
+                  {...getInputProps(field)}
+                />
               )}
             />
           </Box>
