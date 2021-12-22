@@ -8,13 +8,13 @@
         "icon": "/tokens/astro.png"
       },
       "uluna": {
-        "protocol": "Native",
+        "protocol": "Terra",
         "symbol": "LUNA",
         "token": "uluna",
         "icon": "https://assets.terra.money/icon/60/Luna.png"
       },
       "uusd": {
-        "protocol": "Native",
+        "protocol": "Terra USD",
         "symbol": "UST",
         "token": "uusd",
         "icon": "https://assets.terra.money/icon/60/UST.png"
@@ -86,13 +86,13 @@
         "icon": "https://whitelist.anchorprotocol.com/logo/ANC.png"
       },
       "uluna": {
-        "protocol": "Native",
+        "protocol": "Terra",
         "symbol": "LUNA",
         "token": "uluna",
         "icon": "https://assets.terra.money/icon/60/Luna.png"
       },
       "uusd": {
-        "protocol": "Native",
+        "protocol": "Terra USD",
         "symbol": "UST",
         "token": "uusd",
         "icon": "https://assets.terra.money/icon/60/UST.png"

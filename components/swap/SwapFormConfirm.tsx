@@ -40,6 +40,8 @@ const SwapFormConfirm: FC<Props> = ({
   const priceImpact = usePriceImpact({
     from: token1,
     to: token2,
+    amount1,
+    amount2,
     price,
   });
 

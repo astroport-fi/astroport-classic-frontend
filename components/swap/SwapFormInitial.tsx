@@ -255,7 +255,9 @@ const SwapFormInitial: FC<Props> = ({
       ) : (
         <SwapFormFooter
           from={token1}
+          amount1={amount1}
           to={token2}
+          amount2={amount2}
           isLoading={state.txStep == TxStep.Estimating}
           isDisabled={state.txStep != TxStep.Ready}
           price={price}

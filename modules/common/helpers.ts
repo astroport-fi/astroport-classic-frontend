@@ -45,7 +45,7 @@ export const toRoutes = (
   index?: number
 ): Route[] => {
   return r.map((v) => {
-    const { contract_addr, asset_infos } = v;
+    const { contract_addr, asset_infos, pair_type } = v;
     const [token1, token2] = getTokenDenoms(asset_infos);
 
     const newParentContracts = [...parentContracts, contract_addr];
@@ -74,6 +74,7 @@ export const toRoutes = (
 
     return {
       contract_addr,
+      type: Object.keys(pair_type)[0],
       from,
       to,
       children: toRoutes(allPairs, children, from, to, newParentContracts),

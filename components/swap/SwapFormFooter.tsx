@@ -5,11 +5,12 @@ import { useTokenInfo } from "modules/common";
 import { usePriceImpact } from "modules/swap";
 import FormFee from "components/common/FormFee";
 import numeral from "numeral";
-import { num } from "@arthuryeti/terra";
 
 type Props = {
   from: string;
+  amount1: string;
   to: string;
+  amount2: string;
   fee: any;
   price: string;
   isLoading: boolean;
@@ -19,7 +20,9 @@ type Props = {
 
 const SwapFormFooter: FC<Props> = ({
   from,
+  amount1,
   to,
+  amount2,
   price,
   isLoading,
   isDisabled,
@@ -27,7 +30,7 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const { getSymbol } = useTokenInfo();
-  const priceImpact = usePriceImpact({ from, to, price });
+  const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
   const formattedPrice = numeral(price).format("0,0.00[0]").toString();
 
   return (

@@ -11,14 +11,13 @@ type Props = {
 const NavbarLink: FC<Props> = ({ text, href }) => {
   const { asPath } = useRouter();
 
-  const wrapperStyle =
-    asPath === href
-      ? {
-          color: "brand.lightPurple",
-          textDecoration: "underline",
-          textUnderlineOffset: "5px",
-        }
-      : { color: "white" };
+  const wrapperStyle = asPath.includes(href)
+    ? {
+        color: "brand.lightPurple",
+        textDecoration: "underline",
+        textUnderlineOffset: "5px",
+      }
+    : { color: "white" };
 
   return (
     <Link href={href} passHref>

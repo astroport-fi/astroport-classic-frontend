@@ -23,5 +23,6 @@ module.exports = {
   plugins: ["react", "@typescript-eslint"],
   rules: {
     "no-console": 1,
+    "react-hooks/exhaustive-deps": 0,
   },
 };

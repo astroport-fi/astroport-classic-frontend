@@ -22,7 +22,7 @@ const ProvideFormFooter: FC<Props> = ({
   const cells = [
     {
       title: "Liquidity",
-      value: fromTerraAmount(pool.total.shareInUst),
+      value: pool.total.shareInUst,
     },
     {
       title: "Share of Pool",
