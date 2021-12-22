@@ -3,7 +3,7 @@ import { Box, Flex, HStack, Text, IconButton, Link } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
 import Card from "components/Card";
-import CloseModalIcon from "components/icons/CloseModalIcon";
+import CloseIcon from "components/icons/CloseIcon";
 import FailedIcon from "components/icons/FailedIcon";
 
 type Props = {
@@ -33,8 +33,12 @@ const AirdropFailed: FC<Props> = ({ onCloseClick }) => {
           </HStack>
           <IconButton
             aria-label="Close"
-            icon={<CloseModalIcon w="1.5rem" h="1.5rem" />}
-            variant="icon"
+            variant="simple"
+            isRound
+            _hover={{
+              bg: "rgba(255,255,255,0.1)",
+            }}
+            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
             onClick={onCloseClick}
           />
         </Flex>
@@ -46,7 +50,7 @@ const AirdropFailed: FC<Props> = ({ onCloseClick }) => {
             isExternal
             color="brand.purple"
           >
-            <a>in this article</a>
+            in the Astroport documentation.
           </Link>
         </Text>
       </Card>
