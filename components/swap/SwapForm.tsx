@@ -41,7 +41,8 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      token1: "uusd",
+      token1: "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp",
+      // token1: "uusd",
       amount1: "",
       token2: "uluna",
       amount2: "",

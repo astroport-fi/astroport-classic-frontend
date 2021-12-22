@@ -47,15 +47,15 @@ export const useSwap = ({
   const { router } = useContracts();
 
   const minReceive = useMemo(() => {
-    if (simulated.isLoading || simulated.amount == null || amount2 == "") {
+    if (amount2 == "") {
       return null;
     }
 
     return minAmountReceive({
-      amount: reverse ? amount2 : simulated.amount,
+      amount: amount2,
       maxSpread: slippage,
     });
-  }, [simulated, slippage, amount2, reverse]);
+  }, [slippage, amount2]);
 
   const msgs = useMemo(() => {
     if (

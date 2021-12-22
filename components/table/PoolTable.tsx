@@ -11,9 +11,10 @@ import PoolTr from "components/table/PoolTr";
 type Props = {
   columns: any[];
   data: any;
+  emptyMsg: string;
 };
 
-const PoolTable: FC<Props> = ({ columns, data }) => {
+const PoolTable: FC<Props> = ({ columns, data, emptyMsg }) => {
   const tableInstance = useTable({ columns, data });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -47,11 +48,14 @@ const PoolTable: FC<Props> = ({ columns, data }) => {
         </Box>
       ) : (
         <Tr>
-          <Text fontSize="sm">
-            You do not have any locked LP tokens in lockdrop.
-          </Text>
+          <Box ml="8">
+            <Text fontSize="sm">{emptyMsg}</Text>
+          </Box>
         </Tr>
       )}
+      <Tr borderBottomWidth="0">
+        <Box py="2"></Box>
+      </Tr>
     </Table>
   );
 };

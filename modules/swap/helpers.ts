@@ -9,10 +9,10 @@ type minAmountReceiveParams = {
 export const minAmountReceive = ({
   amount,
   maxSpread,
-}: minAmountReceiveParams): string => {
-  const rate1 = num("1").minus(num(maxSpread).div(100));
+}: minAmountReceiveParams): number => {
+  const rate = num(1).minus(maxSpread);
 
-  return num(amount).times(rate1).toFixed(0);
+  return num(amount).times(rate).dp(6).toNumber();
 };
 
 type PriceImpactParams = {

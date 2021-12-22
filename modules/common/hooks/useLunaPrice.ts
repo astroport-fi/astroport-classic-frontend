@@ -31,7 +31,7 @@ export const useLunaPrice = () => {
     return null;
   }
 
-  return num(data.amount.toString()).div(ONE_TOKEN).toNumber();
+  return num(data.amount.toString()).div(ONE_TOKEN).dp(6).toNumber();
 };
 
 export default useLunaPrice;

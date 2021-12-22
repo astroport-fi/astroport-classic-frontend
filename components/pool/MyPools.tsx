@@ -61,7 +61,11 @@ const MyPools: FC = () => {
 
   return (
     <Card noPadding>
-      <PoolTable data={myPools} columns={columns} />
+      <PoolTable
+        data={myPools}
+        columns={columns}
+        emptyMsg="You need to add liquidity first."
+      />
     </Card>
   );
 };

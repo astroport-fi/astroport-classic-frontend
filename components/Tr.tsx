@@ -16,7 +16,7 @@ const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
     borderBottomColor: "white.200",
     _last: {
       mb: 0,
-      borderBottomWidth: "0px",
+      // borderBottomWidth: "0px",
     },
   };
 
