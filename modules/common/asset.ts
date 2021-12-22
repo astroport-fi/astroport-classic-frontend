@@ -2,6 +2,7 @@ import {
   AssetInfo,
   CW20AssetInfo,
   NativeAssetInfo,
+  Asset,
   Route,
 } from "modules/common";
 
@@ -75,4 +76,8 @@ export const getTokenDenom = (info: AssetInfo): string => {
 
 export const getTokenDenoms = (infos: AssetInfo[]): string[] => {
   return infos.map((info) => getTokenDenom(info));
+};
+
+export const getPoolTokenDenoms = (assets: Asset[]): string[] => {
+  return assets.map(({ info }) => getTokenDenom(info));
 };

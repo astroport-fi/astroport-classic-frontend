@@ -1,15 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { Container, Box, Heading } from "@chakra-ui/react";
 
 import { usePools } from "modules/pool";
 
 // import PoolsOverview from "components/pool/PoolsOverview";
-import PoolTable from "components/pool/table/PoolTable";
-import Card from "components/Card";
+import MyPools from "components/pool/MyPools";
+import AllPools from "components/pool/AllPools";
 
 const Pools: FC = () => {
-  const pools = usePools();
-
   return (
     <Container
       px={["6", null, "12"]}
@@ -26,20 +24,12 @@ const Pools: FC = () => {
       <Box px="6" mb="4" mt="12">
         <Heading>My Pools</Heading>
       </Box>
-      {pools.mine && (
-        <Card noPadding>
-          <PoolTable data={pools.mine} />
-        </Card>
-      )}
+      <MyPools />
 
       <Box px="6" mb="4" mt="12">
         <Heading>All Pools</Heading>
       </Box>
-      {pools.all && (
-        <Card noPadding>
-          <PoolTable data={pools.all} />
-        </Card>
-      )}
+      <AllPools />
     </Container>
   );
 };

@@ -5,15 +5,13 @@ import { usePool } from "modules/pool";
 import { useTokenInfo } from "modules/common";
 
 type Props = {
-  row: any;
+  assets: [string, string];
 };
 
-const PoolNameTd: FC<Props> = ({ row }) => {
-  console.log(row.original);
+const PoolNameTd: FC<Props> = ({ assets }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const {
-    assets: [token1, token2],
-  } = row.original;
+  const [token1, token2] = assets;
+
   return (
     <HStack>
       <HStack spacing={0.5}>

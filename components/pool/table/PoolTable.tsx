@@ -20,7 +20,7 @@ import PoolNameTd from "components/pool/table/PoolNameTd";
 import PoolConnectWallet from "components/pool/table/PoolConnectWallet";
 import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
 import DepthTd from "components/pool/table/DepthTd";
-import ActionsTd from "components/pool/table/ActionsTd";
+import ActionsTd from "components/table/ActionsTd";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 
 type Props = {

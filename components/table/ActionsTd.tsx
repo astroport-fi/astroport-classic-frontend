@@ -11,16 +11,14 @@ type Props = {
 };
 
 const ActionsTd: FC<Props> = ({ row }) => {
-  const { contract_addr, asset_infos, liquidity_token } = row.original;
-  const token1 = getTokenDenom(asset_infos[0]);
-  const token2 = getTokenDenom(asset_infos[1]);
+  const { contract, assets, myLiquidity } = row.original;
+  const [token1, token2] = assets;
   const balance1 = useBalance(token1);
   const balance2 = useBalance(token2);
-  const balanceLP = useBalance(liquidity_token);
 
   const hasMissingToken = num(balance1).eq(0) || num(balance2).eq(0);
-  const canProvideLiquidity = num(balanceLP).eq(0);
-  const canManageLiquidity = !hasMissingToken && balanceLP;
+  const canProvideLiquidity = num(myLiquidity).eq(0);
+  const canManageLiquidity = !hasMissingToken && num(myLiquidity).gt(0);
 
   const renderButton = () => {
     if (hasMissingToken) {
@@ -35,7 +33,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
     if (canProvideLiquidity) {
       return (
-        <Link href={`/pairs/${contract_addr}`} passHref>
+        <Link href={`/pairs/${contract}`} passHref>
           <Button as="a" variant="primary" size="sm" minW="40">
             Add Liquidity
           </Button>
@@ -45,7 +43,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
     if (canManageLiquidity) {
       return (
-        <Link href={`/pairs/${contract_addr}`} passHref>
+        <Link href={`/pairs/${contract}`} passHref>
           <Button as="a" variant="primary" size="sm" px="0" minW="40">
             Manage
           </Button>
