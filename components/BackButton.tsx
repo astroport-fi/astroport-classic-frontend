@@ -12,7 +12,9 @@ const BackButton: FC<Props> = () => {
   return (
     <IconButton
       aria-label="Back"
-      icon={<BackIcon w="1.5rem" h="1.5rem" />}
+      size="xs"
+      isRound
+      icon={<BackIcon />}
       variant="icon"
       onClick={router.back}
     />

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Flex, Box, Checkbox } from "@chakra-ui/react";
+import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { num, useBalance } from "@arthuryeti/terra";
 
@@ -186,7 +186,7 @@ const ProvideFormInitial: FC<Props> = ({
         onConfirmClick={onClick}
       />
 
-      <Flex mt={2} justifyContent="center">
+      <Flex mt={4} mb={8} justifyContent="center">
         <Controller
           name="autoStake"
           control={control}
@@ -199,7 +199,7 @@ const ProvideFormInitial: FC<Props> = ({
               borderColor="green.500"
               {...field}
             >
-              Stake LP Token
+              <Text fontSize="xs">Stake LP Token</Text>
             </Checkbox>
           )}
         />

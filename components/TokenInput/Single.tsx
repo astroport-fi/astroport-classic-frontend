@@ -32,7 +32,7 @@ const Single: FC<Props> = ({ asset }) => {
     >
       <Flex align="center">
         <Box>
-          <Image src={icon} width="2.5rem" height="2.5rem" alt="Logo" />
+          <Image src={icon} width="8" height="8" alt="Logo" />
         </Box>
 
         <Box ml="3" fontWeight="500" flex="1">

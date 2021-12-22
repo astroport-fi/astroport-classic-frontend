@@ -116,7 +116,6 @@ const ProvideForm: FC<Props> = ({
             onClick={() => setShowConfirm(true)}
           />
         )}
-
         {showConfirm && (
           <FormConfirm
             fee={state.fee}

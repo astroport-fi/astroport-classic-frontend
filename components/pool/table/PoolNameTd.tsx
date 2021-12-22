@@ -21,8 +21,8 @@ const PoolItem: FC<Props> = ({ row }) => {
   }
 
   return (
-    <HStack>
-      <HStack spacing="0.5">
+    <HStack spacing="3">
+      <HStack spacing="1.5">
         <Box>
           <Image src={getIcon(pool.token1.asset)} alt="Logo" boxSize="4" />
         </Box>

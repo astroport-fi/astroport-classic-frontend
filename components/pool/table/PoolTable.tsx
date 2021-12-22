@@ -145,10 +145,11 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
 
       {canNextPage && (
         <Tr borderTopWidth={1} borderTopColor="white.200">
-          <Td textAlign="center">
+          <Td textAlign="center" pt="1" pb="2">
             <Button
               variant="simple"
               color="brand.purple"
+              fontSize="sm"
               onClick={() => setPageSize(pageSize + paginationSize)}
             >
               Show more

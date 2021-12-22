@@ -20,14 +20,14 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
     <Box>
       <Card mb="2">
         <Flex justify="space-between" align="center">
-          <Box textStyle="small" color="white">
+          <HStack textStyle="small" color="white">
             <Text as="span" variant="dimmed">
-              Selected Pool:
+              Selected Pool
             </Text>{" "}
             <Text as="span">
               {getSymbol(pool.token1.asset)}-{getSymbol(pool.token2.asset)}
             </Text>
-          </Box>
+          </HStack>
           {type === PoolFormType.Provide && (
             <HStack>
               <Button

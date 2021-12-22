@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, HStack } from "@chakra-ui/react";
+import { Box, Flex, StackDivider, HStack } from "@chakra-ui/react";
 
 // import GraphIcon from "components/icons/GraphIcon";
 import PoolHeaderTypeItem from "components/pool/PoolHeaderTypeItem";
@@ -21,23 +21,28 @@ const PoolActions: FC<Props> = ({
   onTypeClick,
 }) => {
   return (
-    <Flex justify="space-between" color="white" mb="4" px="6">
+    <Flex justify="space-between" color="white" mb="6" px="6">
       <Box flex="1">
-        <HStack>
+        <HStack spacing={4}>
           <BackButton />
-          <PoolHeaderTypeItem
-            label="Provide"
-            value={type}
-            type={PoolFormType.Provide}
-            onClick={() => onTypeClick(PoolFormType.Provide)}
-          />
-          <Text fontSize="xl">|</Text>
-          <PoolHeaderTypeItem
-            label="Withdraw"
-            value={type}
-            type={PoolFormType.Withdraw}
-            onClick={() => onTypeClick(PoolFormType.Withdraw)}
-          />
+          <HStack
+            h="4"
+            spacing={3}
+            divider={<StackDivider borderColor="white" h="4" />}
+          >
+            <PoolHeaderTypeItem
+              label="Provide"
+              value={type}
+              type={PoolFormType.Provide}
+              onClick={() => onTypeClick(PoolFormType.Provide)}
+            />
+            <PoolHeaderTypeItem
+              label="Withdraw"
+              value={type}
+              type={PoolFormType.Withdraw}
+              onClick={() => onTypeClick(PoolFormType.Withdraw)}
+            />
+          </HStack>
         </HStack>
       </Box>
       {/* <Box>

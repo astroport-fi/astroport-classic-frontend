@@ -63,7 +63,6 @@ const Pool: FC<Props> = ({ pair }) => {
           {type === PoolFormType.Provide && renderProvideForm()}
           {type === PoolFormType.Withdraw && renderWithdrawForm()}
         </Box>
-
         {/* @ts-expect-error */}
         {isChartOpen && <PoolGraph tokens={tokens} />}
       </Flex>

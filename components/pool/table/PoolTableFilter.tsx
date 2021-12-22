@@ -26,6 +26,7 @@ const PoolTableFilter: FC<Props> = ({
         },
       }}
       borderColor="white.200"
+      borderRadius="md"
     />
   );
 };

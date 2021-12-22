@@ -16,7 +16,7 @@ const PoolHeaderTypeItem: FC<Props> = ({ label, value, type, onClick }) => {
   return (
     <Text
       as="button"
-      fontSize="xl"
+      fontSize="1.125rem"
       onClick={onClick}
       color={isActive ? "white" : "white.500"}
     >
