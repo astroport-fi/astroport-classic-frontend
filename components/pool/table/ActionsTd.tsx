@@ -26,7 +26,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
     if (hasMissingToken) {
       return (
         <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
-          <Button as="a" size="sm" variant="silent">
+          <Button as="a" size="sm" variant="silent" minW="40">
             Get Token
           </Button>
         </Link>
@@ -36,7 +36,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
     if (canProvideLiquidity) {
       return (
         <Link href={`/pairs/${contract_addr}`} passHref>
-          <Button as="a" variant="primary" size="sm">
+          <Button as="a" variant="primary" size="sm" minW="40">
             Add Liquidity
           </Button>
         </Link>
@@ -45,26 +45,11 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
     if (canManageLiquidity) {
       return (
-        <ButtonGroup isAttached>
-          <Link href={`/pairs/${contract_addr}`} passHref>
-            <Button as="a" variant="primary" size="sm" px="0" minW="20">
-              Manage
-            </Button>
-          </Link>
-          <Link href={`/pairs/${contract_addr}/stake`} passHref>
-            <Button
-              as="a"
-              variant="primary"
-              size="sm"
-              px="0"
-              minW="20"
-              borderLeft="4px"
-              borderLeftColor="brand.deepBlue"
-            >
-              Stake
-            </Button>
-          </Link>
-        </ButtonGroup>
+        <Link href={`/pairs/${contract_addr}`} passHref>
+          <Button as="a" variant="primary" size="sm" px="0" minW="40">
+            Manage
+          </Button>
+        </Link>
       );
     }
   };
