@@ -29,7 +29,16 @@ const AstroSliderButton: FC<Props> = ({
     }
   };
 
-  const aligment = value === 4 ? "flex-end" : "left";
+  let aligment;
+  if (value === 4) {
+    aligment = "flex-end";
+  } else {
+    if (value === 0) {
+      aligment = "flex-start";
+    } else {
+      aligment = "center";
+    }
+  }
   const position = Math.round(
     ((max * value * ratioFixed - min) * 100) / (max - min)
   );

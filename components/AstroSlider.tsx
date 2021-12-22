@@ -91,7 +91,9 @@ const AstroSlider: FC<Props> = ({
             <AstroSliderButton
               key={value}
               value={value}
-              label={value == 0 ? minLabel : value == 4 ? maxLabel : null}
+              label={
+                value == 0 ? minLabel : value == 4 ? maxLabel : value * 25 + "%"
+              }
               min={min}
               max={max}
               onClick={onChange}
