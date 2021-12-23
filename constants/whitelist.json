@@ -31,10 +31,10 @@
         "token": "terra1zc020yr66n0xe8pkcxmyjx6ya5jxgh3t7qvkaq",
         "icon": "https://starterra.io/assets/100x100_starterra.png"
       },
-      "terra159x8kqc5g62k8272ynh94gqamwwvptva2msxm0": {
+      "terra13qdskca8xavmed88htplse0z396tesgh63tn9r": {
         "protocol": "Orion",
         "symbol": "ORION",
-        "token": "terra159x8kqc5g62k8272ynh94gqamwwvptva2msxm0",
+        "token": "terra13qdskca8xavmed88htplse0z396tesgh63tn9r",
         "icon": "https://orion.money/assets/ORION-LOGO-2.1-GREEN@256x256.png"
       },
       "terra15ye804hqvlnptjfrt42tdg96q7kxpxr9pxjxnp": {
@@ -180,8 +180,8 @@
             }
           }
         ],
-        "contract_addr": "terra1nua2399j67tlzj8jtmug82ynetmz0v3p60wh42",
-        "liquidity_token": "terra1jszms07xrg0lfdhu8nrty2tzxe9vpakclpxyag",
+        "contract_addr": "terra1ea72xchtuyt8p4fmcv22wdt8zrqe4mg3hhjrxw",
+        "liquidity_token": "terra165vsvn4xtvhvl2km25fpme36y2qf6fj3neygqr",
         "pair_type": {
           "xyk": {}
         }
@@ -199,8 +199,8 @@
             }
           }
         ],
-        "contract_addr": "terra1e49fv4xm3c2znzpxmxs0z2z6y74xlwxspxt38s",
-        "liquidity_token": "terra1jszms07xrg0lfdhu8nrty2tzxe9vpakclpxyag",
+        "contract_addr": "terra1l5a39mww83p59w734skj4ugcf95pyqe36h25gt",
+        "liquidity_token": "terra1f32kcgtdx06ttua4k0q8v750hhk4yqt9rufqfn",
         "pair_type": {
           "xyk": {}
         }
@@ -218,8 +218,8 @@
             }
           }
         ],
-        "contract_addr": "terra1z0k67rtlz3djmg05s4t5lr9r8rspgfqt4eqz0w",
-        "liquidity_token": "terra1d6t0s69yfy28pj7jqt49svs6h2lv3rcepym6nd",
+        "contract_addr": "terra14ew09hexlss8jcukxhw3qhwnkdrk5jjxzsz8h2",
+        "liquidity_token": "terra1qaggqlezy4tw8dksllpsd8f5hwr6kjwee7n50h",
         "pair_type": {
           "xyk": {}
         }
@@ -237,8 +237,8 @@
             }
           }
         ],
-        "contract_addr": "terra13zk3jxzqphhhlgl9tm5emwmlec8a6v86nqx9zl",
-        "liquidity_token": "terra15h0l8kxgn5f9vndya29rjykrh5apnvqy49lmv2",
+        "contract_addr": "terra1v7s6hj559rpkjuu659mm6lkxrhdqx7t55833sa",
+        "liquidity_token": "terra1ldwt3z6ws8vqzsy8r7hnt7dnzjd5j8c3n7cmvu",
         "pair_type": {
           "xyk": {}
         }
@@ -256,8 +256,8 @@
             }
           }
         ],
-        "contract_addr": "terra1stdjxjfma06wugkyp2jjexyvvfg9a4dqggdfxg",
-        "liquidity_token": "terra1gsj4cjjx4jqgwmwvdksleueta3mrxxn6400gmj",
+        "contract_addr": "terra1p5kzzrndrf85vakgvag567jmg5m3hhdfg8pkf0",
+        "liquidity_token": "terra1p5jdldgt6lmspagktyrqp360qwh00q3tr6258k",
         "pair_type": {
           "xyk": {}
         }
@@ -275,8 +275,8 @@
             }
           }
         ],
-        "contract_addr": "terra15prsrsvpcl5at0k82ezd7r3eqp5vtfnnzu2an2",
-        "liquidity_token": "terra1lm3fr6shfvuj9h63r7ztl7wd6gpkyj0sp59287",
+        "contract_addr": "terra1y6z7ppvfya0mx975g28scehs4gar99sk79rq7w",
+        "liquidity_token": "terra1u6ckln6uupzla8k4hhl478f2geeqz9msxrpjjl",
         "pair_type": {
           "xyk": {}
         }
@@ -294,8 +294,8 @@
             }
           }
         ],
-        "contract_addr": "terra1amytvy44xle5ghhzlkmry3uq3sq8d59kuj7hjk",
-        "liquidity_token": "terra1jldvmtdcctveghueel5uqmqt43zygzhcffrpwl",
+        "contract_addr": "terra1jkj7wgx0grrleed97u375630tz387wjz5wdq5w",
+        "liquidity_token": "terra1c0aunj7rth89uuwnjcxstcmq6zm0dnqef5lr05",
         "pair_type": {
           "xyk": {}
         }
@@ -313,8 +313,8 @@
             }
           }
         ],
-        "contract_addr": "terra1870mv64dc9nsl62cvptps3z03raqqrddqxdcfn",
-        "liquidity_token": "terra1wrljt64ecs7880l2q3m9ktqrmg6fcepl25uah2",
+        "contract_addr": "terra1dky7tlt3zntz69g7982pg2pykl9l8mz6r93n6p",
+        "liquidity_token": "terra1ed57704aws6tgu6x8wlvf6deqs20p9fqpvzrt6",
         "pair_type": {
           "xyk": {}
         }
@@ -332,8 +332,8 @@
             }
           }
         ],
-        "contract_addr": "terra19295w5zsw8jctqcmrp09aj4ltrj2yd8x7p5pyc",
-        "liquidity_token": "terra1zr8dl4p567ru93crderyegpchgv383ah7dtp9w",
+        "contract_addr": "terra1al2plr4tsgwfhayfeza0a5wwn03zk6fsaf3ez8",
+        "liquidity_token": "terra1klzguluhvv82k0pvcll4zzn9yz8gt2wdz85sv9",
         "pair_type": {
           "stable": {}
         }
@@ -351,8 +351,8 @@
             }
           }
         ],
-        "contract_addr": "terra15tzyem6027d05qe9cfcnrz9mc69tmrje5p0wej",
-        "liquidity_token": "terra1ayehz90jpz3fnuk49sy8snzsfzm97y840ma0yu",
+        "contract_addr": "terra1auxz7qx9wj4fh5cge07ejc6rp2y6crwgnntstg",
+        "liquidity_token": "terra1ffhvlq59j5dsmu9mk3ec9md3ynq70q70dydtjx",
         "pair_type": {
           "xyk": {}
         }
@@ -370,8 +370,8 @@
             }
           }
         ],
-        "contract_addr": "terra12zjxe79zdy56q8fczq80z9u2t7xwa3nhsu4e7x",
-        "liquidity_token": "terra14xev9r05znsqfzxz44tjldrtmj6kn8384ps6vg",
+        "contract_addr": "terra1ky07s952g4sp9u70tp6qeqvy8rpgw44pkxcqmp",
+        "liquidity_token": "terra14r0kh2ynzh7qwp9mgwaxh479sfrut0cnw206qs",
         "pair_type": {
           "xyk": {}
         }

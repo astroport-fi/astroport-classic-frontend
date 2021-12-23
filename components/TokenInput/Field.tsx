@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, forwardRef } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { Select, Single, SingleLP, SelectLP } from "components/TokenInput";
 
@@ -12,30 +12,35 @@ type Props = {
   value: string;
 };
 
-const Field: FC<Props> = forwardRef(
-  ({ value, onChange, onBlur, isSingle, isLpToken, tokens }, ref) => {
-    const handleClick = (asset: string) => {
-      onChange(asset);
-    };
+const Field: FC<Props> = ({
+  value,
+  onChange,
+  onBlur,
+  isSingle,
+  isLpToken,
+  tokens,
+}) => {
+  const handleClick = (asset: string) => {
+    onChange(asset);
+  };
 
-    const renderSingle = () => {
-      if (isLpToken) {
-        return <SingleLP asset={value} />;
-      }
+  const renderSingle = () => {
+    if (isLpToken) {
+      return <SingleLP asset={value} />;
+    }
 
-      return <Single asset={value} />;
-    };
+    return <Single asset={value} />;
+  };
 
-    const renderSelect = () => {
-      if (isLpToken) {
-        return <SelectLP value={value} onClick={handleClick} />;
-      }
+  const renderSelect = () => {
+    if (isLpToken) {
+      return <SelectLP value={value} onClick={handleClick} />;
+    }
 
-      return <Select value={value} tokens={tokens} onClick={handleClick} />;
-    };
+    return <Select value={value} tokens={tokens} onClick={handleClick} />;
+  };
 
-    return <Box ref={ref}>{isSingle ? renderSingle() : renderSelect()}</Box>;
-  }
-);
+  return <Box>{isSingle ? renderSingle() : renderSelect()}</Box>;
+};
 
 export default Field;

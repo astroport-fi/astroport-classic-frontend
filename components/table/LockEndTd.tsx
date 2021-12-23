@@ -19,7 +19,7 @@ const LockEndTd: FC<Props> = ({ row }) => {
   }
   const remainingDays = date.diff(Date.now(), "day", false);
   return (
-    <HStack spacing={0.5}>
+    <HStack spacing="3">
       <Text fontSize="sm">{date.format("MM/DD/YY")}</Text>
       <Text textStyle="medium" variant="dimmed">
         ({remainingDays}d)

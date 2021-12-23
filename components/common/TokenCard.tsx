@@ -2,9 +2,8 @@ import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
 import { fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
 
-import { ESTIMATE_TOKEN } from "constants/constants";
 import { useTokenInfo } from "modules/common";
-import { useTokenPriceInUst, useSwapSimulate } from "modules/swap";
+import { useTokenPriceInUst } from "modules/swap";
 import numeral from "numeral";
 
 type Props = {

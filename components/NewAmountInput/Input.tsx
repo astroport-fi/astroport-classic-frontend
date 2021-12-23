@@ -1,6 +1,13 @@
 import React, { FC, useMemo } from "react";
-import { Box, Text, NumberInput, NumberInputField } from "@chakra-ui/react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
+import {
+  Box,
+  Text,
+  NumberInput,
+  NumberInputField,
+  InputLeftElement,
+  Spinner,
+} from "@chakra-ui/react";
+import { num } from "@arthuryeti/terra";
 
 import { useTokenPriceInUst } from "modules/swap";
 
@@ -11,6 +18,8 @@ type Props = {
   value: string;
   max?: number;
   isDisabled?: boolean;
+  isLoading?: boolean;
+  clampValueOnBlur?: boolean;
 };
 
 const Input: FC<Props> = ({
@@ -19,6 +28,8 @@ const Input: FC<Props> = ({
   onBlur,
   value,
   max,
+  clampValueOnBlur = true,
+  isLoading,
   isDisabled,
 }) => {
   const price = useTokenPriceInUst(asset);
@@ -39,10 +50,12 @@ const Input: FC<Props> = ({
         value={value}
         min={0}
         max={max}
-        step={0.01}
+        precision={2}
         onChange={onChange}
         onBlur={onBlur}
+        clampValueOnBlur={clampValueOnBlur}
         isDisabled={isDisabled}
+        isLoading={isLoading}
       >
         <NumberInputField placeholder="0.0" />
         <Box position="absolute" bottom="2" right="4" color="white">
@@ -50,6 +63,11 @@ const Input: FC<Props> = ({
             ${totalInUst}
           </Text>
         </Box>
+        {isLoading && (
+          <InputLeftElement>
+            <Spinner size="xs" color="white.500" />
+          </InputLeftElement>
+        )}
       </NumberInput>
     </Box>
   );

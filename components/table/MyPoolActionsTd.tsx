@@ -9,7 +9,7 @@ type Props = {
 const MyPoolActionsTd: FC<Props> = ({ contract }) => {
   return (
     <HStack justify="flex-end">
-      <Link href={`/pairs/${contract}`} passHref>
+      <Link href={`/pools/${contract}`} passHref>
         <Button as="a" variant="primary" size="sm" px="0" minW="40">
           Manage
         </Button>

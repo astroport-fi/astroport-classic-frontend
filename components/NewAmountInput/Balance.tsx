@@ -25,9 +25,8 @@ const Balance: FC<Props> = ({
   isDisabled = false,
   onChange,
 }) => {
-  const { getSymbol } = useTokenInfo();
   const balance = useBalance(asset);
-  const amount = fromTerraAmount(initial ?? balance, "0.00[0000]");
+  const amount = fromTerraAmount(initial ?? balance, "0.00");
 
   const renderButton = () => {
     if (!hideButton) {
@@ -54,7 +53,7 @@ const Balance: FC<Props> = ({
             </Text>
           )}{" "}
           <Text fontSize="sm" color="white" ml="2">
-            {fromTerraAmount(initial ?? balance, "0,0.000")}
+            {fromTerraAmount(initial ?? balance, "0,0.00")}
           </Text>
         </HStack>
       </Box>

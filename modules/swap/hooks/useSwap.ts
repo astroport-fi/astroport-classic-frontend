@@ -1,50 +1,42 @@
 import { useMemo } from "react";
-import { num, TxStep, useAddress, useTransaction } from "@arthuryeti/terra";
+import { num, useAddress } from "@arthuryeti/terra";
 
-import { useContracts, useAstroswap, Route } from "modules/common";
-import { useSwapRoute, useSwapSimulate, minAmountReceive } from "modules/swap";
+import { useContracts, Route } from "modules/common";
+import { minAmountReceive, useSwapSimulate } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
-import { TxInfo } from "@terra-money/terra.js";
-
-export type SwapState = {
-  minReceive: any;
-  error: any;
-  fee: any;
-  txHash?: string;
-  txStep: TxStep;
-  reset: () => void;
-  submit: () => void;
-};
 
 type Params = {
   swapRoute: Route[] | null;
-  simulated: any | null;
   token1: string | null;
   token2: string | null;
   amount1: string | null;
   amount2: string | null;
   slippage: string;
   reverse: boolean;
-  onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onSimulateSuccess?: (item: any) => void;
 };
 
 export const useSwap = ({
   swapRoute,
-  simulated,
   token1,
+  token2,
   amount1,
   amount2,
   slippage,
   reverse = false,
-  onBroadcasting,
-  onSuccess,
-  onError,
+  onSimulateSuccess,
 }: Params) => {
   const address = useAddress();
   const { router } = useContracts();
+
+  const simulated = useSwapSimulate({
+    swapRoute,
+    amount: reverse ? amount2 : amount1,
+    token: reverse ? token2 : token1,
+    reverse,
+    onSuccess: onSimulateSuccess,
+  });
 
   const minReceive = useMemo(() => {
     if (amount2 == "") {
@@ -104,14 +96,13 @@ export const useSwap = ({
     router,
   ]);
 
-  const rest = useTransaction({ msgs, onBroadcasting, onSuccess, onError });
-
   return useMemo(() => {
     return {
-      ...rest,
+      msgs,
       minReceive,
+      simulated,
     };
-  }, [rest, minReceive]);
+  }, [msgs, minReceive, simulated]);
 };
 
 export default useSwap;

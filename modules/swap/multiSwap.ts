@@ -112,7 +112,7 @@ export const createSwapMsgs = (
           execute_swap_operations: {
             offer_amount: amount,
             operations,
-            minimum_receive: minReceive,
+            minimum_receive: minReceive.toString(),
           },
         },
         [new Coin(token, amount)]

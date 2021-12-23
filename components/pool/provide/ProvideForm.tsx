@@ -88,8 +88,8 @@ const ProvideForm: FC<Props> = ({
 
   const resetForm = useCallback(() => {
     setShowConfirm(false);
-    methods.reset();
     state.reset();
+    methods.reset();
   }, [state, methods]);
 
   if (state.txStep == TxStep.Posting) {

@@ -1,18 +1,25 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, fromTerraAmount, num, toTerraAmount } from "@arthuryeti/terra";
+import {
+  fromTerraAmount,
+  num,
+  toTerraAmount,
+  useEstimateFee,
+  useTx,
+} from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
-import { useSwap, useSwapRoute, useSwapSimulate } from "modules/swap";
+import { useSwap, useSwapRoute } from "modules/swap";
 import { useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
 
 import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormInitial from "components/swap/SwapFormInitial";
+import SwapFormFooter from "components/swap/SwapFormFooter";
 import FormLoading from "components/common/FormLoading";
 
 type FormValues = {
@@ -35,6 +42,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     network: { name: networkName },
   } = useWallet();
   const [currentInput, setCurrentInput] = useState(null);
+  const [isPosting, setIsPosting] = useState(false);
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
   const isReverse = currentInput == "amount2";
 
@@ -50,12 +58,12 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     },
   });
 
-  const { watch } = methods;
+  const { watch, setValue } = methods;
 
   const { slippage, token1, amount1, token2, amount2 } = watch();
 
-  const debouncedAmount1 = useDebounceValue(amount1, 200);
-  const debouncedAmount2 = useDebounceValue(amount2, 200);
+  const debouncedAmount1 = useDebounceValue(amount1, 500);
+  const debouncedAmount2 = useDebounceValue(amount2, 500);
 
   const swapRoute = useSwapRoute({
     routes,
@@ -67,23 +75,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     (result) => {
       const inputToUpdate = isReverse ? "amount1" : "amount2";
 
-      methods.setValue(
-        inputToUpdate,
-        fromTerraAmount(result?.amount, "0.000[000]")
-      );
+      setValue(inputToUpdate, fromTerraAmount(result?.amount, "0.000[000]"));
     },
-    [methods, isReverse]
+    [isReverse]
   );
-
-  const simulated = useSwapSimulate({
-    swapRoute,
-    amount: isReverse
-      ? toTerraAmount(debouncedAmount2)
-      : toTerraAmount(debouncedAmount1),
-    token: isReverse ? token2 : token1,
-    reverse: isReverse,
-    onSuccess: handleSuccess,
-  });
 
   useEffect(() => {
     methods.reset();
@@ -101,15 +96,29 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     setCurrentInput(value);
   };
 
-  const state = useSwap({
+  const { msgs, minReceive, simulated } = useSwap({
     swapRoute,
-    simulated,
     token1: token1,
     token2: token2,
     amount1: toTerraAmount(debouncedAmount1),
     amount2: toTerraAmount(debouncedAmount2),
     slippage: num(slippage).div(100).toString(),
+    onSimulateSuccess: handleSuccess,
     reverse: isReverse,
+  });
+
+  const {
+    fee,
+    isLoading: feeIsLoading,
+    error,
+  } = useEstimateFee({
+    msgs,
+  });
+
+  const { submit, txHash } = useTx({
+    onPosting: () => {
+      setIsPosting(true);
+    },
     onBroadcasting: (txHash) => {
       resetForm();
       addNotification({
@@ -125,40 +134,57 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     },
   });
 
-  const { fee, txHash, txStep, reset, submit } = state;
+  const onSubmit = useCallback(() => {
+    submit({
+      msgs,
+      fee,
+    });
+  }, [msgs, fee]);
 
   const resetForm = useCallback(() => {
-    setShowConfirm(false);
     methods.reset();
-    reset();
-  }, [reset, methods]);
+    setShowConfirm(false);
+    setIsPosting(false);
+  }, [methods]);
 
-  if (txStep == TxStep.Posting) {
+  if (isPosting) {
     return <FormLoading txHash={txHash} />;
   }
 
   return (
     <FormProvider {...methods}>
-      <chakra.form onSubmit={methods.handleSubmit(submit)} width="full">
+      <chakra.form onSubmit={methods.handleSubmit(onSubmit)} width="full">
         {!showConfirm && (
-          <SwapFormInitial
-            token1={token1}
-            amount1={amount1}
-            token2={token2}
-            amount2={amount2}
-            state={state}
-            isReverse={isReverse}
-            price={isReverse ? simulated?.price : simulated?.price2}
-            expertMode={expertMode}
-            onInputChange={handleInputChange}
-            onExpertModeChange={setExpertMode}
-            isSecondInputDisabled={swapRoute?.length > 1 || simulated.isLoading}
-            onClick={() => {
-              expertMode
-                ? methods.handleSubmit(submit)()
-                : setShowConfirm(true);
-            }}
-          />
+          <>
+            <SwapFormInitial
+              token1={token1}
+              token2={token2}
+              error={error}
+              expertMode={expertMode}
+              onInputChange={handleInputChange}
+              onExpertModeChange={setExpertMode}
+              isDisabled={fee == null}
+              isSecondInputDisabled={
+                swapRoute?.length > 1 || simulated.isLoading
+              }
+              isLoading={simulated.isLoading}
+            />
+            <SwapFormFooter
+              from={token1}
+              amount1={amount1}
+              to={token2}
+              amount2={amount2}
+              isLoading={feeIsLoading}
+              isDisabled={fee == null || feeIsLoading}
+              price={isReverse ? simulated?.price : simulated?.price2}
+              fee={fee}
+              onConfirmClick={() => {
+                expertMode
+                  ? methods.handleSubmit(submit)()
+                  : setShowConfirm(true);
+              }}
+            />
+          </>
         )}
 
         {showConfirm && (
@@ -172,7 +198,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             fee={fee}
             price={isReverse ? simulated?.price : simulated?.price2}
             commission={simulated?.commission}
-            minReceive={state.minReceive}
+            minReceive={minReceive}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

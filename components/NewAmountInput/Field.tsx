@@ -4,6 +4,7 @@ import { Box, Flex, forwardRef } from "@chakra-ui/react";
 import { Balance, Input, BalanceLP } from "components/NewAmountInput";
 
 type Props = {
+  value: string;
   asset: string;
   onBlur: any;
   onChange: any;
@@ -13,9 +14,10 @@ type Props = {
   balanceLabel?: string;
   isLpToken?: boolean;
   isSingle?: boolean;
+  clampValueOnBlur?: boolean;
   isDisabled?: boolean;
+  isLoading?: boolean;
   hideMaxButton?: boolean;
-  value: string;
   max?: number;
 };
 
@@ -30,9 +32,11 @@ const Field: FC<Props> = forwardRef(
       isLpToken,
       balance,
       balanceLabel,
+      clampValueOnBlur,
       hideBalanceLabel = false,
       hideMaxButton = false,
       isDisabled = false,
+      isLoading = false,
     },
     ref
   ) => {
@@ -72,9 +76,11 @@ const Field: FC<Props> = forwardRef(
           asset={asset}
           value={value}
           max={max}
+          clampValueOnBlur={clampValueOnBlur}
           onChange={(v: string) => onChange(v)}
           onBlur={onBlur}
           isDisabled={isDisabled}
+          isLoading={isLoading}
         />
         {renderBalance()}
       </Box>

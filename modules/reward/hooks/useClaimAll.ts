@@ -71,7 +71,10 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...airdropMsgs);
     }
 
-    if (!userInfo.astro_transferred) {
+    if (
+      !userInfo.astro_transferred &&
+      num(userInfo.total_astro_rewards).gt(0)
+    ) {
       const phase1Msgs = createPhase1ClaimAllMsgs(
         {
           contract: lockdrop,
@@ -83,7 +86,10 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase1Msgs);
     }
 
-    if (!auctionUserInfo.astro_incentive_transferred) {
+    if (
+      !auctionUserInfo.astro_incentive_transferred &&
+      num(auctionUserInfo.auction_incentive_amount).gt(0)
+    ) {
       const phase2Msgs = createPhase2ClaimAllMsgs(
         {
           contract: auction,

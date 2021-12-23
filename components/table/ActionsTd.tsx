@@ -33,7 +33,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
     if (canProvideLiquidity) {
       return (
-        <Link href={`/pairs/${contract}`} passHref>
+        <Link href={`/pools/${contract}`} passHref>
           <Button as="a" variant="primary" size="sm" minW="40">
             Add Liquidity
           </Button>
@@ -43,7 +43,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
 
     if (canManageLiquidity) {
       return (
-        <Link href={`/pairs/${contract}`} passHref>
+        <Link href={`/pools/${contract}`} passHref>
           <Button as="a" variant="primary" size="sm" px="0" minW="40">
             Manage
           </Button>

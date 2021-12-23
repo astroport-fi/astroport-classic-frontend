@@ -1,31 +1,17 @@
 import React, { FC, useEffect } from "react";
-import {
-  Button,
-  Box,
-  Flex,
-  Text,
-  HStack,
-  IconButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
-import { TxStep, num, useBalance } from "@arthuryeti/terra";
-import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import { num, useAddress, useBalance } from "@arthuryeti/terra";
 
-import { SwapState } from "modules/swap";
+import { ONE_TOKEN } from "constants/constants";
 
-// import GearIcon from "components/icons/GearIcon";
-// import GraphIcon from "components/icons/GraphIcon";
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
-import SwapFormFooter from "components/swap/SwapFormFooter";
 import SwapFormWarning from "components/swap/SwapFormWarning";
 import SlippagePopover from "components/popovers/SlippagePopover";
-import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import ArrowDownIcon from "components/icons/ArrowDown";
-import { ONE_TOKEN } from "constants/constants";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -33,34 +19,28 @@ const MotionHStack = motion(HStack);
 
 type Props = {
   token1: string;
-  amount1?: string;
   token2: string;
-  amount2?: string;
-  price: string;
-  state: SwapState;
-  isReverse: boolean;
+  error: any;
   expertMode: boolean;
   isSecondInputDisabled: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
   onInputChange: (name: string) => void;
   onExpertModeChange: (expertMode: boolean) => void;
-  onClick: () => void;
 };
 
 const SwapFormInitial: FC<Props> = ({
   token1,
   token2,
-  amount2,
-  amount1,
-  price,
-  state,
+  error,
   expertMode,
   isSecondInputDisabled,
+  isDisabled = false,
+  isLoading = false,
   onInputChange,
   onExpertModeChange,
-  onClick,
 }) => {
-  const wallet = useWallet();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const address = useAddress();
   const { control, setValue } = useFormContext();
   const card1Control = useAnimation();
   const card2Control = useAnimation();
@@ -93,6 +73,8 @@ const SwapFormInitial: FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const showError = !isDisabled && error;
+
   return (
     <Box mt="24">
       <Flex justify="space-between" align="center" color="white" mb="6" px="6">
@@ -122,13 +104,6 @@ const SwapFormInitial: FC<Props> = ({
               />
             )}
           />
-          {/* <IconButton
-            aria-label="Graph"
-            icon={<GraphIcon />}
-            size="xs"
-            isRound
-            variant="icon"
-          /> */}
         </MotionHStack>
       </Flex>
 
@@ -159,7 +134,8 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => (
                 <NewAmountInput
                   asset={token1}
-                  max={num(token1Balance).div(ONE_TOKEN).dp(6).toNumber()}
+                  max={num(token1Balance).div(ONE_TOKEN).dp(2).toNumber()}
+                  clampValueOnBlur={false}
                   {...getInputProps(field)}
                 />
               )}
@@ -227,6 +203,7 @@ const SwapFormInitial: FC<Props> = ({
                 <NewAmountInput
                   asset={token2}
                   isDisabled={isSecondInputDisabled}
+                  isLoading={isLoading}
                   {...getInputProps(field)}
                 />
               )}
@@ -235,38 +212,32 @@ const SwapFormInitial: FC<Props> = ({
         </Flex>
       </MotionBox>
 
-      {wallet.status === WalletStatus.WALLET_CONNECTED && state.error ? (
+      {address && showError ? (
         <Card mt="3">
           <Text textStyle="small" variant="secondary">
-            {state.error}
+            {error?.response?.data?.message}
           </Text>
         </Card>
       ) : (
         <SwapFormWarning />
-      )}
-
-      {wallet.status === WalletStatus.WALLET_NOT_CONNECTED ? (
-        <Flex justify="center" mt="6">
-          <Button variant="primary" type="button" onClick={onOpen}>
-            Connect your wallet
-          </Button>
-          <ConnectWalletModal isOpen={isOpen} onClose={onClose} />
-        </Flex>
-      ) : (
-        <SwapFormFooter
-          from={token1}
-          amount1={amount1}
-          to={token2}
-          amount2={amount2}
-          isLoading={state.txStep == TxStep.Estimating}
-          isDisabled={state.txStep != TxStep.Ready}
-          price={price}
-          fee={state.fee}
-          onConfirmClick={onClick}
-        />
       )}
     </Box>
   );
 };
 
 export default SwapFormInitial;
+
+// const { submit } = useTx({
+//   onBroadcasting
+//   onSuccess
+//   onError
+// })
+
+// const {msgs} = useSwap({
+//   amount,
+//   reverse
+// })
+
+// const {fee} = useEstimateFee({
+//  msgs
+//})

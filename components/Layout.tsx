@@ -48,10 +48,10 @@ const Layout: FC = ({ children }) => {
       />
       {!isInitializing && (
         <TerraWebappProvider
-          config={{
-            lcdClientUrl:
-              "https://terra-testnet-lcd.everstake.one/3WwtQlaFdSV3XHqGqkGFUX7terraTest",
-          }}
+        // config={{
+        //   lcdClientUrl:
+        //     "https://terra-testnet-lcd.everstake.one/3WwtQlaFdSV3XHqGqkGFUX7terraTest",
+        // }}
         >
           <AstroswapProvider data={whitelist}>
             <Box>

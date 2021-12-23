@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
+import numeral from "numeral";
 
 import { useTotalRewardValueInUst } from "modules/reward";
 
 import RewardCenterPopover from "components/popovers/RewardCenterPopover";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
-import numeral from "numeral";
 
 const RewardCenter: FC = () => {
   const valueInUst = useTotalRewardValueInUst();

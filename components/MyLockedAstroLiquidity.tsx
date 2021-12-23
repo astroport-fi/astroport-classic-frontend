@@ -16,11 +16,11 @@ const MyLockedAstroLiquidity = () => {
   const pools = useAstroPools();
   const columns = useMemo(
     () => [
-      {
-        id: "reward-icon",
-        width: 0,
-        Cell: () => <RewardedIcon color="#59B7DD" />,
-      },
+      // {
+      //   id: "reward-icon",
+      //   width: 0,
+      //   Cell: () => <RewardedIcon color="#59B7DD" />,
+      // },
 
       {
         Header: "Pool Name",
@@ -38,7 +38,7 @@ const MyLockedAstroLiquidity = () => {
         accessor: "myLiquidity",
       },
       {
-        Header: "Liquidity",
+        Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberWithUstTd
             value={row.original.totalLiquidity}
