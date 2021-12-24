@@ -7,7 +7,7 @@ import { truncate } from "libs/text";
 import { useContracts } from "modules/common";
 
 import Card from "components/Card";
-import CloseModalIcon from "components/icons/CloseModalIcon";
+import CloseIcon from "components/icons/CloseIcon";
 import SuccessIcon from "components/icons/SuccessIcon";
 import TokenCard from "components/common/TokenCard";
 
@@ -41,8 +41,12 @@ const AirdropSuccess: FC<Props> = ({ amount, address, onCloseClick }) => {
           </HStack>
           <IconButton
             aria-label="Close"
-            icon={<CloseModalIcon w="1.5rem" h="1.5rem" />}
-            variant="icon"
+            variant="simple"
+            isRound
+            _hover={{
+              bg: "rgba(255,255,255,0.1)",
+            }}
+            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
             onClick={onCloseClick}
           />
         </Flex>
