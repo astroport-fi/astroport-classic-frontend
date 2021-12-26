@@ -1,7 +1,11 @@
-import React, { FC } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import React, { FC, ReactNode } from "react";
+import { Box, Text, BoxProps } from "@chakra-ui/react";
 
-const SwapFormWarning: FC = () => (
+type Props = {
+  children?: ReactNode;
+} & BoxProps;
+
+const SwapFormWarning: FC<Props> = ({ children, ...props }) => (
   <Box
     bg="whiteAlpha.50"
     color="white"
@@ -12,6 +16,7 @@ const SwapFormWarning: FC = () => (
     borderWidth={2}
     borderColor="red.300"
     mt={4}
+    {...props}
   >
     <Text display="inline" color="red.500" textStyle="small">
       Warning:{" "}

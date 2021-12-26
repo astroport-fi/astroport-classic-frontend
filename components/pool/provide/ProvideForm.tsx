@@ -5,13 +5,12 @@ import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { useProvide } from "modules/pool";
+import { useProvide, useTokensToLp } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
 
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
-import FormConfirm from "components/common/FormConfirm";
+import ProvideFormConfirm from "components/pool/provide/ProvideFormConfirm";
 import FormLoading from "components/common/FormLoading";
-import FormSummary from "components/common/FormSummary";
 
 type FormValues = {
   token1: string;
@@ -58,6 +57,8 @@ const ProvideForm: FC<Props> = ({
 
   const debouncedAmount1 = useDebounceValue(amount1, 200);
   const debouncedAmount2 = useDebounceValue(amount2, 200);
+
+  const test = useTokensToLp({ pool, amount1, amount2 });
 
   const state = useProvide({
     contract: pair.contract_addr,
@@ -117,18 +118,13 @@ const ProvideForm: FC<Props> = ({
           />
         )}
         {showConfirm && (
-          <FormConfirm
+          <ProvideFormConfirm
+            pool={pool}
             fee={state.fee}
-            title="Confirm Provide"
-            actionLabel="Confirm Provide"
-            contentComponent={
-              <FormSummary
-                label1="You are providing"
-                label2="and"
-                token1={{ asset: token1, amount: amount1 }}
-                token2={{ asset: token2, amount: amount2 }}
-              />
-            }
+            token1={token1}
+            amount1={amount1}
+            token2={token2}
+            amount2={amount2}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

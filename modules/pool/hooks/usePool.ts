@@ -47,7 +47,7 @@ export const usePool = ({
 }: Params): Pool | null => {
   const { data: pool } = useGetPool(pairContract);
   const lpBalance = useBalance(lpTokenContract);
-  const shareOfPool = useShareOfPool({ pool, amount1: lpBalance });
+  const shareOfPool = useShareOfPool({ pool, lpAmount: lpBalance });
   const stakedAmount = useStakedLpAmount(lpTokenContract);
   const tokenAmounts = useLpToTokens({ pool, amount: lpBalance });
   const myShare = num(stakedAmount).plus(lpBalance).toString();
@@ -67,9 +67,6 @@ export const usePool = ({
 
     return getTokenDenom(pool.assets[1].info);
   }, [pool]);
-
-  const token1Price = useTokenPriceInUst(token1);
-  const token2Price = useTokenPriceInUst(token2);
 
   const myShareInUst = useShareInUst({
     pool,
@@ -101,13 +98,19 @@ export const usePool = ({
         asset: token1,
         share: pool.assets[0].amount,
         amount: tokenAmounts?.[token1],
-        price: token1Price,
+        price: num(tokenAmounts?.[token2])
+          .div(tokenAmounts?.[token1])
+          .dp(6)
+          .toNumber(),
       },
       token2: {
         asset: token2,
         share: pool.assets[1].amount,
         amount: tokenAmounts?.[token2],
-        price: token2Price,
+        price: num(tokenAmounts?.[token1])
+          .div(tokenAmounts?.[token2])
+          .dp(6)
+          .toNumber(),
       },
     };
   }, [
@@ -117,8 +120,6 @@ export const usePool = ({
     tokenAmounts,
     token1,
     token2,
-    token1Price,
-    token2Price,
     myShare,
     myShareInUst,
   ]);

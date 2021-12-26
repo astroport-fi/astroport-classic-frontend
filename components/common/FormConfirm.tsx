@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import Card from "components/Card";
 import FormFee from "components/common/FormFee";
 import CloseIcon from "components/icons/CloseIcon";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 
 type Props = {
   title?: string;
@@ -67,7 +68,7 @@ const FormConfirm: FC<Props> = ({
         {details && (
           <VStack mt={6} spacing={3} align="stretch">
             <Text textStyle="small" variant="secondary">
-              Breakdown
+              Further information:
             </Text>
             <VStack
               align="stretch"
@@ -99,7 +100,7 @@ const FormConfirm: FC<Props> = ({
           <Button variant="primary" minW="64" size="sm" type="submit">
             {actionLabel}
           </Button>
-          {fee && <FormFee fee={fee} opacity={1} />}
+          {fee && <FormFee fee={fee} />}
         </Flex>
       </Card>
     </MotionBox>

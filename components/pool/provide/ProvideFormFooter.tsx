@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
-import { useShareOfPool } from "modules/pool";
+import { useEstShareOfPool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
+import numeral from "numeral";
 
 type Props = {
   pool: any;
@@ -17,12 +18,16 @@ const ProvideFormFooter: FC<Props> = ({
   data,
   onConfirmClick,
 }) => {
-  const shareOfPool = useShareOfPool({ pool, amount1: toTerraAmount(amount) });
+  const shareOfPool = useEstShareOfPool({
+    pool,
+    amount1: amount,
+  });
+  const shareInUst = numeral(pool.mine.shareInUst).format("0,0.00");
 
   const cells = [
     {
-      title: "Liquidity",
-      value: pool.total.shareInUst,
+      title: "My Liquidity",
+      value: `$ ${shareInUst || "0"}`,
     },
     {
       title: "Share of Pool",

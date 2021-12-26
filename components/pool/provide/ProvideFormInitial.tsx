@@ -192,7 +192,7 @@ const ProvideFormInitial: FC<Props> = ({
         onConfirmClick={onClick}
       />
 
-      <Flex mt={4} mb={8} justifyContent="center">
+      {/* <Flex mt={4} mb={8} justifyContent="center">
         <Controller
           name="autoStake"
           control={control}
@@ -209,7 +209,7 @@ const ProvideFormInitial: FC<Props> = ({
             </Checkbox>
           )}
         />
-      </Flex>
+      </Flex> */}
     </>
   );
 };
