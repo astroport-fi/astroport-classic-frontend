@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 
-import { useAuctionPools } from "modules/auction";
 import { useAstroPools } from "modules/lockdrop";
 
 import CardHeader from "components/CardHeader";
@@ -11,20 +10,12 @@ import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyActionsTd from "components/table/MyActionsTd";
-import RewardedIcon from "components/icons/RewardedIcon";
 
 const MyLockedAstroLiquidity = () => {
   const pools = useAstroPools();
-  const auctionPools = useAuctionPools();
 
   const columns = useMemo(
     () => [
-      // {
-      //   id: "reward-icon",
-      //   width: 0,
-      //   Cell: () => <RewardedIcon color="#59B7DD" />,
-      // },
-
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (

@@ -50,7 +50,6 @@ const createQuery = (pairs, address) => {
 
 export const useAstroPools = () => {
   const { pairs, lockdrop } = useContracts();
-  const { pairs: allPairs } = useAstroswap();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
 
@@ -74,9 +73,6 @@ export const useAstroPools = () => {
         result[`pool${info.terraswap_lp_token}`].contractQuery;
       const { balance } =
         result[`balance${info.terraswap_lp_token}`].contractQuery;
-      const pair = allPairs.find(
-        (item) => item.liquidity_token === info.astroport_lp_token
-      );
 
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 

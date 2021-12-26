@@ -84,16 +84,16 @@ const defaultContracts: { [key: string]: any } = {
   },
   testnet: {
     astroToken: "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry",
-    xAstroToken: "terra140z3pg6v2nlhr7c8lst5ecgud2t2rhvmv4jn4g",
-    factory: "terra1f2qfdywmxrx8rl0qtux8h2fmg6yrunsvtnga0z",
-    router: "terra1jtccxaslpl3lhk55gxp56zjhyamnqtkfx3tu6v",
+    xAstroToken: "terra18lxxakc0arqrvp42fk87q9tlygvjj4m3cktccv",
+    factory: "terra1xkuxfhxa2jmjercq3ryplnj65huhlxl5mv3d6x",
+    router: "terra1gp60ef93jne7z0rl5ezu8ef7fczxt50hrpdjut",
     vesting: "terra1y066wgutm34ygcenzegcmzj7gmlut429hsafwd",
-    staking: "terra1qx66v5y70prlt3q0s7mtfe3qjrzadsgs9ggxf4",
-    maker: "terra159ch97pxp00ax4hthqvyysfk4m0rwul4tjunwj",
+    staking: "terra1uw54vyx434zg9ax6cus4vcck3g2f7qq0pjj2k7",
+    maker: "terra1uetlz3pnxz292fk7758u056059sm26mu2pms4w",
     generator: "terra1nam969dw6cwvwzprwl7k4jclkx3l3307xenqy6",
-    lockdrop: "terra1nylwjg6enkr6tjppzs2vg3glfrgdsrajfpwkgt",
-    airdrop: "terra1zej5tkyl82fgfxswe6mgeaw7z3sxfjay2phd2y",
-    auction: "terra1cdkpejk8hqh569w40r3hd4vtnlmaupy6rmxf50",
+    lockdrop: "terra12z04vgusqr9gwh7e55na3ky4kxa8yy3axrk06g",
+    airdrop: "terra13leptv6kuwxkcrczzjz2f39eswavn8l3v43ww2",
+    auction: "terra19jswzpl8nuvl495u0ld5m54zskdyen2w7deflx",
     pairs: [
       {
         lp: "terra12xqxr9j9hawuch7vv6y0gz8l0wetjtvu7xqvh9",
@@ -112,8 +112,8 @@ const defaultContracts: { [key: string]: any } = {
         contract: "terra1000dvulnpd68xeye6r726ehlwpa68ec3hcxv9s",
       },
       {
-        lp: "terra1gn7jxqutclyld8q343jaq5rwcy0m3t9jl2xhgd",
-        contract: "terra1qjvy2an2mfsjqx6jud5jfjxe8mfgwxuvvyy0jv",
+        lp: "terra1pyfhr9mhz7qq93r7da585rkvvrtasxpnylzq6m",
+        contract: "terra1f95xyu3tewcurz8xww6yfh7plckkfndhlh44yn",
       },
       {
         lp: "terra1qlkq2a6dhe8t00xcmsa6mc6nmhxe9z7y6hx9t6",

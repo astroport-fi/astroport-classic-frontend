@@ -50,15 +50,18 @@ export const useAuctionPools = () => {
       .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
-    const myUnlockedLiquidityInUst = num(myLiquidity)
+    const myUnlockedLiquidityInUst = num(myUnlockedLiquidity)
       .times(totalLiquidityInUst)
       .div(totalLiquidity)
       .dp(6)
       .toNumber();
 
+    const isClaimable = num(userInfo.withdrawable_lp_shares).gt(0);
+
     return [
       {
-        name: "asset",
+        name: config.pool_info?.astro_ust_pool_address,
+        contract: config.pool_info?.astro_ust_pool_address,
         assets: [astroToken, "uusd"],
         totalLiquidity,
         totalLiquidityInUst,
@@ -66,7 +69,7 @@ export const useAuctionPools = () => {
         myLiquidityInUst,
         myUnlockedLiquidity,
         myUnlockedLiquidityInUst,
-        contract: config.pool_info.astro_ust_pool_address,
+        isClaimable,
         lockEnd,
       },
     ];

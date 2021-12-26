@@ -9,7 +9,7 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
-import LockActionsTd from "components/table/LockActionsTd";
+import AuctionActionsTd from "components/table/AuctionActionsTd";
 
 const MyLockedPool = () => {
   const auctionPools = useAuctionPools();
@@ -46,7 +46,7 @@ const MyLockedPool = () => {
       {
         Header: "Unlocked Liquidity",
         Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.unlockedLiquidityInUst} />
+          <NumberInUstTd value={row.original.myUnlockedLiquidityInUst} />
         ),
         width: 100,
         accessor: "totalUnlockedLiquidity",
@@ -58,7 +58,7 @@ const MyLockedPool = () => {
       },
       {
         id: "pool-actions",
-        Cell: ({ row }: any) => <LockActionsTd row={row} />,
+        Cell: ({ row }: any) => <AuctionActionsTd row={row} />,
         accessor: "actions",
         width: 120,
       },
