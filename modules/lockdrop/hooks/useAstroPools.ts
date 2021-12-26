@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 import { gql } from "graphql-request";
 import { sortBy } from "lodash";
+import dayjs from "dayjs";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
@@ -52,6 +53,7 @@ export const useAstroPools = () => {
   const { pairs, lockdrop } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
+  const currentTimestamp = dayjs().unix();
 
   const query = createQuery(pairs, lockdrop);
 
@@ -68,11 +70,18 @@ export const useAstroPools = () => {
       return [];
     }
 
+    console.log(
+      "userInfo.lockup_infos",
+      userInfo.lockup_infos.map((info) => ({
+        lp: info.terraswap_lp_token,
+      }))
+    );
+
     const items = userInfo.lockup_infos.map((info) => {
       const { assets, total_share } =
-        result[`pool${info.terraswap_lp_token}`].contractQuery;
+        result[`pool${info.terraswap_lp_token}`]?.contractQuery;
       const { balance } =
-        result[`balance${info.terraswap_lp_token}`].contractQuery;
+        result[`balance${info.terraswap_lp_token}`]?.contractQuery;
 
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
@@ -107,6 +116,7 @@ export const useAstroPools = () => {
         myLiquidity,
         myLiquidityInUst,
         lockEnd: info.unlock_timestamp,
+        isClaimable: currentTimestamp > info.unlock_timestamp,
         duration: info.duration,
         astroRewards: +info.astro_rewards / ONE_TOKEN,
       };

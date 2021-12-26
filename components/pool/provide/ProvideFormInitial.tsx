@@ -95,8 +95,11 @@ const ProvideFormInitial: FC<Props> = ({
   };
 
   const handleChange = (value: number) => {
-    let newAmount = num(value).times(ratio).dp(2).toString();
-    setValue("amount2", newAmount);
+    if (num(ratio).gt(0)) {
+      let newAmount = num(value).times(ratio).dp(2).toString();
+      setValue("amount2", newAmount);
+    }
+
     setValue("amount1", String(value));
   };
 

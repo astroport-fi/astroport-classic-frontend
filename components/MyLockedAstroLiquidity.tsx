@@ -54,6 +54,7 @@ const MyLockedAstroLiquidity = () => {
           <MyActionsTd
             name={row.original.name}
             duration={row.original.duration}
+            isClaimable={row.original.isClaimable}
           />
         ),
         accessor: "actions",

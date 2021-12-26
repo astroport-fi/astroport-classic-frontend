@@ -24,7 +24,7 @@ export const useLockedLpAmount = (
       return "0";
     }
 
-    return info.lp_units_locked;
+    return info.astroport_lp_units;
   }, [userInfo, lpTokenContract]);
 };
 

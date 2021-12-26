@@ -102,19 +102,21 @@ export const usePool = ({
         asset: token1,
         share: pool.assets[0].amount,
         amount: tokenAmounts?.[token1],
-        price: num(tokenAmounts?.[token2])
-          .div(tokenAmounts?.[token1])
-          .dp(6)
-          .toNumber(),
+        price:
+          num(tokenAmounts?.[token2])
+            .div(tokenAmounts?.[token1])
+            .dp(6)
+            .toNumber() || 0,
       },
       token2: {
         asset: token2,
         share: pool.assets[1].amount,
         amount: tokenAmounts?.[token2],
-        price: num(tokenAmounts?.[token1])
-          .div(tokenAmounts?.[token2])
-          .dp(6)
-          .toNumber(),
+        price:
+          num(tokenAmounts?.[token1])
+            .div(tokenAmounts?.[token2])
+            .dp(6)
+            .toNumber() || 0,
       },
     };
   }, [

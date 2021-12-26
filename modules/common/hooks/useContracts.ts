@@ -104,6 +104,10 @@ const defaultContracts: { [key: string]: any } = {
         contract: "terra13ddrtskjet4jlydhkvt2wuk8ykfk2uve5jt5jn",
       },
       {
+        lp: "terra1pyfhr9mhz7qq93r7da585rkvvrtasxpnylzq6m",
+        contract: "terra1f95xyu3tewcurz8xww6yfh7plckkfndhlh44yn",
+      },
+      {
         lp: "terra1tkznhysk37rw64nc8p6xkt5tfp2058905avweg",
         contract: "terra1360rky0fjv22vaaxua7cfwfxsytczr6pa6ax56",
       },
@@ -112,8 +116,8 @@ const defaultContracts: { [key: string]: any } = {
         contract: "terra1000dvulnpd68xeye6r726ehlwpa68ec3hcxv9s",
       },
       {
-        lp: "terra1pyfhr9mhz7qq93r7da585rkvvrtasxpnylzq6m",
-        contract: "terra1f95xyu3tewcurz8xww6yfh7plckkfndhlh44yn",
+        lp: "terra1gn7jxqutclyld8q343jaq5rwcy0m3t9jl2xhgd",
+        contract: "terra1qjvy2an2mfsjqx6jud5jfjxe8mfgwxuvvyy0jv",
       },
       {
         lp: "terra1qlkq2a6dhe8t00xcmsa6mc6nmhxe9z7y6hx9t6",

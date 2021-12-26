@@ -2,17 +2,14 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { Button, Flex } from "@chakra-ui/react";
 
-import { useLockdropLogic } from "modules/lockdrop";
-
 type Props = {
   name: string;
   duration: number;
+  isClaimable: boolean;
 };
 
-const MyActionsTd: FC<Props> = ({ name, duration }) => {
-  const logic = useLockdropLogic({ lpToken: name, duration });
-
-  if (!logic.canWithdraw) {
+const MyActionsTd: FC<Props> = ({ name, duration, isClaimable }) => {
+  if (!isClaimable) {
     return (
       <Flex justify="flex-end">
         <Button as="a" variant="silent" size="sm" isFullWidth isDisabled>

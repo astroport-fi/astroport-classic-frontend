@@ -1,11 +1,7 @@
-import { toTerraAmount } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
 type CreateMsgsOptions = {
-  token: {
-    asset: string;
-    amount: string;
-  };
+  token: string;
   duration: number;
   contract: string;
 };
@@ -14,19 +10,13 @@ export const createUnlockMsgs = (
   options: CreateMsgsOptions,
   sender: string
 ): MsgExecuteContract[] => {
-  const {
-    contract,
-    token: { asset, amount },
-    duration,
-  } = options;
-
-  const terraAmount = toTerraAmount(amount);
+  const { contract, token, duration } = options;
 
   const executeMsg = new MsgExecuteContract(sender, contract, {
-    withdraw_from_lockup: {
-      terraswap_lp_token: asset,
+    claim_rewards_and_optionally_unlock: {
+      terraswap_lp_token: token,
       duration,
-      amount: terraAmount,
+      withdraw_lp_stake: true,
     },
   });
 

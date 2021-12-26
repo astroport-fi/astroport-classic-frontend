@@ -15,16 +15,15 @@ export type UnlockState = {
 
 type Params = {
   duration: number;
-  token: {
-    asset: string;
-    amount: string;
-  };
+  token: string;
+  amount: string;
   onSuccess?: (txHash: string) => void;
   onError?: (txHash?: string) => void;
 };
 
 export const useUnlock = ({
   token,
+  amount,
   duration,
   onSuccess,
   onError,
@@ -33,11 +32,7 @@ export const useUnlock = ({
   const { lockdrop } = useContracts();
 
   const msgs = useMemo(() => {
-    if (
-      token.amount == "" ||
-      num(token.amount).isEqualTo("0") ||
-      duration == null
-    ) {
+    if (token == null || duration == null) {
       return null;
     }
 
