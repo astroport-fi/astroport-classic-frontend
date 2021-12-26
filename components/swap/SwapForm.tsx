@@ -43,6 +43,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   } = useWallet();
   const [currentInput, setCurrentInput] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
+  const [slippageSetting, setSlippageSetting] = useLocalStorage(
+    "slippageSetting",
+    DEFAULT_SLIPPAGE
+  );
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
   const isReverse = currentInput == "amount2";
 
@@ -54,7 +58,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       amount1: "",
       token2: defaultToken2,
       amount2: "",
-      slippage: DEFAULT_SLIPPAGE,
+      slippage: slippageSetting,
     },
   });
 
@@ -83,6 +87,12 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   useEffect(() => {
     methods.reset();
   }, [networkName]);
+
+  useEffect(() => {
+    if (slippage != slippageSetting) {
+      setSlippageSetting(slippage);
+    }
+  }, [slippage]);
 
   useEffect(() => {
     if (defaultToken2 != token2 || defaultToken1 != token1) {
@@ -180,7 +190,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               fee={fee}
               onConfirmClick={() => {
                 expertMode
-                  ? methods.handleSubmit(submit)()
+                  ? methods.handleSubmit(onSubmit)()
                   : setShowConfirm(true);
               }}
             />

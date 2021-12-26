@@ -14,12 +14,12 @@ import { useConnectedWallet } from "@terra-money/wallet-provider";
 import Table from "components/Table";
 import Tr from "components/Tr";
 import Td from "components/Td";
-import PoolTableFilter from "components/pool/table/PoolTableFilter";
-import PoolTr from "components/pool/table/PoolTr";
-import PoolNameTd from "components/pool/table/PoolNameTd";
-import PoolConnectWallet from "components/pool/table/PoolConnectWallet";
-import MyLiquidityTd from "components/pool/table/MyLiquidityTd";
-import DepthTd from "components/pool/table/DepthTd";
+import PoolTableFilter from "components/pool/table_old/PoolTableFilter";
+import PoolTr from "components/pool/table_old/PoolTr";
+import PoolNameTd from "components/pool/table_old/PoolNameTd";
+import PoolConnectWallet from "components/pool/table_old/PoolConnectWallet";
+import MyLiquidityTd from "components/pool/table_old/MyLiquidityTd";
+import DepthTd from "components/pool/table_old/DepthTd";
 import ActionsTd from "components/table/ActionsTd";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 

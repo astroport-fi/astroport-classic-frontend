@@ -4,7 +4,12 @@ import { gql } from "graphql-request";
 import { sortBy } from "lodash";
 
 import { ONE_TOKEN } from "constants/constants";
-import { getTokenDenoms, useContracts, useLunaPrice } from "modules/common";
+import {
+  getPoolTokenDenoms,
+  useAstroswap,
+  useContracts,
+  useLunaPrice,
+} from "modules/common";
 import { useUserInfo } from "modules/lockdrop";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -45,6 +50,7 @@ const createQuery = (pairs, address) => {
 
 export const useAstroPools = () => {
   const { pairs, lockdrop } = useContracts();
+  const { pairs: allPairs } = useAstroswap();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
 
@@ -68,6 +74,9 @@ export const useAstroPools = () => {
         result[`pool${info.terraswap_lp_token}`].contractQuery;
       const { balance } =
         result[`balance${info.terraswap_lp_token}`].contractQuery;
+      const pair = allPairs.find(
+        (item) => item.liquidity_token === info.astroport_lp_token
+      );
 
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
@@ -94,7 +103,9 @@ export const useAstroPools = () => {
 
       return {
         name: info.terraswap_lp_token,
-        assets: getTokenDenoms(assets.map(({ info }) => info)),
+        assets: getPoolTokenDenoms(assets),
+        // TODO: change once LPs are migrated to Astro
+        pairType: null,
         totalLiquidity,
         totalLiquidityInUst: totalLiquidityLockedInUst,
         myLiquidity,

@@ -24,7 +24,12 @@ const MyLockedAstroLiquidity = () => {
 
       {
         Header: "Pool Name",
-        Cell: ({ row }: any) => <PoolNameTd assets={row.original.assets} />,
+        Cell: ({ row }: any) => (
+          <PoolNameTd
+            assets={row.original.assets}
+            pairType={row.original.pairType}
+          />
+        ),
         accessor: "name",
       },
       {

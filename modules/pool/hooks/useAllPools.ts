@@ -89,7 +89,7 @@ export const useAllPools = () => {
       return [];
     }
 
-    const items = pairs.map(({ contract_addr, liquidity_token }) => {
+    const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
       const balance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
       const denoms = getPoolTokenDenoms(assets);
@@ -120,6 +120,7 @@ export const useAllPools = () => {
       return {
         contract: contract_addr,
         assets: denoms,
+        pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,
         myLiquidity,

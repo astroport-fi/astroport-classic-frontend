@@ -49,7 +49,7 @@ export const useUserInfo = () => {
     }
 
     return data;
-  }, [isLoading]);
+  }, [isLoading, data]);
 };
 
 export default useUserInfo;

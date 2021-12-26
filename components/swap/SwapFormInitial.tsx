@@ -204,6 +204,7 @@ const SwapFormInitial: FC<Props> = ({
                   asset={token2}
                   isDisabled={isSecondInputDisabled}
                   isLoading={isLoading}
+                  hideMaxButton
                   {...getInputProps(field)}
                 />
               )}

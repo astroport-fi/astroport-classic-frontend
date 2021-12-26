@@ -31,6 +31,10 @@ export const useTokenPriceInUst = (token: string | null) => {
     if (swapRouteInUst.length == 1) {
       const { token1, token2 } = getAssetAmountsInPool(ustData.assets, "uusd");
 
+      if (num(token1).eq(0) || num(token2).eq(0)) {
+        return 0;
+      }
+
       return num(token1).div(token2).dp(6).toNumber();
     }
 
@@ -39,6 +43,10 @@ export const useTokenPriceInUst = (token: string | null) => {
         lunaData.assets,
         "uluna"
       );
+
+      if (num(token1).eq(0) || num(token2).eq(0)) {
+        return 0;
+      }
 
       const lunaInUst = num(token1)
         .div(ONE_TOKEN)

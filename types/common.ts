@@ -88,6 +88,16 @@ export type Pair = {
   lpToken: CW20Addr;
 };
 
+export type PairType = StablePair | XYKPair;
+
+export type StablePair = {
+  stable: object;
+};
+
+export type XYKPair = {
+  xyk: object;
+};
+
 export type Token = {
   protocol: string;
   symbol: string;

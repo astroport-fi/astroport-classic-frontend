@@ -1,15 +1,16 @@
 import React, { FC } from "react";
+import numeral from "numeral";
 import { Box, Text, Image, HStack } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
-import { usePool } from "modules/pool";
+import { usePool, usePoolFee } from "modules/pool";
 
 type Props = {
   row: any;
 };
 
 const PoolItem: FC<Props> = ({ row }) => {
-  const { contract_addr, liquidity_token } = row.original;
+  const { contract_addr, liquidity_token, pair_type } = row.original;
   const { getIcon, getSymbol } = useTokenInfo();
   const pool = usePool({
     pairContract: contract_addr,
@@ -30,11 +31,11 @@ const PoolItem: FC<Props> = ({ row }) => {
           <Image src={getIcon(pool.token2.asset)} alt="Logo" boxSize="4" />
         </Box>
       </HStack>
-      <Box>
-        <Text fontSize="sm">
+      <HStack>
+        <Text textStyle="medium">
           {getSymbol(pool.token1.asset)}-{getSymbol(pool.token2.asset)}
         </Text>
-      </Box>
+      </HStack>
     </HStack>
   );
 };

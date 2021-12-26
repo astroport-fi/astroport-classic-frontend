@@ -34,6 +34,12 @@ export type PairResponse = {
   };
 };
 
+export type FeeResponse = {
+  fee_address: string;
+  total_fee_bps: number;
+  maker_fee_bps: number;
+};
+
 // ---------------------------------------------
 // HandleMsg
 // ---------------------------------------------

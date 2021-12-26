@@ -7,6 +7,7 @@ export * from "./hooks/useLpToTokens";
 export * from "./hooks/useShareInUst";
 export * from "./hooks/usePools";
 export * from "./hooks/useGetPool";
+export * from "./hooks/usePoolFee";
 export * from "./hooks/useWithdraw";
 export * from "./hooks/useProvide";
 export * from "./hooks/useMyPools";
