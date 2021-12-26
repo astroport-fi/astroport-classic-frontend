@@ -2,14 +2,14 @@ import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
-import { useAstroswap, useLunaPrice } from "modules/common";
+import { useAstroswap, useLunaPriceInUst } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 
 export const useTokenPriceInUst = (token: string | null) => {
   const { routes } = useAstroswap();
-  const lunaPrice = useLunaPrice();
+  const lunaPrice = useLunaPriceInUst();
   const swapRouteInUst = useSwapRoute({ routes, from: token, to: "uusd" });
   const swapRouteInLuna = useSwapRoute({ routes, from: token, to: "uluna" });
 
@@ -54,7 +54,7 @@ export const useTokenPriceInUst = (token: string | null) => {
         .dp(6)
         .toNumber();
 
-      return num(lunaInUst).div(token2).dp(6).toNumber();
+      return num(lunaInUst).div(num(token2).div(ONE_TOKEN)).dp(6).toNumber();
     }
 
     return 0;

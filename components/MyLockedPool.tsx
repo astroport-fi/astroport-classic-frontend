@@ -9,20 +9,13 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
-import ActionsTd from "components/table/ActionsTd";
-import RewardedIcon from "components/icons/RewardedIcon";
+import LockActionsTd from "components/table/LockActionsTd";
 
 const MyLockedPool = () => {
   const auctionPools = useAuctionPools();
 
   const columns = useMemo(
     () => [
-      // {
-      //   id: "reward-icon",
-      //   width: 8,
-      //   Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
-      // },
-
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (
@@ -65,7 +58,7 @@ const MyLockedPool = () => {
       },
       {
         id: "pool-actions",
-        Cell: ({ row }: any) => <ActionsTd row={row} />,
+        Cell: ({ row }: any) => <LockActionsTd row={row} />,
         accessor: "actions",
         width: 120,
       },

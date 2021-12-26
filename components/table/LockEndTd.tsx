@@ -10,6 +10,7 @@ type Props = {
 const LockEndTd: FC<Props> = ({ row }) => {
   const { lockEnd } = row.original;
   const date = dayjs.unix(lockEnd);
+
   if (date.isBefore(Date.now())) {
     return (
       <Text textStyle="medium" color="green.500">
@@ -17,7 +18,9 @@ const LockEndTd: FC<Props> = ({ row }) => {
       </Text>
     );
   }
+
   const remainingDays = date.diff(Date.now(), "day", false);
+
   return (
     <HStack spacing="3">
       <Text fontSize="sm">{date.format("MM/DD/YY")}</Text>

@@ -66,7 +66,7 @@ export const useAuctionPools = () => {
         myLiquidityInUst,
         myUnlockedLiquidity,
         myUnlockedLiquidityInUst,
-        contract: "test",
+        contract: config.pool_info.astro_ust_pool_address,
         lockEnd,
       },
     ];
