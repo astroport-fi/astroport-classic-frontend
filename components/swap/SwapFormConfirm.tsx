@@ -2,7 +2,11 @@ import React, { FC } from "react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
-import { usePriceImpact, useSwapRoutePath } from "modules/swap";
+import {
+  usePriceImpact,
+  usePriceImpactColor,
+  useSwapRoutePath,
+} from "modules/swap";
 import { useTokenInfo, Route } from "modules/common";
 
 import FormSummary from "components/common/FormSummary";
@@ -44,6 +48,7 @@ const SwapFormConfirm: FC<Props> = ({
     amount2,
     price,
   });
+  const priceImpactColor = usePriceImpactColor(priceImpact);
 
   return (
     <FormConfirm
@@ -59,7 +64,11 @@ const SwapFormConfirm: FC<Props> = ({
         />
       }
       details={[
-        { label: "Price Impact", value: `${priceImpact}%` },
+        {
+          label: "Price Impact",
+          value: `${priceImpact}%`,
+          color: priceImpactColor,
+        },
         {
           label: "Liquidity Provider fee",
           value: `${fromTerraAmount(commission, "0,000")} UST`,

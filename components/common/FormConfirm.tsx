@@ -21,6 +21,7 @@ type Props = {
   details?: {
     label: string;
     value: string;
+    color?: string;
   }[];
   fee?: Fee | null;
   actionLabel?: string;
@@ -83,12 +84,7 @@ const FormConfirm: FC<Props> = ({
                   <Text textStyle="small" variant="secondary">
                     {detail.label}
                   </Text>
-                  <Text
-                    textStyle="medium"
-                    color={
-                      detail.label == "Price Impact" ? "green.500" : "inherit"
-                    }
-                  >
+                  <Text textStyle="medium" color={detail.color ?? "white"}>
                     {detail.value}
                   </Text>
                 </HStack>
