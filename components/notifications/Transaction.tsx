@@ -4,6 +4,7 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 
 import useFinder from "hooks/useFinder";
+import useTimeout from "hooks/useTimeout";
 
 const MotionBox = motion(Box);
 
@@ -20,6 +21,7 @@ const Transaction: FC<Props> = ({
   children,
 }) => {
   const finder = useFinder();
+  const [pause, resume] = useTimeout(9000, onClose);
 
   const icon = {
     succeed: <CheckIcon color="otherColours.green" w={3} />,
@@ -39,6 +41,8 @@ const Transaction: FC<Props> = ({
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
+      onMouseEnter={pause}
+      onMouseLeave={resume}
     >
       <HStack align="start" spacing={3}>
         {icon}
