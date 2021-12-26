@@ -1,9 +1,15 @@
 import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
+import numeral from "numeral";
 
 import { useTokenInfo } from "modules/common";
-import { Pool, useEstShareOfPool, useTokensToLp } from "modules/pool";
+import {
+  Pool,
+  useEstShareOfPool,
+  useTokensToLp,
+  useEstShareInUst,
+} from "modules/pool";
 
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -29,9 +35,11 @@ const ProvideForm: FC<Props> = ({
 }) => {
   const { getSymbol } = useTokenInfo();
   const lpToken = useTokensToLp({ pool, amount1, amount2 });
-  const shareOfPool = useEstShareOfPool({ pool, amount1 });
+  const shareInUst = useEstShareInUst({ pool, amount1, amount2 });
+  const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
+  const formattedShareInUst = numeral(shareInUst).format("0,0.00");
 
   return (
     <FormConfirm
@@ -46,7 +54,7 @@ const ProvideForm: FC<Props> = ({
         />
       }
       details={[
-        // { label: "My provided Liquidiy", value: "$ 8,779.58" },
+        { label: "My provided Liquidiy", value: `$ ${formattedShareInUst}` },
         {
           label: "Exchange Rate",
           value: `1 ${symbol1} = ${pool.token1.price} ${symbol2}`,

@@ -8,8 +8,6 @@ export const usePoolFee = (pairType: string) => {
   const { client } = useTerraWebapp();
   const { factory } = useContracts();
 
-  console.log(pairType);
-
   const { data, isLoading } = useQuery(
     ["pair", pairType],
     () => {

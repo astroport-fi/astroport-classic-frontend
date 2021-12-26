@@ -4,7 +4,8 @@ import { useFormContext, Controller } from "react-hook-form";
 import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { ProvideState } from "modules/pool";
+import { ProvideState, Pool } from "modules/pool";
+import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
 import NewAmountInput from "components/NewAmountInput";
@@ -13,10 +14,9 @@ import PoolHeader from "components/pool/PoolHeader";
 import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
 import AstroSlider from "components/AstroSlider";
-import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
-  pool: any;
+  pool: Pool;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: any;
@@ -187,7 +187,8 @@ const ProvideFormInitial: FC<Props> = ({
 
       <ProvideFormFooter
         pool={pool}
-        amount={amount1}
+        amount1={amount1}
+        amount2={amount2}
         data={state}
         onConfirmClick={onClick}
       />

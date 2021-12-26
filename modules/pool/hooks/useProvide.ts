@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { Coin, TxInfo } from "@terra-money/terra.js";
 import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 
-import { createProvideMsgs } from "modules/pool";
-import { Pool } from "types/common";
+import { createProvideMsgs, Pool } from "modules/pool";
 
 export type ProvideState = {
   error: any;

@@ -1,14 +1,15 @@
 import { Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
 import {
-  PoolResponse,
   getTokenDenom,
   isNativeAsset,
   isNativeAssetInfo,
 } from "modules/common";
 
+import { Pool } from "modules/pool";
+
 type CreateProvideMsgsOptions = {
-  pool: PoolResponse;
+  pool: Pool;
   coin1: Coin;
   coin2: Coin;
   contract: string;

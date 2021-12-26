@@ -9,7 +9,6 @@ import {
   useGlobalFilter,
 } from "react-table";
 import { PairResponse, getTokenDenom, useTokenInfo } from "modules/common";
-import { useConnectedWallet } from "@terra-money/wallet-provider";
 
 import Table from "components/Table";
 import Tr from "components/Tr";

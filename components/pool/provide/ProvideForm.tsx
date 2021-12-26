@@ -5,7 +5,7 @@ import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { useProvide, useTokensToLp } from "modules/pool";
+import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
 
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
@@ -22,7 +22,7 @@ type FormValues = {
 
 type Props = {
   pair: PairResponse;
-  pool: any;
+  pool: Pool;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
@@ -57,8 +57,6 @@ const ProvideForm: FC<Props> = ({
 
   const debouncedAmount1 = useDebounceValue(amount1, 200);
   const debouncedAmount2 = useDebounceValue(amount2, 200);
-
-  const test = useTokensToLp({ pool, amount1, amount2 });
 
   const state = useProvide({
     contract: pair.contract_addr,

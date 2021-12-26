@@ -77,7 +77,7 @@ const AstroSlider: FC<Props> = ({
   };
 
   const renderButtons = () => {
-    if (hideButtons) {
+    if (hideButtons || max == 0) {
       return null;
     }
 
@@ -118,7 +118,7 @@ const AstroSlider: FC<Props> = ({
             step={0.01}
             focusThumbOnChange={false}
             onChange={onChange}
-            isDisabled={isDisabled}
+            isDisabled={isDisabled || max == 0}
             {...props}
           >
             <SliderTrack>

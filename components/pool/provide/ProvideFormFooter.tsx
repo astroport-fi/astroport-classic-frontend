@@ -1,33 +1,42 @@
 import React, { FC } from "react";
 import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
-import { useEstShareOfPool } from "modules/pool";
-
-import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import numeral from "numeral";
 
+import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";
+
+import CommonFooter, { ConfirmButton } from "components/CommonFooter";
+
 type Props = {
-  pool: any;
+  pool: Pool;
   data: any;
-  amount: string;
+  amount1: string;
+  amount2: string;
   onConfirmClick: () => void;
 };
 
 const ProvideFormFooter: FC<Props> = ({
   pool,
-  amount,
+  amount1,
+  amount2,
   data,
   onConfirmClick,
 }) => {
   const shareOfPool = useEstShareOfPool({
     pool,
-    amount1: amount,
+    amount1: amount1,
+    amount2: amount2,
   });
-  const shareInUst = numeral(pool.mine.shareInUst).format("0,0.00");
+  const shareInUst = useEstShareInUst({
+    pool,
+    amount1: amount1,
+    amount2: amount2,
+  });
+  const formattedShareInUst = numeral(shareInUst).format("0,0.00");
 
   const cells = [
     {
       title: "My Liquidity",
-      value: `$ ${shareInUst || "0"}`,
+      value: `$ ${formattedShareInUst || "0"}`,
     },
     {
       title: "Share of Pool",

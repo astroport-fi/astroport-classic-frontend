@@ -4,6 +4,7 @@ export * from "./hooks/useLpBalances";
 export * from "./hooks/usePool";
 export * from "./hooks/useShareOfPool";
 export * from "./hooks/useEstShareOfPool";
+export * from "./hooks/useEstShareInUst";
 export * from "./hooks/useLpToTokens";
 export * from "./hooks/useTokensToLp";
 export * from "./hooks/useShareInUst";

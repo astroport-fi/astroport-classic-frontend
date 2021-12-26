@@ -16,21 +16,10 @@ const ActionsTd: FC<Props> = ({ row }) => {
   const balance1 = useBalance(token1);
   const balance2 = useBalance(token2);
 
-  const hasMissingToken = num(balance1).eq(0) || num(balance2).eq(0);
-  const canProvideLiquidity = num(myLiquidity).eq(0);
-  const canManageLiquidity = !hasMissingToken && num(myLiquidity).gt(0);
+  const canProvideLiquidity = num(balance1).gt(0) && num(balance2).gt(0);
+  const canManageLiquidity = num(myLiquidity).gt(0);
 
   const renderButton = () => {
-    if (hasMissingToken) {
-      return (
-        <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
-          <Button as="a" size="sm" variant="silent" minW="40">
-            Get Token
-          </Button>
-        </Link>
-      );
-    }
-
     if (canProvideLiquidity) {
       return (
         <Link href={`/pools/${contract}`} passHref>
@@ -50,6 +39,14 @@ const ActionsTd: FC<Props> = ({ row }) => {
         </Link>
       );
     }
+
+    return (
+      <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
+        <Button as="a" size="sm" variant="silent" minW="40">
+          Get Token
+        </Button>
+      </Link>
+    );
   };
 
   return <HStack justify="flex-end">{renderButton()}</HStack>;

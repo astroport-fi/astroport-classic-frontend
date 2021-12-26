@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
-import { Pool } from "modules/pool";
+import { Pool, useTokensToLp } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
 
 type Response = string | null;
@@ -9,28 +9,36 @@ type Response = string | null;
 type Params = {
   pool: Pool | null | undefined;
   amount1: string | null;
+  amount2: string | null;
 };
 
-export const useEstShareOfPool = ({ pool, amount1 }: Params): Response => {
+export const useEstShareOfPool = ({
+  pool,
+  amount1,
+  amount2,
+}: Params): Response => {
+  const estLpBalance = useTokensToLp({ pool, amount1, amount2 });
+  const lpBalance = useBalance(pool.lpTokenContract);
+  const totalShare = num(pool.total.share).plus(
+    num(estLpBalance).times(ONE_TOKEN)
+  );
+
   return useMemo(() => {
-    if (
-      pool == null ||
-      amount1 == null ||
-      num(amount1).isNaN() ||
-      num(amount1).eq(0) ||
-      num(pool.total.share).eq(0)
-    ) {
+    if (pool == null || lpBalance == null || num(pool.total.share).eq(0)) {
       return "0.00";
     }
 
-    const token1Amount = pool.assets[0].amount;
+    if (num(estLpBalance).isNaN()) {
+      return pool.mine.shareOfPool;
+    }
 
-    return num(amount1)
+    return num(estLpBalance)
       .times(ONE_TOKEN)
-      .div(token1Amount)
+      .plus(lpBalance)
       .times("100")
+      .div(totalShare)
       .toFixed(2);
-  }, [pool, amount1]);
+  }, [pool, amount1, lpBalance]);
 };
 
 export default useEstShareOfPool;

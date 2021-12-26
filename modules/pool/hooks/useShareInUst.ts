@@ -45,9 +45,9 @@ export const useShareInUst = ({ pool, amount }: Params) => {
       token2Price == null ||
       tokenAmounts == null ||
       amount == null ||
-      num(amount).isEqualTo(0)
+      num(amount).eq(0)
     ) {
-      return null;
+      return 0;
     }
 
     const totalPrice1 = num(tokenAmounts[token1])

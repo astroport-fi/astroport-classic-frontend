@@ -16,9 +16,9 @@ export const useTokensToLp = ({ pool, amount1, amount2 }: Params): Response => {
   return useMemo(() => {
     if (
       pool == null ||
-      amount1 == null ||
+      amount1 == "" ||
       num(amount1).eq(0) ||
-      amount2 == null ||
+      amount2 == "null" ||
       num(amount2).eq(0)
     ) {
       return null;

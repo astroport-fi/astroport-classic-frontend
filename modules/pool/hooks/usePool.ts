@@ -13,6 +13,8 @@ import { useStakedLpAmount } from "modules/lp";
 
 export type Pool = {
   assets: [Asset, Asset];
+  pairContract: string;
+  lpTokenContract: string;
   total: {
     share: string;
     shareInUst: string | number | null;
@@ -85,6 +87,8 @@ export const usePool = ({
 
     return {
       assets: pool.assets,
+      pairContract: pairContract,
+      lpTokenContract: lpTokenContract,
       total: {
         share: pool.total_share,
         shareInUst: totalShareInUst,

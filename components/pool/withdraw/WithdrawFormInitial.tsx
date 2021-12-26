@@ -114,7 +114,12 @@ const WithdrawFormInitial: FC<Props> = ({
         </Box>
       </Card>
 
-      <WithdrawFormFooter pool={pool} data={state} onConfirmClick={onClick} />
+      <WithdrawFormFooter
+        pool={pool}
+        amount={amount}
+        data={state}
+        onConfirmClick={onClick}
+      />
     </>
   );
 };
