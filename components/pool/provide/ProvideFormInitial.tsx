@@ -74,12 +74,12 @@ const ProvideFormInitial: FC<Props> = ({
       ...field,
       onChange: (value) => {
         if (num(ratio).gt(0)) {
-          let newAmount = num(value).times(ratio).dp(2).toString();
+          let newAmount = num(value).times(ratio).dp(6).toString();
           let fieldToUpdate = "amount2";
 
           if (field.name === "amount2") {
             fieldToUpdate = "amount1";
-            newAmount = num(value).div(ratio).dp(2).toString();
+            newAmount = num(value).div(ratio).dp(6).toString();
           }
 
           setValue(fieldToUpdate, newAmount);
