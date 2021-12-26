@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-key */
 import React, { FC } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
+import { useAddress } from "@arthuryeti/terra";
 import { useTable } from "react-table";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
 import Td from "components/Td";
 import PoolTr from "components/table/PoolTr";
+import PoolConnectWallet from "components/table/PoolConnectWallet";
 
 type Props = {
   columns: any[];
@@ -16,6 +18,7 @@ type Props = {
 
 const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
   const tableInstance = useTable({ columns, data });
+  const address = useAddress();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -41,14 +44,16 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
           ))}
         </Tr>
       ))}
-      {rows.length ? (
+      {rows.length > 0 && (
         <Box {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
             return <PoolTr row={row} />;
           })}
         </Box>
-      ) : (
+      )}
+      {!address && <PoolConnectWallet />}
+      {!rows.length && address && (
         <Tr>
           <Box ml="8">
             <Text fontSize="sm">{emptyMsg}</Text>

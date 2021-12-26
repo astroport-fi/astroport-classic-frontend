@@ -17,7 +17,6 @@ import Td from "components/Td";
 import PoolTableFilter from "components/pool/table_old/PoolTableFilter";
 import PoolTr from "components/pool/table_old/PoolTr";
 import PoolNameTd from "components/pool/table_old/PoolNameTd";
-import PoolConnectWallet from "components/pool/table_old/PoolConnectWallet";
 import MyLiquidityTd from "components/pool/table_old/MyLiquidityTd";
 import DepthTd from "components/pool/table_old/DepthTd";
 import ActionsTd from "components/table/ActionsTd";
@@ -30,7 +29,6 @@ type Props = {
 
 const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
   const { getSymbol } = useTokenInfo();
-  const wallet = useConnectedWallet();
 
   const columns = useMemo(
     () => [
@@ -127,12 +125,6 @@ const PoolTable: FC<Props> = ({ data, paginationSize = 10 }) => {
           ))}
         </Tr>
       ))}
-
-      {!wallet ? (
-        <Box {...getTableBodyProps()}>
-          <PoolConnectWallet />
-        </Box>
-      ) : null}
 
       {page.length ? (
         <Box {...getTableBodyProps()}>

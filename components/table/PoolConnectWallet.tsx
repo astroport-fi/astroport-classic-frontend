@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import Tr from "components/Tr";
 import Td from "components/Td";
