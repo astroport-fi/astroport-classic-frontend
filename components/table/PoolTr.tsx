@@ -17,6 +17,7 @@ const PoolTr: FC<Props> = ({ row }) => {
             fontSize="xs"
             {...cell.getCellProps()}
             flexBasis={`${cell.column.width}px`}
+            flexGrow={cell.column.flexGrow}
           >
             {cell.render("Cell")}
           </Td>

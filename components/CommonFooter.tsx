@@ -25,7 +25,7 @@ interface Props {
 
 const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
   return (
-    <Box>
+    <Box mb="8">
       <Flex justify="space-between" my="8">
         {cells.map((cell) => (
           <Box

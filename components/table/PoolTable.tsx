@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { FC } from "react";
-import { Box, HStack, Text, Link } from "@chakra-ui/react";
+import { Box, HStack, Text } from "@chakra-ui/react";
 import { useTable } from "react-table";
 
 import Table from "components/Table";
@@ -24,11 +24,13 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
     <Table {...getTableProps()}>
       {headerGroups.map((headerGroup) => (
         <Tr isHead {...headerGroup.getHeaderGroupProps()}>
+          <Td flexShrink={0} maxWidth="6"></Td>
           {headerGroup.headers.map((column: any) => (
             <Td
               color="white.700"
               {...column.getHeaderProps()}
               flexBasis={`${column.width}px`}
+              flexGrow={column.flexGrow}
             >
               <HStack>
                 <Text fontSize="xs" variant="light">

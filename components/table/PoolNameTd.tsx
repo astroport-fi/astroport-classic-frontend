@@ -17,10 +17,10 @@ const PoolNameTd: FC<Props> = ({ assets, pairType }) => {
   const formattedFee = numeral(fee).divide(100).format("0.00");
 
   return (
-    <HStack>
-      <HStack spacing={0.5}>
-        <Image src={getIcon(token1)} alt={getSymbol(token1)} boxSize={4} />
-        <Image src={getIcon(token2)} alt={getSymbol(token2)} boxSize={4} />
+    <HStack spacing={2}>
+      <HStack spacing={1}>
+        <Image src={getIcon(token1)} alt={getSymbol(token1)} boxSize={3} />
+        <Image src={getIcon(token2)} alt={getSymbol(token2)} boxSize={3} />
       </HStack>
       <HStack>
         <Text textStyle="medium">

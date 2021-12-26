@@ -16,8 +16,9 @@ const AllPools: FC = () => {
     () => [
       {
         id: "reward-icon",
-        width: 0,
-        Cell: () => <RewardedIcon color="#59B7DD" />,
+        width: 8,
+        flexGrow: 0,
+        Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
       },
       {
         Header: "Pool Name",
@@ -28,7 +29,8 @@ const AllPools: FC = () => {
           />
         ),
         accessor: "name",
-        width: 300,
+        width: 200,
+        flexGrow: 0,
       },
       {
         Header: "My Liquidity",
