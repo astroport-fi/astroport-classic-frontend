@@ -2,11 +2,7 @@ import React, { FC, useState } from "react";
 import {
   Box,
   Text,
-  Flex,
-  Popover,
   Button,
-  PopoverTrigger,
-  PopoverContent,
   useDisclosure,
   Image,
   VStack,
@@ -67,7 +63,7 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
     <PopoverWrapper
       title="Select token"
       isLazy
-      placement="left"
+      placement="right"
       isOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}

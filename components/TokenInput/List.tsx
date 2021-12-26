@@ -16,7 +16,7 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
   if (tokens && tokens.length > 0) {
     return (
       <Box>
-        <Box h="3xs" overflowY="auto" px="2" mt="2">
+        <Box h="3xs" boxShadow="inner" overflowY="auto" px="2" mt="2">
           <Box>
             {tokens.map((token) => {
               return <ListItem key={token} token={token} onClick={onClick} />;
