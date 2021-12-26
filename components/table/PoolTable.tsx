@@ -27,13 +27,11 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
     <Table {...getTableProps()}>
       {headerGroups.map((headerGroup) => (
         <Tr isHead {...headerGroup.getHeaderGroupProps()}>
-          <Td flexShrink={0} maxWidth="6"></Td>
           {headerGroup.headers.map((column: any) => (
             <Td
               color="white.700"
               {...column.getHeaderProps()}
               flexBasis={`${column.width}px`}
-              flexGrow={column.flexGrow}
             >
               <HStack>
                 <Text fontSize="xs" variant="light">

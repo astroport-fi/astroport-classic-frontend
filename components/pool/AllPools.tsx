@@ -5,7 +5,7 @@ import { useAllPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
-import NumberWithUstTd from "components/table/NumberWithUstTd";
+import NumberInUstTd from "components/table/NumberInUstTd";
 import ActionsTd from "components/table/ActionsTd";
 import RewardedIcon from "components/icons/RewardedIcon";
 
@@ -14,12 +14,11 @@ const AllPools: FC = () => {
 
   const columns = useMemo(
     () => [
-      {
-        id: "reward-icon",
-        width: 8,
-        flexGrow: 0,
-        Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
-      },
+      // {
+      //   id: "reward-icon",
+      //   width: 8,
+      //   Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
+      // },
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (
@@ -35,10 +34,7 @@ const AllPools: FC = () => {
       {
         Header: "My Liquidity",
         Cell: ({ row }: any) => (
-          <NumberWithUstTd
-            value={row.original.myLiquidity}
-            valueInUst={row.original.myLiquidityInUst}
-          />
+          <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
         accessor: "myLiquidity",
         width: 200,
@@ -46,10 +42,7 @@ const AllPools: FC = () => {
       {
         Header: "Liquidity",
         Cell: ({ row }: any) => (
-          <NumberWithUstTd
-            value={row.original.totalLiquidity}
-            valueInUst={row.original.totalLiquidityInUst}
-          />
+          <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
         accessor: "totalLiquidity",
         width: 200,
