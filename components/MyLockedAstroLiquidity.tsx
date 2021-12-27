@@ -70,15 +70,7 @@ const MyLockedAstroLiquidity = () => {
       <Card>
         <Text textStyle="small" variant="secondary">
           Your lockdrop positions will unlock on the dates you specified when
-          you made your deposit.{" "}
-          <Link
-            isExternal
-            target="_blank"
-            href="https://docs.astroport.fi/astroport/workstation/lockdrop/phase-1"
-            color="brand.lightPurple"
-          >
-            Read More
-          </Link>
+          you made your deposit.
         </Text>
       </Card>
       <Card mt={6} noPadding>

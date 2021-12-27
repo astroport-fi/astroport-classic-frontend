@@ -44,9 +44,9 @@ const MyLockedPool = () => {
         accessor: "myLiquidity",
       },
       {
-        Header: "My Unlocked Liquidity",
+        Header: "Unlockable Liquidity",
         Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.myUnlockedLiquidityInUst} />
+          <NumberInUstTd value={row.original.myUnlockableLiquidityInUst} />
         ),
         width: 100,
         accessor: "totalUnlockedLiquidity",
@@ -71,16 +71,8 @@ const MyLockedPool = () => {
       <CardHeader label="My Locked LP Tokens from Phase 2: ASTRO-UST Bootstrapping pool" />
       <Card>
         <Text textStyle="small" variant="secondary">
-          Your ASTRO and/or UST deposits will unlock on the date you specified
-          at the time of your deposit.{" "}
-          <Link
-            isExternal
-            target="_blank"
-            href="https://docs.astroport.fi/astroport/workstation/lockdrop/phase-2-or-bootstrapping-pool"
-            color="brand.lightPurple"
-          >
-            Read More
-          </Link>
+          Your ASTRO-UST LP tokens unlock linearly over 3 months after the end
+          of the phase 2 deposit window
         </Text>
       </Card>
       <Card mt={6} noPadding>

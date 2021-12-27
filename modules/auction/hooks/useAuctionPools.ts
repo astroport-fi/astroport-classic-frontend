@@ -4,6 +4,7 @@ import { num } from "@arthuryeti/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
+import dayjs from "dayjs";
 
 export const useAuctionPools = () => {
   const { astroToken } = useContracts();
@@ -46,19 +47,17 @@ export const useAuctionPools = () => {
       .dp(6)
       .toNumber();
 
-    const myUnlockedLiquidity = num(userInfo.claimed_lp_shares)
+    const myUnlockableLiquidity = num(userInfo.withdrawable_lp_shares)
       .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
-    const myUnlockedLiquidityInUst = num(myUnlockedLiquidity)
+    const myUnlockableLiquidityInUst = num(myUnlockableLiquidity)
       .times(totalLiquidityInUst)
       .div(totalLiquidity)
       .dp(6)
       .toNumber();
 
     const isClaimable = num(userInfo.withdrawable_lp_shares).gt(0);
-
-    console.log(userInfo);
 
     return [
       {
@@ -69,8 +68,8 @@ export const useAuctionPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
-        myUnlockedLiquidity,
-        myUnlockedLiquidityInUst,
+        myUnlockableLiquidity,
+        myUnlockableLiquidityInUst,
         isClaimable,
         lockEnd,
       },
