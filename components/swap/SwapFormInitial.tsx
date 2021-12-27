@@ -25,6 +25,7 @@ type Props = {
   isSecondInputDisabled: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
+  isReverse?: boolean;
   onInputChange: (name: string) => void;
   onExpertModeChange: (expertMode: boolean) => void;
 };
@@ -35,6 +36,7 @@ const SwapFormInitial: FC<Props> = ({
   error,
   expertMode,
   isSecondInputDisabled,
+  isReverse = false,
   isDisabled = false,
   isLoading = false,
   onInputChange,
@@ -135,6 +137,7 @@ const SwapFormInitial: FC<Props> = ({
                 <NewAmountInput
                   asset={token1}
                   max={num(token1Balance).div(ONE_TOKEN).dp(2).toNumber()}
+                  isLoading={isReverse && isLoading}
                   clampValueOnBlur={false}
                   {...getInputProps(field)}
                 />
@@ -203,7 +206,7 @@ const SwapFormInitial: FC<Props> = ({
                 <NewAmountInput
                   asset={token2}
                   isDisabled={isSecondInputDisabled}
-                  isLoading={isLoading}
+                  isLoading={!isReverse && isLoading}
                   hideMaxButton
                   {...getInputProps(field)}
                 />

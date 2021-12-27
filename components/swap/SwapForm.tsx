@@ -174,6 +174,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               onInputChange={handleInputChange}
               onExpertModeChange={setExpertMode}
               isDisabled={fee == null}
+              isReverse={isReverse}
               isSecondInputDisabled={
                 swapRoute?.length > 1 || simulated.isLoading
               }
@@ -186,7 +187,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               amount2={amount2}
               isLoading={feeIsLoading}
               isDisabled={fee == null || feeIsLoading}
-              price={isReverse ? simulated?.price : simulated?.price2}
+              price={simulated?.price}
               fee={fee}
               onConfirmClick={() => {
                 expertMode
@@ -206,7 +207,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             amount2={amount2}
             slippage={slippage}
             fee={fee}
-            price={isReverse ? simulated?.price : simulated?.price2}
+            price={simulated?.price}
             commission={simulated?.commission}
             minReceive={minReceive}
             onCloseClick={() => setShowConfirm(false)}

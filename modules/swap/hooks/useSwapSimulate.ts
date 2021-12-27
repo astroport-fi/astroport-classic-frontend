@@ -136,8 +136,8 @@ export const useSwapSimulate = ({
         amount: data.offer_amount,
         spread,
         commission,
-        price: num(amount).div(data.offer_amount).toFixed(18),
-        price2: num(data.offer_amount).div(amount).toFixed(18),
+        price: num(data.offer_amount).div(amount).toFixed(18),
+        price2: num(amount).div(data.offer_amount).toFixed(18),
       };
 
       onSuccess?.(result);

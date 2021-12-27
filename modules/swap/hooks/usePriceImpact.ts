@@ -42,10 +42,10 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
 
     if (swapRoute.length == 1 && swapRoute[0].type == "xyk") {
       const { token1, token2 } = getAssetAmountsInPool(data.assets, to);
-      const poolPrice = num(token1).div(token2).dp(6).toNumber();
+      const poolPrice = num(token2).div(token1).dp(18).toNumber();
 
-      return num(poolPrice)
-        .minus(price)
+      return num(price)
+        .minus(poolPrice)
         .div(poolPrice)
         .times(100)
         .dp(2)

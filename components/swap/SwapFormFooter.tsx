@@ -4,7 +4,7 @@ import { useAddress } from "@arthuryeti/terra";
 import numeral from "numeral";
 
 import { useTokenInfo } from "modules/common";
-import { usePriceImpact } from "modules/swap";
+import { usePriceImpact, usePriceImpactColor } from "modules/swap";
 
 import FormFee from "components/common/FormFee";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
@@ -35,7 +35,8 @@ const SwapFormFooter: FC<Props> = ({
   const { getSymbol } = useTokenInfo();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
-  const formattedPrice = numeral(price).format("0,0.00[0]").toString();
+  const priceImpactColor = usePriceImpactColor(priceImpact);
+  const formattedPrice = numeral(price).format("0,0.00[000]").toString();
   const address = useAddress();
 
   return (
@@ -44,7 +45,7 @@ const SwapFormFooter: FC<Props> = ({
         {!isDisabled && (
           <>
             <Text textStyle="medium">
-              1 {getSymbol(from)} = {formattedPrice} {getSymbol(to)}
+              1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
             </Text>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate
@@ -77,7 +78,7 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex="1" textAlign="right" color="white" mt="1">
         {!isDisabled && (
           <>
-            <Text textStyle="medium" color="green.500">
+            <Text textStyle="medium" color={priceImpactColor}>
               {priceImpact}%
             </Text>
             <Text textStyle="small" variant="dimmed">
