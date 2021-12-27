@@ -58,10 +58,10 @@ const ProvideFormInitial: FC<Props> = ({
 
   let maxAmounts = {
     token1: num(Math.min(balances.token1, balances.token2 / ratio))
-      .dp(2)
+      .dp(6)
       .toNumber(),
-    token2: num(Math.min(balances.token2, balances.token1 / ratio))
-      .dp(2)
+    token2: num(Math.min(balances.token2, balances.token1 * ratio))
+      .dp(6)
       .toNumber(),
   };
 
