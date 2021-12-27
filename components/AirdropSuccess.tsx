@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import { Box, Flex, HStack, Text, IconButton } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
-import { truncate } from "libs/text";
 import { useContracts } from "modules/common";
 
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
 import SuccessIcon from "components/icons/SuccessIcon";
 import TokenCard from "components/common/TokenCard";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   amount: string;
@@ -19,9 +19,9 @@ type Props = {
 
 const MotionBox = motion(Box);
 
-const AirdropSuccess: FC<Props> = ({ amount, address, onCloseClick }) => {
+const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
   const { astroToken } = useContracts();
-  const truncatedAddress = truncate(address);
+  const newAmount = num(amount).div(ONE_TOKEN).dp(5).toNumber();
 
   return (
     <MotionBox
@@ -57,7 +57,7 @@ const AirdropSuccess: FC<Props> = ({ amount, address, onCloseClick }) => {
         <TokenCard
           token={{
             asset: astroToken,
-            amount: amount,
+            amount: newAmount,
           }}
         />
       </Card>

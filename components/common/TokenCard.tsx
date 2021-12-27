@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
-import { ONE_TOKEN } from "constants/constants";
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst } from "modules/swap";
 
@@ -14,7 +13,8 @@ type Props = {
 const TokenCard: FC<Props> = ({ token }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(token.asset);
-  const totalInUst = num(token.amount).div(ONE_TOKEN).times(price).toFixed(6);
+  const totalInUst = num(token.amount).times(price).toFixed(6);
+  const tokenAmount = numeral(token.amount).format("0,0.[000]");
   const totalAmount = numeral(totalInUst).format("0,0.[000]");
 
   return (
@@ -42,9 +42,7 @@ const TokenCard: FC<Props> = ({ token }) => {
           </HStack>
         </Box>
         <Box fontWeight="500" textAlign="right">
-          <Text textStyle="h3">
-            {fromTerraAmount(token.amount, "0,0.[000]")}
-          </Text>
+          <Text textStyle="h3">{tokenAmount}</Text>
           <Text textStyle="small" variant="dimmed">
             ${totalAmount}
           </Text>
