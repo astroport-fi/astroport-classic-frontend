@@ -119,7 +119,7 @@ const WalletInfoPopover: FC = () => {
                 Price:{" "}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                {fromTerraAmount(price)}
+                {price.toFixed(2)}
               </Text>
             </HStack>
           </Flex>
