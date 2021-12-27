@@ -46,7 +46,7 @@ const WithdrawFormConfirm: FC<Props> = ({
       actionLabel="Confirm withdraw"
       contentComponent={
         <FormSummary
-          label1="You are receving:"
+          label1="You are receiving:"
           token1={{ asset: token1, amount: amount1 }}
           token2={{ asset: token2, amount: amount2 }}
         />
