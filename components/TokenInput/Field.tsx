@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 import { Select, Single, SingleLP, SelectLP } from "components/TokenInput";
 
 type Props = {
+  hideToken?: string;
   tokens?: string[];
   isLpToken?: boolean;
   isSingle?: boolean;
@@ -13,9 +14,10 @@ type Props = {
 };
 
 const Field: FC<Props> = ({
+  hideToken,
   value,
   onChange,
-  onBlur,
+  // onBlur,
   isSingle,
   isLpToken,
   tokens,
@@ -37,7 +39,14 @@ const Field: FC<Props> = ({
       return <SelectLP value={value} onClick={handleClick} />;
     }
 
-    return <Select value={value} tokens={tokens} onClick={handleClick} />;
+    return (
+      <Select
+        value={value}
+        tokens={tokens}
+        hideToken={hideToken}
+        onClick={handleClick}
+      />
+    );
   };
 
   return <Box>{isSingle ? renderSingle() : renderSelect()}</Box>;

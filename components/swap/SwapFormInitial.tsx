@@ -125,7 +125,9 @@ const SwapFormInitial: FC<Props> = ({
               name="token1"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => <TokenInput {...field} />}
+              render={({ field }) => (
+                <TokenInput hideToken={token2} {...field} />
+              )}
             />
           </Box>
           <Box flex="1" ml="8">
@@ -194,7 +196,9 @@ const SwapFormInitial: FC<Props> = ({
               name="token2"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => <TokenInput {...field} />}
+              render={({ field }) => (
+                <TokenInput hideToken={token1} {...field} />
+              )}
             />
           </Box>
           <Box flex="1" ml="8">

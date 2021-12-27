@@ -5,14 +5,14 @@ import { useAstroswap, useTokenInfo } from "modules/common";
 
 type Props = {
   onClick: (token: string) => void;
+  hideToken?: string;
   tokens?: string[];
   filter?: string;
 };
 
-const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
+const List: FC<Props> = ({ hideToken, tokens, onClick, filter = "" }) => {
   const { tokens: terraTokens } = useAstroswap();
   const { getSymbol } = useTokenInfo();
-
   if (tokens && tokens.length > 0) {
     return (
       <Box>
@@ -32,7 +32,11 @@ const List: FC<Props> = ({ tokens, onClick, filter = "" }) => {
   }
 
   const matchToken = (token: string) => {
-    return getSymbol(token).toLowerCase().includes(filter.toLowerCase());
+    if (hideToken === token) {
+      return null;
+    } else {
+      return getSymbol(token).toLowerCase().includes(filter.toLowerCase());
+    }
   };
 
   const filteredTokens = Object.values(terraTokens).filter(({ token }) =>

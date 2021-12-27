@@ -16,12 +16,13 @@ import { useTokenPriceInUst } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 
 type Props = {
+  hideToken?: string;
   value: string;
   onClick: (token: string) => void;
   tokens?: string[];
 };
 
-const Select: FC<Props> = ({ value, onClick, tokens }) => {
+const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUst(value);
@@ -41,7 +42,6 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
           <Box>
             <Image src={icon} width="8" height="8" alt="Logo" flexShrink={0} />
           </Box>
-
           <Box ml="3" fontWeight="500" flex="1">
             <Text textStyle="h3">{getSymbol(value)}</Text>
             {/* TODO: Fix type */}
@@ -99,8 +99,13 @@ const Select: FC<Props> = ({ value, onClick, tokens }) => {
           onChange={(e) => setFilter(e.target.value)}
           variant="search"
         />
-        <CommonTokensList onClick={handleClick} />
-        <List onClick={handleClick} tokens={tokens} filter={filter} />
+        <CommonTokensList hideToken={hideToken} onClick={handleClick} />
+        <List
+          onClick={handleClick}
+          tokens={tokens}
+          hideToken={hideToken}
+          filter={filter}
+        />
       </VStack>
     </PopoverWrapper>
   );
