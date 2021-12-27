@@ -5,6 +5,8 @@ import { useContracts, Route } from "modules/common";
 import { minAmountReceive, useSwapSimulate } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
+import { useGetPool, usePool } from "modules/pool";
+import { getAssetAmountsInPool } from "libs/terra";
 
 type Params = {
   swapRoute: Route[] | null;
@@ -30,6 +32,8 @@ export const useSwap = ({
   const address = useAddress();
   const { router } = useContracts();
 
+  const { data: pool } = useGetPool(swapRoute?.[0]?.contract_addr);
+
   const simulated = useSwapSimulate({
     swapRoute,
     amount: reverse ? amount2 : amount1,
@@ -37,6 +41,18 @@ export const useSwap = ({
     reverse,
     onSuccess: onSimulateSuccess,
   });
+
+  const price = useMemo(() => {
+    if (pool == null) {
+      return "0";
+    }
+
+    const { token1: tok1, token2: tok2 } = getAssetAmountsInPool(
+      pool.assets,
+      token2
+    );
+    return num(tok2).div(tok1).toFixed(18);
+  }, [slippage, amount2]);
 
   const minReceive = useMemo(() => {
     if (amount2 == "") {
@@ -80,7 +96,7 @@ export const useSwap = ({
         swapRoute,
         amount: amount1,
         slippage,
-        price: simulated.price,
+        price,
       },
       address
     );
@@ -94,6 +110,7 @@ export const useSwap = ({
     reverse,
     minReceive,
     router,
+    price,
   ]);
 
   return useMemo(() => {
@@ -101,6 +118,7 @@ export const useSwap = ({
       msgs,
       minReceive,
       simulated,
+      price,
     };
   }, [msgs, minReceive, simulated]);
 };

@@ -98,7 +98,6 @@ export const useSwapSimulate = ({
         spread: null,
         commission: null,
         price: null,
-        price2: null,
       };
     }
 
@@ -109,7 +108,6 @@ export const useSwapSimulate = ({
         spread: null,
         commission: null,
         price: null,
-        price2: null,
       };
     }
 
@@ -120,7 +118,6 @@ export const useSwapSimulate = ({
         spread: "0",
         commission: "0",
         price: num(amount).div(data.amount).toFixed(18),
-        price2: num(data.amount).div(amount).toFixed(18),
       };
 
       onSuccess?.(result);
@@ -137,7 +134,6 @@ export const useSwapSimulate = ({
         spread,
         commission,
         price: num(data.offer_amount).div(amount).toFixed(18),
-        price2: num(amount).div(data.offer_amount).toFixed(18),
       };
 
       onSuccess?.(result);
@@ -150,7 +146,6 @@ export const useSwapSimulate = ({
       spread,
       commission,
       price: num(amount).div(data.return_amount).toFixed(18),
-      price2: num(data.return_amount).div(amount).toFixed(18),
     };
 
     onSuccess?.(result);

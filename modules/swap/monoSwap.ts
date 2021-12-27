@@ -77,7 +77,7 @@ export const createSwapMsgs = (
           swap: {
             offer_asset: offerAsset,
             max_spread: slippage,
-            // belief_price: price,
+            belief_price: price,
           },
         },
         [new Coin(token, amount)]
@@ -93,7 +93,7 @@ export const createSwapMsgs = (
         msg: toBase64({
           swap: {
             max_spread: slippage,
-            // belief_price: price,
+            belief_price: price,
           },
         }),
       },
