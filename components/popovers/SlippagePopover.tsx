@@ -22,7 +22,7 @@ type Props = {
   onExpertModeChange: (expertMode: boolean) => void;
 };
 
-const tolerances = [DEFAULT_SLIPPAGE, 0.5, 1, 2];
+const tolerances = [0.01, 0.5, 1, 2];
 
 const SlippagePopover: FC<Props> = ({
   value,
