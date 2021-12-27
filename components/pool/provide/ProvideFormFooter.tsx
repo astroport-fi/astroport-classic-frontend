@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { fromTerraAmount, toTerraAmount, TxStep } from "@arthuryeti/terra";
+import { TxStep } from "@arthuryeti/terra";
 import numeral from "numeral";
 
 import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";

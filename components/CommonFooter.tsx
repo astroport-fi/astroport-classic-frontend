@@ -40,6 +40,7 @@ const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
                 borderLeftColor: "whiteAlpha.600",
                 borderLeftWidth: "1px",
               }}
+              textAlign="center"
             >
               <Text textStyle="medium">{cell.value}</Text>
               <Text textStyle="small" variant="dimmed">
