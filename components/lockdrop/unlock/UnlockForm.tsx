@@ -38,9 +38,6 @@ const UnlockForm: FC<Props> = ({ lpToken, duration }) => {
   const stakedAmount = useLockedLpAmount(token, duration);
   const state = useUnlock({ token, amount, duration: +duration });
 
-  console.log("token", token);
-  console.log("amount", amount);
-
   const submit = async () => {
     state.submit();
   };
