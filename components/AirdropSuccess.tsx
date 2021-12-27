@@ -57,7 +57,7 @@ const AirdropSuccess: FC<Props> = ({ amount, address, onCloseClick }) => {
         <TokenCard
           token={{
             asset: astroToken,
-            amount: fromTerraAmount(amount, "0,0.00"),
+            amount: amount,
           }}
         />
       </Card>
