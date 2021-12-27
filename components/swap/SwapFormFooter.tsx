@@ -53,7 +53,7 @@ const SwapFormFooter: FC<Props> = ({
           </>
         )}
       </Box>
-      <Flex flex="1" align="center" flexDirection="column">
+      <Flex flex="1" align="center" flexDirection="column" mb="8">
         {!address ? (
           <Flex justify="center">
             <Button variant="primary" type="button" onClick={onOpen}>
