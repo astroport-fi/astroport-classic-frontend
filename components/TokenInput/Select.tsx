@@ -30,6 +30,7 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
 
   const handleClick = (token: string) => {
     onClose();
+    setFilter("");
     onClick(token);
   };
 
