@@ -67,10 +67,10 @@
         "token": "terra1kcthelkax4j9x8d3ny6sdag0qmxxynl3qtcrpy",
         "icon": "https://assets.pylon.rocks/logo/MINE.png"
       },
-      "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp": {
+      "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp": {
         "protocol": "Anchor",
         "symbol": "bLUNA",
-        "token": "terra1qu8ydzc9auz0t6l8ujksx7u75rell3nl4dl5sp",
+        "token": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
         "icon": "https://whitelist.anchorprotocol.com/logo/bLUNA.png"
       }
     },
@@ -93,6 +93,25 @@
         "liquidity_token": "terra1m24f7k4g66gnh9f7uncp32p722v0kyt3q4l3u5",
         "pair_type": {
           "xyk": {}
+        }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uluna"
+            }
+          }
+        ],
+        "contract_addr": "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w",
+        "liquidity_token": "terra1htw7hm40ch0hacm8qpgd24sus4h0tq3hsseatl",
+        "pair_type": {
+          "stable": {}
         }
       },
       {
