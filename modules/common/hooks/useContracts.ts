@@ -30,7 +30,7 @@ const defaultContracts: { [key: string]: any } = {
   mainnet: {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
     xAstroToken: "",
-    factory: "",
+    factory: "terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g",
     router: "",
     vesting: "",
     staking: "",

@@ -15,7 +15,7 @@ const LockedLiquidityPage: NextPage = () => {
       <Container px={["6", null, "12"]} maxWidth="container.xl">
         <MyLockedAstroLiquidity />
 
-        <Box mt="4">
+        <Box mt="4" mb="24">
           <MyLockedPool />
         </Box>
       </Container>

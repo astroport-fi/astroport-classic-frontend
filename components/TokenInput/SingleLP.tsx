@@ -11,7 +11,7 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const { pairs } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == asset);
-  const [token1, token2] = getTokenDenoms(pair.asset_infos);
+  const [token1, token2] = getTokenDenoms(pair?.asset_infos);
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);

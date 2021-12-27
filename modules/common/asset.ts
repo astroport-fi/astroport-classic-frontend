@@ -75,6 +75,10 @@ export const getTokenDenom = (info: AssetInfo): string => {
 };
 
 export const getTokenDenoms = (infos: AssetInfo[]): string[] => {
+  if (infos == null) {
+    return [];
+  }
+
   return infos.map((info) => getTokenDenom(info));
 };
 

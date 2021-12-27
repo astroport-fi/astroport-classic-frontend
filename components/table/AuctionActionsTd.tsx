@@ -10,6 +10,8 @@ const AuctionActionsTd: FC<Props> = ({ row }) => {
   const { contract, assets, isClaimable } = row.original;
   const [token1, token2] = assets;
 
+  console.log(contract);
+
   const renderButton = () => {
     if (!isClaimable) {
       return (
@@ -22,7 +24,7 @@ const AuctionActionsTd: FC<Props> = ({ row }) => {
     }
 
     return (
-      <Link href={`/unlock/${contract}`} passHref>
+      <Link href={`/unlock-phase-2`} passHref>
         <Button as="a" variant="primary" size="sm" px="0" minW="40">
           Unlock
         </Button>

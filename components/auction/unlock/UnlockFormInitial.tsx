@@ -3,25 +3,21 @@ import { Text, Flex, Box, ListItem, UnorderedList } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { num } from "@arthuryeti/terra";
 
-import { useLockedLpAmount, UnlockState } from "modules/lockdrop";
+import { ONE_TOKEN } from "constants/constants";
+import { AuctionUnlockState, useUserInfo } from "modules/auction";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
-import UnlockFormFooter from "components/lockdrop/unlock/UnlockFormFooter";
-import { ONE_TOKEN } from "constants/constants";
-import { useUserInfo } from "modules/auction";
+import UnlockFormFooter from "components/auction/unlock/UnlockFormFooter";
 
 type Params = {
-  state: UnlockState;
-  duration: number;
+  state: AuctionUnlockState;
   onClick: () => void;
 };
 
-const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
+const UnlockFormInitial = ({ state, onClick }: Params) => {
   const { control, watch } = useFormContext();
-
-  const { token, amount } = watch();
   const userInfo = useUserInfo();
 
   const balance = useMemo(() => {
@@ -29,8 +25,10 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
       return "0";
     }
 
-    return num(userInfo.withdrawable_lp_shares).div(ONE_TOKEN).toString();
+    return userInfo.withdrawable_lp_shares;
   }, [userInfo]);
+
+  const { token } = watch();
 
   return (
     <>
@@ -43,9 +41,9 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
       </Flex>
 
       <Card mb="2">
-        <Text fontSize="xs" color="white.500">
+        <Text fontSize="xs" color="white.500" fontWeight="500">
           Once you’ve unlocked your LP tokens you can:
-          <UnorderedList fontWeight="500">
+          <UnorderedList>
             <ListItem>
               Withdraw your liquidity on the “Pools” page under “My Pools”
             </ListItem>
@@ -79,11 +77,9 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
                   {...field}
                   asset={token}
                   balance={balance}
-                  balanceLabel="Withdrawable LP Tokens"
                   isLpToken
                   isSingle
-                  hideMaxButton
-                  isDisabled
+                  balanceLabel="Withdrawable LP Tokens"
                 />
               )}
             />
@@ -93,17 +89,13 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
 
       {state.error && (
         <Card mt="3">
-          <Text variant="light">{state.error}</Text>
+          <Text textStyle="small" variant="dimmed">
+            {state.error}
+          </Text>
         </Card>
       )}
 
-      <UnlockFormFooter
-        amount={amount}
-        lpToken={token}
-        duration={duration}
-        data={state}
-        onConfirmClick={onClick}
-      />
+      <UnlockFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };

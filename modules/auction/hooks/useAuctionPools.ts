@@ -58,6 +58,8 @@ export const useAuctionPools = () => {
 
     const isClaimable = num(userInfo.withdrawable_lp_shares).gt(0);
 
+    console.log(userInfo);
+
     return [
       {
         name: config.pool_info?.astro_ust_pool_address,

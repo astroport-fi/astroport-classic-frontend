@@ -28,14 +28,6 @@ const MyLockedPool = () => {
         accessor: "name",
       },
       {
-        Header: "My Liquidity",
-        Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.myLiquidityInUst} />
-        ),
-        width: 100,
-        accessor: "myLiquidity",
-      },
-      {
         Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
@@ -44,7 +36,15 @@ const MyLockedPool = () => {
         accessor: "totalLockedLiquidity",
       },
       {
-        Header: "Unlocked Liquidity",
+        Header: "My Liquidity",
+        Cell: ({ row }: any) => (
+          <NumberInUstTd value={row.original.myLiquidityInUst} />
+        ),
+        width: 100,
+        accessor: "myLiquidity",
+      },
+      {
+        Header: "My Unlocked Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myUnlockedLiquidityInUst} />
         ),

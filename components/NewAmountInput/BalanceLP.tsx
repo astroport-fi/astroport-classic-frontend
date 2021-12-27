@@ -43,16 +43,18 @@ const BalanceLP: FC<Props> = ({
 
   return (
     <Flex align="center" justify="space-between" mt="1">
-      <Box>
-        <HStack spacing="4">
-          <Text fontSize="sm" fontWeight="500" color="white.400" maxW="24">
-            {label}:
-          </Text>{" "}
-          <Text fontSize="sm" color="white" ml="2">
-            {fromTerraAmount(initial ?? balance, "0,0.00")}
-          </Text>
-        </HStack>
-      </Box>
+      {!hideLabel && (
+        <Box>
+          <HStack spacing="4">
+            <Text fontSize="sm" fontWeight="500" color="white.400" maxW="24">
+              {label}:
+            </Text>{" "}
+            <Text fontSize="sm" color="white" ml="2">
+              {fromTerraAmount(initial ?? balance, "0,0.00")}
+            </Text>
+          </HStack>
+        </Box>
+      )}
       <Box>{renderButton()}</Box>
     </Flex>
   );
