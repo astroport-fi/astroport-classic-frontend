@@ -9,6 +9,7 @@ type Pair = {
 type Contracts = {
   astroToken: string;
   xAstroToken: string;
+  astroUstPool: string;
   astroUstLpToken: string;
   factory: string;
   router: string;
@@ -31,6 +32,7 @@ const defaultContracts: { [key: string]: any } = {
   mainnet: {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
     xAstroToken: "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
+    astroUstPool: "terra1l7xu2rl3c7qmtx3r5sd2tz25glf6jh8ul7aag7",
     astroUstLpToken: "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
     factory: "terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g",
     router: "terra16t7dpwwgx9n3lq6l6te3753lsjqwhxwpday9zx",
@@ -87,6 +89,7 @@ const defaultContracts: { [key: string]: any } = {
   testnet: {
     astroToken: "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry",
     xAstroToken: "terra18lxxakc0arqrvp42fk87q9tlygvjj4m3cktccv",
+    astroUstPool: "terra163r28w6jlcn27mzepr6t9lgxmp5vg8305j23j2",
     astroUstLpToken: "terra1cs66g290h4x0pf6scmwm8904yc75l3m7z0lzjr",
     factory: "terra1xkuxfhxa2jmjercq3ryplnj65huhlxl5mv3d6x",
     router: "terra1gp60ef93jne7z0rl5ezu8ef7fczxt50hrpdjut",

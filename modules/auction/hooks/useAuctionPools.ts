@@ -4,12 +4,15 @@ import { num } from "@arthuryeti/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
+import { useGetPool } from "modules/pool";
+import { getAssetAmountsInPool } from "libs/terra";
 
 export const useAuctionPools = () => {
-  const { astroToken } = useContracts();
+  const { astroToken, astroUstPool } = useContracts();
   const userInfo = useUserInfo();
   const config = useConfig();
   const state = useAuctionState();
+  const { data: pool } = useGetPool(astroUstPool);
 
   const lockEnd = useMemo(() => {
     if (config == null) {
@@ -25,15 +28,16 @@ export const useAuctionPools = () => {
   }, [config]);
 
   return useMemo(() => {
-    if (userInfo == null || config == null || state == null) {
+    if (userInfo == null || config == null || state == null || pool == null) {
       return [];
     }
 
-    const totalLiquidity = num(state.lp_shares_minted)
+    const { token1 } = getAssetAmountsInPool(pool.assets, "uusd");
+    const totalLiquidity = num(pool.total_share)
       .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
-    const totalLiquidityInUst = num(state.total_ust_delegated)
+    const totalLiquidityInUst = num(token1)
       .div(ONE_TOKEN)
       .times(2)
       .dp(6)
@@ -73,7 +77,7 @@ export const useAuctionPools = () => {
         lockEnd,
       },
     ];
-  }, [userInfo, config, state, astroToken]);
+  }, [userInfo, config, state, astroToken, pool]);
 };
 
 export default useAuctionPools;
