@@ -68,10 +68,10 @@ const ProvideForm: FC<Props> = ({
           label: "Share of Pool",
           value: `${shareOfPool || "0"}%`,
         },
-        {
-          label: "Provided LP Token",
-          value: `${lpToken} ${symbol1}-${symbol2} LP`,
-        },
+        // {
+        //   label: "Provided LP Token",
+        //   value: `${lpToken} ${symbol1}-${symbol2} LP`,
+        // },
       ]}
       onCloseClick={onCloseClick}
     >
