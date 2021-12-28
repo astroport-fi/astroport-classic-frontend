@@ -109,7 +109,7 @@ const ProvideFormInitial: FC<Props> = ({
 
   const handleChange = (value: number) => {
     if (num(ratio).gt(0)) {
-      let newAmount = num(value).times(ratio).dp(2).toString();
+      let newAmount = num(value).times(ratio).dp(6).toString();
       setValue("amount2", newAmount);
     }
 
@@ -195,7 +195,7 @@ const ProvideFormInitial: FC<Props> = ({
           minLabel="0%"
           max={maxAmounts.token1}
           maxLabel="100%"
-          step={0.01}
+          step={0.0001}
           value={+amount1}
           onChange={handleChange}
         />

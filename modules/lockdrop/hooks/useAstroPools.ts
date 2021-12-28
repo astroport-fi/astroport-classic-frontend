@@ -50,6 +50,7 @@ const createQuery = (pairs, address) => {
 };
 
 export const useAstroPools = () => {
+  const { pairs: astroPairs } = useAstroswap();
   const { pairs, lockdrop } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
@@ -88,11 +89,6 @@ export const useAstroPools = () => {
       const totalLiquidityInUst = amountOfUst.times(2).toNumber();
 
       const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
-      const totalLiquidityLockedInUst = num(balance)
-        .div(ONE_TOKEN)
-        .times(totalLiquidityInUst)
-        .div(num(total_share).div(ONE_TOKEN))
-        .toNumber();
       const myLiquidity = num(info.lp_units_locked).div(ONE_TOKEN).toNumber();
       const myLiquidityInUst = num(myLiquidity)
         .times(totalLiquidityInUst)
@@ -103,9 +99,9 @@ export const useAstroPools = () => {
         name: info.terraswap_lp_token,
         assets: getPoolTokenDenoms(assets),
         // TODO: change once LPs are migrated to Astro
-        pairType: null,
+        pairType: "xyk",
         totalLiquidity,
-        totalLiquidityInUst: totalLiquidityLockedInUst,
+        totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
         lockEnd: info.unlock_timestamp,
