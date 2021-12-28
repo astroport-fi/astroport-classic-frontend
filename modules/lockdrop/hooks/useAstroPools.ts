@@ -89,7 +89,9 @@ export const useAstroPools = () => {
       const totalLiquidityInUst = amountOfUst.times(2).toNumber();
 
       const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
-      const myLiquidity = num(info.lp_units_locked).div(ONE_TOKEN).toNumber();
+      const myLiquidity = num(info.astroport_lp_units)
+        .div(ONE_TOKEN)
+        .toNumber();
       const myLiquidityInUst = num(myLiquidity)
         .times(totalLiquidityInUst)
         .div(num(total_share).div(ONE_TOKEN))
