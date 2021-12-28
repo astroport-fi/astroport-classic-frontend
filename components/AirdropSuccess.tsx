@@ -50,7 +50,10 @@ const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
             onClick={onCloseClick}
           />
         </Flex>
-
+        <Text textStyle="medium" variant="dimmed" mb="3">
+          To claim your airdrop, open the rewards center in the top-right of the
+          page.
+        </Text>
         <Text variant="light" mb="2">
           Available Airdrop
         </Text>
