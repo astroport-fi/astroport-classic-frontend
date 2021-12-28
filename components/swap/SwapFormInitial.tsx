@@ -4,6 +4,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
 import { num, useAddress, useBalance } from "@arthuryeti/terra";
 
+import { useTokenInfo } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
@@ -47,6 +48,11 @@ const SwapFormInitial: FC<Props> = ({
   const card1Control = useAnimation();
   const card2Control = useAnimation();
   const token1Balance = useBalance(token1);
+  const { getDecimals } = useTokenInfo();
+  const balance = num(token1Balance)
+    .div(10 ** getDecimals(token1))
+    .dp(2)
+    .toNumber();
 
   const reverse = async () => {
     setValue("token1", token2);
@@ -136,7 +142,7 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => (
                 <NewAmountInput
                   asset={token1}
-                  max={num(token1Balance).div(ONE_TOKEN).dp(2).toNumber()}
+                  max={balance}
                   isLoading={isReverse && isLoading}
                   clampValueOnBlur={false}
                   {...getInputProps(field)}

@@ -21,11 +21,12 @@ const SwapNotification: FC<Props> = ({ txInfo, data }) => {
   const amount2 = eventsByType.wasm.return_amount[0];
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
+  const decimals = Math.max(token1Decimals, token2Decimals);
   const displayAmount1 = num(amount1)
-    .div(10 ** token1Decimals)
+    .div(10 ** decimals)
     .toFixed(2);
   const displayAmount2 = num(amount2)
-    .div(10 ** token2Decimals)
+    .div(10 ** decimals)
     .toFixed(2);
 
   useEffect(() => {
