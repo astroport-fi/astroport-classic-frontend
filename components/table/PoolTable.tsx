@@ -42,6 +42,7 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
           ))}
         </Tr>
       ))}
+      {!address && <PoolConnectWallet />}
       {rows.length > 0 && (
         <Box {...getTableBodyProps()}>
           {rows.map((row) => {
@@ -50,7 +51,6 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
           })}
         </Box>
       )}
-      {!address && <PoolConnectWallet />}
       {!rows.length && address && (
         <Tr>
           <Box ml="8">

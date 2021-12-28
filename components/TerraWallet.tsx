@@ -1,14 +1,7 @@
 import React, { FC } from "react";
 import { detect } from "detect-browser";
-import { useBalance } from "@arthuryeti/terra";
-import {
-  useWallet,
-  WalletStatus,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { Link, Text, HStack, chakra, useDisclosure } from "@chakra-ui/react";
-
-import { useTokenInfo } from "modules/common";
 
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import WalletInfoPopover from "components/popovers/WalletInfoPopover";
@@ -20,7 +13,11 @@ const TerraWallet: FC = () => {
   const { status } = useWallet();
   const browser = detect();
 
-  if (!["chrome", "opera", "edge", "edge-chromium"].includes(browser?.name)) {
+  if (
+    !["chrome", "opera", "edge", "edge-chromium", "ios", "android"].includes(
+      browser?.name
+    )
+  ) {
     return (
       <Link
         href="https://www.google.com/chrome/"
@@ -39,7 +36,7 @@ const TerraWallet: FC = () => {
       >
         <HStack spacing="3">
           <ChromeIcon width="1.25rem" height="1.25rem" />
-          <Text>Get Chrome</Text>
+          <Text fontSize="xs">Get Chrome</Text>
         </HStack>
       </Link>
     );

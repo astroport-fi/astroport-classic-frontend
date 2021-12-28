@@ -30,9 +30,10 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      w="470px"
+      maxW="470px"
       m="0 auto"
-      mt="10"
+      px="4"
+      my="10"
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
@@ -41,7 +42,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           </Text>
           <IconButton
             aria-label="Close"
-            icon={<CloseIcon />}
+            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
             variant="icon"
             size="xs"
             isRound
