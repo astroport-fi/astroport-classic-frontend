@@ -17,7 +17,8 @@ type Props = {
   fee: any;
   price: string;
   isLoading: boolean;
-  isDisabled: boolean;
+  isFormValid: boolean;
+  error: any;
   onConfirmClick: () => void;
 };
 
@@ -28,7 +29,8 @@ const SwapFormFooter: FC<Props> = ({
   amount2,
   price,
   isLoading,
-  isDisabled,
+  isFormValid,
+  error,
   fee,
   onConfirmClick,
 }) => {
@@ -42,7 +44,7 @@ const SwapFormFooter: FC<Props> = ({
   return (
     <Flex justify="space-between" px="12" mt="6">
       <Box flex="1" color="white" mt="1">
-        {!isDisabled && (
+        {isFormValid && (
           <>
             <Text textStyle="medium">
               1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
@@ -67,16 +69,20 @@ const SwapFormFooter: FC<Props> = ({
             type="button"
             onClick={onConfirmClick}
             isLoading={isLoading}
-            isDisabled={isDisabled}
+            isDisabled={!isFormValid || !!error || fee == null}
           >
             Swap Tokens
           </Button>
         )}
-        <Box color="white">{!isDisabled && <FormFee fee={fee} />}</Box>
+        {isFormValid && (
+          <Box color="white">
+            <FormFee fee={fee} />
+          </Box>
+        )}
       </Flex>
 
       <Box flex="1" textAlign="right" color="white" mt="1">
-        {!isDisabled && (
+        {isFormValid && (
           <>
             <Text textStyle="medium" color={priceImpactColor}>
               {priceImpact}%

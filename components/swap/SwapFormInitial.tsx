@@ -23,7 +23,7 @@ type Props = {
   error: any;
   expertMode: boolean;
   isSecondInputDisabled: boolean;
-  isDisabled?: boolean;
+  isFormValid?: boolean;
   isLoading?: boolean;
   isReverse?: boolean;
   onInputChange: (name: string) => void;
@@ -37,7 +37,7 @@ const SwapFormInitial: FC<Props> = ({
   expertMode,
   isSecondInputDisabled,
   isReverse = false,
-  isDisabled = false,
+  isFormValid = false,
   isLoading = false,
   onInputChange,
   onExpertModeChange,
@@ -74,8 +74,6 @@ const SwapFormInitial: FC<Props> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const showError = !isDisabled && error;
 
   return (
     <Box mt={["8", null, "24"]} px={["4", null, "0"]}>
@@ -220,10 +218,10 @@ const SwapFormInitial: FC<Props> = ({
         </Flex>
       </MotionBox>
 
-      {address && showError ? (
-        <Card mt="3">
-          <Text textStyle="small" variant="secondary">
-            {error?.response?.data?.message}
+      {address && error ? (
+        <Card mt="4" py="4" borderColor="red.300">
+          <Text textStyle="small" variant="secondary" color="red.500">
+            {error}
           </Text>
         </Card>
       ) : (

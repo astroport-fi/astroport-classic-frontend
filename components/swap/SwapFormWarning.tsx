@@ -1,23 +1,9 @@
-import React, { FC, ReactNode } from "react";
-import { Box, Text, BoxProps } from "@chakra-ui/react";
+import React, { FC } from "react";
+import { Text, BoxProps } from "@chakra-ui/react";
+import Card from "components/Card";
 
-type Props = {
-  children?: ReactNode;
-} & BoxProps;
-
-const SwapFormWarning: FC<Props> = ({ children, ...props }) => (
-  <Box
-    bg="whiteAlpha.50"
-    color="white"
-    px={["4", "8", "12"]}
-    pt={4}
-    pb={5}
-    borderRadius="2xl"
-    borderWidth={2}
-    borderColor="red.300"
-    mt={4}
-    {...props}
-  >
+const SwapFormWarning: FC<BoxProps> = (props) => (
+  <Card py="4" mt="4" borderColor="red.300" {...props}>
     <Text display="inline" color="red.500" textStyle="small">
       Warning:{" "}
     </Text>
@@ -25,7 +11,7 @@ const SwapFormWarning: FC<Props> = ({ children, ...props }) => (
       The numbers above are estimates and could change based on network activity
       between the time you submit your transaction and the time it completes.
     </Text>
-  </Box>
+  </Card>
 );
 
 export default SwapFormWarning;

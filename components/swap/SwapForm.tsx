@@ -1,17 +1,18 @@
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import {
   fromTerraAmount,
   num,
   toTerraAmount,
+  useBalance,
   useEstimateFee,
   useTx,
 } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 
-import { DEFAULT_SLIPPAGE } from "constants/constants";
+import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
 import { useSwap, useSwapRoute } from "modules/swap";
 import { useAstroswap } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -68,6 +69,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
   const debouncedAmount1 = useDebounceValue(amount1, 500);
   const debouncedAmount2 = useDebounceValue(amount2, 500);
+  const token1Balance = useBalance(token1);
 
   const swapRoute = useSwapRoute({
     routes,
@@ -120,7 +122,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const {
     fee,
     isLoading: feeIsLoading,
-    error,
+    // error,
   } = useEstimateFee({
     msgs,
   });
@@ -155,6 +157,31 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     setIsPosting(false);
   }, [methods]);
 
+  const isFormValid = useMemo(() => {
+    if (
+      amount1 == "" ||
+      amount2 == "" ||
+      num(amount1).eq(0) ||
+      num(amount2).eq(0)
+    ) {
+      return false;
+    }
+
+    return true;
+  }, [token1, amount1, token2, amount2]);
+
+  const error = useMemo(() => {
+    if (num(amount1).eq(0) || num(amount2).eq(0)) {
+      return "You should set an amount";
+    }
+
+    if (num(amount1).gt(0) && num(token1Balance).div(ONE_TOKEN).lt(amount1)) {
+      return "You don't have enough token";
+    }
+
+    return false;
+  }, [token1, amount1, token2, amount2, simulated]);
+
   if (isPosting) {
     return <FormLoading txHash={txHash} />;
   }
@@ -171,7 +198,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               expertMode={expertMode}
               onInputChange={handleInputChange}
               onExpertModeChange={setExpertMode}
-              isDisabled={fee == null}
+              isFormValid={isFormValid}
               isReverse={isReverse}
               isSecondInputDisabled={
                 swapRoute?.length > 1 || simulated.isLoading
@@ -184,9 +211,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               to={token2}
               amount2={amount2}
               isLoading={feeIsLoading}
-              isDisabled={fee == null || feeIsLoading}
               price={simulated?.price}
               fee={fee}
+              error={error}
+              isFormValid={isFormValid}
               onConfirmClick={() => {
                 expertMode
                   ? methods.handleSubmit(onSubmit)()

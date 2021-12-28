@@ -31,10 +31,6 @@ const styles = {
           _hover: {
             borderColor: "brand.purple",
           },
-          _invalid: {
-            borderColor: "red.500",
-            boxShadow: `0 0 0 1px ${getColor(theme, "red.500")}`,
-          },
           _disabled: {
             opacity: 0.7,
           },
@@ -42,6 +38,10 @@ const styles = {
             zIndex: 1,
             borderColor: "brand.purple",
             boxShadow: `0 0 0 1px ${getColor(theme, "brand.purple")}`,
+          },
+          _invalid: {
+            borderColor: "red.500",
+            boxShadow: `0 0 0 1px ${getColor(theme, "red.500")}`,
           },
         },
       };

@@ -29,13 +29,13 @@ type Networks = {
 const defaultContracts: { [key: string]: any } = {
   mainnet: {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
-    xAstroToken: "",
+    xAstroToken: "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
     factory: "terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g",
-    router: "",
+    router: "terra16t7dpwwgx9n3lq6l6te3753lsjqwhxwpday9zx",
     vesting: "",
-    staking: "",
-    maker: "",
-    generator: "terra1rr5gyh0afr86366j2rflqsnss60sym2223zr6e",
+    staking: "terra1nq4aszdm82wujstxwpjxtvckg7ghu63mqkey33",
+    maker: "terra12u7hcmpltazmmnq0fvyl225usn3fy6qqlp05w0",
+    generator: "",
     lockdrop: "terra1627ldjvxatt54ydd3ns6xaxtd68a2vtyu7kakj",
     airdrop: "terra1dpe2aqykm2vnakcz4vgpha0agxnlkjvgfahhk7",
     auction: "terra1tvld5k6pus2yh7pcu7xuwyjedn7mjxfkkkjjap",
