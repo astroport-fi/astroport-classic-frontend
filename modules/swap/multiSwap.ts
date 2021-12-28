@@ -1,14 +1,12 @@
-import { toBase64, toTerraAmount } from "@arthuryeti/terra";
+import { toBase64 } from "@arthuryeti/terra";
 import { LCDClient, Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
 import {
   isNativeAsset,
   findAsset,
-  PairResponse,
   Route,
   SwapOperation,
   toAssetInfo,
-  isNativeAssetInfo,
 } from "modules/common";
 
 type GetSwapOperationsParams = {
@@ -26,21 +24,12 @@ export const getSwapOperations = ({
 
   const [{ from, to }] = swapRoute;
 
-  let operation: SwapOperation = {
+  const operation: SwapOperation = {
     astro_swap: {
       offer_asset_info: toAssetInfo(from),
       ask_asset_info: toAssetInfo(to),
     },
   };
-
-  if ([toAssetInfo(from), toAssetInfo(to)].every(isNativeAssetInfo)) {
-    operation = {
-      native_swap: {
-        offer_denom: from,
-        ask_denom: to,
-      },
-    };
-  }
 
   return getSwapOperations({
     swapRoute: swapRoute.slice(1),

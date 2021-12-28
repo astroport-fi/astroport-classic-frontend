@@ -1,7 +1,9 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import { useQuery } from "react-query";
+import { num, useTerraWebapp } from "@arthuryeti/terra";
 
 import { useAstroswap, useTokenInfo } from "modules/common";
+import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { useSwapRoute } from "modules/swap";
 import { getAssetAmountsInPool } from "libs/terra";
 
@@ -16,6 +18,7 @@ type Params = {
 };
 
 export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
+  const { client } = useTerraWebapp();
   const { routes } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({
@@ -29,15 +32,38 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
 
   const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
 
+  const { data: bLunaData } = useQuery<unknown>(
+    ["priceImpact", from],
+    () => {
+      return simulateMonoSwap({
+        client,
+        swapRoute: swapRoute,
+        token: to,
+        amount: "1000000",
+        reverse: false,
+      });
+    },
+    {
+      enabled: swapRoute?.[0]?.type == "stable" && from != null,
+    }
+  );
+
   return useMemo(() => {
     if (swapRoute == null || data == null || price == null) {
       return 0;
     }
 
     if (swapRoute.length == 1 && swapRoute[0].type == "stable") {
-      return num(amount1)
-        .minus(amount2)
-        .div(amount1)
+      // @ts-expect-error
+      const bLunaPrice = num(bLunaData.return_amount)
+        // @ts-expect-error
+        .plus(bLunaData.commission_amount)
+        .div(10 ** 6)
+        .toNumber();
+
+      return num(bLunaPrice)
+        .minus(price)
+        .div(price)
         .abs()
         .times(100)
         .dp(2)
@@ -61,7 +87,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
     }
 
     return 0;
-  }, [data, price]);
+  }, [data, price, bLunaData]);
 }
 
 export default usePriceImpact;
