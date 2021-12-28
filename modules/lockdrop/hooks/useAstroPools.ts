@@ -14,6 +14,7 @@ import {
 import { useUserInfo } from "modules/lockdrop";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
+import { useBLunaPriceInLuna } from "modules/swap";
 
 const createQuery = (pairs, address) => {
   if (pairs.length === 0) {
@@ -54,6 +55,7 @@ export const useAstroPools = () => {
   const { lockdrop } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
+  const bLunaPrice = useBLunaPriceInLuna();
   const currentTimestamp = dayjs().unix();
 
   const query = createQuery(pairs, lockdrop);
@@ -79,14 +81,23 @@ export const useAstroPools = () => {
 
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
-      let amountOfUst = num(token1).div(ONE_TOKEN);
+      let amountOfUst = num(token1).div(ONE_TOKEN).times(2).dp(6).toNumber();
 
       if (token1 == null) {
-        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
-        amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
+        const { token1: uluna, token2 } = getAssetAmountsInPool(
+          assets,
+          "uluna"
+        );
+
+        amountOfUst = num(uluna)
+          .plus(num(token2).times(bLunaPrice))
+          .div(ONE_TOKEN)
+          .times(lunaPrice)
+          .dp(6)
+          .toNumber();
       }
 
-      const totalLiquidityInUst = amountOfUst.times(2).toNumber();
+      const totalLiquidityInUst = amountOfUst;
 
       const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
       const myLiquidity = num(info.astroport_lp_units)

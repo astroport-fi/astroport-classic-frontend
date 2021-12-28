@@ -7,6 +7,7 @@ import { getPoolTokenDenoms, useAstroswap, useLunaPrice } from "modules/common";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
+import { useBLunaPriceInLuna } from "modules/swap";
 
 const createQuery = (pairs, address) => {
   if (pairs.length === 0) {
@@ -69,6 +70,7 @@ export const useAllPools = () => {
   const { pairs } = useAstroswap();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
+  const bLunaPrice = useBLunaPriceInLuna();
 
   let query = createQueryNotConnected(pairs);
 
@@ -99,14 +101,23 @@ export const useAllPools = () => {
         return null;
       }
 
-      let amountOfUst = num(token1).div(ONE_TOKEN);
+      let amountOfUst = num(token1).div(ONE_TOKEN).times(2).dp(6).toNumber();
 
       if (token1 == null) {
-        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
-        amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
+        const { token1: uluna, token2 } = getAssetAmountsInPool(
+          assets,
+          "uluna"
+        );
+
+        amountOfUst = num(uluna)
+          .plus(num(token2).times(bLunaPrice))
+          .div(ONE_TOKEN)
+          .times(lunaPrice)
+          .dp(6)
+          .toNumber();
       }
 
-      const totalLiquidityInUst = amountOfUst.times(2).dp(6).toNumber();
+      const totalLiquidityInUst = amountOfUst;
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
 
       const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
@@ -129,7 +140,7 @@ export const useAllPools = () => {
     });
 
     return sortBy(compact(items), "totalLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result]);
+  }, [lunaPrice, pairs, result, bLunaPrice]);
 };
 
 export default useAllPools;
