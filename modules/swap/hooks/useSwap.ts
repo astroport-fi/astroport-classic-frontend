@@ -92,7 +92,7 @@ export const useSwap = ({
         swapRoute,
         amount: terraAmount1,
         slippage,
-        price: simulated.price,
+        price: simulated.beliefPrice,
       },
       address
     );

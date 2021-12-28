@@ -106,6 +106,7 @@ export const useSwapSimulate = ({
         spread: null,
         commission: null,
         price: null,
+        beliefPrice: null,
       };
     }
 
@@ -116,6 +117,7 @@ export const useSwapSimulate = ({
         spread: null,
         commission: null,
         price: null,
+        beliefPrice: null,
       };
     }
 
@@ -125,7 +127,7 @@ export const useSwapSimulate = ({
         amount: data.amount,
         spread: "0",
         commission: "0",
-        // price: num(amount).div(data.amount).toFixed(18),
+        beliefPrice: num(amount).div(data.amount).toFixed(18),
         price: num(amount)
           .div(10 ** token1Decimals)
           .div(num(data.amount).div(10 ** token2Decimals))
@@ -145,7 +147,7 @@ export const useSwapSimulate = ({
         amount: data.offer_amount,
         spread,
         commission,
-        // price: num(data.offer_amount).div(amount).toFixed(18),
+        beliefPrice: num(data.offer_amount).div(amount).toFixed(18),
         price: num(data.offer_amount)
           .div(10 ** token2Decimals)
           .div(num(amount).div(10 ** token1Decimals))
@@ -161,6 +163,7 @@ export const useSwapSimulate = ({
       amount: data.return_amount,
       spread,
       commission,
+      beliefPrice: num(amount).div(data.return_amount).toFixed(18),
       price: num(amount)
         .div(10 ** token1Decimals)
         .div(num(data.return_amount).div(10 ** token2Decimals))

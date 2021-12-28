@@ -55,7 +55,11 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
     }
 
     // TODO: Create a proper hook for stable pool
-    if (swapRoute.length == 1 && swapRoute[0].type == "stable") {
+    if (
+      swapRoute.length == 1 &&
+      swapRoute[0].type == "stable" &&
+      bLunaData != null
+    ) {
       // @ts-expect-error
       const bLunaPrice = num(bLunaData.return_amount)
         // @ts-expect-error
