@@ -142,9 +142,11 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const { submit, txHash } = useTx({
     onPosting: () => {
       setSlippageSetting(slippage);
+      setShowConfirm(false);
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
+      setIsPosting(false);
       resetWithSameTokens();
       addNotification({
         notification: {
@@ -158,9 +160,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
         },
       });
     },
-    onError: () => {
-      resetWithSameTokensAndAmount();
-    },
   });
 
   const onSubmit = useCallback(() => {
@@ -171,7 +170,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   }, [msgs, fee]);
 
   const resetWithSameTokens = useCallback(() => {
-    resetState();
     methods.reset({
       token1,
       token2,
@@ -180,12 +178,12 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     });
   }, [token1, token2]);
 
-  const resetWithSameTokensAndAmount = useCallback(() => {
-    resetState();
-    methods.reset(null, {
-      keepValues: true,
-    });
-  }, []);
+  // const resetWithSameTokensAndAmount = useCallback(() => {
+  //   methods.reset(null, {
+  //     keepValues: true,
+  //   });
+  //   resetState();
+  // }, []);
 
   const resetState = useCallback(() => {
     setShowConfirm(false);
