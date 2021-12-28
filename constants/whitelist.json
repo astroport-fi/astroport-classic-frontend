@@ -266,6 +266,25 @@
         "pair_type": {
           "xyk": {}
         }
+      },
+      {
+        "asset_infos": [
+          {
+            "token": {
+              "contract_addr": "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3"
+            }
+          },
+          {
+            "native_token": {
+              "denom": "uusd"
+            }
+          }
+        ],
+        "contract_addr": "terra1l7xu2rl3c7qmtx3r5sd2tz25glf6jh8ul7aag7",
+        "liquidity_token": "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
+        "pair_type": {
+          "xyk": {}
+        }
       }
     ]
   },

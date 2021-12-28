@@ -49,6 +49,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       userInfo == null ||
       auctionUserInfo == null ||
       airdropUserInfo == null ||
+      airdropData == null ||
       isLoading
     ) {
       return null;

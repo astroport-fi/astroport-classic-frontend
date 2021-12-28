@@ -18,6 +18,10 @@ export const useAirdrop = (address: string | undefined) => {
   });
 
   return useMemo(() => {
+    console.log(
+      "test",
+      query.isLoading || query2.isLoading || query3.isLoading
+    );
     if (query.isLoading || query2.isLoading || query3.isLoading) {
       return {
         isLoading: true,
@@ -35,7 +39,7 @@ export const useAirdrop = (address: string | undefined) => {
       isLoading: false,
       data,
     };
-  }, [query.isLoading]);
+  }, [query.isLoading, query2.isLoading, query3.isLoading]);
 };
 
 export default useAirdrop;
