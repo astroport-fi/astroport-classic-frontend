@@ -10,9 +10,8 @@ import {
   MenuList,
   Image,
 } from "@chakra-ui/react";
-
 import { useAstroswap, useTokenInfo, getTokenDenoms } from "modules/common";
-
+import { orderPoolTokens } from "modules/pool";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { ListLP } from "components/TokenInput";
 
@@ -25,7 +24,8 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
   const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == value);
-  const [token1, token2] = getTokenDenoms(pair.asset_infos);
+  const assets = getTokenDenoms(pair.asset_infos);
+  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);

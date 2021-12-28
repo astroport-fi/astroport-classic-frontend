@@ -1,10 +1,8 @@
 import { useMemo } from "react";
 import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 import { TxInfo } from "@terra-money/terra.js";
-
-import { ONE_TOKEN } from "constants/constants";
 import { getTokenDenom, useTokenInfo } from "modules/common";
-import { createWithdrawMsgs, useGetPool } from "modules/pool";
+import { createWithdrawMsgs, useGetPool, shouldReverseTokenOrder } from "modules/pool";
 
 export type WithdrawState = {
   token1?: string;
@@ -37,7 +35,7 @@ export const useWithdraw = ({
   onError,
 }: Params): WithdrawState => {
   const { data: pool } = useGetPool(contract);
-  const { getDecimals } = useTokenInfo();
+  const { getDecimals, getSymbol } = useTokenInfo();
   const address = useAddress();
 
   const ratio: any = useMemo(() => {
@@ -61,7 +59,7 @@ export const useWithdraw = ({
     const token1 = getTokenDenom(pool.assets[0].info);
     const token2 = getTokenDenom(pool.assets[1].info);
 
-    return {
+    const data = {
       token1,
       token2,
       token1Amount: num(amount)
@@ -73,6 +71,14 @@ export const useWithdraw = ({
         .div(10 ** getDecimals(token2))
         .toFixed(6),
     };
+
+    if (shouldReverseTokenOrder(getSymbol(token1))) {
+      const tempToken1 = data.token1;
+      data.token1 = data.token2;
+      data.token2 = tempToken1;
+    }
+
+    return data;
   }, [pool, ratio, amount]);
 
   const msgs = useMemo(() => {

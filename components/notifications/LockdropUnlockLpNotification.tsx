@@ -3,8 +3,8 @@ import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 import { useQueryClient } from "react-query";
-
 import { getTokenDenoms, useAstroswap, useTokenInfo } from "modules/common";
+import { orderPoolTokens } from "modules/pool";
 
 type Props = {
   txInfo: TxInfo;
@@ -19,7 +19,8 @@ const LockdropUnlockLpNotification: FC<Props> = ({ txInfo, data }) => {
   const { eventsByType } = logs[0];
   const amount = eventsByType.wasm.astroport_lp_unlocked[0];
   const pair = pairs.find((v) => v.liquidity_token == data.token);
-  const [token1, token2] = getTokenDenoms(pair?.asset_infos);
+  const assets = getTokenDenoms(pair?.asset_infos);
+  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
 

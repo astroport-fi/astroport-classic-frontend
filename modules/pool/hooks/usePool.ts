@@ -8,6 +8,7 @@ import {
   useShareInUst,
 } from "modules/pool";
 import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
+import { shouldReverseTokenOrder } from "modules/pool";
 import { useStakedLpAmount } from "modules/generator";
 
 export type Pool = {
@@ -52,7 +53,7 @@ export const usePool = ({
   const stakedAmount = useStakedLpAmount(lpTokenContract);
   const tokenAmounts = useLpToTokens({ pool, amount: lpBalance });
   const myShare = num(stakedAmount).plus(lpBalance).toString();
-  const { getDecimals } = useTokenInfo();
+  const { getDecimals, getSymbol } = useTokenInfo();
 
   const token1 = useMemo(() => {
     if (pool == null) {
@@ -88,7 +89,7 @@ export const usePool = ({
       return null;
     }
 
-    return {
+    const data = {
       assets: pool.assets,
       pairContract: pairContract,
       lpTokenContract: lpTokenContract,
@@ -124,6 +125,14 @@ export const usePool = ({
             .toNumber() || 0,
       },
     };
+
+    if (shouldReverseTokenOrder(getSymbol(token1))) {
+      const tempToken1 = data.token1;
+      data.token1 = data.token2;
+      data.token2 = tempToken1;
+    }
+
+    return data;
   }, [
     pool,
     totalShareInUst,

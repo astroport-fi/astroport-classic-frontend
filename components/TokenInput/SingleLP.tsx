@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image, HStack } from "@chakra-ui/react";
-
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
+import { orderPoolTokens } from "modules/pool";
 
 type Props = {
   asset: string;
@@ -11,7 +11,8 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const { pairs } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == asset);
-  const [token1, token2] = getTokenDenoms(pair?.asset_infos);
+  const assets = getTokenDenoms(pair?.asset_infos);
+  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);

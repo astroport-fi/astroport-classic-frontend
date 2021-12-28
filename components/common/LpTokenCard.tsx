@@ -5,7 +5,7 @@ import numeral from "numeral";
 
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useGetPool, useLpToTokens } from "modules/pool";
+import { useGetPool, useLpToTokens, orderPoolTokens } from "modules/pool";
 
 type Props = {
   token: any;
@@ -15,7 +15,8 @@ const LpTokenCard: FC<Props> = ({ token }) => {
   const { pairs } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == token.asset);
-  const [token1, token2] = getTokenDenoms(pair?.asset_infos);
+  const assets = getTokenDenoms(pair?.asset_infos);
+  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
   const { data: pool } = useGetPool(pair?.contract_addr);
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
