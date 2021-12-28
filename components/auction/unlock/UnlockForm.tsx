@@ -5,7 +5,7 @@ import { TxStep, num, toTerraAmount } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 
 import { useAuctionUnlock } from "modules/auction";
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useContracts } from "modules/common";
 
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
@@ -21,10 +21,11 @@ const UnlockForm: FC = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { addNotification } = useAstroswap();
   const router = useRouter();
+  const { astroUstLpToken } = useContracts();
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      token: "terra1cs66g290h4x0pf6scmwm8904yc75l3m7z0lzjr",
+      token: astroUstLpToken,
       amount: "",
     },
   });
