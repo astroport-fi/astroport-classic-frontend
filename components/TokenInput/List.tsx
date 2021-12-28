@@ -1,57 +1,27 @@
 import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { ListItem } from "components/TokenInput";
-import { useAstroswap, useTokenInfo } from "modules/common";
 
 type Props = {
   onClick: (token: string) => void;
-  hideToken?: string;
-  tokens?: string[];
-  filter?: string;
+  tokens: string[];
+  filtered?: boolean;
 };
 
-const List: FC<Props> = ({ hideToken, tokens, onClick, filter = "" }) => {
-  const { tokens: terraTokens } = useAstroswap();
-  const { getSymbol } = useTokenInfo();
-  if (tokens && tokens.length > 0) {
-    return (
-      <Box>
-        <Box h="3xs" boxShadow="inner" overflowY="auto" px="2" mt="2">
-          <Box>
-            {tokens.map((token) => {
-              return <ListItem key={token} token={token} onClick={onClick} />;
-            })}
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
-
-  if (terraTokens == null) {
-    return null;
-  }
-
-  const matchToken = (token: string) => {
-    if (hideToken === token) {
-      return null;
-    } else {
-      return getSymbol(token).toLowerCase().includes(filter.toLowerCase());
-    }
-  };
-
-  const filteredTokens = Object.values(terraTokens).filter(({ token }) =>
-    matchToken(token)
-  );
-
+const List: FC<Props> = ({ tokens, onClick, filtered = false }) => {
   return (
     <Box>
-      <Text textStyle="minibutton">
-        {filter.length > 0
-          ? `${filteredTokens.length} token found`
-          : "All tokens"}
-      </Text>
+      {tokens.length === 0 ? (
+        <Text textStyle="minibutton" color="red.500">
+          Token not found
+        </Text>
+      ) : (
+        <Text textStyle="minibutton">
+          {filtered ? `${tokens.length}` : "all"} token found
+        </Text>
+      )}
       <Box h="3xs" overflowY="auto" mt="2">
-        {filteredTokens.map(({ token }) => {
+        {tokens.map((token) => {
           return <ListItem key={token} token={token} onClick={onClick} />;
         })}
       </Box>

@@ -12,16 +12,17 @@ import {
 
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import { CommonTokensList, List } from "components/TokenInput";
+import { TagList, List } from "components/TokenInput";
 import Search from "components/common/Search";
 import { useTokenPriceInUst } from "modules/swap";
 import { useTokenInfo } from "modules/common";
+import { COMMON_TOKENS } from "constants/constants";
 
 type Props = {
   hideToken?: string;
   value: string;
   onClick: (token: string) => void;
-  tokens?: string[];
+  tokens: string[];
 };
 
 const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
@@ -29,6 +30,26 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUst(value);
   const [filter, setFilter] = useState("");
+
+  const matchTokenOrExactAddress = (token: string) => {
+    return (
+      getSymbol(token).toLowerCase().includes(filter.toLowerCase()) ||
+      token === filter
+    );
+  };
+  const allowedTokens = (token: string) => token !== hideToken;
+
+  const notHiddenTokens = tokens.filter(allowedTokens);
+  const filteredTokens = notHiddenTokens.filter(matchTokenOrExactAddress);
+  const commonTokens = COMMON_TOKENS.filter(allowedTokens);
+
+  const noTokensFound = filteredTokens.length === 0;
+  const inputColor = noTokensFound ? "red.500" : "brand.deepBlue";
+
+  const handleOpen = () => {
+    setFilter("");
+    onOpen();
+  };
 
   const handleClick = (token: string) => {
     onClose();
@@ -73,7 +94,7 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
       placement={placement}
       isLazy
       isOpen={isOpen}
-      onOpen={onOpen}
+      onOpen={handleOpen}
       onClose={onClose}
       triggerElement={() => (
         <Button
@@ -103,16 +124,18 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
     >
       <VStack spacing={6} align="stretch" mt="1" w={["65", "96", null]}>
         <Search
+          color={inputColor}
+          iconStyle={{ color: inputColor }}
+          borderColor={inputColor}
           placeholder="Search token"
           onChange={(e) => setFilter(e.target.value)}
           variant="search"
         />
-        <CommonTokensList hideToken={hideToken} onClick={handleClick} />
+        <TagList tokens={commonTokens} onClick={handleClick} />
         <List
           onClick={handleClick}
-          tokens={tokens}
-          hideToken={hideToken}
-          filter={filter}
+          tokens={filteredTokens}
+          filtered={filteredTokens.length !== notHiddenTokens.length}
         />
       </VStack>
     </PopoverWrapper>

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Box } from "@chakra-ui/react";
 
 import { Select, Single, SingleLP, SelectLP } from "components/TokenInput";
+import { useAstroswap } from "modules/common";
 
 type Props = {
   hideToken?: string;
@@ -22,6 +23,9 @@ const Field: FC<Props> = ({
   isLpToken,
   tokens,
 }) => {
+  const { tokens: allTokens } = useAstroswap();
+  const currentTokens = tokens ?? Object.keys(allTokens);
+
   const handleClick = (asset: string) => {
     onChange(asset);
   };
@@ -42,7 +46,7 @@ const Field: FC<Props> = ({
     return (
       <Select
         value={value}
-        tokens={tokens}
+        tokens={currentTokens}
         hideToken={hideToken}
         onClick={handleClick}
       />
