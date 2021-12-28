@@ -65,8 +65,8 @@ const ProvideForm: FC<Props> = ({
     pool: pool,
     token1: token1,
     token2: token2,
-    amount1: toTerraAmount(debouncedAmount1),
-    amount2: toTerraAmount(debouncedAmount2),
+    amount1: debouncedAmount1,
+    amount2: debouncedAmount2,
     autoStake,
     onBroadcasting: (txHash) => {
       router.push("/pools");

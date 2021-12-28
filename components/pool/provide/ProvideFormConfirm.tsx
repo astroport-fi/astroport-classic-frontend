@@ -2,18 +2,13 @@ import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
+import { num } from "@arthuryeti/terra";
 
 import { useTokenInfo } from "modules/common";
-import {
-  Pool,
-  useEstShareOfPool,
-  useTokensToLp,
-  useEstShareInUst,
-} from "modules/pool";
+import { Pool, useEstShareOfPool, useEstShareInUst } from "modules/pool";
 
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
-import { num } from "@arthuryeti/terra";
 
 type Props = {
   pool: Pool;
@@ -35,7 +30,6 @@ const ProvideForm: FC<Props> = ({
   onCloseClick,
 }) => {
   const { getSymbol } = useTokenInfo();
-  const lpToken = useTokensToLp({ pool, amount1, amount2 });
   const shareInUst = useEstShareInUst({ pool, amount1, amount2 });
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
   const symbol1 = getSymbol(token1);
@@ -68,10 +62,6 @@ const ProvideForm: FC<Props> = ({
           label: "Share of Pool",
           value: `${shareOfPool || "0"}%`,
         },
-        // {
-        //   label: "Provided LP Token",
-        //   value: `${lpToken} ${symbol1}-${symbol2} LP`,
-        // },
       ]}
       onCloseClick={onCloseClick}
     >

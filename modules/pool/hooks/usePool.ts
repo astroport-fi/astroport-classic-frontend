@@ -1,14 +1,13 @@
 import { useMemo } from "react";
 import { num, useBalance } from "@arthuryeti/terra";
 
-import { useTokenPriceInUst } from "modules/swap";
 import {
   useGetPool,
   useShareOfPool,
   useLpToTokens,
   useShareInUst,
 } from "modules/pool";
-import { Asset, getTokenDenom } from "modules/common";
+import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
 import { useStakedLpAmount } from "modules/lp";
 
 export type Pool = {
@@ -53,6 +52,7 @@ export const usePool = ({
   const stakedAmount = useStakedLpAmount(lpTokenContract);
   const tokenAmounts = useLpToTokens({ pool, amount: lpBalance });
   const myShare = num(stakedAmount).plus(lpBalance).toString();
+  const { getDecimals } = useTokenInfo();
 
   const token1 = useMemo(() => {
     if (pool == null) {
@@ -69,6 +69,9 @@ export const usePool = ({
 
     return getTokenDenom(pool.assets[1].info);
   }, [pool]);
+
+  const token1Decimals = getDecimals(token1);
+  const token2Decimals = getDecimals(token2);
 
   const myShareInUst = useShareInUst({
     pool,
@@ -104,7 +107,8 @@ export const usePool = ({
         amount: tokenAmounts?.[token1],
         price:
           num(pool.assets[1].amount)
-            .div(pool.assets[0].amount)
+            .div(10 ** token2Decimals)
+            .div(num(pool.assets[0].amount).div(10 ** token1Decimals))
             .dp(6)
             .toNumber() || 0,
       },
@@ -114,7 +118,8 @@ export const usePool = ({
         amount: tokenAmounts?.[token2],
         price:
           num(pool.assets[0].amount)
-            .div(pool.assets[1].amount)
+            .div(10 ** token1Decimals)
+            .div(num(pool.assets[1].amount).div(10 ** token2Decimals))
             .dp(6)
             .toNumber() || 0,
       },

@@ -19,6 +19,7 @@ type Props = {
   max?: number;
   isDisabled?: boolean;
   isLoading?: boolean;
+  isInvalid?: boolean;
   clampValueOnBlur?: boolean;
 };
 
@@ -30,6 +31,7 @@ const Input: FC<Props> = ({
   max,
   clampValueOnBlur = true,
   isLoading,
+  isInvalid,
   isDisabled,
 }) => {
   const price = useTokenPriceInUst(asset);
@@ -56,6 +58,7 @@ const Input: FC<Props> = ({
         clampValueOnBlur={clampValueOnBlur}
         isDisabled={isDisabled}
         isLoading={isLoading}
+        isInvalid={isInvalid}
       >
         <NumberInputField placeholder="0.0" />
         <Box position="absolute" bottom="2" right="4" color="white">

@@ -5,7 +5,7 @@ import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
-import { ONE_TOKEN } from "constants/constants";
+import { useTokenInfo } from "modules/common";
 
 import Card from "components/Card";
 import NewAmountInput from "components/NewAmountInput";
@@ -46,14 +46,27 @@ const ProvideFormInitial: FC<Props> = ({
   state,
   onClick,
 }) => {
+  const { getDecimals } = useTokenInfo();
   const token1Balance = useBalance(token1);
   const token2Balance = useBalance(token2);
+  const token1Decimals = getDecimals(token1);
+  const token2Decimals = getDecimals(token2);
   const { control, setValue } = useFormContext();
-  const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
+  // const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
+  const ratio = num(pool.token2.share)
+    .div(10 ** token2Decimals)
+    .div(num(pool.token1.share).div(10 ** token1Decimals))
+    .toNumber();
 
   const balances = {
-    token1: num(token1Balance).div(ONE_TOKEN).dp(2).toNumber(),
-    token2: num(token2Balance).div(ONE_TOKEN).dp(2).toNumber(),
+    token1: num(token1Balance)
+      .div(10 ** token1Decimals)
+      .dp(2)
+      .toNumber(),
+    token2: num(token2Balance)
+      .div(10 ** token2Decimals)
+      .dp(2)
+      .toNumber(),
   };
 
   let maxAmounts = {

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { getAssetAmountsInPool } from "libs/terra";
 
@@ -17,11 +17,15 @@ type Params = {
 
 export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
   const { routes } = useAstroswap();
+  const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({
     routes,
     from,
     to,
   });
+
+  const fromDecimals = getDecimals(from);
+  const toDecimals = getDecimals(to);
 
   const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
 
@@ -42,7 +46,11 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
 
     if (swapRoute.length == 1 && swapRoute[0].type == "xyk") {
       const { token1, token2 } = getAssetAmountsInPool(data.assets, to);
-      const poolPrice = num(token2).div(token1).dp(18).toNumber();
+      const poolPrice = num(token2)
+        .div(10 ** fromDecimals)
+        .div(num(token1).div(10 ** toDecimals))
+        .dp(18)
+        .toNumber();
 
       return num(price)
         .minus(poolPrice)

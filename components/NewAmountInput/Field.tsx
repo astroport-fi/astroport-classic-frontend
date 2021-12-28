@@ -17,6 +17,7 @@ type Props = {
   clampValueOnBlur?: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
+  isInvalid?: boolean;
   hideMaxButton?: boolean;
   max?: number;
 };
@@ -36,6 +37,7 @@ const Field: FC<Props> = forwardRef(
       hideBalanceLabel = false,
       hideMaxButton = false,
       isDisabled = false,
+      isInvalid = false,
       isLoading = false,
     },
     ref
@@ -81,6 +83,7 @@ const Field: FC<Props> = forwardRef(
           onBlur={onBlur}
           isDisabled={isDisabled}
           isLoading={isLoading}
+          isInvalid={isInvalid}
         />
         {renderBalance()}
       </Box>

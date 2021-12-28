@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Coin, TxInfo } from "@terra-money/terra.js";
 import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 
+import { useTokenInfo } from "modules/common";
 import { createProvideMsgs, Pool } from "modules/pool";
 
 export type ProvideState = {
@@ -39,15 +40,23 @@ export const useProvide = ({
   onError,
 }: Params): ProvideState => {
   const address = useAddress();
+  const { getDecimals } = useTokenInfo();
+
+  const terraAmount1 = num(amount1)
+    .times(10 ** getDecimals(token1))
+    .toFixed(0);
+  const terraAmount2 = num(amount2)
+    .times(num(10).pow(getDecimals(token2)))
+    .toFixed(0);
 
   const msgs = useMemo(() => {
     if (
-      amount1 == "" ||
-      amount2 == "" ||
+      terraAmount1 == "" ||
+      terraAmount2 == "" ||
       contract == null ||
       pool == null ||
-      num(amount1).eq(0) ||
-      num(amount2).eq(0)
+      num(terraAmount1).eq(0) ||
+      num(terraAmount2).eq(0)
     ) {
       return null;
     }
@@ -56,14 +65,23 @@ export const useProvide = ({
       {
         contract,
         pool,
-        coin1: new Coin(token1, amount1),
-        coin2: new Coin(token2, amount2),
+        coin1: new Coin(token1, terraAmount1),
+        coin2: new Coin(token2, terraAmount2),
         autoStake,
         slippage: "0.02",
       },
       address
     );
-  }, [address, contract, pool, token1, token2, autoStake, amount1, amount2]);
+  }, [
+    address,
+    contract,
+    pool,
+    token1,
+    token2,
+    autoStake,
+    terraAmount1,
+    terraAmount2,
+  ]);
 
   return useTransaction({
     msgs,

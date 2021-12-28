@@ -43,6 +43,17 @@ export const useTokenInfo = () => {
     [name, data]
   );
 
+  const getDecimals = useCallback(
+    (token: string) => {
+      if (data == null) {
+        return token;
+      }
+
+      return data[name].tokens[token]?.decimals ?? 6;
+    },
+    [name, data]
+  );
+
   const getIcon = useCallback(
     (token: string) => {
       if (data == null) {
@@ -63,6 +74,7 @@ export const useTokenInfo = () => {
   return {
     getProtocol,
     getSymbol,
+    getDecimals,
     getLpSymbol,
     getIcon,
   };

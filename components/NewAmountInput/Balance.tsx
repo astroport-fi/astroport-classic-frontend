@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Button, HStack } from "@chakra-ui/react";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
+import { MaxButton } from "components/NewAmountInput";
 import { useTokenInfo } from "modules/common";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   asset: string;
@@ -25,20 +27,31 @@ const Balance: FC<Props> = ({
   isDisabled = false,
   onChange,
 }) => {
+  const { getDecimals } = useTokenInfo();
   const balance = useBalance(asset);
-  const amount = fromTerraAmount(initial ?? balance, "0.00");
+  const newBalance = num(balance)
+    .div(10 ** getDecimals(asset))
+    .times(ONE_TOKEN)
+    .toFixed(0);
+  const amount = fromTerraAmount(initial ?? newBalance, "0.00");
 
   const renderButton = () => {
     if (!hideButton) {
       return (
-        <Button
-          variant="mini"
-          type="button"
-          onClick={() => onChange(max ?? amount)}
+        <MaxButton
+          asset={asset}
+          max={max ?? amount}
+          onChange={onChange}
           isDisabled={isDisabled}
-        >
-          Max
-        </Button>
+        />
+        // <Button
+        //   variant="mini"
+        //   type="button"
+        //   onClick={() => onChange(max ?? amount)}
+        //   isDisabled={isDisabled}
+        // >
+        //   Max
+        // </Button>
       );
     }
   };
@@ -53,7 +66,7 @@ const Balance: FC<Props> = ({
             </Text>
           )}{" "}
           <Text fontSize="sm" color="white" ml="2">
-            {fromTerraAmount(initial ?? balance, "0,0.00")}
+            {fromTerraAmount(initial ?? newBalance, "0,0.00")}
           </Text>
         </HStack>
       </Box>

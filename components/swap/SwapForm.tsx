@@ -1,20 +1,13 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import {
-  fromTerraAmount,
-  num,
-  toTerraAmount,
-  useBalance,
-  useEstimateFee,
-  useTx,
-} from "@arthuryeti/terra";
+import { num, useBalance, useEstimateFee, useTx } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 
 import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
 import { useSwap, useSwapRoute } from "modules/swap";
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useTokenInfo } from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
 
@@ -38,6 +31,7 @@ type Props = {
 
 const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const { routes, addNotification } = useAstroswap();
+  const { getDecimals } = useTokenInfo();
   const router = useRouter();
   const {
     network: { name: networkName },
@@ -62,6 +56,8 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       amount2: "",
       slippage: slippageSetting || DEFAULT_SLIPPAGE,
     },
+    mode: "all",
+    reValidateMode: "onChange",
   });
 
   const { watch, setValue } = methods;
@@ -81,10 +77,14 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const handleSuccess = useCallback(
     (result) => {
       const inputToUpdate = isReverse ? "amount1" : "amount2";
+      const tokenToUpdate = isReverse ? token1 : token2;
 
-      setValue(inputToUpdate, fromTerraAmount(result?.amount, "0.000[000]"));
+      const divideBy = num(10).pow(getDecimals(tokenToUpdate));
+      const newAmount = num(result.amount).div(divideBy).dp(6).toString();
+
+      setValue(inputToUpdate, newAmount);
     },
-    [isReverse]
+    [isReverse, token1, token2]
   );
 
   const handleError = useCallback(() => {
@@ -123,8 +123,8 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     swapRoute,
     token1: token1,
     token2: token2,
-    amount1: toTerraAmount(debouncedAmount1),
-    amount2: toTerraAmount(debouncedAmount2),
+    amount1: debouncedAmount1,
+    amount2: debouncedAmount2,
     slippage: num(slippage).div(100).toString(),
     onSimulateSuccess: handleSuccess,
     onSimulateError: handleError,

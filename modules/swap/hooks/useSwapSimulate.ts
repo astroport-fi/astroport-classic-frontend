@@ -8,6 +8,7 @@ import {
   SimulationResponse,
   ReverseSimulationResponse,
   MultiSimulationResponse,
+  useTokenInfo,
 } from "modules/common";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
@@ -30,6 +31,7 @@ function isReverseSimulation(
 type Params = {
   swapRoute: Route[] | null;
   token: string | null;
+  token2: string | null;
   amount: string | null;
   reverse: boolean;
   onSuccess?: (item: any) => void;
@@ -39,6 +41,7 @@ type Params = {
 export const useSwapSimulate = ({
   swapRoute,
   token,
+  token2,
   amount,
   reverse,
   onSuccess,
@@ -46,7 +49,10 @@ export const useSwapSimulate = ({
 }: Params) => {
   const { client } = useTerraWebapp();
   const { router } = useContracts();
+  const { getDecimals } = useTokenInfo();
   const isQueryEnabled = !num(amount).isNaN() && swapRoute != null;
+  const token1Decimals = getDecimals(token);
+  const token2Decimals = getDecimals(token2);
 
   const { data, isLoading } = useQuery<
     unknown,
@@ -119,7 +125,11 @@ export const useSwapSimulate = ({
         amount: data.amount,
         spread: "0",
         commission: "0",
-        price: num(amount).div(data.amount).toFixed(18),
+        // price: num(amount).div(data.amount).toFixed(18),
+        price: num(amount)
+          .div(10 ** token1Decimals)
+          .div(num(data.amount).div(10 ** token2Decimals))
+          .toFixed(18),
       };
 
       onSuccess?.(result);
@@ -135,7 +145,11 @@ export const useSwapSimulate = ({
         amount: data.offer_amount,
         spread,
         commission,
-        price: num(data.offer_amount).div(amount).toFixed(18),
+        // price: num(data.offer_amount).div(amount).toFixed(18),
+        price: num(data.offer_amount)
+          .div(10 ** token2Decimals)
+          .div(num(amount).div(10 ** token1Decimals))
+          .toFixed(18),
       };
 
       onSuccess?.(result);
@@ -147,7 +161,10 @@ export const useSwapSimulate = ({
       amount: data.return_amount,
       spread,
       commission,
-      price: num(amount).div(data.return_amount).toFixed(18),
+      price: num(amount)
+        .div(10 ** token1Decimals)
+        .div(num(data.return_amount).div(10 ** token2Decimals))
+        .toFixed(18),
     };
 
     onSuccess?.(result);

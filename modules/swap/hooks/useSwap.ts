@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { num, useAddress } from "@arthuryeti/terra";
 
-import { useContracts, Route } from "modules/common";
+import { useContracts, Route, useTokenInfo } from "modules/common";
 import { minAmountReceive, useSwapSimulate } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
@@ -30,12 +30,21 @@ export const useSwap = ({
   onSimulateSuccess,
 }: Params) => {
   const address = useAddress();
+  const { getDecimals } = useTokenInfo();
   const { router } = useContracts();
+
+  const terraAmount1 = num(amount1)
+    .times(10 ** getDecimals(token1))
+    .toFixed(0);
+  const terraAmount2 = num(amount2)
+    .times(num(10).pow(getDecimals(token2)))
+    .toFixed(0);
 
   const simulated = useSwapSimulate({
     swapRoute,
-    amount: reverse ? amount2 : amount1,
+    amount: reverse ? terraAmount2 : terraAmount1,
     token: reverse ? token2 : token1,
+    token2: reverse ? token1 : token2,
     reverse,
     onSuccess: onSimulateSuccess,
     onError: onSimulateError,
@@ -69,7 +78,7 @@ export const useSwap = ({
         {
           token: token1,
           swapRoute,
-          amount: amount1,
+          amount: terraAmount1,
           minReceive,
           router,
         },
@@ -81,7 +90,7 @@ export const useSwap = ({
       {
         token: token1,
         swapRoute,
-        amount: amount1,
+        amount: terraAmount1,
         slippage,
         price: simulated.price,
       },
