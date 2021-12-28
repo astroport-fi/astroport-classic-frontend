@@ -57,10 +57,11 @@ const SwapFormConfirm: FC<Props> = ({
       actionLabel="Confirm swap"
       contentComponent={
         <FormSummary
-          label1="You are swapping from:"
-          label2="↓You are swapping to:"
-          token1={{ asset: token1, amount: amount1 }}
-          token2={{ asset: token2, amount: amount2 }}
+          label="You are swapping from:"
+          tokens={[
+            { asset: token1, amount: amount1 },
+            { label: "↓You are swapping to:", asset: token2, amount: amount2 },
+          ]}
         />
       }
       details={[

@@ -75,8 +75,8 @@ const UnlockForm: FC<Props> = ({ lpToken, duration }) => {
             actionLabel="Confirm Unlocking LP Token"
             contentComponent={
               <FormSummary
-                label1="You'll unlock"
-                token1={{ asset: token, amount }}
+                label="You'll unlock"
+                tokens={[{ asset: token, amount }]}
               />
             }
             onCloseClick={() => setShowConfirm(false)}

@@ -98,8 +98,8 @@ const StakeForm: FC<Props> = ({
             actionLabel="Confirm Staking LP Token"
             contentComponent={
               <FormSummary
-                label1="You are staking"
-                token1={{ asset: token, amount }}
+                label="You are staking"
+                tokens={[{ asset: token, amount }]}
               />
             }
             onCloseClick={() => setShowConfirm(false)}

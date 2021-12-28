@@ -4,7 +4,6 @@ import { num } from "@arthuryeti/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
-import dayjs from "dayjs";
 
 export const useAuctionPools = () => {
   const { astroToken } = useContracts();

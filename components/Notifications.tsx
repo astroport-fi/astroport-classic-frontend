@@ -8,6 +8,7 @@ import TransactionNotification from "components/notifications/Transaction";
 import TransactionStartedNotification from "components/notifications/TransactionStarted";
 import FailedNotification from "components/notifications/FailedNotification";
 import SwapNotification from "components/notifications/SwapNotification";
+import AuctionUnlockLpNotification from "components/notifications/AuctionUnlockLpNotification";
 import ProvideNotification from "components/notifications/ProvideNotification";
 import WithdrawNotification from "components/notifications/WithdrawNotification";
 import StakeLpNotification from "components/notifications/StakeLpNotification";
@@ -41,6 +42,9 @@ const Notifications: FC = () => {
     }
     if (txType === "claimRewards") {
       return <ClaimRewardsNotification txInfo={txInfo} />;
+    }
+    if (txType === "auctionUnlockLp") {
+      return <AuctionUnlockLpNotification txInfo={txInfo} />;
     }
   };
 

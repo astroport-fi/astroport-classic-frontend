@@ -102,8 +102,8 @@ const UnstakeForm: FC<Props> = ({
             actionLabel="Confirm Unstaking LP Token"
             contentComponent={
               <FormSummary
-                label1="You are unstaking"
-                token1={{ asset: token, amount }}
+                label="You are unstaking"
+                tokens={[{ asset: token, amount }]}
               />
             }
             onCloseClick={() => setShowConfirm(false)}

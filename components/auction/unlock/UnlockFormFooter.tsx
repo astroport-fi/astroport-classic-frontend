@@ -10,7 +10,7 @@ type Props = {
 
 const UnlockFormFooter: FC<Props> = ({ data, onConfirmClick }) => {
   const confirmButton: ConfirmButton = {
-    title: "Unlock LP token",
+    title: "Unlock LP Tokens",
     isLoading: data.txStep == TxStep.Estimating,
     isDisabled: data.txStep != TxStep.Ready,
     type: "submit",
