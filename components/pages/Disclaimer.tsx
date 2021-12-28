@@ -6,7 +6,6 @@ import {
   Flex,
   VStack,
   Text,
-  IconButton,
   Button,
   Checkbox,
 } from "@chakra-ui/react";
@@ -40,14 +39,6 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           <Text fontSize="lg" color="red.500">
             Disclaimer
           </Text>
-          <IconButton
-            aria-label="Close"
-            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
-            variant="icon"
-            size="xs"
-            isRound
-            onClick={onCloseClick}
-          />
         </Flex>
 
         <Text fontSize="sm" mt="6">
