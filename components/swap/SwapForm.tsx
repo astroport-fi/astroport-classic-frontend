@@ -58,7 +58,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       amount1: "",
       token2: defaultToken2,
       amount2: "",
-      slippage: slippageSetting,
+      slippage: slippageSetting || DEFAULT_SLIPPAGE,
     },
   });
 
@@ -88,11 +88,11 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     methods.reset();
   }, [networkName]);
 
-  useEffect(() => {
-    if (slippage != slippageSetting) {
-      setSlippageSetting(slippage);
-    }
-  }, [slippage]);
+  // useEffect(() => {
+  //   if (slippage != slippageSetting) {
+  //     setSlippageSetting(slippage);
+  //   }
+  // }, [slippage]);
 
   useEffect(() => {
     if (defaultToken2 != token2 || defaultToken1 != token1) {
@@ -127,6 +127,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
   const { submit, txHash } = useTx({
     onPosting: () => {
+      setSlippageSetting(slippage);
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {

@@ -7,6 +7,8 @@ import {
   IconButton,
   Button,
   VStack,
+  NumberInput,
+  NumberInputField,
   HStack,
   Text,
   useBreakpointValue,
@@ -36,6 +38,8 @@ const SlippagePopover: FC<Props> = ({
     base: "top-start",
     md: "left",
   }) as PlacementWithLogical;
+
+  console.log(value);
 
   return (
     <PopoverWrapper
@@ -102,27 +106,30 @@ const SlippagePopover: FC<Props> = ({
                 color: "brand.purple",
               }}
             >
-              <Input
-                type="number"
-                min={DEFAULT_SLIPPAGE}
-                step={0.01}
+              <NumberInput
+                min={0.01}
+                precision={3}
+                max={50}
                 value={value || undefined}
-                onChange={(e) => onChange(Number(e.target.value))}
-                placeholder="Custom"
-                color="#788DB2"
-                fontWeight="700"
-                borderColor="#788DB2"
-                _hover={{
-                  borderColor: "brand.dark",
-                }}
-                _focus={{
-                  color: "brand.purple",
-                  borderColor: "brand.purple",
-                }}
-                textStyle="minibutton"
-                fontSize="10px"
-                h="7"
-              />
+                onChange={(_, v) => onChange(v)}
+              >
+                <NumberInputField
+                  placeholder="Custom"
+                  color="#788DB2"
+                  fontWeight="700"
+                  borderColor="#788DB2"
+                  _hover={{
+                    borderColor: "brand.dark",
+                  }}
+                  _focus={{
+                    color: "brand.purple",
+                    borderColor: "brand.purple",
+                  }}
+                  textStyle="minibutton"
+                  fontSize="10px"
+                  h="7"
+                />
+              </NumberInput>
               <InputRightElement h="7" pointerEvents="none" fontSize="xs">
                 <Text>%</Text>
               </InputRightElement>
