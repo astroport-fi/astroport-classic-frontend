@@ -14,7 +14,7 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
   const { getSymbol } = useTokenInfo();
   const { logs } = txInfo;
-  const { eventsByType } = logs[1];
+  const { eventsByType } = logs[logs.length - 1];
   const regex = /([0-9]+)(.*)/g;
   // TODO: remove the duplication
   const regex2 = /([0-9]+)(.*)/g;

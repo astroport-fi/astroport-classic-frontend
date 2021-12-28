@@ -74,6 +74,7 @@ export const useTokenPriceInUst = (token: string | null) => {
         "uluna"
       );
 
+      // TODO: Create a proper hook for stable pool
       if (swapRouteInLuna[0].type == "stable" && bLunaData != null) {
         // @ts-expect-error
         const bLunaPrice = num(bLunaData.return_amount)

@@ -39,7 +39,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
         client,
         swapRoute: swapRoute,
         token: to,
-        amount: "1000000",
+        amount: "10000",
         reverse: false,
       });
     },
@@ -53,12 +53,11 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
       return 0;
     }
 
+    // TODO: Create a proper hook for stable pool
     if (swapRoute.length == 1 && swapRoute[0].type == "stable") {
       // @ts-expect-error
       const bLunaPrice = num(bLunaData.return_amount)
-        // @ts-expect-error
-        .plus(bLunaData.commission_amount)
-        .div(10 ** 6)
+        .div(10 ** 4)
         .toNumber();
 
       return num(bLunaPrice)

@@ -22,20 +22,20 @@ const createQuery = (pairs, address) => {
 
   return gql`
     {
-      ${pairs.map(({ lp, contract }) => {
+      ${pairs.map(({ liquidity_token, contract_addr }) => {
         return `
-          pool${lp}: wasm {
+          pool${liquidity_token}: wasm {
             contractQuery(
-              contractAddress: "${contract}"
+              contractAddress: "${contract_addr}"
               query: {
                 pool: { }
               }
             )
           }
 
-          balance${lp}: wasm {
+          balance${liquidity_token}: wasm {
             contractQuery(
-              contractAddress: "${lp}"
+              contractAddress: "${liquidity_token}"
               query: {
                 balance: {
                   address: "${address}"
@@ -50,8 +50,8 @@ const createQuery = (pairs, address) => {
 };
 
 export const useAstroPools = () => {
-  const { pairs: astroPairs } = useAstroswap();
-  const { pairs, lockdrop } = useContracts();
+  const { pairs } = useAstroswap();
+  const { lockdrop } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
   const currentTimestamp = dayjs().unix();
@@ -73,9 +73,9 @@ export const useAstroPools = () => {
 
     const items = userInfo.lockup_infos.map((info) => {
       const { assets, total_share } =
-        result[`pool${info.terraswap_lp_token}`]?.contractQuery;
+        result[`pool${info.astroport_lp_token}`]?.contractQuery;
       const { balance } =
-        result[`balance${info.terraswap_lp_token}`]?.contractQuery;
+        result[`balance${info.astroport_lp_token}`]?.contractQuery;
 
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 

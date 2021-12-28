@@ -218,7 +218,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     }
 
     if (num(amount1).gt(0) && num(token1Balance).div(ONE_TOKEN).lt(amount1)) {
-      return "Insufficient liquidity to swap";
+      return "insufficient assets in wallet";
     }
 
     return false;

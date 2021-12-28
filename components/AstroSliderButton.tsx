@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Box, Button, VStack, Text } from "@chakra-ui/react";
+import { num } from "@arthuryeti/terra";
 
 type Props = {
   value: number;
@@ -22,10 +23,10 @@ const AstroSliderButton: FC<Props> = ({
   const ratioFixed = parseFloat(ratio.toFixed(2));
 
   const handleClick = () => {
-    const target = Math.round(value * (1 / 4) * max);
+    const target = value * (1 / 4) * max;
 
     if (onClick) {
-      onClick(target);
+      onClick(num(target).dp(4).toNumber());
     }
   };
 
