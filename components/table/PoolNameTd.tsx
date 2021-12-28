@@ -27,7 +27,7 @@ const PoolNameTd: FC<Props> = ({ assets, pairType }) => {
           {getSymbol(token1)}-{getSymbol(token2)}
         </Text>
         <Text textStyle="medium" variant="dimmed">
-          ({formattedFee}%)
+          ({formattedFee}% fee)
         </Text>
       </HStack>
     </HStack>
