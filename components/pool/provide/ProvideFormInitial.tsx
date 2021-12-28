@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { num, useBalance } from "@arthuryeti/terra";
 

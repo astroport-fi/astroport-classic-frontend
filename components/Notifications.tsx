@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Text, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 
 import { useAstroswap } from "modules/common";

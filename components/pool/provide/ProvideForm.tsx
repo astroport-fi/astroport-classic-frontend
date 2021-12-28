@@ -1,6 +1,7 @@
 import React, { FC, useState, useCallback } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import { PairResponse, useAstroswap } from "modules/common";
@@ -43,6 +44,7 @@ const ProvideForm: FC<Props> = ({
 }) => {
   const { addNotification } = useAstroswap();
   const [showConfirm, setShowConfirm] = useState(false);
+  const router = useRouter();
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: pool?.token1.asset,
@@ -67,7 +69,7 @@ const ProvideForm: FC<Props> = ({
     amount2: toTerraAmount(debouncedAmount2),
     autoStake,
     onBroadcasting: (txHash) => {
-      resetForm();
+      router.push("/pools");
       addNotification({
         notification: {
           type: "started",
