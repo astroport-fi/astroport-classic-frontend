@@ -139,6 +139,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
           type: "started",
           txHash,
           txType: "swap",
+          data: {
+            token1,
+            token2,
+          },
         },
       });
     },

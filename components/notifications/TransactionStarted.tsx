@@ -7,9 +7,10 @@ type Props = {
   onClose: () => void;
   txHash: string;
   txType: string;
+  data?: any;
 };
 
-const TransactionStarted: FC<Props> = ({ onClose, txHash, txType }) => {
+const TransactionStarted: FC<Props> = ({ onClose, txHash, txType, data }) => {
   const { addNotification } = useAstroswap();
   const handleSuccess = useCallback(
     (_, txInfo) => {
@@ -19,6 +20,7 @@ const TransactionStarted: FC<Props> = ({ onClose, txHash, txType }) => {
           txHash,
           txInfo,
           txType,
+          data,
         },
       });
 

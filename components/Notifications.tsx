@@ -18,7 +18,7 @@ import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotif
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
 
-  const renderContent = ({ txInfo, txType, type }: any) => {
+  const renderContent = ({ txInfo, txType, type, data }: any) => {
     if (type === "started") {
       return;
     }
@@ -26,7 +26,7 @@ const Notifications: FC = () => {
       return <FailedNotification txInfo={txInfo} />;
     }
     if (txType === "swap") {
-      return <SwapNotification txInfo={txInfo} />;
+      return <SwapNotification txInfo={txInfo} data={data} />;
     }
     if (txType === "provide") {
       return <ProvideNotification txInfo={txInfo} />;
@@ -51,27 +51,30 @@ const Notifications: FC = () => {
   return (
     <VStack position="absolute" top="0" right="2rem">
       <AnimatePresence initial={false}>
-        {notifications.items?.map(({ id, txHash, txInfo, txType, type }) => {
-          const Component = {
-            started: TransactionStartedNotification,
-            succeed: TransactionNotification,
-            failed: TransactionNotification,
-          }[type];
+        {notifications.items?.map(
+          ({ id, txHash, txInfo, txType, type, data }) => {
+            const Component = {
+              started: TransactionStartedNotification,
+              succeed: TransactionNotification,
+              failed: TransactionNotification,
+            }[type];
 
-          return (
-            <Component
-              key={id}
-              txHash={txHash}
-              txType={txType}
-              type={type}
-              onClose={() => {
-                removeNotification({ notificationId: id });
-              }}
-            >
-              {renderContent({ txHash, txInfo, txType, type })}
-            </Component>
-          );
-        })}
+            return (
+              <Component
+                key={id}
+                txHash={txHash}
+                txType={txType}
+                type={type}
+                data={data}
+                onClose={() => {
+                  removeNotification({ notificationId: id });
+                }}
+              >
+                {renderContent({ txHash, txInfo, txType, type, data })}
+              </Component>
+            );
+          }
+        )}
       </AnimatePresence>
     </VStack>
   );

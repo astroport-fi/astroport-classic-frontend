@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import { Text, Box } from "@chakra-ui/react";
 
 import LpTokenCard from "components/common/LpTokenCard";
@@ -30,16 +30,16 @@ const FormSummary: FC<Props> = ({ label, tokens }) => {
         }
 
         return (
-          <>
+          <Fragment key={token.asset}>
             {token.label && (
               <Text mb="1" px="2" textStyle="small" variant="secondary">
                 {token.label}
               </Text>
             )}
-            <Box key={token.asset} mb="3" _last={{ mb: "0" }}>
+            <Box mb="3" _last={{ mb: "0" }}>
               <TokenCard token={token} />
             </Box>
-          </>
+          </Fragment>
         );
       })}
       {/* {token2 && (

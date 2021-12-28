@@ -6,6 +6,7 @@ type NotificationPayload =
       txHash: string;
       txInfo?: TxInfo;
       txType?: string;
+      data?: any;
     }
   | {
       type: "succeed";
@@ -13,6 +14,7 @@ type NotificationPayload =
       txInfo?: TxInfo;
       txType?: string;
       originalTransaction?: string;
+      data?: any;
     }
   | {
       type: "failed";
@@ -20,6 +22,7 @@ type NotificationPayload =
       txInfo?: TxInfo;
       txType?: string;
       originalTransaction?: string;
+      data?: any;
     };
 
 export type Notification = { id: string } & NotificationPayload;
