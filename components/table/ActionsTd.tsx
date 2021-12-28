@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 // import GraphIcon from "components/icons/GraphIcon";
 
 import { num, useBalance } from "@arthuryeti/terra";
-import { getTokenDenom } from "modules/common";
+// import { getTokenDenom } from "modules/common";
 
 type Props = {
   row: any;
@@ -30,6 +30,14 @@ const ActionsTd: FC<Props> = ({ row }) => {
       );
     }
 
+    const renderURL = () => {
+      if (token2 == "uusd") {
+        return `/swap?from=${token2}&to=${token1}`;
+      } else {
+        return `/swap?from=${token1}&to=${token2}`;
+      }
+    };
+
     if (canManageLiquidity) {
       return (
         <Link href={`/pools/${contract}`} passHref>
@@ -41,7 +49,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
     }
 
     return (
-      <Link href={`/swap?from=${token1}&to=${token2}`} passHref>
+      <Link href={renderURL()} passHref>
         <Button as="a" size="sm" variant="silent" minW="40">
           Get Token
         </Button>
