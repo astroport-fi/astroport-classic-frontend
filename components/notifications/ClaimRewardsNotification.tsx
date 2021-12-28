@@ -19,8 +19,6 @@ const ClaimRewardsNotification: FC<Props> = ({ txInfo }) => {
     queryClient.invalidateQueries("userInfo");
   }, []);
 
-  console.log("logs", logs);
-
   return <Text textStyle="medium">Rewards Claimed</Text>;
 };
 

@@ -10,8 +10,6 @@ const AuctionActionsTd: FC<Props> = ({ row }) => {
   const { contract, assets, isClaimable } = row.original;
   const [token1, token2] = assets;
 
-  console.log(contract);
-
   const renderButton = () => {
     if (!isClaimable) {
       return (

@@ -140,9 +140,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
         },
       });
     },
-    onError: () => {
-      resetForm();
-    },
   });
 
   const onSubmit = useCallback(() => {

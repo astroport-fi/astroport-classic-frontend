@@ -11,10 +11,8 @@ import NewAmountInput from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
 import PoolActions from "components/pool/PoolActions";
-import PoolHeader from "components/pool/PoolHeader";
 import AstroSlider from "components/AstroSlider";
 import TokenInput from "components/TokenInput";
-import { useConfig, useUserInfo } from "modules/auction";
 
 type Props = {
   pool: any;
@@ -44,11 +42,6 @@ const WithdrawFormInitial: FC<Props> = ({
 
   const balance = useBalance(token);
   const formattedBalance = fromTerraAmount(balance, "0.000000");
-
-  const userInfo = useUserInfo();
-  const config = useConfig();
-  console.log("userInfo", userInfo);
-  console.log("config", config);
 
   const handleChange = (value: number) => {
     setValue("amount", String(value));

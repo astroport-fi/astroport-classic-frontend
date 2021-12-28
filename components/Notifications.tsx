@@ -6,6 +6,7 @@ import { useAstroswap } from "modules/common";
 
 import TransactionNotification from "components/notifications/Transaction";
 import TransactionStartedNotification from "components/notifications/TransactionStarted";
+import FailedNotification from "components/notifications/FailedNotification";
 import SwapNotification from "components/notifications/SwapNotification";
 import ProvideNotification from "components/notifications/ProvideNotification";
 import WithdrawNotification from "components/notifications/WithdrawNotification";
@@ -16,9 +17,12 @@ import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotif
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
 
-  const renderContent = ({ id, txHash, txInfo, txType, type }: any) => {
+  const renderContent = ({ txInfo, txType, type }: any) => {
     if (type === "started") {
       return;
+    }
+    if (type === "failed") {
+      return <FailedNotification txInfo={txInfo} />;
     }
     if (txType === "swap") {
       return <SwapNotification txInfo={txInfo} />;

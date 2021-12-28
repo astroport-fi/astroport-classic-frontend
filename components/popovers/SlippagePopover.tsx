@@ -39,8 +39,6 @@ const SlippagePopover: FC<Props> = ({
     md: "left",
   }) as PlacementWithLogical;
 
-  console.log(value);
-
   return (
     <PopoverWrapper
       title="Settings"

@@ -27,17 +27,21 @@ const TransactionStarted: FC<Props> = ({ onClose, txHash, txType }) => {
     [txHash]
   );
 
-  const handleError = useCallback(() => {
-    addNotification({
-      notification: {
-        type: "failed",
-        txHash,
-        txType,
-      },
-    });
+  const handleError = useCallback(
+    (_, txInfo) => {
+      addNotification({
+        notification: {
+          type: "failed",
+          txInfo,
+          txHash,
+          txType,
+        },
+      });
 
-    onClose();
-  }, [txHash]);
+      onClose();
+    },
+    [txHash]
+  );
 
   useTxInfo({ txHash, onSuccess: handleSuccess, onError: handleError });
 

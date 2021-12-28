@@ -70,13 +70,6 @@ export const useAstroPools = () => {
       return [];
     }
 
-    console.log(
-      "userInfo.lockup_infos",
-      userInfo.lockup_infos.map((info) => ({
-        lp: info.terraswap_lp_token,
-      }))
-    );
-
     const items = userInfo.lockup_infos.map((info) => {
       const { assets, total_share } =
         result[`pool${info.terraswap_lp_token}`]?.contractQuery;
