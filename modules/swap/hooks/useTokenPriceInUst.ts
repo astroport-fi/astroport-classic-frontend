@@ -32,7 +32,7 @@ export const useTokenPriceInUst = (token: string | null) => {
         client,
         swapRoute: swapRouteInLuna,
         token,
-        amount: "1000000",
+        amount: "100000",
         reverse: false,
       });
     },
@@ -80,7 +80,7 @@ export const useTokenPriceInUst = (token: string | null) => {
         const bLunaPrice = num(bLunaData.return_amount)
           // @ts-expect-error
           .plus(bLunaData.commission_amount)
-          .div(10 ** 6)
+          .div(10 ** 5)
           .toNumber();
 
         // const result = await simulateMonoSwap();

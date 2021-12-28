@@ -160,6 +160,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
         },
       });
     },
+    onError: () => {
+      setShowConfirm(false);
+      setIsPosting(false);
+    },
   });
 
   const onSubmit = useCallback(() => {

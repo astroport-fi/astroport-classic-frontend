@@ -8,6 +8,7 @@ import { useSwapRoute } from "modules/swap";
 import { getAssetAmountsInPool } from "libs/terra";
 
 import { useGetPool } from "modules/pool";
+import BigNumber from "bignumber.js";
 
 type Params = {
   from: string;
@@ -39,7 +40,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
         client,
         swapRoute: swapRoute,
         token: to,
-        amount: "10000",
+        amount: "100000",
         reverse: false,
       });
     },
@@ -57,16 +58,19 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
     if (swapRoute.length == 1 && swapRoute[0].type == "stable") {
       // @ts-expect-error
       const bLunaPrice = num(bLunaData.return_amount)
-        .div(10 ** 4)
+        // @ts-expect-error
+        .plus(bLunaData.commission_amount)
+        .div(10 ** 5)
         .toNumber();
 
-      return num(bLunaPrice)
-        .minus(price)
-        .div(price)
-        .abs()
-        .times(100)
-        .dp(2)
-        .toNumber();
+      return Math.max(
+        num(1)
+          .minus(num(bLunaPrice).div(price))
+          .times(100)
+          .dp(2, BigNumber.ROUND_HALF_UP)
+          .toNumber(),
+        0.05
+      );
     }
 
     if (swapRoute.length == 1 && swapRoute[0].type == "xyk") {
