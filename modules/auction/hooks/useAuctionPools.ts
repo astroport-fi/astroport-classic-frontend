@@ -67,6 +67,7 @@ export const useAuctionPools = () => {
         name: config.pool_info?.astro_ust_pool_address,
         contract: config.pool_info?.astro_ust_pool_address,
         assets: [astroToken, "uusd"],
+        pairType: "xyk",
         totalLiquidity,
         totalLiquidityInUst,
         myLiquidity,
