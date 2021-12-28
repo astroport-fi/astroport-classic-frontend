@@ -3,8 +3,12 @@ import { Box, Flex, Button, Text, useDisclosure } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import numeral from "numeral";
 
-import { useTokenInfo } from "modules/common";
-import { usePriceImpact, usePriceImpactColor } from "modules/swap";
+import { useTokenInfo, Route } from "modules/common";
+import {
+  usePriceImpact,
+  usePriceImpactColor,
+  useSwapRoutePath,
+} from "modules/swap";
 
 import FormFee from "components/common/FormFee";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
@@ -17,6 +21,7 @@ type Props = {
   fee: any;
   price: string;
   isLoading: boolean;
+  swapRoute: Route[];
   isFormValid: boolean;
   error: any;
   onConfirmClick: () => void;
@@ -30,16 +35,46 @@ const SwapFormFooter: FC<Props> = ({
   price,
   isLoading,
   isFormValid,
+  swapRoute,
   error,
   fee,
   onConfirmClick,
 }) => {
+  const swapRoutePath = useSwapRoutePath(swapRoute);
   const { getSymbol } = useTokenInfo();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
   const priceImpactColor = usePriceImpactColor(priceImpact);
   const formattedPrice = numeral(price).format("0,0.00[000]").toString();
   const address = useAddress();
+
+  const renderRightMetric = () => {
+    if (!isFormValid) {
+      return null;
+    }
+
+    if (swapRoute?.length > 1) {
+      return (
+        <>
+          <Text textStyle="medium">{swapRoutePath}</Text>
+          <Text textStyle="small" variant="dimmed">
+            Route
+          </Text>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Text textStyle="medium" color={priceImpactColor}>
+          {priceImpact}%
+        </Text>
+        <Text textStyle="small" variant="dimmed">
+          Price Impact
+        </Text>
+      </>
+    );
+  };
 
   return (
     <Flex justify="space-between" px="12" mt="6">
@@ -82,16 +117,7 @@ const SwapFormFooter: FC<Props> = ({
       </Flex>
 
       <Box flex="1" textAlign="right" color="white" mt="1">
-        {isFormValid && (
-          <>
-            <Text textStyle="medium" color={priceImpactColor}>
-              {priceImpact}%
-            </Text>
-            <Text textStyle="small" variant="dimmed">
-              Price Impact
-            </Text>
-          </>
-        )}
+        {renderRightMetric()}
       </Box>
     </Flex>
   );

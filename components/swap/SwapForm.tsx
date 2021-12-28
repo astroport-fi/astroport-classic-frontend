@@ -195,11 +195,11 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     }
 
     if (num(amount1).eq(0) || num(amount2).eq(0)) {
-      return "You should set an amount";
+      return "Both amounts must be greater than 0";
     }
 
     if (num(amount1).gt(0) && num(token1Balance).div(ONE_TOKEN).lt(amount1)) {
-      return "You don't have enough token";
+      return "Insufficient liquidity to swap";
     }
 
     return false;
@@ -235,6 +235,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               amount2={amount2}
               isLoading={feeIsLoading}
               price={simulated?.price}
+              swapRoute={swapRoute}
               fee={fee}
               error={error}
               isFormValid={isFormValid}

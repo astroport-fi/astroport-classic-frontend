@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Text, Stack, VStack, Box } from "@chakra-ui/react";
+import { Text, Box } from "@chakra-ui/react";
 
 import LpTokenCard from "components/common/LpTokenCard";
 import TokenCard from "components/common/TokenCard";
