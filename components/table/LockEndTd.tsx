@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { HStack, Text } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+// import { fromTerraAmount } from "@arthuryeti/terra";
 import dayjs from "dayjs";
 
 type Props = {
@@ -23,7 +23,7 @@ const LockEndTd: FC<Props> = ({ row }) => {
 
   return (
     <HStack spacing="3">
-      <Text fontSize="sm">{date.format("MM/DD/YY")}</Text>
+      <Text fontSize="sm">{date.format("MMM/DD/YY")}</Text>
       <Text textStyle="medium" variant="dimmed">
         ({remainingDays}d)
       </Text>
