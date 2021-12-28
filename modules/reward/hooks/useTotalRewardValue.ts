@@ -5,7 +5,7 @@ import { usePhase1Rewards, usePhase2Rewards } from "modules/reward";
 import { useAirdropBalance } from "modules/airdrop";
 import { useTokenPriceInUst } from "modules/swap";
 
-export const useTotalRewardValueInUst = () => {
+export const useTotalRewardValue = () => {
   const { astroToken } = useContracts();
   const price = useTokenPriceInUst(astroToken);
   const phase1Rewards = usePhase1Rewards();
@@ -17,4 +17,4 @@ export const useTotalRewardValueInUst = () => {
   }, [airdropBalance, phase1Rewards, phase2Rewards, price]);
 };
 
-export default useTotalRewardValueInUst;
+export default useTotalRewardValue;

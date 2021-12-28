@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 
-import { useTotalRewardValueInUst } from "modules/reward";
+import { useTotalRewardValue } from "modules/reward";
 
 import RewardCenterPopover from "components/popovers/RewardCenterPopover";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const RewardCenter: FC = () => {
-  const valueInUst = useTotalRewardValueInUst();
-  const formatted = numeral(valueInUst).format("0,0.00");
+  const totalValue = useTotalRewardValue();
+  const formatted = numeral(totalValue).format("0,0.00");
 
   return (
     <RewardCenterPopover
@@ -25,7 +25,7 @@ const RewardCenter: FC = () => {
         >
           <Flex justify="space-between" align="center">
             <MoneyStackIcon width="1.25rem" height="1.25rem" />
-            <Text fontSize="sm">$ {formatted}</Text>
+            <Text fontSize="sm">{formatted} ASTRO</Text>
           </Flex>
         </chakra.button>
       )}

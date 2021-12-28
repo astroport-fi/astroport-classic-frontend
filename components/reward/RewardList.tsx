@@ -6,7 +6,7 @@ import { useContracts } from "modules/common";
 import {
   usePhase1Rewards,
   usePhase2Rewards,
-  useTotalRewardValueInUst,
+  useTotalRewardValue,
 } from "modules/reward";
 import { useAirdropBalance } from "modules/airdrop";
 
@@ -20,8 +20,8 @@ const RewardList: FC = () => {
   const airdrop = numeral(airdropBalance).format("0,0.00");
   const phase1 = numeral(phase1Rewards).format("0,0.00");
   const phase2 = numeral(phase2Rewards).format("0,0.00");
-  const valueInUst = useTotalRewardValueInUst();
-  const formatted = numeral(valueInUst).format("0,0.00");
+  const total = useTotalRewardValue();
+  const formatted = numeral(total).format("0,0.00");
 
   return (
     <Box>
@@ -29,9 +29,9 @@ const RewardList: FC = () => {
         <Text textStyle="minibutton" fontSize="xs">
           Total Rewards
         </Text>
-        <VStack align="flex-end" spacing={1}>
+        <VStack align="flex-end" spacing={1} ml="8">
           <Text textStyle="h3" lineHeight="1">
-            $ {formatted}
+            {formatted} ASTRO
           </Text>
           <Text textStyle="small" variant="dimmed">
             Unclaimed Balance
@@ -39,11 +39,13 @@ const RewardList: FC = () => {
         </VStack>
       </Flex>
 
-      <Box mt={6}>
-        <Text textStyle="minibutton" fontSize="xs">
-          Your ASTRO Airdrop
-        </Text>
-      </Box>
+      {total > 0 && (
+        <Box mt={6}>
+          <Text textStyle="minibutton" fontSize="xs">
+            Your ASTRO Rewards
+          </Text>
+        </Box>
+      )}
 
       {airdropBalance > 0 && (
         <Box mt={6}>
