@@ -40,7 +40,7 @@ const FormLoading: FC<Props> = ({ txHash }) => {
       />
       <Card>
         {txHash == null && (
-          <Heading fontSize="xl" fontWeight="500">
+          <Heading fontSize="xl" fontWeight="500" textAlign="center">
             Waiting for Terra Station
           </Heading>
         )}
