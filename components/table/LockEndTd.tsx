@@ -11,22 +11,16 @@ const LockEndTd: FC<Props> = ({ row }) => {
   const { lockEnd } = row.original;
   const date = dayjs.unix(lockEnd);
 
-  if (date.isBefore(Date.now())) {
-    return (
-      <Text textStyle="medium" color="green.500">
-        unlocked
-      </Text>
-    );
-  }
-
   const remainingDays = date.diff(Date.now(), "day", false);
 
   return (
     <HStack spacing="3">
       <Text fontSize="sm">{date.format("MMM/DD/YY")}</Text>
-      <Text textStyle="medium" variant="dimmed">
-        ({remainingDays}d)
-      </Text>
+      {remainingDays > 0 && (
+        <Text textStyle="medium" variant="dimmed">
+          ({remainingDays}d)
+        </Text>
+      )}
     </HStack>
   );
 };

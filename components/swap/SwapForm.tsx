@@ -43,6 +43,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     network: { name: networkName },
   } = useWallet();
   const [currentInput, setCurrentInput] = useState(null);
+  const [customError, setCustomError] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
   const [slippageSetting, setSlippageSetting] = useLocalStorage(
     "slippageSetting",
@@ -86,6 +87,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     [isReverse]
   );
 
+  const handleError = useCallback(() => {
+    setCustomError("Invalid amount of tokens to receive.");
+  }, []);
+
   useEffect(() => {
     methods.reset();
   }, [networkName]);
@@ -104,6 +109,12 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     }
   }, [token1, token2]);
 
+  useEffect(() => {
+    if (customError) {
+      setCustomError(null);
+    }
+  }, [token1, token2, amount1, amount2]);
+
   const handleInputChange = (value) => {
     setCurrentInput(value);
   };
@@ -116,6 +127,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     amount2: toTerraAmount(debouncedAmount2),
     slippage: num(slippage).div(100).toString(),
     onSimulateSuccess: handleSuccess,
+    onSimulateError: handleError,
     reverse: isReverse,
   });
 
@@ -185,15 +197,20 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       amount1 == "" ||
       amount2 == "" ||
       num(amount1).eq(0) ||
-      num(amount2).eq(0)
+      num(amount2).eq(0) ||
+      customError
     ) {
       return false;
     }
 
     return true;
-  }, [token1, amount1, token2, amount2]);
+  }, [token1, amount1, token2, amount2, customError]);
 
   const error = useMemo(() => {
+    if (customError) {
+      return customError;
+    }
+
     if (amount1 == "" || amount2 == "") {
       return false;
     }
@@ -207,7 +224,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     }
 
     return false;
-  }, [token1, amount1, token2, amount2, simulated]);
+  }, [token1, amount1, token2, amount2, simulated, customError]);
 
   if (isPosting) {
     return <FormLoading txHash={txHash} />;

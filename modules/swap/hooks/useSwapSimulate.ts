@@ -87,6 +87,8 @@ export const useSwapSimulate = ({
     {
       enabled: isQueryEnabled,
       refetchOnWindowFocus: false,
+      retry: false,
+      onError,
     }
   );
 

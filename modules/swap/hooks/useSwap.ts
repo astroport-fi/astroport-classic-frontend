@@ -15,6 +15,7 @@ type Params = {
   slippage: string;
   reverse: boolean;
   onSimulateSuccess?: (item: any) => void;
+  onSimulateError?: (e: any) => void;
 };
 
 export const useSwap = ({
@@ -25,6 +26,7 @@ export const useSwap = ({
   amount2,
   slippage,
   reverse = false,
+  onSimulateError,
   onSimulateSuccess,
 }: Params) => {
   const address = useAddress();
@@ -36,6 +38,7 @@ export const useSwap = ({
     token: reverse ? token2 : token1,
     reverse,
     onSuccess: onSimulateSuccess,
+    onError: onSimulateError,
   });
 
   const minReceive = useMemo(() => {
