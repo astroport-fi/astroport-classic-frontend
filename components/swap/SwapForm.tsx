@@ -133,7 +133,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
-      resetForm();
+      resetWithSameTokens();
       addNotification({
         notification: {
           type: "started",
@@ -141,6 +141,9 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
           txType: "swap",
         },
       });
+    },
+    onError: () => {
+      resetWithSameTokensAndAmount();
     },
   });
 
@@ -151,11 +154,27 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     });
   }, [msgs, fee]);
 
-  const resetForm = useCallback(() => {
-    methods.reset();
+  const resetWithSameTokens = useCallback(() => {
+    resetState();
+    methods.reset({
+      token1,
+      token2,
+      amount1: "",
+      amount2: "",
+    });
+  }, [token1, token2]);
+
+  const resetWithSameTokensAndAmount = useCallback(() => {
+    resetState();
+    methods.reset(null, {
+      keepValues: true,
+    });
+  }, []);
+
+  const resetState = useCallback(() => {
     setShowConfirm(false);
     setIsPosting(false);
-  }, [methods]);
+  }, []);
 
   const isFormValid = useMemo(() => {
     if (
@@ -171,6 +190,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   }, [token1, amount1, token2, amount2]);
 
   const error = useMemo(() => {
+    if (amount1 == "" || amount2 == "") {
+      return false;
+    }
+
     if (num(amount1).eq(0) || num(amount2).eq(0)) {
       return "You should set an amount";
     }
@@ -216,9 +239,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               error={error}
               isFormValid={isFormValid}
               onConfirmClick={() => {
-                expertMode
-                  ? methods.handleSubmit(onSubmit)()
-                  : setShowConfirm(true);
+                expertMode ? onSubmit() : setShowConfirm(true);
               }}
             />
           </>
