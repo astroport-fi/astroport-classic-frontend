@@ -50,6 +50,47 @@ const SwapFormConfirm: FC<Props> = ({
   });
   const priceImpactColor = usePriceImpactColor(priceImpact);
 
+  let details = [
+    {
+      label: "Price Impact",
+      value: `${priceImpact}%`,
+      color: priceImpactColor,
+    },
+    {
+      label: "Liquidity Provider fee",
+      value: `${fromTerraAmount(commission, "0,000")} UST`,
+    },
+    {
+      label: "Slippage Tolerance",
+      value: `${slippage}%`,
+    },
+    {
+      label: "Route",
+      value: swapRoutePath,
+    },
+    {
+      label: "Minimum received",
+      value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,
+    },
+  ];
+
+  if (swapRoute.length > 1) {
+    details = [
+      {
+        label: "Slippage Tolerance",
+        value: `${slippage}%`,
+      },
+      {
+        label: "Route",
+        value: swapRoutePath,
+      },
+      {
+        label: "Minimum received",
+        value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,
+      },
+    ];
+  }
+
   return (
     <FormConfirm
       fee={fee}
@@ -64,33 +105,7 @@ const SwapFormConfirm: FC<Props> = ({
           ]}
         />
       }
-      details={[
-        {
-          label: "Price Impact",
-          value: `${priceImpact}%`,
-          color: priceImpactColor,
-        },
-        {
-          label: "Liquidity Provider fee",
-          value: `${fromTerraAmount(commission, "0,000")} UST`,
-        },
-        {
-          label: "Slippage Tolerance",
-          value: `${slippage}%`,
-        },
-        {
-          label: "Route",
-          value: swapRoutePath,
-        },
-        // {
-        //   label: "Exchange Rate",
-        //   value: estimateExchangeRate(simulated),
-        // },
-        {
-          label: "Minimum received",
-          value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,
-        },
-      ]}
+      details={details}
       onCloseClick={onCloseClick}
     />
   );
