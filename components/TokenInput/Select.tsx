@@ -6,6 +6,8 @@ import {
   useDisclosure,
   Image,
   VStack,
+  useBreakpointValue,
+  PlacementWithLogical,
 } from "@chakra-ui/react";
 
 import PopoverWrapper from "components/popovers/PopoverWrapper";
@@ -40,8 +42,8 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
     if (value) {
       return (
         <>
-          <Box>
-            <Image src={icon} width="8" height="8" alt="Logo" flexShrink={0} />
+          <Box flexShrink={0}>
+            <Image src={icon} width="8" height="8" alt="Logo" />
           </Box>
           <Box ml="3" fontWeight="500" flex="1">
             <Text textStyle="h3">{getSymbol(value)}</Text>
@@ -60,11 +62,16 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
     return null;
   };
 
+  const placement = useBreakpointValue({
+    base: "top-start",
+    md: "right",
+  }) as PlacementWithLogical;
+
   return (
     <PopoverWrapper
       title="Select token"
+      placement={placement}
       isLazy
-      placement="right"
       isOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}
@@ -94,7 +101,7 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
         </Button>
       )}
     >
-      <VStack spacing={6} align="stretch" mt="1">
+      <VStack spacing={6} align="stretch" mt="1" w={["65", "96", null]}>
         <Search
           placeholder="Search token"
           onChange={(e) => setFilter(e.target.value)}

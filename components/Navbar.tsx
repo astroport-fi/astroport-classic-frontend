@@ -34,7 +34,7 @@ const Navbar: FC = () => {
     <Flex
       mx="auto"
       maxW="container.xl"
-      px={["6", null, "12"]}
+      px={["4", null, "12"]}
       pt="8"
       direction="column"
     >

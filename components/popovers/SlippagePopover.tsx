@@ -9,6 +9,8 @@ import {
   VStack,
   HStack,
   Text,
+  useBreakpointValue,
+  PlacementWithLogical,
 } from "@chakra-ui/react";
 
 import { DEFAULT_SLIPPAGE } from "constants/constants";
@@ -30,10 +32,15 @@ const SlippagePopover: FC<Props> = ({
   expertMode,
   onExpertModeChange,
 }) => {
+  const placement = useBreakpointValue({
+    base: "top-start",
+    md: "left",
+  }) as PlacementWithLogical;
+
   return (
     <PopoverWrapper
       title="Settings"
-      placement="left"
+      placement={placement}
       triggerElement={() => (
         <IconButton
           aria-label="Settings"
@@ -44,7 +51,7 @@ const SlippagePopover: FC<Props> = ({
         />
       )}
     >
-      <VStack mt="2" spacing="6" align="flex-start">
+      <VStack mt="2" spacing="6" align="flex-start" w={["56", null, "96"]}>
         <Box>
           <Text textStyle="minibutton">Expert mode</Text>
           <HStack mt={3}>
@@ -68,22 +75,29 @@ const SlippagePopover: FC<Props> = ({
         </Box>
         <Box>
           <Text textStyle="minibutton">Set slippage tolerance</Text>
-          <HStack mt={3} algign="stretch">
-            {tolerances.map((tolerance, index) => (
-              <Button
-                key={index}
-                variant="filter"
-                bg="brand.lightPurple"
-                isActive={value === tolerance}
-                onClick={() => {
-                  onChange(tolerance);
-                }}
-              >
-                {tolerance.toPrecision(1)}%
-              </Button>
-            ))}
+          <HStack
+            mt={3}
+            spacing={["0", null, "3"]}
+            align="stretch"
+            flexWrap="wrap"
+          >
+            <HStack mb={["3", null, "0"]}>
+              {tolerances.map((tolerance, index) => (
+                <Button
+                  key={index}
+                  variant="filter"
+                  bg="brand.lightPurple"
+                  isActive={value === tolerance}
+                  onClick={() => {
+                    onChange(tolerance);
+                  }}
+                >
+                  {tolerance.toPrecision(1)}%
+                </Button>
+              ))}
+            </HStack>
             <InputGroup
-              maxW="30%"
+              maxW={["100%", null, "30%"]}
               _focusWithin={{
                 color: "brand.purple",
               }}

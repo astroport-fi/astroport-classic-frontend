@@ -94,7 +94,7 @@ const WalletInfoPopover: FC = () => {
         </chakra.button>
       )}
     >
-      <Flex direction="column" justify="center">
+      <Flex direction="column" justify="center" w="96">
         <Flex flex={1} justify="space-between" align="center" py="2">
           <HStack flex={1}>
             <Image boxSize="8" src={icon} alt="" />

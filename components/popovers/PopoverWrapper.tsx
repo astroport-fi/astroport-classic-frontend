@@ -27,7 +27,7 @@ const PopoverWrapper: FC<Props> = ({
   return (
     <Popover {...props}>
       <PopoverTrigger>{triggerElement()}</PopoverTrigger>
-      <PopoverContent w="96">
+      <PopoverContent>
         <Flex align="center" justify="space-between" mb="4">
           <PopoverHeader>{title}</PopoverHeader>
           <PopoverCloseButton position="static" borderRadius="100%">

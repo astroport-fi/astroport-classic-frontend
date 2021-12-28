@@ -78,7 +78,7 @@ const SwapFormInitial: FC<Props> = ({
   const showError = !isDisabled && error;
 
   return (
-    <Box mt="24">
+    <Box mt={["8", null, "24"]} px={["4", null, "0"]}>
       <Flex justify="space-between" align="center" color="white" mb="6" px="6">
         <MotionBox
           flex="1"
@@ -114,12 +114,12 @@ const SwapFormInitial: FC<Props> = ({
         borderRadius="xl"
         bg="brand.blue"
         py="8"
-        px="12"
+        px={["4", "8", "12"]}
         border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: -30 }}
         animate={card1Control}
       >
-        <Flex>
+        <Flex direction={["column", null, "row"]}>
           <Box flex="1">
             <Controller
               name="token1"
@@ -130,7 +130,7 @@ const SwapFormInitial: FC<Props> = ({
               )}
             />
           </Box>
-          <Box flex="1" ml="8">
+          <Box flex="1" ml={[null, null, "8"]} mt={["4", null, "0"]}>
             <Controller
               name="amount1"
               control={control}
@@ -185,12 +185,12 @@ const SwapFormInitial: FC<Props> = ({
         borderRadius="xl"
         bg="brand.purple"
         py="8"
-        px="12"
+        px={["4", "8", "12"]}
         border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: 30 }}
         animate={card2Control}
       >
-        <Flex>
+        <Flex direction={["column", null, "row"]}>
           <Box flex="1">
             <Controller
               name="token2"
@@ -201,7 +201,7 @@ const SwapFormInitial: FC<Props> = ({
               )}
             />
           </Box>
-          <Box flex="1" ml="8">
+          <Box flex="1" ml={[null, null, "8"]} mt={["4", null, "0"]}>
             <Controller
               name="amount2"
               control={control}

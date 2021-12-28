@@ -9,7 +9,7 @@ const SwapFormWarning: FC<Props> = ({ children, ...props }) => (
   <Box
     bg="whiteAlpha.50"
     color="white"
-    px={12}
+    px={["4", "8", "12"]}
     pt={4}
     pb={5}
     borderRadius="2xl"
