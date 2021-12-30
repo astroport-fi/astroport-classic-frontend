@@ -4,6 +4,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
 import { WithdrawState } from "modules/pool";
+import { FormActions, FormActionItem } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 
 import Card from "components/Card";
@@ -53,13 +54,20 @@ const WithdrawFormInitial: FC<Props> = ({
 
   return (
     <>
-      <PoolActions
-        pool={pool}
-        type={type}
-        isChartOpen={isChartOpen}
-        onChartClick={setIsChartOpen}
-        onTypeClick={onTypeClick}
-      />
+      <FormActions>
+        <FormActionItem
+          label="Provide"
+          value={type}
+          type={PoolFormType.Provide}
+          onClick={() => onTypeClick(PoolFormType.Provide)}
+        />
+        <FormActionItem
+          label="Withdraw"
+          type={PoolFormType.Withdraw}
+          value={type}
+          onClick={() => onTypeClick(PoolFormType.Withdraw)}
+        />
+      </FormActions>
 
       <Card>
         <Flex>

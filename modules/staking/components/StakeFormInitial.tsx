@@ -1,18 +1,17 @@
 import React from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
-import { StakeLpTokenState, useStakedLpAmount } from "modules/lp";
-import { PoolFormType } from "types/common";
+import { StakeFormFooter, StakeLpTokenState } from "modules/staking";
 import { ONE_TOKEN } from "constants/constants";
+import { PoolFormType } from "types/common";
 
 import Card from "components/Card";
-import UnstakeFormFooter from "components/lp/unstake/UnstakeFormFooter";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import AstroSlider from "components/AstroSlider";
-import StakeActions from "components/lp/stake/StakeActions";
+import { FormActionItem, FormActions } from "modules/common";
 
 type Params = {
   state: StakeLpTokenState;
@@ -23,7 +22,7 @@ type Params = {
   onClick: () => void;
 };
 
-const UnstakeFormInitial = ({
+const StakeFormInitial = ({
   type,
   onTypeClick,
   isChartOpen,
@@ -35,8 +34,8 @@ const UnstakeFormInitial = ({
 
   const token = watch("token");
   const amount = watch("amount");
-  const stakedAmount = useStakedLpAmount(token);
-  const max = num(stakedAmount).div(ONE_TOKEN).toNumber();
+  const balance = useBalance(token);
+  const max = num(balance).div(ONE_TOKEN).toNumber();
 
   const handleChange = (value: number) => {
     setValue("amount", String(value));
@@ -44,18 +43,26 @@ const UnstakeFormInitial = ({
 
   return (
     <>
-      <StakeActions
-        type={type}
-        isChartOpen={isChartOpen}
-        onChartClick={onChartClick}
-        onTypeClick={onTypeClick}
-      />
+      <FormActions>
+        <FormActionItem
+          label="Stake"
+          value={type}
+          type={PoolFormType.Stake}
+          onClick={() => onTypeClick(PoolFormType.Stake)}
+        />
+        <FormActionItem
+          label="Unstake"
+          type={PoolFormType.Unstake}
+          value={type}
+          onClick={() => onTypeClick(PoolFormType.Unstake)}
+        />
+      </FormActions>
 
       <Card mb="2">
         <Text textStyle="small" variant="secondary">
-          Unstake your LP tokens below. Any ASTRO rewards accrued can be claimed
-          in your rewards center. If you unstake all of your LP tokens, you stop
-          receiving ASTRO and potential third party rewards.
+          ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
+          Astroport LP tokens here to receive ASTRO governance tokens AND
+          third-party governance tokens.
         </Text>
       </Card>
 
@@ -77,11 +84,7 @@ const UnstakeFormInitial = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput
-                  asset={token}
-                  balance={stakedAmount}
-                  {...field}
-                />
+                <NewAmountInput asset={token} {...field} />
               )}
             />
           </Box>
@@ -108,9 +111,9 @@ const UnstakeFormInitial = ({
         </Card>
       )}
 
-      <UnstakeFormFooter data={state} onConfirmClick={onClick} />
+      <StakeFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };
 
-export default UnstakeFormInitial;
+export default StakeFormInitial;

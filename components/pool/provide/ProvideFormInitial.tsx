@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
 
 import Card from "components/Card";
 import NewAmountInput from "components/NewAmountInput";
@@ -118,13 +118,20 @@ const ProvideFormInitial: FC<Props> = ({
 
   return (
     <>
-      <PoolActions
-        pool={pool}
-        type={type}
-        isChartOpen={isChartOpen}
-        onChartClick={onChartClick}
-        onTypeClick={onTypeClick}
-      />
+      <FormActions>
+        <FormActionItem
+          label="Provide"
+          value={type}
+          type={PoolFormType.Provide}
+          onClick={() => onTypeClick(PoolFormType.Provide)}
+        />
+        <FormActionItem
+          label="Withdraw"
+          type={PoolFormType.Withdraw}
+          value={type}
+          onClick={() => onTypeClick(PoolFormType.Withdraw)}
+        />
+      </FormActions>
 
       <PoolHeader
         pool={pool}
@@ -209,7 +216,7 @@ const ProvideFormInitial: FC<Props> = ({
         onConfirmClick={onClick}
       />
 
-      {/* <Flex mt={4} mb={8} justifyContent="center">
+      <Flex mt={4} mb={8} justifyContent="center">
         <Controller
           name="autoStake"
           control={control}
@@ -226,7 +233,7 @@ const ProvideFormInitial: FC<Props> = ({
             </Checkbox>
           )}
         />
-      </Flex> */}
+      </Flex>
     </>
   );
 };

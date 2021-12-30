@@ -23,20 +23,20 @@ const createQuery = (pairs, address) => {
 
   return gql`
     {
-      ${pairs.map(({ lp, contract }) => {
+      ${pairs.map(({ liquidity_token, contract_addr }) => {
         return `
-          pool${lp}: wasm {
+          pool${liquidity_token}: wasm {
             contractQuery(
-              contractAddress: "${contract}"
+              contractAddress: "${contract_addr}"
               query: {
                 pool: { }
               }
             )
           }
 
-          balance${lp}: wasm {
+          balance${liquidity_token}: wasm {
             contractQuery(
-              contractAddress: "${lp}"
+              contractAddress: "${liquidity_token}"
               query: {
                 balance: {
                   address: "${address}"
@@ -51,8 +51,8 @@ const createQuery = (pairs, address) => {
 };
 
 export const useAstroPools = () => {
-  // const { pairs } = useAstroswap();
-  const { lockdrop, pairs } = useContracts();
+  const { pairs } = useAstroswap();
+  const { lockdrop } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
   const bLunaPrice = useBLunaPriceInLuna();
@@ -74,7 +74,10 @@ export const useAstroPools = () => {
     }
 
     const filteredItems = userInfo.lockup_infos.filter((info) => {
-      return info.astroport_lp_transferred == null;
+      return (
+        info.astroport_lp_transferred == null &&
+        result[`pool${info.astroport_lp_token}`] != null
+      );
     });
 
     const items = filteredItems.map((info) => {
@@ -82,7 +85,9 @@ export const useAstroPools = () => {
         result[`pool${info.astroport_lp_token}`]?.contractQuery;
       const { balance } =
         result[`balance${info.astroport_lp_token}`]?.contractQuery;
-
+      const pair = pairs.find(
+        (pair) => pair.liquidity_token == info.astroport_lp_token
+      );
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
       let amountOfUst = num(token1).div(ONE_TOKEN).times(2).dp(6).toNumber();
@@ -116,8 +121,7 @@ export const useAstroPools = () => {
         name: info.terraswap_lp_token,
         astroLpToken: info.astroport_lp_token,
         assets: getPoolTokenDenoms(assets),
-        // TODO: change once LPs are migrated to Astro
-        pairType: "xyk",
+        pairType: Object.keys(pair?.pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,
         myLiquidity,

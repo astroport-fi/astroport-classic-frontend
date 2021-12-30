@@ -1,10 +1,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, HStack } from "@chakra-ui/react";
-// import GraphIcon from "components/icons/GraphIcon";
-
+import { Button, HStack, ButtonGroup } from "@chakra-ui/react";
 import { num, useBalance } from "@arthuryeti/terra";
-// import { getTokenDenom } from "modules/common";
 
 type Props = {
   row: any;
@@ -41,7 +38,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
     if (canManageLiquidity) {
       return (
         <Link href={`/pools/${contract}`} passHref>
-          <Button as="a" variant="primary" size="sm" px="0" minW="40">
+          <Button as="a" variant="primary" size="sm" px="0" minW="20">
             Manage
           </Button>
         </Link>

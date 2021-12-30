@@ -23,8 +23,6 @@ const LockdropUnlockLpNotification: FC<Props> = ({ txInfo, data }) => {
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
 
-  console.log(data);
-
   useEffect(() => {
     queryClient.invalidateQueries("userInfo");
     queryClient.invalidateQueries("balance");

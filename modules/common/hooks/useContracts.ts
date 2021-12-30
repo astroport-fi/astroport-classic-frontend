@@ -100,9 +100,9 @@ const defaultContracts: { [key: string]: any } = {
     staking: "terra1ym46q3cv0vnu6sg7hwch9ewdpnvwdaauxwqg7q",
     maker: "terra1mlntg5c7yq9wp0jzachm0ersk5sar3sfagj0f2",
     generator: "terra1yz7pfpxt2ylnffxskxq7ydd292655rsx8dl89q",
-    lockdrop: "terra1kmrjyvlvs6s5aakyhjrdc9csz4jdfl600f97zf",
-    airdrop: "terra1p0nx4a0m5mnq09wtprh4hlwlw526k3d7e7hwys",
-    auction: "terra1w8a843gs79ak87yr2lkype2mks93fyhte8cks6",
+    lockdrop: "terra135elmt965n2nm9mwgpv4rf99tsn5xsm360jm6x",
+    airdrop: "terra1fz4edcv8ht60jzhdg98dn67pe3n26989rn562j",
+    auction: "terra1xsnfmfsa9p2ru6k7cp5gkqyg7eyef64q96kn0m",
     pairs: [
       {
         contract: "terra13p2rtuujytdtkq8yfyk023etg07j2pqk5jj6gt",

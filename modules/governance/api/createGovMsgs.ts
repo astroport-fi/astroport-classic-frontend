@@ -1,5 +1,6 @@
 import { toBase64 } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
+
 import { ONE_TOKEN } from "constants/constants";
 
 export const createAstroStakeMsgs = (

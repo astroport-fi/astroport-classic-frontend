@@ -8,7 +8,7 @@ import {
 } from "@arthuryeti/terra";
 
 import { useContracts } from "modules/common";
-import { createUnstakeLpMsgs } from "modules/lp";
+import { createUnstakeLpMsgs } from "modules/staking";
 import { TxInfo } from "@terra-money/terra.js";
 
 export type UnstakeLpTokenState = {

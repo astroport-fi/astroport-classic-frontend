@@ -1,19 +1,15 @@
-import React, { FC, useCallback, useState, useEffect } from "react";
-import { chakra, Text, useToast } from "@chakra-ui/react";
+import React, { FC, useState, useCallback } from "react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep } from "@arthuryeti/terra";
 
-import { useUnstakeLpToken } from "modules/lp";
-import { getTokenDenoms, PairResponse, useAstroswap } from "modules/common";
+import { PairResponse, useAstroswap } from "modules/common";
+import { StakeFormInitial, useStakeLpToken } from "modules/staking";
 import { PoolFormType } from "types/common";
 
 import FormLoading from "components/common/FormLoading";
-import FormError from "components/common/FormError";
 import FormConfirm from "components/common/FormConfirm";
-import FormSuccess from "components/common/FormSuccess";
 import FormSummary from "components/common/FormSummary";
-import UnstakeFormInitial from "components/lp/unstake/UnstakeFormInitial";
-import TransactionNotification from "components/notifications/Transaction";
 
 type FormValues = {
   token: string;
@@ -29,16 +25,15 @@ type Props = {
   onChartClick: () => void;
 };
 
-const UnstakeForm: FC<Props> = ({
+const StakeForm: FC<Props> = ({
   pair,
   type,
   onTypeClick,
   isChartOpen,
   onChartClick,
 }) => {
-  const [showConfirm, setShowConfirm] = useState(false);
-
   const { addNotification } = useAstroswap();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -51,7 +46,7 @@ const UnstakeForm: FC<Props> = ({
   const token = watch("token");
   const amount = watch("amount");
 
-  const state = useUnstakeLpToken({
+  const state = useStakeLpToken({
     token,
     amount,
     onBroadcasting: (txHash) => {
@@ -60,7 +55,7 @@ const UnstakeForm: FC<Props> = ({
         notification: {
           type: "started",
           txHash,
-          txType: "unstakeLp",
+          txType: "stakeLp",
         },
       });
     },
@@ -77,7 +72,7 @@ const UnstakeForm: FC<Props> = ({
     reset();
   }, [reset, methods]);
 
-  if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
+  if (state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
   }
 
@@ -85,7 +80,7 @@ const UnstakeForm: FC<Props> = ({
     <FormProvider {...methods}>
       <chakra.form onSubmit={handleSubmit(submit)} width="full">
         {!showConfirm && (
-          <UnstakeFormInitial
+          <StakeFormInitial
             state={state}
             type={type}
             onTypeClick={onTypeClick}
@@ -98,11 +93,11 @@ const UnstakeForm: FC<Props> = ({
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
-            title="Confirm Unstaking LP Token"
-            actionLabel="Confirm Unstaking LP Token"
+            title="Confirm Staking LP Token"
+            actionLabel="Confirm Staking LP Token"
             contentComponent={
               <FormSummary
-                label="You are unstaking"
+                label="You are staking"
                 tokens={[{ asset: token, amount }]}
               />
             }
@@ -114,4 +109,4 @@ const UnstakeForm: FC<Props> = ({
   );
 };
 
-export default UnstakeForm;
+export default StakeForm;

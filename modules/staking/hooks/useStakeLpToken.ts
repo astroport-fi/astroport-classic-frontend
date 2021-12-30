@@ -8,7 +8,7 @@ import {
   num,
 } from "@arthuryeti/terra";
 
-import { createStakeLpMsgs } from "modules/lp";
+import { createStakeLpMsgs } from "modules/staking";
 import { useContracts } from "modules/common";
 
 export type StakeLpTokenState = {

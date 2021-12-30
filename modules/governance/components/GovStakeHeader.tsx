@@ -3,6 +3,7 @@ import { Flex, Text } from "@chakra-ui/react";
 
 import { AstroFormType } from "types/common";
 
+import BackButton from "components/BackButton";
 import FormHeader from "components/common/FormHeader";
 import FormHeaderItem from "components/common/FormHeaderItem";
 
@@ -13,25 +14,24 @@ type Props = {
 
 const GovStakeHeader: FC<Props> = ({ type, setType }) => {
   return (
-    <>
-      <Flex aling="center" justify="space-between">
-        <FormHeader>
-          <FormHeaderItem
-            label="Stake"
-            value={type}
-            type={AstroFormType.Stake}
-            onClick={() => setType(AstroFormType.Stake)}
-          />
-          <Text>|</Text>
-          <FormHeaderItem
-            label="Unstake"
-            value={type}
-            type={AstroFormType.Unstake}
-            onClick={() => setType(AstroFormType.Unstake)}
-          />
-        </FormHeader>
-      </Flex>
-    </>
+    <Flex aling="center">
+      <BackButton />
+      <FormHeader>
+        <FormHeaderItem
+          label="Stake"
+          value={type}
+          type={AstroFormType.Stake}
+          onClick={() => setType(AstroFormType.Stake)}
+        />
+        <Text>|</Text>
+        <FormHeaderItem
+          label="Unstake"
+          value={type}
+          type={AstroFormType.Unstake}
+          onClick={() => setType(AstroFormType.Unstake)}
+        />
+      </FormHeader>
+    </Flex>
   );
 };
 

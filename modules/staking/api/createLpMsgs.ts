@@ -1,14 +1,14 @@
 import { toBase64 } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
-type Opts = {
+type StakeOpts = {
   amount: string;
   token: string;
   contract: string;
 };
 
 export const createStakeLpMsgs = (
-  { contract, token, amount }: Opts,
+  { contract, token, amount }: StakeOpts,
   sender: string
 ): MsgExecuteContract[] => {
   const allowanceMsg = {
@@ -35,4 +35,26 @@ export const createStakeLpMsgs = (
   return [msg1, msg2];
 };
 
-export default createStakeLpMsgs;
+type UnstakeOpts = {
+  amount: string;
+  token: string;
+  contract: string;
+};
+
+export const createUnstakeLpMsgs = (
+  { contract, token, amount }: UnstakeOpts,
+  sender: string
+): MsgExecuteContract[] => {
+  const executeMsg = {
+    withdraw: {
+      lp_token: token,
+      amount,
+    },
+  };
+
+  const msg = new MsgExecuteContract(sender, contract, executeMsg);
+
+  return [msg];
+};
+
+export default createUnstakeLpMsgs;

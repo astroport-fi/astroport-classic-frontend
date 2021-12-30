@@ -5,8 +5,7 @@ import { usePool } from "modules/pool";
 import { PairResponse } from "modules/common";
 import { PoolFormType } from "types/common";
 
-import StakeForm from "components/lp/stake/StakeForm";
-import UnstakeForm from "components/lp/unstake/UnstakeForm";
+import { StakeForm, UnstakeForm } from "modules/staking";
 import PoolGraph from "components/pool/PoolGraph";
 
 type Props = {

@@ -32,17 +32,6 @@ export const useTokenInfo = () => {
     [name, data]
   );
 
-  const getLpSymbol = useCallback(
-    (token: string) => {
-      if (data == null) {
-        return token;
-      }
-
-      return data[name].lpTokens[token]?.symbol ?? truncate(token, [3, 3]);
-    },
-    [name, data]
-  );
-
   const getDecimals = useCallback(
     (token: string) => {
       if (data == null) {
@@ -75,7 +64,6 @@ export const useTokenInfo = () => {
     getProtocol,
     getSymbol,
     getDecimals,
-    getLpSymbol,
     getIcon,
   };
 };

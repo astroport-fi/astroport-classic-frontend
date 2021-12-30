@@ -1,16 +1,16 @@
 import React, { FC } from "react";
-import { useFormContext } from "react-hook-form";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Controller, useFormContext } from "react-hook-form";
+import { Box, Stack, Text, Flex } from "@chakra-ui/react";
 import { TxStep } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
+import { FormActionItem, FormActions } from "modules/common";
 import { StakeState } from "modules/governance";
 
 import Card from "components/Card";
-import GovStakeFormInput from "./GovStakeFormInput";
 import GovStakeFooter from "./GovStakeFooter";
-import GovStakeHeader from "./GovStakeHeader";
-import GovUnstakeFormInput from "./GovUnstakeFormInput";
+import TokenInput from "components/TokenInput";
+import NewAmountInput from "components/NewAmountInput";
 
 type Props = {
   type: AstroFormType;
@@ -27,9 +27,25 @@ const GovStakeFormInitial: FC<Props> = ({
   state,
   onClick,
 }) => {
+  const { control, watch } = useFormContext();
+  const { token } = watch();
+
   return (
     <Box py="12">
-      <GovStakeHeader type={type} setType={setType} />
+      <FormActions>
+        <FormActionItem
+          label="Stake"
+          value={type}
+          type={AstroFormType.Stake}
+          onClick={() => setType(AstroFormType.Stake)}
+        />
+        <FormActionItem
+          label="Unstake"
+          type={AstroFormType.Unstake}
+          value={type}
+          onClick={() => setType(AstroFormType.Unstake)}
+        />
+      </FormActions>
 
       <Stack direction="column" space={2}>
         <Card py={5} px={12}>
@@ -41,8 +57,28 @@ const GovStakeFormInitial: FC<Props> = ({
           </Text>
         </Card>
 
-        {type == AstroFormType.Stake && <GovStakeFormInput />}
-        {type == AstroFormType.Unstake && <GovUnstakeFormInput />}
+        <Card py="10">
+          <Flex>
+            <Box flex="1" pr="8">
+              <Controller
+                name="token"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => <TokenInput isSingle {...field} />}
+              />
+            </Box>
+            <Box flex="1">
+              <Controller
+                name="amount"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <NewAmountInput asset={token} {...field} />
+                )}
+              />
+            </Box>
+          </Flex>
+        </Card>
 
         <GovStakeFooter
           data={state}
