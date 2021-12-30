@@ -19,7 +19,6 @@ type Props = {
   data: any;
   isLoading: boolean;
   isDisabled: boolean;
-  handleChange: (v: number) => void;
   onClick: () => void;
   token: any;
   title: string;
@@ -29,13 +28,11 @@ const StakeAstroFooter: FC<Props> = ({
   data,
   isLoading,
   isDisabled,
-  handleChange,
   token,
   title,
   onClick,
 }) => {
   const { xAstroToken } = useContracts();
-  const accountShare = useBalance(token?.asset);
   const xAstroBalance = useBalance(xAstroToken);
   const newXAstro = num(token.amount)
     .times(ONE_TOKEN)
@@ -44,36 +41,6 @@ const StakeAstroFooter: FC<Props> = ({
 
   return (
     <>
-      <Card>
-        <VStack spacing={4}>
-          <Slider
-            variant="brand"
-            size="lg"
-            min={0}
-            defaultValue={0}
-            value={Number(token.amount) || 0}
-            max={Number(accountShare) / ONE_TOKEN}
-            focusThumbOnChange={false}
-            step={0.0001}
-            onChange={handleChange}
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
-          {token.amount && Number(accountShare) ? (
-            <Text textStyle="medium">
-              {(
-                (token.amount / (Number(accountShare) / ONE_TOKEN)) *
-                100
-              ).toFixed(2)}
-              %
-            </Text>
-          ) : null}
-        </VStack>
-      </Card>
-
       <CommonFooter
         fee={data.fee}
         cells={[

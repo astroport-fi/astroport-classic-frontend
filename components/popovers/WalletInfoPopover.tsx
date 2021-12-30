@@ -69,7 +69,7 @@ const WalletInfoPopover: FC = () => {
               <HStack spacing="3">
                 <TerraIcon width="1.25rem" height="1.25rem" />
                 <Text fontSize="sm" color="white">
-                  {wallet && truncate(wallet.terraAddress)}
+                  {wallet && truncate(wallet.terraAddress, [2, 4])}
                 </Text>
               </HStack>
             </Box>

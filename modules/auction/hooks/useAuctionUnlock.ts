@@ -51,6 +51,7 @@ export const useAuctionUnlock = ({
 
   return useTransaction({
     msgs,
+    gasAdjustment: 1.5,
     onBroadcasting,
     onSuccess,
     onError,

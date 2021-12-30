@@ -27,11 +27,7 @@ const StakeAstroFormInitial: FC<Props> = ({
   state,
   onClick,
 }) => {
-  const { setValue } = useFormContext();
-
-  const handleChange = (value: number) => {
-    setValue("amount", String(value));
-  };
+  console.log(state);
 
   return (
     <Box py="12">
@@ -39,10 +35,7 @@ const StakeAstroFormInitial: FC<Props> = ({
       <Stack direction="column" space={2}>
         <Card py={5} px={12}>
           <Text textStyle="small" variant="secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-            beatae error sit autem quidem deserunt delectus quisquam ullam
-            arthuryetihuety dolor ex in, eveniet ratione voluptates fuga sed
-            doloremque impedit eligendi perferendis?
+            Stake ASTRO for xASTRO to participate in Astroport governance.
           </Text>
         </Card>
 
@@ -53,7 +46,6 @@ const StakeAstroFormInitial: FC<Props> = ({
           data={state}
           isLoading={state.txStep == TxStep.Estimating}
           isDisabled={state.txStep != TxStep.Ready}
-          handleChange={handleChange}
           token={token}
           title={type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake ASTRO"}
           onClick={onClick}

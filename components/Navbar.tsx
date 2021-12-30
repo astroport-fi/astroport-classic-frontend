@@ -53,7 +53,7 @@ const Navbar: FC = () => {
             <NavbarLink text="Swap" href="/swap" />
             <NavbarLink text="Pool" href="/pools" />
             <NavbarLink text="Locked Liquidity" href="/locked-liquidity" />
-            {/* <NavbarLink text="Governance" href="/governance" /> */}
+            <NavbarLink text="Governance" href="/governance" />
             <NavbarLink text="Airdrop" href="/airdrop" />
           </HStack>
         </Box>
