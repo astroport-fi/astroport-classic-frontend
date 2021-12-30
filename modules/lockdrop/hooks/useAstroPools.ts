@@ -73,7 +73,11 @@ export const useAstroPools = () => {
       return [];
     }
 
-    const items = userInfo.lockup_infos.map((info) => {
+    const filteredItems = userInfo.lockup_infos.filter((info) => {
+      return info.astroport_lp_transferred == null;
+    });
+
+    const items = filteredItems.map((info) => {
       const { assets, total_share } =
         result[`pool${info.astroport_lp_token}`]?.contractQuery;
       const { balance } =
