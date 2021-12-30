@@ -14,6 +14,7 @@ import WithdrawNotification from "components/notifications/WithdrawNotification"
 import StakeLpNotification from "components/notifications/StakeLpNotification";
 import UnstakeLpNotification from "components/notifications/UnstakeLpNotification";
 import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotification";
+import LockdropUnlockLpNotification from "components/notifications/LockdropUnlockLpNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
@@ -45,6 +46,9 @@ const Notifications: FC = () => {
     }
     if (txType === "auctionUnlockLp") {
       return <AuctionUnlockLpNotification txInfo={txInfo} />;
+    }
+    if (txType === "lockdropUnlockLp") {
+      return <LockdropUnlockLpNotification txInfo={txInfo} data={data} />;
     }
   };
 

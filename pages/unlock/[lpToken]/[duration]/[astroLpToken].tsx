@@ -10,6 +10,7 @@ const UnlockPage: NextPage = () => {
   const { query } = useRouter();
   const lpToken = query?.lpToken as string;
   const duration = query?.duration as string;
+  const astroLpToken = query?.astroLpToken as string;
 
   if (lpToken == null || duration == null) {
     return null;
@@ -21,7 +22,11 @@ const UnlockPage: NextPage = () => {
         <title>Astroport</title>
       </Head>
       <Flex>
-        <Unlock lpToken={lpToken} duration={parseFloat(duration)} />
+        <Unlock
+          lpToken={lpToken}
+          duration={parseFloat(duration)}
+          astroLpToken={astroLpToken}
+        />
       </Flex>
     </>
   );

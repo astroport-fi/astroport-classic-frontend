@@ -22,15 +22,6 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
   const { control, watch } = useFormContext();
 
   const { token, amount } = watch();
-  const userInfo = useUserInfo();
-
-  const balance = useMemo(() => {
-    if (userInfo == null) {
-      return "0";
-    }
-
-    return num(userInfo.withdrawable_lp_shares).div(ONE_TOKEN).toString();
-  }, [userInfo]);
 
   return (
     <>
@@ -78,11 +69,10 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
                 <NewAmountInput
                   {...field}
                   asset={token}
-                  balance={balance}
-                  balanceLabel="Withdrawable LP Tokens"
                   isLpToken
                   isSingle
                   hideMaxButton
+                  hideBalanceLabel
                   isDisabled
                 />
               )}
@@ -93,7 +83,9 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
 
       {state.error && (
         <Card mt="3">
-          <Text variant="light">{state.error}</Text>
+          <Text textStyle="small" variant="dimmed">
+            {state.error}
+          </Text>
         </Card>
       )}
 

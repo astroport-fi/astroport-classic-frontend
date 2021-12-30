@@ -32,11 +32,11 @@ export const useAstro = ({ amount, type, onSuccess }: Params): StakeState => {
 
   const msgs = useMemo(() => {
     let token = astroToken;
-    let msg = createAstroStakeMsgs(address, staking, amount);
+    let msg = createAstroStakeMsgs(address, staking, amount, astroToken);
 
     if (type == AstroFormType.Unstake) {
       token = xAstroToken;
-      msg = createAstroUnstakeMsg(address, staking, amount);
+      msg = createAstroUnstakeMsg(address, staking, amount, xAstroToken);
     }
 
     return [

@@ -41,7 +41,7 @@ const UnlockForm: FC = () => {
         notification: {
           type: "started",
           txHash,
-          txType: "auctionUnlockLp",
+          txType: "lockdropUnlockLp",
         },
       });
     },

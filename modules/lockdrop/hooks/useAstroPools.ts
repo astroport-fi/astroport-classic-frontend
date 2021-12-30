@@ -23,20 +23,20 @@ const createQuery = (pairs, address) => {
 
   return gql`
     {
-      ${pairs.map(({ liquidity_token, contract_addr }) => {
+      ${pairs.map(({ lp, contract }) => {
         return `
-          pool${liquidity_token}: wasm {
+          pool${lp}: wasm {
             contractQuery(
-              contractAddress: "${contract_addr}"
+              contractAddress: "${contract}"
               query: {
                 pool: { }
               }
             )
           }
 
-          balance${liquidity_token}: wasm {
+          balance${lp}: wasm {
             contractQuery(
-              contractAddress: "${liquidity_token}"
+              contractAddress: "${lp}"
               query: {
                 balance: {
                   address: "${address}"
@@ -51,8 +51,8 @@ const createQuery = (pairs, address) => {
 };
 
 export const useAstroPools = () => {
-  const { pairs } = useAstroswap();
-  const { lockdrop } = useContracts();
+  // const { pairs } = useAstroswap();
+  const { lockdrop, pairs } = useContracts();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
   const bLunaPrice = useBLunaPriceInLuna();
@@ -110,6 +110,7 @@ export const useAstroPools = () => {
 
       return {
         name: info.terraswap_lp_token,
+        astroLpToken: info.astroport_lp_token,
         assets: getPoolTokenDenoms(assets),
         // TODO: change once LPs are migrated to Astro
         pairType: "xyk",
@@ -119,6 +120,7 @@ export const useAstroPools = () => {
         myLiquidityInUst,
         lockEnd: info.unlock_timestamp,
         isClaimable: currentTimestamp > info.unlock_timestamp,
+        isClaimed: num(info.astroport_lp_transferred).gt(0),
         duration: info.duration,
         astroRewards: +info.astro_rewards / ONE_TOKEN,
       };

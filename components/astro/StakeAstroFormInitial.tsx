@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useFormContext } from "react-hook-form";
 import { Box, Stack, Text } from "@chakra-ui/react";
+import { TxStep } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
 import { StakeState } from "modules/astro";
@@ -9,7 +10,6 @@ import Card from "components/Card";
 import StakeAstroFormInput from "components/astro/StakeAstroFormInput";
 import StakeAstroFooter from "components/astro/StakeAstroFooter";
 import StakeAstroHeader from "components/astro/StakeAstroHeader";
-import { TxStep } from "@arthuryeti/terra";
 import UnstakeAstroFormInput from "./UnstakeAstroFormInput";
 
 type Props = {

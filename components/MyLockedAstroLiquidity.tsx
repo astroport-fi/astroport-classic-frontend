@@ -55,6 +55,8 @@ const MyLockedAstroLiquidity = () => {
             name={row.original.name}
             duration={row.original.duration}
             isClaimable={row.original.isClaimable}
+            astroLpToken={row.original.astroLpToken}
+            isClaimed={row.original.isClaimed}
           />
         ),
         accessor: "actions",
