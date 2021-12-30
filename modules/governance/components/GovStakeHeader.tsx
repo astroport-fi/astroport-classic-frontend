@@ -11,7 +11,7 @@ type Props = {
   setType: (v: AstroFormType) => void;
 };
 
-const StakeAstroHeader: FC<Props> = ({ type, setType }) => {
+const GovStakeHeader: FC<Props> = ({ type, setType }) => {
   return (
     <>
       <Flex aling="center" justify="space-between">
@@ -35,4 +35,4 @@ const StakeAstroHeader: FC<Props> = ({ type, setType }) => {
   );
 };
 
-export default StakeAstroHeader;
+export default GovStakeHeader;

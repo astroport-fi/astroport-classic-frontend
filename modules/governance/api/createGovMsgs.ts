@@ -27,9 +27,13 @@ export const createAstroUnstakeMsg = (
   amount: string,
   token: string
 ) => {
-  const msgs = new MsgExecuteContract(sender, staking, {
-    leave: {
-      share: String(+amount * ONE_TOKEN),
+  const msgs = new MsgExecuteContract(sender, token, {
+    send: {
+      contract: staking,
+      amount: String(+amount * ONE_TOKEN),
+      msg: toBase64({
+        leave: {},
+      }),
     },
   });
 

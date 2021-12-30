@@ -15,6 +15,8 @@ import StakeLpNotification from "components/notifications/StakeLpNotification";
 import UnstakeLpNotification from "components/notifications/UnstakeLpNotification";
 import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotification";
 import LockdropUnlockLpNotification from "components/notifications/LockdropUnlockLpNotification";
+import GovStakeNotification from "components/notifications/GovStakeNotification";
+import GovUnstakeNotification from "components/notifications/GovUnstakeNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
@@ -49,6 +51,12 @@ const Notifications: FC = () => {
     }
     if (txType === "lockdropUnlockLp") {
       return <LockdropUnlockLpNotification txInfo={txInfo} data={data} />;
+    }
+    if (txType === "govStake") {
+      return <GovStakeNotification txInfo={txInfo} />;
+    }
+    if (txType === "govUnstake") {
+      return <GovUnstakeNotification txInfo={txInfo} />;
     }
   };
 

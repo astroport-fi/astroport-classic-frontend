@@ -2,17 +2,17 @@ import React from "react";
 import Head from "next/head";
 import { NextPage } from "next";
 
-import Governance from "components/pages/Governance";
+import { GovernancePage } from "modules/governance";
 
-const GovernancePage: NextPage = () => {
+const Governance: NextPage = () => {
   return (
     <>
       <Head>
         <title>Astroport</title>
       </Head>
-      <Governance />
+      <GovernancePage />
     </>
   );
 };
 
-export default GovernancePage;
+export default Governance;

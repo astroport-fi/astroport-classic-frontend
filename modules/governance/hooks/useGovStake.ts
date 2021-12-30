@@ -3,8 +3,12 @@ import { useTransaction, useAddress, TxStep, num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
-import { createAstroStakeMsgs, createAstroUnstakeMsg } from "modules/astro";
+import {
+  createAstroStakeMsgs,
+  createAstroUnstakeMsg,
+} from "modules/governance";
 import { AstroFormType } from "types/common";
+import { TxInfo } from "@terra-money/terra.js";
 
 export type Token = {
   amount: string;
@@ -23,10 +27,18 @@ export type StakeState = {
 type Params = {
   amount: string;
   type: AstroFormType;
-  onSuccess: (txHash: string) => void;
+  onBroadcasting?: (txHash: string) => void;
+  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
+  onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };
 
-export const useAstro = ({ amount, type, onSuccess }: Params): StakeState => {
+export const useGovStake = ({
+  amount,
+  type,
+  onBroadcasting,
+  onSuccess,
+  onError,
+}: Params): StakeState => {
   const { astroToken, xAstroToken, staking } = useContracts();
   const address = useAddress();
 
@@ -39,20 +51,13 @@ export const useAstro = ({ amount, type, onSuccess }: Params): StakeState => {
       msg = createAstroUnstakeMsg(address, staking, amount, xAstroToken);
     }
 
-    return [
-      // TODO: Activate once we need it
-      // createIncreaseAllowanceExecuteMsg(
-      //   address,
-      //   token,
-      //   staking,
-      //   num(amount).times(ONE_TOKEN).toFixed()
-      // ),
-      msg,
-    ];
+    return [msg];
   }, [address, staking, type, astroToken, xAstroToken, amount]);
 
   return useTransaction({
     msgs,
+    onBroadcasting,
     onSuccess,
+    onError,
   });
 };

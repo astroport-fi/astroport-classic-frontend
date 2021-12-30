@@ -7,7 +7,7 @@ import { ONE_TOKEN } from "constants/constants";
 import Card from "components/Card";
 import { Input } from "components/NewAmountInput";
 
-const UnstakeAstroFormInput: FC = () => {
+const GovUnstakeFormInput: FC = () => {
   const { control, watch } = useFormContext();
   const { token } = watch();
   const balance = useBalance(token);
@@ -58,4 +58,4 @@ const UnstakeAstroFormInput: FC = () => {
   );
 };
 
-export default UnstakeAstroFormInput;
+export default GovUnstakeFormInput;

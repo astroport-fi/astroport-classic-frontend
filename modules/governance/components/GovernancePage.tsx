@@ -15,13 +15,17 @@ import Card from "components/Card";
 import { useContracts } from "modules/common";
 import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
-const Governance = () => {
-  const { astroToken, xAstroToken } = useContracts();
+const GovernancePage = () => {
+  const { astroToken, xAstroToken, staking } = useContracts();
   const astroBalance = useBalance(astroToken);
   const xAstroBalance = useBalance(xAstroToken);
+  const govXAstroBalance = useBalance(astroToken, staking);
 
   const data = [
-    { label: "Total staked xAstro", value: "x,xxx,xxx.00" },
+    {
+      label: "Total staked xAstro",
+      value: fromTerraAmount(govXAstroBalance, "0,0.00"),
+    },
     { label: "APY", value: "xx.xx%" },
     { label: "Protocol Staking Ratio", value: "xx.xx%" },
   ];
@@ -40,14 +44,10 @@ const Governance = () => {
         >
           <Text textStyle="medium">About Governance</Text>
           <Text textStyle="small" variant="secondary" mt={4}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet.{" "}
-            <Link href="#" color="brand.lightPurple">
-              Read More
-            </Link>
+            Stake ASTRO for xASTRO in order to participate in Astroport
+            governance. To learn more about existing proposals, or to get
+            feedback on a proposal you’re considering, visit the Astroport
+            forums.
           </Text>
           <Button variant="primary" mt={6}>
             Go to Forum
@@ -60,7 +60,7 @@ const Governance = () => {
                 {fromTerraAmount(astroBalance, "0,0.00")}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                Astro in my Wallet
+                ASTRO in my Wallet
               </Text>
             </Box>
             <Box textAlign="right">
@@ -68,17 +68,22 @@ const Governance = () => {
                 {fromTerraAmount(xAstroBalance, "0,0.00")}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                My staked xAstro
+                My staked xASTRO
               </Text>
             </Box>
           </Flex>
 
           <Divider bg="white.200" my="8" />
 
-          <Flex justify="center">
+          <Flex justify="space-between">
             <NextLink href="/governance/stake" passHref>
               <Button as="a" type="button" variant="primary">
-                Stake Astro
+                Stake ASTRO
+              </Button>
+            </NextLink>
+            <NextLink href="/governance/unstake" passHref>
+              <Button as="a" type="button" variant="primary">
+                Unstake xASTRO
               </Button>
             </NextLink>
           </Flex>
@@ -88,4 +93,4 @@ const Governance = () => {
   );
 };
 
-export default Governance;
+export default GovernancePage;

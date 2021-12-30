@@ -22,7 +22,7 @@
       "pages/*": ["pages/*"],
       "types/*": ["types/*"],
       "constants/*": ["constants/*"],
-      "modules/*": ["modules/*"]
+      "modules/*": ["modules/*", "@modules/*"]
     },
     "incremental": true
   },

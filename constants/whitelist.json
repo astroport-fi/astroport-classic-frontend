@@ -326,6 +326,12 @@
         "token": "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry",
         "icon": "/tokens/astro.png"
       },
+      "terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y": {
+        "protocol": "Astroport",
+        "symbol": "ASTRO",
+        "token": "terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y",
+        "icon": "/tokens/xAstro.png"
+      },
       "terra1krzfsvl9tgce2f2wsq23s0jmqqd69uwpcd3579": {
         "protocol": "Mirror",
         "symbol": "MIR",

@@ -6,7 +6,7 @@ import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 
-const StakeAstroFormInput: FC = () => {
+const GovStakeFormInput: FC = () => {
   const { control, watch } = useFormContext();
   const token = watch("token");
 
@@ -34,4 +34,4 @@ const StakeAstroFormInput: FC = () => {
   );
 };
 
-export default StakeAstroFormInput;
+export default GovStakeFormInput;
