@@ -42,20 +42,12 @@ const GovStakeFooter: FC<Props> = ({
       fee={data.fee}
       cells={[
         {
-          title: "Current xAstro",
+          title: "Current xASTRO",
           value: fromTerraAmount(xAstroBalance),
         },
         {
-          title: "New xAstro",
+          title: "New xASTRO",
           value: fromTerraAmount(newXAstro),
-        },
-        {
-          title: "xAstro APY",
-          value: "0%",
-        },
-        {
-          title: "% of voting power",
-          value: "0%",
         },
       ]}
       confirmButton={{

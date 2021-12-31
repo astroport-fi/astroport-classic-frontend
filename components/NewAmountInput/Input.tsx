@@ -20,6 +20,7 @@ type Props = {
   isDisabled?: boolean;
   isLoading?: boolean;
   clampValueOnBlur?: boolean;
+  hidePrice?: boolean;
 };
 
 const Input: FC<Props> = ({
@@ -31,6 +32,7 @@ const Input: FC<Props> = ({
   clampValueOnBlur = true,
   isLoading,
   isDisabled,
+  hidePrice = false,
 }) => {
   const price = useTokenPriceInUst(asset);
 
@@ -57,12 +59,14 @@ const Input: FC<Props> = ({
         isDisabled={isDisabled}
         isLoading={isLoading}
       >
-        <NumberInputField placeholder="0.0" />
-        <Box position="absolute" bottom="2" right="4" color="white">
-          <Text textStyle="small" variant="dimmed">
-            ${totalInUst}
-          </Text>
-        </Box>
+        <NumberInputField placeholder="0.0" pt={hidePrice && 4} />
+        {!hidePrice && (
+          <Box position="absolute" bottom="2" right="4" color="white">
+            <Text textStyle="small" variant="dimmed">
+              ${totalInUst}
+            </Text>
+          </Box>
+        )}
         {isLoading && (
           <InputLeftElement>
             <Spinner size="xs" color="white.500" />

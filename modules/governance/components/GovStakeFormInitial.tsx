@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Box, Stack, Text, Flex } from "@chakra-ui/react";
-import { TxStep } from "@arthuryeti/terra";
+import { num, TxStep, useBalance } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
 import { FormActionItem, FormActions } from "modules/common";
@@ -29,6 +29,10 @@ const GovStakeFormInitial: FC<Props> = ({
 }) => {
   const { control, watch } = useFormContext();
   const { token } = watch();
+  const balData = useBalance(token);
+  const balance = num(balData)
+    .div(10 ** 6)
+    .toNumber();
 
   return (
     <Box py="12">
@@ -50,10 +54,8 @@ const GovStakeFormInitial: FC<Props> = ({
       <Stack direction="column" space={2}>
         <Card py={5} px={12}>
           <Text textStyle="small" variant="secondary">
-            {type == AstroFormType.Stake &&
-              "Stake ASTRO for xASTRO to participate in Astroport governance."}
-            {type == AstroFormType.Unstake &&
-              "Unstake xASTRO for ASTRO. If you unstake all of your xASTRO, you will no longer be able to participate in governance."}
+            {type == AstroFormType.Stake && "Stake ASTRO for xASTRO."}
+            {type == AstroFormType.Unstake && "Unstake ASTRO from xASTRO."}
           </Text>
         </Card>
 
@@ -64,7 +66,9 @@ const GovStakeFormInitial: FC<Props> = ({
                 name="token"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <TokenInput isSingle {...field} />}
+                render={({ field }) => (
+                  <TokenInput hidePrice isSingle {...field} />
+                )}
               />
             </Box>
             <Box flex="1">
@@ -73,7 +77,12 @@ const GovStakeFormInitial: FC<Props> = ({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <NewAmountInput asset={token} {...field} />
+                  <NewAmountInput
+                    asset={token}
+                    max={balance}
+                    hidePrice
+                    {...field}
+                  />
                 )}
               />
             </Box>

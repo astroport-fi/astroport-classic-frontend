@@ -7,9 +7,10 @@ import { useTokenPriceInUst } from "modules/swap";
 
 type Props = {
   asset: string;
+  hidePrice?: boolean;
 };
 
-const Single: FC<Props> = ({ asset }) => {
+const Single: FC<Props> = ({ asset, hidePrice = false }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUst(asset);
   const icon = getIcon(asset);
@@ -37,9 +38,11 @@ const Single: FC<Props> = ({ asset }) => {
 
         <Box ml="3" fontWeight="500" flex="1">
           <Text textStyle="h3">{getSymbol(asset)}</Text>
-          <Text textStyle="small" variant="dimmed">
-            Price: ${price}
-          </Text>
+          {!hidePrice && (
+            <Text textStyle="small" variant="dimmed">
+              Price: ${price}
+            </Text>
+          )}
         </Box>
       </Flex>
     </Box>

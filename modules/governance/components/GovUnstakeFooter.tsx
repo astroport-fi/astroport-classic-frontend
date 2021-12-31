@@ -42,15 +42,15 @@ const GovUnstakeFooter: FC<Props> = ({
       fee={data}
       cells={[
         {
-          title: "Current xAstro",
+          title: "Current xASTRO",
           value: fromTerraAmount(xAstroBalance),
         },
         {
-          title: "New xAstro",
+          title: "New xASTRO",
           value: fromTerraAmount(newXAstro),
         },
         {
-          title: "xAstro APY",
+          title: "xASTRO APY",
           value: "0%",
         },
         {

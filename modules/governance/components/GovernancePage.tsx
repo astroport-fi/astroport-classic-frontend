@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Box,
   HStack,
@@ -8,26 +8,28 @@ import {
   Divider,
   Link,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
-import { useContracts } from "modules/common";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import { useContracts, NextLink } from "modules/common";
+import { useGovStakingRatio } from "../hooks";
 
 const GovernancePage = () => {
   const { astroToken, xAstroToken, staking } = useContracts();
   const astroBalance = useBalance(astroToken);
   const xAstroBalance = useBalance(xAstroToken);
   const govXAstroBalance = useBalance(astroToken, staking);
+  const stakingRatio = useGovStakingRatio();
+  const astroDisabled = num(astroBalance).eq(0);
+  const xAstroDisabled = num(xAstroBalance).eq(0);
 
   const data = [
     {
-      label: "Total staked xAstro",
+      label: "Total staked xASTRO",
       value: fromTerraAmount(govXAstroBalance, "0,0.00"),
     },
-    { label: "APY", value: "xx.xx%" },
-    { label: "Protocol Staking Ratio", value: "xx.xx%" },
+    { label: "Protocol Staking Ratio", value: `${stakingRatio}%` },
   ];
 
   return (
@@ -35,7 +37,7 @@ const GovernancePage = () => {
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">
-        <Card
+        {/* <Card
           flex={1}
           display="flex"
           flexDir="column"
@@ -52,7 +54,7 @@ const GovernancePage = () => {
           <Button variant="primary" mt={6}>
             Go to Forum
           </Button>
-        </Card>
+        </Card> */}
         <Card flex={1} display="flex" flexDir="column" justifyContent="center">
           <Flex justify="space-between">
             <Box>
@@ -76,13 +78,31 @@ const GovernancePage = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="space-between">
-            <NextLink href="/governance/stake" passHref>
-              <Button as="a" type="button" variant="primary">
+            <NextLink
+              href="/governance/stake"
+              passHref
+              isDisabled={astroDisabled}
+            >
+              <Button
+                as="a"
+                type="button"
+                variant="primary"
+                isDisabled={astroDisabled}
+              >
                 Stake ASTRO
               </Button>
             </NextLink>
-            <NextLink href="/governance/unstake" passHref>
-              <Button as="a" type="button" variant="primary">
+            <NextLink
+              href="/governance/unstake"
+              passHref
+              isDisabled={xAstroDisabled}
+            >
+              <Button
+                as="a"
+                type="button"
+                variant="primary"
+                isDisabled={xAstroDisabled}
+              >
                 Unstake xASTRO
               </Button>
             </NextLink>

@@ -20,12 +20,19 @@ import { COMMON_TOKENS } from "constants/constants";
 
 type Props = {
   hideToken?: string;
+  hidePrice?: boolean;
   value: string;
   onClick: (token: string) => void;
   tokens: string[];
 };
 
-const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
+const Select: FC<Props> = ({
+  hideToken,
+  hidePrice = false,
+  value,
+  onClick,
+  tokens,
+}) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUst(value);
@@ -68,10 +75,11 @@ const Select: FC<Props> = ({ hideToken, value, onClick, tokens }) => {
           </Box>
           <Box ml="3" fontWeight="500" flex="1">
             <Text textStyle="h3">{getSymbol(value)}</Text>
-            {/* TODO: Fix type */}
-            <Text fontSize="xs" color="white.400">
-              Price: ${price}
-            </Text>
+            {!hidePrice && (
+              <Text fontSize="xs" color="white.400">
+                Price: ${price}
+              </Text>
+            )}
           </Box>
           <Box>
             <ChevronDownIcon />

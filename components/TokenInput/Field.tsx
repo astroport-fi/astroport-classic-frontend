@@ -9,6 +9,7 @@ type Props = {
   tokens?: string[];
   isLpToken?: boolean;
   isSingle?: boolean;
+  hidePrice?: boolean;
   onBlur: any;
   onChange: any;
   value: string;
@@ -20,6 +21,7 @@ const Field: FC<Props> = ({
   onChange,
   // onBlur,
   isSingle,
+  hidePrice,
   isLpToken,
   tokens,
 }) => {
@@ -35,7 +37,7 @@ const Field: FC<Props> = ({
       return <SingleLP asset={value} />;
     }
 
-    return <Single asset={value} />;
+    return <Single asset={value} hidePrice={hidePrice} />;
   };
 
   const renderSelect = () => {
@@ -48,6 +50,7 @@ const Field: FC<Props> = ({
         value={value}
         tokens={currentTokens}
         hideToken={hideToken}
+        hidePrice={hidePrice}
         onClick={handleClick}
       />
     );
