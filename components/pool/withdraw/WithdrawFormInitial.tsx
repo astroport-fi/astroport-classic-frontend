@@ -89,6 +89,7 @@ const WithdrawFormInitial: FC<Props> = ({
               render={({ field }) => (
                 <NewAmountInput
                   asset={token}
+                  hidePrice
                   balanceLabel="Provided"
                   {...field}
                 />
