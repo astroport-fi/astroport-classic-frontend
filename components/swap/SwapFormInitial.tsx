@@ -225,7 +225,7 @@ const SwapFormInitial: FC<Props> = ({
       </MotionBox>
 
       {address && error ? (
-        <Card mt="4" py="4" pb="5" borderColor="red.300">
+        <Card mt="4" borderColor="red.300">
           <Text display="inline" textStyle="small" color="red.500">
             Warning:
           </Text>{" "}

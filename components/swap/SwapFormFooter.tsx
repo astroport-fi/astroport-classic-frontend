@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { Box, Flex, Button, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Button,
+  Text,
+  useDisclosure,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import numeral from "numeral";
 
@@ -56,7 +63,7 @@ const SwapFormFooter: FC<Props> = ({
     if (swapRoute?.length > 1) {
       return (
         <>
-          <Text textStyle="medium">{swapRoutePath}</Text>
+          <Text textStyle={["small", "medium"]}>{swapRoutePath}</Text>
           <Text textStyle="small" variant="dimmed">
             Route
           </Text>
@@ -77,11 +84,11 @@ const SwapFormFooter: FC<Props> = ({
   };
 
   return (
-    <Flex justify="space-between" px="12" mt="6">
-      <Box flex="1" color="white" mt="1">
+    <Flex justify="space-between" px={["4", "12"]} mt="6">
+      <Box flex={0} color="white">
         {isFormValid && (
           <>
-            <Text textStyle="medium">
+            <Text textStyle={["small", "medium"]}>
               1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
             </Text>
             <Text textStyle="small" variant="dimmed">
@@ -90,7 +97,7 @@ const SwapFormFooter: FC<Props> = ({
           </>
         )}
       </Box>
-      <Flex flex="1" align="center" flexDirection="column" mb="8">
+      <Flex align="center" flexDirection="column">
         {!address ? (
           <Flex justify="center">
             <Button variant="primary" type="button" onClick={onOpen}>
@@ -116,7 +123,7 @@ const SwapFormFooter: FC<Props> = ({
         )}
       </Flex>
 
-      <Box flex="1" textAlign="right" color="white" mt="1">
+      <Box flex={0} textAlign="right" color="white">
         {renderRightMetric()}
       </Box>
     </Flex>
