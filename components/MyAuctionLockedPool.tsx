@@ -72,7 +72,7 @@ const MyAuctionLockedPool = () => {
       <Card>
         <Text textStyle="small" variant="secondary">
           Your ASTRO-UST LP tokens unlock linearly over 3 months after the end
-          of the phase 2 deposit window
+          of the phase 2 deposit window.
         </Text>
       </Card>
       <Card mt={6} noPadding>
