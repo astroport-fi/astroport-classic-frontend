@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, Heading, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Heading,
+  Link,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Lottie from "react-lottie";
 
@@ -25,6 +32,8 @@ const FormLoading: FC<Props> = ({ txHash }) => {
     },
   };
 
+  const animationSize = useBreakpointValue({ base: 150, md: 400 });
+
   return (
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
@@ -33,8 +42,8 @@ const FormLoading: FC<Props> = ({ txHash }) => {
     >
       <Lottie
         options={defaultOptions}
-        height={400}
-        width={400}
+        height={animationSize}
+        width={animationSize}
         isStopped={false}
         isPaused={false}
       />
