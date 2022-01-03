@@ -1,16 +1,12 @@
 import React from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
-import {
-  StakeLpTokenState,
-  useStakedLpAmount,
-  UnstakeFormFooter,
-} from "modules/staking";
-import { FormActions, FormActionItem } from "modules/common";
-import { PoolFormType } from "types/common";
+import { StakeLpFormFooter, StakeLpTokenState } from "modules/generator";
+import { FormActionItem, FormActions } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
+import { PoolFormType } from "types/common";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
@@ -26,13 +22,20 @@ type Params = {
   onClick: () => void;
 };
 
-const UnstakeFormInitial = ({ type, onTypeClick, state, onClick }: Params) => {
+const StakeLpFormInitial = ({
+  type,
+  onTypeClick,
+  isChartOpen,
+  onChartClick,
+  state,
+  onClick,
+}: Params) => {
   const { control, watch, setValue } = useFormContext();
 
   const token = watch("token");
   const amount = watch("amount");
-  const stakedAmount = useStakedLpAmount(token);
-  const max = num(stakedAmount).div(ONE_TOKEN).toNumber();
+  const balance = useBalance(token);
+  const max = num(balance).div(ONE_TOKEN).toNumber();
 
   const handleChange = (value: number) => {
     setValue("amount", String(value));
@@ -57,9 +60,9 @@ const UnstakeFormInitial = ({ type, onTypeClick, state, onClick }: Params) => {
 
       <Card mb="2">
         <Text textStyle="small" variant="secondary">
-          Unstake your LP tokens below. Any ASTRO rewards accrued can be claimed
-          in your rewards center. If you unstake all of your LP tokens, you stop
-          receiving ASTRO and potential third party rewards.
+          ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
+          Astroport LP tokens here to receive ASTRO governance tokens AND
+          third-party governance tokens.
         </Text>
       </Card>
 
@@ -81,11 +84,7 @@ const UnstakeFormInitial = ({ type, onTypeClick, state, onClick }: Params) => {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput
-                  asset={token}
-                  balance={stakedAmount}
-                  {...field}
-                />
+                <NewAmountInput asset={token} {...field} />
               )}
             />
           </Box>
@@ -112,9 +111,9 @@ const UnstakeFormInitial = ({ type, onTypeClick, state, onClick }: Params) => {
         </Card>
       )}
 
-      <UnstakeFormFooter data={state} onConfirmClick={onClick} />
+      <StakeLpFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };
 
-export default UnstakeFormInitial;
+export default StakeLpFormInitial;

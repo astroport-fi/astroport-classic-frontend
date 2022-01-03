@@ -3,12 +3,17 @@ import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
 
-import { getPoolTokenDenoms, useAstroswap, useLunaPrice } from "modules/common";
+import {
+  getPoolTokenDenoms,
+  useAstroswap,
+  useContracts,
+  useLunaPrice,
+} from "modules/common";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 
-const createQuery = (pairs, address) => {
+const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {
     return;
   }
@@ -32,6 +37,18 @@ const createQuery = (pairs, address) => {
               query: {
                 balance: {
                   address: "${address}"
+                }
+              }
+            )
+          }
+
+          staked${liquidity_token}: wasm {
+            contractQuery(
+              contractAddress: "${generator}"
+              query: {
+                deposit: {
+                  lp_token: "${liquidity_token}"
+                  user: "${address}"
                 }
               }
             )
@@ -67,13 +84,14 @@ const createQueryNotConnected = (pairs) => {
 
 export const useMyPools = () => {
   const { pairs } = useAstroswap();
+  const { generator } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
 
   let query = createQueryNotConnected(pairs);
 
   if (address) {
-    query = createQuery(pairs, address);
+    query = createQuery(pairs, address, generator);
   }
 
   const result = useHive({
@@ -90,12 +108,14 @@ export const useMyPools = () => {
     }
 
     const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
-      const balance = result[liquidity_token]?.contractQuery.balance;
+      const providedBalance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
+      const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
       const denoms = getPoolTokenDenoms(assets);
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
+      const balance = num(providedBalance).plus(stakedBalance);
 
-      if (num(balance).eq(0)) {
+      if (balance.eq(0)) {
         return null;
       }
 
@@ -109,8 +129,8 @@ export const useMyPools = () => {
       const totalLiquidityInUst = amountOfUst.times(2).dp(6).toNumber();
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
 
-      const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
-      const myLiquidityInUst = num(balance)
+      const myLiquidity = balance.div(ONE_TOKEN).dp(6).toNumber();
+      const myLiquidityInUst = balance
         .div(ONE_TOKEN)
         .times(totalLiquidityInUst)
         .div(num(total_share).div(ONE_TOKEN))

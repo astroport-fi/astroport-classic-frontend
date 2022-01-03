@@ -8,7 +8,7 @@ import {
   useShareInUst,
 } from "modules/pool";
 import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
-import { useStakedLpAmount } from "modules/staking";
+import { useStakedLpAmount } from "modules/generator";
 
 export type Pool = {
   assets: [Asset, Asset];

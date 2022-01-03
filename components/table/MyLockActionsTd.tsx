@@ -10,7 +10,7 @@ type Props = {
   astroLpToken: string;
 };
 
-const MyActionsTd: FC<Props> = ({
+const MyLockActionsTd: FC<Props> = ({
   name,
   duration,
   isClaimable,
@@ -48,4 +48,4 @@ const MyActionsTd: FC<Props> = ({
   );
 };
 
-export default MyActionsTd;
+export default MyLockActionsTd;

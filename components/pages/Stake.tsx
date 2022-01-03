@@ -5,7 +5,7 @@ import { usePool } from "modules/pool";
 import { PairResponse } from "modules/common";
 import { PoolFormType } from "types/common";
 
-import { StakeForm, UnstakeForm } from "modules/staking";
+import { StakeLpForm, UnstakeLpForm } from "modules/generator";
 import PoolGraph from "components/pool/PoolGraph";
 
 type Props = {
@@ -21,13 +21,13 @@ const Stake: FC<Props> = ({ pair }) => {
     lpTokenContract: pair?.liquidity_token,
   });
 
-  const renderStakeForm = () => {
+  const renderStakeLpForm = () => {
     if (pool == null || pool.token1 == null || pool.token2 == null) {
       return null;
     }
 
     return (
-      <StakeForm
+      <StakeLpForm
         pair={pair}
         pool={pool}
         type={type}
@@ -38,9 +38,9 @@ const Stake: FC<Props> = ({ pair }) => {
     );
   };
 
-  const renderUnstakeForm = () => {
+  const renderUnstakeLpForm = () => {
     return (
-      <UnstakeForm
+      <UnstakeLpForm
         pair={pair}
         pool={pool}
         type={type}
@@ -55,8 +55,8 @@ const Stake: FC<Props> = ({ pair }) => {
     <Box m="0 auto" pt="12">
       <Flex gridGap="8">
         <Box w="container.sm">
-          {type === PoolFormType.Stake && renderStakeForm()}
-          {type === PoolFormType.Unstake && renderUnstakeForm()}
+          {type === PoolFormType.Stake && renderStakeLpForm()}
+          {type === PoolFormType.Unstake && renderUnstakeLpForm()}
         </Box>
 
         {/* @ts-expect-error */}

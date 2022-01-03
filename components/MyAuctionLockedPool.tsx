@@ -11,7 +11,7 @@ import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import AuctionActionsTd from "components/table/AuctionActionsTd";
 
-const MyLockedPool = () => {
+const MyAuctionLockedPool = () => {
   const auctionPools = useAuctionPools();
 
   const columns = useMemo(
@@ -86,4 +86,4 @@ const MyLockedPool = () => {
   );
 };
 
-export default MyLockedPool;
+export default MyAuctionLockedPool;

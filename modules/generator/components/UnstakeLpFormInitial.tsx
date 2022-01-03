@@ -1,17 +1,21 @@
 import React from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
-import { StakeFormFooter, StakeLpTokenState } from "modules/staking";
-import { ONE_TOKEN } from "constants/constants";
+import {
+  StakeLpTokenState,
+  useStakedLpAmount,
+  UnstakeLpFormFooter,
+} from "modules/generator";
+import { FormActions, FormActionItem } from "modules/common";
 import { PoolFormType } from "types/common";
+import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import AstroSlider from "components/AstroSlider";
-import { FormActionItem, FormActions } from "modules/common";
 
 type Params = {
   state: StakeLpTokenState;
@@ -22,11 +26,9 @@ type Params = {
   onClick: () => void;
 };
 
-const StakeFormInitial = ({
+const UnstakeLpFormInitial = ({
   type,
   onTypeClick,
-  isChartOpen,
-  onChartClick,
   state,
   onClick,
 }: Params) => {
@@ -34,8 +36,8 @@ const StakeFormInitial = ({
 
   const token = watch("token");
   const amount = watch("amount");
-  const balance = useBalance(token);
-  const max = num(balance).div(ONE_TOKEN).toNumber();
+  const stakedAmount = useStakedLpAmount(token);
+  const max = num(stakedAmount).div(ONE_TOKEN).toNumber();
 
   const handleChange = (value: number) => {
     setValue("amount", String(value));
@@ -60,9 +62,9 @@ const StakeFormInitial = ({
 
       <Card mb="2">
         <Text textStyle="small" variant="secondary">
-          ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
-          Astroport LP tokens here to receive ASTRO governance tokens AND
-          third-party governance tokens.
+          Unstake your LP tokens below. Any ASTRO rewards accrued can be claimed
+          in your rewards center. If you unstake all of your LP tokens, you stop
+          receiving ASTRO and potential third party rewards.
         </Text>
       </Card>
 
@@ -84,7 +86,11 @@ const StakeFormInitial = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput asset={token} {...field} />
+                <NewAmountInput
+                  asset={token}
+                  balance={stakedAmount}
+                  {...field}
+                />
               )}
             />
           </Box>
@@ -111,9 +117,9 @@ const StakeFormInitial = ({
         </Card>
       )}
 
-      <StakeFormFooter data={state} onConfirmClick={onClick} />
+      <UnstakeLpFormFooter data={state} onConfirmClick={onClick} />
     </>
   );
 };
 
-export default StakeFormInitial;
+export default UnstakeLpFormInitial;

@@ -13,7 +13,7 @@ type Props = {
   onTypeClick: (m: PoolFormType) => void;
 };
 
-const UnstakeActions: FC<Props> = ({
+const UnstakeLpActions: FC<Props> = ({
   type,
   isChartOpen,
   onChartClick,
@@ -53,4 +53,4 @@ const UnstakeActions: FC<Props> = ({
   );
 };
 
-export default UnstakeActions;
+export default UnstakeLpActions;

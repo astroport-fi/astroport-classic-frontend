@@ -9,9 +9,9 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
-import MyActionsTd from "components/table/MyActionsTd";
+import MyLockActionsTd from "components/table/MyLockActionsTd";
 
-const MyLockedAstroLiquidity = () => {
+const MyLockedPools = () => {
   const pools = useAstroPools();
 
   const columns = useMemo(
@@ -51,7 +51,7 @@ const MyLockedAstroLiquidity = () => {
       {
         id: "pool-actions",
         Cell: ({ row }: any) => (
-          <MyActionsTd
+          <MyLockActionsTd
             name={row.original.name}
             duration={row.original.duration}
             isClaimable={row.original.isClaimable}
@@ -86,4 +86,4 @@ const MyLockedAstroLiquidity = () => {
   );
 };
 
-export default MyLockedAstroLiquidity;
+export default MyLockedPools;

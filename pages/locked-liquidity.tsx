@@ -3,8 +3,8 @@ import Head from "next/head";
 import { NextPage } from "next";
 import { Container, Box } from "@chakra-ui/react";
 
-import MyLockedAstroLiquidity from "components/MyLockedAstroLiquidity";
-import MyLockedPool from "components/MyLockedPool";
+import MyLockedPools from "components/MyLockedPools";
+import MyAuctionLockedPool from "components/MyAuctionLockedPool";
 
 const LockedLiquidityPage: NextPage = () => {
   return (
@@ -13,10 +13,10 @@ const LockedLiquidityPage: NextPage = () => {
         <title>Astroport</title>
       </Head>
       <Container px={["6", null, "12"]} maxWidth="container.xl">
-        <MyLockedAstroLiquidity />
+        <MyLockedPools />
 
         <Box mt="4" mb="24">
-          <MyLockedPool />
+          <MyAuctionLockedPool />
         </Box>
       </Container>
     </>
