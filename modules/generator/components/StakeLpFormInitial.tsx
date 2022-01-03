@@ -60,9 +60,9 @@ const StakeLpFormInitial = ({
 
       <Card mb="2">
         <Text textStyle="small" variant="secondary">
-          ASTRO Generators support &quot;dual liquidity mining.&quot; Stake your
-          Astroport LP tokens here to receive ASTRO governance tokens AND
-          third-party governance tokens.
+          ASTRO Generators give out ASTRO emissions and, on a case by case
+          basis, third-party token incentives. Stake your Astroport LP tokens to
+          receive emissions.
         </Text>
       </Card>
 

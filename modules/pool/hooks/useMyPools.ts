@@ -145,6 +145,8 @@ export const useMyPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
+        canManage: num(providedBalance).gt(0),
+        canStake: num(stakedBalance).gt(0),
       };
     });
 

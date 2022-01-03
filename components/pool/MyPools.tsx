@@ -50,9 +50,7 @@ const MyPools: FC = () => {
       },
       {
         id: "pool-actions",
-        Cell: ({ row }: any) => (
-          <MyPoolActionsTd contract={row.original.contract} />
-        ),
+        Cell: ({ row }: any) => <MyPoolActionsTd data={row.original} />,
         accessor: "actions",
         width: 80,
       },

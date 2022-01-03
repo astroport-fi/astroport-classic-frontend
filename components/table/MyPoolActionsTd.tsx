@@ -3,10 +3,16 @@ import Link from "next/link";
 import { Button, ButtonGroup, Flex } from "@chakra-ui/react";
 
 type Props = {
-  contract: string;
+  data: {
+    contract: string;
+    canManage: boolean;
+    canStake: boolean;
+  };
 };
 
-const MyPoolActionsTd: FC<Props> = ({ contract }) => {
+const MyPoolActionsTd: FC<Props> = ({ data }) => {
+  const { contract, canManage, canStake } = data;
+
   return (
     <Flex justify="flex-end">
       <ButtonGroup isAttached>
