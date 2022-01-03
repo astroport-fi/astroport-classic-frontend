@@ -7,14 +7,66 @@ type Props = {
     contract: string;
     canManage: boolean;
     canStake: boolean;
+    isStakable: boolean;
   };
 };
 
 const MyPoolActionsTd: FC<Props> = ({ data }) => {
-  const { contract, canManage, canStake } = data;
+  const { contract, canManage, canStake, isStakable } = data;
 
-  return (
-    <Flex justify="flex-end">
+  const renderButtons = () => {
+    if (isStakable) {
+      <Link href={`/pools/${contract}/stake`} passHref>
+        <Button
+          as="a"
+          variant="primary"
+          size="sm"
+          px="0"
+          minW="20"
+          borderLeft="2px"
+          borderLeftColor="brand.deepBlue"
+        >
+          Stake
+        </Button>
+      </Link>;
+    }
+
+    if (canStake && !isStakable) {
+      return (
+        <ButtonGroup isAttached>
+          <Link href={`/pools/${contract}`} passHref>
+            <Button as="a" variant="primary" size="sm" px="0" minW="20">
+              Manage
+            </Button>
+          </Link>
+          <Link href={`/pools/${contract}/unstake`} passHref>
+            <Button
+              as="a"
+              variant="primary"
+              size="sm"
+              px="0"
+              minW="20"
+              borderLeft="2px"
+              borderLeftColor="brand.deepBlue"
+            >
+              Unstake
+            </Button>
+          </Link>
+        </ButtonGroup>
+      );
+    }
+
+    if (canManage && !isStakable) {
+      return (
+        <Link href={`/pools/${contract}`} passHref>
+          <Button as="a" variant="primary" size="sm" px="0" minW="20">
+            Manage
+          </Button>
+        </Link>
+      );
+    }
+
+    return (
       <ButtonGroup isAttached>
         <Link href={`/pools/${contract}`} passHref>
           <Button as="a" variant="primary" size="sm" px="0" minW="20">
@@ -35,8 +87,10 @@ const MyPoolActionsTd: FC<Props> = ({ data }) => {
           </Button>
         </Link>
       </ButtonGroup>
-    </Flex>
-  );
+    );
+  };
+
+  return <Flex justify="flex-end">{renderButtons()}</Flex>;
 };
 
 export default MyPoolActionsTd;

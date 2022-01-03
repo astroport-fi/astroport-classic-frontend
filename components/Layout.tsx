@@ -54,10 +54,8 @@ const Layout: FC = ({ children }) => {
         // }}
         >
           <AstroswapProvider data={whitelist}>
-            <Box py={8}>
-              <Navbar />
-              <Box flex="1">{children}</Box>
-            </Box>
+            <Navbar />
+            <Box flex="1">{children}</Box>
           </AstroswapProvider>
         </TerraWebappProvider>
       )}

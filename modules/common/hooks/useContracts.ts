@@ -21,6 +21,7 @@ type Contracts = {
   lockdrop: string;
   airdrop: string;
   auction: string;
+  stakableLp: string[];
   pairs: Pair[];
 };
 
@@ -38,13 +39,18 @@ const defaultContracts: { [key: string]: any } = {
     bLunaToken: "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
     factory: "terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g",
     router: "terra16t7dpwwgx9n3lq6l6te3753lsjqwhxwpday9zx",
-    vesting: "",
+    vesting: "terra1hncazf652xa0gpcwupxfj6k4kl4k4qg64yzjyf",
     staking: "terra1nq4aszdm82wujstxwpjxtvckg7ghu63mqkey33",
     maker: "terra12u7hcmpltazmmnq0fvyl225usn3fy6qqlp05w0",
-    generator: "",
+    generator: "terra1zgrx9jjqrfye8swykfgmd6hpde60j0nszzupp9",
     lockdrop: "terra1627ldjvxatt54ydd3ns6xaxtd68a2vtyu7kakj",
     airdrop: "terra1dpe2aqykm2vnakcz4vgpha0agxnlkjvgfahhk7",
     auction: "terra1tvld5k6pus2yh7pcu7xuwyjedn7mjxfkkkjjap",
+    stakableLp: [
+      "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
+      "terra1htw7hm40ch0hacm8qpgd24sus4h0tq3hsseatl",
+      "terra1m24f7k4g66gnh9f7uncp32p722v0kyt3q4l3u5",
+    ],
     pairs: [
       {
         lp: "terra17dkr9rnmtmu7x4azrpupukvur2crnptyfvsrvr",
@@ -103,6 +109,7 @@ const defaultContracts: { [key: string]: any } = {
     lockdrop: "terra135elmt965n2nm9mwgpv4rf99tsn5xsm360jm6x",
     airdrop: "terra1fz4edcv8ht60jzhdg98dn67pe3n26989rn562j",
     auction: "terra1xsnfmfsa9p2ru6k7cp5gkqyg7eyef64q96kn0m",
+    stakableLp: [],
     pairs: [
       {
         contract: "terra13p2rtuujytdtkq8yfyk023etg07j2pqk5jj6gt",

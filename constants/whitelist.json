@@ -50,10 +50,10 @@
         "token": "terra12897djskt9rge8dtmm86w654g7kzckkd698608",
         "icon": "https://terra.nexusprotocol.app/assets/psi.png"
       },
-      "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy": {
+      "terra1dy9kmlm4anr92e42mrkjwzyvfqwz66un00rwr5": {
         "protocol": "Valkyrie",
         "symbol": "VKR",
-        "token": "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy",
+        "token": "terra1dy9kmlm4anr92e42mrkjwzyvfqwz66un00rwr5",
         "icon": "https://app.valkyrieprotocol.com/icon_vkr.png"
       },
       "terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6": {
@@ -224,7 +224,7 @@
         "asset_infos": [
           {
             "token": {
-              "contract_addr": "terra180fqyrxtgjh379v30kxj0ph2wgg4vxaphnx7fy"
+              "contract_addr": "terra1dy9kmlm4anr92e42mrkjwzyvfqwz66un00rwr5"
             }
           },
           {

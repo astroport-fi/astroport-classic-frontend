@@ -84,7 +84,7 @@ const createQueryNotConnected = (pairs) => {
 
 export const useMyPools = () => {
   const { pairs } = useAstroswap();
-  const { generator } = useContracts();
+  const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
 
@@ -137,6 +137,8 @@ export const useMyPools = () => {
         .dp(6)
         .toNumber();
 
+      const isStakable = stakableLp.includes(liquidity_token);
+
       return {
         contract: contract_addr,
         assets: denoms,
@@ -147,6 +149,7 @@ export const useMyPools = () => {
         myLiquidityInUst,
         canManage: num(providedBalance).gt(0),
         canStake: num(stakedBalance).gt(0),
+        isStakable,
       };
     });
 

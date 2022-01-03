@@ -8,6 +8,8 @@ import { ProvideState, Pool } from "modules/pool";
 import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
 
 import Card from "components/Card";
+import CircularIcon from "components/common/CircularIcon";
+import PlusIcon from "components/icons/PlusIcon";
 import NewAmountInput from "components/NewAmountInput";
 import TokenInput from "components/TokenInput";
 import PoolHeader from "components/pool/PoolHeader";
@@ -140,39 +142,12 @@ const ProvideFormInitial: FC<Props> = ({
         onModeClick={onModeClick}
       />
 
-      <Card>
-        <Flex>
-          <Box flex="1" pr="8">
-            <Controller
-              name="token1"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => <TokenInput isSingle {...field} />}
-            />
-          </Box>
-          <Box flex="1">
-            <Controller
-              name="amount1"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <NewAmountInput
-                  asset={token1}
-                  max={maxAmounts.token1}
-                  {...getInputProps(field)}
-                />
-              )}
-            />
-          </Box>
-        </Flex>
-      </Card>
-
-      {mode == ProvideFormMode.Double && (
-        <Card mt="2">
+      <Box position="relative">
+        <Card>
           <Flex>
             <Box flex="1" pr="8">
               <Controller
-                name="token2"
+                name="token1"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => <TokenInput isSingle {...field} />}
@@ -180,13 +155,13 @@ const ProvideFormInitial: FC<Props> = ({
             </Box>
             <Box flex="1">
               <Controller
-                name="amount2"
+                name="amount1"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
                   <NewAmountInput
-                    asset={token2}
-                    max={maxAmounts.token2}
+                    asset={token1}
+                    max={maxAmounts.token1}
                     {...getInputProps(field)}
                   />
                 )}
@@ -194,7 +169,48 @@ const ProvideFormInitial: FC<Props> = ({
             </Box>
           </Flex>
         </Card>
-      )}
+
+        {mode == ProvideFormMode.Double && (
+          <>
+            <Box
+              position="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+            >
+              <CircularIcon>
+                <PlusIcon />
+              </CircularIcon>
+            </Box>
+            <Card mt="2">
+              <Flex>
+                <Box flex="1" pr="8">
+                  <Controller
+                    name="token2"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => <TokenInput isSingle {...field} />}
+                  />
+                </Box>
+                <Box flex="1">
+                  <Controller
+                    name="amount2"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <NewAmountInput
+                        asset={token2}
+                        max={maxAmounts.token2}
+                        {...getInputProps(field)}
+                      />
+                    )}
+                  />
+                </Box>
+              </Flex>
+            </Card>
+          </>
+        )}
+      </Box>
 
       <Card mt="2">
         <AstroSlider

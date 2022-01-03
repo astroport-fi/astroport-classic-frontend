@@ -79,7 +79,7 @@ export const useAllPools = () => {
   }
 
   const result = useHive({
-    name: ["pools", "my", address],
+    name: ["pools", "all", address],
     query,
     options: {
       enabled: !!query,
