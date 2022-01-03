@@ -20,7 +20,7 @@ const List: FC<Props> = ({ tokens, onClick, filtered = false }) => {
           {filtered ? `${tokens.length}` : "all"} token found
         </Text>
       )}
-      <Box h="3xs" overflowY="auto" mt="2">
+      <Box h={["28", "3xs"]} overflowY="auto" mt="2">
         {tokens.map((token) => {
           return <ListItem key={token} token={token} onClick={onClick} />;
         })}

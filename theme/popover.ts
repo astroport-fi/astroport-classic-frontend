@@ -83,7 +83,8 @@ const styles = {
       bg: "#C2D9FF",
       color: "brand.deepBlue",
       width: "full",
-      p: 6,
+      py: [5, 6],
+      px: 6,
       boxShadow: "xl",
       borderRadius: "2xl",
       _focus: {

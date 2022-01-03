@@ -92,7 +92,7 @@ const Select: FC<Props> = ({
   };
 
   const placement = useBreakpointValue({
-    base: "top-start",
+    base: "auto",
     md: "right",
   }) as PlacementWithLogical;
 
@@ -130,7 +130,7 @@ const Select: FC<Props> = ({
         </Button>
       )}
     >
-      <VStack spacing={6} align="stretch" mt="1" w={["65", "96", null]}>
+      <VStack spacing={6} align="stretch" w={["100%", "96", null]}>
         <Search
           color={inputColor}
           iconStyle={{ color: inputColor }}
