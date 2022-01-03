@@ -9,15 +9,17 @@ type Props = {
 };
 
 const List: FC<Props> = ({ tokens, onClick, filtered = false }) => {
+  const tokenWord = tokens.length === 1 ? "token" : "tokens";
+
   return (
     <Box>
       {tokens.length === 0 ? (
         <Text textStyle="minibutton" color="red.500">
-          Token not found
+          Tokens not found
         </Text>
       ) : (
         <Text textStyle="minibutton">
-          {filtered ? `${tokens.length}` : "all"} token found
+          {filtered ? `${tokens.length}` : "all"} {tokenWord} found
         </Text>
       )}
       <Box h={["28", "3xs"]} overflowY="auto" mt="2">
