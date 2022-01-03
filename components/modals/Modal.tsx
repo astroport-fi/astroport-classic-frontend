@@ -19,12 +19,12 @@ const Modal: FC<Props> = ({ children, isOpen, onClose, title }) => {
   return (
     <ChakraModal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx={["4", null, "0"]}>
         <Flex justify="space-between" align="center">
           <ModalHeader flex={1}>{title}</ModalHeader>
           <ModalCloseButton />
         </Flex>
-        <ModalBody>{children}</ModalBody>
+        <ModalBody px={["0", "inherit"]}>{children}</ModalBody>
       </ModalContent>
     </ChakraModal>
   );

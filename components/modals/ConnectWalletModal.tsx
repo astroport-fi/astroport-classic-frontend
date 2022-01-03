@@ -33,6 +33,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
             bg: "white",
             color: "brand.dark",
           }}
+          d={["none", "block"]}
           onClick={() => {
             onClose();
             connect(ConnectType.EXTENSION);
