@@ -35,16 +35,22 @@ const Navbar: FC = () => {
   return (
     <Container
       maxW="container.xl"
-      px={["6", null, "12"]}
+      px={["4", "8", "12"]}
       pt="8"
       position="relative"
       centerContent
     >
-      <Flex w="100%" justify="space-between" align="center">
+      <Flex
+        w="100%"
+        justify="space-between"
+        align="center"
+        rowGap={4}
+        wrap={["wrap", "nowrap"]}
+      >
         <Box flexShrink={0}>
           <Link href="/" passHref>
             <a>
-              <Image src="/logo.svg" alt="WhiteWhale Logo" />
+              <Image src="/logo.svg" w={["8", "10"]} alt="WhiteWhale Logo" />
             </a>
           </Link>
         </Box>
