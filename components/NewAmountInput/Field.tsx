@@ -84,6 +84,7 @@ const Field: FC<Props> = forwardRef(
           isDisabled={isDisabled}
           isLoading={isLoading}
           hidePrice={hidePrice}
+          isLpToken={isLpToken}
         />
         {renderBalance()}
       </Box>

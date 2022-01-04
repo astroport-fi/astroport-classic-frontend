@@ -11,6 +11,8 @@ import { num } from "@arthuryeti/terra";
 
 import { useTokenPriceInUst } from "modules/swap";
 
+import { Price, PriceLP } from "components/NewAmountInput";
+
 type Props = {
   onChange: any;
   onBlur: any;
@@ -21,6 +23,7 @@ type Props = {
   isLoading?: boolean;
   clampValueOnBlur?: boolean;
   hidePrice?: boolean;
+  isLpToken?: boolean;
 };
 
 const Input: FC<Props> = ({
@@ -33,16 +36,19 @@ const Input: FC<Props> = ({
   isLoading,
   isDisabled,
   hidePrice = false,
+  isLpToken = false,
 }) => {
-  const price = useTokenPriceInUst(asset);
-
-  const totalInUst = useMemo(() => {
-    if (value == "" || num(value).eq(0)) {
-      return 0;
+  const renderPrice = () => {
+    if (hidePrice) {
+      return null;
     }
 
-    return num(value).times(price).toFixed(2);
-  }, [price, value]);
+    if (isLpToken) {
+      return <PriceLP token={asset} amount={value} />;
+    }
+
+    return <Price token={asset} amount={value} />;
+  };
 
   return (
     <Box>
@@ -60,13 +66,7 @@ const Input: FC<Props> = ({
         isLoading={isLoading}
       >
         <NumberInputField placeholder="0.0" pt={hidePrice ? 4 : 0} />
-        {!hidePrice && (
-          <Box position="absolute" bottom="2" right="4" color="white">
-            <Text textStyle="small" variant="dimmed">
-              ${totalInUst}
-            </Text>
-          </Box>
-        )}
+        {renderPrice()}
         {isLoading && (
           <InputLeftElement>
             <Spinner size="xs" color="white.500" />
