@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import { num } from "@arthuryeti/terra";
 
 import { useContracts } from "modules/common";
+import { useAirdropStillClaimable } from "modules/airdrop";
+import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
 import SuccessIcon from "components/icons/SuccessIcon";
 import TokenCard from "components/common/TokenCard";
-import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   amount: string;
@@ -22,6 +23,10 @@ const MotionBox = motion(Box);
 const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
   const { astroToken } = useContracts();
   const newAmount = num(amount).div(ONE_TOKEN).dp(5).toNumber();
+  const isClaimable = useAirdropStillClaimable();
+  const rewardsMessage = isClaimable
+    ? "Available Airdrop"
+    : "Airdrop has already been claimed";
 
   return (
     <MotionBox
@@ -50,12 +55,14 @@ const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
             onClick={onCloseClick}
           />
         </Flex>
-        <Text textStyle="medium" variant="dimmed" mb="3">
-          To claim your airdrop, open the rewards center in the top-right of the
-          page.
-        </Text>
+        {isClaimable && (
+          <Text textStyle="medium" variant="dimmed" mb="3">
+            To claim your airdrop, open the rewards center in the top-right of
+            the page.
+          </Text>
+        )}
         <Text variant="light" mb="2">
-          Available Airdrop
+          {rewardsMessage}
         </Text>
         <TokenCard
           token={{
