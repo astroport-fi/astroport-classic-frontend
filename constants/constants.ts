@@ -119,3 +119,34 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 //     "xyk": {}
 //   }
 // }
+
+// "terra190tqwgqx7s8qrknz6kckct7v607cu068gfujpk": {
+//   "protocol": "Wormhole",
+//   "symbol": "wSOL",
+//   "token": "terra190tqwgqx7s8qrknz6kckct7v607cu068gfujpk",
+//   "icon": "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/SOL_wh.png"
+// },
+// "terra1hj8de24c3yqvcsv9r8chr03fzwsak3hgd8gv3m": {
+//   "protocol": "Wormhole",
+//   "symbol": "wAVAX",
+//   "token": "terra1hj8de24c3yqvcsv9r8chr03fzwsak3hgd8gv3m",
+//   "icon": "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/AVAX_wh.png"
+// },
+// "terra1cetg5wruw2wsdjp7j46rj44xdel00z006e9yg8": {
+//   "protocol": "Wormhole",
+//   "symbol": "wBNB",
+//   "token": "terra1cetg5wruw2wsdjp7j46rj44xdel00z006e9yg8",
+//   "icon": "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/BNB_wh.png"
+// },
+// "terra14tl83xcwqjy0ken9peu4pjjuu755lrry2uy25r": {
+//   "protocol": "Wormhole",
+//   "symbol": "wETH",
+//   "token": "terra14tl83xcwqjy0ken9peu4pjjuu755lrry2uy25r",
+//   "icon": "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/ETH_wh.png"
+// },
+// "terra1dtqlfecglk47yplfrtwjzyagkgcqqngd5lgjp8": {
+//   "protocol": "Wormhole",
+//   "symbol": "wMATIC",
+//   "token": "terra1dtqlfecglk47yplfrtwjzyagkgcqqngd5lgjp8",
+//   "icon": "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/MATICpo_wh.png"
+// }
