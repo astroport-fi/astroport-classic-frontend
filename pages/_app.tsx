@@ -11,6 +11,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { Hydrate } from "react-query/hydration";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -24,6 +25,7 @@ dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(advancedFormat);
+dayjs.extend(utc);
 
 const MyApp = ({
   Component,

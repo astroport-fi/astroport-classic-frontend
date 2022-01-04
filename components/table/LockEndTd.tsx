@@ -9,7 +9,7 @@ type Props = {
 
 const LockEndTd: FC<Props> = ({ row }) => {
   const { lockEnd } = row.original;
-  const date = dayjs.unix(lockEnd);
+  const date = dayjs.unix(lockEnd).utc();
 
   const remainingDays = date.diff(Date.now(), "day", false);
 
