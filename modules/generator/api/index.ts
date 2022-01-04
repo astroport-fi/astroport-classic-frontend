@@ -1,1 +1,1 @@
-export * from "./createLpMsgs";
+export * from "./createGeneratorMsgs";

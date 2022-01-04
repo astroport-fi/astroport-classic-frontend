@@ -13,6 +13,7 @@ import {
 
 import CloseIcon from "components/icons/CloseIcon";
 import RewardList from "components/reward/RewardList";
+import RewardBreakdown from "components/reward/RewardBreakdown";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ClaimAllRewardsBtn from "components/reward/ClaimAllRewardsBtn";
 
@@ -34,6 +35,7 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
       triggerElement={triggerElement}
     >
       <RewardList />
+      <RewardBreakdown />
       <ClaimAllRewardsBtn onSuccess={onClose} />
     </PopoverWrapper>
   );

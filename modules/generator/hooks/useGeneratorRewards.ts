@@ -50,7 +50,7 @@ const createQuery = (pairs, address, generator) => {
 `;
 };
 
-export const useBreakdownRewards = () => {
+export const useGeneratorRewards = () => {
   const { pairs } = useAstroswap();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
@@ -97,4 +97,4 @@ export const useBreakdownRewards = () => {
   }, [lunaPrice, pairs, result]);
 };
 
-export default useBreakdownRewards;
+export default useGeneratorRewards;

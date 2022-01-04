@@ -56,5 +56,3 @@ export const createUnstakeLpMsgs = (
 
   return [msg];
 };
-
-export default createUnstakeLpMsgs;

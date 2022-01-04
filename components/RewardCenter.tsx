@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
 
-import { useBreakdownRewards } from "modules/generator";
 import { useTotalRewardValue } from "modules/reward";
 import { formatBigNumbers } from "modules/common";
 
