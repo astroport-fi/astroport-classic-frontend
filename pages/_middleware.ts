@@ -3,12 +3,7 @@ import { NextResponse, NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   const { name } = req.page;
 
-  if (
-    name == "/pools/[pair]/stake" ||
-    name == "/staking" ||
-    name == "/" ||
-    name == "/staking/[action]"
-  ) {
+  if (name == "/") {
     return NextResponse.redirect("/swap");
   }
 

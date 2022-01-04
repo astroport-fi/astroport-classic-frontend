@@ -11,7 +11,7 @@ type Props = {
   isDisabled?: boolean;
 };
 
-const AmountMaxButton: FC<Props> = ({ onChange, max, asset, isDisabled }) => {
+const MaxButton: FC<Props> = ({ onChange, max, asset, isDisabled }) => {
   const { taxRate, taxCap } = useTerraWebapp();
 
   const balance = useBalance(asset);
@@ -59,4 +59,4 @@ const AmountMaxButton: FC<Props> = ({ onChange, max, asset, isDisabled }) => {
   );
 };
 
-export default AmountMaxButton;
+export default MaxButton;

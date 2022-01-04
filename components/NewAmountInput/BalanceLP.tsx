@@ -1,6 +1,9 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Button, HStack } from "@chakra-ui/react";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import { useBalance, num } from "@arthuryeti/terra";
+
+import { ONE_TOKEN } from "constants/constants";
+import numeral from "numeral";
 
 type Props = {
   asset: string;
@@ -24,7 +27,10 @@ const BalanceLP: FC<Props> = ({
   onChange,
 }) => {
   const balance = useBalance(asset);
-  const amount = fromTerraAmount(initial ?? balance, "0.0[00000]");
+  const amount = num(initial ?? balance)
+    .div(ONE_TOKEN)
+    .dp(2)
+    .toNumber();
 
   const renderButton = () => {
     if (!hideButton) {
@@ -50,7 +56,7 @@ const BalanceLP: FC<Props> = ({
               {label}:
             </Text>{" "}
             <Text fontSize="sm" color="white" ml="2">
-              {fromTerraAmount(initial ?? balance, "0,0.00")}
+              {numeral(amount).format("0,0.00")}
             </Text>
           </HStack>
         </Box>

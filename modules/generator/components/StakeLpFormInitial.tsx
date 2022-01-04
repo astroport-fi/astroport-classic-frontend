@@ -84,7 +84,7 @@ const StakeLpFormInitial = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <NewAmountInput asset={token} {...field} />
+                <NewAmountInput asset={token} isLpToken {...field} />
               )}
             />
           </Box>

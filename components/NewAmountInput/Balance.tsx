@@ -5,6 +5,7 @@ import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 import { MaxButton } from "components/NewAmountInput";
 import { useTokenInfo } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
+import numeral from "numeral";
 
 type Props = {
   asset: string;
@@ -33,7 +34,10 @@ const Balance: FC<Props> = ({
     .div(10 ** getDecimals(asset))
     .times(ONE_TOKEN)
     .toFixed(0);
-  const amount = fromTerraAmount(initial ?? newBalance, "0.00");
+  const amount = num(initial ?? newBalance)
+    .div(ONE_TOKEN)
+    .dp(2)
+    .toNumber();
 
   const renderButton = () => {
     if (!hideButton) {
@@ -66,7 +70,7 @@ const Balance: FC<Props> = ({
             </Text>
           )}{" "}
           <Text fontSize="sm" color="white" ml="2">
-            {fromTerraAmount(initial ?? newBalance, "0,0.00")}
+            {numeral(amount).format("0,0.00")}
           </Text>
         </HStack>
       </Box>
