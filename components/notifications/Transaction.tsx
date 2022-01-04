@@ -21,7 +21,7 @@ const Transaction: FC<Props> = ({
   children,
 }) => {
   const finder = useFinder();
-  const [pause, resume] = useTimeout(9000, onClose);
+  const [pause, resume] = useTimeout(60000, onClose);
 
   const icon = {
     succeed: <CheckIcon color="otherColours.green" w={3} />,
