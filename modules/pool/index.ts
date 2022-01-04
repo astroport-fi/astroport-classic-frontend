@@ -8,7 +8,6 @@ export * from "./hooks/useEstShareInUst";
 export * from "./hooks/useLpToTokens";
 export * from "./hooks/useTokensToLp";
 export * from "./hooks/useShareInUst";
-export * from "./hooks/usePools";
 export * from "./hooks/useGetPool";
 export * from "./hooks/usePoolFee";
 export * from "./hooks/useWithdraw";

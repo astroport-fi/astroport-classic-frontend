@@ -1,8 +1,6 @@
 import React, { FC, useMemo } from "react";
 import { Container, Box, Heading } from "@chakra-ui/react";
 
-import { usePools } from "modules/pool";
-
 // import PoolsOverview from "components/pool/PoolsOverview";
 import MyPools from "components/pool/MyPools";
 import AllPools from "components/pool/AllPools";
