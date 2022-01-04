@@ -35,7 +35,7 @@ const LpTokenCard: FC<Props> = ({ token }) => {
     const totalPrice1 = num(tokenAmounts[token1]).times(price1);
     const totalPrice2 = num(tokenAmounts[token2]).times(price2);
 
-    return totalPrice1.plus(totalPrice2).div(2).toString();
+    return totalPrice1.plus(totalPrice2).toString();
   }, [pool]);
 
   const tokenAmount = numeral(token.amount).format("0,0.[000]");
