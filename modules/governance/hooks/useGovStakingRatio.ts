@@ -13,7 +13,7 @@ export const useGovStakingRatio = () => {
   const { astroToken, staking } = useContracts();
   const govAstroBalance = useBalance(astroToken, staking);
 
-  const { data } = useQuery(["supply", astroToken], () => {
+  const { data, isLoading } = useQuery(["supply", astroToken], () => {
     return client.wasm.contractQuery<Response>(astroToken, {
       token_info: {},
     });
@@ -36,5 +36,5 @@ export const useGovStakingRatio = () => {
     return num((staked * 100) / total)
       .dp(2)
       .toNumber();
-  }, [data]);
+  }, [data, govAstroBalance]);
 };

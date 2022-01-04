@@ -26,7 +26,7 @@ const GovernancePage = () => {
 
   const data = [
     {
-      label: "Total staked xASTRO",
+      label: "Total Staked ASTRO",
       value: fromTerraAmount(govXAstroBalance, "0,0.00"),
     },
     { label: "Protocol Staking Ratio", value: `${stakingRatio}%` },
