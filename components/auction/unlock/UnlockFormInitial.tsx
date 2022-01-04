@@ -79,6 +79,7 @@ const UnlockFormInitial = ({ state, onClick }: Params) => {
                   balance={balance}
                   isLpToken
                   isSingle
+                  hidePrice
                   balanceLabel="Withdrawable LP Tokens"
                 />
               )}
