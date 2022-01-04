@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUst } from "modules/swap";

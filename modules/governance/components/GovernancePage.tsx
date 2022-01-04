@@ -47,7 +47,7 @@ const GovernancePage = () => {
           <Text textStyle="medium">About Governance</Text>
           <Text textStyle="small" variant="secondary" mt={4}>
             Stake ASTRO for xASTRO in order to participate in Astroport
-            governance. To learn more about existing proposals, or to get
+            staking. To learn more about existing proposals, or to get
             feedback on a proposal you’re considering, visit the Astroport
             forums.
           </Text>
@@ -78,11 +78,7 @@ const GovernancePage = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="space-between">
-            <NextLink
-              href="/governance/stake"
-              passHref
-              isDisabled={astroDisabled}
-            >
+            <NextLink href="/staking/stake" passHref isDisabled={astroDisabled}>
               <Button
                 as="a"
                 type="button"
@@ -93,7 +89,7 @@ const GovernancePage = () => {
               </Button>
             </NextLink>
             <NextLink
-              href="/governance/unstake"
+              href="/staking/unstake"
               passHref
               isDisabled={xAstroDisabled}
             >

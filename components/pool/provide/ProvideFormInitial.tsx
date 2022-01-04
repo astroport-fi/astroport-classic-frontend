@@ -5,7 +5,12 @@ import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
-import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
+import {
+  useTokenInfo,
+  FormActions,
+  FormActionItem,
+  useContracts,
+} from "modules/common";
 
 import Card from "components/Card";
 import CircularIcon from "components/common/CircularIcon";
@@ -49,10 +54,12 @@ const ProvideFormInitial: FC<Props> = ({
   onClick,
 }) => {
   const { getDecimals } = useTokenInfo();
+  const { stakableLp } = useContracts();
   const token1Balance = useBalance(token1);
   const token2Balance = useBalance(token2);
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
+  const canStake = stakableLp.includes(pool.lpTokenContract);
   const { control, setValue } = useFormContext();
   // const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
   const ratio = num(pool.token2.share)
@@ -232,24 +239,26 @@ const ProvideFormInitial: FC<Props> = ({
         onConfirmClick={onClick}
       />
 
-      <Flex mt={4} mb={8} justifyContent="center">
-        <Controller
-          name="autoStake"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Checkbox
-              colorScheme="whatsapp"
-              iconColor="brand.deepBlue"
-              color="green.500"
-              borderColor="green.500"
-              {...field}
-            >
-              <Text fontSize="xs">Stake LP Token</Text>
-            </Checkbox>
-          )}
-        />
-      </Flex>
+      {canStake && (
+        <Flex mt={4} mb={8} justifyContent="center">
+          <Controller
+            name="autoStake"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Checkbox
+                colorScheme="whatsapp"
+                iconColor="brand.deepBlue"
+                color="green.500"
+                borderColor="green.500"
+                {...field}
+              >
+                <Text fontSize="xs">Stake LP Token</Text>
+              </Checkbox>
+            )}
+          />
+        </Flex>
+      )}
     </>
   );
 };

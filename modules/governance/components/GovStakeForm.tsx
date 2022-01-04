@@ -45,7 +45,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
     onBroadcasting: (txHash) => {
       const txType = type == AstroFormType.Stake ? "govStake" : "govUnstake";
 
-      router.push("/governance");
+      router.push("/staking");
       addNotification({
         notification: {
           type: "started",

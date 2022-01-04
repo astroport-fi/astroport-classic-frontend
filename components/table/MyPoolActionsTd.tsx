@@ -22,7 +22,7 @@ const MyPoolActionsTd: FC<Props> = ({ data }) => {
           variant="primary"
           size="sm"
           px="0"
-          minW="20"
+          minW="40"
           borderLeft="2px"
           borderLeftColor="brand.deepBlue"
         >
@@ -39,7 +39,7 @@ const MyPoolActionsTd: FC<Props> = ({ data }) => {
               Manage
             </Button>
           </Link>
-          <Link href={`/pools/${contract}/unstake`} passHref>
+          <Link href={`/pools/${contract}/stake`} passHref>
             <Button
               as="a"
               variant="primary"
@@ -59,7 +59,7 @@ const MyPoolActionsTd: FC<Props> = ({ data }) => {
     if (canManage && !isStakable) {
       return (
         <Link href={`/pools/${contract}`} passHref>
-          <Button as="a" variant="primary" size="sm" px="0" minW="20">
+          <Button as="a" variant="primary" size="sm" px="0" minW="40">
             Manage
           </Button>
         </Link>

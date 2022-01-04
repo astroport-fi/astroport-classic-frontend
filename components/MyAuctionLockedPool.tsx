@@ -36,7 +36,7 @@ const MyAuctionLockedPool = () => {
         accessor: "totalLockedLiquidity",
       },
       {
-        Header: "My Liquidity",
+        Header: "My Initial Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
