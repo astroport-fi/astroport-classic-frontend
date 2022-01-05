@@ -55,7 +55,7 @@ const defaultContracts: { [key: string]: any } = {
   },
   testnet: {
     astroToken: "terra1jqcw39c42mf7ngq4drgggakk3ymljgd3r5c3r5",
-    xAstroToken: "terra1afev5`mg7k6gpyn96sv45ql3r35tyknlr72qc3y",
+    xAstroToken: "terra1qpwzk9s9g4jzaqe923w6ym2masuuc7hzz5dv6g",
     astroUstPool: "terra163r28w6jlcn27mzepr6t9lgxmp5vg8305j23j2",
     bLunaToken: "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
     astroUstLpToken: "terra18zjm4scu5wqlskwafclxa9kpa9l3zrvju4vdry",

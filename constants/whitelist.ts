@@ -516,10 +516,10 @@ const whitelist = {
         token: "terra1jqcw39c42mf7ngq4drgggakk3ymljgd3r5c3r5",
         icon: "/tokens/astro.png",
       },
-      terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y: {
+      terra1qpwzk9s9g4jzaqe923w6ym2masuuc7hzz5dv6g: {
         protocol: "Astroport",
         symbol: "xASTRO",
-        token: "terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y",
+        token: "terra1qpwzk9s9g4jzaqe923w6ym2masuuc7hzz5dv6g",
         icon: "/tokens/xAstro.png",
       },
       uluna: {
