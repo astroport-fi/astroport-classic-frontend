@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
 import { fromTerraAmount } from "@arthuryeti/terra";
+import { useQueryClient } from "react-query";
 
 import { getTokenDenoms, useAstroswap, useTokenInfo } from "modules/common";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const StakeLpNotification: FC<Props> = ({ txInfo }) => {
+  const queryClient = useQueryClient();
   const { getSymbol } = useTokenInfo();
   const { pairs } = useAstroswap();
   const { logs } = txInfo;
@@ -21,6 +23,11 @@ const StakeLpNotification: FC<Props> = ({ txInfo }) => {
   const [token1, token2] = getTokenDenoms(pair?.asset_infos);
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
+
+  useEffect(() => {
+    queryClient.invalidateQueries("pool");
+    queryClient.invalidateQueries("balance");
+  }, []);
 
   return (
     <Text textStyle="medium">

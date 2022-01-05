@@ -1,6 +1,7 @@
 import React, { FC, useState, useCallback } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
 import { PairResponse, useAstroswap } from "modules/common";
@@ -33,6 +34,7 @@ const StakeLpForm: FC<Props> = ({
   onChartClick,
 }) => {
   const { addNotification } = useAstroswap();
+  const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
@@ -50,7 +52,7 @@ const StakeLpForm: FC<Props> = ({
     token,
     amount,
     onBroadcasting: (txHash) => {
-      resetForm();
+      router.push("/pools");
       addNotification({
         notification: {
           type: "started",

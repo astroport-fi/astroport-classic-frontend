@@ -9,7 +9,6 @@ import {
   useTotalRewardValue,
   useBreakdownRewards,
 } from "modules/reward";
-import { useAirdropBalance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
 

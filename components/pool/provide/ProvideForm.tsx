@@ -2,7 +2,7 @@ import React, { FC, useState, useCallback } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { TxStep, toTerraAmount } from "@arthuryeti/terra";
+import { TxStep } from "@arthuryeti/terra";
 
 import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";

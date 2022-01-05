@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 
-import { useAstroswap, useContracts, useLunaPrice } from "modules/common";
+import { useAstroswap, useContracts } from "modules/common";
 import { useHive } from "hooks/useHive";
 
 const createQuery = (pairs, address, generator) => {
@@ -46,7 +46,6 @@ export const useGeneratorRewards = () => {
   const { pairs } = useAstroswap();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
-  const lunaPrice = useLunaPrice();
   const query = createQuery(stakableLp, address, generator);
 
   const result = useHive({
@@ -86,7 +85,7 @@ export const useGeneratorRewards = () => {
     });
 
     return data;
-  }, [lunaPrice, pairs, result]);
+  }, [pairs, result]);
 };
 
 export default useGeneratorRewards;
