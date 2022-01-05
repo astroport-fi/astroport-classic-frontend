@@ -25,7 +25,7 @@ const RewardCenter: FC = () => {
         >
           <Flex justify="space-between" align="center">
             <MoneyStackIcon width="1.25rem" height="1.25rem" />
-            <Text fontSize="sm">{formatted} ASTRO</Text>
+            <Text fontSize="sm">{formatted} UST</Text>
           </Flex>
         </chakra.button>
       )}

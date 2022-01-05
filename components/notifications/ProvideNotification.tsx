@@ -27,6 +27,7 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const amount2 = token2Result?.[1];
 
   useEffect(() => {
+    queryClient.invalidateQueries("pools");
     queryClient.invalidateQueries("pool");
     queryClient.invalidateQueries("balance");
   }, []);

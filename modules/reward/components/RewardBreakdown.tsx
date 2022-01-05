@@ -13,16 +13,27 @@ import {
 import RewardLineItem from "components/reward/RewardLineItem";
 
 const RewardBreakdown: FC = () => {
-  const { astroToken } = useContracts();
   const rewards = useBreakdownRewards();
+
+  if (rewards.length === 0) {
+    return null;
+  }
 
   return (
     <Box>
       <Flex justify="space-between" align="flex-start">
         <Text textStyle="minibutton" fontSize="xs">
-          Total Rewards
+          Rewards BreakDown
         </Text>
       </Flex>
+
+      {rewards.map((reward) => (
+        <RewardLineItem
+          key={reward.token}
+          token={reward.token}
+          amount={reward.amount}
+        />
+      ))}
     </Box>
   );
 };

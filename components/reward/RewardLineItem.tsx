@@ -7,7 +7,7 @@ import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: string;
-  desc: string;
+  desc?: string;
   amount: number | string;
 };
 
@@ -17,17 +17,17 @@ const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
   const balance = numeral(amount).format("0,0.000[000]");
 
   return (
-    <Flex mt={2} justify="space-between">
+    <Flex mt={4} justify="space-between">
       <Flex align="center" justify="space-between" w="full">
         <Box mr="4">
           <Image src={getIcon(token)} alt={getSymbol(token)} boxSize="10" />
         </Box>
         <Box flex="1">
-          <Text fontSize="xl" fontWeight="500" lineHeight="normal">
+          <Text fontSize="xl" fontWeight="500" lineHeight="1">
             {getSymbol(token)}
           </Text>
           <Text fontSize="sm" opacity="0.4">
-            {desc}
+            {desc ?? getProtocol(token)}
           </Text>
         </Box>
         <Box>

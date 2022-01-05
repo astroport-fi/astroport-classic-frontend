@@ -25,6 +25,8 @@ const UnstakeLpNotification: FC<Props> = ({ txInfo }) => {
   const symbol2 = getSymbol(token2);
 
   useEffect(() => {
+    queryClient.invalidateQueries("pools");
+    queryClient.invalidateQueries("pool");
     queryClient.invalidateQueries("balance");
   }, []);
 

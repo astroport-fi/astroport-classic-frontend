@@ -18,6 +18,7 @@ const ClaimRewardsNotification: FC<Props> = ({ txInfo }) => {
   useEffect(() => {
     queryClient.invalidateQueries("userInfo");
     queryClient.invalidateQueries("balance");
+    queryClient.invalidateQueries("rewards");
   }, []);
 
   return <Text textStyle="medium">Rewards Claimed</Text>;

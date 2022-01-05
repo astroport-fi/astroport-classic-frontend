@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 
-import { useAstroswap, useContracts } from "modules/common";
+import { useAstroswap, useContracts, useTokenInfo } from "modules/common";
 import { useHive } from "hooks/useHive";
 
 const createQuery = (pairs, address, generator) => {
@@ -44,6 +44,7 @@ const createQuery = (pairs, address, generator) => {
 
 export const useGeneratorRewards = () => {
   const { pairs } = useAstroswap();
+  const { getDecimals } = useTokenInfo();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const query = createQuery(stakableLp, address, generator);
@@ -70,7 +71,10 @@ export const useGeneratorRewards = () => {
       if (num(amounts.pending).gt(0)) {
         data.push({
           token: tokens.base_reward_token,
-          amount: amounts.pending,
+          amount: num(amounts.pending)
+            .div(10 ** getDecimals(tokens.base_reward_token))
+            .dp(6)
+            .toNumber(),
           lp,
         });
       }
@@ -78,7 +82,10 @@ export const useGeneratorRewards = () => {
       if (num(amounts.pending_on_proxy).gt(0)) {
         data.push({
           token: tokens.proxy_reward_token,
-          amount: amounts.pending_on_proxy,
+          amount: num(amounts.pending_on_proxy)
+            .div(10 ** getDecimals(tokens.proxy_reward_token))
+            .dp(6)
+            .toNumber(),
           lp,
         });
       }

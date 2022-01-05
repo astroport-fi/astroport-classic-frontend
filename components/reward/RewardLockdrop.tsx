@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Text, Flex, VStack } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 
 import { useContracts } from "modules/common";
@@ -28,20 +28,6 @@ const RewardLockdrop: FC = () => {
 
   return (
     <Box mb="6">
-      <Flex justify="space-between" align="flex-start">
-        <Text textStyle="minibutton" fontSize="xs">
-          Total Rewards
-        </Text>
-        <VStack align="flex-end" spacing={1} ml="8">
-          <Text textStyle="h3" lineHeight="1">
-            {formatted} ASTRO
-          </Text>
-          <Text textStyle="small" variant="dimmed">
-            Unclaimed Balance
-          </Text>
-        </VStack>
-      </Flex>
-
       {total > 0 && (
         <Box mt={6}>
           <Text textStyle="minibutton" fontSize="xs">

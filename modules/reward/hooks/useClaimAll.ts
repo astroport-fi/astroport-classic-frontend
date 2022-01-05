@@ -12,10 +12,12 @@ import {
   useAirdrop2Balance,
 } from "modules/airdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
+import { useGeneratorRewards } from "modules/generator";
 import {
   createClaimAirdropMsgs,
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
+  createGeneratorRewardsMsgs,
 } from "modules/reward";
 
 type Params = {
@@ -30,6 +32,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     auction,
     airdrop: airdropContract,
     airdrop2: airdrop2Contract,
+    generator,
   } = useContracts();
   const address = useAddress();
   const userInfo = useUserInfo();
@@ -39,6 +42,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   const airdrop2UserInfo = useAirdrop2UserInfo();
   const airdropBalance = useAirdropBalance();
   const airdrop2Balance = useAirdrop2Balance();
+  const generatorRewards = useGeneratorRewards();
 
   const items = useMemo(() => {
     if (userInfo == null) {
@@ -131,10 +135,23 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase2Msgs);
     }
 
+    if (generatorRewards.length > 0) {
+      const generatorMsgs = createGeneratorRewardsMsgs(
+        {
+          contract: generator,
+          items: generatorRewards,
+        },
+        address
+      );
+
+      data.push(...generatorMsgs);
+    }
+
     return data;
   }, [
     address,
     lockdrop,
+    generatorRewards,
     items,
     auction,
     airdropUserInfo,

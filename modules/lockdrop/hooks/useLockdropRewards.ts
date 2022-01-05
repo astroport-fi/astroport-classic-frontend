@@ -16,9 +16,6 @@ export const useLockdropRewards = () => {
     const data = [];
 
     userInfo.lockup_infos.forEach((info) => {
-      // const tokens = result[`info${lp}`].contractQuery;
-      // const amounts = result[`${lp}`].contractQuery;
-
       if (num(info.claimable_generator_astro_debt).gt(0)) {
         data.push({
           token: astroToken,

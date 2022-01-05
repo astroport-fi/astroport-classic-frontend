@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import RewardLockdrop from "components/reward/RewardLockdrop";
-import RewardBreakdown from "components/reward/RewardBreakdown";
+import { RewardBreakdown, RewardTotal } from "modules/reward";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ClaimAllRewardsBtn from "components/reward/ClaimAllRewardsBtn";
 
@@ -17,12 +17,12 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
     <PopoverWrapper
       title="Rewards"
       offset={[-115, -40]}
-      // placement="left"
       isOpen={isOpen}
       onClose={onClose}
       onOpen={onOpen}
       triggerElement={triggerElement}
     >
+      <RewardTotal />
       <RewardLockdrop />
       <RewardBreakdown />
       <ClaimAllRewardsBtn onSuccess={onClose} />
