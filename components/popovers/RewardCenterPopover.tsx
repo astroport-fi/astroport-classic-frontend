@@ -1,18 +1,7 @@
 import React, { FC } from "react";
-import {
-  Box,
-  Flex,
-  Popover,
-  PopoverContent,
-  PopoverHeader,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverTrigger,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 
-import CloseIcon from "components/icons/CloseIcon";
-import RewardList from "components/reward/RewardList";
+import RewardLockdrop from "components/reward/RewardLockdrop";
 import RewardBreakdown from "components/reward/RewardBreakdown";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ClaimAllRewardsBtn from "components/reward/ClaimAllRewardsBtn";
@@ -34,7 +23,7 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
       onOpen={onOpen}
       triggerElement={triggerElement}
     >
-      <RewardList />
+      <RewardLockdrop />
       <RewardBreakdown />
       <ClaimAllRewardsBtn onSuccess={onClose} />
     </PopoverWrapper>

@@ -1,17 +1,9 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
-import { sortBy, compact } from "lodash";
 
-import {
-  getPoolTokenDenoms,
-  useAstroswap,
-  useContracts,
-  useLunaPrice,
-} from "modules/common";
+import { useAstroswap, useContracts, useLunaPrice } from "modules/common";
 import { useHive } from "hooks/useHive";
-import { getAssetAmountsInPool } from "libs/terra";
-import { ONE_TOKEN } from "constants/constants";
 
 const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {

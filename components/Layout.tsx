@@ -5,7 +5,7 @@ import { TerraWebappProvider } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import Navbar from "components/Navbar";
-import whitelist from "constants/whitelist.json";
+import whitelist from "constants/whitelist";
 import { AstroswapProvider } from "modules/common";
 
 const Layout: FC = ({ children }) => {

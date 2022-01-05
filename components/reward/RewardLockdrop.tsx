@@ -12,7 +12,7 @@ import { useAirdropBalance, useAirdrop2Balance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
 
-const RewardList: FC = () => {
+const RewardLockdrop: FC = () => {
   const { astroToken } = useContracts();
   const phase1Rewards = usePhase1Rewards();
   const phase2Rewards = usePhase2Rewards();
@@ -27,7 +27,7 @@ const RewardList: FC = () => {
   const formatted = numeral(total).format("0,0.000000");
 
   return (
-    <Box>
+    <Box mb="6">
       <Flex justify="space-between" align="flex-start">
         <Text textStyle="minibutton" fontSize="xs">
           Total Rewards
@@ -83,4 +83,4 @@ const RewardList: FC = () => {
   );
 };
 
-export default RewardList;
+export default RewardLockdrop;
