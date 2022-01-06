@@ -53,7 +53,7 @@ const ProvideForm: FC<Props> = ({
         />
       }
       details={[
-        { label: "My provided Liquidiy", value: `$ ${formattedShareInUst}` },
+        { label: "My provided Liquidity", value: `$ ${formattedShareInUst}` },
         {
           label: "Exchange Rate",
           value: `1 ${symbol1} ${exchangeRate} ${symbol2}`,
