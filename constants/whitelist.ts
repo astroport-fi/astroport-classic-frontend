@@ -69,7 +69,7 @@ const whitelist = {
         icon: "https://assets.pylon.rocks/logo/MINE.png",
       },
       terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp: {
-        protocol: "Anchor",
+        protocol: "Terra Bonded Luna",
         symbol: "bLUNA",
         token: "terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp",
         icon: "https://whitelist.anchorprotocol.com/logo/bLUNA.png",
@@ -415,7 +415,7 @@ const whitelist = {
   testnet: {
     tokens: {
       terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
-        protocol: "Anchor",
+        protocol: "Terra Bonded Luna",
         symbol: "bLUNA",
         token: "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
         icon: "https://whitelist.anchorprotocol.com/logo/bLUNA.png",

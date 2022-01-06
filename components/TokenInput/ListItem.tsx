@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ListItem = ({ token, onClick }: Props) => {
-  const { getIcon, getSymbol, getDecimals } = useTokenInfo();
+  const { getIcon, getSymbol, getDecimals, getProtocol } = useTokenInfo();
   const balance = useBalance(token);
   const price = useTokenPriceInUstWithSimulate(token).toFixed(2);
   const tokenBalance = num(balance)
@@ -44,7 +44,7 @@ const ListItem = ({ token, onClick }: Props) => {
             {getSymbol(token)}
           </Text>
           <Text mt="-1" fontSize="sm" opacity="0.4">
-            Terra
+            {getProtocol(token)}
           </Text>
         </Box>
         <Box>
