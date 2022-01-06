@@ -4,7 +4,7 @@ import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
 import { useAstroswap, getTokenDenoms } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGetPool, useLpToTokens } from "modules/pool";
 
 type Props = {
@@ -17,8 +17,8 @@ const PriceLP: FC<Props> = ({ token, amount }) => {
   const pair = pairs.find((v) => v.liquidity_token == token);
   const [token1, token2] = getTokenDenoms(pair?.asset_infos);
   const { data: pool } = useGetPool(pair?.contract_addr);
-  const price1 = useTokenPriceInUst(token1);
-  const price2 = useTokenPriceInUst(token2);
+  const price1 = useTokenPriceInUstWithSimulate(token1);
+  const price2 = useTokenPriceInUstWithSimulate(token2);
   const tokenAmounts = useLpToTokens({ pool, amount });
 
   const totalInUst = useMemo(() => {

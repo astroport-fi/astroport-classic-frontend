@@ -2,7 +2,7 @@ import React, { FC, useMemo } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: string;
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const Price: FC<Props> = ({ token, amount }) => {
-  const price = useTokenPriceInUst(token);
+  const price = useTokenPriceInUstWithSimulate(token);
 
   const totalInUst = useMemo(() => {
     if (amount == "" || num(amount).eq(0)) {

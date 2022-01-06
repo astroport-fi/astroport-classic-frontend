@@ -1,15 +1,11 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 import {
   Box,
-  Text,
   NumberInput,
   NumberInputField,
   InputLeftElement,
   Spinner,
 } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
-
-import { useTokenPriceInUst } from "modules/swap";
 
 import { Price, PriceLP } from "components/NewAmountInput";
 

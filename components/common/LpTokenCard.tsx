@@ -4,7 +4,7 @@ import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGetPool, useLpToTokens } from "modules/pool";
 
 type Props = {
@@ -23,8 +23,8 @@ const LpTokenCard: FC<Props> = ({ token }) => {
   const protocol2 = getProtocol(token2);
   const icon2 = getIcon(token2);
   const symbol2 = getSymbol(token2);
-  const price1 = useTokenPriceInUst(token1);
-  const price2 = useTokenPriceInUst(token2);
+  const price1 = useTokenPriceInUstWithSimulate(token1);
+  const price2 = useTokenPriceInUstWithSimulate(token2);
   const tokenAmounts = useLpToTokens({ pool, amount: token.amount });
 
   const totalInUst = useMemo(() => {

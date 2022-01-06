@@ -19,7 +19,7 @@ import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
 import { truncate } from "libs/text";
 import { useTokenInfo } from "modules/common";
 import useFinder from "hooks/useFinder";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import TerraIcon from "components/icons/TerraIcon";
@@ -35,7 +35,7 @@ const WalletInfoPopover: FC = () => {
   const icon = getIcon("uusd");
   const symbol = getSymbol("uusd");
   const balance = useBalance("uusd");
-  const price = useTokenPriceInUst("uusd");
+  const price = useTokenPriceInUstWithSimulate("uusd");
   const terraAddress = useAddress();
   const finder = useFinder();
 

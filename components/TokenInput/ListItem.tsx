@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Text, Image, Flex, HStack, chakra } from "@chakra-ui/react";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
 
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 const ListItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol, getDecimals } = useTokenInfo();
   const balance = useBalance(token);
-  const price = useTokenPriceInUst(token).toFixed(2);
+  const price = useTokenPriceInUstWithSimulate(token).toFixed(2);
   const tokenBalance = num(balance)
     .div(10 ** getDecimals(token))
     .dp(2)

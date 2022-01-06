@@ -3,7 +3,7 @@ import { Text } from "@chakra-ui/react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { useTokenInfo } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import {
   enumToArray,
   findRegularToken,
@@ -52,7 +52,7 @@ const PoolGraph: FC<Props> = ({ tokens }) => {
   const [typeFilter, setTypeFilter] = useState(TypeFilter[0]);
   const [timeFilter, setTimeFilter] = useState(TimeFilter[4]);
   const selectedToken = findRegularToken(tokens);
-  const price = useTokenPriceInUst(selectedToken);
+  const price = useTokenPriceInUstWithSimulate(selectedToken);
 
   // const list = preparingSelectList(tokens);
   // const [selectFilter, setSelectFilter] = useState(list[0]);

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
 
 import { useTokenInfo } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   asset: string;
@@ -11,7 +11,7 @@ type Props = {
 
 const Single: FC<Props> = ({ asset, hidePrice = false }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUst(asset);
+  const price = useTokenPriceInUstWithSimulate(asset);
   const icon = getIcon(asset);
 
   return (

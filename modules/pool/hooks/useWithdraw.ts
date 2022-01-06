@@ -3,8 +3,7 @@ import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
 import { TxInfo } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
-import { getTokenDenom } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { getTokenDenom, useTokenInfo } from "modules/common";
 import { createWithdrawMsgs, useGetPool } from "modules/pool";
 
 export type WithdrawState = {
@@ -38,6 +37,7 @@ export const useWithdraw = ({
   onError,
 }: Params): WithdrawState => {
   const { data: pool } = useGetPool(contract);
+  const { getDecimals } = useTokenInfo();
   const address = useAddress();
 
   const ratio: any = useMemo(() => {
@@ -64,8 +64,14 @@ export const useWithdraw = ({
     return {
       token1,
       token2,
-      token1Amount: num(amount).times(ratio[token1]).div(ONE_TOKEN).toFixed(6),
-      token2Amount: num(amount).times(ratio[token2]).div(ONE_TOKEN).toFixed(6),
+      token1Amount: num(amount)
+        .times(ratio[token1])
+        .div(10 ** getDecimals(token1))
+        .toFixed(6),
+      token2Amount: num(amount)
+        .times(ratio[token2])
+        .div(10 ** getDecimals(token2))
+        .toFixed(6),
     };
   }, [pool, ratio, amount]);
 

@@ -14,7 +14,7 @@ import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { TagList, List } from "components/TokenInput";
 import Search from "components/common/Search";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 import { COMMON_TOKENS } from "constants/constants";
 
@@ -35,7 +35,7 @@ const Select: FC<Props> = ({
 }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const price = useTokenPriceInUst(value);
+  const price = useTokenPriceInUstWithSimulate(value);
   const [filter, setFilter] = useState("");
 
   const matchTokenOrExactAddress = (token: string) => {

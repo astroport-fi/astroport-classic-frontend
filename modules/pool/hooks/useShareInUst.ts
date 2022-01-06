@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
-import { getTokenDenom, PoolResponse } from "modules/common";
+import { getTokenDenom, PoolResponse, useTokenInfo } from "modules/common";
 import { useLpToTokens } from "modules/pool";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { ONE_TOKEN } from "constants/constants";
 
 type Params = {
@@ -12,6 +12,7 @@ type Params = {
 };
 
 export const useShareInUst = ({ pool, amount }: Params) => {
+  const { getDecimals } = useTokenInfo();
   const token1 = useMemo(() => {
     if (pool == null) {
       return null;
@@ -28,8 +29,8 @@ export const useShareInUst = ({ pool, amount }: Params) => {
     return getTokenDenom(pool.assets[1].info);
   }, [pool]);
 
-  const token1Price = useTokenPriceInUst(token1);
-  const token2Price = useTokenPriceInUst(token2);
+  const token1Price = useTokenPriceInUstWithSimulate(token1);
+  const token2Price = useTokenPriceInUstWithSimulate(token2);
 
   const tokenAmounts = useLpToTokens({
     pool,
@@ -52,10 +53,10 @@ export const useShareInUst = ({ pool, amount }: Params) => {
 
     const totalPrice1 = num(tokenAmounts[token1])
       .times(token1Price)
-      .div(ONE_TOKEN);
+      .div(10 ** getDecimals(token1));
     const totalPrice2 = num(tokenAmounts[token2])
       .times(token2Price)
-      .div(ONE_TOKEN);
+      .div(10 ** getDecimals(token2));
 
     return totalPrice1.plus(totalPrice2).dp(2).toNumber();
   }, [pool, amount, token1, token2, token1Price, token2Price, tokenAmounts]);

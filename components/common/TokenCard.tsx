@@ -4,7 +4,7 @@ import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
 import { useTokenInfo } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: any;
@@ -12,7 +12,7 @@ type Props = {
 
 const TokenCard: FC<Props> = ({ token }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUst(token.asset);
+  const price = useTokenPriceInUstWithSimulate(token.asset);
   const totalInUst = num(token.amount).times(price).toFixed(6);
   const tokenAmount = numeral(token.amount).format("0,0.[000]");
   const totalAmount = numeral(totalInUst).format("0,0.[000]");

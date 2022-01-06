@@ -3,12 +3,12 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { fromTerraAmount } from "@arthuryeti/terra";
 
 import { POOLS_TOKEN } from "constants/constants";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 import Card from "components/Card";
 
 const PoolsOverview: FC = () => {
-  const price = useTokenPriceInUst(POOLS_TOKEN);
+  const price = useTokenPriceInUstWithSimulate(POOLS_TOKEN);
 
   return (
     <Card>

@@ -3,7 +3,7 @@ import { Flex, Image, Text, Box, HStack } from "@chakra-ui/react";
 import numeral from "numeral";
 
 import { useTokenInfo } from "modules/common";
-import { useTokenPriceInUst } from "modules/swap";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: string;
@@ -13,7 +13,7 @@ type Props = {
 
 const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUst(token);
+  const price = useTokenPriceInUstWithSimulate(token);
   const balance = numeral(amount).format("0,0.00");
 
   return (
