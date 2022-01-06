@@ -28,7 +28,7 @@ const ActionsTd: FC<Props> = ({ row }) => {
     }
 
     const renderURL = () => {
-      if (token2 == "uusd") {
+      if (token2 == "uusd" || token2 == "uluna") {
         return `/swap?from=${token2}&to=${token1}`;
       } else {
         return `/swap?from=${token1}&to=${token2}`;
