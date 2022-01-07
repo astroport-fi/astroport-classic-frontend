@@ -47,11 +47,9 @@ const AstroAirdrop = () => {
       <CardHeader label="ASTRO Airdrop" />
       <Card px={["6", null, null, "12"]} pt="12" pb="8">
         <Flex direction="column" align="center">
-          {config && (
-            <Box mb="10">
-              <Timer start={config.from_timestamp} end={config.to_timestamp} />
-            </Box>
-          )}
+          <Box mb="10">
+            <Timer start={config?.from_timestamp} end={config?.to_timestamp} />
+          </Box>
           <Box px="5" flex="1">
             <Text fontWeight="500" fontSize="14px" mb="1">
               Check your eligibility:

@@ -7,16 +7,20 @@ import { useFormattedCountdown } from "hooks/useCountdown";
 import TimerCircle from "components/TimerCircle";
 
 type Props = {
-  start: number;
-  end: number;
+  start?: number;
+  end?: number;
 };
 
-const Timer = ({ start, end }: Props) => {
+const Timer = ({ start = 0, end = 0 }: Props) => {
   const startTime = dayjs.unix(start).valueOf();
   const endTime = dayjs.unix(end)?.valueOf();
   const currentTime = dayjs().valueOf();
 
   const percent = useMemo(() => {
+    if (!startTime || !endTime) {
+      return 0;
+    }
+
     const range = endTime - startTime;
     const currentRange = currentTime - startTime;
 
@@ -26,10 +30,6 @@ const Timer = ({ start, end }: Props) => {
   const countdown = useFormattedCountdown({
     targetTime: endTime,
   });
-
-  if (end == null || start == null) {
-    return null;
-  }
 
   return (
     <Box width="230px" mx="auto">

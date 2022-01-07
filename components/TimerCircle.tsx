@@ -17,6 +17,7 @@ const TimerCircle: FC<Props> = ({ percent = 0 }) => {
         top="0"
         zIndex={2}
         transform="scale(-1, 1)"
+        opacity={percent == 0 ? 0 : 1}
       >
         <svg
           width="100%"

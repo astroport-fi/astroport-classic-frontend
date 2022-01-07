@@ -5,18 +5,21 @@ export interface CountdownOptions {
   readonly interval?: number;
 }
 
+const calculateRemainingTime = (targetTime) =>
+  Math.max(0, targetTime - Date.now());
+
 export const useCountdown: (options: CountdownOptions) => number = ({
   targetTime,
   interval = 60000,
 }) => {
-  const [ms, setMs] = useState<number>(targetTime - Date.now());
+  const [ms, setMs] = useState<number>(calculateRemainingTime(targetTime));
+
   const [countdownIntervalId, setCountdoiwnIntervalId] =
     useState<NodeJS.Timeout | null>(null);
-
   useEffect(() => {
-    setMs(targetTime - Date.now());
+    setMs(calculateRemainingTime(targetTime));
     const intervalId = setInterval(() => {
-      setMs(targetTime - Date.now());
+      setMs(calculateRemainingTime(targetTime));
     }, interval);
     setCountdoiwnIntervalId(intervalId);
 
