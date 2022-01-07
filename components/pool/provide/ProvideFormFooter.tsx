@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
 import numeral from "numeral";
 
+import { handleTinyAmount } from "modules/common";
 import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
@@ -40,7 +41,7 @@ const ProvideFormFooter: FC<Props> = ({
     },
     {
       title: "Share of Pool",
-      value: `${shareOfPool || "0"}%`,
+      value: `${handleTinyAmount(shareOfPool) || "0"}%`,
     },
   ];
 

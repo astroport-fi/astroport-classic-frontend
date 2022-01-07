@@ -7,6 +7,7 @@ import {
   PairResponse,
   Route,
 } from "modules/common";
+import { num } from "@arthuryeti/terra";
 
 export const formatBigNumbers = (value: Number): String => {
   if (value < 1000000) {
@@ -45,6 +46,14 @@ export const formatBigNumbers = (value: Number): String => {
 //     };
 //   }, {});
 // };
+
+export const handleTinyAmount = (value: string | number) => {
+  if (num(value).lt(0.01) && num(value).gt(0)) {
+    return " < 0.01";
+  } else {
+    return numeral(value).format("0,0.00");
+  }
+};
 
 export const toRoutes = (
   allPairs: PairResponse[],

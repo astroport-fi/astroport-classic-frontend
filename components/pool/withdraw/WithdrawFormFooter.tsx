@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { TxStep, useBalance, num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
+import { handleTinyAmount } from "modules/common";
+
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
@@ -44,7 +46,10 @@ const WithdrawFormFooter: FC<Props> = ({
       title: "My Liquidity",
       value: `$ ${formattedShareInUst}`,
     },
-    { title: "Share of Pool", value: `${shareOfPool || "0"}%` },
+    {
+      title: "Share of Pool",
+      value: `${handleTinyAmount(shareOfPool) || "0"}%`,
+    },
   ];
 
   const confirmButton: ConfirmButton = {

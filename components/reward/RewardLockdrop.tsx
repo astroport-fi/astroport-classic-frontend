@@ -40,7 +40,7 @@ const RewardLockdrop: FC = () => {
         <Box mt={6}>
           <RewardLineItem
             token={astroToken}
-            amount={airdrop}
+            amount={airdropBalance}
             desc="ASTRO from Airdrop"
           />
         </Box>
@@ -50,7 +50,7 @@ const RewardLockdrop: FC = () => {
         <Box mt={4}>
           <RewardLineItem
             token={astroToken}
-            amount={phase1}
+            amount={phase1Rewards}
             desc="ASTRO from Phase 1"
           />
         </Box>
@@ -60,7 +60,7 @@ const RewardLockdrop: FC = () => {
         <Box mt={4}>
           <RewardLineItem
             token={astroToken}
-            amount={phase2}
+            amount={phase2Rewards}
             desc="ASTRO from Phase 2"
           />
         </Box>
