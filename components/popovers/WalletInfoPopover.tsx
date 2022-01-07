@@ -13,7 +13,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { fromTerraAmount, useAddress, useBalance } from "@arthuryeti/terra";
+import {
+  fromTerraAmount,
+  num,
+  useAddress,
+  useBalance,
+} from "@arthuryeti/terra";
 import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
 
 import { truncate } from "libs/text";
@@ -35,6 +40,8 @@ const WalletInfoPopover: FC = () => {
   const icon = getIcon("uusd");
   const symbol = getSymbol("uusd");
   const balance = useBalance("uusd");
+  const isLow = num(balance).lt(0.01);
+  const formattedBalance = isLow ? "< 0.01" : fromTerraAmount(balance);
   const price = useTokenPriceInUstWithSimulate("uusd");
   const terraAddress = useAddress();
   const finder = useFinder();
@@ -112,14 +119,14 @@ const WalletInfoPopover: FC = () => {
               <Text flex={1} textStyle="small" variant="dimmed">
                 In Wallet:{" "}
               </Text>
-              <Text textStyle="small">$ {fromTerraAmount(balance)}</Text>
+              <Text textStyle="small">{formattedBalance}</Text>
             </HStack>
             <HStack justify="space-between">
               <Text flex={1} textStyle="small" variant="dimmed">
                 Price:{" "}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                {price.toFixed(2)}
+                $ {num(price).toFixed(2)}
               </Text>
             </HStack>
           </Flex>
