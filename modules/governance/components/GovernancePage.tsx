@@ -77,7 +77,7 @@ const GovernancePage = () => {
                 {fromTerraAmount(xAstroBalance, "0,0.00")}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                My staked xASTRO
+                My xASTRO balance
               </Text>
             </Box>
           </Flex>
