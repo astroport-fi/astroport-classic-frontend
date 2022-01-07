@@ -37,24 +37,31 @@ const GovernancePage = () => {
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">
-        {/* <Card
+        <Card
           flex={1}
           display="flex"
           flexDir="column"
           justifyContent="center"
           alignItems="start"
         >
-          <Text textStyle="medium">About Governance</Text>
-          <Text textStyle="small" variant="secondary" mt={4}>
-            Stake ASTRO for xASTRO in order to participate in Astroport
-            staking. To learn more about existing proposals, or to get
-            feedback on a proposal you’re considering, visit the Astroport
-            forums.
+          <Text textStyle="medium">Get involved</Text>
+          <Text textStyle="small" variant="secondary" mt="4" mb="6">
+            Stake ASTRO for xASTRO in order to receive a % of Astroport’s
+            revenue.
+            <br />
+            To learn more about Astroport, join the Astroport community on
+            Discord.
           </Text>
-          <Button variant="primary" mt={6}>
-            Go to Forum
+          <Button
+            as="a"
+            variant="primary"
+            href="https://discord.gg/astroport"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join Discord
           </Button>
-        </Card> */}
+        </Card>
         <Card flex={1} display="flex" flexDir="column" justifyContent="center">
           <Flex justify="space-between">
             <Box>
