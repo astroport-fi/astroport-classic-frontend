@@ -74,7 +74,6 @@ const defaultContracts: { [key: string]: any } = {
       "terra1agu2qllktlmf0jdkuhcheqtchnkppzrl4759y6",
       "terra1efmcf22aweaj3zzjhzgyghv88dda0yk4j9jp29",
       "terra1qrpflfyte76cvxdj8tftj2qvat47aus38h58p4",
-      "terra1zv9uhshhuw6yr4m95nx54cpl0g4ahska5uwfv8",
       "terra1nzmdsg20gd04cxzmvmzg0zglvz5yan3fmzg9t8",
       "terra159xnereggxkfdswssheajdkr6n569q6hffl5p6",
       "terra18zjm4scu5wqlskwafclxa9kpa9l3zrvju4vdry",
