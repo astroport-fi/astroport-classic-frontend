@@ -52,8 +52,7 @@ const GovernancePage = () => {
             Stake ASTRO for xASTRO in order to receive a % of Astroport’s
             revenue.
             <br />
-            To learn more about Astroport, join the Astroport community on
-            Discord.
+            To learn more about Astroport, join the community on Discord.
           </Text>
           <Button
             as="a"
