@@ -33,7 +33,7 @@ const GovernancePage = () => {
   ];
 
   return (
-    <Box mt="12">
+    <Box mt="20">
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">
