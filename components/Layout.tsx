@@ -4,10 +4,9 @@ import { Global } from "@emotion/react";
 import { TerraWebappProvider } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
-import { AstroswapProvider } from "modules/common";
-import whitelist from "constants/whitelist";
-
 import Navbar from "components/Navbar";
+import whitelist from "constants/whitelist.json";
+import { AstroswapProvider } from "modules/common";
 
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
