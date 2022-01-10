@@ -34,7 +34,7 @@ export const useGovStakingRatio = () => {
       .toNumber();
 
     return num((staked * 100) / total)
-      .dp(2)
+      .dp(4)
       .toNumber();
   }, [data, govAstroBalance]);
 };
