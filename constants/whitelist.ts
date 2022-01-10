@@ -478,7 +478,7 @@ const whitelist = {
         protocol: "xDEFI",
         symbol: "XDEFI",
         token: "terra186tpamwvve5c7dhymrmk2r3zz3ynnurhupd7p9",
-        icon: "",
+        icon: "/tokens/xdefi.svg",
       },
       terra1hp84qsfk6qv0x2en8hdul3370a79qk90e59a5v: {
         protocol: "Wormhole",
