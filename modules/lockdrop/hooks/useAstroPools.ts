@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import { num, useAddress } from "@arthuryeti/terra";
 import { gql } from "graphql-request";
 import { sortBy } from "lodash";
 import dayjs from "dayjs";
@@ -16,14 +16,41 @@ import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { useBLunaPriceInLuna } from "modules/swap";
 
-const createQuery = (pairs, address) => {
-  if (pairs.length === 0) {
+const createFirstQuery = (infos, contract, address) => {
+  if (infos == null || infos.length === 0) {
     return;
   }
 
   return gql`
     {
-      ${pairs.map(({ liquidity_token, contract_addr }) => {
+      ${infos.map(({ pool_address, duration }) => {
+        return `
+          ${pool_address}${duration}: wasm {
+            contractQuery(
+              contractAddress: "${contract}"
+              query: {
+                lock_up_info: {
+                  user_address: "${address}",
+                  terraswap_lp_token: "${pool_address}",
+                  duration: ${duration}
+                }
+              }
+            )
+          }
+        `;
+      })}
+    }
+`;
+};
+
+const createSecondQuery = (pairs, address) => {
+  if (pairs == null || pairs.length === 0) {
+    return;
+  }
+
+  return gql`
+    {
+      ${pairs.map(({ contract_addr, liquidity_token }) => {
         return `
           pool${liquidity_token}: wasm {
             contractQuery(
@@ -53,43 +80,67 @@ const createQuery = (pairs, address) => {
 export const useAstroPools = () => {
   const { pairs } = useAstroswap();
   const { lockdrop } = useContracts();
+  const address = useAddress();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfo();
   const bLunaPrice = useBLunaPriceInLuna();
   const currentTimestamp = dayjs().unix();
 
-  const query = createQuery(pairs, lockdrop);
+  const firstQuery = createFirstQuery(
+    userInfo?.lockup_infos,
+    lockdrop,
+    address
+  );
 
-  const result = useHive({
+  const firstResult = useHive({
     name: "astro-pools",
-    query,
+    query: firstQuery,
     options: {
-      enabled: !!query,
+      enabled: !!firstQuery,
     },
   });
 
+  const secondQuery = createSecondQuery(pairs, lockdrop);
+
+  const secondResult = useHive({
+    name: "astro-pools-second",
+    query: secondQuery,
+    options: {
+      enabled: !!secondQuery,
+    },
+  });
+
+  const infos = useMemo(() => {
+    if (firstResult == null) {
+      return null;
+    }
+
+    return Object.keys(firstResult).map((key) => {
+      return firstResult[key].contractQuery;
+    });
+  }, [firstResult]);
+
   return useMemo(() => {
-    if (userInfo == null || result == null) {
+    if (infos == null || secondResult == null || firstResult == null) {
       return [];
     }
 
-    const filteredItems = userInfo.lockup_infos.filter((info) => {
+    const filteredItems = infos.filter((info) => {
       return (
         info.astroport_lp_transferred == null &&
-        result[`pool${info.astroport_lp_token}`] != null
+        secondResult[`pool${info.astroport_lp_token}`] != null
       );
     });
 
     const items = filteredItems.map((info) => {
       const { assets, total_share } =
-        result[`pool${info.astroport_lp_token}`]?.contractQuery;
+        secondResult[`pool${info.astroport_lp_token}`]?.contractQuery;
       const { balance } =
-        result[`balance${info.astroport_lp_token}`]?.contractQuery;
+        secondResult[`balance${info.astroport_lp_token}`]?.contractQuery;
       const pair = pairs.find(
         (pair) => pair.liquidity_token == info.astroport_lp_token
       );
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
-
       let amountOfUst = num(token1).div(ONE_TOKEN).times(2).dp(6).toNumber();
 
       if (token1 == null) {
@@ -97,7 +148,6 @@ export const useAstroPools = () => {
           assets,
           "uluna"
         );
-
         amountOfUst = num(uluna)
           .plus(num(token2).times(bLunaPrice))
           .div(ONE_TOKEN)
@@ -107,7 +157,6 @@ export const useAstroPools = () => {
       }
 
       const totalLiquidityInUst = amountOfUst;
-
       const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
       const myLiquidity = num(info.astroport_lp_units)
         .div(ONE_TOKEN)
@@ -135,7 +184,7 @@ export const useAstroPools = () => {
     });
 
     return sortBy(items, "myLiquidityInUst").reverse();
-  }, [userInfo, result, lunaPrice]);
+  }, [userInfo, infos, secondResult, lunaPrice]);
 };
 
 export default useAstroPools;

@@ -1,16 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Text, Flex, Box, ListItem, UnorderedList } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
 
-import { useLockedLpAmount, UnlockState } from "modules/lockdrop";
+import { UnlockState } from "modules/lockdrop";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import UnlockFormFooter from "components/lockdrop/unlock/UnlockFormFooter";
-import { ONE_TOKEN } from "constants/constants";
-import { useUserInfo } from "modules/auction";
 
 type Params = {
   state: UnlockState;
