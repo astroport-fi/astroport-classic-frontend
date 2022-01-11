@@ -13,7 +13,7 @@ const PendingNotifications: FC<Props> = ({ items = [] }) => {
       <HStack>
         <Spinner size="xs" />
         <Text fontWeight="bold" fontSize="sm" px="12" whiteSpace="nowrap">
-          {items.length} Pending Transactions ...
+          {items.length} Pending Transaction{items.length > 1 ?? "s"} ...
         </Text>
       </HStack>
     </Box>
