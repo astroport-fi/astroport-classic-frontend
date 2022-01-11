@@ -47,10 +47,11 @@ const FormConfirm: FC<Props> = ({
       maxW="470px"
       m="0 auto"
       mt="10"
+      px={[6, 0]}
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text>{title}</Text>
+          <Text textStyle={["small", "normal"]}>{title}</Text>
           <IconButton
             aria-label="Close"
             variant="simple"
@@ -58,7 +59,14 @@ const FormConfirm: FC<Props> = ({
             _hover={{
               bg: "rgba(255,255,255,0.1)",
             }}
-            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
+            icon={
+              <CloseIcon
+                w={["4", "6"]}
+                h={["4", "6"]}
+                color="white"
+                BackgroundOpacity="0"
+              />
+            }
             onClick={onCloseClick}
           />
         </Flex>
@@ -66,7 +74,7 @@ const FormConfirm: FC<Props> = ({
         <Box>{contentComponent}</Box>
 
         {details && (
-          <VStack mt={6} spacing={3} align="stretch">
+          <VStack mt={6} spacing={[2, 3]} align="stretch">
             <Text textStyle="small" variant="secondary">
               Further information:
             </Text>
@@ -78,14 +86,17 @@ const FormConfirm: FC<Props> = ({
               borderColor="white.200"
               bg="white.100"
               px="4"
-              py="4"
+              py={["3", "4"]}
             >
               {details.map((detail) => (
                 <HStack key={detail.label} justify="space-between">
                   <Text textStyle="small" variant="secondary">
                     {detail.label}
                   </Text>
-                  <Text textStyle="medium" color={detail.color ?? "white"}>
+                  <Text
+                    textStyle={["small", "medium"]}
+                    color={detail.color ?? "white"}
+                  >
                     {detail.value}
                   </Text>
                 </HStack>
@@ -97,7 +108,7 @@ const FormConfirm: FC<Props> = ({
         {children}
 
         <Flex flexDir="column" align="center" mt="8">
-          <Button variant="primary" minW="64" size="sm" type="submit">
+          <Button variant="primary" minW={["32", "64"]} size="sm" type="submit">
             {actionLabel}
           </Button>
           {fee && <FormFee fee={fee} />}

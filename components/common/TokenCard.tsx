@@ -23,18 +23,23 @@ const TokenCard: FC<Props> = ({ token }) => {
       borderRadius="xl"
       borderColor="white.200"
       bg="white.100"
-      px="4"
+      px={["2", "4"]}
       py="3"
       lineHeight="1.3"
     >
       <Flex justify="space-between">
         <Box>
-          <HStack spacing="4">
+          <HStack spacing={["2", "4"]}>
             <Box>
-              <Image src={getIcon(token.asset)} w={8} h={8} alt="Logo" />
+              <Image
+                src={getIcon(token.asset)}
+                w={["6", "8"]}
+                h={["6", "8"]}
+                alt="Logo"
+              />
             </Box>
             <Box>
-              <Text textStyle="h3">{getSymbol(token.asset)}</Text>
+              <Text textStyle={["medium", "h3"]}>{getSymbol(token.asset)}</Text>
               <Text textStyle="small" variant="dimmed">
                 Price: ${price}
               </Text>
@@ -42,7 +47,7 @@ const TokenCard: FC<Props> = ({ token }) => {
           </HStack>
         </Box>
         <Box fontWeight="500" textAlign="right">
-          <Text textStyle="h3">{tokenAmount}</Text>
+          <Text textStyle={["medium", "h3"]}>{tokenAmount}</Text>
           <Text textStyle="small" variant="dimmed">
             ${totalAmount}
           </Text>

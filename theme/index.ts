@@ -106,6 +106,10 @@ export default extendTheme({
       letterSpacing: "0.18rem",
       textTransform: "uppercase",
     },
+    normal: {
+      fontSize: "md",
+      lineHeight: "1",
+    },
     medium: {
       fontWeight: "medium",
       fontSize: "sm",
