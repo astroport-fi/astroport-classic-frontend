@@ -83,14 +83,20 @@ const SwapFormInitial: FC<Props> = ({
 
   return (
     <Box mt={["8", null, "24"]} px={["4", null, "0"]}>
-      <Flex justify="space-between" align="center" color="white" mb="6" px="6">
+      <Flex
+        justify="space-between"
+        align="center"
+        color="white"
+        mb={["3", "6"]}
+        px="6"
+      >
         <MotionBox
           flex="1"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <Text fontSize="xl">Swap</Text>
+          <Text fontSize={["md", "xl"]}>Swap</Text>
         </MotionBox>
         <MotionHStack
           initial={{ opacity: 0 }}
@@ -117,7 +123,7 @@ const SwapFormInitial: FC<Props> = ({
         key="card1"
         borderRadius="xl"
         bg="brand.blue"
-        py="8"
+        py={["4", "8"]}
         px={["4", "8", "12"]}
         border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: -30 }}
@@ -188,7 +194,7 @@ const SwapFormInitial: FC<Props> = ({
         key="card2"
         borderRadius="xl"
         bg="brand.purple"
-        py="8"
+        py={["4", "8"]}
         px={["4", "8", "12"]}
         border="solid 2px rgba(255, 255, 255, 0.1)"
         initial={{ y: 30 }}

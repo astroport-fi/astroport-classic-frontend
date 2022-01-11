@@ -71,12 +71,17 @@ const Select: FC<Props> = ({
       return (
         <>
           <Box flexShrink={0}>
-            <Image src={icon} width="8" height="8" alt="Logo" />
+            <Image
+              src={icon}
+              width={["6", "8"]}
+              height={["6", "8"]}
+              alt="Logo"
+            />
           </Box>
           <Box ml="3" fontWeight="500" flex="1">
-            <Text textStyle="h3">{getSymbol(value)}</Text>
+            <Text textStyle={["medium", "h3"]}>{getSymbol(value)}</Text>
             {!hidePrice && (
-              <Text fontSize="xs" color="white.400">
+              <Text textStyle={["small", "medium"]} color="white.400">
                 Price: ${price}
               </Text>
             )}
@@ -114,7 +119,7 @@ const Select: FC<Props> = ({
           borderColor="white.200"
           textAlign="left"
           justifyContent="space-between"
-          h="16"
+          h={["12", "16"]}
           pr="6"
           w="full"
           _active={{
