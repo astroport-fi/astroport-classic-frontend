@@ -8,35 +8,23 @@ type Response = {
   total_astro_rewards: string;
   delegated_astro_rewards: string;
   astro_transferred: boolean;
-  claimable_generator_astro_debt: string;
-  claimable_generator_proxy_debt: string;
   lockup_infos: {
-    astro_rewards?: string;
-    terraswap_lp_token: string;
-    lp_units_locked: string;
-    withdrawal_flag: boolean;
+    pool_address: string;
     duration: number;
-    generator_astro_debt: string;
-    claimable_generator_astro_debt: string;
-    generator_proxy_debt: string;
-    claimable_generator_proxy_debt: string;
-    unlock_timestamp: number;
-    astroport_lp_units?: string;
-    astroport_lp_token?: string;
-    astroport_lp_transferred?: string;
   }[];
+  lockup_positions_index: number;
 };
 
-export const useUserInfo = () => {
+export const useUserInfoWithList = () => {
   const { client } = useTerraWebapp();
   const address = useAddress();
   const { lockdrop } = useContracts();
 
   const { data, isLoading } = useQuery(
-    ["userInfo", "lockdrop", address],
+    ["userInfoWithList", "lockdrop", address],
     () => {
       return client.wasm.contractQuery<Response>(lockdrop, {
-        user_info: {
+        user_info_with_lockups_list: {
           address,
         },
       });
@@ -52,4 +40,4 @@ export const useUserInfo = () => {
   }, [isLoading, data]);
 };
 
-export default useUserInfo;
+export default useUserInfoWithList;

@@ -11,7 +11,7 @@ import {
   useContracts,
   useLunaPrice,
 } from "modules/common";
-import { useUserInfo } from "modules/lockdrop";
+import { useUserInfoWithList } from "modules/lockdrop";
 import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { useBLunaPriceInLuna } from "modules/swap";
@@ -82,7 +82,7 @@ export const useAstroPools = () => {
   const { lockdrop } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
-  const userInfo = useUserInfo();
+  const userInfo = useUserInfoWithList();
   const bLunaPrice = useBLunaPriceInLuna();
   const currentTimestamp = dayjs().unix();
 

@@ -1,26 +1,34 @@
 import { useMemo } from "react";
+import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useQuery } from "react-query";
 
-import { useUserInfo } from "modules/lockdrop";
-import { num } from "@arthuryeti/terra";
+import { useContracts } from "modules/common";
 
 export const useLockedLpAmount = (
   lpTokenContract: string,
   duration: number
 ): number => {
-  const userInfo = useUserInfo();
+  const address = useAddress();
+  const { lockdrop } = useContracts();
+  const { client } = useTerraWebapp();
+
+  const { data: info } = useQuery(
+    ["lockedLpAmount", lpTokenContract, duration, address],
+    () => {
+      return client.wasm.contractQuery<{ astroport_lp_units: string }>(
+        lockdrop,
+        {
+          lock_up_info: {
+            terraswap_lp_token: lpTokenContract,
+            duration,
+            user_address: address,
+          },
+        }
+      );
+    }
+  );
 
   return useMemo(() => {
-    if (userInfo == null) {
-      return 0;
-    }
-
-    const info = userInfo.lockup_infos.find((info) => {
-      return (
-        info.astroport_lp_token === lpTokenContract &&
-        info.duration === duration
-      );
-    });
-
     if (info == null) {
       return 0;
     }
@@ -29,7 +37,7 @@ export const useLockedLpAmount = (
       .div(10 ** 6)
       .dp(6)
       .toNumber();
-  }, [userInfo, lpTokenContract]);
+  }, [info]);
 };
 
 export default useLockedLpAmount;

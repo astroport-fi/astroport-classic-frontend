@@ -38,7 +38,7 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
 
   const { token, amount } = watch();
 
-  const stakedAmount = useLockedLpAmount(token, duration);
+  const stakedAmount = useLockedLpAmount(lpToken, duration);
   const state = useUnlock({
     token: lpToken,
     amount,
