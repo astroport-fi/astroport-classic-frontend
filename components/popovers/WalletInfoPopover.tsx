@@ -12,6 +12,7 @@ import {
   Button,
   Text,
   VStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import {
   fromTerraAmount,
@@ -57,10 +58,15 @@ const WalletInfoPopover: FC = () => {
     });
   };
 
+  const offset: [number, number] = useBreakpointValue({
+    base: [0, 0],
+    sm: [-60, -40],
+  });
+
   return (
     <PopoverWrapper
       title="My wallet"
-      offset={[-60, -40]}
+      offset={offset}
       triggerElement={() => (
         <chakra.button type="button">
           <Flex color="white" spacing="0.5" justify="center">
@@ -101,7 +107,7 @@ const WalletInfoPopover: FC = () => {
         </chakra.button>
       )}
     >
-      <Flex direction="column" justify="center" w="96">
+      <Flex direction="column" justify="center" w={["100%", "96"]}>
         <Flex flex={1} justify="space-between" align="center" py="2">
           <HStack flex={1}>
             <Image boxSize="8" src={icon} alt="" />
@@ -114,7 +120,7 @@ const WalletInfoPopover: FC = () => {
               </Text>
             </Box>
           </HStack>
-          <Flex direction="column" width={1 / 3} gridRowGap={1}>
+          <Flex direction="column" width={["50%", 1 / 3]} gridRowGap={1}>
             <HStack flex={1} justify="space-between">
               <Text flex={1} textStyle="small" variant="dimmed">
                 In Wallet:{" "}
