@@ -50,7 +50,13 @@ const defaultContracts: { [key: string]: any } = {
     stakableLp: [
       "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
       "terra1htw7hm40ch0hacm8qpgd24sus4h0tq3hsseatl",
+      "terra14p4srhzd5zng8vghly5artly0s53dmryvg3qc6",
       "terra1m24f7k4g66gnh9f7uncp32p722v0kyt3q4l3u5",
+      "terra1lw36qqz72mxajrfgkv24lahudq3ehmkpc305yc",
+      "terra1zuktmswe9zjck0xdpw2k79t0crjk86fljv2rm0",
+      "terra1wmaty65yt7mjw6fjfymkd9zsm6atsq82d9arcd",
+      "terra1w80npmymwhdtvcmrg44xmqqdnufu3gyfaytr9z",
+      "terra1krvq5hk3a37yeydzfrgjj00d8xygk5um9jas8p",
     ],
   },
   testnet: {
@@ -60,7 +66,7 @@ const defaultContracts: { [key: string]: any } = {
     bLunaToken: "terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x",
     astroUstLpToken: "terra18zjm4scu5wqlskwafclxa9kpa9l3zrvju4vdry",
     factory: "terra15jsahkaf9p0qu8ye873p0u5z6g07wdad0tdq43",
-    router: "terra1f98aasp8dluuwurkumpn94a2cuwuv5hpa33fg6",
+    router: "terra13wf295fj9u209nknz2cgqmmna7ry3d3j5kv7t4",
     vesting: "terra1g73et67yraz33vtwtg8c7q39gq50z2q92dz822",
     staking: "terra1q55fwnn6wt9wvqmme9qmjt0ng6an9a2p8fypzh",
     maker: "terra1mlntg5c7yq9wp0jzachm0ersk5sar3sfagj0f2",

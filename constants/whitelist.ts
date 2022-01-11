@@ -104,8 +104,15 @@ const whitelist = {
         token: "terra1dtqlfecglk47yplfrtwjzyagkgcqqngd5lgjp8",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/MATICpo_wh.png",
       },
+      terra169edevav3pdrtjcx35j6pvzuv54aevewar4nlh: {
+        protocol: "XDEFI",
+        symbol: "XDEFI",
+        token: "terra169edevav3pdrtjcx35j6pvzuv54aevewar4nlh",
+        icon: "/tokens/xdefi.svg",
+      },
     },
     pairs: [
+      // bluna-ust
       {
         asset_infos: [
           {
@@ -125,6 +132,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // bLuna-ust
       {
         asset_infos: [
           {
@@ -144,6 +152,7 @@ const whitelist = {
           stable: {},
         },
       },
+      // anc-ust
       {
         asset_infos: [
           {
@@ -163,6 +172,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // mir-ust
       {
         asset_infos: [
           {
@@ -182,6 +192,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // orion-ust
       {
         asset_infos: [
           {
@@ -201,6 +212,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // stt-ust
       {
         asset_infos: [
           {
@@ -220,6 +232,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // vkr-ust
       {
         asset_infos: [
           {
@@ -239,6 +252,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // mine-ust
       {
         asset_infos: [
           {
@@ -258,6 +272,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // psi-ust
       {
         asset_infos: [
           {
@@ -277,6 +292,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // apollo-ust
       {
         asset_infos: [
           {
@@ -296,6 +312,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // astro-ust
       {
         asset_infos: [
           {
@@ -315,6 +332,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // wAVAX-luna
       {
         asset_infos: [
           {
@@ -334,6 +352,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // wBNB-luna
       {
         asset_infos: [
           {
@@ -353,6 +372,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // wETH-luna
       {
         asset_infos: [
           {
@@ -372,6 +392,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // wSOL-luna
       {
         asset_infos: [
           {
@@ -391,6 +412,7 @@ const whitelist = {
           xyk: {},
         },
       },
+      // wMATIC-luna
       {
         asset_infos: [
           {
@@ -406,6 +428,26 @@ const whitelist = {
         ],
         contract_addr: "terra1wr07qcmfqz2vxhcfr6k8xv8eh5es7u9mv2z07x",
         liquidity_token: "terra1n32fdqslpyug72zrcv8gwq37vjj0mxhy9p4g7z",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // xdefi-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra169edevav3pdrtjcx35j6pvzuv54aevewar4nlh",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1476fucrvu5tuga2nx28r3fctd34xhksc2gckgf",
+        liquidity_token: "terra1krvq5hk3a37yeydzfrgjj00d8xygk5um9jas8p",
         pair_type: {
           xyk: {},
         },
