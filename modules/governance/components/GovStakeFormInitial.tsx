@@ -18,6 +18,7 @@ type Props = {
   amount: string;
   isLoading: boolean;
   fee: Fee;
+  price?: number;
 };
 
 const GovStakeFormInitial: FC<Props> = ({
@@ -26,6 +27,7 @@ const GovStakeFormInitial: FC<Props> = ({
   amount,
   isLoading,
   fee,
+  price,
 }) => {
   const { control, watch } = useFormContext();
   const { token } = watch();
@@ -80,7 +82,7 @@ const GovStakeFormInitial: FC<Props> = ({
                   <NewAmountInput
                     asset={token}
                     max={balance}
-                    hidePrice
+                    price={price}
                     {...field}
                   />
                 )}

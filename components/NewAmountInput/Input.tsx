@@ -20,6 +20,7 @@ type Props = {
   clampValueOnBlur?: boolean;
   hidePrice?: boolean;
   isLpToken?: boolean;
+  price?: number;
 };
 
 const Input: FC<Props> = ({
@@ -33,6 +34,7 @@ const Input: FC<Props> = ({
   isDisabled,
   hidePrice = false,
   isLpToken = false,
+  price,
 }) => {
   const renderPrice = () => {
     if (hidePrice) {
@@ -43,7 +45,7 @@ const Input: FC<Props> = ({
       return <PriceLP token={asset} amount={value} />;
     }
 
-    return <Price token={asset} amount={value} />;
+    return <Price token={asset} amount={value} priceToken={price} />;
   };
 
   return (

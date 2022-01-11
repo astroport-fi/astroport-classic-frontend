@@ -7,10 +7,15 @@ import { useTokenPriceInUstWithSimulate } from "modules/swap";
 type Props = {
   token: string;
   amount: string;
+  priceToken?: number;
 };
 
-const Price: FC<Props> = ({ token, amount }) => {
-  const price = useTokenPriceInUstWithSimulate(token);
+const Price: FC<Props> = ({ token, amount, priceToken }) => {
+  let price = useTokenPriceInUstWithSimulate(token);
+
+  if (priceToken) {
+    price = priceToken;
+  }
 
   const totalInUst = useMemo(() => {
     if (amount == "" || num(amount).eq(0)) {

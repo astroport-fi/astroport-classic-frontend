@@ -6,6 +6,7 @@ import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
 import { useContracts, useAstroswap } from "modules/common";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGovStake } from "../hooks";
 
 import GovStakeFormInitial from "./GovStakeFormInitial";
@@ -38,6 +39,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
 
   const { watch, setValue } = methods;
   const { amount } = watch();
+  const price = useTokenPriceInUstWithSimulate(astroToken);
 
   const { msgs } = useGovStake({
     type,
@@ -99,6 +101,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
           type={type}
           setType={setType}
           amount={amount}
+          price={price}
           isLoading={feeIsLoading}
           fee={fee}
         />

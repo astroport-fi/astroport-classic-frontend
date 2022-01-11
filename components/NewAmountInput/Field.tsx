@@ -20,6 +20,7 @@ type Props = {
   isLoading?: boolean;
   hideMaxButton?: boolean;
   max?: number;
+  price?: number;
 };
 
 const Field: FC<Props> = forwardRef(
@@ -30,6 +31,7 @@ const Field: FC<Props> = forwardRef(
       onBlur,
       value,
       max,
+      price,
       isLpToken,
       balance,
       balanceLabel,
@@ -85,6 +87,7 @@ const Field: FC<Props> = forwardRef(
           isLoading={isLoading}
           hidePrice={hidePrice}
           isLpToken={isLpToken}
+          price={price}
         />
         {renderBalance()}
       </Box>
