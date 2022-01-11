@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
 import { useContracts } from "modules/common";
@@ -9,20 +10,18 @@ import CommonFooter from "components/CommonFooter";
 
 type Props = {
   amount: string;
-  data: any;
+  fee: Fee;
   type: AstroFormType;
   isLoading: boolean;
   isDisabled: boolean;
-  onClick: () => void;
 };
 
 const GovStakeFooter: FC<Props> = ({
-  data,
+  fee,
   type,
   isLoading,
   isDisabled,
   amount,
-  onClick,
 }) => {
   const { xAstroToken } = useContracts();
   const xAstroBalance = useBalance(xAstroToken);
@@ -39,7 +38,7 @@ const GovStakeFooter: FC<Props> = ({
 
   return (
     <CommonFooter
-      fee={data.fee}
+      fee={fee}
       cells={[
         {
           title: "Current xASTRO",
@@ -54,7 +53,7 @@ const GovStakeFooter: FC<Props> = ({
         title: title,
         isDisabled,
         isLoading,
-        onClick,
+        type: "submit",
       }}
     />
   );

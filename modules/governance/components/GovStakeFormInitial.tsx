@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Box, Stack, Text, Flex } from "@chakra-ui/react";
-import { num, TxStep, useBalance } from "@arthuryeti/terra";
+import { num, useBalance } from "@arthuryeti/terra";
+import { Fee } from "@terra-money/terra.js";
 
 import { AstroFormType } from "types/common";
 import { FormActionItem, FormActions } from "modules/common";
-import { StakeState } from "modules/governance";
 
 import Card from "components/Card";
 import GovStakeFooter from "./GovStakeFooter";
@@ -16,16 +16,16 @@ type Props = {
   type: AstroFormType;
   setType: (v: AstroFormType) => void;
   amount: string;
-  state: StakeState;
-  onClick: () => void;
+  isLoading: boolean;
+  fee: Fee;
 };
 
 const GovStakeFormInitial: FC<Props> = ({
   type,
   setType,
   amount,
-  state,
-  onClick,
+  isLoading,
+  fee,
 }) => {
   const { control, watch } = useFormContext();
   const { token } = watch();
@@ -90,12 +90,11 @@ const GovStakeFormInitial: FC<Props> = ({
         </Card>
 
         <GovStakeFooter
-          data={state}
+          fee={fee}
           type={type}
-          isLoading={state.txStep == TxStep.Estimating}
-          isDisabled={state.txStep != TxStep.Ready}
+          isLoading={isLoading}
+          isDisabled={fee == null}
           amount={amount}
-          onClick={onClick}
         />
       </Stack>
     </Box>

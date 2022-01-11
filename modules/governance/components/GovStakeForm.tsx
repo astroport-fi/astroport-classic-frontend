@@ -1,8 +1,8 @@
-import React, { FC, useCallback, useState, useEffect } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { TxStep } from "@arthuryeti/terra";
+import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
 import { useContracts, useAstroswap } from "modules/common";
@@ -10,8 +10,8 @@ import { useGovStake } from "../hooks";
 
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
-import FormSummary from "components/common/FormSummary";
-import FormConfirm from "components/common/FormConfirm";
+// import FormSummary from "components/common/FormSummary";
+// import FormConfirm from "components/common/FormConfirm";
 
 type FormValue = {
   amount: string;
@@ -25,10 +25,10 @@ type Props = {
 
 const GovStakeForm: FC<Props> = ({ type, setType }) => {
   const { astroToken, xAstroToken } = useContracts();
+  const [isPosting, setIsPosting] = useState(false);
   const { addNotification } = useAstroswap();
   const router = useRouter();
 
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const methods = useForm<FormValue>({
     defaultValues: {
       amount: "",
@@ -37,12 +37,19 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
   });
 
   const { watch, setValue } = methods;
-  const { token, amount } = watch();
+  const { amount } = watch();
 
-  const state = useGovStake({
+  const { msgs } = useGovStake({
     type,
     amount,
+  });
+
+  const { submit, txHash } = useTx({
+    onPosting: () => {
+      setIsPosting(true);
+    },
     onBroadcasting: (txHash) => {
+      setIsPosting(false);
       const txType = type == AstroFormType.Stake ? "govStake" : "govUnstake";
 
       router.push("/staking");
@@ -55,9 +62,20 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
       });
     },
     onError: () => {
-      resetForm();
+      setIsPosting(false);
     },
   });
+
+  const { fee, isLoading: feeIsLoading } = useEstimateFee({
+    msgs,
+  });
+
+  const onSubmit = useCallback(() => {
+    submit({
+      msgs,
+      fee,
+    });
+  }, [msgs, fee]);
 
   useEffect(() => {
     if (type == AstroFormType.Stake) {
@@ -70,55 +88,20 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
     setValue("amount", "");
   }, [type, xAstroToken, astroToken, setValue]);
 
-  const resetForm = useCallback(() => {
-    setShowConfirm(false);
-    state.reset();
-    methods.reset();
-  }, [state, methods]);
-
-  if (state.txStep == TxStep.Posting) {
-    return <FormLoading txHash={state.txHash} />;
+  if (isPosting) {
+    return <FormLoading txHash={txHash} />;
   }
 
   return (
     <FormProvider {...methods}>
-      <chakra.form onSubmit={methods.handleSubmit(state.submit)} width="full">
-        {!showConfirm && (
-          <GovStakeFormInitial
-            type={type}
-            setType={setType}
-            amount={amount}
-            state={state}
-            onClick={() => setShowConfirm(true)}
-          />
-        )}
-
-        {showConfirm && (
-          <FormConfirm
-            title={
-              type === AstroFormType.Stake
-                ? "Confirm Staking"
-                : "Confirm Unstaking"
-            }
-            actionLabel={
-              type === AstroFormType.Stake
-                ? "Confirm Staking"
-                : "Confirm Unstaking"
-            }
-            fee={state.fee}
-            contentComponent={
-              <FormSummary
-                label={
-                  type === AstroFormType.Stake
-                    ? "You are staking:"
-                    : "You are receiving:"
-                }
-                tokens={[{ asset: token, amount }]}
-              />
-            }
-            onCloseClick={() => setShowConfirm(false)}
-          />
-        )}
+      <chakra.form onSubmit={methods.handleSubmit(onSubmit)} width="full">
+        <GovStakeFormInitial
+          type={type}
+          setType={setType}
+          amount={amount}
+          isLoading={feeIsLoading}
+          fee={fee}
+        />
       </chakra.form>
     </FormProvider>
   );
