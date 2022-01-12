@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useState, useEffect } from "react";
 import { chakra, Text, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
@@ -35,8 +36,9 @@ const WithdrawForm: FC<Props> = ({
   onTypeClick,
 }) => {
   const { addNotification } = useAstroswap();
-  const { getSymbol } = useTokenInfo();
+  // const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
+  const router = useRouter();
   const methods = useForm<FormValues>({
     defaultValues: {
       token: pair.liquidity_token,
@@ -53,7 +55,7 @@ const WithdrawForm: FC<Props> = ({
     lpToken: pair.liquidity_token,
     amount: toTerraAmount(debouncedAmount),
     onBroadcasting: (txHash) => {
-      resetForm();
+      router.push("/pools");
       addNotification({
         notification: {
           type: "started",
