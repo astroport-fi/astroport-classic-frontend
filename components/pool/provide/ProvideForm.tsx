@@ -51,7 +51,7 @@ const ProvideForm: FC<Props> = ({
       amount1: "",
       token2: pool?.token2.asset,
       amount2: "",
-      autoStake: false,
+      autoStake: true,
     },
   });
 

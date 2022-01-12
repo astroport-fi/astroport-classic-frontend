@@ -251,6 +251,7 @@ const ProvideFormInitial: FC<Props> = ({
                 iconColor="brand.deepBlue"
                 color="green.500"
                 borderColor="green.500"
+                defaultChecked
                 {...field}
               >
                 <Text fontSize="xs">Stake LP Token</Text>
