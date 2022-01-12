@@ -4,7 +4,7 @@ import { num, useBalance } from "@arthuryeti/terra";
 import { Pool, useTokensToLp } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
 
-type Response = string | null;
+type Response = number | null;
 
 type Params = {
   pool: Pool | null | undefined;
@@ -25,11 +25,11 @@ export const useEstShareOfPool = ({
 
   return useMemo(() => {
     if (pool == null || lpBalance == null || num(pool.total.share).eq(0)) {
-      return "0.00";
+      return 0;
     }
 
     if (num(estLpBalance).isNaN()) {
-      return pool.mine.shareOfPool;
+      return num(pool.mine.shareOfPool).toNumber();
     }
 
     return num(estLpBalance)
@@ -37,7 +37,7 @@ export const useEstShareOfPool = ({
       .plus(lpBalance)
       .times("100")
       .div(totalShare)
-      .toFixed(2);
+      .toNumber();
   }, [pool, amount1, lpBalance]);
 };
 

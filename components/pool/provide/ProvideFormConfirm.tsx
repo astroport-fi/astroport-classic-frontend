@@ -4,7 +4,7 @@ import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 import { num } from "@arthuryeti/terra";
 
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, handleTinyAmount } from "modules/common";
 import { Pool, useEstShareOfPool, useEstShareInUst } from "modules/pool";
 
 import FormConfirm from "components/common/FormConfirm";
@@ -35,8 +35,6 @@ const ProvideForm: FC<Props> = ({
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
-  const isLow = num(pool.token1.price).lt(0.01);
-  const exchangeRate = isLow ? `< 0.01` : `= ${pool.token1.price}`;
 
   return (
     <FormConfirm
@@ -56,11 +54,13 @@ const ProvideForm: FC<Props> = ({
         { label: "My provided Liquidity", value: `$ ${formattedShareInUst}` },
         {
           label: "Exchange Rate",
-          value: `1 ${symbol1} ${exchangeRate} ${symbol2}`,
+          value: `1 ${symbol1} ${handleTinyAmount(
+            pool.token1.price
+          )} ${symbol2}`,
         },
         {
           label: "Share of Pool",
-          value: `${shareOfPool || "0"}%`,
+          value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
         },
       ]}
       onCloseClick={onCloseClick}

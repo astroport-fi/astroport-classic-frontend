@@ -2,11 +2,11 @@ import React, { FC } from "react";
 import { TxStep, useBalance, num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
+import { ONE_TOKEN } from "constants/constants";
 import { handleTinyAmount } from "modules/common";
+import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
-import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
-import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   pool: Pool;
@@ -48,7 +48,7 @@ const WithdrawFormFooter: FC<Props> = ({
     },
     {
       title: "Share of Pool",
-      value: `${handleTinyAmount(shareOfPool) || "0"}%`,
+      value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
     },
   ];
 

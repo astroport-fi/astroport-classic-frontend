@@ -3,7 +3,7 @@ import { num } from "@arthuryeti/terra";
 
 import { PoolResponse } from "modules/common";
 
-type Response = string | null;
+type Response = number | null;
 
 type Params = {
   pool: PoolResponse | null | undefined;
@@ -21,7 +21,7 @@ export const useShareOfPool = ({ pool, lpAmount }: Params): Response => {
       return null;
     }
 
-    return num(lpAmount).times("100").div(pool.total_share).toFixed(2);
+    return num(lpAmount).times("100").div(pool.total_share).toNumber();
   }, [pool, lpAmount]);
 };
 

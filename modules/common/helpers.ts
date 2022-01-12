@@ -47,11 +47,14 @@ export const formatBigNumbers = (value: Number): String => {
 //   }, {});
 // };
 
-export const handleTinyAmount = (value: string | number) => {
+export const handleTinyAmount = (
+  value: string | number,
+  format: string = "0,0.00"
+) => {
   if (num(value).lt(0.01) && num(value).gt(0)) {
     return " < 0.01";
   } else {
-    return numeral(value).format("0,0.00");
+    return numeral(value).format(format);
   }
 };
 

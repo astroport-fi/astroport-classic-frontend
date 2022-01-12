@@ -41,7 +41,7 @@ const ProvideFormFooter: FC<Props> = ({
     },
     {
       title: "Share of Pool",
-      value: `${handleTinyAmount(shareOfPool) || "0"}%`,
+      value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
     },
   ];
 
