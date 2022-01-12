@@ -31,13 +31,14 @@ const MyPools: FC = () => {
         accessor: "name",
         width: 200,
         flexGrow: 0,
+        disableSortBy: true,
       },
       {
         Header: "My Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
-        accessor: "myLiquidity",
+        accessor: "myLiquidityInUst",
         width: 200,
       },
       {
@@ -45,7 +46,7 @@ const MyPools: FC = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
-        accessor: "totalLiquidity",
+        accessor: "totalLiquidityInUst",
         width: 200,
       },
       {
@@ -64,6 +65,7 @@ const MyPools: FC = () => {
         data={myPools}
         columns={columns}
         emptyMsg="You need to add liquidity first."
+        sortBy="totalLiquidityInUst"
       />
     </Card>
   );

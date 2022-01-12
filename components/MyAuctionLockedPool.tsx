@@ -26,6 +26,7 @@ const MyAuctionLockedPool = () => {
         ),
         width: 200,
         accessor: "name",
+        disableSortBy: true,
       },
       {
         Header: "Total Liquidity",
@@ -80,6 +81,7 @@ const MyAuctionLockedPool = () => {
           columns={columns}
           data={auctionPools}
           emptyMsg="You didn't lock any positions."
+          sortBy="totalUnlockedLiquidity"
         />
       </Card>
     </Box>

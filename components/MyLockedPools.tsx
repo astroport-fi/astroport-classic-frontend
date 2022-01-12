@@ -26,6 +26,7 @@ const MyLockedPools = () => {
         ),
         width: 200,
         accessor: "name",
+        disableSortBy: true,
       },
       {
         Header: "My Liquidity",
@@ -80,6 +81,7 @@ const MyLockedPools = () => {
           columns={columns}
           data={pools}
           emptyMsg="You didn't lock any positions."
+          sortBy="totalLockedAstroportLiquidity"
         />
       </Card>
     </Box>

@@ -30,13 +30,14 @@ const AllPools: FC = () => {
         accessor: "name",
         width: 200,
         flexGrow: 0,
+        disableSortBy: true,
       },
       {
         Header: "My Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
-        accessor: "myLiquidity",
+        accessor: "myLiquidityInUst",
         width: 200,
       },
       {
@@ -44,7 +45,7 @@ const AllPools: FC = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
-        accessor: "totalLiquidity",
+        accessor: "totalLiquidityInUst",
         width: 200,
       },
       {
@@ -59,7 +60,11 @@ const AllPools: FC = () => {
 
   return (
     <Card noPadding>
-      <PoolTable data={allPools} columns={columns} />
+      <PoolTable
+        data={allPools}
+        columns={columns}
+        sortBy="totalLiquidityInUst"
+      />
     </Card>
   );
 };

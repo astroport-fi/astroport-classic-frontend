@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 
 import Table from "components/Table";
 import Tr from "components/Tr";
@@ -10,15 +10,37 @@ import Td from "components/Td";
 import PoolTr from "components/table/PoolTr";
 import PoolConnectWallet from "components/table/PoolConnectWallet";
 
+import ChevronDownIcon from "components/icons/ChevronDownIcon";
+
 type Props = {
   columns: any[];
   data: any;
+  sortBy: string;
   emptyMsg?: string;
 };
 
-const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
-  const tableInstance = useTable({ columns, data });
+const PoolTable: FC<Props> = ({
+  columns,
+  data,
+  sortBy,
+  emptyMsg = "No pools",
+}) => {
   const address = useAddress();
+  const tableInstance = useTable(
+    {
+      columns,
+      data,
+      initialState: {
+        sortBy: [
+          {
+            id: sortBy,
+            desc: true,
+          },
+        ],
+      },
+    },
+    useSortBy
+  );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -30,13 +52,25 @@ const PoolTable: FC<Props> = ({ columns, data, emptyMsg = "No pools" }) => {
           {headerGroup.headers.map((column: any) => (
             <Td
               color="white.700"
-              {...column.getHeaderProps()}
+              {...column.getHeaderProps(column.getSortByToggleProps())}
               flexBasis={`${column.width}px`}
             >
-              <HStack>
+              <HStack color={column.isSorted ? "white" : "inherit"}>
                 <Text fontSize="xs" variant="light">
                   {column.render("Header")}
                 </Text>
+                <span>
+                  {" "}
+                  {column.isSorted ? (
+                    column.isSortedDesc ? (
+                      <ChevronDownIcon w="2" />
+                    ) : (
+                      <ChevronDownIcon w="2" transform="rotate(180deg)" />
+                    )
+                  ) : (
+                    ""
+                  )}{" "}
+                </span>
               </HStack>
             </Td>
           ))}
