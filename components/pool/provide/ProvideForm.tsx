@@ -121,6 +121,7 @@ const ProvideForm: FC<Props> = ({
           <ProvideFormConfirm
             pool={pool}
             fee={state.fee}
+            autoStake={autoStake}
             token1={token1}
             amount1={amount1}
             token2={token2}

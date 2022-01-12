@@ -5,7 +5,7 @@ import numeral from "numeral";
 import { num } from "@arthuryeti/terra";
 
 import { useTokenInfo, handleTinyAmount } from "modules/common";
-import { Pool, useEstShareOfPool, useEstShareInUst } from "modules/pool";
+import { Pool, useTokensToLp, useEstShareOfPool, useEstShareInUst } from "modules/pool";
 
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -17,6 +17,7 @@ type Props = {
   token2: string;
   amount1: string;
   amount2: string;
+  autoStake: boolean;
   onCloseClick: () => void;
 };
 
@@ -27,9 +28,11 @@ const ProvideForm: FC<Props> = ({
   token2,
   amount1,
   amount2,
+  autoStake,
   onCloseClick,
 }) => {
   const { getSymbol } = useTokenInfo();
+  const estLpBalance = useTokensToLp({ pool, amount1, amount2 });
   const shareInUst = useEstShareInUst({ pool, amount1, amount2 });
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
   const symbol1 = getSymbol(token1);
@@ -61,6 +64,10 @@ const ProvideForm: FC<Props> = ({
         {
           label: "Share of Pool",
           value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+        },
+        {
+          label: "Staked LP Tokens",
+          value: `${autoStake ? estLpBalance : 0} ${symbol1}-${symbol2}-LP`,
         },
       ]}
       onCloseClick={onCloseClick}
