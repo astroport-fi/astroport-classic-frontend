@@ -35,7 +35,7 @@ const SlippagePopover: FC<Props> = ({
   onExpertModeChange,
 }) => {
   const placement = useBreakpointValue({
-    base: "top-start",
+    base: "bottom-end",
     md: "left",
   }) as PlacementWithLogical;
 
@@ -99,12 +99,13 @@ const SlippagePopover: FC<Props> = ({
               ))}
             </HStack>
             <InputGroup
-              maxW={["100%", null, "30%"]}
+              maxW={["50%", null, "30%"]}
               _focusWithin={{
                 color: "brand.purple",
               }}
             >
               <NumberInput
+                w="100%"
                 min={0.01}
                 precision={3}
                 max={50}
