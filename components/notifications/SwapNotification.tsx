@@ -3,6 +3,7 @@ import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 import { useQueryClient } from "react-query";
+import { findLastKey } from "lodash";
 
 import { useTokenInfo } from "modules/common";
 
@@ -18,7 +19,8 @@ const SwapNotification: FC<Props> = ({ txInfo, data }) => {
   const { eventsByType } = logs[0];
   const { token1, token2 } = data;
   const amount1 = eventsByType.wasm.offer_amount[0];
-  const amount2 = eventsByType.wasm.return_amount[0];
+  const amount2 =
+    eventsByType.wasm.return_amount[eventsByType.wasm.return_amount.length - 1];
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
   const displayAmount1 = num(amount1)
