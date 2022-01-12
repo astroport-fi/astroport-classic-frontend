@@ -45,7 +45,7 @@ const ProvideFormFooter: FC<Props> = ({
   ];
 
   const confirmButton: ConfirmButton = {
-    title: "Provide Liquidity",
+    title: "Add Liquidity",
     isLoading: data.txStep == TxStep.Estimating,
     isDisabled: data.txStep != TxStep.Ready,
     type: "submit",
