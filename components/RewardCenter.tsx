@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
-import numeral from "numeral";
 
 import { useTotalRewardValue } from "modules/reward";
+import { formatBigNumbers } from "modules/common";
 
 import RewardCenterPopover from "components/popovers/RewardCenterPopover";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const RewardCenter: FC = () => {
   const totalValue = useTotalRewardValue();
-  const formatted = numeral(totalValue).format("0,0.00");
+  const formatted = formatBigNumbers(totalValue);
 
   return (
     <RewardCenterPopover

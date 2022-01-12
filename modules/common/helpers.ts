@@ -1,3 +1,5 @@
+import numeral from "numeral";
+
 import {
   findAsset,
   getTokenDenoms,
@@ -5,6 +7,14 @@ import {
   PairResponse,
   Route,
 } from "modules/common";
+
+export const formatBigNumbers = (value : Number): String => {
+  if (value < 1000000) {
+    return numeral(value).format("0,0.00");
+  }
+
+  return numeral(value).format("0.00a", Math.floor).toUpperCase();
+}
 
 // const formatPair = (
 //   routes: Routes,
