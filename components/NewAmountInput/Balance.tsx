@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { Box, Text, Flex, Button, HStack } from "@chakra-ui/react";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { Box, Text, Flex, HStack } from "@chakra-ui/react";
+import { num, useBalance } from "@arthuryeti/terra";
 
 import { MaxButton } from "components/NewAmountInput";
 import { useTokenInfo } from "modules/common";

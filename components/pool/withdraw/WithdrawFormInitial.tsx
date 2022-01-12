@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
 
 import { WithdrawState } from "modules/pool";
 import { FormActions, FormActionItem } from "modules/common";
@@ -11,7 +11,6 @@ import Card from "components/Card";
 import NewAmountInput from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
-import PoolActions from "components/pool/PoolActions";
 import AstroSlider from "components/AstroSlider";
 import TokenInput from "components/TokenInput";
 

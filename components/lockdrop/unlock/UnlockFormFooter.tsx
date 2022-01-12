@@ -1,11 +1,7 @@
-import React, { FC, useMemo } from "react";
-import { fromTerraAmount, num, TxStep } from "@arthuryeti/terra";
-
-import { ONE_TOKEN } from "constants/constants";
-// import { useEstimatedAstroRewardsUnlock, usePool } from "modules/lockdrop";
+import React, { FC } from "react";
+import { TxStep } from "@arthuryeti/terra";
 
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
-import numeral from "numeral";
 
 type Props = {
   data: any;

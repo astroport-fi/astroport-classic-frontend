@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import { useQueryClient } from "react-query";
 
 import { useTokenInfo } from "modules/common";
@@ -12,7 +12,7 @@ type Props = {
 
 const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
-  const { getSymbol } = useTokenInfo();
+  const { getSymbol, getDecimals } = useTokenInfo();
   const { logs } = txInfo;
   const { eventsByType } = logs[logs.length - 1];
   const regex = /([0-9]+)(.*)/g;
@@ -25,6 +25,14 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const amount1 = token1Result?.[1];
   const token2 = token2Result?.[2];
   const amount2 = token2Result?.[1];
+  const token1Decimals = getDecimals(token1);
+  const token2Decimals = getDecimals(token2);
+  const displayAmount1 = num(amount1)
+    .div(10 ** token1Decimals)
+    .toFixed(2);
+  const displayAmount2 = num(amount2)
+    .div(10 ** token2Decimals)
+    .toFixed(2);
 
   useEffect(() => {
     queryClient.invalidateQueries("pools");
@@ -34,8 +42,8 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Provide {fromTerraAmount(amount1, "0,0.00")} {getSymbol(token1)} and{" "}
-      {fromTerraAmount(amount2, "0,0.00")} {getSymbol(token2)}
+      Provide {displayAmount1} {getSymbol(token1)} and {displayAmount2}{" "}
+      {getSymbol(token2)}
     </Text>
   );
 };
