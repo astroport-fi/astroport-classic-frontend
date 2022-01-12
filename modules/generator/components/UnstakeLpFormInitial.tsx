@@ -89,6 +89,7 @@ const UnstakeLpFormInitial = ({
                 <NewAmountInput
                   asset={token}
                   balance={stakedAmount}
+                  isLpToken
                   {...field}
                 />
               )}
