@@ -24,7 +24,7 @@ const GovStakeNotification: FC<Props> = ({ txInfo }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Staked {fromTerraAmount(amount, "0,0.[00]")} {getSymbol(astroToken)} to
       {getSymbol(xAstroToken)}
     </Text>

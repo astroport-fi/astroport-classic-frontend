@@ -33,7 +33,7 @@ const WithdrawNotification: FC<Props> = ({ txInfo }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Withdraw {fromTerraAmount(amount1, "0,0.00")} {getSymbol(token1)} and{" "}
       {fromTerraAmount(amount2, "0,0.00")} {getSymbol(token2)}
     </Text>

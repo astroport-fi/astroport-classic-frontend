@@ -61,7 +61,7 @@ const Notifications: FC = () => {
   };
 
   return (
-    <VStack position="absolute" top="0" right="2rem">
+    <VStack zIndex={2000} position="absolute" top="0" right={["0", "2rem"]}>
       <AnimatePresence initial={false}>
         {notifications.items?.map(
           ({ id, txHash, txInfo, txType, type, data }) => {

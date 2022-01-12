@@ -31,7 +31,7 @@ const UnstakeLpNotification: FC<Props> = ({ txInfo }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Unstake {fromTerraAmount(amount, "0,0.00")} {symbol1}-{symbol2}-LP
     </Text>
   );

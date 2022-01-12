@@ -21,7 +21,7 @@ const ClaimRewardsNotification: FC<Props> = ({ txInfo }) => {
     queryClient.invalidateQueries("rewards");
   }, []);
 
-  return <Text textStyle="medium">Rewards Claimed</Text>;
+  return <Text textStyle={["small", "medium"]}>Rewards Claimed</Text>;
 };
 
 export default ClaimRewardsNotification;

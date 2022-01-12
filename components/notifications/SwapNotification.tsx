@@ -35,7 +35,7 @@ const SwapNotification: FC<Props> = ({ txInfo, data }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Swap {displayAmount1} {getSymbol(token1)} for {displayAmount2}{" "}
       {getSymbol(token2)}
     </Text>

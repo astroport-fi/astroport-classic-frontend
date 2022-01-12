@@ -30,7 +30,7 @@ const LockdropUnlockLpNotification: FC<Props> = ({ txInfo, data }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Unlock {fromTerraAmount(amount, "0,0.00")} {symbol1}-{symbol2}-LP tokens
     </Text>
   );

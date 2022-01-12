@@ -12,7 +12,7 @@ const FailedNotification: FC<Props> = ({ txInfo }) => {
   const { getSymbol } = useTokenInfo();
   const { raw_log } = txInfo;
 
-  return <Text textStyle="medium">{raw_log}</Text>;
+  return <Text textStyle={["small", "medium"]}>{raw_log}</Text>;
 };
 
 export default FailedNotification;

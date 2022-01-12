@@ -24,7 +24,7 @@ const GovUnstakeNotification: FC<Props> = ({ txInfo }) => {
   }, []);
 
   return (
-    <Text textStyle="medium">
+    <Text textStyle={["small", "medium"]}>
       Unstaked {fromTerraAmount(amount, "0,0.[00]")} {getSymbol(astroToken)}{" "}
       from {getSymbol(xAstroToken)}
     </Text>

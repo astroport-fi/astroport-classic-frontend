@@ -21,7 +21,7 @@ const Transaction: FC<Props> = ({
   children,
 }) => {
   const finder = useFinder();
-  const [pause, resume] = useTimeout(60000, onClose);
+  const [pause, resume] = useTimeout(100000, onClose);
 
   const icon = {
     succeed: <CheckIcon color="otherColours.green" w={3} />,
@@ -30,8 +30,9 @@ const Transaction: FC<Props> = ({
 
   return (
     <MotionBox
-      w="sm"
-      p={4}
+      w={["2xs", "sm"]}
+      px={["2", "4"]}
+      py={4}
       bg="#333D5F"
       borderWidth="2px"
       borderColor="white.100"
@@ -50,7 +51,7 @@ const Transaction: FC<Props> = ({
           {children}
           {txHash && (
             <Link href={finder(txHash, "tx")} isExternal>
-              <Text textStyle="medium" variant="dimmed">
+              <Text textStyle={["small", "medium"]} variant="dimmed">
                 View on Terra Finder
               </Text>
             </Link>
