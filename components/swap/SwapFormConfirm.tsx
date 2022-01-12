@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount, num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
+import numeral from "numeral";
 
 import {
   usePriceImpact,
@@ -51,6 +52,11 @@ const SwapFormConfirm: FC<Props> = ({
     price,
   });
   const priceImpactColor = usePriceImpactColor(priceImpact);
+  const symbol1 = getSymbol(token1);
+  const symbol2 = getSymbol(token2);
+  const isLow = num(price).lt(0.01);
+  const formattedPrice = numeral(price).format("0,0.00[000]").toString();
+  const exchangeRate = isLow ? `< 0.01` : `= ${formattedPrice}`;
 
   const exchangeRateDetail = {
     label: "Exchange Rate",
@@ -76,6 +82,10 @@ const SwapFormConfirm: FC<Props> = ({
       value: swapRoutePath,
     },
     exchangeRateDetail,
+    {
+      label: "Exchange Rate",
+      value: `1 ${symbol1} ${exchangeRate} ${symbol2}`,
+    },
     {
       label: "Minimum received",
       value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,
