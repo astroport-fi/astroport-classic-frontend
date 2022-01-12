@@ -54,6 +54,7 @@ const MyPools: FC = () => {
         Cell: ({ row }: any) => <MyPoolActionsTd data={row.original} />,
         accessor: "actions",
         width: 80,
+        disableSortBy: true,
       },
     ],
     []

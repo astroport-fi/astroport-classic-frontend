@@ -62,6 +62,7 @@ const MyAuctionLockedPool = () => {
         Cell: ({ row }: any) => <AuctionActionsTd row={row} />,
         accessor: "actions",
         width: 120,
+        disableSortBy: true,
       },
     ],
     []

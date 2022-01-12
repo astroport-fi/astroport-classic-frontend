@@ -53,6 +53,7 @@ const AllPools: FC = () => {
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
         width: 80,
+        disableSortBy: true,
       },
     ],
     []
