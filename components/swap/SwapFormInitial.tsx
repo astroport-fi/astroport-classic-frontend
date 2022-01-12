@@ -51,7 +51,7 @@ const SwapFormInitial: FC<Props> = ({
   const { getDecimals } = useTokenInfo();
   const balance = num(token1Balance)
     .div(10 ** getDecimals(token1))
-    .dp(2)
+    .dp(6)
     .toNumber();
 
   const reverse = async () => {

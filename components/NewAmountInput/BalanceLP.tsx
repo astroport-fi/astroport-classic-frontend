@@ -29,7 +29,7 @@ const BalanceLP: FC<Props> = ({
   const balance = useBalance(asset);
   const amount = num(initial ?? balance)
     .div(ONE_TOKEN)
-    .dp(2)
+    .dp(6)
     .toNumber();
 
   const renderButton = () => {
@@ -56,7 +56,7 @@ const BalanceLP: FC<Props> = ({
               {label}:
             </Text>{" "}
             <Text fontSize="sm" color="white" ml="2">
-              {numeral(amount).format("0,0.00")}
+              {numeral(amount).format("0,0.000000")}
             </Text>
           </HStack>
         </Box>

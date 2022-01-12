@@ -26,7 +26,7 @@ const AstroSliderButton: FC<Props> = ({
     const target = value * (1 / 4) * max;
 
     if (onClick) {
-      onClick(num(target).dp(4).toNumber());
+      onClick(num(target).dp(6).toNumber());
     }
   };
 
