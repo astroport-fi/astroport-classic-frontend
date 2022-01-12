@@ -986,7 +986,7 @@ const whitelist = {
         contract_addr: "terra1cx2rqwsgsdhg3t9ce3kef33dncaswknemucrzf",
         liquidity_token: "terra1w50p86452w5l9xmpa67nrga4umxvp5u749cfpp",
         pair_type: {
-          xyk: {},
+          stable: {},
         },
       },
       // apollo-ust
