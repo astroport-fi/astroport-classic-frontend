@@ -13,7 +13,9 @@ const LockedLiquidityPage: NextPage = () => {
         <title>Astroport</title>
       </Head>
       <Container px={["6", null, "12"]} maxWidth="container.xl">
-        <MyLockedPools />
+        <Box mt={["8", null, "72px"]}>
+          <MyLockedPools />
+        </Box>
 
         <Box mt="4" mb="24">
           <MyAuctionLockedPool />

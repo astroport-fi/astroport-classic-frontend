@@ -43,7 +43,7 @@ const AstroAirdrop = () => {
   };
 
   return (
-    <Box>
+    <Box mt="6">
       <CardHeader label="ASTRO Airdrop" />
       <Card px={["6", null, null, "12"]} pt="12" pb="8">
         <Flex direction="column" align="center">
