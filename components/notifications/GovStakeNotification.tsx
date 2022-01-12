@@ -20,6 +20,7 @@ const GovStakeNotification: FC<Props> = ({ txInfo }) => {
 
   useEffect(() => {
     queryClient.invalidateQueries("balance");
+    queryClient.invalidateQueries("supply");
   }, []);
 
   return (
