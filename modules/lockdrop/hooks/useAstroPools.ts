@@ -10,9 +10,9 @@ import {
   useAstroswap,
   useContracts,
   useLunaPrice,
+  useHive,
 } from "modules/common";
 import { useUserInfoWithList } from "modules/lockdrop";
-import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { useBLunaPriceInLuna } from "modules/swap";
 

@@ -1,16 +1,28 @@
 import React, { FC } from "react";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Lottie from "react-lottie";
 
 import { useAirdrop } from "modules/airdrop";
+import * as animationData from "libs/animations/loop.json";
+
 import AirdropSuccess from "components/AirdropSuccess";
 import AirdropFailed from "components/AirdropFailed";
 
 const AirdropResult: FC = () => {
   const router = useRouter();
   const address = router.query.address as string;
-  // const { data, isLoading } = useAirdrop(address);
   const { isLoading, data } = useAirdrop(address);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const animationSize = useBreakpointValue({ base: 150, md: 400 });
 
   const handleClose = () => {
     router.back();
@@ -23,7 +35,7 @@ const AirdropResult: FC = () => {
 
     return (
       <AirdropSuccess
-        amount={data?.amount}
+        data={data}
         address={address}
         onCloseClick={handleClose}
       />
@@ -33,9 +45,13 @@ const AirdropResult: FC = () => {
   if (isLoading) {
     return (
       <Box m="0 auto" pt="12">
-        <Flex gridGap="8">
-          <Box w="container.sm">Loading...</Box>
-        </Flex>
+        <Lottie
+          options={defaultOptions}
+          height={animationSize}
+          width={animationSize}
+          isStopped={false}
+          isPaused={false}
+        />
       </Box>
     );
   }

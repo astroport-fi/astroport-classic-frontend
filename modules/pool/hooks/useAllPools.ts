@@ -3,8 +3,12 @@ import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
 
-import { getPoolTokenDenoms, useAstroswap, useLunaPrice } from "modules/common";
-import { useHive } from "hooks/useHive";
+import {
+  getPoolTokenDenoms,
+  useAstroswap,
+  useLunaPrice,
+  useHive,
+} from "modules/common";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";

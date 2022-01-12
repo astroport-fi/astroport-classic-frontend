@@ -8,8 +8,8 @@ import {
   useAstroswap,
   useContracts,
   useLunaPrice,
+  useHive,
 } from "modules/common";
-import { useHive } from "hooks/useHive";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 

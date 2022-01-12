@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import { num } from "@arthuryeti/terra";
 
 import { useContracts } from "modules/common";
-import { useAirdropStillClaimable } from "modules/airdrop";
+import {
+  useAirdropStillClaimable,
+  useAirdrop2StillClaimable,
+} from "modules/airdrop";
 import { ONE_TOKEN } from "constants/constants";
 
 import Card from "components/Card";
@@ -13,20 +16,34 @@ import SuccessIcon from "components/icons/SuccessIcon";
 import TokenCard from "components/common/TokenCard";
 
 type Props = {
-  amount: string;
+  data: any;
   address: string;
   onCloseClick: () => void;
 };
 
 const MotionBox = motion(Box);
 
-const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
+const AirdropSuccess: FC<Props> = ({ data, onCloseClick }) => {
   const { astroToken } = useContracts();
-  const newAmount = num(amount).div(ONE_TOKEN).dp(5).toNumber();
-  const isClaimable = useAirdropStillClaimable();
-  const rewardsMessage = isClaimable
-    ? "Available Airdrop"
-    : "Airdrop has already been claimed";
+  const isAirdrop1Claimable = useAirdropStillClaimable();
+  const isAirdrop2Claimable = useAirdrop2StillClaimable();
+
+  const airdrops = data.map((item) => {
+    let isClaimable = isAirdrop1Claimable;
+
+    if (item.airdrop_series == 2) {
+      isClaimable = isAirdrop2Claimable;
+    }
+
+    const message = isClaimable
+      ? "Available Airdrop"
+      : "Airdrop has already been claimed";
+
+    return {
+      ...item,
+      message,
+    };
+  });
 
   return (
     <MotionBox
@@ -55,21 +72,27 @@ const AirdropSuccess: FC<Props> = ({ amount, onCloseClick }) => {
             onClick={onCloseClick}
           />
         </Flex>
-        {isClaimable && (
-          <Text textStyle="medium" variant="dimmed" mb="3">
-            To claim your airdrop, open the rewards center in the top-right of
-            the page.
-          </Text>
-        )}
-        <Text variant="light" mb="2">
-          {rewardsMessage}
+        <Text textStyle="medium" variant="dimmed" mb="3">
+          To claim your airdrop, open the rewards center in the top-right of the
+          page.
         </Text>
-        <TokenCard
-          token={{
-            asset: astroToken,
-            amount: newAmount,
-          }}
-        />
+        {airdrops.map((airdrop) => {
+          const amount = num(airdrop.amount).div(ONE_TOKEN).dp(6).toNumber();
+
+          return (
+            <Box key={airdrop.airdrop_series} _last={{ mt: 4 }}>
+              <Text variant="light" mb="2">
+                {airdrop.message}
+              </Text>
+              <TokenCard
+                token={{
+                  asset: astroToken,
+                  amount,
+                }}
+              />
+            </Box>
+          );
+        })}
       </Card>
     </MotionBox>
   );

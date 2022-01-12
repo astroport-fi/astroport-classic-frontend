@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { num, useAddress } from "@arthuryeti/terra";
 
-import { useAirdrop, useUserInfo } from "modules/airdrop";
-import { ONE_TOKEN } from "constants/constants";
+import { useUserInfo } from "modules/airdrop";
 
 export const useAirdropStillClaimable = () => {
   const userInfo = useUserInfo();

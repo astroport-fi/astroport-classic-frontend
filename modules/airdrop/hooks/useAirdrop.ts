@@ -1,41 +1,45 @@
 import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { gql } from "graphql-request";
+
+import { useApi } from "modules/common";
+
+const query = gql`
+  query ($address: String!) {
+    airdrop(address: $address) {
+      index
+      merkle_proof
+      claimed
+      amount
+      airdrop_series
+    }
+  }
+`;
 
 export const useAirdrop = (address: string | undefined) => {
-  const query = useQuery(["airdrop", 1], async () => {
-    const res = await fetch("/airdrop/airdrop.json");
-    return res.json();
-  });
-
-  const query2 = useQuery(["airdrop", 2], async () => {
-    const res = await fetch("/airdrop/airdrop2.json");
-    return res.json();
-  });
-
-  const query3 = useQuery(["airdrop", 3], async () => {
-    const res = await fetch("/airdrop/airdrop3.json");
-    return res.json();
+  const result = useApi({
+    name: ["airdrop", address],
+    query,
+    variables: {
+      address,
+    },
+    options: {
+      enabled: !!address,
+    },
   });
 
   return useMemo(() => {
-    if (query.isLoading || query2.isLoading || query3.isLoading) {
+    if (result.isLoading) {
       return {
         isLoading: true,
         data: null,
       };
     }
 
-    const data = [...query.data, ...query2.data, ...query3.data].find(
-      (item) => {
-        return item.address === address;
-      }
-    );
-
     return {
       isLoading: false,
-      data,
+      data: result.data.airdrop,
     };
-  }, [query.isLoading, query2.isLoading, query3.isLoading]);
+  }, [result.data]);
 };
 
 export default useAirdrop;

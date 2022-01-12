@@ -10,15 +10,15 @@ type Response = {
   tokens_withdrawn: boolean;
 };
 
-export const useUserInfo = () => {
+export const useUserInfo2 = () => {
   const { client } = useTerraWebapp();
   const address = useAddress();
-  const { airdrop } = useContracts();
+  const { airdrop2 } = useContracts();
 
   const { data, isLoading } = useQuery(
-    ["userInfo", "airdrop", address],
+    ["userInfo", "airdrop2", address],
     () => {
-      return client.wasm.contractQuery<Response>(airdrop, {
+      return client.wasm.contractQuery<Response>(airdrop2, {
         user_info: {
           address,
         },
@@ -38,4 +38,4 @@ export const useUserInfo = () => {
   }, [isLoading, data]);
 };
 
-export default useUserInfo;
+export default useUserInfo2;

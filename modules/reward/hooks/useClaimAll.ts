@@ -8,6 +8,8 @@ import {
   useAirdrop,
   useAirdropBalance,
   useUserInfo as useAirdropUserInfo,
+  useUserInfo2 as useAirdrop2UserInfo,
+  useAirdrop2Balance,
 } from "modules/airdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
 import {
@@ -23,13 +25,20 @@ type Params = {
 };
 
 export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
-  const { lockdrop, auction, airdrop } = useContracts();
+  const {
+    lockdrop,
+    auction,
+    airdrop: airdropContract,
+    airdrop2: airdrop2Contract,
+  } = useContracts();
   const address = useAddress();
   const userInfo = useUserInfo();
   const { isLoading, data: airdropData } = useAirdrop(address);
   const auctionUserInfo = useAuctionUserInfo();
   const airdropUserInfo = useAirdropUserInfo();
+  const airdrop2UserInfo = useAirdrop2UserInfo();
   const airdropBalance = useAirdropBalance();
+  const airdrop2Balance = useAirdrop2Balance();
 
   const items = useMemo(() => {
     if (userInfo == null) {
@@ -49,6 +58,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       userInfo == null ||
       auctionUserInfo == null ||
       airdropUserInfo == null ||
+      airdrop2UserInfo == null ||
       isLoading
     ) {
       return null;
@@ -57,18 +67,39 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     let data = [];
 
     if (num(airdropBalance).gt(0)) {
+      const airdrop = airdropData.find(
+        ({ airdrop_series }) => airdrop_series === 1
+      );
       const airdropMsgs = createClaimAirdropMsgs(
         {
-          contract: airdrop,
+          contract: airdropContract,
           isClaimed: num(airdropUserInfo.airdrop_amount).gt(0),
-          merkleProof: airdropData?.merkle_proof,
-          claimAmount: airdropData?.amount,
-          rootIndex: airdropData?.index,
+          merkleProof: airdrop?.merkle_proof,
+          claimAmount: airdrop?.amount,
+          rootIndex: airdrop?.index,
         },
         address
       );
 
       data.push(...airdropMsgs);
+    }
+
+    if (num(airdrop2Balance).gt(0)) {
+      const airdrop = airdropData.find(
+        ({ airdrop_series }) => airdrop_series === 2
+      );
+      const airdrop2Msgs = createClaimAirdropMsgs(
+        {
+          contract: airdrop2Contract,
+          isClaimed: num(airdrop2UserInfo.airdrop_amount).gt(0),
+          merkleProof: airdrop?.merkle_proof,
+          claimAmount: airdrop?.amount,
+          rootIndex: airdrop?.index,
+        },
+        address
+      );
+
+      data.push(...airdrop2Msgs);
     }
 
     if (
@@ -109,7 +140,8 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     airdropUserInfo,
     auctionUserInfo,
     userInfo,
-    airdrop,
+    airdropContract,
+    airdrop2Contract,
     airdropBalance,
     airdropData,
     isLoading,

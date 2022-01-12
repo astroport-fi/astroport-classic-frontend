@@ -8,7 +8,7 @@ import {
   usePhase2Rewards,
   useTotalRewardValue,
 } from "modules/reward";
-import { useAirdropBalance } from "modules/airdrop";
+import { useAirdropBalance, useAirdrop2Balance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
 
@@ -17,7 +17,8 @@ const RewardList: FC = () => {
   const phase1Rewards = usePhase1Rewards();
   const phase2Rewards = usePhase2Rewards();
   const airdropBalance = useAirdropBalance();
-  const airdrop = numeral(airdropBalance).format("0,0.00");
+  const airdrop2Balance = useAirdrop2Balance();
+  const airdrop = numeral(airdropBalance).add(airdrop2Balance).format("0,0.00");
   const phase1 = numeral(phase1Rewards).format("0,0.00");
   const phase2 = numeral(phase2Rewards).format("0,0.00");
   const total = useTotalRewardValue();
@@ -47,7 +48,7 @@ const RewardList: FC = () => {
         </Box>
       )}
 
-      {airdropBalance > 0 && (
+      {airdropBalance + airdrop2Balance > 0 && (
         <Box mt={6}>
           <RewardLineItem
             token={astroToken}
