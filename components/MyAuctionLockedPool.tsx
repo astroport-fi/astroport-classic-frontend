@@ -34,7 +34,7 @@ const MyAuctionLockedPool = () => {
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
         width: 100,
-        accessor: "totalLockedLiquidity",
+        accessor: "totalLiquidityInUst",
       },
       {
         Header: "My Initial Liquidity",
@@ -42,7 +42,7 @@ const MyAuctionLockedPool = () => {
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
         width: 100,
-        accessor: "myLiquidity",
+        accessor: "myLiquidityInUst",
       },
       {
         Header: "Unlockable Liquidity",
@@ -50,7 +50,7 @@ const MyAuctionLockedPool = () => {
           <NumberInUstTd value={row.original.myUnlockableLiquidityInUst} />
         ),
         width: 100,
-        accessor: "totalUnlockedLiquidity",
+        accessor: "myUnlockableLiquidityInUst",
       },
       {
         Header: "Fully unlocks on",

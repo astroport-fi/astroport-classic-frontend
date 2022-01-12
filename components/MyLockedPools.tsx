@@ -34,7 +34,7 @@ const MyLockedPools = () => {
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
         width: 200,
-        accessor: "myLiquidity",
+        accessor: "myLiquidityInUst",
       },
       {
         Header: "Total Liquidity",
@@ -42,7 +42,7 @@ const MyLockedPools = () => {
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
         width: 200,
-        accessor: "totalLockedAstroportLiquidity",
+        accessor: "totalLiquidityInUst",
       },
       {
         Header: "Fully unlocks on",
@@ -81,7 +81,7 @@ const MyLockedPools = () => {
           columns={columns}
           data={pools}
           emptyMsg="You didn't lock any positions."
-          sortBy="totalLockedAstroportLiquidity"
+          sortBy="totalLiquidityInUst"
         />
       </Card>
     </Box>
