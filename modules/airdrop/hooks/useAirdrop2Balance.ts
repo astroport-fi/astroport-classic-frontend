@@ -6,7 +6,6 @@ import { ONE_TOKEN } from "constants/constants";
 
 export const useAirdrop2Balance = () => {
   const address = useAddress();
-  // const { isLoading, data } = useAirdrop(address);
   const { isLoading, data } = useAirdrop(address);
   const userInfo = useUserInfo2();
 

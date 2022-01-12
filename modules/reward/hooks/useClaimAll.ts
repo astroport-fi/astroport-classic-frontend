@@ -30,9 +30,9 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   const {
     lockdrop,
     auction,
+    generator,
     airdrop: airdropContract,
     airdrop2: airdrop2Contract,
-    generator,
   } = useContracts();
   const address = useAddress();
   const userInfo = useUserInfo();
@@ -51,7 +51,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
 
     return userInfo.lockup_infos.map((info) => {
       return {
-        contract: info.terraswap_lp_token,
+        contract: info.pool_address,
         duration: info.duration,
       };
     });

@@ -12,6 +12,7 @@ type Response = {
   claimable_generator_proxy_debt: string;
   lockup_infos: {
     astro_rewards?: string;
+    pool_address?: string;
     terraswap_lp_token: string;
     lp_units_locked: string;
     withdrawal_flag: boolean;

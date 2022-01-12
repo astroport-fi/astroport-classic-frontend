@@ -2,8 +2,12 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 
-import { useAstroswap, useContracts, useTokenInfo } from "modules/common";
-import { useHive } from "hooks/useHive";
+import {
+  useAstroswap,
+  useContracts,
+  useTokenInfo,
+  useHive,
+} from "modules/common";
 
 const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {

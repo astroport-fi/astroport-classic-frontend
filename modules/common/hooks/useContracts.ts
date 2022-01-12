@@ -45,7 +45,7 @@ const defaultContracts: { [key: string]: any } = {
     generator: "terra1zgrx9jjqrfye8swykfgmd6hpde60j0nszzupp9",
     lockdrop: "terra1627ldjvxatt54ydd3ns6xaxtd68a2vtyu7kakj",
     airdrop: "terra1dpe2aqykm2vnakcz4vgpha0agxnlkjvgfahhk7",
-    airdrop2: "terra1hk7fturdl9fnvrn566dxer6ds7v4jklp2wqmp7",
+    airdrop2: "terra1dpe2aqykm2vnakcz4vgpha0agxnlkjvgfahhk7",
     auction: "terra1tvld5k6pus2yh7pcu7xuwyjedn7mjxfkkkjjap",
     stakableLp: [
       "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
@@ -73,6 +73,7 @@ const defaultContracts: { [key: string]: any } = {
     generator: "terra1gjm7d9nmewn27qzrvqyhda8zsfl40aya7tvaw5",
     lockdrop: "terra1dd9kewme9pwhurvlzuvvljq5ukecft9axyej42",
     airdrop: "terra1xd4ceehws4z5052v8qp3t65ugn9zptv8gx23el",
+    airdrop2: "terra1ph5h0xe73rg35024f4geq325tnsexwkzcz5ln4",
     auction: "terra1mjqjcv7yl94h6y35ng7eqstakxjx9g57suscx7",
     stakableLp: [
       "terra1dqjpcqej9nxej80u0p56rhkrzlr6w8tp7txkmj",
