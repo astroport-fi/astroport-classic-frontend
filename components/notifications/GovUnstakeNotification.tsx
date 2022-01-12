@@ -12,7 +12,7 @@ type Props = {
 
 const GovUnstakeNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
-  const { xAstroToken } = useContracts();
+  const { astroToken, xAstroToken } = useContracts();
   const { getSymbol } = useTokenInfo();
   const { logs } = txInfo;
   const { eventsByType } = logs[0];
@@ -24,8 +24,8 @@ const GovUnstakeNotification: FC<Props> = ({ txInfo }) => {
 
   return (
     <Text textStyle="medium">
-      Unstake {fromTerraAmount(amount, "0,0.[00]")} {getSymbol(xAstroToken)}{" "}
-      from governance
+      Unstaked {fromTerraAmount(amount, "0,0.[00]")} {getSymbol(astroToken)}{" "}
+      from {getSymbol(xAstroToken)}
     </Text>
   );
 };
