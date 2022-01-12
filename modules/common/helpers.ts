@@ -1,4 +1,5 @@
 import numeral from "numeral";
+import { num } from "@arthuryeti/terra";
 
 import {
   findAsset,
@@ -7,7 +8,6 @@ import {
   PairResponse,
   Route,
 } from "modules/common";
-import { num } from "@arthuryeti/terra";
 
 export const formatBigNumbers = (value: Number): String => {
   if (value < 1000000) {

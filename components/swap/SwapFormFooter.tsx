@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
-import { useTokenInfo, Route } from "modules/common";
+import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
 import {
   usePriceImpact,
   usePriceImpactColor,
@@ -72,7 +72,7 @@ const SwapFormFooter: FC<Props> = ({
     return (
       <>
         <Text textStyle="medium" color={priceImpactColor}>
-          {priceImpact}%
+          {handleTinyAmount(priceImpact, "0.00")}%
         </Text>
         <Text textStyle="small" variant="dimmed">
           Price Impact

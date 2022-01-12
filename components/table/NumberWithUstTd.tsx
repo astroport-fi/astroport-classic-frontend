@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { HStack, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 
+import { handleTinyAmount } from "modules/common";
+
 type Props = {
   value: any;
   valueInUst?: any;
@@ -9,7 +11,7 @@ type Props = {
 
 const NumberWithUstTd: FC<Props> = ({ value, valueInUst }) => {
   const formatted = numeral(value).format("0,0.00");
-  const formattedInUst = numeral(valueInUst).format("0,0");
+  const formattedInUst = handleTinyAmount(valueInUst);
 
   return (
     <HStack>
