@@ -677,7 +677,7 @@ const whitelist = {
         protocol: "stLuna",
         symbol: "stLUNA",
         token: "terra1e42d7l5z5u53n7g990ry24tltdphs9vugap8cd",
-        icon: "",
+        icon: "https://static.lido.fi/stLUNA/stLUNA.png",
       },
       terra1szee0j4m8c75etfs9le9tepa4mc80t3vpf72ls: {
         protocol: "StarTerra",
