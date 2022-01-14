@@ -18,11 +18,13 @@ const RewardList: FC = () => {
   const phase2Rewards = usePhase2Rewards();
   const airdropBalance = useAirdropBalance();
   const airdrop2Balance = useAirdrop2Balance();
-  const airdrop = numeral(airdropBalance).add(airdrop2Balance).format("0,0.00");
-  const phase1 = numeral(phase1Rewards).format("0,0.00");
-  const phase2 = numeral(phase2Rewards).format("0,0.00");
+  const airdrop = numeral(airdropBalance)
+    .add(airdrop2Balance)
+    .format("0,0.000000");
+  const phase1 = numeral(phase1Rewards).format("0,0.000000");
+  const phase2 = numeral(phase2Rewards).format("0,0.000000");
   const total = useTotalRewardValue();
-  const formatted = numeral(total).format("0,0.00");
+  const formatted = numeral(total).format("0,0.000000");
 
   return (
     <Box>
