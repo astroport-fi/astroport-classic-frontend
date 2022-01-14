@@ -35,6 +35,13 @@ export const useAirdrop = (address: string | undefined) => {
       };
     }
 
+    if (!result.isLoading && result.data == null) {
+      return {
+        isLoading: false,
+        data: null,
+      };
+    }
+
     return {
       isLoading: false,
       data: result.data.airdrop,
