@@ -1,24 +1,20 @@
 import React, { FC } from "react";
-import { Box, Heading, Stack, Text, Button, Flex } from "@chakra-ui/react";
+import { Box, Heading, Stack, Button, Flex } from "@chakra-ui/react";
 import Link from "next/link";
+import NotFoundIllustration from "components/pages/error/NotFoundIllustration";
 
 interface IProps {
   statusCode: number;
 }
 
 const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
-  const heightOfNavbar: string = "74px";
+  const heightOfNavbar: string = "88px";
   const containerPadding: string = "1rem";
+  const clientError = !statusCode
+  const notFoundError = statusCode && statusCode == 404
+  const serverError = statusCode && !notFoundError
 
-  const signOutButtonNode = () => {
-    return (
-      <Box>
-        <Link href="/" passHref>
-          <Button as="a">Return to the home page</Button>
-        </Link>
-      </Box>
-    );
-  };
+  console.error("The following error code happened:", statusCode)
 
   return (
     <Stack>
@@ -27,16 +23,19 @@ const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
         justifyContent="center"
         alignItems="center"
       >
-        <Stack spacing={4} maxW="xl" mx="auto">
-          <Heading textAlign="center">Nextjs Hasura Boilerplate</Heading>
-          <Text fontSize="xl" lineHeight="tall" textAlign="center">
-            {statusCode
-              ? `An error ${statusCode} occurred on server`
-              : "An error occurred on client"}
-          </Text>
+        <Stack spacing={10} p={10} w="full" maxW="3xl" mx="auto">
+          {notFoundError && <NotFoundIllustration width="100%" />}
+          <Heading color="#fff" textAlign="center">
+            {clientError && "There was something wrong."}
+            {serverError && "There was an error issue between you and the server."}
+          </Heading>
           <Box>
             <Stack isInline align="center" justifyContent="center">
-              {signOutButtonNode()}
+            <Box>
+              <Link href="/" passHref>
+                <Button variant="primary" as="a">Return to the home page</Button>
+              </Link>
+            </Box>
             </Stack>
           </Box>
         </Stack>
