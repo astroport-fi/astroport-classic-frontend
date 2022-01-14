@@ -5,7 +5,12 @@ import numeral from "numeral";
 import { num } from "@arthuryeti/terra";
 
 import { useTokenInfo, handleTinyAmount } from "modules/common";
-import { Pool, useTokensToLp, useEstShareOfPool, useEstShareInUst } from "modules/pool";
+import {
+  Pool,
+  useTokensToLp,
+  useEstShareOfPool,
+  useEstShareInUst,
+} from "modules/pool";
 
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -57,7 +62,7 @@ const ProvideForm: FC<Props> = ({
         { label: "My provided Liquidity", value: `$ ${formattedShareInUst}` },
         {
           label: "Exchange Rate",
-          value: `1 ${symbol1} ${handleTinyAmount(
+          value: `1 ${symbol1} = ${handleTinyAmount(
             pool.token1.price
           )} ${symbol2}`,
         },
