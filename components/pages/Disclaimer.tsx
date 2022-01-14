@@ -32,16 +32,16 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
       maxW="470px"
       m="0 auto"
       px="4"
-      my="10"
+      my={[8, 10]}
     >
       <Card>
-        <Flex justify="space-between" align="center" mb="6">
-          <Text fontSize="lg" color="red.500">
+        <Flex justify="space-between" align="center" mt={[2, 0]} mb={[4, 6]}>
+          <Text fontSize={["md", "lg"]} color="red.500">
             Disclaimer
           </Text>
         </Flex>
 
-        <Text fontSize="sm" mt="6">
+        <Text fontSize={["xs", "sm"]} mt={[4, 6]}>
           <chakra.span opacity={0.6}>
             Please check the boxes below to confirm your agreement to the{" "}
           </chakra.span>
@@ -54,17 +54,17 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           </Link>
         </Text>
 
-        <VStack mt="8" pl="4" spacing="6">
+        <VStack mt={[6, 8]} pl={[2, 4]} spacing={[4, 6]}>
           <Checkbox
             colorScheme="green"
             alignItems="flex-start"
-            pt="2"
+            pt={[0, 2]}
             isChecked={checkedItems[0]}
             onChange={(e) =>
               setCheckedItems([e.target.checked, checkedItems[1]])
             }
           >
-            <Text fontSize="sm" ml="4" fontWeight="medium">
+            <Text fontSize={["xs", "sm"]} ml={[3,4]} fontWeight="medium">
               I have read and understood, and do hereby agree to be legally
               bound as a ‘User’ under, the Terms, including all future
               amendments thereto. Such agreement is irrevocable and will apply
@@ -75,13 +75,13 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           <Checkbox
             colorScheme="green"
             alignItems="flex-start"
-            pt="2"
+            pt={[0, 2]}
             isChecked={checkedItems[1]}
             onChange={(e) =>
               setCheckedItems([checkedItems[0], e.target.checked])
             }
           >
-            <Text fontSize="sm" ml="4" fontWeight="medium">
+            <Text fontSize={["xs", "sm"]} ml={[3,4]} fontWeight="medium">
               I acknowledge and agree that the Site solely provides information
               about data on the Terra blockchain. I accept that the Site
               operators have no custody over my funds, ability or duty to
@@ -92,7 +92,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
           </Checkbox>
         </VStack>
 
-        <Flex flexDir="column" align="center" mt="8" mb="4">
+        <Flex flexDir="column" align="center" mt={[6, 8]} mb="4">
           <Button
             variant="primary"
             minW="64"
