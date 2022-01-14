@@ -12,7 +12,7 @@
     "format:": "prettier --write \"**/*.(ts|tsx|js|json)\"",
     "precommit": "lint-staged",
     "prepush": "npm run build",
-    "_postinstall": "husky install"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@arthuryeti/terra": "^1.6.1",
