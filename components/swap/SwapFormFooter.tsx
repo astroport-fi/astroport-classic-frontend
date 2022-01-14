@@ -5,7 +5,6 @@ import {
   Button,
   Text,
   useDisclosure,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import numeral from "numeral";
@@ -85,7 +84,7 @@ const SwapFormFooter: FC<Props> = ({
 
   return (
     <Flex justify="space-between" px={["4", "12"]} mt="6">
-      <Box flex={0} color="white">
+      <Box flex={1} color="white">
         {isFormValid && (
           <>
             <Text textStyle={["small", "medium"]}>
@@ -97,7 +96,8 @@ const SwapFormFooter: FC<Props> = ({
           </>
         )}
       </Box>
-      <Flex align="center" flexDirection="column">
+      <Box flex="15px 0" />
+      <Flex flex={1} align="center" flexDirection="column">
         {!address ? (
           <Flex justify="center">
             <Button variant="primary" type="button" onClick={onOpen}>
@@ -112,8 +112,11 @@ const SwapFormFooter: FC<Props> = ({
             onClick={onConfirmClick}
             isLoading={isLoading}
             isDisabled={!isFormValid || !!error || fee == null}
+            width={["125px", "auto"]}
           >
-            Swap Tokens
+            <Text fontSize={["xs", "sm"]}>
+              Swap Tokens
+            </Text>
           </Button>
         )}
         {isFormValid && (
@@ -122,8 +125,8 @@ const SwapFormFooter: FC<Props> = ({
           </Box>
         )}
       </Flex>
-
-      <Box flex={0} textAlign="right" color="white">
+      <Box flex="15px 0" />
+      <Box flex={1} textAlign="right" color="white">
         {renderRightMetric()}
       </Box>
     </Flex>
