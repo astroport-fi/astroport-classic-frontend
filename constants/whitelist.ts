@@ -117,7 +117,7 @@ const whitelist = {
         decimals: 8,
       },
       terra1pepwcav40nvj3kh60qqgrk8k07ydmc00xyat06: {
-        protocol: "Wormhole Ethereum USDC",
+        protocol: "Wormhole Eth USDC",
         symbol: "weUSDC",
         token: "terra1pepwcav40nvj3kh60qqgrk8k07ydmc00xyat06",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/USDCet_wh.png",
@@ -131,7 +131,7 @@ const whitelist = {
         decimals: 6,
       },
       terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w: {
-        protocol: "Wormhole Avalanche USDC",
+        protocol: "Wormhole Avax USDC",
         symbol: "wavUSDC",
         token: "terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/USDCav_wh.png",
@@ -139,9 +139,9 @@ const whitelist = {
       },
       terra1skjr69exm6v8zellgjpaa2emhwutrk5a6dz7dd: {
         protocol: "Wormhole Binance USD",
-        symbol: "wbnUSDC",
+        symbol: "wBUSD",
         token: "terra1skjr69exm6v8zellgjpaa2emhwutrk5a6dz7dd",
-        icon: "",
+        icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/BUSDbs_wh.png",
         decimals: 8,
       },
       terra1kkyyh7vganlpkj0gkc2rfmhy858ma4rtwywe3x: {
@@ -152,7 +152,7 @@ const whitelist = {
         decimals: 8,
       },
       terra1yg3j2s986nyp5z7r2lvt0hx3r0lnd7kwvwwtsc: {
-        protocol: "Lido Staked LUNA“",
+        protocol: "Lido Staked LUNA",
         symbol: "stLUNA",
         token: "terra1yg3j2s986nyp5z7r2lvt0hx3r0lnd7kwvwwtsc",
         icon: "https://static.lido.fi/stLUNA/stLUNA.png",
@@ -674,7 +674,7 @@ const whitelist = {
         icon: "https://d14knz87alb4l4.cloudfront.net/icons/APOLLO.png",
       },
       terra1e42d7l5z5u53n7g990ry24tltdphs9vugap8cd: {
-        protocol: "Lido Staked LUNA“",
+        protocol: "Lido Staked LUNA",
         symbol: "stLUNA",
         token: "terra1e42d7l5z5u53n7g990ry24tltdphs9vugap8cd",
         icon: "https://static.lido.fi/stLUNA/stLUNA.png",
