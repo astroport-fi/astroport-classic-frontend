@@ -4,6 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { num, useBalance, useEstimateFee, useTx } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
+import numeral from "numeral";
 
 import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
 import { useSwap, useSwapRoute } from "modules/swap";
@@ -228,6 +229,10 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     return false;
   }, [token1, amount1, token2, amount2, simulated, customError]);
 
+  const formattedPrice = useMemo(() => {
+    return numeral(simulated?.price).format("0,0.00[000]").toString();
+  }, [simulated?.price]);
+
   if (isPosting) {
     return <FormLoading txHash={txHash} />;
   }
@@ -258,6 +263,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               amount2={amount2}
               isLoading={feeIsLoading}
               price={simulated?.price}
+              formattedPrice={formattedPrice}
               swapRoute={swapRoute}
               fee={fee}
               error={error}
@@ -279,6 +285,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             slippage={slippage}
             fee={fee}
             price={simulated?.price}
+            formattedPrice={formattedPrice}
             commission={simulated?.commission}
             minReceive={minReceive}
             onCloseClick={() => setShowConfirm(false)}

@@ -21,6 +21,7 @@ type Props = {
   slippage: number;
   fee: Fee;
   price: string;
+  formattedPrice: string;
   commission: string;
   minReceive: string | number;
   onCloseClick: () => void;
@@ -35,6 +36,7 @@ const SwapFormConfirm: FC<Props> = ({
   slippage,
   fee,
   price,
+  formattedPrice,
   commission,
   minReceive,
   onCloseClick,
@@ -49,6 +51,11 @@ const SwapFormConfirm: FC<Props> = ({
     price,
   });
   const priceImpactColor = usePriceImpactColor(priceImpact);
+
+  const exchangeRateDetail = {
+    label: "Exchange Rate",
+    value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(token1)}`,
+  };
 
   let details = [
     {
@@ -68,6 +75,7 @@ const SwapFormConfirm: FC<Props> = ({
       label: "Route",
       value: swapRoutePath,
     },
+    exchangeRateDetail,
     {
       label: "Minimum received",
       value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,
@@ -84,6 +92,7 @@ const SwapFormConfirm: FC<Props> = ({
         label: "Route",
         value: swapRoutePath,
       },
+      exchangeRateDetail,
       {
         label: "Minimum received",
         value: `${fromTerraAmount(minReceive, "0.000")} ${getSymbol(token2)}`,

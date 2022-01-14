@@ -7,8 +7,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
-import numeral from "numeral";
-
 import { useTokenInfo, Route } from "modules/common";
 import {
   usePriceImpact,
@@ -26,6 +24,7 @@ type Props = {
   amount2: string;
   fee: any;
   price: string;
+  formattedPrice: string;
   isLoading: boolean;
   swapRoute: Route[];
   isFormValid: boolean;
@@ -39,6 +38,7 @@ const SwapFormFooter: FC<Props> = ({
   to,
   amount2,
   price,
+  formattedPrice,
   isLoading,
   isFormValid,
   swapRoute,
@@ -51,7 +51,6 @@ const SwapFormFooter: FC<Props> = ({
   const { isOpen, onClose, onOpen } = useDisclosure();
   const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
   const priceImpactColor = usePriceImpactColor(priceImpact);
-  const formattedPrice = numeral(price).format("0,0.00[000]").toString();
   const address = useAddress();
 
   const renderRightMetric = () => {
