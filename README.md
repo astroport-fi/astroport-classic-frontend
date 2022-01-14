@@ -19,3 +19,7 @@ However, v14 ships with npm v6, you'll need to update npm with `npm install -g n
 ### `npm run dev`
 
 Runs the app in the development mode.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.
