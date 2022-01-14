@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { FC } from "react";
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Text, Button } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import { useTable, useSortBy } from "react-table";
 
@@ -45,6 +45,29 @@ const PoolTable: FC<Props> = ({
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
+  const renderHeadTd = (column) => {
+    return (
+      <HStack color={column.isSorted ? "white" : "inherit"}>
+        <Text fontSize="xs" variant="light">
+          {column.render("Header")}
+          {column.canSort}
+        </Text>
+        <span>
+          {" "}
+          {column.isSorted ? (
+            column.isSortedDesc ? (
+              <ChevronDownIcon w="2" />
+            ) : (
+              <ChevronDownIcon w="2" transform="rotate(180deg)" />
+            )
+          ) : (
+            ""
+          )}{" "}
+        </span>
+      </HStack>
+    );
+  };
+
   return (
     <Table {...getTableProps()}>
       {headerGroups.map((headerGroup) => (
@@ -52,26 +75,16 @@ const PoolTable: FC<Props> = ({
           {headerGroup.headers.map((column: any) => (
             <Td
               color="white.700"
-              {...column.getHeaderProps(column.getSortByToggleProps())}
+              {...column.getHeaderProps()}
               flexBasis={`${column.width}px`}
             >
-              <HStack color={column.isSorted ? "white" : "inherit"}>
-                <Text fontSize="xs" variant="light">
-                  {column.render("Header")}
-                </Text>
-                <span>
-                  {" "}
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <ChevronDownIcon w="2" />
-                    ) : (
-                      <ChevronDownIcon w="2" transform="rotate(180deg)" />
-                    )
-                  ) : (
-                    ""
-                  )}{" "}
-                </span>
-              </HStack>
+              {column.canSort ? (
+                <Button variant="simple" {...column.getSortByToggleProps()}>
+                  {renderHeadTd(column)}
+                </Button>
+              ) : (
+                renderHeadTd(column)
+              )}
             </Td>
           ))}
         </Tr>
