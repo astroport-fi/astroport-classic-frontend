@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
-  const { connect } = useWallet();
+  const { connect, availableConnections } = useWallet();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Connect to a wallet">
@@ -21,29 +21,38 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
         align="center"
         textAlign="center"
       >
-        <chakra.button
-          transition="0.2s all"
-          p="6"
-          borderRadius="xl"
-          bg="brand.purple"
-          color="white"
-          width="100%"
-          mb="4"
-          _hover={{
-            bg: "white",
-            color: "brand.dark",
-          }}
-          d={["none", "block"]}
-          onClick={() => {
-            onClose();
-            connect(ConnectType.EXTENSION);
-          }}
-        >
-          <HStack justify="space-between">
-            <Text>Terra Station Extension</Text>
-            <TerraExtensionIcon />
-          </HStack>
-        </chakra.button>
+        {availableConnections
+          .filter(({ type }) => type === ConnectType.EXTENSION)
+          .map(({ identifier, name, icon }) => (
+            <chakra.button
+              key={identifier}
+              transition="0.2s all"
+              p="6"
+              borderRadius="xl"
+              bg="brand.purple"
+              color="white"
+              width="100%"
+              mb="4"
+              _hover={{
+                bg: "white",
+                color: "brand.dark",
+              }}
+              d={["none", "block"]}
+              onClick={() => {
+                onClose();
+                connect(ConnectType.EXTENSION, identifier);
+              }}
+            >
+              <HStack justify="space-between">
+                <Text>{name} Extension</Text>
+                {identifier === "station" ? (
+                  <TerraExtensionIcon />
+                ) : (
+                  <img src={icon} width="24" />
+                )}
+              </HStack>
+            </chakra.button>
+          ))}
         <chakra.button
           transition="0.2s all"
           p="6"
