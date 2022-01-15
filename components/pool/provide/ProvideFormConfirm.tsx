@@ -42,6 +42,7 @@ const ProvideForm: FC<Props> = ({
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
+  const formattedApy = numeral(pool.apy.total * 100).format("0.00");
 
   return (
     <FormConfirm
@@ -66,12 +67,18 @@ const ProvideForm: FC<Props> = ({
           )} ${symbol2}`,
         },
         {
+          label: "APY",
+          value: `${formattedApy || 0}%`,
+        },
+        {
           label: "Share of Pool",
           value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
         },
         {
           label: "Staked LP Tokens",
-          value: `${autoStake ? handleTinyAmount(estLpBalance, "0.00", true) : 0} ${symbol1}-${symbol2}-LP`,
+          value: `${
+            autoStake ? handleTinyAmount(estLpBalance, "0.00", true) : 0
+          } ${symbol1}-${symbol2}-LP`,
         },
       ]}
       onCloseClick={onCloseClick}

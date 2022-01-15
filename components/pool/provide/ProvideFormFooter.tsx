@@ -1,11 +1,10 @@
 import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
 import numeral from "numeral";
-
 import { handleTinyAmount } from "modules/common";
 import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";
-
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
+import ApyFooter from "components/pool/ApyFooter";
 
 type Props = {
   pool: Pool;
@@ -33,6 +32,7 @@ const ProvideFormFooter: FC<Props> = ({
     amount2: amount2,
   });
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
+  const formattedApy = numeral(pool.apy.total * 100).format("0.00");
 
   const cells = [
     {
@@ -42,6 +42,11 @@ const ProvideFormFooter: FC<Props> = ({
     {
       title: "Share of Pool",
       value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+    },
+    {
+      title: "APY",
+      value: `${formattedApy || 0}%`,
+      render: () => <ApyFooter pool={pool} />,
     },
   ];
 

@@ -9,6 +9,7 @@ import {
   useLunaPrice,
   useHive,
 } from "modules/common";
+import { usePoolsApy } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
@@ -75,6 +76,7 @@ export const useAllPools = () => {
   const address = useAddress();
   const lunaPrice = useLunaPrice();
   const bLunaPrice = useBLunaPriceInLuna();
+  const poolsApy = usePoolsApy();
 
   let query = createQueryNotConnected(pairs);
 
@@ -132,6 +134,17 @@ export const useAllPools = () => {
         .dp(6)
         .toNumber();
 
+      const poolApy = poolsApy.find(
+        (poolApy) => poolApy.pool_address === contract_addr
+      );
+      const apy = {
+        pool: poolApy?.trading_fees?.apy || 0,
+        astro: poolApy?.astro_rewards?.apy || 0,
+        protocol: poolApy?.protocol_rewards?.apy || 0,
+        total: poolApy?.total_rewards?.apy || 0,
+        reward_symbol: poolApy?.token_symbol,
+      };
+
       return {
         contract: contract_addr,
         assets: denoms,
@@ -140,11 +153,12 @@ export const useAllPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
+        apy,
       };
     });
 
     return sortBy(compact(items), "totalLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result, bLunaPrice]);
+  }, [lunaPrice, pairs, result, bLunaPrice, poolsApy]);
 };
 
 export default useAllPools;

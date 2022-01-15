@@ -7,6 +7,7 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import ActionsTd from "components/table/ActionsTd";
+import ApyTd from "components/table/ApyTd";
 import RewardedIcon from "components/icons/RewardedIcon";
 
 const AllPools: FC = () => {
@@ -41,6 +42,13 @@ const AllPools: FC = () => {
         width: 200,
       },
       {
+        Header: "Combined APY",
+        Cell: ({ row }: any) => <ApyTd row={row} />,
+        accessor: "combinedApy",
+        width: 200,
+        sortType: (a, b) => a.original.apy.total - b.original.apy.total,
+      },
+      {
         Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
@@ -52,7 +60,7 @@ const AllPools: FC = () => {
         id: "pool-actions",
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
-        width: 80,
+        width: 160,
         disableSortBy: true,
       },
     ],

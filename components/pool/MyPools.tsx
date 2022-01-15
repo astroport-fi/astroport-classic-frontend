@@ -5,6 +5,7 @@ import { useMyPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
+import ApyTd from "components/table/ApyTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
 
@@ -41,6 +42,13 @@ const MyPools: FC = () => {
         width: 200,
       },
       {
+        Header: "Combined APY",
+        Cell: ({ row }: any) => <ApyTd row={row} />,
+        accessor: "combinedApy",
+        width: 200,
+        sortType: (a, b) => a.original.apy.total - b.original.apy.total,
+      },
+      {
         Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
@@ -52,7 +60,7 @@ const MyPools: FC = () => {
         id: "pool-actions",
         Cell: ({ row }: any) => <MyPoolActionsTd data={row.original} />,
         accessor: "actions",
-        width: 80,
+        width: 160,
         disableSortBy: true,
       },
     ],

@@ -10,6 +10,7 @@ import {
   useLunaPrice,
   useHive,
 } from "modules/common";
+import { usePoolsApy } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 
@@ -87,6 +88,7 @@ export const useMyPools = () => {
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
+  const poolsApy = usePoolsApy();
 
   const query = address ? createQuery(pairs, address, generator) : null;
   const result = useHive({
@@ -134,6 +136,17 @@ export const useMyPools = () => {
 
       const isStakable = stakableLp.includes(liquidity_token);
 
+      const poolApy = poolsApy.find(
+        (poolApy) => poolApy.pool_address === contract_addr
+      );
+      const apy = {
+        pool: poolApy?.trading_fees?.apy || 0,
+        astro: poolApy?.astro_rewards?.apy || 0,
+        protocol: poolApy?.protocol_rewards?.apy || 0,
+        total: poolApy?.total_rewards?.apy || 0,
+        reward_symbol: poolApy?.token_symbol,
+      };
+
       return {
         contract: contract_addr,
         assets: denoms,
@@ -142,6 +155,7 @@ export const useMyPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
+        apy,
         canManage: num(providedBalance).gt(0),
         canStake: num(stakedBalance).gt(0),
         isStakable,
@@ -149,7 +163,7 @@ export const useMyPools = () => {
     });
 
     return sortBy(compact(items), "myLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result]);
+  }, [lunaPrice, pairs, result, poolsApy]);
 };
 
 export default useMyPools;

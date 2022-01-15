@@ -1,13 +1,13 @@
 import React, { FC, useCallback, useState, useEffect } from "react";
-import { chakra, Text, useToast } from "@chakra-ui/react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useAstroswap, useTokenInfo } from "modules/common";
+import { PairResponse, useAstroswap } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-import { useWithdraw } from "modules/pool";
+import { useWithdraw, Pool } from "modules/pool";
 
 import FormLoading from "components/common/FormLoading";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
@@ -20,7 +20,7 @@ type FormValues = {
 
 type Props = {
   pair: PairResponse;
-  pool: any;
+  pool: Pool;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
@@ -118,6 +118,7 @@ const WithdrawForm: FC<Props> = ({
 
         {showConfirm && (
           <WithdrawFormConfirm
+            pool={pool}
             token1={token1}
             amount1={token1Amount}
             token2={token2}

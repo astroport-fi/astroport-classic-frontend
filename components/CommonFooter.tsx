@@ -7,6 +7,7 @@ import FormFee from "components/common/FormFee";
 export interface Cell {
   title: string;
   value: string;
+  render?: Function;
 }
 
 export interface ConfirmButton {
@@ -28,26 +29,30 @@ const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
     <Box mb="8">
       {cells?.length > 0 && (
         <Flex justify="space-between" mt="8">
-          {cells.map((cell) => (
-            <Box
-              color="white"
-              key={cell.title}
-              flex="1"
-              borderRightColor="whiteAlpha.600"
-              borderRightWidth="1px"
-              pl="4"
-              _first={{
-                borderLeftColor: "whiteAlpha.600",
-                borderLeftWidth: "1px",
-              }}
-              textAlign="center"
-            >
-              <Text textStyle="medium">{cell.value}</Text>
-              <Text textStyle="small" variant="dimmed">
-                {cell.title}
-              </Text>
-            </Box>
-          ))}
+          {cells.map((cell) =>
+            cell.render ? (
+              cell.render()
+            ) : (
+              <Box
+                color="white"
+                key={cell.title}
+                flex="1"
+                borderRightColor="whiteAlpha.600"
+                borderRightWidth="1px"
+                pl="4"
+                _first={{
+                  borderLeftColor: "whiteAlpha.600",
+                  borderLeftWidth: "1px",
+                }}
+                textAlign="center"
+              >
+                <Text textStyle="medium">{cell.value}</Text>
+                <Text textStyle="small" variant="dimmed">
+                  {cell.title}
+                </Text>
+              </Box>
+            )
+          )}
         </Flex>
       )}
       <Flex flex="1" align="center" flexDirection="column" mt="8">
