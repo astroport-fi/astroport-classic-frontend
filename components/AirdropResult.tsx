@@ -29,9 +29,11 @@ const AirdropResult: FC = () => {
   };
 
   const renderAirdrop = () => {
-    if (!isLoading && data == null) {
+    if (!isLoading && (data == null || data.length == 0)) {
       return <AirdropFailed onCloseClick={handleClose} />;
     }
+
+    console.log(data);
 
     return (
       <AirdropSuccess
