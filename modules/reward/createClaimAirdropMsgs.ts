@@ -1,3 +1,4 @@
+import { num } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
 type Opts = {
@@ -18,7 +19,7 @@ export const createClaimAirdropMsgs = (
   if (!isClaimed) {
     msg = new MsgExecuteContract(sender, contract, {
       claim: {
-        claim_amount: claimAmount,
+        claim_amount: num(claimAmount).toString(),
         merkle_proof: merkleProof,
         root_index: rootIndex,
       },

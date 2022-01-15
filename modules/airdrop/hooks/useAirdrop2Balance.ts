@@ -40,7 +40,7 @@ export const useAirdrop2Balance = () => {
       .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
-  }, [userInfo]);
+  }, [userInfo, airdrop]);
 };
 
 export default useAirdrop2Balance;

@@ -143,6 +143,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     airdropContract,
     airdrop2Contract,
     airdropBalance,
+    airdrop2Balance,
     airdropData,
     isLoading,
   ]);

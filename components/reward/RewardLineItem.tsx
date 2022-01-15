@@ -14,7 +14,7 @@ type Props = {
 const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUstWithSimulate(token);
-  const balance = numeral(amount).format("0,0.00");
+  const balance = numeral(amount).format("0,0.000[000]");
 
   return (
     <Flex mt={2} justify="space-between">
