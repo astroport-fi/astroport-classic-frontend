@@ -101,6 +101,7 @@ const Select: FC<Props> = ({
       title="Select token"
       placement={placement}
       isLazy
+      matchWidth
       isOpen={isOpen}
       onOpen={handleOpen}
       onClose={onClose}
@@ -130,7 +131,7 @@ const Select: FC<Props> = ({
         </Button>
       )}
     >
-      <VStack spacing={6} align="stretch" w={["100%", "96", null]}>
+      <VStack spacing={6} align="stretch" w={["calc(100vw - 80px)", null, "96"]}>
         <Search
           color={inputColor}
           iconStyle={{ color: inputColor }}
