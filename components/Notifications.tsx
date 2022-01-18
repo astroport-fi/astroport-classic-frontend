@@ -38,10 +38,10 @@ const Notifications: FC = () => {
       return <WithdrawNotification txInfo={txInfo} />;
     }
     if (txType === "stakeLp") {
-      return <StakeLpNotification txInfo={txInfo} />;
+      return <StakeLpNotification txInfo={txInfo} data={data} />;
     }
     if (txType === "unstakeLp") {
-      return <UnstakeLpNotification txInfo={txInfo} />;
+      return <UnstakeLpNotification txInfo={txInfo} data={data} />;
     }
     if (txType === "claimRewards") {
       return <ClaimRewardsNotification txInfo={txInfo} />;
