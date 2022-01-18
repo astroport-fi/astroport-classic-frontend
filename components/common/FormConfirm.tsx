@@ -7,21 +7,21 @@ import {
   IconButton,
   Button,
   VStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
 import { motion } from "framer-motion";
-
 import Card from "components/Card";
 import FormFee from "components/common/FormFee";
 import CloseIcon from "components/icons/CloseIcon";
-import SwapFormWarning from "components/swap/SwapFormWarning";
 
 type Props = {
   title?: string;
   contentComponent: ReactNode;
   details?: {
     label: string;
-    value: string;
+    value: any;
+    tooltip?: string;
     color?: string;
   }[];
   fee?: Fee | null;
@@ -93,12 +93,21 @@ const FormConfirm: FC<Props> = ({
                   <Text textStyle="small" variant="secondary">
                     {detail.label}
                   </Text>
-                  <Text
-                    textStyle={["small", "medium"]}
-                    color={detail.color ?? "white"}
-                  >
-                    {detail.value}
-                  </Text>
+                  {detail.tooltip != null ? (
+                    <Tooltip
+                      label={detail.tooltip}
+                      placement="top"
+                      aria-label="Complete Swap Route"
+                    >
+                      <Text textStyle="medium" color={detail.color ?? "white"}>
+                        {detail.value}
+                      </Text>
+                    </Tooltip>
+                  ) : (
+                    <Text textStyle="medium" color={detail.color ?? "white"}>
+                      {detail.value}
+                    </Text>
+                  )}
                 </HStack>
               ))}
             </VStack>

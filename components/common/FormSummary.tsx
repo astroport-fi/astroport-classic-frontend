@@ -17,7 +17,7 @@ type Props = {
 const FormSummary: FC<Props> = ({ label, tokens }) => {
   return (
     <Box>
-      <Text mb="1" px="2" textStyle="small" variant="secondary">
+      <Text mb="2" px="2" textStyle="small" variant="secondary">
         {label}
       </Text>
       {tokens.map((token) => {
@@ -32,7 +32,7 @@ const FormSummary: FC<Props> = ({ label, tokens }) => {
         return (
           <Fragment key={token.asset}>
             {token.label && (
-              <Text mb="1" px="2" textStyle="small" variant="secondary">
+              <Text mb="2" px="2" textStyle="small" variant="secondary">
                 {token.label}
               </Text>
             )}

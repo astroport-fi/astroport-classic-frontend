@@ -79,7 +79,7 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Route",
-      value: swapRoutePath,
+      value: swapRoutePath.text,
     },
     exchangeRateDetail,
     {
@@ -88,9 +88,9 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Minimum received",
-      value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
-        token2
-      )}`,
+      value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(token2)}`,
+      tooltip:
+        "The amount includes the maximum slippage tolerance you selected",
     },
   ];
 
@@ -102,14 +102,15 @@ const SwapFormConfirm: FC<Props> = ({
       },
       {
         label: "Route",
-        value: swapRoutePath,
+        value: swapRoutePath.text,
+        tooltip: swapRoutePath.tooltip,
       },
       exchangeRateDetail,
       {
         label: "Minimum received",
-        value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
-          token2
-        )}`,
+        value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(token2)}`,
+        tooltip:
+          "The amount includes the maximum slippage tolerance you selected",
       },
     ];
   }

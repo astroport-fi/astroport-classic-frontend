@@ -4,6 +4,8 @@ import {
   Flex,
   Button,
   Text,
+	useBreakpointValue,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
@@ -61,7 +63,19 @@ const SwapFormFooter: FC<Props> = ({
     if (swapRoute?.length > 1) {
       return (
         <>
-          <Text textStyle={["small", "medium"]}>{swapRoutePath}</Text>
+          {swapRoutePath.tooltip != null ? (
+            <Box d="inline-block">
+              <Tooltip
+                label={swapRoutePath.tooltip}
+                placement="auto"
+                aria-label="Complete Swap Route"
+              >
+                <Text textStyle="medium">{swapRoutePath.text}</Text>
+              </Tooltip>
+            </Box>
+          ) : (
+            <Text textStyle="medium">{swapRoutePath}</Text>
+          )}
           <Text textStyle="small" variant="dimmed">
             Route
           </Text>
@@ -86,7 +100,7 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex={1} color="white">
         {isFormValid && (
           <>
-            <Text textStyle={["small", "medium"]}>
+            <Text textStyle="medium">
               1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
             </Text>
             <Text textStyle="small" variant="dimmed">
