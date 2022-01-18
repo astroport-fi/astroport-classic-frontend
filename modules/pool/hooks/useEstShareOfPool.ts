@@ -24,7 +24,15 @@ export const useEstShareOfPool = ({
   );
 
   return useMemo(() => {
-    if (pool == null || lpBalance == null || num(pool.total.share).eq(0)) {
+    if (pool == null || lpBalance == null) {
+      return 0;
+    }
+
+    if (num(estLpBalance).gt(0) && num(pool.total.share).eq(0)) {
+      return 100;
+    }
+
+    if (num(pool.total.share).eq(0)) {
       return 0;
     }
 

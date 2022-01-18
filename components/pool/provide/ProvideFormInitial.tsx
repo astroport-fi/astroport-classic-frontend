@@ -59,6 +59,7 @@ const ProvideFormInitial: FC<Props> = ({
   const token2Balance = useBalance(token2);
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
+  const showSlider = num(pool.total.share).gt(0)
   const canStake = stakableLp.includes(pool.lpTokenContract);
   const { control, setValue } = useFormContext();
   // const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
@@ -219,7 +220,7 @@ const ProvideFormInitial: FC<Props> = ({
         )}
       </Box>
 
-      {num(pool.total.share).gt(0) && <Card mt="2">
+      {showSlider && <Card mt="2">
         <AstroSlider
           min={0}
           minLabel="0%"
