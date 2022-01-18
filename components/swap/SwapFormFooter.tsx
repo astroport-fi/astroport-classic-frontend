@@ -4,7 +4,6 @@ import {
   Flex,
   Button,
   Text,
-	useBreakpointValue,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -76,6 +75,24 @@ const SwapFormFooter: FC<Props> = ({
           ) : (
             <Text textStyle="medium">{swapRoutePath}</Text>
           )}
+          <Text textStyle="small" variant="dimmed">
+            Route
+          </Text>
+        </>
+      );
+    }
+
+    if (swapRoute?.length > 2) {
+      return (
+        <>
+          <Tooltip
+            label={swapRoutePath.complete}
+            placement="top"
+            offset={[0, 5]}
+            aria-label="Complete Swap Route"
+          >
+            <Text textStyle="medium">{swapRoutePath.shortcut}</Text>
+          </Tooltip>
           <Text textStyle="small" variant="dimmed">
             Route
           </Text>

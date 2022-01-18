@@ -110,3 +110,7 @@ export const formatPairsToRoutes = (pairs: PairResponse[]): Route[] => {
     ...toRoutes(pairs, pairs, null, null, [], 1),
   ];
 };
+
+export const isObject = (value : any) => {
+  return (typeof value === 'object');
+}
