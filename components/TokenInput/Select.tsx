@@ -35,7 +35,7 @@ const Select: FC<Props> = ({
 }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const price = useTokenPriceInUstWithSimulate(value);
+  const price = useTokenPriceInUstWithSimulate(value).toFixed(2);
   const [filter, setFilter] = useState("");
 
   const matchTokenOrExactAddress = (token: string) => {

@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
-
-import { useTokenInfo } from "modules/common";
+import { handleTinyAmount, useTokenInfo } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
@@ -11,7 +10,8 @@ type Props = {
 
 const Single: FC<Props> = ({ asset, hidePrice = false }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUstWithSimulate(asset);
+  const price = useTokenPriceInUstWithSimulate(asset).toFixed(2);
+  const formattedPrice = handleTinyAmount(price);
   const icon = getIcon(asset);
 
   return (
@@ -39,7 +39,7 @@ const Single: FC<Props> = ({ asset, hidePrice = false }) => {
           <Text textStyle="h3">{getSymbol(asset)}</Text>
           {!hidePrice && (
             <Text textStyle="small" variant="dimmed">
-              Price: ${price}
+              Price: ${formattedPrice}
             </Text>
           )}
         </Box>
