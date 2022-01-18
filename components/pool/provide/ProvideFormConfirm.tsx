@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
-import { num } from "@arthuryeti/terra";
 
 import { useTokenInfo, handleTinyAmount } from "modules/common";
 import {
@@ -72,7 +71,7 @@ const ProvideForm: FC<Props> = ({
         },
         {
           label: "Staked LP Tokens",
-          value: `${autoStake ? estLpBalance : 0} ${symbol1}-${symbol2}-LP`,
+          value: `${autoStake ? handleTinyAmount(estLpBalance, "0.00", true) : 0} ${symbol1}-${symbol2}-LP`,
         },
       ]}
       onCloseClick={onCloseClick}
