@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 
 import { useApi } from "modules/common";
+import { useTerraWebapp } from "@arthuryeti/terra";
 
 const query = gql`
   query ($address: String!) {
@@ -16,6 +17,7 @@ const query = gql`
 `;
 
 export const useAirdrop = (address: string | undefined) => {
+  const { network } = useTerraWebapp();
   const result = useApi({
     name: ["airdrop", address],
     query,
@@ -36,6 +38,13 @@ export const useAirdrop = (address: string | undefined) => {
     }
 
     if (!result.isLoading && result.data == null) {
+      return {
+        isLoading: false,
+        data: null,
+      };
+    }
+
+    if (result.data != null && network.name == "testnet") {
       return {
         isLoading: false,
         data: null,

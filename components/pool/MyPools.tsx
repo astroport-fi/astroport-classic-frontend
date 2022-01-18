@@ -7,7 +7,6 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
-import RewardedIcon from "components/icons/RewardedIcon";
 
 const MyPools: FC = () => {
   const myPools = useMyPools();

@@ -24,10 +24,6 @@ export const createDualRewardsClaimAllMsgs = (
   }
 
   items.forEach((item) => {
-    if (num(item.astroDebt).eq(0)) {
-      return;
-    }
-
     msgs.push(
       new MsgExecuteContract(sender, contract, {
         claim_rewards_and_optionally_unlock: {

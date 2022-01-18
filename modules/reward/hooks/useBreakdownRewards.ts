@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { groupBy, mapValues } from "lodash";
+import { groupBy, mapValues, assignIn } from "lodash";
+import merge from "deepmerge";
 import { num } from "@arthuryeti/terra";
 
 import { useLockdropRewards } from "modules/lockdrop";
@@ -10,7 +11,9 @@ export const useBreakdownRewards = () => {
   const generator = useGeneratorRewards();
 
   return useMemo(() => {
-    const groups = groupBy(generator, "token");
+    const generatorGroups = groupBy(generator, "token");
+    const lockGroups = groupBy(lock, "token");
+    const groups = merge(lockGroups, generatorGroups);
     const rewards = mapValues(groups, (value) => {
       return value.reduce((acc, cur) => {
         return num(acc).plus(cur.amount).toNumber();

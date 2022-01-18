@@ -37,7 +37,7 @@ export const useUserInfo = () => {
     ["userInfo", "lockdrop", address],
     () => {
       return client.wasm.contractQuery<Response>(lockdrop, {
-        user_info_with_lockups_list: {
+        user_info: {
           address,
         },
       });
