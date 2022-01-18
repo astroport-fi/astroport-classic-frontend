@@ -88,12 +88,7 @@ export const useMyPools = () => {
   const address = useAddress();
   const lunaPrice = useLunaPrice();
 
-  let query = createQueryNotConnected(pairs);
-
-  if (address) {
-    query = createQuery(pairs, address, generator);
-  }
-
+  const query = address ? createQuery(pairs, address, generator) : null;
   const result = useHive({
     name: ["pools", "my", address],
     query,
