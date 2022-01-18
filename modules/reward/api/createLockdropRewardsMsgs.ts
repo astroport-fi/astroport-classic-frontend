@@ -1,10 +1,8 @@
-import { num, toBase64, toTerraAmount } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
 type Item = {
-  contract: string;
   duration: number;
-  astroDebt: string;
+  lp: string;
 };
 
 type Opts = {
@@ -12,7 +10,7 @@ type Opts = {
   items: Item[];
 };
 
-export const createDualRewardsClaimAllMsgs = (
+export const createLockdropRewardsMsgs = (
   options: Opts,
   sender: string
 ): MsgExecuteContract[] => {
@@ -27,7 +25,7 @@ export const createDualRewardsClaimAllMsgs = (
     msgs.push(
       new MsgExecuteContract(sender, contract, {
         claim_rewards_and_optionally_unlock: {
-          terraswap_lp_token: item.contract,
+          terraswap_lp_token: item.lp,
           duration: item.duration,
           withdraw_lp_stake: false,
         },
@@ -38,4 +36,4 @@ export const createDualRewardsClaimAllMsgs = (
   return msgs;
 };
 
-export default createDualRewardsClaimAllMsgs;
+export default createLockdropRewardsMsgs;

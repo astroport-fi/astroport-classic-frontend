@@ -8,8 +8,10 @@ type Response = {
   total_astro_rewards: string;
   delegated_astro_rewards: string;
   astro_transferred: boolean;
+  claimable_generator_astro_debt: string;
+  claimable_generator_proxy_debt: string;
   lockup_infos: {
-    pool_address: string;
+    pool_address?: string;
     duration: number;
   }[];
   lockup_positions_index: number;

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, Box } from "@chakra-ui/react";
 
 import RewardLockdrop from "components/reward/RewardLockdrop";
 import { RewardBreakdown, RewardTotal } from "modules/reward";
@@ -22,10 +22,12 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
       onOpen={onOpen}
       triggerElement={triggerElement}
     >
-      <RewardTotal />
-      <RewardLockdrop />
-      <RewardBreakdown />
-      <ClaimAllRewardsBtn onSuccess={onClose} />
+      <Box minW="96">
+        <RewardTotal />
+        <RewardLockdrop />
+        <RewardBreakdown />
+        <ClaimAllRewardsBtn onSuccess={onClose} />
+      </Box>
     </PopoverWrapper>
   );
 };

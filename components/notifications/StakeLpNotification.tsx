@@ -33,7 +33,7 @@ const StakeLpNotification: FC<Props> = ({ txInfo, data }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Staked {fromTerraAmount(amount, "0,0.00")} {symbol1}-{symbol2}-LP to the
+      Staked {fromTerraAmount(amount, "0,0.00")} {symbol1}-{symbol2}-LP in the
       Generator
     </Text>
   );

@@ -3,7 +3,7 @@ import { useAddress, useTransaction, num } from "@arthuryeti/terra";
 import { TxInfo } from "@terra-money/terra.js";
 
 import { useContracts } from "modules/common";
-import { useUserInfo } from "modules/lockdrop";
+import { useUserInfo, useLockdropRewards } from "modules/lockdrop";
 import {
   useAirdrop,
   useAirdropBalance,
@@ -18,6 +18,7 @@ import {
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
   createGeneratorRewardsMsgs,
+  createLockdropRewardsMsgs,
 } from "modules/reward";
 
 type Params = {
@@ -42,6 +43,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   const airdrop2UserInfo = useAirdrop2UserInfo();
   const airdropBalance = useAirdropBalance();
   const airdrop2Balance = useAirdrop2Balance();
+  const { data: lockdropRewards } = useLockdropRewards();
   const generatorRewards = useGeneratorRewards();
 
   const items = useMemo(() => {
@@ -145,6 +147,20 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       );
 
       data.push(...generatorMsgs);
+    }
+
+    if (lockdropRewards.length > 0) {
+      const lockdropMsgs = createLockdropRewardsMsgs(
+        {
+          contract: lockdrop,
+          items: lockdropRewards,
+        },
+        address
+      );
+
+      console.log(lockdropMsgs);
+
+      data.push(...lockdropMsgs);
     }
 
     return data;

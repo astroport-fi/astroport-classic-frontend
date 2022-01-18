@@ -7,7 +7,7 @@ import { useLockdropRewards } from "modules/lockdrop";
 import { useGeneratorRewards } from "modules/generator";
 
 export const useBreakdownRewards = () => {
-  const lock = useLockdropRewards();
+  const { list: lock } = useLockdropRewards();
   const generator = useGeneratorRewards();
 
   return useMemo(() => {
