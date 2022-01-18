@@ -219,7 +219,7 @@ const ProvideFormInitial: FC<Props> = ({
         )}
       </Box>
 
-      <Card mt="2">
+      {num(pool.total.share).gt(0) && <Card mt="2">
         <AstroSlider
           min={0}
           minLabel="0%"
@@ -229,7 +229,7 @@ const ProvideFormInitial: FC<Props> = ({
           value={+amount1}
           onChange={handleChange}
         />
-      </Card>
+      </Card>}
 
       <ProvideFormFooter
         pool={pool}
