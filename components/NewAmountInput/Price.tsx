@@ -19,7 +19,7 @@ const Price: FC<Props> = ({ token, amount, priceToken }) => {
 
   const totalInUst = useMemo(() => {
     if (amount == "" || num(amount).eq(0)) {
-      return 0;
+      return (0).toFixed(2);
     }
 
     return num(amount).times(price).toFixed(2);
