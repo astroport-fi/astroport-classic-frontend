@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { num } from "@arthuryeti/terra";
 
 import { usePrice } from "modules/swap";
-import { formatBigNumbers } from "modules/common";
+import { handleTinyAmount } from "modules/common";
 
 type Props = {
   rewards: {
@@ -41,7 +41,7 @@ const RewardsTd: FC<Props> = ({ rewards }) => {
     return num(total).dp(6).toNumber();
   }, [data]);
 
-  return <Box>$ {formatBigNumbers(totalPrice)}</Box>;
+  return <Box>$ {handleTinyAmount(totalPrice)}</Box>;
 };
 
 export default RewardsTd;
