@@ -1,17 +1,17 @@
 import React, { FC } from "react";
 import { fromTerraAmount, num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
-import numeral from "numeral";
 
 import {
   usePriceImpact,
   usePriceImpactColor,
   useSwapRoutePath,
 } from "modules/swap";
-import { useTokenInfo, Route } from "modules/common";
+import { useTokenInfo, Route, handleTinyAmount } from "modules/common";
 
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   swapRoute: Route[];
@@ -56,6 +56,7 @@ const SwapFormConfirm: FC<Props> = ({
   const symbol2 = getSymbol(token2);
   const isLow = num(price).lt(0.01);
   const exchangeRate = isLow ? `< 0.01` : `= ${formattedPrice}`;
+  const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
 
   const exchangeRateDetail = {
     label: "Exchange Rate",
@@ -70,7 +71,7 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Liquidity Provider fee",
-      value: `${fromTerraAmount(commission, "0,000")} UST`,
+      value: `${handleTinyAmount(liquidityProviderFee, "0,000", true)} UST`,
     },
     {
       label: "Slippage Tolerance",
