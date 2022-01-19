@@ -709,13 +709,13 @@ const whitelist = {
         protocol: "Nexus",
         symbol: "nETH",
         token: "terra1em8dvzln8quptj9tuptf8tu73jyuv5jn6kqdwv",
-        icon: "",
+        icon: "/tokens/nEth.svg",
       },
       terra1gzq2zd4skvnvgm2z48fdp0mxy2djmtk7sz4uhe: {
         protocol: "Nexus",
         symbol: "nLUNA",
         token: "terra1gzq2zd4skvnvgm2z48fdp0mxy2djmtk7sz4uhe",
-        icon: "",
+        icon: "/tokens/nLuna.svg",
       },
       terra1azu2frwn9a4l6gl5r39d0cuccs4h7xlu9gkmtd: {
         protocol: "Kujira",
