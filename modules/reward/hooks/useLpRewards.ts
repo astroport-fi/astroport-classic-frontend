@@ -46,7 +46,7 @@ const createQuery = (pairs, address, generator) => {
 `;
 };
 
-export const useGeneratorRewards = () => {
+export const useLpRewards = () => {
   const { pairs } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const { generator, stakableLp } = useContracts();
@@ -99,4 +99,4 @@ export const useGeneratorRewards = () => {
   }, [pairs, result]);
 };
 
-export default useGeneratorRewards;
+export default useLpRewards;

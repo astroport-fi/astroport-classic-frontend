@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, HStack } from "@chakra-ui/react";
+
+import { ClaimLockdropRewardBtn } from "modules/reward";
 
 type Props = {
   name: string;
@@ -19,11 +21,12 @@ const MyLockActionsTd: FC<Props> = ({
 }) => {
   if (!isClaimable) {
     return (
-      <Flex justify="flex-end">
-        <Button as="a" variant="silent" size="sm" isFullWidth isDisabled>
+      <HStack justify="flex-end">
+        <ClaimLockdropRewardBtn contract={name} duration={duration} />
+        <Button as="div" variant="silent" size="sm" isDisabled flex="1">
           Locked
         </Button>
-      </Flex>
+      </HStack>
     );
   }
 
@@ -38,13 +41,14 @@ const MyLockActionsTd: FC<Props> = ({
   }
 
   return (
-    <Flex justify="flex-end">
+    <HStack justify="flex-end">
+      <ClaimLockdropRewardBtn contract={name} duration={duration} />
       <Link href={`/unlock/${name}/${duration}/${astroLpToken}`} passHref>
-        <Button as="a" variant="primary" size="sm" isFullWidth>
+        <Button as="a" variant="primary" size="sm" flex="1">
           Manage
         </Button>
       </Link>
-    </Flex>
+    </HStack>
   );
 };
 

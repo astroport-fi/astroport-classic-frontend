@@ -11,7 +11,7 @@ type Opts = {
   items: Item[];
 };
 
-export const createGeneratorRewardsMsgs = (
+export const createLpRewardsMsgs = (
   options: Opts,
   sender: string
 ): MsgExecuteContract[] => {
@@ -38,4 +38,4 @@ export const createGeneratorRewardsMsgs = (
   return msgs;
 };
 
-export default createGeneratorRewardsMsgs;
+export default createLpRewardsMsgs;

@@ -3,11 +3,8 @@ import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 
 import { useContracts } from "modules/common";
-import {
-  usePhase1Rewards,
-  usePhase2Rewards,
-  useTotalRewardValue,
-} from "modules/reward";
+import { usePhase1Rewards, usePhase2Rewards } from "modules/reward";
+import { useOneTimeLockdropRewards } from "modules/lockdrop";
 import { useAirdropBalance, useAirdrop2Balance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
@@ -18,8 +15,7 @@ const RewardLockdrop: FC = () => {
   const phase2Rewards = usePhase2Rewards();
   const airdropBalance = useAirdropBalance();
   const airdrop2Balance = useAirdrop2Balance();
-  const total = useTotalRewardValue();
-  const formatted = numeral(total).format("0,0.000000");
+  const total = useOneTimeLockdropRewards();
 
   return (
     <Box mb="6">

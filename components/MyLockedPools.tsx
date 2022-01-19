@@ -9,6 +9,7 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
+import RewardsTd from "components/table/RewardsTd";
 import MyLockActionsTd from "components/table/MyLockActionsTd";
 
 const MyLockedPools = () => {
@@ -33,7 +34,7 @@ const MyLockedPools = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
-        width: 200,
+        width: 125,
         accessor: "myLiquidityInUst",
       },
       {
@@ -41,13 +42,20 @@ const MyLockedPools = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
-        width: 200,
+        width: 125,
         accessor: "totalLiquidityInUst",
+      },
+      {
+        Header: "Claimable rewards",
+        Cell: ({ row }: any) => <RewardsTd rewards={row.original.rewards} />,
+        width: 125,
+        accessor: "rewards",
       },
       {
         Header: "Fully unlocks on",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
+        width: 80,
       },
       {
         id: "pool-actions",
@@ -61,7 +69,7 @@ const MyLockedPools = () => {
           />
         ),
         accessor: "actions",
-        width: 80,
+        width: 300,
         disableSortBy: true,
       },
     ],

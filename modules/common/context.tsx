@@ -27,6 +27,7 @@ import {
   AddNotificationPayload,
   RemoveNotificationPayload,
 } from "modules/common/notifications/model";
+import { usePrice } from "modules/swap";
 
 type Astroswap = {
   pairs: PairResponse[] | null;

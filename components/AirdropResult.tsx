@@ -33,8 +33,6 @@ const AirdropResult: FC = () => {
       return <AirdropFailed onCloseClick={handleClose} />;
     }
 
-    console.log(data);
-
     return (
       <AirdropSuccess
         data={data}

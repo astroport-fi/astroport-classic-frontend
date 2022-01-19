@@ -3,7 +3,7 @@ import { useAddress, useTransaction, num } from "@arthuryeti/terra";
 import { TxInfo } from "@terra-money/terra.js";
 
 import { useContracts } from "modules/common";
-import { useUserInfo, useLockdropRewards } from "modules/lockdrop";
+import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
 import {
   useAirdrop,
   useAirdropBalance,
@@ -12,12 +12,12 @@ import {
   useAirdrop2Balance,
 } from "modules/airdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
-import { useGeneratorRewards } from "modules/generator";
 import {
+  useLpRewards,
   createClaimAirdropMsgs,
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
-  createGeneratorRewardsMsgs,
+  createLpRewardsMsgs,
   createLockdropRewardsMsgs,
 } from "modules/reward";
 
@@ -36,7 +36,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     airdrop2: airdrop2Contract,
   } = useContracts();
   const address = useAddress();
-  const userInfo = useUserInfo();
+  const userInfoWithList = useUserInfoWithList();
   const { isLoading, data: airdropData } = useAirdrop(address);
   const auctionUserInfo = useAuctionUserInfo();
   const airdropUserInfo = useAirdropUserInfo();
@@ -44,32 +44,22 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   const airdropBalance = useAirdropBalance();
   const airdrop2Balance = useAirdrop2Balance();
   const { data: lockdropRewards } = useLockdropRewards();
-  const generatorRewards = useGeneratorRewards();
+  const lpRewards = useLpRewards();
 
   const items = useMemo(() => {
-    if (userInfo == null) {
+    if (userInfoWithList == null) {
       return [];
     }
 
-    return userInfo.lockup_infos.map((info) => {
+    return userInfoWithList.lockup_infos.map((info) => {
       return {
         contract: info.pool_address,
         duration: info.duration,
       };
     });
-  }, [userInfo]);
+  }, [userInfoWithList]);
 
   const msgs = useMemo(() => {
-    if (
-      userInfo == null ||
-      auctionUserInfo == null ||
-      airdropUserInfo == null ||
-      airdrop2UserInfo == null ||
-      isLoading
-    ) {
-      return null;
-    }
-
     let data = [];
 
     if (num(airdropBalance).gt(0)) {
@@ -108,9 +98,12 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...airdrop2Msgs);
     }
 
+    console.log(items);
+
     if (
-      !userInfo.astro_transferred &&
-      num(userInfo.total_astro_rewards).gt(0)
+      userInfoWithList != null &&
+      !userInfoWithList.astro_transferred &&
+      num(userInfoWithList.total_astro_rewards).gt(0)
     ) {
       const phase1Msgs = createPhase1ClaimAllMsgs(
         {
@@ -124,6 +117,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     }
 
     if (
+      auctionUserInfo != null &&
       !auctionUserInfo.astro_incentive_transferred &&
       num(auctionUserInfo.auction_incentive_amount).gt(0)
     ) {
@@ -137,19 +131,19 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase2Msgs);
     }
 
-    if (generatorRewards.length > 0) {
-      const generatorMsgs = createGeneratorRewardsMsgs(
+    if (lpRewards?.length > 0) {
+      const lpMsgs = createLpRewardsMsgs(
         {
           contract: generator,
-          items: generatorRewards,
+          items: lpRewards,
         },
         address
       );
 
-      data.push(...generatorMsgs);
+      data.push(...lpMsgs);
     }
 
-    if (lockdropRewards.length > 0) {
+    if (lockdropRewards?.length > 0) {
       const lockdropMsgs = createLockdropRewardsMsgs(
         {
           contract: lockdrop,
@@ -158,8 +152,6 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
         address
       );
 
-      console.log(lockdropMsgs);
-
       data.push(...lockdropMsgs);
     }
 
@@ -167,12 +159,12 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   }, [
     address,
     lockdrop,
-    generatorRewards,
+    lpRewards,
     items,
     auction,
     airdropUserInfo,
     auctionUserInfo,
-    userInfo,
+    userInfoWithList,
     airdropContract,
     airdrop2Contract,
     airdropBalance,

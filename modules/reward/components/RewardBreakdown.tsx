@@ -6,7 +6,7 @@ import { useContracts } from "modules/common";
 import {
   usePhase1Rewards,
   usePhase2Rewards,
-  useTotalRewardValue,
+  useTotalRewardValueInUst,
   useBreakdownRewards,
 } from "modules/reward";
 

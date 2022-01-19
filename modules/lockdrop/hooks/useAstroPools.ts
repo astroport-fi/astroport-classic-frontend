@@ -11,12 +11,19 @@ import {
   useContracts,
   useLunaPrice,
   useHive,
+  useTokenInfo,
 } from "modules/common";
 import { useUserInfoWithList } from "modules/lockdrop";
 import { getAssetAmountsInPool } from "libs/terra";
 import { useBLunaPriceInLuna } from "modules/swap";
 
-const createFirstQuery = (infos, contract, address) => {
+const createFirstQuery = ({
+  infos,
+  lockdrop,
+  generator,
+  stakableLps,
+  address,
+}) => {
   if (infos == null || infos.length === 0) {
     return;
   }
@@ -27,12 +34,27 @@ const createFirstQuery = (infos, contract, address) => {
         return `
           ${pool_address}${duration}: wasm {
             contractQuery(
-              contractAddress: "${contract}"
+              contractAddress: "${lockdrop}"
               query: {
                 lock_up_info: {
                   user_address: "${address}",
                   terraswap_lp_token: "${pool_address}",
                   duration: ${duration}
+                }
+              }
+            )
+          }
+        `;
+      })}
+
+      ${stakableLps.map((lp) => {
+        return `
+          ${lp}: wasm {
+            contractQuery(
+              contractAddress: "${generator}"
+              query: {
+                reward_info: {
+                  lp_token: "${lp}"
                 }
               }
             )
@@ -79,18 +101,21 @@ const createSecondQuery = (pairs, address) => {
 
 export const useAstroPools = () => {
   const { pairs } = useAstroswap();
-  const { lockdrop } = useContracts();
+  const { lockdrop, astroToken, stakableLp, generator } = useContracts();
+  const { getDecimals } = useTokenInfo();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
   const userInfo = useUserInfoWithList();
   const bLunaPrice = useBLunaPriceInLuna();
   const currentTimestamp = dayjs().unix();
 
-  const firstQuery = createFirstQuery(
-    userInfo?.lockup_infos,
+  const firstQuery = createFirstQuery({
+    infos: userInfo?.lockup_infos,
     lockdrop,
-    address
-  );
+    generator,
+    stakableLps: stakableLp,
+    address,
+  });
 
   const firstResult = useHive({
     name: "astro-pools",
@@ -132,6 +157,10 @@ export const useAstroPools = () => {
       );
     });
 
+    const rewardInfos = Object.keys(firstResult).map((key) => {
+      return { ...firstResult[key].contractQuery, lp: key };
+    });
+
     const items = filteredItems.map((info) => {
       const { assets, total_share } =
         secondResult[`pool${info.astroport_lp_token}`]?.contractQuery;
@@ -166,6 +195,28 @@ export const useAstroPools = () => {
         .div(num(total_share).div(ONE_TOKEN))
         .toNumber();
 
+      const rewardInfo = rewardInfos.find(
+        ({ lp }) => lp == info.astroport_lp_token
+      );
+
+      const rewards = [
+        {
+          token: astroToken,
+          amount:
+            +info.claimable_generator_astro_debt /
+            10 ** getDecimals(astroToken),
+        },
+      ];
+
+      if (rewardInfo.proxy_reward_token != null) {
+        rewards.push({
+          token: rewardInfo.proxy_reward_token,
+          amount:
+            +info.claimable_generator_proxy_debt /
+            10 ** getDecimals(rewardInfo.proxy_reward_token),
+        });
+      }
+
       return {
         name: info.terraswap_lp_token,
         astroLpToken: info.astroport_lp_token,
@@ -179,7 +230,7 @@ export const useAstroPools = () => {
         isClaimable: currentTimestamp > info.unlock_timestamp,
         isClaimed: num(info.astroport_lp_transferred).gt(0),
         duration: info.duration,
-        astroRewards: +info.astro_rewards / ONE_TOKEN,
+        rewards,
       };
     });
 

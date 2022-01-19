@@ -2,10 +2,10 @@ import React, { FC } from "react";
 import { Text, Flex, VStack } from "@chakra-ui/react";
 import numeral from "numeral";
 
-import { useTotalRewardValue } from "modules/reward";
+import { useTotalRewardValueInUst } from "modules/reward";
 
 const RewardTotal: FC = () => {
-  const total = useTotalRewardValue();
+  const total = useTotalRewardValueInUst();
   const formatted = numeral(total).format("0,0.00");
 
   return (

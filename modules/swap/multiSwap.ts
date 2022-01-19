@@ -7,6 +7,7 @@ import {
   Route,
   SwapOperation,
   toAssetInfo,
+  MultiSimulationResponse,
 } from "modules/common";
 
 type GetSwapOperationsParams = {
@@ -54,7 +55,7 @@ export const simulate = ({
 }: GetQueryParams) => {
   const operations = getSwapOperations({ swapRoute });
 
-  return client.wasm.contractQuery(router, {
+  return client.wasm.contractQuery<MultiSimulationResponse>(router, {
     simulate_swap_operations: {
       offer_amount: amount,
       operations,

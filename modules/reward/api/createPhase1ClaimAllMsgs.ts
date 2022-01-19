@@ -22,6 +22,8 @@ export const createPhase1ClaimAllMsgs = (
     return msgs;
   }
 
+  console.log(items);
+
   msgs.push(
     new MsgExecuteContract(sender, contract, {
       claim_rewards_and_optionally_unlock: {
@@ -31,18 +33,6 @@ export const createPhase1ClaimAllMsgs = (
       },
     })
   );
-
-  // items.forEach((item) => {
-  //   msgs.push(
-  //     new MsgExecuteContract(sender, contract, {
-  //       claim_rewards_and_optionally_unlock: {
-  //         terraswap_lp_token: item.contract,
-  //         duration: item.duration,
-  //         withdraw_lp_stake: false,
-  //       },
-  //     })
-  //   );
-  // });
 
   return msgs;
 };

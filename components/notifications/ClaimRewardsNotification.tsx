@@ -16,6 +16,7 @@ const ClaimRewardsNotification: FC<Props> = ({ txInfo }) => {
   // const { eventsByType } = logs[1];
 
   useEffect(() => {
+    queryClient.invalidateQueries("userInfoWithList");
     queryClient.invalidateQueries("userInfo");
     queryClient.invalidateQueries("balance");
     queryClient.invalidateQueries("rewards");
