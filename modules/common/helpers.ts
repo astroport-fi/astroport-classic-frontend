@@ -9,14 +9,6 @@ import {
   Route,
 } from "modules/common";
 
-export const formatBigNumbers = (value: Number): String => {
-  if (value < 1000000) {
-    return numeral(value).format("0,0.000[000]");
-  }
-
-  return numeral(value).format("0.00a", Math.floor).toUpperCase();
-};
-
 // const formatPair = (
 //   routes: Routes,
 //   pair: PairResponse,
@@ -46,6 +38,29 @@ export const formatBigNumbers = (value: Number): String => {
 //     };
 //   }, {});
 // };
+
+export const handleBigAndTinyAmount = (
+  value: string | number,
+  format: string = "0,0.00",
+  includeZero: boolean = false,
+  numberPrefix: string = ""
+) => {
+  if (includeZero && num(value).eq(0)) {
+    return `< ${numberPrefix}0.01`;
+  }
+
+  if (num(value).lt(0.01) && num(value).gt(0)) {
+    return `< ${numberPrefix}0.01`;
+  }
+
+  if (num(value).gt(1000000)) {
+    return `${numberPrefix}${numeral(value)
+      .format("0.00a", Math.floor)
+      .toUpperCase()}`;
+  }
+
+  return `${numberPrefix}${numeral(value).format(format)}`;
+};
 
 export const handleTinyAmount = (
   value: string | number,

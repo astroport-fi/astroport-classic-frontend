@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Flex, chakra, Text } from "@chakra-ui/react";
 
 import { useTotalRewardValueInUst } from "modules/reward";
-import { handleTinyAmount } from "modules/common";
+import { handleBigAndTinyAmount } from "modules/common";
 
 import RewardCenterPopover from "components/popovers/RewardCenterPopover";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 
 const RewardCenter: FC = () => {
   const totalValue = useTotalRewardValueInUst();
-  const formatted = handleTinyAmount(totalValue);
+  const formatted = handleBigAndTinyAmount(totalValue);
 
   return (
     <RewardCenterPopover
