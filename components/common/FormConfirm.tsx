@@ -13,6 +13,7 @@ import { Fee } from "@terra-money/terra.js";
 import { motion } from "framer-motion";
 import Card from "components/Card";
 import FormFee from "components/common/FormFee";
+import InfoIcon from "components/icons/InfoIcon";
 import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
@@ -89,25 +90,26 @@ const FormConfirm: FC<Props> = ({
               py={["3", "4"]}
             >
               {details.map((detail) => (
-                <HStack key={detail.label} justify="space-between">
-                  <Text textStyle="small" variant="secondary">
-                    {detail.label}
-                  </Text>
-                  {detail.tooltip != null ? (
-                    <Tooltip
-                      label={detail.tooltip}
-                      placement="top"
-                      aria-label="Complete Swap Route"
-                    >
-                      <Text textStyle="medium" color={detail.color ?? "white"}>
-                        {detail.value}
-                      </Text>
-                    </Tooltip>
-                  ) : (
-                    <Text textStyle="medium" color={detail.color ?? "white"}>
-                      {detail.value}
+                <HStack key={detail.label} justify="space-between" alignItems="center">
+                  <Box display="flex" alignItems="center">
+                    <Text textStyle="small" variant="secondary">
+                      {detail.label}
                     </Text>
-                  )}
+                    {detail.tooltip && <Tooltip
+                        label={detail.tooltip}
+                        placement="top"
+                        aria-label="Complete Swap Route"
+                      >
+                      <Box ml="1.5" color={detail.color} cursor="pointer">
+                        <Text variant="secondary">
+                          <InfoIcon width="1rem" height="1rem" />
+                        </Text>
+                      </Box>
+                    </Tooltip>}
+                  </Box>
+                  <Text textStyle="medium" color={detail.color ?? "white"}>
+                    {detail.value}
+                  </Text>
                 </HStack>
               ))}
             </VStack>
