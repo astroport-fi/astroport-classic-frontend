@@ -70,7 +70,7 @@ const SwapFormConfirm: FC<Props> = ({
       color: priceImpactColor,
     },
     {
-      label: "Liquidity Provider fee",
+      label: "Liquidity Provider Fee",
       value: `${handleTinyAmount(liquidityProviderFee, "0,000", true)} UST`,
     },
     {
@@ -87,7 +87,7 @@ const SwapFormConfirm: FC<Props> = ({
       value: `1 ${symbol1} ${exchangeRate} ${symbol2}`,
     },
     {
-      label: "Minimum received",
+      label: "Minimum Received",
       value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
         token2
       )}`,
@@ -109,7 +109,7 @@ const SwapFormConfirm: FC<Props> = ({
       },
       exchangeRateDetail,
       {
-        label: "Minimum received",
+        label: "Minimum Received",
         value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
           token2
         )}`,
