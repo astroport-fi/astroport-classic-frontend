@@ -71,7 +71,11 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Liquidity Provider Fee",
-      value: `${handleTinyAmount(liquidityProviderFee, "0,000", true)} UST`,
+      value: `${handleTinyAmount(
+        liquidityProviderFee,
+        "0,000.000[000]",
+        true
+      )} UST`,
     },
     {
       label: "Slippage Tolerance",
