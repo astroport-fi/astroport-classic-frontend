@@ -1,10 +1,11 @@
 import React, { FC, useEffect } from "react";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import { useQueryClient } from "react-query";
 
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, handleTinyAmount } from "modules/common";
+import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   txInfo: TxInfo;
@@ -16,6 +17,9 @@ const AuctionUnlockLpNotification: FC<Props> = ({ txInfo }) => {
   const { logs } = txInfo;
   const { eventsByType } = logs[0];
   const amount = eventsByType.wasm.lp_withdrawn[0];
+  const displayAmount = handleTinyAmount(
+    num(amount).div(ONE_TOKEN).dp(6).toNumber()
+  );
 
   useEffect(() => {
     queryClient.invalidateQueries("userInfo");
@@ -24,8 +28,7 @@ const AuctionUnlockLpNotification: FC<Props> = ({ txInfo }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Unlock {fromTerraAmount(amount, "0,0.00")} LP tokens from the ASTRO-UST
-      Bootstrap Pool
+      Unlock {displayAmount} LP tokens from the ASTRO-UST Bootstrap Pool
     </Text>
   );
 };

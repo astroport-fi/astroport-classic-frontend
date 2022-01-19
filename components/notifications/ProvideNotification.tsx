@@ -4,7 +4,7 @@ import { Text } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 import { useQueryClient } from "react-query";
 
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, handleTinyAmount } from "modules/common";
 
 type Props = {
   txInfo: TxInfo;
@@ -27,12 +27,16 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const amount2 = token2Result?.[1];
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
-  const displayAmount1 = num(amount1)
-    .div(10 ** token1Decimals)
-    .toFixed(2);
-  const displayAmount2 = num(amount2)
-    .div(10 ** token2Decimals)
-    .toFixed(2);
+  const displayAmount1 = handleTinyAmount(
+    num(amount1)
+      .div(10 ** token1Decimals)
+      .toNumber()
+  );
+  const displayAmount2 = handleTinyAmount(
+    num(amount2)
+      .div(10 ** token2Decimals)
+      .toNumber()
+  );
 
   useEffect(() => {
     queryClient.invalidateQueries("pools");
