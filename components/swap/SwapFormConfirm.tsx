@@ -55,7 +55,6 @@ const SwapFormConfirm: FC<Props> = ({
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const isLow = num(price).lt(0.01);
-  const formattedPrice = numeral(price).format("0,0.00[000]").toString();
   const exchangeRate = isLow ? `< 0.01` : `= ${formattedPrice}`;
 
   const exchangeRateDetail = {
@@ -88,7 +87,9 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Minimum received",
-      value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(token2)}`,
+      value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
+        token2
+      )}`,
       tooltip:
         "The amount includes the maximum slippage tolerance you selected",
     },
@@ -108,7 +109,9 @@ const SwapFormConfirm: FC<Props> = ({
       exchangeRateDetail,
       {
         label: "Minimum received",
-        value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(token2)}`,
+        value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
+          token2
+        )}`,
         tooltip:
           "The amount includes the maximum slippage tolerance you selected",
       },
