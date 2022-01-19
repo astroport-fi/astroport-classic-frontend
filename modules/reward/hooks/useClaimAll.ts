@@ -98,8 +98,6 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...airdrop2Msgs);
     }
 
-    console.log(items);
-
     if (
       userInfoWithList != null &&
       !userInfoWithList.astro_transferred &&

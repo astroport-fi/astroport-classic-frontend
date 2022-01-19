@@ -22,8 +22,6 @@ export const createPhase1ClaimAllMsgs = (
     return msgs;
   }
 
-  console.log(items);
-
   msgs.push(
     new MsgExecuteContract(sender, contract, {
       claim_rewards_and_optionally_unlock: {
