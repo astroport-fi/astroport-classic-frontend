@@ -2,9 +2,8 @@ import React, { FC, useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { num } from "@arthuryeti/terra";
-
 import { usePrice } from "modules/swap";
-import { handleTinyAmount } from "modules/common";
+import { handleDollarTinyAmount } from "modules/common";
 
 type Props = {
   rewards: {
@@ -38,10 +37,10 @@ const RewardsTd: FC<Props> = ({ rewards }) => {
       return acc + data[index] * reward.amount;
     }, 0);
 
-    return num(total).dp(6).toNumber();
+    return num(total).toNumber();
   }, [data]);
 
-  return <Box>$ {handleTinyAmount(totalPrice)}</Box>;
+  return <Box>{handleDollarTinyAmount(totalPrice)}</Box>;
 };
 
 export default RewardsTd;

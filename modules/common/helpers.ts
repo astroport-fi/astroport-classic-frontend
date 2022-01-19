@@ -50,17 +50,26 @@ export const formatBigNumbers = (value: Number): String => {
 export const handleTinyAmount = (
   value: string | number,
   format: string = "0,0.00",
-  includeZero: boolean = false
+  includeZero: boolean = false,
+  numberPrefix: string = ""
 ) => {
   if (includeZero && num(value).eq(0)) {
-    return " < 0.01";
+    return `< ${numberPrefix}0.01`;
   }
 
   if (num(value).lt(0.01) && num(value).gt(0)) {
-    return " < 0.01";
+    return `< ${numberPrefix}0.01`;
   }
 
-  return numeral(value).format(format);
+  return `${numberPrefix}${numeral(value).format(format)}`;
+};
+
+export const handleDollarTinyAmount = (
+  value: string | number,
+  format: string = "0,0.00",
+  includeZero: boolean = false
+) => {
+  return handleTinyAmount(value, format, includeZero, "$ ");
 };
 
 export const toRoutes = (

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Flex, Image, Text, Box } from "@chakra-ui/react";
 import numeral from "numeral";
 
-import { useTokenInfo } from "modules/common";
+import { useTokenInfo, handleDollarTinyAmount } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
@@ -37,7 +37,7 @@ const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
               {balance}
             </Text>
             <Text fontSize="sm" textAlign="right" variant="dimmed">
-              ${total}
+              {handleDollarTinyAmount(total)}
             </Text>
           </Box>
         </Box>

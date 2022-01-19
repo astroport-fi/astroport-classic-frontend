@@ -41,7 +41,7 @@ const AllPools: FC = () => {
         width: 200,
       },
       {
-        Header: "Liquidity",
+        Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
