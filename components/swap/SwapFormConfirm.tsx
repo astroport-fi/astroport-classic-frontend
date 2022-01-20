@@ -122,8 +122,8 @@ const SwapFormConfirm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
-      title="Confirm swap"
-      actionLabel="Confirm swap"
+      title="Confirm Swap"
+      actionLabel="Confirm Swap"
       contentComponent={
         <FormSummary
           label="You are swapping from:"
