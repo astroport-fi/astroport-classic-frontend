@@ -8,13 +8,15 @@ import {
   useAstroswap,
   useLunaPrice,
   useHive,
+  getTokenDenoms,
+  useContracts,
 } from "modules/common";
 import { usePoolsApy } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
 
-const createQuery = (pairs, address) => {
+const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {
     return;
   }
@@ -38,6 +40,18 @@ const createQuery = (pairs, address) => {
               query: {
                 balance: {
                   address: "${address}"
+                }
+              }
+            )
+          }
+
+          staked${liquidity_token}: wasm {
+            contractQuery(
+              contractAddress: "${generator}"
+              query: {
+                deposit: {
+                  lp_token: "${liquidity_token}"
+                  user: "${address}"
                 }
               }
             )
@@ -73,6 +87,7 @@ const createQueryNotConnected = (pairs) => {
 
 export const useAllPools = () => {
   const { pairs } = useAstroswap();
+  const { generator } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
   const bLunaPrice = useBLunaPriceInLuna();
@@ -81,7 +96,7 @@ export const useAllPools = () => {
   let query = createQueryNotConnected(pairs);
 
   if (address) {
-    query = createQuery(pairs, address);
+    query = createQuery(pairs, address, generator);
   }
 
   const result = useHive({
@@ -104,11 +119,12 @@ export const useAllPools = () => {
     const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
       const poolApy = getPoolApy(contract_addr);
       const balance = result[liquidity_token]?.contractQuery.balance;
+      const staked = result[`staked${liquidity_token}`]?.contractQuery;
       const { total_share, assets } = result[contract_addr].contractQuery;
       const denoms = getPoolTokenDenoms(assets);
       const { token1 } = getAssetAmountsInPool(assets, "uusd");
 
-      if (num(balance).gt(0)) {
+      if (num(balance).gt(0) || num(staked).gt(0)) {
         return null;
       }
 

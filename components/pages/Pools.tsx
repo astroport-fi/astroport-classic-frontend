@@ -25,7 +25,7 @@ const Pools: FC = () => {
       <MyPools />
 
       <Box px="6" mb="4" mt="12">
-        <Heading>All Pools</Heading>
+        <Heading>Other Pools</Heading>
       </Box>
       <AllPools />
     </Container>
