@@ -46,13 +46,13 @@ const MyLockedPools = () => {
         accessor: "totalLiquidityInUst",
       },
       {
-        Header: "Claimable rewards",
+        Header: "Claimable Rewards",
         Cell: ({ row }: any) => <RewardsTd rewards={row.original.rewards} />,
         width: 125,
         accessor: "rewards",
       },
       {
-        Header: "Fully unlocks on",
+        Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
         width: 80,
