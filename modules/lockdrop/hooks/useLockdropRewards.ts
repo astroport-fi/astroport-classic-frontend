@@ -74,14 +74,25 @@ export const useLockdropRewards = () => {
           ({ lp }) => lp == info.astroport_lp_token
         );
 
-        list.push({
-          token: rewardInfo.proxy_reward_token,
-          amount: num(info.claimable_generator_proxy_debt)
-            .div(10 ** getDecimals(rewardInfo.proxy_reward_token))
-            .dp(6)
-            .toNumber(),
-          lp: info.astroport_lp_token,
-        });
+        console.group("useLockdropRewards");
+        console.log("rewardInfos", rewardInfos);
+        console.log("rewardInfo", rewardInfo);
+        console.log(
+          "rewardInfo.proxy_reward_token",
+          rewardInfo?.proxy_reward_token
+        );
+        console.groupEnd();
+
+        if (rewardInfo?.proxy_reward_token != null) {
+          list.push({
+            token: rewardInfo.proxy_reward_token,
+            amount: num(info.claimable_generator_proxy_debt)
+              .div(10 ** getDecimals(rewardInfo.proxy_reward_token))
+              .dp(6)
+              .toNumber(),
+            lp: info.astroport_lp_token,
+          });
+        }
       }
 
       if (
