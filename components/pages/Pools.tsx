@@ -3,7 +3,7 @@ import { Container, Box, Heading } from "@chakra-ui/react";
 
 // import PoolsOverview from "components/pool/PoolsOverview";
 import MyPools from "components/pool/MyPools";
-import AllPools from "components/pool/AllPools";
+import OtherPools from "components/pool/OtherPools";
 
 const Pools: FC = () => {
   return (
@@ -27,7 +27,7 @@ const Pools: FC = () => {
       <Box px="6" mb="4" mt="12">
         <Heading>Other Pools</Heading>
       </Box>
-      <AllPools />
+      <OtherPools />
     </Container>
   );
 };

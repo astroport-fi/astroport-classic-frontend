@@ -24,7 +24,7 @@ const MyAuctionLockedPool = () => {
             pairType={row.original.pairType}
           />
         ),
-        width: 200,
+        width: 250,
         accessor: "name",
         disableSortBy: true,
       },
@@ -33,7 +33,7 @@ const MyAuctionLockedPool = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
-        width: 100,
+        width: 125,
         accessor: "totalLiquidityInUst",
       },
       {
@@ -41,7 +41,7 @@ const MyAuctionLockedPool = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
-        width: 100,
+        width: 125,
         accessor: "myLiquidityInUst",
       },
       {
@@ -49,19 +49,20 @@ const MyAuctionLockedPool = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myUnlockableLiquidityInUst} />
         ),
-        width: 100,
+        width: 150,
         accessor: "myUnlockableLiquidityInUst",
       },
       {
         Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
+        width: 150,
         accessor: "lockEnd",
       },
       {
         id: "pool-actions",
         Cell: ({ row }: any) => <AuctionActionsTd row={row} />,
         accessor: "actions",
-        width: 120,
+        flex: 1,
         disableSortBy: true,
       },
     ],

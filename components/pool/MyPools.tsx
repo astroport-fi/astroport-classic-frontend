@@ -14,12 +14,6 @@ const MyPools: FC = () => {
 
   const columns = useMemo(
     () => [
-      // {
-      //   id: "reward-icon",
-      //   width: 8,
-      //   flexGrow: 0,
-      //   Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
-      // },
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (
@@ -29,17 +23,8 @@ const MyPools: FC = () => {
           />
         ),
         accessor: "name",
-        width: 200,
-        flexGrow: 0,
+        width: 300,
         disableSortBy: true,
-      },
-      {
-        Header: "My Liquidity",
-        Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.myLiquidityInUst} />
-        ),
-        accessor: "myLiquidityInUst",
-        width: 200,
       },
       {
         Header: "Combined APY",
@@ -57,10 +42,19 @@ const MyPools: FC = () => {
         width: 200,
       },
       {
+        Header: "My Liquidity",
+        Cell: ({ row }: any) => (
+          <NumberInUstTd value={row.original.myLiquidityInUst} />
+        ),
+        accessor: "myLiquidityInUst",
+        width: 200,
+      },
+      {
         id: "pool-actions",
         Cell: ({ row }: any) => <MyPoolActionsTd data={row.original} />,
         accessor: "actions",
         width: 160,
+        flex: 1,
         disableSortBy: true,
       },
     ],

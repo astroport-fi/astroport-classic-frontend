@@ -8,18 +8,12 @@ import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import ActionsTd from "components/table/ActionsTd";
 import ApyTd from "components/table/ApyTd";
-import RewardedIcon from "components/icons/RewardedIcon";
 
-const AllPools: FC = () => {
+const OtherPools: FC = () => {
   const allPools = useAllPools();
 
   const columns = useMemo(
     () => [
-      // {
-      //   id: "reward-icon",
-      //   width: 8,
-      //   Cell: () => <RewardedIcon color="#59B7DD" w="4" h="4" mr="4" />,
-      // },
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (
@@ -29,17 +23,8 @@ const AllPools: FC = () => {
           />
         ),
         accessor: "name",
-        width: 200,
-        flexGrow: 0,
+        width: 300,
         disableSortBy: true,
-      },
-      {
-        Header: "My Liquidity",
-        Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.myLiquidityInUst} />
-        ),
-        accessor: "myLiquidityInUst",
-        width: 200,
       },
       {
         Header: "Combined APY",
@@ -61,6 +46,7 @@ const AllPools: FC = () => {
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
         width: 160,
+        flex: 1,
         disableSortBy: true,
       },
     ],
@@ -78,4 +64,4 @@ const AllPools: FC = () => {
   );
 };
 
-export default AllPools;
+export default OtherPools;

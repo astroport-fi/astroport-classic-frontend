@@ -77,6 +77,7 @@ const PoolTable: FC<Props> = ({
               color="white.700"
               {...column.getHeaderProps()}
               flexBasis={`${column.width}px`}
+              flex={column.flex}
             >
               {column.canSort ? (
                 <Button variant="simple" {...column.getSortByToggleProps()}>

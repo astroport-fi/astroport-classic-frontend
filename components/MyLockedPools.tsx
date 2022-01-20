@@ -25,7 +25,7 @@ const MyLockedPools = () => {
             pairType={row.original.pairType}
           />
         ),
-        width: 200,
+        width: 250,
         accessor: "name",
         disableSortBy: true,
       },
@@ -48,14 +48,14 @@ const MyLockedPools = () => {
       {
         Header: "Claimable Rewards",
         Cell: ({ row }: any) => <RewardsTd rewards={row.original.rewards} />,
-        width: 125,
+        width: 150,
         accessor: "rewards",
       },
       {
         Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
-        width: 80,
+        width: 150,
       },
       {
         id: "pool-actions",
@@ -69,7 +69,7 @@ const MyLockedPools = () => {
           />
         ),
         accessor: "actions",
-        width: 300,
+        flex: 1,
         disableSortBy: true,
       },
     ],

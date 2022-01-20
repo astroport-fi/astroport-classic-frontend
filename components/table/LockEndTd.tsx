@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Text } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 
 type Props = {
@@ -13,14 +13,14 @@ const LockEndTd: FC<Props> = ({ row }) => {
   const remainingDays = date.diff(Date.now(), "day", false);
 
   return (
-    <>
+    <HStack spacing="3">
       <Text fontSize="sm">{date.format("MMM/DD/YY")}</Text>
       {remainingDays > 0 && (
-        <Text textStyle="small" variant="dimmed">
+        <Text textStyle="medium" variant="dimmed">
           ({remainingDays}d)
         </Text>
       )}
-    </>
+    </HStack>
   );
 };
 
