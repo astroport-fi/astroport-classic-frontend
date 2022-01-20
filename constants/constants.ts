@@ -23,3 +23,6 @@ export const DECIMALS = 4;
 
 export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
 export const COMMON_TOKENS = ["uusd", "uluna"];
+
+export const APY_NOTICE =
+  "The estimated combined APY calculation combines all individual APRs and assumes daily compounding.";

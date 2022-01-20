@@ -1,16 +1,15 @@
 /* eslint-disable react/jsx-key */
 import React, { FC } from "react";
-import { Box, HStack, Text, Button } from "@chakra-ui/react";
+import { Box, HStack, Text, Button, Tooltip } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import { useTable, useSortBy } from "react-table";
-
 import Table from "components/Table";
 import Tr from "components/Tr";
 import Td from "components/Td";
 import PoolTr from "components/table/PoolTr";
 import PoolConnectWallet from "components/table/PoolConnectWallet";
-
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
+import InfoIcon from "components/icons/InfoIcon";
 
 type Props = {
   columns: any[];
@@ -45,27 +44,39 @@ const PoolTable: FC<Props> = ({
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
-  const renderHeadTd = (column) => {
+  const renderHeadTdContents = (column) => {
     return (
-      <HStack color={column.isSorted ? "white" : "inherit"}>
+      <HStack
+        display="flex"
+        alignItems="center"
+        color={column.isSorted ? "white" : "inherit"}
+      >
         <Text fontSize="xs" variant="light">
           {column.render("Header")}
           {column.canSort}
         </Text>
-        <span>
-          {" "}
-          {column.isSorted ? (
-            column.isSortedDesc ? (
-              <ChevronDownIcon w="2" />
-            ) : (
-              <ChevronDownIcon w="2" transform="rotate(180deg)" />
-            )
-          ) : (
-            ""
-          )}{" "}
-        </span>
+        {column.Tooltip && <InfoIcon width="1rem" height="1rem" />}
+        <Box>
+          <ChevronDownIcon
+            w="2"
+            transform={`${column.isSortedDesc ? "rotate(180deg)" : ""}`}
+            opacity={`${column.isSorted ? 1 : 0}`}
+          />
+        </Box>
       </HStack>
     );
+  };
+
+  const renderHeadTd = (column) => {
+    if (column.Tooltip) {
+      return (
+        <Tooltip label={column.Tooltip} placement="top" aria-label="More info">
+          {renderHeadTdContents(column)}
+        </Tooltip>
+      );
+    }
+
+    return renderHeadTdContents(column);
   };
 
   return (
@@ -80,7 +91,11 @@ const PoolTable: FC<Props> = ({
               flex={column.flex}
             >
               {column.canSort ? (
-                <Button variant="simple" {...column.getSortByToggleProps()}>
+                <Button
+                  display="flex"
+                  variant="simple"
+                  {...column.getSortByToggleProps()}
+                >
                   {renderHeadTd(column)}
                 </Button>
               ) : (

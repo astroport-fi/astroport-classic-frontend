@@ -1,7 +1,6 @@
 import React, { FC, useMemo } from "react";
-
+import { APY_NOTICE } from "constants/constants";
 import { useMyPools } from "modules/pool";
-
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
@@ -28,6 +27,7 @@ const MyPools: FC = () => {
       },
       {
         Header: "Combined APY",
+        Tooltip: APY_NOTICE,
         Cell: ({ row }: any) => <ApyTd row={row} />,
         accessor: "combinedApy",
         width: 200,

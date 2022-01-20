@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
-
+import { APY_NOTICE } from "constants/constants";
 import { useTokenInfo, handleTinyAmount } from "modules/common";
 import {
   Pool,
@@ -10,7 +10,6 @@ import {
   useEstShareOfPool,
   useEstShareInUst,
 } from "modules/pool";
-
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
 
@@ -69,6 +68,7 @@ const ProvideForm: FC<Props> = ({
         {
           label: "APY",
           value: `${formattedApy || 0}%`,
+          tooltip: APY_NOTICE,
         },
         {
           label: "Share of Pool",
