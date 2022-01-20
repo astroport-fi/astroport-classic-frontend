@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { TxStep, useBalance, num } from "@arthuryeti/terra";
 import numeral from "numeral";
 import { ONE_TOKEN } from "constants/constants";
-import { handleTinyAmount } from "modules/common";
+import { handleTinyAmount, handleBigApy } from "modules/common";
 import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import ApyFooter from "components/pool/ApyFooter";
@@ -39,7 +39,7 @@ const WithdrawFormFooter: FC<Props> = ({
     },
     lpAmount: total,
   });
-  const formattedApy = numeral(pool.apy.total * 100).format("0.00");
+  const formattedApy = handleBigApy(pool.apy.total * 100);
 
   const cells = [
     {
@@ -52,7 +52,7 @@ const WithdrawFormFooter: FC<Props> = ({
     },
     {
       title: "APY",
-      value: `${formattedApy || 0}%`,
+      value: formattedApy,
       render: () => <ApyFooter pool={pool} />,
     },
   ];

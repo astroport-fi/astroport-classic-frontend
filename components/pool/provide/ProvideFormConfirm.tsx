@@ -3,7 +3,7 @@ import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
 import { APY_NOTICE } from "constants/constants";
-import { useTokenInfo, handleTinyAmount } from "modules/common";
+import { useTokenInfo, handleTinyAmount, handleBigApy } from "modules/common";
 import {
   Pool,
   useTokensToLp,
@@ -41,7 +41,7 @@ const ProvideForm: FC<Props> = ({
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
-  const formattedApy = numeral(pool.apy.total * 100).format("0.00");
+  const formattedApy = handleBigApy(pool.apy.total * 100);
 
   return (
     <FormConfirm
@@ -67,7 +67,7 @@ const ProvideForm: FC<Props> = ({
         },
         {
           label: "APY",
-          value: `${formattedApy || 0}%`,
+          value: formattedApy,
           tooltip: APY_NOTICE,
         },
         {

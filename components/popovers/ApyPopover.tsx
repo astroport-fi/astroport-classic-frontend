@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import numeral from "numeral";
 import {
   useDisclosure,
   Text,
@@ -9,6 +8,7 @@ import {
   PopoverTrigger,
   Flex,
 } from "@chakra-ui/react";
+import { handleBigApy } from "modules/common";
 import { Apy } from "modules/pool";
 
 type Props = {
@@ -20,16 +20,16 @@ const ApyPopover: FC<Props> = ({ apy, rewardToken, children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const rows = [
-    { label: "Pool APY", value: numeral(apy.pool * 100).format("0.00") },
+    { label: "Pool APY", value: handleBigApy(apy.pool * 100) },
     {
       label: "Astro Generator APY",
-      value: numeral(apy.astro * 100).format("0.00"),
+      value: handleBigApy(apy.astro * 100),
     },
     rewardToken && {
       label: `${rewardToken} Reward  APY`,
-      value: numeral(apy.protocol * 100).format("0.00"),
+      value: handleBigApy(apy.protocol * 100),
     },
-    { label: "Total APY", value: numeral(apy.total * 100).format("0.00") },
+    { label: "Total APY", value: handleBigApy(apy.total * 100) },
   ].filter(Boolean);
 
   return (
@@ -63,7 +63,7 @@ const ApyPopover: FC<Props> = ({ apy, rewardToken, children }) => {
                 fontSize="xs"
                 color="rgba(255, 255, 255, 0.6)"
               >
-                {row.value}%
+                {row.value}
               </Text>
             </Flex>
           ))}
