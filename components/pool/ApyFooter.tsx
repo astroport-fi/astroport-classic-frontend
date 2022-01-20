@@ -27,9 +27,9 @@ const ApyFooter: FC<Props> = ({ pool }) => {
         }}
         textAlign="center"
       >
-        <Text textStyle="medium">APY</Text>
+        <Text textStyle="medium">{formattedApy || 0}%</Text>
         <Text textStyle="small" variant="dimmed">
-          {formattedApy || 0}%
+          APY
         </Text>
       </Box>
     </ApyPopover>
