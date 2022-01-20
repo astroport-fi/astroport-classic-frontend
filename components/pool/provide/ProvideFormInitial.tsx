@@ -5,12 +5,7 @@ import { num, useBalance } from "@arthuryeti/terra";
 
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
-import {
-  useTokenInfo,
-  FormActions,
-  FormActionItem,
-  useContracts,
-} from "modules/common";
+import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
 
 import Card from "components/Card";
 import CircularIcon from "components/common/CircularIcon";
@@ -33,6 +28,7 @@ type Props = {
   token2: string;
   amount2: string;
   isChartOpen: boolean;
+  canStake: boolean;
   onChartClick: () => void;
   state: ProvideState;
   onClick: () => void;
@@ -51,16 +47,15 @@ const ProvideFormInitial: FC<Props> = ({
   token2,
   amount2,
   state,
+  canStake,
   onClick,
 }) => {
   const { getDecimals } = useTokenInfo();
-  const { stakableLp } = useContracts();
   const token1Balance = useBalance(token1);
   const token2Balance = useBalance(token2);
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
-  const showSlider = num(pool.total.share).gt(0)
-  const canStake = stakableLp.includes(pool.lpTokenContract);
+  const showSlider = num(pool.total.share).gt(0);
   const { control, setValue } = useFormContext();
   // const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
   const ratio = num(pool.token2.share)
@@ -142,14 +137,12 @@ const ProvideFormInitial: FC<Props> = ({
           onClick={() => onTypeClick(PoolFormType.Withdraw)}
         />
       </FormActions>
-
       <PoolHeader
         pool={pool}
         type={type}
         mode={mode}
         onModeClick={onModeClick}
       />
-
       <Box position="relative">
         <Card>
           <Flex>
@@ -219,19 +212,19 @@ const ProvideFormInitial: FC<Props> = ({
           </>
         )}
       </Box>
-
-      {showSlider && <Card mt="2">
-        <AstroSlider
-          min={0}
-          minLabel="0%"
-          max={maxAmounts.token1}
-          maxLabel="100%"
-          step={0.0001}
-          value={+amount1}
-          onChange={handleChange}
-        />
-      </Card>}
-
+      {showSlider && (
+        <Card mt="2">
+          <AstroSlider
+            min={0}
+            minLabel="0%"
+            max={maxAmounts.token1}
+            maxLabel="100%"
+            step={0.0001}
+            value={+amount1}
+            onChange={handleChange}
+          />
+        </Card>
+      )}
       <ProvideFormFooter
         pool={pool}
         amount1={amount1}

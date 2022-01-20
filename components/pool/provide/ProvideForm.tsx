@@ -4,7 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
-import { PairResponse, useAstroswap } from "modules/common";
+import { PairResponse, useAstroswap, useContracts } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -45,13 +45,15 @@ const ProvideForm: FC<Props> = ({
   const { addNotification } = useAstroswap();
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
+  const { stakableLp } = useContracts();
+  const canStake = stakableLp.includes(pool.lpTokenContract);
   const methods = useForm<FormValues>({
     defaultValues: {
       token1: pool?.token1.asset,
       amount1: "",
       token2: pool?.token2.asset,
       amount2: "",
-      autoStake: true,
+      autoStake: canStake,
     },
   });
 
@@ -114,6 +116,7 @@ const ProvideForm: FC<Props> = ({
             isChartOpen={isChartOpen}
             onChartClick={onChartClick}
             state={state}
+            canStake={canStake}
             onClick={() => setShowConfirm(true)}
           />
         )}
