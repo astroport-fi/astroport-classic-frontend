@@ -53,7 +53,7 @@ const MyAuctionLockedPool = () => {
         accessor: "myUnlockableLiquidityInUst",
       },
       {
-        Header: "Fully unlocks on",
+        Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
       },
