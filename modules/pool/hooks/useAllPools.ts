@@ -92,12 +92,17 @@ export const useAllPools = () => {
     },
   });
 
+  const getPoolApy = (addr) => {
+    return poolsApy.find((poolApy) => poolApy.pool_address === addr);
+  };
+
   return useMemo(() => {
     if (result == null) {
       return [];
     }
 
     const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
+      const poolApy = getPoolApy(contract_addr);
       const balance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
       const denoms = getPoolTokenDenoms(assets);
@@ -134,17 +139,6 @@ export const useAllPools = () => {
         .dp(6)
         .toNumber();
 
-      const poolApy = poolsApy.find(
-        (poolApy) => poolApy.pool_address === contract_addr
-      );
-      const apy = {
-        pool: poolApy?.trading_fees?.apy || 0,
-        astro: poolApy?.astro_rewards?.apy || 0,
-        protocol: poolApy?.protocol_rewards?.apy || 0,
-        total: poolApy?.total_rewards?.apy || 0,
-        reward_symbol: poolApy?.token_symbol,
-      };
-
       return {
         contract: contract_addr,
         assets: denoms,
@@ -153,7 +147,13 @@ export const useAllPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
-        apy,
+        apy: {
+          pool: poolApy?.trading_fees?.apy || 0,
+          astro: poolApy?.astro_rewards?.apy || 0,
+          protocol: poolApy?.protocol_rewards?.apy || 0,
+          total: poolApy?.total_rewards?.apy || 0,
+          reward_symbol: poolApy?.token_symbol,
+        },
       };
     });
 
