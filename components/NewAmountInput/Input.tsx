@@ -48,6 +48,16 @@ const Input: FC<Props> = ({
     return <Price token={asset} amount={value} priceToken={price} />;
   };
 
+  const sanitizeAmount = (e) => {
+    const valueSplitted = value.split("");
+    if (
+      ["e", "E", "+", "-"].includes(e.key) ||
+      (["."].includes(e.key) && valueSplitted.includes("."))
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Box>
       <NumberInput
@@ -59,6 +69,7 @@ const Input: FC<Props> = ({
         precision={6}
         onChange={onChange}
         onBlur={onBlur}
+        onKeyPress={sanitizeAmount}
         clampValueOnBlur={clampValueOnBlur}
         isDisabled={isDisabled}
         isLoading={isLoading}
