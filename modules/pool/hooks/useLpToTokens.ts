@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
-import { PoolResponse, getTokenDenom } from "modules/common";
+import { PoolResponse, getTokenDenom, useTokenInfo } from "modules/common";
 
 type Response = {
   [key: string]: string;
@@ -13,6 +13,8 @@ type Params = {
 };
 
 export const useLpToTokens = ({ pool, amount }: Params): Response => {
+  const { getDecimals } = useTokenInfo();
+
   return useMemo(() => {
     if (pool == null || amount == null || num(amount).isEqualTo(0)) {
       return null;
@@ -20,16 +22,19 @@ export const useLpToTokens = ({ pool, amount }: Params): Response => {
 
     const { assets, total_share } = pool;
 
-    return assets.reduce(
-      (acc, asset) => ({
+    return assets.reduce((acc, asset) => {
+      return {
         ...acc,
         [getTokenDenom(asset.info)]: num(amount)
-          .times(asset.amount)
-          .div(total_share)
+          .div(10 ** 6)
+          .times(
+            num(asset.amount).div(10 ** getDecimals(getTokenDenom(asset.info)))
+          )
+          .div(num(total_share).div(10 ** 6))
+          .times(10 ** 6)
           .toFixed(),
-      }),
-      {}
-    );
+      };
+    }, {});
   }, [pool, amount]);
 };
 
