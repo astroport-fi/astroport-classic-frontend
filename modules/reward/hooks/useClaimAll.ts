@@ -153,6 +153,10 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...lockdropMsgs);
     }
 
+    if (data.length == 0) {
+      return null;
+    }
+
     return data;
   }, [
     address,
@@ -163,10 +167,12 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     airdropUserInfo,
     auctionUserInfo,
     userInfoWithList,
+    airdrop2UserInfo,
     airdropContract,
     airdrop2Contract,
     airdropBalance,
     airdrop2Balance,
+    lockdropRewards,
     airdropData,
     isLoading,
   ]);

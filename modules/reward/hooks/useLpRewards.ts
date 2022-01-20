@@ -54,7 +54,7 @@ export const useLpRewards = () => {
   const query = createQuery(stakableLp, address, generator);
 
   const result = useHive({
-    name: ["rewards", address],
+    name: ["rewards", "lp"],
     query,
     options: {
       enabled: !!query,
@@ -84,10 +84,6 @@ export const useLpRewards = () => {
       }
 
       if (num(amounts.pending_on_proxy).gt(0)) {
-        console.group("useLpRewards");
-        console.log("tokens", tokens);
-        console.log("tokens?.proxy_reward_token", tokens?.proxy_reward_token);
-        console.groupEnd();
         data.push({
           token: tokens.proxy_reward_token,
           amount: num(amounts.pending_on_proxy)

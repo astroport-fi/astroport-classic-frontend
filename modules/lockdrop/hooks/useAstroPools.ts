@@ -208,15 +208,6 @@ export const useAstroPools = () => {
         },
       ];
 
-      console.group("useAstroPools");
-      console.log("rewardInfos", rewardInfos);
-      console.log("rewardInfo", rewardInfo);
-      console.log(
-        "rewardInfo.proxy_reward_token",
-        rewardInfo?.proxy_reward_token
-      );
-      console.groupEnd();
-
       if (rewardInfo?.proxy_reward_token != null) {
         rewards.push({
           token: rewardInfo.proxy_reward_token,

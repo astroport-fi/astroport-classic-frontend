@@ -87,10 +87,6 @@ const SwapFormConfirm: FC<Props> = ({
     },
     exchangeRateDetail,
     {
-      label: "Exchange Rate",
-      value: `1 ${symbol1} ${exchangeRate} ${symbol2}`,
-    },
-    {
       label: "Minimum Received",
       value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
         token2

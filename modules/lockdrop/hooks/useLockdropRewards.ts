@@ -38,7 +38,7 @@ export const useLockdropRewards = () => {
   const query = createQuery(stakableLp, generator);
 
   const result = useHive({
-    name: ["rewards-info"],
+    name: ["rewards", "lockdrop"],
     query,
     options: {
       enabled: !!query,
@@ -73,15 +73,6 @@ export const useLockdropRewards = () => {
         const rewardInfo = rewardInfos.find(
           ({ lp }) => lp == info.astroport_lp_token
         );
-
-        console.group("useLockdropRewards");
-        console.log("rewardInfos", rewardInfos);
-        console.log("rewardInfo", rewardInfo);
-        console.log(
-          "rewardInfo.proxy_reward_token",
-          rewardInfo?.proxy_reward_token
-        );
-        console.groupEnd();
 
         if (rewardInfo?.proxy_reward_token != null) {
           list.push({

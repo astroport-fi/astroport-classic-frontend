@@ -10,7 +10,7 @@ const RewardTotal: FC = () => {
 
   return (
     <Flex justify="space-between" align="flex-start">
-      <Text textStyle="minibutton" fontSize="xs">
+      <Text textStyle="minibutton" fontSize="xs" lineHeight="1">
         Total Rewards
       </Text>
       <VStack align="flex-end" spacing={1} ml="8">

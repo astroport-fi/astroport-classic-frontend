@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { TxStep } from "@arthuryeti/terra";
+import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
 import { useAstroswap } from "modules/common";
@@ -13,9 +13,12 @@ type Props = {
 const ClaimLockdropRewardBtn: FC<Props> = ({ contract, duration }) => {
   const { addNotification } = useAstroswap();
 
-  const state = useClaimLockdropReward({
+  const { msgs } = useClaimLockdropReward({
     contract,
     duration,
+  });
+
+  const { submit } = useTx({
     onBroadcasting: (txHash) => {
       addNotification({
         notification: {
@@ -27,13 +30,24 @@ const ClaimLockdropRewardBtn: FC<Props> = ({ contract, duration }) => {
     },
   });
 
+  const { fee } = useEstimateFee({
+    msgs,
+  });
+
+  const handleClick = () => {
+    submit({
+      msgs,
+      fee,
+    });
+  };
+
   return (
     <Button
       size="sm"
       variant="primary"
       flex="1"
-      onClick={state.submit}
-      isDisabled={state.txStep != TxStep.Ready}
+      onClick={handleClick}
+      isDisabled={fee == null}
     >
       Claim Rewards
     </Button>
