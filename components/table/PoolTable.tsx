@@ -59,7 +59,7 @@ const PoolTable: FC<Props> = ({
         <Box>
           <ChevronDownIcon
             w="2"
-            transform={`${column.isSortedDesc ? "rotate(180deg)" : ""}`}
+            transform={`${column.isSortedDesc ? "" : "rotate(180deg)"}`}
             opacity={`${column.isSorted ? 1 : 0}`}
           />
         </Box>
