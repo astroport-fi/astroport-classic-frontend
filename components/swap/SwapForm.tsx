@@ -96,11 +96,11 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     methods.reset();
   }, [networkName]);
 
-  // useEffect(() => {
-  //   if (slippage != slippageSetting) {
-  //     setSlippageSetting(slippage);
-  //   }
-  // }, [slippage]);
+  useEffect(() => {
+    if (slippage != slippageSetting) {
+      setSlippageSetting(slippage);
+    }
+  }, [slippage]);
 
   useEffect(() => {
     if (defaultToken2 != token2 || defaultToken1 != token1) {
