@@ -3,6 +3,8 @@ import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
 
+import useLocalStorage from "hooks/useLocalStorage";
+
 import {
   getPoolTokenDenoms,
   useAstroswap,
@@ -95,6 +97,11 @@ export const useAllPools = () => {
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
 
+  const [favoritesPools] = useLocalStorage(
+    "favoritesPools",
+    []
+  );
+
   let query = createQueryNotConnected(pairs);
 
   if (address) {
@@ -161,6 +168,7 @@ export const useAllPools = () => {
         .toNumber();
 
       return {
+        favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
         sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + contract_addr,
@@ -180,7 +188,7 @@ export const useAllPools = () => {
     });
 
     return sortBy(compact(items), "totalLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result, bLunaPrice, poolsApy]);
+  }, [lunaPrice, pairs, result, bLunaPrice, poolsApy, favoritesPools]);
 };
 
 export default useAllPools;

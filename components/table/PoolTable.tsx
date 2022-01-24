@@ -41,6 +41,10 @@ const PoolTable: FC<Props> = ({
         pageSize: 15,
         sortBy: [
           {
+            id: "favorite",
+            desc: true,
+          },
+          {
             id: sortBy,
             desc: true,
           },
@@ -99,6 +103,10 @@ const PoolTable: FC<Props> = ({
           {renderHeadTdContents(column)}
         </Tooltip>
       );
+    }
+
+    if (column.id == "favorite") {
+      return;
     }
 
     if (column.id == "pool-actions") {

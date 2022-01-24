@@ -4,3 +4,4 @@ export * from "./useTokenInfo";
 export * from "./useLunaPriceInUst";
 export * from "./useHive";
 export * from "./useApi";
+export * from "./useTogglePairToFavorite";

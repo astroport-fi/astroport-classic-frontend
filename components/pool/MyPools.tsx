@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from "react";
+import useLocalStorage from "hooks/useLocalStorage";
 import { APY_NOTICE } from "constants/constants";
 import { useMyPools } from "modules/pool";
 import Card from "components/Card";
@@ -7,12 +8,25 @@ import PoolNameTd from "components/table/PoolNameTd";
 import ApyTd from "components/table/ApyTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
+import FavoriteToggleButton from "components/FavoriteToggleButton";
 
 const MyPools: FC = () => {
   const myPools = useMyPools();
 
+  const [favoritesPools] = useLocalStorage("favoritesPools", []);
+
   const columns = useMemo(
     () => [
+      {
+        id: "favorite",
+        width: 48,
+        flexGrow: 0,
+        Cell: ({ row }: any) => (
+          <FavoriteToggleButton pair={row.original.assets.toString()} />
+        ),
+        accessor: "favorite",
+        disableSortBy: true,
+      },
       {
         Header: "Pool Name",
         Cell: ({ row }: any) => (
@@ -57,7 +71,7 @@ const MyPools: FC = () => {
         disableSortBy: true,
       },
     ],
-    []
+    [favoritesPools]
   );
 
   return (

@@ -3,6 +3,8 @@ import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
 
+import useLocalStorage from "hooks/useLocalStorage";
+
 import {
   getPoolTokenDenoms,
   useAstroswap,
@@ -92,6 +94,11 @@ export const useMyPools = () => {
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
 
+  const [favoritesPools] = useLocalStorage(
+    "favoritesPools",
+    []
+  );
+
   const query = address ? createQuery(pairs, address, generator) : null;
   const result = useHive({
     name: ["pools", "my", address],
@@ -147,6 +154,7 @@ export const useMyPools = () => {
       const isStakable = stakableLp.includes(liquidity_token);
 
       return {
+        favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
         sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + contract_addr,
@@ -169,7 +177,7 @@ export const useMyPools = () => {
     });
 
     return sortBy(compact(items), "myLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result, poolsApy]);
+  }, [lunaPrice, pairs, result, poolsApy, favoritesPools]);
 };
 
 export default useMyPools;
