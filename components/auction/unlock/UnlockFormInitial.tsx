@@ -7,16 +7,18 @@ import { ONE_TOKEN } from "constants/constants";
 import { AuctionUnlockState, useUserInfo } from "modules/auction";
 
 import Card from "components/Card";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import UnlockFormFooter from "components/auction/unlock/UnlockFormFooter";
 
 type Params = {
   state: AuctionUnlockState;
+  error: any;
   onClick: () => void;
 };
 
-const UnlockFormInitial = ({ state, onClick }: Params) => {
+const UnlockFormInitial = ({ state, error, onClick }: Params) => {
   const { control, watch } = useFormContext();
   const userInfo = useUserInfo();
 
@@ -96,6 +98,7 @@ const UnlockFormInitial = ({ state, onClick }: Params) => {
       )}
 
       <UnlockFormFooter data={state} onConfirmClick={onClick} />
+      {error && <SwapFormWarning my="8" content={error} />}
     </>
   );
 };

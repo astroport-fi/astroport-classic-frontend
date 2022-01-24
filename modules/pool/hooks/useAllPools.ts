@@ -10,7 +10,6 @@ import {
   useAstroswap,
   useLunaPrice,
   useHive,
-  getTokenDenoms,
   useContracts,
   useTokenInfo,
 } from "modules/common";
@@ -97,10 +96,7 @@ export const useAllPools = () => {
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
 
-  const [favoritesPools] = useLocalStorage(
-    "favoritesPools",
-    []
-  );
+  const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   let query = createQueryNotConnected(pairs);
 
@@ -140,7 +136,11 @@ export const useAllPools = () => {
         return null;
       }
 
-      let amountOfUst = num(token1Amount).div(ONE_TOKEN).times(2).dp(6).toNumber();
+      let amountOfUst = num(token1Amount)
+        .div(ONE_TOKEN)
+        .times(2)
+        .dp(6)
+        .toNumber();
 
       if (token1Amount == null) {
         const { token1Amount: uluna, token2 } = getAssetAmountsInPool(
@@ -171,7 +171,16 @@ export const useAllPools = () => {
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
-        sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + contract_addr,
+        sortingAssets:
+          token1Symbol.toLowerCase() +
+          " " +
+          token2Symbol.toLowerCase() +
+          " " +
+          token1 +
+          " " +
+          token2 +
+          " " +
+          contract_addr,
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,

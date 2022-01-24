@@ -8,7 +8,11 @@ import numeral from "numeral";
 
 import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
 import { useSwap, useSwapRoute } from "modules/swap";
-import { useAstroswap, useTokenInfo } from "modules/common";
+import {
+  useAstroswap,
+  useTokenInfo,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import useDebounceValue from "hooks/useDebounceValue";
 import useLocalStorage from "hooks/useLocalStorage";
 
@@ -46,6 +50,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   );
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
   const isReverse = currentInput == "amount2";
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -222,12 +227,24 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       return "Both amounts must be greater than 0";
     }
 
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
     if (num(amount1).gt(0) && num(token1Balance).div(ONE_TOKEN).lt(amount1)) {
       return "insufficient assets in wallet";
     }
 
     return false;
-  }, [token1, amount1, token2, amount2, simulated, customError]);
+  }, [
+    token1,
+    amount1,
+    token2,
+    amount2,
+    simulated,
+    customError,
+    notEnoughUSTToPayFees,
+  ]);
 
   const formattedPrice = useMemo(() => {
     return numeral(simulated?.price).format("0,0.00[000]").toString();

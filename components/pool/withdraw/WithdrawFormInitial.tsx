@@ -8,6 +8,7 @@ import { FormActions, FormActionItem } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 
 import Card from "components/Card";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 import NewAmountInput from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
@@ -18,6 +19,7 @@ type Props = {
   pool: any;
   token: string;
   amount: string;
+  error: any;
   mode: ProvideFormMode;
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
@@ -32,6 +34,7 @@ const WithdrawFormInitial: FC<Props> = ({
   type,
   token,
   amount,
+  error,
   onModeClick,
   onTypeClick,
   state,
@@ -127,6 +130,8 @@ const WithdrawFormInitial: FC<Props> = ({
         data={state}
         onConfirmClick={onClick}
       />
+
+      {error && <SwapFormWarning mb="8" content={error} />}
     </>
   );
 };

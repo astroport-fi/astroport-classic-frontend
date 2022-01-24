@@ -1,11 +1,15 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
-import { useContracts, useAstroswap } from "modules/common";
+import {
+  useContracts,
+  useAstroswap,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGovStake } from "../hooks";
 
@@ -36,6 +40,15 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
       token: astroToken,
     },
   });
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  const error = useMemo(() => {
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
+    return false;
+  }, [notEnoughUSTToPayFees]);
 
   const { watch, setValue } = methods;
   const { amount } = watch();
@@ -102,6 +115,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
           setType={setType}
           amount={amount}
           price={price}
+          error={error}
           isLoading={feeIsLoading}
           fee={fee}
         />

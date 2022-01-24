@@ -63,29 +63,6 @@ const createQuery = (pairs, address, generator) => {
 `;
 };
 
-const createQueryNotConnected = (pairs) => {
-  if (pairs.length === 0) {
-    return;
-  }
-
-  return gql`
-    {
-      ${pairs.map(({ contract_addr }) => {
-        return `
-          ${contract_addr}: wasm {
-            contractQuery(
-              contractAddress: "${contract_addr}"
-              query: {
-                pool: { }
-              }
-            )
-          }
-        `;
-      })}
-    }
-`;
-};
-
 export const useMyPools = () => {
   const { pairs } = useAstroswap();
   const { generator, stakableLp } = useContracts();
@@ -94,10 +71,7 @@ export const useMyPools = () => {
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
 
-  const [favoritesPools] = useLocalStorage(
-    "favoritesPools",
-    []
-  );
+  const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   const query = address ? createQuery(pairs, address, generator) : null;
   const result = useHive({
@@ -157,7 +131,16 @@ export const useMyPools = () => {
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
-        sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + contract_addr,
+        sortingAssets:
+          token1Symbol.toLowerCase() +
+          " " +
+          token2Symbol.toLowerCase() +
+          " " +
+          token1 +
+          " " +
+          token2 +
+          " " +
+          contract_addr,
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,

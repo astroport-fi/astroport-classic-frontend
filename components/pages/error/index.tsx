@@ -11,9 +11,9 @@ interface IProps {
 const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
   const heightOfNavbar: string = "88px";
   const containerPadding: string = "1rem";
-  const notFoundError = statusCode && statusCode == 404
+  const notFoundError = statusCode && statusCode == 404;
 
-  console.error("The following error code happened:", statusCode)
+  console.error("The following error code happened:", statusCode);
 
   return (
     <Stack>
@@ -27,11 +27,13 @@ const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
           {!notFoundError && <ErrorIllustration width="100%" />}
           <Box>
             <Stack isInline align="center" justifyContent="center">
-            <Box>
-              <Link href="/" passHref>
-                <Button variant="primary" as="a">Return to the home page</Button>
-              </Link>
-            </Box>
+              <Box>
+                <Link href="/" passHref>
+                  <Button variant="primary" as="a">
+                    Return to the home page
+                  </Button>
+                </Link>
+              </Box>
             </Stack>
           </Box>
         </Stack>

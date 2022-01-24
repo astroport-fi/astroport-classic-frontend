@@ -8,6 +8,7 @@ import { AstroFormType } from "types/common";
 import { FormActionItem, FormActions } from "modules/common";
 
 import Card from "components/Card";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 import GovStakeFooter from "./GovStakeFooter";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
@@ -19,6 +20,7 @@ type Props = {
   isLoading: boolean;
   fee: Fee;
   price?: number;
+  error: any;
 };
 
 const GovStakeFormInitial: FC<Props> = ({
@@ -28,6 +30,7 @@ const GovStakeFormInitial: FC<Props> = ({
   isLoading,
   fee,
   price,
+  error,
 }) => {
   const { control, watch } = useFormContext();
   const { token } = watch();
@@ -99,6 +102,8 @@ const GovStakeFormInitial: FC<Props> = ({
           amount={amount}
         />
       </Stack>
+
+      {error && <SwapFormWarning my="8" content={error} />}
     </Box>
   );
 };

@@ -9,11 +9,11 @@ import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
 
 import Card from "components/Card";
 import CircularIcon from "components/common/CircularIcon";
+import SwapFormWarning from "components/swap/SwapFormWarning";
 import PlusIcon from "components/icons/PlusIcon";
 import NewAmountInput from "components/NewAmountInput";
 import TokenInput from "components/TokenInput";
 import PoolHeader from "components/pool/PoolHeader";
-import PoolActions from "components/pool/PoolActions";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
 import AstroSlider from "components/AstroSlider";
 
@@ -31,6 +31,7 @@ type Props = {
   canStake: boolean;
   onChartClick: () => void;
   state: ProvideState;
+  error: any;
   onClick: () => void;
 };
 
@@ -46,6 +47,7 @@ const ProvideFormInitial: FC<Props> = ({
   amount1,
   token2,
   amount2,
+  error,
   state,
   canStake,
   onClick,
@@ -254,6 +256,7 @@ const ProvideFormInitial: FC<Props> = ({
           />
         </Flex>
       )}
+      {error && <SwapFormWarning mb="8" content={error} />}
     </>
   );
 };

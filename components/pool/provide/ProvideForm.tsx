@@ -1,10 +1,10 @@
-import React, { FC, useState, useCallback } from "react";
+import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
-import { PairResponse, useAstroswap, useContracts } from "modules/common";
+import { PairResponse, useAstroswap, useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -56,6 +56,15 @@ const ProvideForm: FC<Props> = ({
       autoStake: canStake,
     },
   });
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  const error = useMemo(() => {
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
+    return false;
+  }, [notEnoughUSTToPayFees]);
 
   const { token1, amount1, token2, amount2, autoStake } = methods.watch();
 
@@ -110,6 +119,7 @@ const ProvideForm: FC<Props> = ({
             amount2={amount2}
             pool={pool}
             mode={mode}
+            error={error}
             onModeClick={onModeClick}
             type={type}
             onTypeClick={onTypeClick}

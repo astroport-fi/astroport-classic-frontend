@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useWallet, ConnectType } from "@terra-money/wallet-provider";
-import { Text, HStack, Flex, chakra } from "@chakra-ui/react";
+import { Text, HStack, Flex, chakra, Image } from "@chakra-ui/react";
 import Modal from "components/modals/Modal";
 import TerraExtensionIcon from "components/icons/TerraExtensionIcon";
 import TerraMobileIcon from "components/icons/TerraMobileIcon";
@@ -48,7 +48,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
                 {identifier === "station" ? (
                   <TerraExtensionIcon />
                 ) : (
-                  <img src={icon} width="24" />
+                  <Image src={icon} width="24" alt="" />
                 )}
               </HStack>
             </chakra.button>

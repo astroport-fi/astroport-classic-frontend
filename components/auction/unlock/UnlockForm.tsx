@@ -1,11 +1,15 @@
-import React, { FC, useState, useCallback } from "react";
+import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, num, toTerraAmount } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 
 import { useAuctionUnlock } from "modules/auction";
-import { useAstroswap, useContracts } from "modules/common";
+import {
+  useAstroswap,
+  useContracts,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
@@ -29,6 +33,15 @@ const UnlockForm: FC = () => {
       amount: "",
     },
   });
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  const error = useMemo(() => {
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
+    return false;
+  }, [notEnoughUSTToPayFees]);
 
   const { watch, handleSubmit } = methods;
   const { token, amount } = watch();
@@ -70,6 +83,7 @@ const UnlockForm: FC = () => {
         {!showConfirm && (
           <UnlockFormInitial
             state={state}
+            error={error}
             onClick={() => setShowConfirm(true)}
           />
         )}

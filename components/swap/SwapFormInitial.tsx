@@ -3,11 +3,7 @@ import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
 import { num, useAddress, useBalance } from "@arthuryeti/terra";
-
 import { useTokenInfo } from "modules/common";
-import { ONE_TOKEN } from "constants/constants";
-
-import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import SwapFormWarning from "components/swap/SwapFormWarning";
@@ -118,7 +114,6 @@ const SwapFormInitial: FC<Props> = ({
           />
         </MotionHStack>
       </Flex>
-
       <MotionBox
         key="card1"
         borderRadius="xl"
@@ -158,7 +153,6 @@ const SwapFormInitial: FC<Props> = ({
           </Box>
         </Flex>
       </MotionBox>
-
       <MotionFlex
         initial={{ opacity: 0, scale: 1.2 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -189,7 +183,6 @@ const SwapFormInitial: FC<Props> = ({
           />
         </Flex>
       </MotionFlex>
-
       <MotionBox
         key="card2"
         borderRadius="xl"
@@ -231,14 +224,7 @@ const SwapFormInitial: FC<Props> = ({
       </MotionBox>
 
       {address && error ? (
-        <Card mt="4" borderColor="red.300">
-          <Text display="inline" textStyle="small" color="red.500">
-            Warning:
-          </Text>{" "}
-          <Text display="inline" textStyle="small">
-            {error}
-          </Text>
-        </Card>
+        <SwapFormWarning content={error} />
       ) : (
         <SwapFormWarning />
       )}

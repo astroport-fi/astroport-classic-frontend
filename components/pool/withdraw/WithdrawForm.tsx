@@ -1,11 +1,11 @@
-import React, { FC, useCallback, useState, useEffect } from "react";
+import React, { FC, useCallback, useState, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useAstroswap } from "modules/common";
+import { PairResponse, useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
 
@@ -45,6 +45,15 @@ const WithdrawForm: FC<Props> = ({
       amount: "",
     },
   });
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  const error = useMemo(() => {
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
+    return false;
+  }, [notEnoughUSTToPayFees]);
 
   const { token, amount } = methods.watch();
 
@@ -110,6 +119,7 @@ const WithdrawForm: FC<Props> = ({
             onModeClick={onModeClick}
             onTypeClick={onTypeClick}
             token={token}
+            error={error}
             amount={amount}
             state={state}
             onClick={() => setShowConfirm(true)}
