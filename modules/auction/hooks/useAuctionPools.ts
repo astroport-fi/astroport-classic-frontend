@@ -32,12 +32,12 @@ export const useAuctionPools = () => {
       return [];
     }
 
-    const { token1 } = getAssetAmountsInPool(pool.assets, "uusd");
+    const { token1Amount } = getAssetAmountsInPool(pool.assets, "uusd");
     const totalLiquidity = num(pool.total_share)
       .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
-    const totalLiquidityInUst = num(token1)
+    const totalLiquidityInUst = num(token1Amount)
       .div(ONE_TOKEN)
       .times(2)
       .dp(6)
@@ -67,6 +67,7 @@ export const useAuctionPools = () => {
         name: config.pool_info?.astro_ust_pool_address,
         contract: config.pool_info?.astro_ust_pool_address,
         assets: [astroToken, "uusd"],
+        sortingAssets: [config.pool_info?.astro_ust_pool_address, astroToken, "uusd", "astro", "ust"],
         pairType: "xyk",
         totalLiquidity,
         totalLiquidityInUst,

@@ -25,8 +25,7 @@ const MyAuctionLockedPool = () => {
           />
         ),
         width: 250,
-        accessor: "name",
-        disableSortBy: true,
+        accessor: "sortingAssets",
       },
       {
         Header: "Total Liquidity",

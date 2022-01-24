@@ -21,9 +21,8 @@ const OtherPools: FC = () => {
             pairType={row.original.pairType}
           />
         ),
-        accessor: "name",
+        accessor: "sortingAssets",
         width: 300,
-        disableSortBy: true,
       },
       {
         Header: "Combined APY",
@@ -45,9 +44,9 @@ const OtherPools: FC = () => {
         id: "pool-actions",
         Cell: ({ row }: any) => <ActionsTd row={row} />,
         accessor: "actions",
-        width: 160,
         flex: 1,
         disableSortBy: true,
+        disableGlobalFilter: true,
       },
     ],
     []

@@ -26,8 +26,7 @@ const MyLockedPools = () => {
           />
         ),
         width: 250,
-        accessor: "name",
-        disableSortBy: true,
+        accessor: "sortingAssets",
       },
       {
         Header: "My Liquidity",

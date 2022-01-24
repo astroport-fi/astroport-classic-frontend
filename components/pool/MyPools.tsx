@@ -21,9 +21,8 @@ const MyPools: FC = () => {
             pairType={row.original.pairType}
           />
         ),
-        accessor: "name",
+        accessor: "sortingAssets",
         width: 300,
-        disableSortBy: true,
       },
       {
         Header: "Combined APY",

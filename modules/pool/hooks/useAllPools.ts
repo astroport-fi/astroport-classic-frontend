@@ -10,6 +10,7 @@ import {
   useHive,
   getTokenDenoms,
   useContracts,
+  useTokenInfo,
 } from "modules/common";
 import { usePoolsApy } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -92,6 +93,7 @@ export const useAllPools = () => {
   const lunaPrice = useLunaPrice();
   const bLunaPrice = useBLunaPriceInLuna();
   const poolsApy = usePoolsApy();
+  const { getSymbol } = useTokenInfo();
 
   let query = createQueryNotConnected(pairs);
 
@@ -122,16 +124,19 @@ export const useAllPools = () => {
       const staked = result[`staked${liquidity_token}`]?.contractQuery;
       const { total_share, assets } = result[contract_addr].contractQuery;
       const denoms = getPoolTokenDenoms(assets);
-      const { token1 } = getAssetAmountsInPool(assets, "uusd");
+      const [token1, token2] = denoms;
+      const token1Symbol = getSymbol(token1);
+      const token2Symbol = getSymbol(token2);
+      const { token1Amount } = getAssetAmountsInPool(assets, "uusd");
 
       if (num(balance).gt(0) || num(staked).gt(0)) {
         return null;
       }
 
-      let amountOfUst = num(token1).div(ONE_TOKEN).times(2).dp(6).toNumber();
+      let amountOfUst = num(token1Amount).div(ONE_TOKEN).times(2).dp(6).toNumber();
 
-      if (token1 == null) {
-        const { token1: uluna, token2 } = getAssetAmountsInPool(
+      if (token1Amount == null) {
+        const { token1Amount: uluna, token2 } = getAssetAmountsInPool(
           assets,
           "uluna"
         );
@@ -158,6 +163,7 @@ export const useAllPools = () => {
       return {
         contract: contract_addr,
         assets: denoms,
+        sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + contract_addr,
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,
