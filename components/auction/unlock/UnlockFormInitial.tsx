@@ -1,13 +1,9 @@
 import React, { useMemo } from "react";
 import { Text, Flex, Box, ListItem, UnorderedList } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
-
-import { ONE_TOKEN } from "constants/constants";
 import { AuctionUnlockState, useUserInfo } from "modules/auction";
-
 import Card from "components/Card";
-import SwapFormWarning from "components/swap/SwapFormWarning";
+import WarningMessage from "components/common/WarningMessage";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import UnlockFormFooter from "components/auction/unlock/UnlockFormFooter";
@@ -98,7 +94,7 @@ const UnlockFormInitial = ({ state, error, onClick }: Params) => {
       )}
 
       <UnlockFormFooter data={state} onConfirmClick={onClick} />
-      {error && <SwapFormWarning my="8" content={error} />}
+      {error && <WarningMessage my="8" content={error} />}
     </>
   );
 };

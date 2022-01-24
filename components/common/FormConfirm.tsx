@@ -90,22 +90,28 @@ const FormConfirm: FC<Props> = ({
               py={["3", "4"]}
             >
               {details.map((detail) => (
-                <HStack key={detail.label} justify="space-between" alignItems="center">
+                <HStack
+                  key={detail.label}
+                  justify="space-between"
+                  alignItems="center"
+                >
                   <Box display="flex" alignItems="center">
                     <Text textStyle="small" variant="secondary">
                       {detail.label}
                     </Text>
-                    {detail.tooltip && <Tooltip
+                    {detail.tooltip && (
+                      <Tooltip
                         label={detail.tooltip}
                         placement="top"
                         aria-label="Complete Swap Route"
                       >
-                      <Box ml="1.5" color={detail.color} cursor="pointer">
-                        <Text variant="secondary">
-                          <InfoIcon width="1rem" height="1rem" />
-                        </Text>
-                      </Box>
-                    </Tooltip>}
+                        <Box ml="1.5" color={detail.color} cursor="pointer">
+                          <Text variant="secondary">
+                            <InfoIcon width="1rem" height="1rem" />
+                          </Text>
+                        </Box>
+                      </Tooltip>
+                    )}
                   </Box>
                   <Text textStyle="medium" color={detail.color ?? "white"}>
                     {detail.value}

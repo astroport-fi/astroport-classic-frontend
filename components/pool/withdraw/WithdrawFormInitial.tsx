@@ -2,13 +2,11 @@ import React, { FC, useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
-
 import { WithdrawState } from "modules/pool";
 import { FormActions, FormActionItem } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-
 import Card from "components/Card";
-import SwapFormWarning from "components/swap/SwapFormWarning";
+import WarningMessage from "components/common/WarningMessage";
 import NewAmountInput from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
@@ -131,7 +129,7 @@ const WithdrawFormInitial: FC<Props> = ({
         onConfirmClick={onClick}
       />
 
-      {error && <SwapFormWarning mb="8" content={error} />}
+      {error && <WarningMessage mb="8" content={error} />}
     </>
   );
 };

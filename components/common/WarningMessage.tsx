@@ -6,7 +6,7 @@ type Props = {
   content?: string;
 } & BoxProps;
 
-const SwapFormWarning: FC<Props> = ({
+const WarningMessage: FC<Props> = ({
   content = "The numbers above are estimates and could change based on network activity between the time you submit your transaction and the time it completes.",
   ...props
 }) => (
@@ -20,4 +20,4 @@ const SwapFormWarning: FC<Props> = ({
   </Card>
 );
 
-export default SwapFormWarning;
+export default WarningMessage;

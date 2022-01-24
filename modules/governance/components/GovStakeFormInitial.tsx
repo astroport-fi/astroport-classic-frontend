@@ -3,12 +3,10 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Box, Stack, Text, Flex } from "@chakra-ui/react";
 import { num, useBalance } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
-
 import { AstroFormType } from "types/common";
 import { FormActionItem, FormActions } from "modules/common";
-
 import Card from "components/Card";
-import SwapFormWarning from "components/swap/SwapFormWarning";
+import WarningMessage from "components/common/WarningMessage";
 import GovStakeFooter from "./GovStakeFooter";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
@@ -103,7 +101,7 @@ const GovStakeFormInitial: FC<Props> = ({
         />
       </Stack>
 
-      {error && <SwapFormWarning my="8" content={error} />}
+      {error && <WarningMessage my="8" content={error} />}
     </Box>
   );
 };

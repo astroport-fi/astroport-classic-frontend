@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import {
   Box,
-  Input,
   InputGroup,
   InputRightElement,
   IconButton,
@@ -14,8 +13,6 @@ import {
   useBreakpointValue,
   PlacementWithLogical,
 } from "@chakra-ui/react";
-
-import { DEFAULT_SLIPPAGE } from "constants/constants";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import GearIcon from "components/icons/GearIcon";
 

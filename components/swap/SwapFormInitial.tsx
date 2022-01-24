@@ -6,7 +6,7 @@ import { num, useAddress, useBalance } from "@arthuryeti/terra";
 import { useTokenInfo } from "modules/common";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
-import SwapFormWarning from "components/swap/SwapFormWarning";
+import WarningMessage from "components/common/WarningMessage";
 import SlippagePopover from "components/popovers/SlippagePopover";
 import ArrowDownIcon from "components/icons/ArrowDown";
 
@@ -224,9 +224,9 @@ const SwapFormInitial: FC<Props> = ({
       </MotionBox>
 
       {address && error ? (
-        <SwapFormWarning content={error} />
+        <WarningMessage content={error} />
       ) : (
-        <SwapFormWarning />
+        <WarningMessage />
       )}
     </Box>
   );
