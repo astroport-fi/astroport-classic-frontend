@@ -30,6 +30,7 @@ const ApyPopover: FC<Props> = ({ apy, rewardToken, children }) => {
       value: handleBigApy(apy.protocol * 100),
     },
     { label: "Total APY", value: handleBigApy(apy.total * 100) },
+    { label: "Total APR", value: handleBigApy(apy.total_apr * 100) },
   ].filter(Boolean);
 
   return (

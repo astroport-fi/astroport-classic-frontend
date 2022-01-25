@@ -16,6 +16,7 @@ export type Apy = {
   pool: number;
   astro: number;
   protocol: number;
+  total_apr: number;
   total: number;
   reward_symbol: string;
 };
@@ -139,6 +140,7 @@ export const usePool = ({
         pool: poolApy?.trading_fees?.apy || 0,
         astro: poolApy?.astro_rewards?.apy || 0,
         protocol: poolApy?.protocol_rewards?.apy || 0,
+        total_apr: poolApy?.total_rewards?.apr || 0,
         total: poolApy?.total_rewards?.apy || 0,
         reward_symbol: poolApy?.token_symbol,
       },
