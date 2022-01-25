@@ -6,7 +6,7 @@ import {
   useShareOfPool,
   useLpToTokens,
   useShareInUst,
-  useGetPoolApy,
+  useGetPoolInfo,
   shouldReverseTokenOrder,
 } from "modules/pool";
 import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
@@ -59,7 +59,7 @@ export const usePool = ({
   lpTokenContract,
 }: Params): Pool | null => {
   const { data: pool } = useGetPool(pairContract);
-  const poolApy = useGetPoolApy(pairContract);
+  const poolInfo = useGetPoolInfo(pairContract);
   const lpBalance = useBalance(lpTokenContract);
   const shareOfPool = useShareOfPool({ pool, lpAmount: lpBalance });
   const stakedAmount = useStakedLpAmount(lpTokenContract);
@@ -136,13 +136,14 @@ export const usePool = ({
             .dp(6)
             .toNumber() || 0,
       },
+      _24hr_volume: poolInfo?._24hr_volume,
       apy: {
-        pool: poolApy?.trading_fees?.apy || 0,
-        astro: poolApy?.astro_rewards?.apy || 0,
-        protocol: poolApy?.protocol_rewards?.apy || 0,
-        total_apr: poolApy?.total_rewards?.apr || 0,
-        total: poolApy?.total_rewards?.apy || 0,
-        reward_symbol: poolApy?.token_symbol,
+        pool: poolInfo?.trading_fees?.apy || 0,
+        astro: poolInfo?.astro_rewards?.apy || 0,
+        protocol: poolInfo?.protocol_rewards?.apy || 0,
+        total_apr: poolInfo?.total_rewards?.apr || 0,
+        total: poolInfo?.total_rewards?.apy || 0,
+        reward_symbol: poolInfo?.token_symbol,
       },
     };
 
@@ -162,7 +163,7 @@ export const usePool = ({
     token2,
     myShare,
     myShareInUst,
-    poolApy,
+    poolInfo,
   ]);
 };
 

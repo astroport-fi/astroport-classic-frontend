@@ -7,6 +7,9 @@ const query = gql`
     pools {
       pool_address
       token_symbol
+      trading_fee
+      pool_liquidity
+      _24hr_volume
       trading_fees {
         apy
         apr
@@ -31,9 +34,9 @@ const query = gql`
   }
 `;
 
-export const usePoolsApy = () => {
+export const usePoolsInfo = () => {
   const { data, isLoading } = useApi({
-    name: ["pools", "all", "apys"],
+    name: ["pools", "all", "info"],
     query,
     options: {
       enabled: !!query,
@@ -51,4 +54,4 @@ export const usePoolsApy = () => {
   }, [data, isLoading]);
 };
 
-export default usePoolsApy;
+export default usePoolsInfo;

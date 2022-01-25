@@ -11,7 +11,7 @@ import {
   useTokenInfo,
   useContracts,
 } from "modules/common";
-import { usePoolsApy } from "modules/pool";
+import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 
@@ -89,7 +89,7 @@ export const useAllPools = () => {
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
-  const poolsApy = usePoolsApy();
+  const poolsInfo = usePoolsInfo();
   const { getSymbol } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
@@ -107,8 +107,8 @@ export const useAllPools = () => {
     },
   });
 
-  const getPoolApy = (addr) => {
-    return poolsApy.find((poolApy) => poolApy.pool_address === addr);
+  const getPoolInfo = (addr) => {
+    return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);
   };
 
   return useMemo(() => {
@@ -117,7 +117,7 @@ export const useAllPools = () => {
     }
 
     const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
-      const poolApy = getPoolApy(contract_addr);
+      const poolInfo = getPoolInfo(contract_addr);
       const providedBalance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
       const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
@@ -161,20 +161,21 @@ export const useAllPools = () => {
         totalLiquidityInUst,
         myLiquidity,
         myLiquidityInUst,
+        _24hr_volume: poolInfo?._24hr_volume,
         apy: {
-          pool: poolApy?.trading_fees?.apy || 0,
-          astro: poolApy?.astro_rewards?.apy || 0,
-          protocol: poolApy?.protocol_rewards?.apy || 0,
-          total_apr: poolApy?.total_rewards?.apr || 0,
-          total: poolApy?.total_rewards?.apy || 0,
-          reward_symbol: poolApy?.token_symbol,
+          pool: poolInfo?.trading_fees?.apy || 0,
+          astro: poolInfo?.astro_rewards?.apy || 0,
+          protocol: poolInfo?.protocol_rewards?.apy || 0,
+          total_apr: poolInfo?.total_rewards?.apr || 0,
+          total: poolInfo?.total_rewards?.apy || 0,
+          reward_symbol: poolInfo?.token_symbol,
         },
         isStakable,
       };
     });
 
     return sortBy(compact(items), "totalLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result, poolsApy, favoritesPools]);
+  }, [lunaPrice, pairs, result, poolsInfo, favoritesPools]);
 };
 
 export default useAllPools;

@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from "react";
 import { Container, Box, Heading } from "@chakra-ui/react";
 
-// import PoolsOverview from "components/pool/PoolsOverview";
+import PoolsOverview from "components/pool/PoolsOverview";
 import MyPools from "components/pool/MyPools";
 import OtherPools from "components/pool/OtherPools";
 
@@ -14,10 +14,10 @@ const Pools: FC = () => {
       pb="64"
       color="white"
     >
-      {/* <Box px="6" mb="4">
-        <Heading>Pools Overview</Heading>
+      <Box px="6" mb="4" mt="12">
+        <Heading>Overview</Heading>
       </Box>
-      <PoolsOverview /> */}
+      <PoolsOverview />
 
       <Box px="6" mb="4" mt="12">
         <Heading>My Pools</Heading>

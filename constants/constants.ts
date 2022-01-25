@@ -13,7 +13,7 @@ export const WASMQUERY = "WasmContractsContractAddressStore";
 export const SMALLEST = 1e6;
 
 /* astroport:configs */
-export const POOLS_TOKEN = "uluna";
+export const ASTRO_TOKEN = "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3";
 export const DEFAULT_SLIPPAGE = 0.5;
 export const COMMISSION = 0.003;
 export const ESTIMATE_TOKEN = "uusd";
