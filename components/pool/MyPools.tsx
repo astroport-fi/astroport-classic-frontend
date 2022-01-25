@@ -49,7 +49,10 @@ const MyPools: FC = () => {
       {
         Header: "Total Liquidity",
         Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.totalLiquidityInUst} />
+          <NumberInUstTd
+            value={row.original.totalLiquidityInUst}
+            format="0,0"
+          />
         ),
         accessor: "totalLiquidityInUst",
         width: 175,

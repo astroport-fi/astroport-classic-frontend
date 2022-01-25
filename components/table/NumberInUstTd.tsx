@@ -5,12 +5,13 @@ import { handleBigAndTinyAmount } from "modules/common";
 
 type Props = {
   value: any;
+  format?: string;
 };
 
-const NumberInUstTd: FC<Props> = ({ value }) => {
+const NumberInUstTd: FC<Props> = ({ value, format }) => {
   return (
     <HStack>
-      <Text fontSize="sm">$ {handleBigAndTinyAmount(value)}</Text>
+      <Text fontSize="sm">$ {handleBigAndTinyAmount(value, format)}</Text>
     </HStack>
   );
 };
