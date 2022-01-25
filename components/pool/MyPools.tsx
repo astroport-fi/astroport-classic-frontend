@@ -36,14 +36,14 @@ const MyPools: FC = () => {
           />
         ),
         accessor: "sortingAssets",
-        width: 300,
+        width: 275,
       },
       {
         Header: "Combined APY",
         Tooltip: APY_NOTICE,
         Cell: ({ row }: any) => <ApyTd row={row} />,
         accessor: "combinedApy",
-        width: 175,
+        width: 140,
         sortType: (a, b) => a.original.apy.total - b.original.apy.total,
       },
       {
@@ -55,7 +55,15 @@ const MyPools: FC = () => {
           />
         ),
         accessor: "totalLiquidityInUst",
-        width: 175,
+        width: 140,
+      },
+      {
+        Header: "24h Volume",
+        Cell: ({ row }: any) => (
+          <NumberInUstTd value={row.original._24hr_volume} format="0,0" />
+        ),
+        accessor: "24HourVolume",
+        width: 140,
       },
       {
         Header: "My Liquidity",
@@ -63,7 +71,7 @@ const MyPools: FC = () => {
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
         accessor: "myLiquidityInUst",
-        width: 175,
+        width: 140,
       },
       {
         id: "pool-actions",
