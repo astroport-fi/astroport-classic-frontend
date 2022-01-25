@@ -43,7 +43,7 @@ const MyPools: FC = () => {
         Tooltip: APY_NOTICE,
         Cell: ({ row }: any) => <ApyTd row={row} />,
         accessor: "combinedApy",
-        width: 200,
+        width: 175,
         sortType: (a, b) => a.original.apy.total - b.original.apy.total,
       },
       {
@@ -52,7 +52,7 @@ const MyPools: FC = () => {
           <NumberInUstTd value={row.original.totalLiquidityInUst} />
         ),
         accessor: "totalLiquidityInUst",
-        width: 200,
+        width: 175,
       },
       {
         Header: "My Liquidity",
@@ -60,15 +60,16 @@ const MyPools: FC = () => {
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
         accessor: "myLiquidityInUst",
-        width: 200,
+        width: 175,
       },
       {
         id: "pool-actions",
         Cell: ({ row }: any) => <MyPoolActionsTd data={row.original} />,
         accessor: "actions",
-        width: 160,
+        width: 200,
         flex: 1,
         disableSortBy: true,
+        disableGlobalFilter: true,
       },
     ],
     [favoritesPools]
