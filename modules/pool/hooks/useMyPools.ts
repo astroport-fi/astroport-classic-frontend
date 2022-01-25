@@ -2,9 +2,7 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
-
 import useLocalStorage from "hooks/useLocalStorage";
-
 import {
   getPoolTokenDenoms,
   useAstroswap,
@@ -70,7 +68,6 @@ export const useMyPools = () => {
   const lunaPrice = useLunaPrice();
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
-
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   const query = address ? createQuery(pairs, address, generator) : null;
@@ -98,19 +95,16 @@ export const useMyPools = () => {
       const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
       const denoms = getPoolTokenDenoms(assets);
       const [token1, token2] = denoms;
-      const token1Symbol = getSymbol(token1);
-      const token2Symbol = getSymbol(token2);
-      const { token1Amount } = getAssetAmountsInPool(assets, "uusd");
       const balance = num(providedBalance).plus(stakedBalance);
 
       if (balance.eq(0)) {
         return null;
       }
 
-      let amountOfUst = num(token1Amount).div(ONE_TOKEN);
-
-      if (token1Amount == null) {
-        const { token1Amount: uluna } = getAssetAmountsInPool(assets, "uluna");
+      const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
+      let amountOfUst = num(uusd).div(ONE_TOKEN);
+      if (uusd == null) {
+        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
         amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
       }
 
@@ -131,16 +125,9 @@ export const useMyPools = () => {
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
-        sortingAssets:
-          token1Symbol.toLowerCase() +
-          " " +
-          token2Symbol.toLowerCase() +
-          " " +
-          token1 +
-          " " +
-          token2 +
-          " " +
-          contract_addr,
+        sortingAssets: `${getSymbol(token1).toLowerCase()} ${getSymbol(
+          token2
+        ).toLowerCase()} ${token1} ${token2} ${contract_addr}`,
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,

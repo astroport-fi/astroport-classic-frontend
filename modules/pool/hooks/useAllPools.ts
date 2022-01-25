@@ -2,21 +2,18 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
 import { sortBy, compact } from "lodash";
-
 import useLocalStorage from "hooks/useLocalStorage";
-
 import {
   getPoolTokenDenoms,
   useAstroswap,
   useLunaPrice,
   useHive,
-  useContracts,
   useTokenInfo,
+  useContracts,
 } from "modules/common";
 import { usePoolsApy } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
-import { useBLunaPriceInLuna } from "modules/swap";
 
 const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {
@@ -89,13 +86,11 @@ const createQueryNotConnected = (pairs) => {
 
 export const useAllPools = () => {
   const { pairs } = useAstroswap();
-  const { generator } = useContracts();
+  const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
-  const bLunaPrice = useBLunaPriceInLuna();
   const poolsApy = usePoolsApy();
   const { getSymbol } = useTokenInfo();
-
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   let query = createQueryNotConnected(pairs);
@@ -123,64 +118,44 @@ export const useAllPools = () => {
 
     const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
       const poolApy = getPoolApy(contract_addr);
-      const balance = result[liquidity_token]?.contractQuery.balance;
-      const staked = result[`staked${liquidity_token}`]?.contractQuery;
+      const providedBalance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
+      const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
       const denoms = getPoolTokenDenoms(assets);
       const [token1, token2] = denoms;
-      const token1Symbol = getSymbol(token1);
-      const token2Symbol = getSymbol(token2);
-      const { token1Amount } = getAssetAmountsInPool(assets, "uusd");
+      const balance = num(providedBalance).plus(stakedBalance);
 
-      if (num(balance).gt(0) || num(staked).gt(0)) {
+      if (num(providedBalance).gt(0) || num(stakedBalance).gt(0)) {
         return null;
       }
 
-      let amountOfUst = num(token1Amount)
-        .div(ONE_TOKEN)
-        .times(2)
-        .dp(6)
-        .toNumber();
-
-      if (token1Amount == null) {
-        const { token1Amount: uluna, token2 } = getAssetAmountsInPool(
-          assets,
-          "uluna"
-        );
-
-        amountOfUst = num(uluna)
-          .plus(num(token2).times(bLunaPrice))
-          .div(ONE_TOKEN)
-          .times(lunaPrice)
-          .dp(6)
-          .toNumber();
+      const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
+      let amountOfUst = num(uusd).div(ONE_TOKEN);
+      if (uusd == null) {
+        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
+        amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
       }
 
-      const totalLiquidityInUst = amountOfUst;
+      const totalLiquidityInUst = amountOfUst.times(2).dp(6).toNumber();
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
 
-      const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
-      const myLiquidityInUst = num(balance)
+      const myLiquidity = balance.div(ONE_TOKEN).dp(6).toNumber();
+      const myLiquidityInUst = balance
         .div(ONE_TOKEN)
         .times(totalLiquidityInUst)
         .div(num(total_share).div(ONE_TOKEN))
         .dp(6)
         .toNumber();
 
+      const isStakable = stakableLp.includes(liquidity_token);
+
       return {
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
-        sortingAssets:
-          token1Symbol.toLowerCase() +
-          " " +
-          token2Symbol.toLowerCase() +
-          " " +
-          token1 +
-          " " +
-          token2 +
-          " " +
-          contract_addr,
+        sortingAssets: `${getSymbol(token1).toLowerCase()} ${getSymbol(
+          token2
+        ).toLowerCase()} ${token1} ${token2} ${contract_addr}`,
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,
@@ -193,11 +168,12 @@ export const useAllPools = () => {
           total: poolApy?.total_rewards?.apy || 0,
           reward_symbol: poolApy?.token_symbol,
         },
+        isStakable,
       };
     });
 
     return sortBy(compact(items), "totalLiquidityInUst").reverse();
-  }, [lunaPrice, pairs, result, bLunaPrice, poolsApy, favoritesPools]);
+  }, [lunaPrice, pairs, result, poolsApy, favoritesPools]);
 };
 
 export default useAllPools;
