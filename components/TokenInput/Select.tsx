@@ -101,6 +101,8 @@ const Select: FC<Props> = ({
     md: "right",
   }) as PlacementWithLogical;
 
+  const initialFocusRef = React.useRef();
+
   return (
     <PopoverWrapper
       title="Select token"
@@ -110,6 +112,7 @@ const Select: FC<Props> = ({
       isOpen={isOpen}
       onOpen={handleOpen}
       onClose={onClose}
+      initialFocusRef={initialFocusRef}
       triggerElement={() => (
         <Button
           bg="white.100"
@@ -136,7 +139,11 @@ const Select: FC<Props> = ({
         </Button>
       )}
     >
-      <VStack spacing={6} align="stretch" w={["calc(100vw - 80px)", null, "96"]}>
+      <VStack
+        spacing={6}
+        align="stretch"
+        w={["calc(100vw - 80px)", null, "96"]}
+      >
         <Search
           color={inputColor}
           iconStyle={{ color: inputColor }}
@@ -144,6 +151,7 @@ const Select: FC<Props> = ({
           placeholder="Search token"
           onChange={(e) => setFilter(e.target.value)}
           variant="search"
+          ref={initialFocusRef}
         />
         <TagList tokens={commonTokens} onClick={handleClick} />
         <List
