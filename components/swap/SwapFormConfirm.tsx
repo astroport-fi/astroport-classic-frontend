@@ -52,21 +52,12 @@ const SwapFormConfirm: FC<Props> = ({
     price,
   });
   const priceImpactColor = usePriceImpactColor(priceImpact);
-  const symbol1 = getSymbol(token1);
-  const symbol2 = getSymbol(token2);
-  const isLow = num(price).lt(0.01);
-  const exchangeRate = isLow ? `< 0.01` : `= ${formattedPrice}`;
   const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
-
-  const exchangeRateDetail = {
-    label: "Exchange Rate",
-    value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(token1)}`,
-  };
 
   let details = [
     {
       label: "Price Impact",
-      value: `${priceImpact}%`,
+      value: `${handleTinyAmount(priceImpact, "0.00")}%`,
       color: priceImpactColor,
     },
     {
@@ -85,7 +76,10 @@ const SwapFormConfirm: FC<Props> = ({
       label: "Route",
       value: swapRoutePath.text,
     },
-    exchangeRateDetail,
+    {
+      label: "Exchange Rate",
+      value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(token1)}`,
+    },
     {
       label: "Minimum Received",
       value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
@@ -107,7 +101,12 @@ const SwapFormConfirm: FC<Props> = ({
         value: swapRoutePath.text,
         tooltip: swapRoutePath.tooltip,
       },
-      exchangeRateDetail,
+      {
+        label: "Exchange Rate",
+        value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(
+          token1
+        )}`,
+      },
       {
         label: "Minimum Received",
         value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
