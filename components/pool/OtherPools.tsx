@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from "react";
-import { sortBy, compact } from "lodash";
 import useLocalStorage from "hooks/useLocalStorage";
 import { APY_NOTICE } from "constants/constants";
 import { useAllPools } from "modules/pool";
@@ -12,9 +11,7 @@ import ApyTd from "components/table/ApyTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
 
 const OtherPools: FC = () => {
-  const allPools = sortBy(compact(useAllPools()), "totalLiquidityInUst")
-    .reverse()
-    .filter((pool) => !pool.inUse);
+  const allPools = useAllPools().filter((pool) => !pool.inUse);
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   const columns = useMemo(
@@ -44,9 +41,8 @@ const OtherPools: FC = () => {
         Header: "Combined APY",
         Tooltip: APY_NOTICE,
         Cell: ({ row }: any) => <ApyTd row={row} />,
-        accessor: "combinedApy",
+        accessor: "apy.total",
         width: 140,
-        sortType: (a, b) => a.original.apy.total - b.original.apy.total,
       },
       {
         Header: "Total Liquidity",
@@ -64,7 +60,7 @@ const OtherPools: FC = () => {
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original._24hr_volume} format="0,0" />
         ),
-        accessor: "24HourVolume",
+        accessor: "_24hr_volume",
         width: 140,
       },
       {

@@ -158,9 +158,13 @@ export const useAllPools = () => {
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
-        sortingAssets: `${getSymbol(token1).toLowerCase()} ${getSymbol(
-          token2
-        ).toLowerCase()} ${token1} ${token2} ${contract_addr}`,
+        sortingAssets: [
+          getSymbol(token1).toLowerCase(),
+          getSymbol(token2).toLowerCase(),
+          token1,
+          token2,
+          contract_addr,
+        ],
         pairType: Object.keys(pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,

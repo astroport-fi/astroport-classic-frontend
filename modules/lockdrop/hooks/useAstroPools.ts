@@ -171,11 +171,14 @@ export const useAstroPools = () => {
         (pair) => pair.liquidity_token == info.astroport_lp_token
       );
       const { token1Amount } = getAssetAmountsInPool(assets, "uusd");
-      let amountOfUst = num(token1Amount).div(ONE_TOKEN).times(2).dp(6).toNumber();
+      let amountOfUst = num(token1Amount)
+        .div(ONE_TOKEN)
+        .times(2)
+        .dp(6)
+        .toNumber();
       const [token1, token2] = getPoolTokenDenoms(assets);
       const token1Symbol = getSymbol(token1);
       const token2Symbol = getSymbol(token2);
-
 
       if (token1Amount == null) {
         const { token1Amount: uluna, token2 } = getAssetAmountsInPool(
@@ -226,7 +229,13 @@ export const useAstroPools = () => {
         name: info.terraswap_lp_token,
         astroLpToken: info.astroport_lp_token,
         assets: [token1, token2],
-        sortingAssets: token1Symbol.toLowerCase() + " " + token2Symbol.toLowerCase() + " " + token1 + " " + token2 + " " + info.terraswap_lp_token,
+        sortingAssets: [
+          token1Symbol.toLowerCase(),
+          token2Symbol.toLowerCase(),
+          token1,
+          token2,
+          info.terraswap_lp_token,
+        ],
         pairType: Object.keys(pair?.pair_type)[0],
         totalLiquidity,
         totalLiquidityInUst,
