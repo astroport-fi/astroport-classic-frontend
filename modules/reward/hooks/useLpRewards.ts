@@ -72,7 +72,7 @@ export const useLpRewards = () => {
       const tokens = result[`info${lp}`]?.contractQuery;
       const amounts = result[`${lp}`]?.contractQuery;
 
-      if (num(amounts.pending).gt(0)) {
+      if (num(amounts?.pending).gt(0)) {
         data.push({
           token: tokens.base_reward_token,
           amount: num(amounts.pending)
@@ -83,7 +83,7 @@ export const useLpRewards = () => {
         });
       }
 
-      if (num(amounts.pending_on_proxy).gt(0)) {
+      if (num(amounts?.pending_on_proxy).gt(0)) {
         data.push({
           token: tokens.proxy_reward_token,
           amount: num(amounts.pending_on_proxy)
