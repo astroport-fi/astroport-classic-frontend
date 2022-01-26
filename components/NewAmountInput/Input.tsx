@@ -49,7 +49,7 @@ const Input: FC<Props> = ({
   };
 
   const sanitizeAmount = (e) => {
-    const valueSplitted = value.split("");
+    const valueSplitted = String(value).split("");
     if (
       ["e", "E", "+", "-"].includes(e.key) ||
       (["."].includes(e.key) && valueSplitted.includes("."))
