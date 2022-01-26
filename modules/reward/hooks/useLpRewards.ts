@@ -69,8 +69,8 @@ export const useLpRewards = () => {
     const data = [];
 
     stakableLp.forEach((lp) => {
-      const tokens = result[`info${lp}`].contractQuery;
-      const amounts = result[`${lp}`].contractQuery;
+      const tokens = result[`info${lp}`]?.contractQuery;
+      const amounts = result[`${lp}`]?.contractQuery;
 
       if (num(amounts.pending).gt(0)) {
         data.push({
