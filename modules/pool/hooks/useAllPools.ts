@@ -14,6 +14,7 @@ import {
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
+import { useBLunaPriceInLuna } from "modules/swap";
 
 const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {
@@ -89,6 +90,7 @@ export const useAllPools = () => {
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPrice();
+  const bLunaPriceInLuna = useBLunaPriceInLuna();
   const poolsInfo = usePoolsInfo();
   const { getSymbol } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
@@ -130,17 +132,27 @@ export const useAllPools = () => {
       }
 
       const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
-      let amountOfUst = num(uusd).div(ONE_TOKEN);
+      let totalLiquidityInUst = num(uusd)
+        .div(ONE_TOKEN)
+        .times(2)
+        .dp(6)
+        .toNumber();
       if (uusd == null) {
-        const { token1: uluna } = getAssetAmountsInPool(assets, "uluna");
-        amountOfUst = num(uluna).div(ONE_TOKEN).times(lunaPrice);
+        const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
+          assets,
+          "uluna"
+        );
+        totalLiquidityInUst = num(uluna)
+          .plus(num(uluna2).times(bLunaPriceInLuna))
+          .div(ONE_TOKEN)
+          .times(lunaPrice)
+          .dp(6)
+          .toNumber();
       }
-
-      const totalLiquidityInUst = amountOfUst.times(2).dp(6).toNumber();
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
 
-      const myLiquidity = balance.div(ONE_TOKEN).dp(6).toNumber();
-      const myLiquidityInUst = balance
+      const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
+      const myLiquidityInUst = num(balance)
         .div(ONE_TOKEN)
         .times(totalLiquidityInUst)
         .div(num(total_share).div(ONE_TOKEN))
