@@ -1,15 +1,14 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { num, useAddress } from "@arthuryeti/terra";
-import { sortBy, compact } from "lodash";
 import useLocalStorage from "hooks/useLocalStorage";
 import {
   getPoolTokenDenoms,
   useAstroswap,
+  useContracts,
   useLunaPrice,
   useHive,
   useTokenInfo,
-  useContracts,
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -95,12 +94,9 @@ export const useAllPools = () => {
   const { getSymbol } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
-  let query = createQueryNotConnected(pairs);
-
-  if (address) {
-    query = createQuery(pairs, address, generator);
-  }
-
+  const query = address
+    ? createQuery(pairs, address, generator)
+    : createQueryNotConnected(pairs);
   const result = useHive({
     name: ["pools", "all", address],
     query,
@@ -118,7 +114,7 @@ export const useAllPools = () => {
       return [];
     }
 
-    const items = pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
+    return pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
       const poolInfo = getPoolInfo(contract_addr);
       const providedBalance = result[liquidity_token]?.contractQuery.balance;
       const { total_share, assets } = result[contract_addr].contractQuery;
@@ -126,10 +122,6 @@ export const useAllPools = () => {
       const denoms = getPoolTokenDenoms(assets);
       const [token1, token2] = denoms;
       const balance = num(providedBalance).plus(stakedBalance);
-
-      if (num(providedBalance).gt(0) || num(stakedBalance).gt(0)) {
-        return null;
-      }
 
       const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
       let totalLiquidityInUst = num(uusd)
@@ -162,6 +154,7 @@ export const useAllPools = () => {
       const isStakable = stakableLp.includes(liquidity_token);
 
       return {
+        inUse: balance.gt(0),
         favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
         contract: contract_addr,
         assets: denoms,
@@ -182,11 +175,11 @@ export const useAllPools = () => {
           total: poolInfo?.total_rewards?.apy || 0,
           reward_symbol: poolInfo?.token_symbol,
         },
+        canManage: num(providedBalance).gt(0),
+        canStake: num(stakedBalance).gt(0),
         isStakable,
       };
     });
-
-    return sortBy(compact(items), "totalLiquidityInUst").reverse();
   }, [lunaPrice, pairs, result, poolsInfo, favoritesPools]);
 };
 

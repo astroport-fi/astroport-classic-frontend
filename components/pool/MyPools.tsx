@@ -1,7 +1,8 @@
 import React, { FC, useMemo } from "react";
+import { sortBy, compact } from "lodash";
 import useLocalStorage from "hooks/useLocalStorage";
 import { APY_NOTICE } from "constants/constants";
-import { useMyPools } from "modules/pool";
+import { useAllPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
@@ -11,8 +12,9 @@ import MyPoolActionsTd from "components/table/MyPoolActionsTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
 
 const MyPools: FC = () => {
-  const myPools = useMyPools();
-
+  const myPools = sortBy(compact(useAllPools()), "myLiquidityInUst")
+    .reverse()
+    .filter((pool) => pool.inUse);
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   const columns = useMemo(

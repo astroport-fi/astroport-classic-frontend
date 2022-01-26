@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from "react";
+import { sortBy, compact } from "lodash";
 import useLocalStorage from "hooks/useLocalStorage";
 import { APY_NOTICE } from "constants/constants";
 import { useAllPools } from "modules/pool";
@@ -11,8 +12,9 @@ import ApyTd from "components/table/ApyTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
 
 const OtherPools: FC = () => {
-  const allPools = useAllPools();
-
+  const allPools = sortBy(compact(useAllPools()), "totalLiquidityInUst")
+    .reverse()
+    .filter((pool) => !pool.inUse);
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
   const columns = useMemo(

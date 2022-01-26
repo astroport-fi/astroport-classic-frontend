@@ -14,6 +14,5 @@ export * from "./hooks/usePoolFee";
 export * from "./hooks/useWithdraw";
 export * from "./hooks/useProvide";
 export * from "./hooks/usePoolsInfo";
-export * from "./hooks/useMyPools";
 export * from "./hooks/useAllPools";
 export * from "./helpers";
