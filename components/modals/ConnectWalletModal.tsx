@@ -48,7 +48,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
                 {identifier === "station" ? (
                   <TerraExtensionIcon />
                 ) : (
-                  <Image src={icon} width="24" alt="" />
+                  <Image src={icon} htmlWidth="24" alt="" />
                 )}
               </HStack>
             </chakra.button>
