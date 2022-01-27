@@ -41,14 +41,16 @@ import {
 
 export const handleBigApy = (
   value: string | number,
-  format: string = "0,0.00",
+  format: string = "0,0a.00",
   numberSuffix: string = "%"
 ) => {
   if (num(value).gte(100000)) {
     return `> 100K${numberSuffix}`;
   }
 
-  return `${numeral(value).format(format) || (0).toFixed(2)}${numberSuffix}`;
+  return `${
+    numeral(value).format(format).toUpperCase() || (0).toFixed(2)
+  }${numberSuffix}`;
 };
 
 export const handleBigAndTinyAmount = (
