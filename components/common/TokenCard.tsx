@@ -12,10 +12,10 @@ type Props = {
 
 const TokenCard: FC<Props> = ({ token }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUstWithSimulate(token.asset).toFixed(2);
+  const price = useTokenPriceInUstWithSimulate(token.asset).toFixed(6);
   const totalInUst = num(token.amount).times(price).toFixed(6);
   const tokenAmount = numeral(token.amount).format("0,0.[000000]");
-  const totalAmount = numeral(totalInUst).format("0,0.[000000]");
+  const totalAmount = numeral(totalInUst).format("0,0.[00]");
 
   return (
     <Box

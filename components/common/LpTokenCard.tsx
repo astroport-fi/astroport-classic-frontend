@@ -16,7 +16,10 @@ const LpTokenCard: FC<Props> = ({ token }) => {
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == token.asset);
   const assets = getTokenDenoms(pair?.asset_infos);
-  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
+  const [token1, token2] = orderPoolTokens(
+    { asset: assets[0], symbol: getSymbol(assets[0]) },
+    { asset: assets[1], symbol: getSymbol(assets[1]) }
+  );
   const { data: pool } = useGetPool(pair?.contract_addr);
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
@@ -40,7 +43,7 @@ const LpTokenCard: FC<Props> = ({ token }) => {
   }, [pool]);
 
   const tokenAmount = numeral(token.amount).format("0,0.00[0000]");
-  const totalAmount = numeral(totalInUst).format("0,0.00[0000]");
+  const totalAmount = numeral(totalInUst).format("0,0.00");
 
   return (
     <Box

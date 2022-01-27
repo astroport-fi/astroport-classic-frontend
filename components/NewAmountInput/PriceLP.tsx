@@ -32,7 +32,7 @@ const PriceLP: FC<Props> = ({ token, amount }) => {
     return totalPrice1.plus(totalPrice2).toString();
   }, [pool, tokenAmounts]);
 
-  const totalAmount = numeral(totalInUst).format("0,0.[000]");
+  const totalAmount = numeral(totalInUst).format("0,0.[00]");
 
   return (
     <Box position="absolute" bottom="2" right="4" color="white">
