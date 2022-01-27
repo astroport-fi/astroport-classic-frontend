@@ -66,11 +66,11 @@ const ProvideFormInitial: FC<Props> = ({
   const balances = {
     token1: num(token1Balance)
       .div(10 ** token1Decimals)
-      .dp(2)
+      .dp(6)
       .toNumber(),
     token2: num(token2Balance)
       .div(10 ** token2Decimals)
-      .dp(2)
+      .dp(6)
       .toNumber(),
   };
 
