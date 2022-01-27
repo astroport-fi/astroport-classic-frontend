@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { num, useBalance } from "@arthuryeti/terra";
 
 import { useLpToTokens, Pool } from "modules/pool";
-import { ONE_TOKEN } from "constants/constants";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useTokenInfo } from "modules/common";
 
@@ -39,7 +38,6 @@ export const useEstShareInUst = ({
       pool == null ||
       token1Price == null ||
       token2Price == null ||
-      // tokenAmounts == null ||
       amount1 == null ||
       amount2 == null
     ) {
@@ -50,12 +48,13 @@ export const useEstShareInUst = ({
     const safeTokenAmount2 = tokenAmounts?.[pool.token2.asset] || "0";
 
     const totalPrice1 = num(safeAmount1)
-      .times(ONE_TOKEN)
+      .times(10 ** getDecimals(pool.token1.asset))
       .plus(safeTokenAmount1)
       .times(token1Price)
       .div(10 ** getDecimals(pool.token1.asset));
+
     const totalPrice2 = num(safeAmount2)
-      .times(ONE_TOKEN)
+      .times(10 ** getDecimals(pool.token2.asset))
       .plus(safeTokenAmount2)
       .times(token2Price)
       .div(10 ** getDecimals(pool.token2.asset));
