@@ -7,6 +7,7 @@ import {
   useAstroswap,
   useContracts,
   useLunaPrice,
+  useLunaPriceInUst,
   useHive,
   useTokenInfo,
 } from "modules/common";
@@ -88,7 +89,7 @@ export const useAllPools = () => {
   const { pairs } = useAstroswap();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
-  const lunaPrice = useLunaPrice();
+  const lunaPrice = useLunaPriceInUst();
   const bLunaPriceInLuna = useBLunaPriceInLuna();
   const poolsInfo = usePoolsInfo();
   const { getSymbol } = useTokenInfo();
