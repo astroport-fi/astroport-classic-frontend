@@ -142,6 +142,11 @@ export const useAllPools = () => {
           .dp(6)
           .toNumber();
       }
+
+      if (!totalLiquidityInUst) {
+        totalLiquidityInUst = poolInfo?.pool_liquidity;
+      }
+
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
 
       const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
