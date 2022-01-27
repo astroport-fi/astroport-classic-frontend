@@ -14,10 +14,11 @@ const ListItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol, getDecimals, getProtocol } = useTokenInfo();
   const balance = useBalance(token);
   const price = useTokenPriceInUstWithSimulate(token).toFixed(2);
-  const tokenBalance = num(balance)
-    .div(10 ** getDecimals(token))
-    .dp(2)
-    .toNumber();
+  const tokenBalance =
+    num(balance)
+      .div(10 ** getDecimals(token))
+      .dp(2)
+      .toNumber() || 0;
 
   return (
     <chakra.button
