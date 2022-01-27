@@ -12,7 +12,10 @@ const SingleLP: FC<Props> = ({ asset }) => {
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pair = pairs.find((v) => v.liquidity_token == asset);
   const assets = getTokenDenoms(pair?.asset_infos);
-  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
+  const [token1, token2] = orderPoolTokens(
+    { asset: assets[0], symbol: getSymbol(assets[0]) },
+    { asset: assets[1], symbol: getSymbol(assets[1]) }
+  );
   const protocol1 = getProtocol(token1);
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
@@ -43,7 +46,7 @@ const SingleLP: FC<Props> = ({ asset }) => {
         </HStack>
 
         <Box ml="3" fontWeight="500" flex="1">
-          <Text fontSize="xl" color="white">
+          <Text fontSize="lg" color="white">
             {symbol1}-{symbol2}-LP
           </Text>
           <Text fontSize="xs" color="white.400">
