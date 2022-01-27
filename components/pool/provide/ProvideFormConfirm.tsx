@@ -60,12 +60,6 @@ const ProvideForm: FC<Props> = ({
       details={[
         { label: "My provided Liquidity", value: `$ ${formattedShareInUst}` },
         {
-          label: "Exchange Rate",
-          value: `1 ${symbol1} = ${handleTinyAmount(
-            pool.token1.price
-          )} ${symbol2}`,
-        },
-        {
           label: "APY",
           value: formattedApy,
           tooltip: APY_NOTICE,

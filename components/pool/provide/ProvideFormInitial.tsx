@@ -57,7 +57,6 @@ const ProvideFormInitial: FC<Props> = ({
   const token2Decimals = getDecimals(token2);
   const showSlider = num(pool.total.share).gt(0);
   const { control, setValue } = useFormContext();
-  // const ratio = num(pool.token2.share).div(pool.token1.share).toNumber();
   const ratio = num(pool.token2.share)
     .div(10 ** token2Decimals)
     .div(num(pool.token1.share).div(10 ** token1Decimals))

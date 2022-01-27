@@ -38,13 +38,11 @@ export type Pool = {
     asset: string;
     share: string;
     amount: string | undefined;
-    price: number | null;
   };
   token2: {
     asset: string;
     share: string;
     amount: string | undefined;
-    price: number | null;
   };
   apy: Apy;
 };
@@ -118,23 +116,11 @@ export const usePool = ({
         asset: token1,
         share: pool.assets[0].amount,
         amount: tokenAmounts?.[token1],
-        price:
-          num(pool.assets[1].amount)
-            .div(10 ** token2Decimals)
-            .div(num(pool.assets[0].amount).div(10 ** token1Decimals))
-            .dp(6)
-            .toNumber() || 0,
       },
       token2: {
         asset: token2,
         share: pool.assets[1].amount,
         amount: tokenAmounts?.[token2],
-        price:
-          num(pool.assets[0].amount)
-            .div(10 ** token1Decimals)
-            .div(num(pool.assets[1].amount).div(10 ** token2Decimals))
-            .dp(6)
-            .toNumber() || 0,
       },
       _24hr_volume: poolInfo?._24hr_volume,
       apy: {

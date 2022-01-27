@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Text } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
-import { useTokenInfo, handleTinyAmount, handleBigApy } from "modules/common";
+import { handleTinyAmount, handleBigApy } from "modules/common";
 import { Pool, useEstShareOfPool } from "modules/pool";
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
@@ -25,10 +25,7 @@ const WithdrawFormConfirm: FC<Props> = ({
   fee,
   onCloseClick,
 }) => {
-  const { getSymbol } = useTokenInfo();
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
-  const symbol1 = getSymbol(token1);
-  const symbol2 = getSymbol(token2);
   const formattedApy = handleBigApy(pool.apy.total * 100);
 
   return (
@@ -46,12 +43,6 @@ const WithdrawFormConfirm: FC<Props> = ({
         />
       }
       details={[
-        {
-          label: "Rates",
-          value: `1 ${symbol1} = ${handleTinyAmount(
-            pool.token1.price
-          )} ${symbol2}`,
-        },
         {
           label: "APY",
           value: formattedApy,
