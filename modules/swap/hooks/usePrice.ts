@@ -42,6 +42,10 @@ export const usePrice = () => {
       reverse: false,
     });
 
+    if (!data) {
+      return 0;
+    }
+
     // @ts-expect-error
     return num(data.return_amount)
       .plus(data.commission_amount)
