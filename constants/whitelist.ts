@@ -195,6 +195,13 @@ const whitelist = {
         icon: "https://terra.nexusprotocol.app/nLuna.svg",
         decimals: 6,
       },
+      terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z: {
+        protocol: "Wormhole Lido DAO",
+        symbol: "weLDO",
+        token: "terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z",
+        icon: "https://static.lido.fi/LDO/LDO.png",
+        decimals: 8,
+      },
     },
     pairs: [
       // luna-ust
