@@ -169,14 +169,14 @@ const whitelist = {
       },
       terra1t9ul45l7m6jw6sxgvnp8e5hj8xzkjsg82g84ap: {
         protocol: "Wormhole Wrapped stSOL",
-        symbol: "wstSOL",
+        symbol: "wsstSOL",
         token: "terra1t9ul45l7m6jw6sxgvnp8e5hj8xzkjsg82g84ap",
         icon: "https://static.lido.fi/stSOL/stSOL.png",
         decimals: 8,
       },
       terra133chr09wu8sakfte5v7vd8qzq9vghtkv4tn0ur: {
         protocol: "Wormhole Wrapped stETH",
-        symbol: "wstETH",
+        symbol: "wewstETH",
         token: "terra133chr09wu8sakfte5v7vd8qzq9vghtkv4tn0ur",
         icon: "https://static.lido.fi/wstETH/wstETH.png",
         decimals: 8,
@@ -697,7 +697,7 @@ const whitelist = {
           xyk: {},
         },
       },
-      // wstSOL-ust
+      // wsstSOL-ust
       {
         asset_infos: [
           {
@@ -717,7 +717,7 @@ const whitelist = {
           xyk: {},
         },
       },
-      // wstETH-ust
+      // wewstETH-ust
       {
         asset_infos: [
           {
@@ -820,14 +820,14 @@ const whitelist = {
       },
       terra1hp84qsfk6qv0x2en8hdul3370a79qk90e59a5v: {
         protocol: "Wormhole Wrapped stETH",
-        symbol: "wstETH",
+        symbol: "wewstETH",
         token: "terra1hp84qsfk6qv0x2en8hdul3370a79qk90e59a5v",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/stETH_wh.png",
         decimals: 8,
       },
       terra1lty87kmhht8hr0q5w62uszhs2sk85evwtyv6hy: {
         protocol: "Wormhole Wrapped stSOL",
-        symbol: "wstSOL",
+        symbol: "wsstSOL",
         token: "terra1lty87kmhht8hr0q5w62uszhs2sk85evwtyv6hy",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/SOL_wh.png",
         decimals: 8,
@@ -1161,7 +1161,7 @@ const whitelist = {
           xyk: {},
         },
       },
-      // wstETH-ust
+      // wewstETH-ust
       {
         asset_infos: [
           {
@@ -1181,7 +1181,7 @@ const whitelist = {
           xyk: {},
         },
       },
-      // wstSOL-ust
+      // wsstSOL-ust
       {
         asset_infos: [
           {
