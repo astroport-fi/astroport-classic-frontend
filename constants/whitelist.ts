@@ -50,7 +50,7 @@ const whitelist = {
       },
       terra12897djskt9rge8dtmm86w654g7kzckkd698608: {
         protocol: "Nexus",
-        symbol: "PSI",
+        symbol: "Psi",
         token: "terra12897djskt9rge8dtmm86w654g7kzckkd698608",
         icon: "https://terra.nexusprotocol.app/assets/psi.png",
         decimals: 6,
@@ -778,7 +778,7 @@ const whitelist = {
       },
       terra18nle009rtynpjgleh2975rleu5zts0zdtqryte: {
         protocol: "Nexus",
-        symbol: "PSI",
+        symbol: "Psi",
         token: "terra18nle009rtynpjgleh2975rleu5zts0zdtqryte",
         icon: "https://terra.nexusprotocol.app/assets/psi.png",
         decimals: 6,
