@@ -170,7 +170,7 @@ export const useAstroPools = () => {
       const pair = pairs.find(
         (pair) => pair.liquidity_token == info.astroport_lp_token
       );
-      const { token1Amount } = getAssetAmountsInPool(assets, "uusd");
+      const { token1: token1Amount } = getAssetAmountsInPool(assets, "uusd");
       let amountOfUst = num(token1Amount)
         .div(ONE_TOKEN)
         .times(2)
@@ -181,12 +181,12 @@ export const useAstroPools = () => {
       const token2Symbol = getSymbol(token2);
 
       if (token1Amount == null) {
-        const { token1Amount: uluna, token2 } = getAssetAmountsInPool(
+        const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
           assets,
           "uluna"
         );
         amountOfUst = num(uluna)
-          .plus(num(token2).times(bLunaPrice))
+          .plus(num(uluna2).times(bLunaPrice))
           .div(ONE_TOKEN)
           .times(lunaPrice)
           .dp(6)
