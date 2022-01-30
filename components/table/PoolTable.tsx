@@ -37,6 +37,7 @@ const PoolTable: FC<Props> = ({
     {
       columns,
       data,
+      autoResetGlobalFilter: false,
       initialState: {
         pageSize: 15,
         sortBy: [
