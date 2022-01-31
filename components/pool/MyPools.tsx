@@ -25,6 +25,7 @@ const MyPools: FC = () => {
         ),
         accessor: "favorite",
         disableSortBy: true,
+        disableGlobalFilter: true,
       },
       {
         Header: "Pool Name",
@@ -43,6 +44,7 @@ const MyPools: FC = () => {
         Cell: ({ row }: any) => <ApyTd row={row} />,
         accessor: "apy.total",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         Header: "Total Liquidity",
@@ -54,6 +56,7 @@ const MyPools: FC = () => {
         ),
         accessor: "totalLiquidityInUst",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         Header: "24h Volume",
@@ -62,6 +65,7 @@ const MyPools: FC = () => {
         ),
         accessor: "_24hr_volume",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         Header: "My Liquidity",
@@ -70,6 +74,7 @@ const MyPools: FC = () => {
         ),
         accessor: "myLiquidityInUst",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         id: "pool-actions",

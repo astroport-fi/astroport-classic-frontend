@@ -35,6 +35,7 @@ const MyLockedPools = () => {
         ),
         width: 125,
         accessor: "myLiquidityInUst",
+        disableGlobalFilter: true,
       },
       {
         Header: "Total Liquidity",
@@ -46,18 +47,21 @@ const MyLockedPools = () => {
         ),
         width: 125,
         accessor: "totalLiquidityInUst",
+        disableGlobalFilter: true,
       },
       {
         Header: "Claimable Rewards",
         Cell: ({ row }: any) => <RewardsTd rewards={row.original.rewards} />,
         width: 150,
         accessor: "rewards",
+        disableGlobalFilter: true,
       },
       {
         Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         accessor: "lockEnd",
         width: 150,
+        disableGlobalFilter: true,
       },
       {
         id: "pool-actions",
@@ -73,6 +77,7 @@ const MyLockedPools = () => {
         accessor: "actions",
         flex: 1,
         disableSortBy: true,
+        disableGlobalFilter: true,
       },
     ],
     []

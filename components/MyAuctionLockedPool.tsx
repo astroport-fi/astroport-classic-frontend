@@ -37,6 +37,7 @@ const MyAuctionLockedPool = () => {
         ),
         width: 125,
         accessor: "totalLiquidityInUst",
+        disableGlobalFilter: true,
       },
       {
         Header: "My Initial Liquidity",
@@ -45,6 +46,7 @@ const MyAuctionLockedPool = () => {
         ),
         width: 125,
         accessor: "myLiquidityInUst",
+        disableGlobalFilter: true,
       },
       {
         Header: "Unlockable Liquidity",
@@ -53,12 +55,14 @@ const MyAuctionLockedPool = () => {
         ),
         width: 150,
         accessor: "myUnlockableLiquidityInUst",
+        disableGlobalFilter: true,
       },
       {
         Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         width: 150,
         accessor: "lockEnd",
+        disableGlobalFilter: true,
       },
       {
         id: "pool-actions",
@@ -66,6 +70,7 @@ const MyAuctionLockedPool = () => {
         accessor: "actions",
         flex: 1,
         disableSortBy: true,
+        disableGlobalFilter: true,
       },
     ],
     []

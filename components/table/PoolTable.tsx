@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { Box, HStack, Text, Button, Tooltip } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import {
@@ -18,6 +18,7 @@ import PoolPagination from "components/table/PoolPagination";
 import PoolFilters from "components/table/PoolFilters";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import InfoIcon from "components/icons/InfoIcon";
+import { filterPoolAssets } from "modules/pool";
 
 type Props = {
   columns: any[];
@@ -33,10 +34,15 @@ const PoolTable: FC<Props> = ({
   emptyMsg = "No pools",
 }) => {
   const address = useAddress();
+
+  // Filter only displayed assets from column:sortingAssets
+  const assetFilter = useCallback(filterPoolAssets, []);
+
   const tableInstance = useTable(
     {
       columns,
       data,
+      globalFilter: assetFilter,
       autoResetGlobalFilter: false,
       initialState: {
         pageSize: 15,
