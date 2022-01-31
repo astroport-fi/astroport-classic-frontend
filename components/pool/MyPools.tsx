@@ -45,6 +45,7 @@ const MyPools: FC = () => {
         accessor: "rewards.total",
         width: 140,
         disableGlobalFilter: true,
+        sortType: (a, b) => a.original.rewards.total - b.original.rewards.total,
       },
       {
         Header: "Total Liquidity",

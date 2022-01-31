@@ -43,6 +43,8 @@ const OtherPools: FC = () => {
         Cell: ({ row }: any) => <AprTd row={row} />,
         accessor: "rewards.total",
         width: 140,
+        disableGlobalFilter: true,
+        sortType: (a, b) => a.original.rewards.total - b.original.rewards.total,
       },
       {
         Header: "Total Liquidity",
@@ -54,6 +56,7 @@ const OtherPools: FC = () => {
         ),
         accessor: "totalLiquidityInUst",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         Header: "24h Volume",
@@ -62,6 +65,7 @@ const OtherPools: FC = () => {
         ),
         accessor: "_24hr_volume",
         width: 140,
+        disableGlobalFilter: true,
       },
       {
         id: "pool-actions",
