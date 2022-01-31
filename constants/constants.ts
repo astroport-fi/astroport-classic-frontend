@@ -29,4 +29,7 @@ export const APY_NOTICE =
 
 /* deployment env */
 export const DEPLOYMENT_PREVIEW =
-  process.env.NEXT_PUBLIC_VERCEL_ENV == "preview" ? true : false;
+  process.env.NEXT_PUBLIC_VERCEL_ENV == "preview" ||
+  process.env.NEXT_PUBLIC_VERCEL_ENV == undefined
+    ? true
+    : false;
