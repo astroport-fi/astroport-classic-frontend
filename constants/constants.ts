@@ -26,3 +26,7 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 
 export const APY_NOTICE =
   "The estimated combined APY calculation combines all individual APRs and assumes daily compounding";
+
+/* deployment env */
+export const DEPLOYMENT_PREVIEW =
+  process.env.NEXT_PUBLIC_VERCEL_ENV == "preview" ? true : false;
