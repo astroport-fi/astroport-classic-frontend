@@ -98,7 +98,7 @@ const whitelist = {
         decimals: 8,
       },
       terra1cetg5wruw2wsdjp7j46rj44xdel00z006e9yg8: {
-        protocol: "Wormhole Binance Coin",
+        protocol: "Wormhole BNB Coin",
         symbol: "wBNB",
         token: "terra1cetg5wruw2wsdjp7j46rj44xdel00z006e9yg8",
         icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/BNB_wh.png",
