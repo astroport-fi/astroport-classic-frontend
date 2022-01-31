@@ -124,13 +124,22 @@ export const useAllPools = () => {
       const [token1, token2] = denoms;
       const balance = num(providedBalance).plus(stakedBalance);
 
-      const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
-      let totalLiquidityInUst = num(uusd)
-        .div(ONE_TOKEN)
-        .times(2)
-        .dp(6)
-        .toNumber();
-      if (uusd == null) {
+      let totalLiquidityInUst = poolInfo?.pool_liquidity;
+
+      if (!totalLiquidityInUst) {
+        const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
+        totalLiquidityInUst = num(uusd)
+          .div(ONE_TOKEN)
+          .times(2)
+          .dp(6)
+          .toNumber();
+      }
+
+      if (
+        contract_addr === "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w" ||
+        contract_addr === "terra1esle9h9cjeavul53dqqws047fpwdhj6tynj5u4"
+      ) {
+        // bluna-luna pool
         const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
           assets,
           "uluna"
@@ -143,12 +152,7 @@ export const useAllPools = () => {
           .toNumber();
       }
 
-      if (!totalLiquidityInUst) {
-        totalLiquidityInUst = poolInfo?.pool_liquidity;
-      }
-
       const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
-
       const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
       const myLiquidityInUst = num(balance)
         .div(ONE_TOKEN)
