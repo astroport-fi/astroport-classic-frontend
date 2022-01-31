@@ -45,7 +45,7 @@ const ProvideForm: FC<Props> = ({
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
-  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
+  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
 
   return (
     <FormConfirm
@@ -64,8 +64,8 @@ const ProvideForm: FC<Props> = ({
       details={[
         { label: "My Provided Liquidity", value: `$ ${formattedShareInUst}` },
         {
-          label: "APY",
-          value: formattedApy,
+          label: "APR",
+          value: formattedApr,
           tooltip: REWARDS_NOTICE,
         },
         {

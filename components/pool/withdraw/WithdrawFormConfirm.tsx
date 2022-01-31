@@ -26,7 +26,7 @@ const WithdrawFormConfirm: FC<Props> = ({
   onCloseClick,
 }) => {
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
-  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
+  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
 
   return (
     <FormConfirm
@@ -44,8 +44,8 @@ const WithdrawFormConfirm: FC<Props> = ({
       }
       details={[
         {
-          label: "APY",
-          value: formattedApy,
+          label: "APR",
+          value: formattedApr,
         },
         {
           label: "Share of Pool",

@@ -4,7 +4,7 @@ import numeral from "numeral";
 import { handleBigPercentage, handleTinyAmount } from "modules/common";
 import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
-import ApyFooter from "components/pool/ApyFooter";
+import AprFooter from "components/pool/AprFooter";
 
 type Props = {
   pool: Pool;
@@ -32,7 +32,7 @@ const ProvideFormFooter: FC<Props> = ({
     amount2: amount2,
   });
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
-  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
+  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
 
   const cells = [
     {
@@ -44,9 +44,9 @@ const ProvideFormFooter: FC<Props> = ({
       value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
     },
     {
-      title: "APY",
-      value: formattedApy,
-      render: () => <ApyFooter pool={pool} />,
+      title: "APR",
+      value: formattedApr,
+      render: () => <AprFooter pool={pool} />,
     },
   ];
 

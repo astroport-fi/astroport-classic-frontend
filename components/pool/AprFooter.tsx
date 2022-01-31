@@ -8,15 +8,15 @@ type Props = {
   pool: Pool;
 };
 
-const ApyFooter: FC<Props> = ({ pool }) => {
-  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
+const AprFooter: FC<Props> = ({ pool }) => {
+  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
 
   return (
     <RewardsPopover rewards={pool.rewards}>
       <Box
-        cursor={pool.rewards.apy > 0 ? "pointer" : "auto"}
+        cursor={pool.rewards.total > 0 ? "pointer" : "auto"}
         color="white"
-        key="apy"
+        key="apr"
         flex="1"
         borderRightColor="whiteAlpha.600"
         borderRightWidth="1px"
@@ -27,13 +27,13 @@ const ApyFooter: FC<Props> = ({ pool }) => {
         }}
         textAlign="center"
       >
-        <Text textStyle="medium">{formattedApy || 0}</Text>
+        <Text textStyle="medium">{formattedApr || 0}</Text>
         <Text textStyle="small" variant="dimmed">
-          APY
+          APR
         </Text>
       </Box>
     </RewardsPopover>
   );
 };
 
-export default ApyFooter;
+export default AprFooter;

@@ -5,7 +5,7 @@ import { useAllPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
-import ApyTd from "components/table/ApyTd";
+import AprTd from "components/table/AprTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
@@ -39,10 +39,10 @@ const MyPools: FC = () => {
         width: 275,
       },
       {
-        Header: "Combined APY",
+        Header: "Combined APR",
         Tooltip: REWARDS_NOTICE,
-        Cell: ({ row }: any) => <ApyTd row={row} />,
-        accessor: "apy.total",
+        Cell: ({ row }: any) => <AprTd row={row} />,
+        accessor: "rewards.total",
         width: 140,
         disableGlobalFilter: true,
       },

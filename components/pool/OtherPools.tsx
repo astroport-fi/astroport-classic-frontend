@@ -7,7 +7,7 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import ActionsTd from "components/table/ActionsTd";
-import ApyTd from "components/table/ApyTd";
+import AprTd from "components/table/AprTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
 
 const OtherPools: FC = () => {
@@ -38,10 +38,10 @@ const OtherPools: FC = () => {
         width: 275,
       },
       {
-        Header: "Combined APY",
+        Header: "Combined APR",
         Tooltip: REWARDS_NOTICE,
-        Cell: ({ row }: any) => <ApyTd row={row} />,
-        accessor: "apy.total",
+        Cell: ({ row }: any) => <AprTd row={row} />,
+        accessor: "rewards.total",
         width: 140,
       },
       {

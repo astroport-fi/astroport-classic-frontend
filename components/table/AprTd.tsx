@@ -7,16 +7,16 @@ type Props = {
   row: any;
 };
 
-const ApyTd: FC<Props> = ({ row }) => {
+const AprTd: FC<Props> = ({ row }) => {
   const { rewards } = row.original;
 
   return (
     <RewardsPopover rewards={rewards}>
-      <Text cursor={rewards.apy > 0 ? "pointer" : "auto"} fontSize="sm">
-        {handleBigPercentage(rewards.apy * 100)}
+      <Text cursor={rewards.total > 0 ? "pointer" : "auto"} fontSize="sm">
+        {handleBigPercentage(rewards.total * 100)}
       </Text>
     </RewardsPopover>
   );
 };
 
-export default ApyTd;
+export default AprTd;

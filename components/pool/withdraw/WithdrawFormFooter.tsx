@@ -5,7 +5,7 @@ import { ONE_TOKEN } from "constants/constants";
 import { handleTinyAmount, handleBigPercentage } from "modules/common";
 import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
-import ApyFooter from "components/pool/ApyFooter";
+import AprFooter from "components/pool/AprFooter";
 
 type Props = {
   pool: Pool;
@@ -39,7 +39,7 @@ const WithdrawFormFooter: FC<Props> = ({
     },
     lpAmount: total,
   });
-  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
+  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
 
   const cells = [
     {
@@ -51,9 +51,9 @@ const WithdrawFormFooter: FC<Props> = ({
       value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
     },
     {
-      title: "APY",
-      value: formattedApy,
-      render: () => <ApyFooter pool={pool} />,
+      title: "APR",
+      value: formattedApr,
+      render: () => <AprFooter pool={pool} />,
     },
   ];
 
