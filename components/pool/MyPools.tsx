@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from "react";
 import useLocalStorage from "hooks/useLocalStorage";
-import { APY_NOTICE } from "constants/constants";
+import { REWARDS_NOTICE } from "constants/constants";
 import { useAllPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
@@ -40,7 +40,7 @@ const MyPools: FC = () => {
       },
       {
         Header: "Combined APY",
-        Tooltip: APY_NOTICE,
+        Tooltip: REWARDS_NOTICE,
         Cell: ({ row }: any) => <ApyTd row={row} />,
         accessor: "apy.total",
         width: 140,

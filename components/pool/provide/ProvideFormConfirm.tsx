@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
-import { APY_NOTICE } from "constants/constants";
+import { REWARDS_NOTICE } from "constants/constants";
 import {
   useTokenInfo,
   handleTinyAmount,
@@ -66,7 +66,7 @@ const ProvideForm: FC<Props> = ({
         {
           label: "APY",
           value: formattedApy,
-          tooltip: APY_NOTICE,
+          tooltip: REWARDS_NOTICE,
         },
         {
           label: "Share of Pool",

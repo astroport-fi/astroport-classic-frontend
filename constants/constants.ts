@@ -24,8 +24,8 @@ export const DECIMALS = 4;
 export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
 export const COMMON_TOKENS = ["uusd", "uluna"];
 
-export const APY_NOTICE =
-  "The estimated combined APY calculation combines all individual APRs and assumes daily compounding";
+export const REWARDS_NOTICE =
+  "The APY/APR are calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APY/APR are 365 day projections based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details.";
 
 /* deployment env */
 export const DEPLOYMENT_PREVIEW =
