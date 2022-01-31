@@ -39,7 +39,7 @@ import {
 //   }, {});
 // };
 
-export const handleBigApy = (
+export const handleBigPercentage = (
   value: string | number,
   format: string = "0,0a.00",
   numberSuffix: string = "%"

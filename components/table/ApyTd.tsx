@@ -1,21 +1,21 @@
 import React, { FC } from "react";
 import { Text } from "@chakra-ui/react";
-import { handleBigApy } from "modules/common";
-import ApyPopover from "components/popovers/ApyPopover";
+import { handleBigPercentage } from "modules/common";
+import RewardsPopover from "components/popovers/RewardsPopover";
 
 type Props = {
   row: any;
 };
 
 const ApyTd: FC<Props> = ({ row }) => {
-  const { apy } = row.original;
+  const { rewards } = row.original;
 
   return (
-    <ApyPopover apy={apy} rewardToken={apy.reward_symbol}>
-      <Text cursor={apy.total > 0 ? "pointer" : "auto"} fontSize="sm">
-        {handleBigApy(apy.total * 100)}
+    <RewardsPopover rewards={rewards}>
+      <Text cursor={rewards.apy > 0 ? "pointer" : "auto"} fontSize="sm">
+        {handleBigPercentage(rewards.apy * 100)}
       </Text>
-    </ApyPopover>
+    </RewardsPopover>
   );
 };
 

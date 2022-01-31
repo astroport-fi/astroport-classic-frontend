@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Text } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
-import { handleTinyAmount, handleBigApy } from "modules/common";
+import { handleTinyAmount, handleBigPercentage } from "modules/common";
 import { Pool, useEstShareOfPool } from "modules/pool";
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
@@ -26,7 +26,7 @@ const WithdrawFormConfirm: FC<Props> = ({
   onCloseClick,
 }) => {
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
-  const formattedApy = handleBigApy(pool.apy.total * 100);
+  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
 
   return (
     <FormConfirm

@@ -8,35 +8,34 @@ import {
   PopoverTrigger,
   Flex,
 } from "@chakra-ui/react";
-import { handleBigApy } from "modules/common";
-import { Apy } from "modules/pool";
+import { handleBigPercentage } from "modules/common";
+import { Rewards } from "modules/pool";
 
 type Props = {
-  apy: Apy;
-  rewardToken: string;
+  rewards: Rewards;
 };
 
-const ApyPopover: FC<Props> = ({ apy, rewardToken, children }) => {
+const RewardsPopover: FC<Props> = ({ rewards, children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const rows = [
-    { label: "Pool APY", value: handleBigApy(apy.pool * 100) },
+    { label: "Pool APR", value: handleBigPercentage(rewards.pool * 100) },
     {
-      label: "Astro Generator APY",
-      value: handleBigApy(apy.astro * 100),
+      label: "Astro Generator APR",
+      value: handleBigPercentage(rewards.astro * 100),
     },
-    rewardToken && {
-      label: `${rewardToken} Reward  APY`,
-      value: handleBigApy(apy.protocol * 100),
+    rewards.token_symbol && {
+      label: `${rewards.token_symbol} Reward  APR`,
+      value: handleBigPercentage(rewards.protocol * 100),
     },
-    { label: "Total APY", value: handleBigApy(apy.total * 100) },
-    { label: "Total APR", value: handleBigApy(apy.total_apr * 100) },
+    { label: "Total APR", value: handleBigPercentage(rewards.total * 100) },
+    { label: "Total APY", value: handleBigPercentage(rewards.apy * 100) },
   ].filter(Boolean);
 
   return (
     <Popover
       placement="bottom-start"
-      isOpen={isOpen && apy.total > 0}
+      isOpen={isOpen && rewards.total > 0}
       onOpen={onOpen}
       onClose={onClose}
       trigger="hover"
@@ -74,4 +73,4 @@ const ApyPopover: FC<Props> = ({ apy, rewardToken, children }) => {
   );
 };
 
-export default ApyPopover;
+export default RewardsPopover;

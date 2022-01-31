@@ -12,13 +12,13 @@ import {
 import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
 import { useStakedLpAmount } from "modules/generator";
 
-export type Apy = {
+export type Rewards = {
   pool: number;
   astro: number;
   protocol: number;
-  total_apr: number;
   total: number;
-  reward_symbol: string;
+  apy: number;
+  token_symbol: string;
 };
 
 export type Pool = {
@@ -44,7 +44,7 @@ export type Pool = {
     share: string;
     amount: string | undefined;
   };
-  apy: Apy;
+  rewards: Rewards;
 };
 
 type Params = {
@@ -123,13 +123,13 @@ export const usePool = ({
         amount: tokenAmounts?.[token2],
       },
       _24hr_volume: poolInfo?._24hr_volume,
-      apy: {
-        pool: poolInfo?.trading_fees?.apy || 0,
-        astro: poolInfo?.astro_rewards?.apy || 0,
-        protocol: poolInfo?.protocol_rewards?.apy || 0,
-        total_apr: poolInfo?.total_rewards?.apr || 0,
-        total: poolInfo?.total_rewards?.apy || 0,
-        reward_symbol: poolInfo?.token_symbol,
+      rewards: {
+        pool: poolInfo?.trading_fees?.apr || 0,
+        astro: poolInfo?.astro_rewards?.apr || 0,
+        protocol: poolInfo?.protocol_rewards?.apr || 0,
+        total: poolInfo?.total_rewards?.apr || 0,
+        apy: poolInfo?.total_rewards?.apy || 0,
+        token_symbol: poolInfo?.token_symbol,
       },
     };
 

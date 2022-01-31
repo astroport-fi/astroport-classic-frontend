@@ -1,20 +1,20 @@
 import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { handleBigApy } from "modules/common";
+import { handleBigPercentage } from "modules/common";
 import { Pool } from "modules/pool";
-import ApyPopover from "components/popovers/ApyPopover";
+import RewardsPopover from "components/popovers/RewardsPopover";
 
 type Props = {
   pool: Pool;
 };
 
 const ApyFooter: FC<Props> = ({ pool }) => {
-  const formattedApy = handleBigApy(pool.apy.total * 100);
+  const formattedApy = handleBigPercentage(pool.rewards.apy * 100);
 
   return (
-    <ApyPopover apy={pool.apy} rewardToken={pool.apy?.reward_symbol}>
+    <RewardsPopover rewards={pool.rewards}>
       <Box
-        cursor={pool.apy.total > 0 ? "pointer" : "auto"}
+        cursor={pool.rewards.apy > 0 ? "pointer" : "auto"}
         color="white"
         key="apy"
         flex="1"
@@ -32,7 +32,7 @@ const ApyFooter: FC<Props> = ({ pool }) => {
           APY
         </Text>
       </Box>
-    </ApyPopover>
+    </RewardsPopover>
   );
 };
 
