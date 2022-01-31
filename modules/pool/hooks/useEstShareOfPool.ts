@@ -28,12 +28,11 @@ export const useEstShareOfPool = ({
       return 0;
     }
 
-    if (num(estLpBalance).gt(0) && num(pool.total.share).eq(0)) {
+    if (
+      num(pool.total.share).eq(0) &&
+      (num(estLpBalance).gt(0) || num(amount1).gt(0) || num(amount2).gt(0))
+    ) {
       return 100;
-    }
-
-    if (num(pool.total.share).eq(0)) {
-      return 0;
     }
 
     if (num(estLpBalance).isNaN()) {
