@@ -11,7 +11,7 @@ const InvalidNetworkModal: FC = () => {
     <ChakraModal isOpen={true} onClose={undefined} size="xl">
       <ModalOverlay />
       <ModalContent mx={["4", null, "0"]}>
-        <ModalBody px={["0", "inherit"]}>
+        <ModalBody px={["0", "inherit"]} textAlign="center">
           You are connected to the wrong network. Please switch to Columbus!
         </ModalBody>
       </ModalContent>
