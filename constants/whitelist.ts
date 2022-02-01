@@ -202,6 +202,13 @@ const whitelist = {
         icon: "https://static.lido.fi/LDO/LDO.png",
         decimals: 8,
       },
+      terra1fpfn2kkr8mv390wx4dtpfk3vkjx9ch3thvykl3: {
+        protocol: "Wormhole Governance OHM",
+        symbol: "wgOHM",
+        token: "terra1fpfn2kkr8mv390wx4dtpfk3vkjx9ch3thvykl3",
+        icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+        decimals: 8,
+      },
     },
     pairs: [
       // luna-ust
@@ -740,6 +747,26 @@ const whitelist = {
         ],
         contract_addr: "terra1edurrzv6hhd8u48engmydwhvz8qzmhhuakhwj3",
         liquidity_token: "terra1qz4cv5lsfw4k2266q52z9rtz64n58paxy9d476",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // wgOHM-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1fpfn2kkr8mv390wx4dtpfk3vkjx9ch3thvykl3",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1mv04l9m4xc6fntxnty265rsqpnn0nk8aq0c9ge",
+        liquidity_token: "terra160jxnp3qfxrrjrfhul3xens4ggw6le7p4m4e6g",
         pair_type: {
           xyk: {},
         },
