@@ -2,35 +2,46 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { Button, Flex, HStack } from "@chakra-ui/react";
 
+import { ClaimAuctionRewardBtn } from "modules/reward";
+
 type Props = {
-  row: any;
+  isClaimable: boolean;
+  isClaimed: boolean;
+  amount: string;
 };
 
-const AuctionActionsTd: FC<Props> = ({ row }) => {
-  const { contract, assets, isClaimable } = row.original;
-  const [token1, token2] = assets;
-
-  const renderButton = () => {
-    if (!isClaimable) {
-      return (
-        <Flex justify="flex-end">
-          <Button as="a" variant="silent" size="sm" isFullWidth isDisabled>
-            Unlock
-          </Button>
-        </Flex>
-      );
-    }
-
+const AuctionActionsTd: FC<Props> = ({ isClaimable, isClaimed, amount }) => {
+  if (!isClaimable) {
     return (
+      <HStack justify="flex-end">
+        <ClaimAuctionRewardBtn amount={amount} />
+        <Button as="div" variant="silent" size="sm" isDisabled flex="1">
+          Locked
+        </Button>
+      </HStack>
+    );
+  }
+
+  if (isClaimed) {
+    return (
+      <Flex justify="flex-end">
+        <Button as="a" variant="silent" size="sm" isFullWidth isDisabled>
+          Claimed
+        </Button>
+      </Flex>
+    );
+  }
+
+  return (
+    <HStack justify="flex-end">
+      <ClaimAuctionRewardBtn amount={amount} />
       <Link href={`/unlock-phase-2`} passHref>
-        <Button as="a" variant="primary" size="sm" px="0" minW="40">
-          Unlock
+        <Button as="a" variant="primary" size="sm" flex="1">
+          Manage
         </Button>
       </Link>
-    );
-  };
-
-  return <HStack justify="flex-end">{renderButton()}</HStack>;
+    </HStack>
+  );
 };
 
 export default AuctionActionsTd;

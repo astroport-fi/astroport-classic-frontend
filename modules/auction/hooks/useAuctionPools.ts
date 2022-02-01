@@ -2,13 +2,14 @@ import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
-import { useContracts } from "modules/common";
+import { useContracts, useTokenInfo } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
 import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 
 export const useAuctionPools = () => {
   const { astroToken, astroUstPool } = useContracts();
+  const { getDecimals } = useTokenInfo();
   const userInfo = useUserInfo();
   const config = useConfig();
   const state = useAuctionState();
@@ -61,6 +62,17 @@ export const useAuctionPools = () => {
       .toNumber();
 
     const isClaimable = num(userInfo.withdrawable_lp_shares).gt(0);
+    const isClaimed =
+      userInfo.astro_incentive_transferred &&
+      num(userInfo.withdrawable_lp_shares).eq(0);
+
+    const rewards = [
+      {
+        token: astroToken,
+        amount:
+          +userInfo.claimable_generator_astro / 10 ** getDecimals(astroToken),
+      },
+    ];
 
     return [
       {
@@ -82,7 +94,10 @@ export const useAuctionPools = () => {
         myUnlockableLiquidity,
         myUnlockableLiquidityInUst,
         isClaimable,
+        isClaimed,
+        amount: userInfo.withdrawable_lp_shares,
         lockEnd,
+        rewards,
       },
     ];
   }, [userInfo, config, state, astroToken, pool]);

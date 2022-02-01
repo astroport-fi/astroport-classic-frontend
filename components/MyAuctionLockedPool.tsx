@@ -9,6 +9,7 @@ import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
+import RewardsTd from "components/table/RewardsTd";
 import AuctionActionsTd from "components/table/AuctionActionsTd";
 
 const MyAuctionLockedPool = () => {
@@ -40,7 +41,7 @@ const MyAuctionLockedPool = () => {
         disableGlobalFilter: true,
       },
       {
-        Header: "My Initial Liquidity",
+        Header: "My Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd value={row.original.myLiquidityInUst} />
         ),
@@ -58,6 +59,12 @@ const MyAuctionLockedPool = () => {
         disableGlobalFilter: true,
       },
       {
+        Header: "Claimable Rewards",
+        Cell: ({ row }: any) => <RewardsTd rewards={row.original.rewards} />,
+        width: 150,
+        accessor: "rewards",
+      },
+      {
         Header: "Fully Unlocks On",
         Cell: ({ row }: any) => <LockEndTd row={row} />,
         width: 150,
@@ -66,7 +73,13 @@ const MyAuctionLockedPool = () => {
       },
       {
         id: "pool-actions",
-        Cell: ({ row }: any) => <AuctionActionsTd row={row} />,
+        Cell: ({ row }: any) => (
+          <AuctionActionsTd
+            isClaimable={row.original.isClaimable}
+            isClaimed={row.original.isClaimed}
+            amount={row.original.amount}
+          />
+        ),
         accessor: "actions",
         flex: 1,
         disableSortBy: true,

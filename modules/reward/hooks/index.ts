@@ -6,3 +6,4 @@ export * from "./useBreakdownRewards";
 export * from "./useBreakdownRewardsInUst";
 export * from "./useClaimAll";
 export * from "./useClaimLockdropReward";
+export * from "./useClaimAuctionReward";
