@@ -3,17 +3,21 @@ import { Box, Flex } from "@chakra-ui/react";
 
 import { usePool } from "modules/pool";
 import { PairResponse } from "modules/common";
-import { PoolFormType } from "types/common";
+import { PoolFormTypeFactory, PoolFormType } from "types/common";
 
+import { withRouter, NextRouter } from "next/router";
 import { StakeLpForm, UnstakeLpForm } from "modules/generator";
 import PoolGraph from "components/pool/PoolGraph";
 
 type Props = {
   pair: PairResponse;
+  router: NextRouter;
 };
 
-const Stake: FC<Props> = ({ pair }) => {
-  const [type, setType] = useState(PoolFormType.Stake);
+const Stake: FC<Props> = ({ pair, router }) => {
+  const [type, setType] = useState<PoolFormType>(
+    PoolFormTypeFactory(router.query.type) || PoolFormType.Stake
+  );
   const [isChartOpen, setIsChartOpen] = useState(false);
 
   const pool = usePool({
@@ -66,4 +70,4 @@ const Stake: FC<Props> = ({ pair }) => {
   );
 };
 
-export default Stake;
+export default withRouter(Stake);

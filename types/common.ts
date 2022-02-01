@@ -135,6 +135,20 @@ export enum PoolFormType {
   Unstake = 3,
 }
 
+export const PoolFormTypeFactory = (value): PoolFormType => {
+  switch (value) {
+    case "0":
+      return PoolFormType.Provide;
+    case "1":
+      return PoolFormType.Withdraw;
+    case "2":
+      return PoolFormType.Stake;
+    case "3":
+      return PoolFormType.Unstake;
+  }
+  return null;
+};
+
 export enum AstroFormType {
   Stake = 0,
   Unstake = 1,

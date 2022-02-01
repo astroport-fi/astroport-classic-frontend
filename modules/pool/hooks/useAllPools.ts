@@ -188,8 +188,8 @@ export const useAllPools = () => {
           apy: poolInfo?.total_rewards?.apy || 0,
           token_symbol: poolInfo?.token_symbol,
         },
-        canManage: num(providedBalance).gt(0),
-        canStake: num(stakedBalance).gt(0),
+        canManage: myLiquidity > 0,
+        canStake: num(providedBalance).gt(0),
         isStakable,
       };
     });
