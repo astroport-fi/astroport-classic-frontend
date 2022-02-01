@@ -4,6 +4,7 @@ import {
   getSwapRoute,
   useAstroswap,
   useContracts,
+  usePriceApi,
   useTokenInfo,
 } from "modules/common";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
@@ -14,8 +15,14 @@ export const usePrice = () => {
   const { routes } = useAstroswap();
   const { router } = useContracts();
   const { getDecimals } = useTokenInfo();
+  const ldoPrice = usePriceApi("terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z"); // Use external api for LDO price
 
   const getPriceInUst = async (token) => {
+    if (token === "terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z") {
+      // hardcode for LDO
+      return ldoPrice;
+    }
+
     const decimals = getDecimals(token);
     const swapRoute = getSwapRoute({ routes, from: token, to: "uusd" });
 

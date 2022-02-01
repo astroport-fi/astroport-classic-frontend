@@ -1,8 +1,11 @@
 import React, { FC } from "react";
 import { Flex, Image, Text, Box } from "@chakra-ui/react";
 import numeral from "numeral";
-
-import { useTokenInfo, handleDollarTinyAmount } from "modules/common";
+import {
+  useTokenInfo,
+  handleDollarTinyAmount,
+  usePriceApi,
+} from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
@@ -13,7 +16,11 @@ type Props = {
 
 const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUstWithSimulate(token);
+  const apiPrice = usePriceApi(token);
+  let price = useTokenPriceInUstWithSimulate(token);
+  if (!price) {
+    price = apiPrice || 0;
+  }
   const balance = numeral(amount).format("0,0.00[0000]");
   const total = numeral(price).multiply(amount).format("0,0.00[0000]");
 
