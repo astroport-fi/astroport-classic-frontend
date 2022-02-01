@@ -4,17 +4,13 @@ import { Global } from "@emotion/react";
 import { TerraWebappProvider } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
-import InvalidNetworkModal from "components/modals/InvalidNetworkModal";
 import Navbar from "components/Navbar";
 import whitelist from "constants/whitelist";
-import { DEPLOYMENT_PREVIEW } from "constants/constants";
 import { AstroswapProvider } from "modules/common";
 
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
   const isInitializing = wallet.status == WalletStatus.INITIALIZING;
-  const isInvalidNetwork =
-    wallet.network.name == "testnet" && DEPLOYMENT_PREVIEW == false;
 
   return (
     <Flex height="100vh" direction="column">
@@ -57,7 +53,6 @@ const Layout: FC = ({ children }) => {
         //     "https://terra-testnet-lcd.everstake.one/3WwtQlaFdSV3XHqGqkGFUX7terraTest",
         // }}
         >
-          {isInvalidNetwork && <InvalidNetworkModal />}
           <AstroswapProvider data={whitelist}>
             <Navbar />
             <Box flex="1">{children}</Box>

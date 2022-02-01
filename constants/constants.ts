@@ -26,10 +26,3 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 
 export const REWARDS_NOTICE =
   "The APY/APR are calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APY/APR are 365 day projections based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
-
-/* deployment env */
-export const DEPLOYMENT_PREVIEW =
-  process.env.NEXT_PUBLIC_VERCEL_ENV == "preview" ||
-  process.env.NEXT_PUBLIC_VERCEL_ENV == undefined
-    ? true
-    : false;
