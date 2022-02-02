@@ -1,24 +1,14 @@
 import React from "react";
 import { Box, Text, Image, Flex, HStack, chakra } from "@chakra-ui/react";
-import { num, useBalance } from "@arthuryeti/terra";
-
-import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { TokenInWallet, useTokenInfo } from "modules/common";
 
 type Props = {
-  token: string;
+  token: TokenInWallet;
   onClick: (token: string) => void;
 };
 
 const ListItem = ({ token, onClick }: Props) => {
-  const { getIcon, getSymbol, getDecimals, getProtocol } = useTokenInfo();
-  const balance = useBalance(token);
-  const price = useTokenPriceInUstWithSimulate(token).toFixed(2);
-  const tokenBalance =
-    num(balance)
-      .div(10 ** getDecimals(token))
-      .dp(2)
-      .toNumber() || 0;
+  const { getIcon, getSymbol, getProtocol } = useTokenInfo();
 
   return (
     <chakra.button
@@ -34,18 +24,22 @@ const ListItem = ({ token, onClick }: Props) => {
       _hover={{
         color: "brand.purple",
       }}
-      onClick={() => onClick(token)}
+      onClick={() => onClick(token.address)}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="3">
-          <Image src={getIcon(token)} alt={getSymbol(token)} boxSize="8" />
+          <Image
+            src={getIcon(token.address)}
+            alt={getSymbol(token.address)}
+            boxSize="8"
+          />
         </Box>
         <Box flex="1">
           <Text fontSize="xl" fontWeight="500" lineHeight="normal">
-            {getSymbol(token)}
+            {getSymbol(token.address)}
           </Text>
           <Text mt="-1" fontSize="sm" opacity="0.4">
-            {getProtocol(token)}
+            {getProtocol(token.address)}
           </Text>
         </Box>
         <Box>
@@ -60,10 +54,10 @@ const ListItem = ({ token, onClick }: Props) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" textAlign="right">
-                {tokenBalance}
+                {token.balance}
               </Text>
               <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
-                ${price}
+                ${token.price.toFixed(2)}
               </Text>
             </Box>
           </HStack>

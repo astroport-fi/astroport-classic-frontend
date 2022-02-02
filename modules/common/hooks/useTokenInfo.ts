@@ -4,6 +4,13 @@ import { useWallet } from "@terra-money/wallet-provider";
 import { useAstroswap } from "../context";
 import { truncate } from "libs/text";
 
+export type TokenInWallet = {
+  address: string;
+  balance: string;
+  price?: number;
+  balanceInUst?: number;
+};
+
 export const useTokenInfo = () => {
   const {
     network: { name },
