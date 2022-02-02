@@ -74,7 +74,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
             }}
           >
             <HStack justify="space-between">
-              <Text>{values.name} Extension</Text>
+              <Text>{values.name}</Text>
               {values.identifier === "station" ? (
                 <TerraExtensionIcon />
               ) : (
