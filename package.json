@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
     "@types/next": "^9.0.0",
     "@types/node": "^17.0.7",
