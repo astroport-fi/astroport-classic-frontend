@@ -129,18 +129,6 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase2Msgs);
     }
 
-    if (lpRewards?.length > 0) {
-      const lpMsgs = createLpRewardsMsgs(
-        {
-          contract: generator,
-          items: lpRewards,
-        },
-        address
-      );
-
-      data.push(...lpMsgs);
-    }
-
     if (lockdropRewards?.length > 0) {
       const lockdropMsgs = createLockdropRewardsMsgs(
         {
@@ -153,11 +141,26 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...lockdropMsgs);
     }
 
+    if (lpRewards?.length > 0) {
+      const lpMsgs = createLpRewardsMsgs(
+        {
+          contract: generator,
+          items: lpRewards,
+        },
+        address
+      );
+
+      data.push(...lpMsgs);
+    }
+
     if (data.length == 0) {
       return null;
     }
 
-    return data;
+    // Warning: Due to a Ledger limitation we are reducing the reward claims to
+    // four claims at a time, once we are able to figure out if a wallet is a
+    // ledger we will be able to only aply this limitation to those wallets.
+    return data.splice(0, 4);
   }, [
     address,
     lockdrop,
