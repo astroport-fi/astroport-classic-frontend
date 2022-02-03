@@ -12,7 +12,7 @@ const Card: FC<Props> = ({ children, noPadding = false, ...props }) => {
 
   return (
     <Box
-      bg="white.50"
+      bg="brand.defaultTable"
       py={py}
       px={px}
       borderWidth="2px"

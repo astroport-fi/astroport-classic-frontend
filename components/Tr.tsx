@@ -34,7 +34,12 @@ const Tr: FC<Props> = ({ children, isHead = false, ...rest }) => {
   }
 
   return (
-    <Flex justify="space-between" {...extraProps} {...rest}>
+    <Flex
+      justify="space-between"
+      backgroundColor="inherit"
+      {...extraProps}
+      {...rest}
+    >
       {children}
     </Flex>
   );

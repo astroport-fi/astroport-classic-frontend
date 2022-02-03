@@ -133,7 +133,12 @@ const PoolTable: FC<Props> = ({
                 color="white.700"
                 {...column.getHeaderProps()}
                 flexBasis={`${column.width}px`}
+                flexShrink={0}
                 flex={column.flex}
+                position={column.position}
+                right={column.right}
+                left={column.left}
+                zIndex={column.zIndex}
               >
                 {column.canSort ? (
                   <Button
@@ -152,7 +157,7 @@ const PoolTable: FC<Props> = ({
         ))}
         {!address && <PoolConnectWallet />}
         {rows.length > 0 && (
-          <Box {...getTableBodyProps()}>
+          <Box backgroundColor="inherit" {...getTableBodyProps()}>
             {page.map((row) => {
               prepareRow(row);
               return <PoolTr row={row} />;

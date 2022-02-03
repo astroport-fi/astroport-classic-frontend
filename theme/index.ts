@@ -82,6 +82,7 @@ export default extendTheme({
       blue: "#1121B8",
       lightBlue: "rgba(131,179,253,0.3)",
       deepBlue: "#000D37",
+      defaultTable: "#0d1841",
     },
     otherColours: {
       green: "#7FE6A2",

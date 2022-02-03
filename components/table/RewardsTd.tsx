@@ -40,7 +40,7 @@ const RewardsTd: FC<Props> = ({ rewards }) => {
     return num(total).toNumber();
   }, [data]);
 
-  return <Box>{handleDollarTinyAmount(totalPrice)}</Box>;
+  return <Box fontSize="sm">{handleDollarTinyAmount(totalPrice)}</Box>;
 };
 
 export default RewardsTd;

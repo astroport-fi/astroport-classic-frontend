@@ -76,6 +76,8 @@ const MyLockedPools = () => {
         ),
         accessor: "actions",
         flex: 1,
+        position: "sticky",
+        right: "15px",
         disableSortBy: true,
         disableGlobalFilter: true,
       },
@@ -92,7 +94,7 @@ const MyLockedPools = () => {
           you made your deposit.
         </Text>
       </Card>
-      <Card mt={6} noPadding>
+      <Card overflow="auto" mt={6} noPadding>
         <PoolTable
           columns={columns}
           data={pools}

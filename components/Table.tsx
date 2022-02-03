@@ -6,7 +6,16 @@ type Props = {
 };
 
 const Table: FC<Props> = ({ children }) => {
-  return <Box color="white">{children}</Box>;
+  return (
+    <Box
+      color="white"
+      minWidth={1024}
+      backgroundColor="inherit"
+      overflow="visible"
+    >
+      {children}
+    </Box>
+  );
 };
 
 export default Table;

@@ -73,6 +73,8 @@ const OtherPools: FC = () => {
         accessor: "actions",
         width: 200,
         flex: 1,
+        position: "sticky",
+        right: "15px",
         disableSortBy: true,
         disableGlobalFilter: true,
       },
@@ -81,7 +83,7 @@ const OtherPools: FC = () => {
   );
 
   return (
-    <Card noPadding>
+    <Card overflow="auto" noPadding>
       <PoolTable
         data={allPools}
         columns={columns}

@@ -16,7 +16,7 @@ const Td: FC<Props> = ({ children, isRight = false, ...props }) => {
   }
 
   return (
-    <Box flex="1" {...extraProps} {...props}>
+    <Box flex="1" backgroundColor="inherit" {...extraProps} {...props}>
       {children}
     </Box>
   );
