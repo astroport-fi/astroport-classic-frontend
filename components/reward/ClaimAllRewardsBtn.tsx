@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
-import { Button, VStack } from "@chakra-ui/react";
+import { Text, Button, VStack } from "@chakra-ui/react";
 
 import { useAstroswap } from "modules/common";
 import { useClaimAll } from "modules/reward";
@@ -40,6 +40,16 @@ const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
         Claim Rewards
       </Button>
       <FormFee fee={state.fee} />
+      <Text
+        maxW="sm"
+        mt="2"
+        textStyle="small"
+        variant="dimmed"
+        textAlign="center"
+      >
+        Disclaimer: you can only claim 4 token rewards in one transaction
+        because of wallet limitations
+      </Text>
     </VStack>
   );
 };
