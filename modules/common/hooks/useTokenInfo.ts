@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useWallet } from "@terra-money/wallet-provider";
-
-import { useAstroswap } from "../context";
 import { truncate } from "libs/text";
+import { AssetInfo } from "types/common";
+import { useAstroswap } from "../context";
 
 export type TokenInWallet = {
   address: string;
@@ -15,7 +15,7 @@ export const useTokenInfo = () => {
   const {
     network: { name },
   } = useWallet();
-  const { data } = useAstroswap();
+  const { data, pairs } = useAstroswap();
 
   const getProtocol = useCallback(
     (token: string) => {
@@ -67,11 +67,31 @@ export const useTokenInfo = () => {
     [name, data]
   );
 
+  const isHidden = useCallback(
+    (token: string) => {
+      if (data == null) {
+        return true;
+      }
+
+      return (
+        pairs.filter((pair) => {
+          return (
+            pair.asset_infos.filter((asset: AssetInfo) => {
+              return asset?.token?.contract_addr == token;
+            }).length > 0
+          );
+        }).length <= 0
+      );
+    },
+    [name, data]
+  );
+
   return {
     getProtocol,
     getSymbol,
     getDecimals,
     getIcon,
+    isHidden,
   };
 };
 

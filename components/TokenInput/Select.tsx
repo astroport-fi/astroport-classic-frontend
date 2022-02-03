@@ -33,7 +33,7 @@ const Select: FC<Props> = ({
   onClick,
   tokens,
 }) => {
-  const { getIcon, getSymbol } = useTokenInfo();
+  const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value).toFixed(2);
   const [filter, setFilter] = useState("");
@@ -44,11 +44,14 @@ const Select: FC<Props> = ({
       token === filter
     );
   };
-  const allowedTokens = (token: string) => token !== hideToken;
-
-  const notHiddenTokens = tokens.filter(allowedTokens);
+  const allowedTokens = tokens.filter((token: string) => !isHidden(token));
+  const notHiddenTokens = allowedTokens.filter(
+    (token: string) => token !== hideToken
+  );
   const filteredTokens = notHiddenTokens.filter(matchTokenOrExactAddress);
-  const commonTokens = COMMON_TOKENS.filter(allowedTokens);
+  const commonTokens = COMMON_TOKENS.filter(
+    (token: string) => token !== hideToken
+  );
 
   const noTokensFound = filteredTokens.length === 0;
   const inputColor = noTokensFound ? "red.500" : "brand.deepBlue";
