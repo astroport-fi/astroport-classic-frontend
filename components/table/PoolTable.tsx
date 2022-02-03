@@ -135,10 +135,6 @@ const PoolTable: FC<Props> = ({
                 flexBasis={`${column.width}px`}
                 flexShrink={0}
                 flex={column.flex}
-                position={column.position}
-                right={column.right}
-                left={column.left}
-                zIndex={column.zIndex}
               >
                 {column.canSort ? (
                   <Button

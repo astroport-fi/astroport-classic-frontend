@@ -76,8 +76,6 @@ const MyLockedPools = () => {
         ),
         accessor: "actions",
         flex: 1,
-        position: "sticky",
-        right: "15px",
         disableSortBy: true,
         disableGlobalFilter: true,
       },

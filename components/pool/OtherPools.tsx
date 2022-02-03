@@ -73,8 +73,6 @@ const OtherPools: FC = () => {
         accessor: "actions",
         width: 200,
         flex: 1,
-        position: "sticky",
-        right: "15px",
         disableSortBy: true,
         disableGlobalFilter: true,
       },

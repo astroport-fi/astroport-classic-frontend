@@ -19,10 +19,6 @@ const PoolTr: FC<Props> = ({ row }) => {
             flexBasis={`${cell.column.width}px`}
             flexShrink={0}
             flex={cell.column.flex}
-            position={cell.column.position}
-            right={cell.column.right}
-            left={cell.column.left}
-            zIndex={cell.column.zIndex}
           >
             {cell.render("Cell")}
           </Td>
