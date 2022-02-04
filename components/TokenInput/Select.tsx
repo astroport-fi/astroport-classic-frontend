@@ -161,6 +161,7 @@ const Select: FC<Props> = ({
           onClick={handleClick}
           tokens={filteredTokens}
           filtered={filteredTokens.length !== notHiddenTokens.length}
+          filteredTerm={filter}
         />
       </VStack>
     </PopoverWrapper>
