@@ -17,7 +17,7 @@ const PoolTable: FC<Props> = ({
   columns,
   data,
   sortBy,
-  emptyMsg = "No pools",
+  emptyMsg = "No pools.",
 }) => {
   const tableInstance = usePoolTable(columns, data, sortBy);
 

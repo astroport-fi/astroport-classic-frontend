@@ -229,7 +229,7 @@ const OtherPools: FC = () => {
       <PoolTableWrapper
         hasData={rows.length > 0}
         tableInstance={tableInstance}
-        emptyMsg="No pools"
+        emptyMsg="No pools."
       >
         <Box backgroundColor="inherit" {...getTableBodyProps()}>
           {tableRows}
