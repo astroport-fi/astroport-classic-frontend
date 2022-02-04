@@ -297,7 +297,7 @@ describe("OtherPools", () => {
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(1); // header
 
-      expect(screen.getByText("No pools")).toBeInTheDocument();
+      expect(screen.getByText("No pools.")).toBeInTheDocument();
     });
 
     it("does not display pagination controls when there's less than one page of pools", () => {
