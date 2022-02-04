@@ -69,14 +69,14 @@ export const handleBigAndTinyAmount = (
   }
 
   if (num(value).gt(1000000)) {
-    return `${includeDollarSign ? "$" : ""}${numberPrefix}${numeral(value)
+    return `${includeDollarSign ? "$ " : ""}${numberPrefix}${numeral(value)
       .format("0.00a", Math.floor)
       .toUpperCase()}`;
   }
 
-  return `${includeDollarSign ? "$" : ""}${numberPrefix}${numeral(value).format(
-    format
-  )}`;
+  return `${includeDollarSign ? "$ " : ""}${numberPrefix}${numeral(
+    value
+  ).format(format)}`;
 };
 
 export const handleTinyAmount = (
