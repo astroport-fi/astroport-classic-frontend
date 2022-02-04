@@ -1,8 +1,7 @@
-import { useAddress } from "@arthuryeti/terra";
+import { useAddress, useBalance } from "@arthuryeti/terra";
 import { renderHook } from "@testing-library/react-hooks";
 import useBalances from "modules/common/hooks/useBalances";
 import { useHive } from "modules/common";
-import { gql } from "graphql-request";
 
 jest.mock("@arthuryeti/terra", () => {
   const original = jest.requireActual("@arthuryeti/terra");
@@ -10,7 +9,7 @@ jest.mock("@arthuryeti/terra", () => {
   return {
     num: original.num,
     useAddress: jest.fn(),
-    useBalance: jest.fn(() => 0),
+    useBalance: jest.fn(),
   };
 });
 
@@ -20,6 +19,10 @@ jest.mock("modules/common", () => ({
   }),
   useHive: jest.fn(),
 }));
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
 describe("useBalances", () => {
   it("returns empty object if wallet is not connected", () => {
@@ -44,7 +47,14 @@ describe("useBalances", () => {
       (useAddress as jest.Mock).mockReturnValue("terra123");
     });
 
-    it("queries for native balances and all provided contract token balances and returns requested token balances", () => {
+    it("queries for native balances (separately) and all provided contract token balances and returns requested token balances", () => {
+      (useBalance as jest.Mock).mockImplementation((token) => {
+        return {
+          uusd: "1000000",
+          uluna: "42000000",
+        }[token];
+      });
+
       (useHive as jest.Mock).mockReturnValue({
         // bank: {
         //   balance: [
@@ -79,16 +89,14 @@ describe("useBalances", () => {
       );
 
       expect(result.current).toEqual({
-        // uusd: "1000000",
-        // uluna: "42000000",
+        uusd: 1.0,
+        uluna: 42.0,
         terra2: 0,
         terra3: 700000,
-        uluna: 0,
-        uusd: 0,
       });
     });
 
-    it("returns just contract tokens if only contract tokens are requested", () => {
+    it("still fetches native tokens when only contract tokens are requested", () => {
       (useHive as jest.Mock).mockReturnValue({
         terra2: {
           contractQuery: {
@@ -100,6 +108,8 @@ describe("useBalances", () => {
       const { result } = renderHook(() => useBalances(["terra2"]));
 
       expect(result.current).toEqual({
+        // getBalance (used for native tokens) is a mock fn and returns undefined,
+        // which is returned here as 0
         uusd: 0,
         uluna: 0,
         terra2: 42.0,
@@ -108,6 +118,7 @@ describe("useBalances", () => {
 
     it("returns 0 balance for requested tokens that are not included in response (i.e. 0 balance)", () => {
       (useHive as jest.Mock).mockReturnValue({});
+      (useBalance as jest.Mock).mockReturnValue(undefined);
 
       const { result } = renderHook(() =>
         useBalances(["uusd", "uluna", "ufoo"])
