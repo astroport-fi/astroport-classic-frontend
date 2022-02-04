@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Text, Image, Flex, HStack, chakra } from "@chakra-ui/react";
-import { TokenInWallet, useTokenInfo } from "modules/common";
+import { TokenInWallet, useTokenInfo, handleTinyAmount } from "modules/common";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: TokenInWallet;
@@ -9,6 +10,8 @@ type Props = {
 
 const ListItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol, getProtocol } = useTokenInfo();
+  const balanceFormmated = handleTinyAmount(token.balance);
+  const tokenPrice = useTokenPriceInUstWithSimulate(token.address);
 
   return (
     <chakra.button
@@ -54,10 +57,10 @@ const ListItem = ({ token, onClick }: Props) => {
             </Box>
             <Box minW="24">
               <Text fontSize="sm" textAlign="right">
-                {token.balance}
+                {balanceFormmated}
               </Text>
               <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
-                ${token.price.toFixed(2)}
+                ${handleTinyAmount(tokenPrice)}
               </Text>
             </Box>
           </HStack>
