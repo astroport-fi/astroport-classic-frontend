@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import {
   TokenInWallet,
-  useWalletInfo,
+  useBalances,
   useTokenPrices,
   useTokenInfo,
 } from "modules/common";
@@ -42,7 +42,7 @@ const List: FC<Props> = ({
 }) => {
   const { getSymbol } = useTokenInfo();
   const tokensInUst = useTokenPrices();
-  const tokensInWallet = useWalletInfo(tokens);
+  const tokensInWallet = useBalances(tokens);
 
   const sortByFilterTerm = function (
     data: TokenInWallet[],

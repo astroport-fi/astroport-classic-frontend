@@ -1,61 +1,51 @@
 import { useMemo } from "react";
+import { num, useAddress, useBalance } from "@arthuryeti/terra";
 import { gql } from "graphql-request";
-import { useAddress } from "@arthuryeti/terra";
-
-import { useHive } from "modules/common";
+import { ONE_TOKEN } from "constants/constants";
+import { useHive, useTokenInfo } from "modules/common";
 
 interface Balances {
   [key: string]: string;
 }
 
-const createQuery = (address, contracts) => {
-  if (!address) {
+const createQuery = (address: string, tokens: string[]) => {
+  const allowedTokens = tokens.filter((token) => !token.startsWith("u"));
+
+  if (allowedTokens.length === 0) {
     return;
   }
 
   return gql`
     {
-      bank {
-        balance(address: "${address}") {
-          denom, amount
-        }
-      }
-      ${contracts
-        .map(
-          (contractAddress) => `
-        ${contractAddress}: wasm {
-          contractQuery(
-            contractAddress: "${contractAddress}",
-            query: {
-              balance: {
-                address: "${address}"
+      ${allowedTokens.map((token) => {
+        return `
+          ${token}: wasm {
+            contractQuery(
+              contractAddress: "${token}"
+              query: {
+                balance: {
+                  address: "${address}"
+                }
               }
-            }
-          )
-        }
-      `
-        )
-        .join("")}
+            )
+          }
+        `;
+      })}
     }
-  `;
+`;
 };
-
-// NOTE: native token identification strategy mirrors
-//       react-terra (arthuryeti/terra)'s useBalance hook
-const isNativeToken = (token) => token.startsWith("u");
 
 // Given array of tokens
 // (native token denoms and/or contract token addresses)
 // combines into single Hive query for all balances,
-// returns memoized object with token keys and string balance values.
+// returns memoized object with token keys and balance values after normalized by token decimals.
 // All tokens are guaranteed to be included in object.
 export const useBalances = (tokens: string[]): Balances => {
+  const { getDecimals } = useTokenInfo();
   const address = useAddress();
-
-  const nativeTokens = tokens.filter((token) => isNativeToken(token));
-  const contractTokens = tokens.filter((token) => !isNativeToken(token));
-
-  const query = createQuery(address, contractTokens);
+  const uusd = useBalance("uusd");
+  const uluna = useBalance("uluna");
+  const query = createQuery(address, tokens);
 
   const result = useHive({
     name: ["balances", address, ...tokens],
@@ -66,23 +56,27 @@ export const useBalances = (tokens: string[]): Balances => {
   });
 
   return useMemo(() => {
-    if (result === null) {
+    if (result == null) {
       return {};
     }
 
-    const balances = {};
+    let data = {};
+    tokens.forEach((t) => (data[t] = 0));
 
-    for (const token of nativeTokens) {
-      balances[token] =
-        result.bank.balance.find(({ denom }) => denom === token)?.amount || "0";
-    }
+    data["uusd"] = num(uusd).div(ONE_TOKEN).toNumber() || 0;
+    data["uluna"] = num(uluna).div(ONE_TOKEN).toNumber() || 0;
 
-    for (const token of contractTokens) {
-      balances[token] = result[token].contractQuery.balance;
-    }
+    Object.keys(result).forEach((token) => {
+      if (result[token]) {
+        data[token] =
+          num(result[token].contractQuery?.balance)
+            .div(10 ** getDecimals(token))
+            .toNumber() || 0;
+      }
+    });
 
-    return balances;
-  }, [result]);
+    return data;
+  }, [result, uusd, uluna]);
 };
 
 export default useBalances;

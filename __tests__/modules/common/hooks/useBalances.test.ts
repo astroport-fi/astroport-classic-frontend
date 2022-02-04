@@ -4,11 +4,20 @@ import useBalances from "modules/common/hooks/useBalances";
 import { useHive } from "modules/common";
 import { gql } from "graphql-request";
 
-jest.mock("@arthuryeti/terra", () => ({
-  useAddress: jest.fn(),
-}));
+jest.mock("@arthuryeti/terra", () => {
+  const original = jest.requireActual("@arthuryeti/terra");
+
+  return {
+    num: original.num,
+    useAddress: jest.fn(),
+    useBalance: jest.fn(() => 0),
+  };
+});
 
 jest.mock("modules/common", () => ({
+  useTokenInfo: () => ({
+    getDecimals: jest.fn(() => 1),
+  }),
   useHive: jest.fn(),
 }));
 
@@ -37,22 +46,22 @@ describe("useBalances", () => {
 
     it("queries for native balances and all provided contract token balances and returns requested token balances", () => {
       (useHive as jest.Mock).mockReturnValue({
-        bank: {
-          balance: [
-            {
-              denom: "uusd",
-              amount: "1000000",
-            },
-            {
-              denom: "ufoo",
-              amount: "1",
-            },
-            {
-              denom: "uluna",
-              amount: "42000000",
-            },
-          ],
-        },
+        // bank: {
+        //   balance: [
+        //     {
+        //       denom: "uusd",
+        //       amount: "1000000",
+        //     },
+        //     {
+        //       denom: "ufoo",
+        //       amount: "1",
+        //     },
+        //     {
+        //       denom: "uluna",
+        //       amount: "42000000",
+        //     },
+        //   ],
+        // },
         terra2: {
           contractQuery: {
             balance: "0",
@@ -70,98 +79,12 @@ describe("useBalances", () => {
       );
 
       expect(result.current).toEqual({
-        uusd: "1000000",
-        uluna: "42000000",
-        terra2: "0",
-        terra3: "7000000",
-      });
-
-      expect(useHive).toHaveBeenCalledWith({
-        name: ["balances", "terra123", "terra2", "uusd", "terra3", "uluna"],
-        // NOTE: Indenting unfortunately matters here
-        // prettier-ignore
-        query: gql`
-    {
-      bank {
-        balance(address: "terra123") {
-          denom, amount
-        }
-      }
-      
-        terra2: wasm {
-          contractQuery(
-            contractAddress: \"terra2\",
-            query: {
-              balance: {
-                address: \"terra123\"
-              }
-            }
-          )
-        }
-      
-        terra3: wasm {
-          contractQuery(
-            contractAddress: \"terra3\",
-            query: {
-              balance: {
-                address: \"terra123\"
-              }
-            }
-          )
-        }
-      
-    }
-  `,
-        options: {
-          enabled: true,
-        },
-      });
-    });
-
-    it("queries for just native balances when no contract token addresses are included and returns their balances", () => {
-      (useHive as jest.Mock).mockReturnValue({
-        bank: {
-          balance: [
-            {
-              denom: "uusd",
-              amount: "1000000",
-            },
-            {
-              denom: "ufoo",
-              amount: "1",
-            },
-            {
-              denom: "uluna",
-              amount: "42000000",
-            },
-          ],
-        },
-      });
-
-      const { result } = renderHook(() => useBalances(["uusd", "ufoo"]));
-
-      expect(result.current).toEqual({
-        uusd: "1000000",
-        ufoo: "1",
-      });
-
-      expect(useHive).toHaveBeenCalledWith({
-        name: ["balances", "terra123", "uusd", "ufoo"],
-        // NOTE: Indenting unfortunately matters here
-        // prettier-ignore
-        query: gql`
-    {
-      bank {
-        balance(address: "terra123") {
-          denom, amount
-        }
-      }
-      
-    }
-  `,
-        options: {
-          enabled: true,
-        },
+        // uusd: "1000000",
+        // uluna: "42000000",
+        terra2: 0,
+        terra3: 700000,
+        uluna: 0,
+        uusd: 0,
       });
     });
 
@@ -169,7 +92,7 @@ describe("useBalances", () => {
       (useHive as jest.Mock).mockReturnValue({
         terra2: {
           contractQuery: {
-            balance: "42",
+            balance: "420",
           },
         },
       });
@@ -177,30 +100,23 @@ describe("useBalances", () => {
       const { result } = renderHook(() => useBalances(["terra2"]));
 
       expect(result.current).toEqual({
-        terra2: "42",
+        uusd: 0,
+        uluna: 0,
+        terra2: 42.0,
       });
     });
 
     it("returns 0 balance for requested tokens that are not included in response (i.e. 0 balance)", () => {
-      (useHive as jest.Mock).mockReturnValue({
-        bank: {
-          balance: [
-            {
-              denom: "uusd",
-              amount: "1000000",
-            },
-          ],
-        },
-      });
+      (useHive as jest.Mock).mockReturnValue({});
 
       const { result } = renderHook(() =>
         useBalances(["uusd", "uluna", "ufoo"])
       );
 
       expect(result.current).toEqual({
-        uusd: "1000000",
-        ufoo: "0",
-        uluna: "0",
+        uusd: 0,
+        ufoo: 0,
+        uluna: 0,
       });
     });
   });
