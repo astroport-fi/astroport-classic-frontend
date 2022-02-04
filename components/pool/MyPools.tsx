@@ -26,6 +26,7 @@ const MyPools: FC = () => {
         accessor: "favorite",
         disableSortBy: true,
         disableGlobalFilter: true,
+        sortType: "basic",
       },
       {
         Header: "Pool Name",

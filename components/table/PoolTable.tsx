@@ -1,24 +1,10 @@
-/* eslint-disable react/jsx-key */
-import React, { FC, useCallback } from "react";
-import { Box, HStack, Text, Button, Tooltip } from "@chakra-ui/react";
-import { useAddress } from "@arthuryeti/terra";
-import {
-  useTable,
-  useSortBy,
-  usePagination,
-  useGlobalFilter,
-  useFilters,
-} from "react-table";
-import Table from "components/Table";
-import Tr from "components/Tr";
-import Td from "components/Td";
+import React, { FC } from "react";
+import { Box } from "@chakra-ui/react";
+
+import { usePoolTable } from "modules/pool";
+
+import PoolTableWrapper from "components/table/PoolTableWrapper";
 import PoolTr from "components/table/PoolTr";
-import PoolConnectWallet from "components/table/PoolConnectWallet";
-import PoolPagination from "components/table/PoolPagination";
-import PoolFilters from "components/table/PoolFilters";
-import ChevronDownIcon from "components/icons/ChevronDownIcon";
-import InfoIcon from "components/icons/InfoIcon";
-import { filterPoolAssets } from "modules/pool";
 
 type Props = {
   columns: any[];
@@ -33,158 +19,23 @@ const PoolTable: FC<Props> = ({
   sortBy,
   emptyMsg = "No pools",
 }) => {
-  const address = useAddress();
+  const tableInstance = usePoolTable(columns, data, sortBy);
 
-  // Filter only displayed assets from column:sortingAssets
-  const assetFilter = useCallback(filterPoolAssets, []);
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-      globalFilter: assetFilter,
-      autoResetGlobalFilter: false,
-      initialState: {
-        pageSize: 15,
-        sortBy: [
-          {
-            id: "favorite",
-            desc: true,
-          },
-          {
-            id: sortBy,
-            desc: true,
-          },
-        ],
-      },
-    },
-    useFilters,
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    pageOptions,
-    page,
-    state: { pageIndex, globalFilter },
-    previousPage,
-    nextPage,
-    canPreviousPage,
-    canNextPage,
-    setGlobalFilter,
-  } = tableInstance;
-
-  const renderHeadTdContents = (column) => {
-    return (
-      <HStack
-        display="flex"
-        alignItems="center"
-        color={column.isSorted ? "white" : "inherit"}
-      >
-        <Text fontSize="xs" variant="light">
-          {column.render("Header")}
-          {column.canSort}
-        </Text>
-        {column.Tooltip && <InfoIcon width="1rem" height="1rem" />}
-        <Box>
-          <ChevronDownIcon
-            w="2"
-            transform={`${column.isSortedDesc ? "" : "rotate(180deg)"}`}
-            opacity={`${column.isSorted ? 1 : 0}`}
-          />
-        </Box>
-      </HStack>
-    );
-  };
-
-  const renderHeadTd = (column) => {
-    if (column.Tooltip) {
-      return (
-        <Tooltip label={column.Tooltip} placement="top" aria-label="More info">
-          {renderHeadTdContents(column)}
-        </Tooltip>
-      );
-    }
-
-    if (column.id == "favorite") {
-      return;
-    }
-
-    if (column.id == "pool-actions") {
-      return <PoolFilters filter={globalFilter} setFilter={setGlobalFilter} />;
-    }
-
-    return renderHeadTdContents(column);
-  };
+  const { getTableBodyProps, rows, page, prepareRow } = tableInstance;
 
   return (
-    <>
-      <Table {...getTableProps()}>
-        {headerGroups.map((headerGroup) => (
-          <Tr isHead {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <Td
-                color="white.700"
-                {...column.getHeaderProps()}
-                flexBasis={`${column.width}px`}
-                flexShrink={0}
-                flex={column.flex}
-              >
-                {column.canSort ? (
-                  <Button
-                    display="flex"
-                    variant="simple"
-                    {...column.getSortByToggleProps()}
-                  >
-                    {renderHeadTd(column)}
-                  </Button>
-                ) : (
-                  renderHeadTd(column)
-                )}
-              </Td>
-            ))}
-          </Tr>
-        ))}
-        {!address && <PoolConnectWallet />}
-        {rows.length > 0 && (
-          <Box backgroundColor="inherit" {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return <PoolTr row={row} />;
-            })}
-          </Box>
-        )}
-        {!rows.length && address && (
-          <Tr>
-            <Box ml="8">
-              <Text fontSize="sm">{emptyMsg}</Text>
-            </Box>
-          </Tr>
-        )}
-        {pageOptions.length <= 1 && (
-          <Tr borderBottomWidth="0">
-            <Box py="2"></Box>
-          </Tr>
-        )}
-      </Table>
-
-      {pageOptions.length > 1 && (
-        <PoolPagination
-          pageIndex={pageIndex}
-          PageLength={pageOptions.length}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          onClickPrev={() => previousPage()}
-          onClickNext={() => nextPage()}
-        />
-      )}
-    </>
+    <PoolTableWrapper
+      hasData={rows.length > 0}
+      tableInstance={tableInstance}
+      emptyMsg={emptyMsg}
+    >
+      <Box backgroundColor="inherit" {...getTableBodyProps()}>
+        {page.map((row, i) => {
+          prepareRow(row);
+          return <PoolTr key={i} row={row} />;
+        })}
+      </Box>
+    </PoolTableWrapper>
   );
 };
 

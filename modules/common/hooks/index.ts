@@ -10,3 +10,4 @@ export * from "./useTogglePairToFavorite";
 export * from "./useWalletInfo";
 export * from "./useTokenPrices";
 export * from "./usePriceDerived";
+export * from "./useBalances";

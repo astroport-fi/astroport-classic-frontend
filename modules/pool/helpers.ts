@@ -52,28 +52,6 @@ export const orderPoolTokens = (token1: Token, token2: Token) => {
   return tokens.map((t) => t.asset);
 };
 
-export const filterPoolAssets = (
-  rows: any,
-  columns: any,
-  filterValue: string
-) => {
-  return rows.filter((row) => {
-    const assets = row.original.sortingAssets;
-
-    if (!assets) {
-      return true;
-    }
-
-    const assetA = assets[0] ? String(assets[0]).toLowerCase() : "";
-    const assetB = assets[1] ? String(assets[1]).toLowerCase() : "";
-
-    return (
-      assetA.includes(filterValue.toLowerCase()) ||
-      assetB.includes(filterValue.toLowerCase())
-    );
-  });
-};
-
 // TODO: refactor
 export const calculateProvideOneAsset = (
   pool: any,

@@ -1,19 +1,17 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { Button, HStack, ButtonGroup } from "@chakra-ui/react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 type Props = {
   row: any;
+  canProvideLiquidity: boolean;
 };
 
-const ActionsTd: FC<Props> = ({ row }) => {
+const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
   const { contract, assets, myLiquidity } = row.original;
   const [token1, token2] = assets;
-  const balance1 = useBalance(token1);
-  const balance2 = useBalance(token2);
 
-  const canProvideLiquidity = num(balance1).gt(0) && num(balance2).gt(0);
   const canManageLiquidity = num(myLiquidity).gt(0);
 
   const renderButton = () => {

@@ -16,3 +16,4 @@ export * from "./hooks/useProvide";
 export * from "./hooks/usePoolsInfo";
 export * from "./hooks/useAllPools";
 export * from "./helpers";
+export * from "./table";

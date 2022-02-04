@@ -15,6 +15,31 @@ import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
 
+export type AllPoolsPool = {
+  inUse: boolean;
+  favorite: boolean;
+  contract: string;
+  assets: string[];
+  sortingAssets: string[];
+  pairType: string;
+  totalLiquidity: number;
+  totalLiquidityInUst: number;
+  myLiquidity: number;
+  myLiquidityInUst: number;
+  _24hr_volume: number;
+  rewards: {
+    pool: number;
+    astro: number;
+    protocol: number;
+    total: number;
+    apy: number;
+    token_symbol: string;
+  };
+  canManage: boolean;
+  canStake: boolean;
+  isStakable: boolean;
+};
+
 const createQuery = (pairs, address, generator) => {
   if (pairs.length === 0) {
     return;
@@ -109,90 +134,92 @@ export const useAllPools = () => {
     return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);
   };
 
-  return useMemo(() => {
+  return useMemo((): AllPoolsPool[] => {
     if (result == null) {
       return [];
     }
 
-    return pairs.map(({ contract_addr, liquidity_token, pair_type }) => {
-      const poolInfo = getPoolInfo(contract_addr);
-      const providedBalance = result[liquidity_token]?.contractQuery.balance;
-      const { total_share, assets } = result[contract_addr].contractQuery;
-      const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
-      const denoms = getPoolTokenDenoms(assets);
-      const [token1, token2] = denoms;
-      const balance = num(providedBalance).plus(stakedBalance);
+    return pairs.map(
+      ({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
+        const poolInfo = getPoolInfo(contract_addr);
+        const providedBalance = result[liquidity_token]?.contractQuery.balance;
+        const { total_share, assets } = result[contract_addr].contractQuery;
+        const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
+        const denoms = getPoolTokenDenoms(assets);
+        const [token1, token2] = denoms;
+        const balance = num(providedBalance).plus(stakedBalance);
 
-      let totalLiquidityInUst = poolInfo?.pool_liquidity;
+        let totalLiquidityInUst = poolInfo?.pool_liquidity;
 
-      if (!totalLiquidityInUst) {
-        const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
-        totalLiquidityInUst = num(uusd)
+        if (!totalLiquidityInUst) {
+          const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
+          totalLiquidityInUst = num(uusd)
+            .div(ONE_TOKEN)
+            .times(2)
+            .dp(6)
+            .toNumber();
+        }
+
+        if (
+          contract_addr === "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w" ||
+          contract_addr === "terra1esle9h9cjeavul53dqqws047fpwdhj6tynj5u4"
+        ) {
+          // bluna-luna pool
+          const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
+            assets,
+            "uluna"
+          );
+          totalLiquidityInUst = num(uluna)
+            .plus(num(uluna2).times(bLunaPriceInLuna))
+            .div(ONE_TOKEN)
+            .times(lunaPrice)
+            .dp(6)
+            .toNumber();
+        }
+
+        const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
+        const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
+        const myLiquidityInUst = num(balance)
           .div(ONE_TOKEN)
-          .times(2)
+          .times(totalLiquidityInUst)
+          .div(num(total_share).div(ONE_TOKEN))
           .dp(6)
           .toNumber();
+
+        const isStakable = stakableLp.includes(liquidity_token);
+
+        return {
+          inUse: balance.gt(0),
+          favorite: favoritesPools.indexOf(denoms.toString()) > -1,
+          contract: contract_addr,
+          assets: denoms,
+          sortingAssets: [
+            getSymbol(token1).toLowerCase(),
+            getSymbol(token2).toLowerCase(),
+            token1,
+            token2,
+            contract_addr,
+          ],
+          pairType: Object.keys(pair_type)[0],
+          totalLiquidity,
+          totalLiquidityInUst,
+          myLiquidity,
+          myLiquidityInUst,
+          _24hr_volume: poolInfo?._24hr_volume,
+          rewards: {
+            pool: poolInfo?.trading_fees?.apr || 0,
+            astro: poolInfo?.astro_rewards?.apr || 0,
+            protocol: poolInfo?.protocol_rewards?.apr || 0,
+            total: poolInfo?.total_rewards?.apr || 0,
+            apy: poolInfo?.total_rewards?.apy || 0,
+            token_symbol: poolInfo?.token_symbol,
+          },
+          canManage: myLiquidity > 0,
+          canStake: num(providedBalance).gt(0),
+          isStakable,
+        };
       }
-
-      if (
-        contract_addr === "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w" ||
-        contract_addr === "terra1esle9h9cjeavul53dqqws047fpwdhj6tynj5u4"
-      ) {
-        // bluna-luna pool
-        const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
-          assets,
-          "uluna"
-        );
-        totalLiquidityInUst = num(uluna)
-          .plus(num(uluna2).times(bLunaPriceInLuna))
-          .div(ONE_TOKEN)
-          .times(lunaPrice)
-          .dp(6)
-          .toNumber();
-      }
-
-      const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
-      const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
-      const myLiquidityInUst = num(balance)
-        .div(ONE_TOKEN)
-        .times(totalLiquidityInUst)
-        .div(num(total_share).div(ONE_TOKEN))
-        .dp(6)
-        .toNumber();
-
-      const isStakable = stakableLp.includes(liquidity_token);
-
-      return {
-        inUse: balance.gt(0),
-        favorite: favoritesPools.indexOf(denoms.toString()) > -1 ? 1 : 0,
-        contract: contract_addr,
-        assets: denoms,
-        sortingAssets: [
-          getSymbol(token1).toLowerCase(),
-          getSymbol(token2).toLowerCase(),
-          token1,
-          token2,
-          contract_addr,
-        ],
-        pairType: Object.keys(pair_type)[0],
-        totalLiquidity,
-        totalLiquidityInUst,
-        myLiquidity,
-        myLiquidityInUst,
-        _24hr_volume: poolInfo?._24hr_volume,
-        rewards: {
-          pool: poolInfo?.trading_fees?.apr || 0,
-          astro: poolInfo?.astro_rewards?.apr || 0,
-          protocol: poolInfo?.protocol_rewards?.apr || 0,
-          total: poolInfo?.total_rewards?.apr || 0,
-          apy: poolInfo?.total_rewards?.apy || 0,
-          token_symbol: poolInfo?.token_symbol,
-        },
-        canManage: myLiquidity > 0,
-        canStake: num(providedBalance).gt(0),
-        isStakable,
-      };
-    });
+    );
   }, [lunaPrice, pairs, result, poolsInfo, favoritesPools]);
 };
 
