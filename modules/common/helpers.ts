@@ -56,24 +56,27 @@ export const handleBigPercentage = (
 export const handleBigAndTinyAmount = (
   value: string | number,
   format: string = "0,0.00",
+  includeDollarSign: boolean = false,
   includeZero: boolean = false,
   numberPrefix: string = ""
 ) => {
   if (includeZero && num(value).eq(0)) {
-    return `< ${numberPrefix}0.01`;
+    return `< ${includeDollarSign ? "$" : ""}${numberPrefix}0.01`;
   }
 
   if (num(value).lt(0.01) && num(value).gt(0)) {
-    return `< ${numberPrefix}0.01`;
+    return `< ${includeDollarSign ? "$" : ""}${numberPrefix}0.01`;
   }
 
   if (num(value).gt(1000000)) {
-    return `${numberPrefix}${numeral(value)
+    return `${includeDollarSign ? "$" : ""}${numberPrefix}${numeral(value)
       .format("0.00a", Math.floor)
       .toUpperCase()}`;
   }
 
-  return `${numberPrefix}${numeral(value).format(format)}`;
+  return `${includeDollarSign ? "$" : ""}${numberPrefix}${numeral(value).format(
+    format
+  )}`;
 };
 
 export const handleTinyAmount = (
