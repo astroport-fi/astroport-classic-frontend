@@ -30,32 +30,26 @@ const AstroSliderButton: FC<Props> = ({
     }
   };
 
-  let aligment;
-  if (value === 4) {
-    aligment = "flex-end";
-  } else {
-    if (value === 0) {
-      aligment = "flex-start";
-    } else {
-      aligment = "center";
+  let alignment, left, right, transform;
+
+  switch (value) {
+    case 0:
+      alignment = "flex-start";
+      left = "0";
+      break;
+    case 4:
+      alignment = "flex-end";
+      right = "0";
+      break;
+    default: {
+      const position = Math.round(
+        ((max * value * ratioFixed - min) * 100) / (max - min)
+      );
+
+      alignment = "center";
+      left = `calc(${position}%)`;
+      transform = "translateX(-50%)";
     }
-  }
-  const position = Math.round(
-    ((max * value * ratioFixed - min) * 100) / (max - min)
-  );
-  let left = `calc(${position}%)`;
-  let right = "0";
-  let transform = "translateX(-50%)";
-
-  if (value === 0) {
-    left = "0";
-    transform = "0";
-  }
-
-  if (value === 4) {
-    left = "auto";
-    transform = "0";
-    right = "0";
   }
 
   return (
@@ -68,7 +62,7 @@ const AstroSliderButton: FC<Props> = ({
       onClick={handleClick}
       isDisabled={isDisabled}
     >
-      <VStack spacing={2} align={aligment}>
+      <VStack spacing={2} align={alignment}>
         <Box w="6px" h="6px" bg="white" borderRadius="100%" opacity="0.4" />
         <Text textStyle="small" color="white">
           {label}
