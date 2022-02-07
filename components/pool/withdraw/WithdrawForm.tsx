@@ -126,6 +126,7 @@ const WithdrawForm: FC<Props> = ({
             error={error}
             amount={amount}
             state={state}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             onClick={() => setShowConfirm(true)}
           />
         )}

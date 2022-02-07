@@ -132,6 +132,7 @@ const ProvideForm: FC<Props> = ({
             onChartClick={onChartClick}
             state={state}
             canStake={canStake}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             onClick={() => setShowConfirm(true)}
           />
         )}

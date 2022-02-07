@@ -23,6 +23,7 @@ type Props = {
   onModeClick: (v: ProvideFormMode) => void;
   onTypeClick: (v: PoolFormType) => void;
   state: WithdrawState;
+  txFeeNotEnough?: boolean;
   onClick: () => void;
 };
 
@@ -36,6 +37,7 @@ const WithdrawFormInitial: FC<Props> = ({
   onModeClick,
   onTypeClick,
   state,
+  txFeeNotEnough,
   onClick,
 }) => {
   const { control, setValue } = useFormContext();
@@ -126,6 +128,7 @@ const WithdrawFormInitial: FC<Props> = ({
         pool={pool}
         amount={amount}
         data={state}
+        txFeeNotEnough={txFeeNotEnough}
         onConfirmClick={onClick}
       />
 

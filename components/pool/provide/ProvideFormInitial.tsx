@@ -27,6 +27,7 @@ type Props = {
   amount2: string;
   isChartOpen: boolean;
   canStake: boolean;
+  txFeeNotEnough?: boolean;
   onChartClick: () => void;
   state: ProvideState;
   error: any;
@@ -48,6 +49,7 @@ const ProvideFormInitial: FC<Props> = ({
   error,
   state,
   canStake,
+  txFeeNotEnough,
   onClick,
 }) => {
   const { getDecimals } = useTokenInfo();
@@ -230,6 +232,7 @@ const ProvideFormInitial: FC<Props> = ({
         amount1={amount1}
         amount2={amount2}
         data={state}
+        txFeeNotEnough={txFeeNotEnough}
         onConfirmClick={onClick}
       />
 
