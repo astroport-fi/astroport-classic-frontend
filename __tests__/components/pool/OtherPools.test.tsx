@@ -250,7 +250,20 @@ describe("OtherPools", () => {
 
       await userEvent.type(
         screen.getByPlaceholderText("Search Token or Address"),
-        "terra456"
+        "terra456" // matches FOO - UST pool contract address
+      );
+
+      const rows = screen.getAllByRole("row");
+      expect(rows.length).toEqual(2); // header + 1 matching pool
+      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
+    });
+
+    it("only shows matching pools when searching by partial pool contract address", async () => {
+      render(<OtherPools />);
+
+      await userEvent.type(
+        screen.getByPlaceholderText("Search Token or Address"),
+        "terra4"
       );
 
       const rows = screen.getAllByRole("row");
@@ -270,6 +283,63 @@ describe("OtherPools", () => {
       expect(rows.length).toEqual(3); // header + 2 matching pools
       expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+    });
+
+    it("only shows matching pools when searching by partial token address", async () => {
+      render(<OtherPools />);
+
+      await userEvent.type(
+        screen.getByPlaceholderText("Search Token or Address"),
+        "terratoken" // Only matching token is FOO
+      );
+
+      const rows = screen.getAllByRole("row");
+      expect(rows.length).toEqual(3); // header + 2 matching pools
+      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+    });
+
+    it("does not match pools on latter portion of token address", async () => {
+      render(<OtherPools />);
+
+      await userEvent.type(
+        screen.getByPlaceholderText("Search Token or Address"),
+        "123" // Partial match for FOO token (terratoken123), but query must match beginning of address
+      );
+
+      const rows = screen.getAllByRole("row");
+      expect(rows.length).toEqual(1); // just header
+
+      expect(screen.getByText("No pools.")).toBeInTheDocument();
+    });
+
+    it("does not match beginning of address if query does not begin with 'terra'", async () => {
+      render(<OtherPools />);
+
+      await userEvent.type(
+        screen.getByPlaceholderText("Search Token or Address"),
+        "t" // not enough to match on addresses, but does match all UST pools
+      );
+
+      const rows = screen.getAllByRole("row");
+      expect(rows.length).toEqual(3); // header + 2 UST pools
+      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+    });
+
+    it("matches contract and token addresses with 'terra' query", async () => {
+      render(<OtherPools />);
+
+      await userEvent.type(
+        screen.getByPlaceholderText("Search Token or Address"),
+        "terra" // Matches all addresses
+      );
+
+      const rows = screen.getAllByRole("row");
+      expect(rows.length).toEqual(4); // header + all 3 pools
+      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - UST")).toBeInTheDocument();
     });
 
     it("only shows matching pools when searching by token denom", async () => {

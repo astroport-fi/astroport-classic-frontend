@@ -12,6 +12,7 @@ import { useCallback } from "react";
 // Filter only displayed assets from column:sortingAssets
 const filterPoolAssets = (rows: any, columns: any, filterValue: string) => {
   return rows.filter((row) => {
+    const query = filterValue.toLowerCase();
     const assets = row.original.sortingAssets;
 
     if (!assets) {
@@ -21,7 +22,15 @@ const filterPoolAssets = (rows: any, columns: any, filterValue: string) => {
     for (const asset of assets) {
       const string = asset ? String(asset).toLowerCase() : "";
 
-      if (string.includes(filterValue.toLowerCase())) {
+      // If the sortingAsset string looks like an address (starts with "terra"),
+      // then the query must begin with "terra" and also match. If the sortingAsset string
+      // does not look like an address (e.g. a symbol), then any query can match.
+      // This allows the search to be useful when the query is short (e.g. 1 character),
+      // otherwise it'd match lots of pools by address.
+      if (
+        (!string.startsWith("terra") || query.startsWith("terra")) &&
+        string.includes(query)
+      ) {
         return true;
       }
     }
