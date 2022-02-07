@@ -1,15 +1,15 @@
 import { useMemo } from "react";
 
 import { useOneTimeLockdropRewards } from "modules/lockdrop";
-import { useBreakdownRewardsInUst } from "modules/reward";
+import { useBreakdownRewardsTotalInUst } from "modules/reward";
 
 export const useTotalRewardValueInUst = () => {
   const lockdropRewardsInUst = useOneTimeLockdropRewards();
-  const breakdownRewardsInUst = useBreakdownRewardsInUst();
+  const breakdownRewardsTotalInUst = useBreakdownRewardsTotalInUst();
 
   return useMemo(() => {
-    return lockdropRewardsInUst + breakdownRewardsInUst;
-  }, [lockdropRewardsInUst, breakdownRewardsInUst]);
+    return lockdropRewardsInUst + breakdownRewardsTotalInUst;
+  }, [lockdropRewardsInUst, breakdownRewardsTotalInUst]);
 };
 
 export default useTotalRewardValueInUst;

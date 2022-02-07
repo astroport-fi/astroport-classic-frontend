@@ -4,6 +4,7 @@ export * from "./usePhase2Rewards";
 export * from "./useLpRewards";
 export * from "./useBreakdownRewards";
 export * from "./useBreakdownRewardsInUst";
+export * from "./useBreakdownRewardsTotalInUst";
 export * from "./useClaimAll";
 export * from "./useClaimLockdropReward";
 export * from "./useClaimAuctionReward";

@@ -8,14 +8,15 @@ import {
   usePhase2Rewards,
   useTotalRewardValueInUst,
   useBreakdownRewards,
+  useBreakdownRewardsInUst,
 } from "modules/reward";
 
 import RewardLineItem from "components/reward/RewardLineItem";
 
 const RewardBreakdown: FC = () => {
-  const rewards = useBreakdownRewards();
+  const rewardsInUst = useBreakdownRewardsInUst();
 
-  if (rewards.length === 0) {
+  if (rewardsInUst.length === 0) {
     return null;
   }
 
@@ -27,7 +28,7 @@ const RewardBreakdown: FC = () => {
         </Text>
       </Flex>
 
-      {rewards.map((reward) => (
+      {rewardsInUst.map((reward) => (
         <RewardLineItem
           key={reward.token}
           token={reward.token}
