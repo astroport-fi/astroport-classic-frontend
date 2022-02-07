@@ -51,8 +51,8 @@ const ProvideFormInitial: FC<Props> = ({
   onClick,
 }) => {
   const { getDecimals } = useTokenInfo();
-  const token1Balance = useBalance(token1);
-  const token2Balance = useBalance(token2);
+  const token1Balance = useBalance(token1) ?? 0;
+  const token2Balance = useBalance(token2) ?? 0;
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
   const showSlider = num(pool.total.share).gt(0);
