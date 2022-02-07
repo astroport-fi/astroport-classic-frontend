@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  PairResponse,
+  useAstroswap,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
 
@@ -134,6 +138,7 @@ const WithdrawForm: FC<Props> = ({
             token2={token2}
             amount2={token2Amount}
             fee={state.fee}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             onCloseClick={() => setShowConfirm(false)}
           />
         )}

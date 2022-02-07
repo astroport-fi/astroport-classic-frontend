@@ -91,6 +91,7 @@ const UnlockForm: FC = () => {
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             title="Confirm Unlocking LP Tokens"
             actionLabel="Confirm Unlocking LP Tokens"
             contentComponent={

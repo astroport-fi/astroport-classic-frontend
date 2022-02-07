@@ -26,6 +26,7 @@ type Props = {
     color?: string;
   }[];
   fee?: Fee | null;
+  txFeeNotEnough?: boolean;
   actionLabel?: string;
   onCloseClick: () => void;
 };
@@ -36,6 +37,7 @@ const FormConfirm: FC<Props> = ({
   title,
   actionLabel,
   fee,
+  txFeeNotEnough,
   contentComponent,
   details,
   onCloseClick,
@@ -125,7 +127,13 @@ const FormConfirm: FC<Props> = ({
         {children}
 
         <Flex flexDir="column" align="center" mt="8">
-          <Button variant="primary" minW={["32", "64"]} size="sm" type="submit">
+          <Button
+            variant="primary"
+            minW={["32", "64"]}
+            size="sm"
+            type="submit"
+            isDisabled={txFeeNotEnough}
+          >
             {actionLabel}
           </Button>
           {fee && <FormFee fee={fee} />}

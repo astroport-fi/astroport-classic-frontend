@@ -4,7 +4,12 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
-import { PairResponse, useAstroswap, useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  PairResponse,
+  useAstroswap,
+  useContracts,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -134,6 +139,7 @@ const ProvideForm: FC<Props> = ({
           <ProvideFormConfirm
             pool={pool}
             fee={state.fee}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             autoStake={autoStake}
             token1={token1}
             amount1={amount1}
