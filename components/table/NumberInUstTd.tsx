@@ -22,7 +22,7 @@ const NumberInUstTd: FC<Props> = ({
   return (
     <TokensPopover type={type} format={format} tokenTooltip={tokenTooltip}>
       <HStack>
-        <Text fontSize="sm">
+        <Text cursor={type && tokenTooltip ? "pointer" : "auto"} fontSize="sm">
           {handleBigAndTinyAmount(value, format, includeDollarSign)}
         </Text>
       </HStack>
