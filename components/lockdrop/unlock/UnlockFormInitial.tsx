@@ -8,14 +8,23 @@ import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import UnlockFormFooter from "components/lockdrop/unlock/UnlockFormFooter";
+import WarningMessage from "components/common/WarningMessage";
 
 type Params = {
   state: UnlockState;
+  error: any;
+  txFeeNotEnough?: boolean;
   duration: number;
   onClick: () => void;
 };
 
-const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
+const UnlockFormInitial = ({
+  state,
+  error,
+  txFeeNotEnough,
+  duration,
+  onClick,
+}: Params) => {
   const { control, watch } = useFormContext();
 
   const { token, amount } = watch();
@@ -91,8 +100,10 @@ const UnlockFormInitial = ({ state, duration, onClick }: Params) => {
         lpToken={token}
         duration={duration}
         data={state}
+        txFeeNotEnough={txFeeNotEnough}
         onConfirmClick={onClick}
       />
+      {error && <WarningMessage mb="8" content={error} />}
     </>
   );
 };

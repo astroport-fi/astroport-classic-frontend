@@ -5,6 +5,7 @@ import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
   data: any;
+  txFeeNotEnough?: boolean;
   amount: string;
   lpToken: string;
   duration: number;
@@ -13,13 +14,13 @@ type Props = {
 
 const UnlockFormFooter: FC<Props> = ({
   data,
-
+  txFeeNotEnough,
   onConfirmClick,
 }) => {
   const confirmButton: ConfirmButton = {
     title: "Unlock LP token",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready,
+    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

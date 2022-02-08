@@ -7,9 +7,10 @@ import { useClaimAuctionReward } from "modules/reward";
 
 type Props = {
   amount: string;
+  txFeeNotEnough?: boolean;
 };
 
-const ClaimAuctionRewardBtn: FC<Props> = ({ amount }) => {
+const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
   const { addNotification } = useAstroswap();
 
   const { msgs } = useClaimAuctionReward({ amount });
@@ -44,7 +45,7 @@ const ClaimAuctionRewardBtn: FC<Props> = ({ amount }) => {
       variant="primary"
       flex="1"
       onClick={handleClick}
-      isDisabled={fee == null}
+      isDisabled={fee == null || txFeeNotEnough}
     >
       Claim Rewards
     </Button>

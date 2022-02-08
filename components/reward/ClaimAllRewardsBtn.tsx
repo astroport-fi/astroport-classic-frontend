@@ -2,9 +2,8 @@ import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
 import { Text, Button, VStack } from "@chakra-ui/react";
 
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useClaimAll } from "modules/reward";
-
 import FormFee from "components/common/FormFee";
 
 type Props = {
@@ -13,6 +12,7 @@ type Props = {
 
 const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
   const { addNotification } = useAstroswap();
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const state = useClaimAll({
     onSuccess,
@@ -35,7 +35,7 @@ const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
         w="full"
         variant="primary"
         onClick={state.submit}
-        isDisabled={state.txStep != TxStep.Ready}
+        isDisabled={state.txStep != TxStep.Ready || notEnoughUSTToPayFees}
       >
         Claim Rewards
       </Button>

@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 
 import { useAstroPools } from "modules/lockdrop";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 
 import CardHeader from "components/CardHeader";
 import Card from "components/Card";
@@ -14,6 +15,7 @@ import MyLockActionsTd from "components/table/MyLockActionsTd";
 
 const MyLockedPools = () => {
   const pools = useAstroPools();
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const columns = useMemo(
     () => [
@@ -72,6 +74,7 @@ const MyLockedPools = () => {
             isClaimable={row.original.isClaimable}
             astroLpToken={row.original.astroLpToken}
             isClaimed={row.original.isClaimed}
+            txFeeNotEnough={notEnoughUSTToPayFees}
           />
         ),
         accessor: "actions",
