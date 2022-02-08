@@ -3,6 +3,7 @@ import { useWallet, ConnectType } from "@terra-money/wallet-provider";
 import { Text, HStack, Flex, chakra, Image } from "@chakra-ui/react";
 import Modal from "components/modals/Modal";
 import TerraExtensionIcon from "components/icons/TerraExtensionIcon";
+import XDefiIcon from "components/icons/XDefiIcon";
 
 type Props = {
   isOpen: boolean;
@@ -15,6 +16,16 @@ type WalletOptions = {
   icon: string;
   isInstalled?: boolean;
   walletAction: () => void;
+};
+
+const getIconImg = (identifier: string, icon: string) => {
+  if (identifier === "terra") {
+    return <TerraExtensionIcon />;
+  } else if (identifier == "xdefi-wallet") {
+    return <XDefiIcon />;
+  }
+
+  return <Image src={icon} htmlWidth="24" alt="" />;
 };
 
 const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
@@ -75,11 +86,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
           >
             <HStack justify="space-between">
               <Text>{values.name}</Text>
-              {values.identifier === "station" ? (
-                <TerraExtensionIcon />
-              ) : (
-                <Image src={values.icon} htmlWidth="24" alt="" />
-              )}
+              {getIconImg(values.identifier, values.icon)}
             </HStack>
           </chakra.button>
         ))}
