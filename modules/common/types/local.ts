@@ -1,10 +1,16 @@
-import { PairResponse } from "./astroswap";
+import { Asset, PairResponse } from "./astroswap";
 
 export type Token = {
   protocol: string;
   symbol: string;
   token: string;
   icon: string;
+};
+
+export type TokenTooltip = {
+  poolAssets: [Asset, Asset];
+  myLiquidity: number;
+  totalLiquidity: number;
 };
 
 export type Tokens = {

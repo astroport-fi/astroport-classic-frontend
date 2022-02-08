@@ -9,6 +9,7 @@ import {
   useLunaPriceInUst,
   useHive,
   useTokenInfo,
+  Asset,
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -20,6 +21,7 @@ export type AllPoolsPool = {
   favorite: boolean;
   contract: string;
   assets: string[];
+  poolAssets: Asset[];
   sortingAssets: string[];
   pairType: string;
   totalLiquidity: number;
@@ -193,6 +195,7 @@ export const useAllPools = () => {
           favorite: favoritesPools.indexOf(denoms.toString()) > -1,
           contract: contract_addr,
           assets: denoms,
+          poolAssets: assets,
           sortingAssets: [
             getSymbol(token1).toLowerCase(),
             getSymbol(token2).toLowerCase(),
