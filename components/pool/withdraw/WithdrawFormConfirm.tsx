@@ -35,7 +35,7 @@ const WithdrawFormConfirm: FC<Props> = ({
       fee={fee}
       txFeeNotEnough={txFeeNotEnough}
       title="Confirm withdraw liquidity"
-      actionLabel="Confirm withdraw"
+      actionLabel="Confirm Withdraw"
       contentComponent={
         <FormSummary
           label="You are receiving:"
