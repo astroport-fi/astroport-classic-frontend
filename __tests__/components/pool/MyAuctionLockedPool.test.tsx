@@ -29,6 +29,8 @@ jest.mock("modules/common", () => {
   const original = jest.requireActual("modules/common");
 
   return {
+    useTokenTooltip: jest.fn(() => []),
+    useNotEnoughUSTBalanceToPayFees: jest.fn(() => false),
     handleBigAndTinyAmount: original.handleBigAndTinyAmount,
     useTokenInfo: jest.fn(),
   };
@@ -49,19 +51,19 @@ jest.mock("modules/swap", () => {
   return {
     ...original,
     usePrice: jest.fn(() => ({
-      getPriceInUst: jest.fn(() => 0)
-    }))
+      getPriceInUst: jest.fn(() => 0),
+    })),
   };
 });
 
 jest.mock("modules/reward", () => ({
-  ClaimAuctionRewardBtn: () => <button></button>
+  ClaimAuctionRewardBtn: () => <button></button>,
 }));
 
 // Stub entire RewardsTd component to render static rewards amount for all pools
 jest.mock("components/table/RewardsTd", () => ({
   __esModule: true,
-  default: () => <div>$ 42.42</div>
+  default: () => <div>$ 42.42</div>,
 }));
 
 const mockPool = (
@@ -141,9 +143,7 @@ describe("MyAuctionLockedPool", () => {
       expect(
         within(headers[1]).getByText("Total Liquidity")
       ).toBeInTheDocument();
-      expect(
-        within(headers[2]).getByText("My Liquidity")
-      ).toBeInTheDocument();
+      expect(within(headers[2]).getByText("My Liquidity")).toBeInTheDocument();
       expect(
         within(headers[3]).getByText("Unlockable Liquidity")
       ).toBeInTheDocument();

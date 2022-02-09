@@ -27,6 +27,7 @@ jest.mock("modules/common", () => {
 
   return {
     ...original,
+    useTokenTooltip: jest.fn(() => []),
     useTokenInfo: jest.fn(),
     useBalances: jest.fn(),
   };
