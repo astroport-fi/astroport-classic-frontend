@@ -27,14 +27,15 @@ const RewardBreakdown: FC = () => {
           Rewards BreakDown
         </Text>
       </Flex>
-
-      {rewardsInUst.map((reward) => (
-        <RewardLineItem
-          key={reward.token}
-          token={reward.token}
-          amount={reward.amount}
-        />
-      ))}
+      <Box maxH="300" py="2" overflowY="auto">
+        {rewardsInUst.map((reward) => (
+          <RewardLineItem
+            key={reward.token}
+            token={reward.token}
+            amount={reward.amount}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };
