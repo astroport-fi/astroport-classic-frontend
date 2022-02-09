@@ -47,7 +47,7 @@ const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
         variant="dimmed"
         textAlign="center"
       >
-        Disclaimer: you can only claim 4 positions (not tokens) rewards in one
+        Disclaimer: you can only claim 4 positions (not tokens) in one
         transaction because of wallet limitations
       </Text>
     </VStack>
