@@ -57,12 +57,12 @@ const TokensPopover: FC<Props> = ({ type, format, tokenTooltip, children }) => {
               </Text>
               <Text
                 pl="2"
-                w="16"
+                w="24"
                 align="right"
                 fontSize="xs"
                 color="rgba(255, 255, 255, 0.6)"
               >
-                {handleBigAndTinyAmount(row.value, "0,0")}
+                {handleBigAndTinyAmount(row.value)}
               </Text>
             </Flex>
           ))}
