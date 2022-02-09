@@ -1,10 +1,10 @@
-import React, { FC, useState, useCallback, useEffect } from "react";
+import React, { FC, useState, useCallback, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { TxStep, num } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useUnlock, useLockedLpAmount } from "modules/lockdrop";
 
 import FormLoading from "components/common/FormLoading";
@@ -33,6 +33,15 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
       token: astroLpToken,
     },
   });
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  const error = useMemo(() => {
+    if (notEnoughUSTToPayFees) {
+      return "Insufficient UST to pay for the transaction.";
+    }
+
+    return false;
+  }, [notEnoughUSTToPayFees]);
 
   const { watch, setValue, handleSubmit } = methods;
 
@@ -88,6 +97,8 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
           <UnlockFormInitial
             state={state}
             duration={duration}
+            error={error}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             onClick={() => setShowConfirm(true)}
           />
         )}

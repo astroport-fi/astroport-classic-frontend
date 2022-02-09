@@ -9,6 +9,7 @@ type Props = {
   duration: number;
   isClaimable: boolean;
   isClaimed: boolean;
+  txFeeNotEnough?: boolean;
   astroLpToken: string;
 };
 
@@ -17,12 +18,17 @@ const MyLockActionsTd: FC<Props> = ({
   duration,
   isClaimable,
   isClaimed,
+  txFeeNotEnough,
   astroLpToken,
 }) => {
   if (!isClaimable) {
     return (
       <HStack justify="flex-end">
-        <ClaimLockdropRewardBtn contract={name} duration={duration} />
+        <ClaimLockdropRewardBtn
+          contract={name}
+          duration={duration}
+          txFeeNotEnough={txFeeNotEnough}
+        />
         <Button as="div" variant="silent" size="sm" isDisabled flex="1">
           Locked
         </Button>
@@ -42,7 +48,11 @@ const MyLockActionsTd: FC<Props> = ({
 
   return (
     <HStack justify="flex-end">
-      <ClaimLockdropRewardBtn contract={name} duration={duration} />
+      <ClaimLockdropRewardBtn
+        contract={name}
+        duration={duration}
+        txFeeNotEnough={txFeeNotEnough}
+      />
       <Link href={`/unlock/${name}/${duration}/${astroLpToken}`} passHref>
         <Button as="a" variant="primary" size="sm" flex="1">
           Manage

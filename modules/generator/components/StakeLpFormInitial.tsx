@@ -12,9 +12,12 @@ import Card from "components/Card";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import AstroSlider from "components/AstroSlider";
+import WarningMessage from "components/common/WarningMessage";
 
 type Params = {
   state: StakeLpTokenState;
+  error: any;
+  txFeeNotEnough?: boolean;
   type: PoolFormType;
   onTypeClick: any;
   isChartOpen: boolean;
@@ -28,6 +31,8 @@ const StakeLpFormInitial = ({
   isChartOpen,
   onChartClick,
   state,
+  error,
+  txFeeNotEnough,
   onClick,
 }: Params) => {
   const { control, watch, setValue } = useFormContext();
@@ -111,7 +116,12 @@ const StakeLpFormInitial = ({
         </Card>
       )}
 
-      <StakeLpFormFooter data={state} onConfirmClick={onClick} />
+      <StakeLpFormFooter
+        data={state}
+        txFeeNotEnough={txFeeNotEnough}
+        onConfirmClick={onClick}
+      />
+      {error && <WarningMessage mb="8" content={error} />}
     </>
   );
 };

@@ -1,3 +1,7 @@
+| Master | Develop |
+| ------ | ------- |
+| ![Test Suite (master)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=master) | ![Test Suite (develop)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=develop) |
+
 # Astroport Core UI
 
 The Astroport Core UI is a web frontend used for interacting with the Astroport Smart Contracts. It is intended to be used with the [Terra Station Extension](https://terra.money/extension) plugin for Chromium browsers.

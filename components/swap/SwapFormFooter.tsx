@@ -29,6 +29,7 @@ type Props = {
   isLoading: boolean;
   swapRoute: Route[];
   isFormValid: boolean;
+  txFeeNotEnough?: boolean;
   error: any;
   onConfirmClick: () => void;
 };
@@ -42,6 +43,7 @@ const SwapFormFooter: FC<Props> = ({
   formattedPrice,
   isLoading,
   isFormValid,
+  txFeeNotEnough,
   swapRoute,
   error,
   fee,
@@ -123,12 +125,12 @@ const SwapFormFooter: FC<Props> = ({
             type="button"
             onClick={onConfirmClick}
             isLoading={isLoading}
-            isDisabled={!isFormValid || !!error || fee == null}
+            isDisabled={
+              !isFormValid || !!error || fee == null || txFeeNotEnough
+            }
             width={["125px", "auto"]}
           >
-            <Text fontSize={["xs", "sm"]}>
-              Swap Tokens
-            </Text>
+            <Text fontSize={["xs", "sm"]}>Swap Tokens</Text>
           </Button>
         )}
         {isFormValid && (

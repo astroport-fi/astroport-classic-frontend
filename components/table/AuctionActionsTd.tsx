@@ -7,14 +7,23 @@ import { ClaimAuctionRewardBtn } from "modules/reward";
 type Props = {
   isClaimable: boolean;
   isClaimed: boolean;
+  txFeeNotEnough?: boolean;
   amount: string;
 };
 
-const AuctionActionsTd: FC<Props> = ({ isClaimable, isClaimed, amount }) => {
+const AuctionActionsTd: FC<Props> = ({
+  isClaimable,
+  isClaimed,
+  txFeeNotEnough,
+  amount,
+}) => {
   if (!isClaimable) {
     return (
       <HStack justify="flex-end">
-        <ClaimAuctionRewardBtn amount={amount} />
+        <ClaimAuctionRewardBtn
+          amount={amount}
+          txFeeNotEnough={txFeeNotEnough}
+        />
         <Button as="div" variant="silent" size="sm" isDisabled flex="1">
           Locked
         </Button>
@@ -34,7 +43,7 @@ const AuctionActionsTd: FC<Props> = ({ isClaimable, isClaimed, amount }) => {
 
   return (
     <HStack justify="flex-end">
-      <ClaimAuctionRewardBtn amount={amount} />
+      <ClaimAuctionRewardBtn amount={amount} txFeeNotEnough={txFeeNotEnough} />
       <Link href={`/unlock-phase-2`} passHref>
         <Button as="a" variant="primary" size="sm" flex="1">
           Manage

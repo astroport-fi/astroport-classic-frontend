@@ -122,7 +122,7 @@ const whitelist = {
         protocol: "XDEFI",
         symbol: "XDEFI",
         token: "terra169edevav3pdrtjcx35j6pvzuv54aevewar4nlh",
-        icon: "/tokens/xdefi.svg",
+        icon: "/tokens/xdefi.png",
         decimals: 8,
       },
       terra1pepwcav40nvj3kh60qqgrk8k07ydmc00xyat06: {
@@ -849,7 +849,7 @@ const whitelist = {
         protocol: "xDEFI",
         symbol: "XDEFI",
         token: "terra186tpamwvve5c7dhymrmk2r3zz3ynnurhupd7p9",
-        icon: "/tokens/xdefi.svg",
+        icon: "/tokens/xdefi.png",
         decimals: 8,
       },
       terra1hp84qsfk6qv0x2en8hdul3370a79qk90e59a5v: {

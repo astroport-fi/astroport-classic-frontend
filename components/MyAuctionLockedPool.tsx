@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Box, Link, Text } from "@chakra-ui/react";
 
 import { useAuctionPools } from "modules/auction";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 
 import CardHeader from "components/CardHeader";
 import Card from "components/Card";
@@ -14,6 +15,7 @@ import AuctionActionsTd from "components/table/AuctionActionsTd";
 
 const MyAuctionLockedPool = () => {
   const auctionPools = useAuctionPools();
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const columns = useMemo(
     () => [
@@ -77,6 +79,7 @@ const MyAuctionLockedPool = () => {
           <AuctionActionsTd
             isClaimable={row.original.isClaimable}
             isClaimed={row.original.isClaimed}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             amount={row.original.amount}
           />
         ),

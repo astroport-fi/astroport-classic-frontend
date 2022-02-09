@@ -8,9 +8,10 @@ import AprFooter from "components/pool/AprFooter";
 
 type Props = {
   pool: Pool;
-  data: any;
   amount1: string;
   amount2: string;
+  data: any;
+  txFeeNotEnough?: boolean;
   onConfirmClick: () => void;
 };
 
@@ -19,6 +20,7 @@ const ProvideFormFooter: FC<Props> = ({
   amount1,
   amount2,
   data,
+  txFeeNotEnough,
   onConfirmClick,
 }) => {
   const shareOfPool = useEstShareOfPool({
@@ -53,7 +55,7 @@ const ProvideFormFooter: FC<Props> = ({
   const confirmButton: ConfirmButton = {
     title: "Add Liquidity",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready,
+    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

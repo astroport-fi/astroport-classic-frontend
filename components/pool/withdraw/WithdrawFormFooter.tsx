@@ -9,8 +9,9 @@ import AprFooter from "components/pool/AprFooter";
 
 type Props = {
   pool: Pool;
-  data: any;
   amount: string;
+  data: any;
+  txFeeNotEnough?: boolean;
   onConfirmClick: () => void;
 };
 
@@ -18,6 +19,7 @@ const WithdrawFormFooter: FC<Props> = ({
   pool,
   amount,
   data,
+  txFeeNotEnough,
   onConfirmClick,
 }) => {
   const balance = useBalance(pool.lpTokenContract);
@@ -60,7 +62,7 @@ const WithdrawFormFooter: FC<Props> = ({
   const confirmButton: ConfirmButton = {
     title: "Withdraw Liquidity",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready,
+    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

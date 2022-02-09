@@ -21,18 +21,20 @@ export const useBreakdownRewardsInUst = () => {
     }
   );
 
-  return useMemo(() => {
-    if (data == null) {
-      return 0;
-    }
+  const rewardsWithUst = rewards.map((reward, index) => {
+    const price = data[index];
+    return {
+      token: reward.token,
+      amount: reward.amount,
+      positions: reward.positions,
+      price,
+      amountUst: reward.amount * price,
+    };
+  });
 
-    const total = rewards.reduce((acc, reward, index) => {
-      // TODO: Make sure the tokens are in the same order as the query
-      return acc + data[index] * reward.amount;
-    }, 0);
-
-    return num(total).dp(6).toNumber();
-  }, [data]);
+  return rewardsWithUst.sort(function (a, b) {
+    return a.amountUst < b.amountUst ? 1 : -1;
+  });
 };
 
 export default useBreakdownRewardsInUst;

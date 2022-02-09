@@ -13,6 +13,7 @@ type Props = {
   token2: string;
   amount2: string;
   fee: Fee;
+  txFeeNotEnough?: boolean;
   onCloseClick: () => void;
 };
 
@@ -23,6 +24,7 @@ const WithdrawFormConfirm: FC<Props> = ({
   token2,
   amount2,
   fee,
+  txFeeNotEnough,
   onCloseClick,
 }) => {
   const shareOfPool = useEstShareOfPool({ pool, amount1, amount2 });
@@ -31,8 +33,9 @@ const WithdrawFormConfirm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
+      txFeeNotEnough={txFeeNotEnough}
       title="Confirm withdraw liquidity"
-      actionLabel="Confirm withdraw"
+      actionLabel="Confirm Withdraw"
       contentComponent={
         <FormSummary
           label="You are receiving:"

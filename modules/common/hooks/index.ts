@@ -10,3 +10,4 @@ export * from "./useTogglePairToFavorite";
 export * from "./useBalances";
 export * from "./useTokenPrices";
 export * from "./usePriceDerived";
+export * from "./useTokenTooltip";

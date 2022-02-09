@@ -286,6 +286,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               fee={fee}
               error={error}
               isFormValid={isFormValid}
+              txFeeNotEnough={notEnoughUSTToPayFees}
               onConfirmClick={() => {
                 expertMode ? onSubmit() : setShowConfirm(true);
               }}

@@ -20,6 +20,7 @@ import FormSummary from "components/common/FormSummary";
 type Props = {
   pool: Pool;
   fee: Fee;
+  txFeeNotEnough?: boolean;
   token1: string;
   token2: string;
   amount1: string;
@@ -31,6 +32,7 @@ type Props = {
 const ProvideForm: FC<Props> = ({
   pool,
   fee,
+  txFeeNotEnough,
   token1,
   token2,
   amount1,
@@ -50,8 +52,9 @@ const ProvideForm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
+      txFeeNotEnough={txFeeNotEnough}
       title="Confirm adding liquidity"
-      actionLabel="Confirm adding liquidity"
+      actionLabel="Confirm Adding Liquidity"
       contentComponent={
         <FormSummary
           label="You are providing"

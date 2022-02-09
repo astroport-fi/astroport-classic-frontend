@@ -16,6 +16,7 @@ type Props = {
   setType: (v: AstroFormType) => void;
   amount: string;
   isLoading: boolean;
+  txFeeNotEnough?: boolean;
   fee: Fee;
   price?: number;
   error: any;
@@ -26,6 +27,7 @@ const GovStakeFormInitial: FC<Props> = ({
   setType,
   amount,
   isLoading,
+  txFeeNotEnough,
   fee,
   price,
   error,
@@ -96,7 +98,7 @@ const GovStakeFormInitial: FC<Props> = ({
           fee={fee}
           type={type}
           isLoading={isLoading}
-          isDisabled={fee == null}
+          isDisabled={fee == null || txFeeNotEnough}
           amount={amount}
         />
       </Stack>

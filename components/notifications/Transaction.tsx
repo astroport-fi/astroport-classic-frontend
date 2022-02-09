@@ -52,7 +52,7 @@ const Transaction: FC<Props> = ({
           {txHash && (
             <Link href={finder(txHash, "tx")} isExternal>
               <Text textStyle={["small", "medium"]} variant="dimmed">
-                View on Terra Finder
+                View Transaction
               </Text>
             </Link>
           )}

@@ -66,6 +66,8 @@ export const useLockdropRewards = () => {
             .dp(6)
             .toNumber(),
           lp: info.astroport_lp_token,
+          claimLp: info.terraswap_lp_token,
+          claimDuration: info.duration,
         });
       }
 
@@ -82,6 +84,8 @@ export const useLockdropRewards = () => {
               .dp(6)
               .toNumber(),
             lp: info.astroport_lp_token,
+            claimLp: info.terraswap_lp_token,
+            claimDuration: info.duration,
           });
         }
       }

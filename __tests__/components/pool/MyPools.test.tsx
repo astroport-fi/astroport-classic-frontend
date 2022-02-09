@@ -27,6 +27,7 @@ jest.mock("modules/common", () => {
 
   return {
     ...original,
+    useTokenTooltip: jest.fn(() => []),
     useTokenInfo: jest.fn(),
   };
 });
@@ -87,11 +88,18 @@ describe("MyPools", () => {
       });
 
       (useAllPools as jest.Mock).mockReturnValue([
-        mockPool("terra123", ["uusd", "uluna"], .42, 100_000, 200_000_000, "xyk"),
+        mockPool(
+          "terra123",
+          ["uusd", "uluna"],
+          0.42,
+          100_000,
+          200_000_000,
+          "xyk"
+        ),
         mockPool(
           "terra456",
           ["terratoken123", "uusd"],
-          .5,
+          0.5,
           1_000,
           1_000_000,
           "xyk"
@@ -99,14 +107,22 @@ describe("MyPools", () => {
         mockPool(
           "terra789",
           ["uluna", "terratoken123"],
-          .123,
+          0.123,
           42,
           100_000_000,
           "stable"
         ),
 
         // Pool user is not participating in
-        mockPool("terra890", ["terratoken123", "terratoken456"], 0, 0, 0, "xyk", false),
+        mockPool(
+          "terra890",
+          ["terratoken123", "terratoken456"],
+          0,
+          0,
+          0,
+          "xyk",
+          false
+        ),
       ]);
     });
 
@@ -118,7 +134,9 @@ describe("MyPools", () => {
       const headers = within(rows[0]).getAllByRole("columnheader");
       expect(within(headers[1]).getByText("Pool Name")).toBeInTheDocument();
       expect(within(headers[2]).getByText("Combined APR")).toBeInTheDocument();
-      expect(within(headers[3]).getByText("Total Liquidity")).toBeInTheDocument();
+      expect(
+        within(headers[3]).getByText("Total Liquidity")
+      ).toBeInTheDocument();
       expect(within(headers[4]).getByText("24h Volume")).toBeInTheDocument();
       expect(within(headers[5]).getByText("My Liquidity")).toBeInTheDocument();
 
@@ -153,7 +171,7 @@ describe("MyPools", () => {
       expect(within(row3[5]).getByText("$ 42.00")).toBeInTheDocument();
 
       // Pools user is not participating in should not be displayed
-      expect(screen.queryByText('BAR')).not.toBeInTheDocument();
+      expect(screen.queryByText("BAR")).not.toBeInTheDocument();
     });
 
     it("sorts by total liquidity ascending when heading is clicked once (it's sorted descending by default)", async () => {
@@ -231,7 +249,15 @@ describe("MyPools", () => {
   describe("when there are no pools that the user is participating in", () => {
     beforeEach(() => {
       (useAllPools as jest.Mock).mockReturnValue([
-        mockPool("terra890", ["terratoken123", "terratoken456"], 0, 0, 0, "xyk", false),
+        mockPool(
+          "terra890",
+          ["terratoken123", "terratoken456"],
+          0,
+          0,
+          0,
+          "xyk",
+          false
+        ),
       ]);
     });
 

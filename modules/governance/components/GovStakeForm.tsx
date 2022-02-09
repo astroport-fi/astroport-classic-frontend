@@ -117,6 +117,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
           price={price}
           error={error}
           isLoading={feeIsLoading}
+          txFeeNotEnough={notEnoughUSTToPayFees}
           fee={fee}
         />
       </chakra.form>

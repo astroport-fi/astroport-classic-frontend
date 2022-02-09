@@ -5,10 +5,15 @@ import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
   data: any;
+  txFeeNotEnough?: boolean;
   onConfirmClick: () => void;
 };
 
-const StakeLpFormFooter: FC<Props> = ({ data, onConfirmClick }) => {
+const StakeLpFormFooter: FC<Props> = ({
+  data,
+  txFeeNotEnough,
+  onConfirmClick,
+}) => {
   // const cells = [
   //   {
   //     title: "Astro Generator APY",
@@ -31,7 +36,7 @@ const StakeLpFormFooter: FC<Props> = ({ data, onConfirmClick }) => {
   const confirmButton: ConfirmButton = {
     title: "Stake LP Tokens",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready,
+    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

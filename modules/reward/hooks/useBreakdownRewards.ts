@@ -21,9 +21,18 @@ export const useBreakdownRewards = () => {
     });
 
     return Object.keys(rewards).map((token) => {
+      const lpPositions = lpRewardsGroups[token]
+        ? lpRewardsGroups[token]?.map((a) => ({ ...a, type: "lp" }))
+        : [];
+
+      const lockdropPositions = lockRewardsGroups[token]
+        ? lockRewardsGroups[token]?.map((a) => ({ ...a, type: "lockdrop" }))
+        : [];
+
       return {
         token,
         amount: rewards[token],
+        positions: [...lpPositions, ...lockdropPositions],
       };
     });
   }, [lpRewards, lockRewards]);

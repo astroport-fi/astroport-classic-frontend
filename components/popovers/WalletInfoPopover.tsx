@@ -156,7 +156,7 @@ const WalletInfoPopover: FC = () => {
             <HStack>
               <ViewIcon width="1.5rem" height="1.5rem" fill="brand.deepBlue" />
               <Text textStyle="small" variant="dimmed">
-                View on Terra Finder
+                View Transaction
               </Text>
             </HStack>
           </Link>

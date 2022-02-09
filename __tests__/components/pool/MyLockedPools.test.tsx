@@ -30,7 +30,7 @@ jest.mock("@arthuryeti/terra", () => {
 
 jest.mock("react-query", () => ({
   // Very basic mock that just immediately invokes the query function
-  useQuery: (_, fn) => ({ data: fn() })
+  useQuery: (_, fn) => ({ data: fn() }),
 }));
 
 jest.mock("modules/lockdrop", () => ({
@@ -41,12 +41,14 @@ jest.mock("modules/common", () => {
   const original = jest.requireActual("modules/common");
 
   return {
+    useTokenTooltip: jest.fn(() => []),
+    useNotEnoughUSTBalanceToPayFees: jest.fn(() => false),
     handleBigAndTinyAmount: original.handleBigAndTinyAmount,
     handleDollarTinyAmount: original.handleDollarTinyAmount,
     useAstroswap: () => ({
       addNotification: jest.fn(),
     }),
-    useTokenInfo: jest.fn()
+    useTokenInfo: jest.fn(),
   };
 });
 
@@ -65,14 +67,14 @@ jest.mock("modules/reward", () => {
   return {
     ClaimLockdropRewardBtn: original.ClaimLockdropRewardBtn,
     useClaimLockdropReward: () => ({
-      msgs: []
+      msgs: [],
     }),
   };
 });
 
 jest.mock("components/table/RewardsTd", () => ({
   __esModule: true,
-  default: jest.fn()
+  default: jest.fn(),
 }));
 
 const mockPool = (
@@ -92,24 +94,28 @@ const mockPool = (
   totalLiquidityInUst,
   myLiquidity: 0, // Not used on this table
   myLiquidityInUst,
-  rewards: [{
-    token: "terraRewardToken",
-    amount: rewards
-  }],
+  rewards: [
+    {
+      token: "terraRewardToken",
+      amount: rewards,
+    },
+  ],
   lockEnd,
   duration: 0, // Not used in these tests
   isClaimable: false,
-  isClaimed: false
+  isClaimed: false,
 });
 
 beforeEach(() => {
   // The RewardsTd component is too complex to test here,
   // so we instead mock it with a fixed reward exchange rate of 1.1.
-  (rewardsTd as jest.Mock).mockImplementation(
-    ({ rewards }) => (
-      <div>{handleDollarTinyAmount(rewards.reduce((total, r) => total + r.amount * 1.1, 0))}</div>
-    )
-  );
+  (rewardsTd as jest.Mock).mockImplementation(({ rewards }) => (
+    <div>
+      {handleDollarTinyAmount(
+        rewards.reduce((total, r) => total + r.amount * 1.1, 0)
+      )}
+    </div>
+  ));
 });
 
 describe("MyLockedPools", () => {

@@ -8,9 +8,14 @@ import { useClaimLockdropReward } from "modules/reward";
 type Props = {
   contract: string;
   duration: number;
+  txFeeNotEnough?: boolean;
 };
 
-const ClaimLockdropRewardBtn: FC<Props> = ({ contract, duration }) => {
+const ClaimLockdropRewardBtn: FC<Props> = ({
+  contract,
+  duration,
+  txFeeNotEnough,
+}) => {
   const { addNotification } = useAstroswap();
 
   const { msgs } = useClaimLockdropReward({
@@ -47,7 +52,7 @@ const ClaimLockdropRewardBtn: FC<Props> = ({ contract, duration }) => {
       variant="primary"
       flex="1"
       onClick={handleClick}
-      isDisabled={fee == null}
+      isDisabled={fee == null || txFeeNotEnough}
     >
       Claim Rewards
     </Button>
