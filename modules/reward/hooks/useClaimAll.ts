@@ -14,11 +14,14 @@ import {
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
 import {
   useLpRewards,
+  useBreakdownRewardsInUst,
   createClaimAirdropMsgs,
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
   createLpRewardsMsgs,
   createLockdropRewardsMsgs,
+  createLpRewardMsgs,
+  createLockdropRewardMsgs,
 } from "modules/reward";
 
 type Params = {
@@ -45,6 +48,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   const airdrop2Balance = useAirdrop2Balance();
   const { data: lockdropRewards } = useLockdropRewards();
   const lpRewards = useLpRewards();
+  const lpAndLockdropRewards = useBreakdownRewardsInUst();
 
   const items = useMemo(() => {
     if (userInfoWithList == null) {
@@ -129,29 +133,81 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
       data.push(...phase2Msgs);
     }
 
-    if (lockdropRewards?.length > 0) {
-      const lockdropMsgs = createLockdropRewardsMsgs(
-        {
-          contract: lockdrop,
-          items: lockdropRewards,
-        },
-        address
-      );
+    // Temporary solution: Due to ledger limitation, we are sorting the
+    // lp and lockdrop positions by UST value and claiming positions of
+    // highest value first. Once splice is removed, we can revert to
+    // old method commented out below.
+    if (lpAndLockdropRewards?.length > 0) {
+      let claimedLps = [];
+      let claimedLockdrops = [];
 
-      data.push(...lockdropMsgs);
+      lpAndLockdropRewards.forEach((item) => {
+        const positions = item.positions?.sort(function (a, b) {
+          return a.amount < b.amount ? 1 : -1;
+        });
+
+        positions?.forEach((position) => {
+          let msg;
+
+          if (position.type == "lp") {
+            if (!claimedLps.includes(position.lp)) {
+              claimedLps.push(position.lp);
+
+              msg = createLpRewardMsgs(
+                {
+                  lp: position.lp,
+                  contract: generator,
+                },
+                address
+              );
+            }
+          } else {
+            if (!claimedLockdrops.includes(position.claimLp)) {
+              claimedLockdrops.push(position.claimLp);
+
+              msg = createLockdropRewardMsgs(
+                {
+                  lockdrop,
+                  contract: position.claimLp,
+                  duration: position.claimDuration,
+                },
+                address
+              );
+            }
+          }
+
+          if (msg) {
+            data.push(...msg);
+          }
+        });
+      });
     }
 
-    if (lpRewards?.length > 0) {
-      const lpMsgs = createLpRewardsMsgs(
-        {
-          contract: generator,
-          items: lpRewards,
-        },
-        address
-      );
+    /*
+      if (lockdropRewards?.length > 0) {
+        const lockdropMsgs = createLockdropRewardsMsgs(
+          {
+            contract: lockdrop,
+            items: lockdropRewards,
+          },
+          address
+        );
 
-      data.push(...lpMsgs);
-    }
+        data.push(...lockdropMsgs);
+      }
+
+      if (lpRewards?.length > 0) {
+        const lpMsgs = createLpRewardsMsgs(
+          {
+            contract: generator,
+            items: lpRewards,
+          },
+          address
+        );
+
+        data.push(...lpMsgs);
+      }
+    */
 
     if (data.length == 0) {
       return null;
@@ -176,6 +232,7 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
     airdropBalance,
     airdrop2Balance,
     lockdropRewards,
+    lpAndLockdropRewards[0]?.amountUst,
     airdropData,
     isLoading,
   ]);

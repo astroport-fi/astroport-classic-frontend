@@ -26,6 +26,7 @@ export const useBreakdownRewardsInUst = () => {
     return {
       token: reward.token,
       amount: reward.amount,
+      positions: reward.positions,
       price,
       amountUst: reward.amount * price,
     };
