@@ -9,6 +9,7 @@ import {
   useLunaPriceInUst,
   useHive,
   useTokenInfo,
+  useTokenPrices,
   Asset,
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
@@ -120,6 +121,7 @@ export const useAllPools = () => {
   const poolsInfo = usePoolsInfo();
   const { getSymbol } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
+  const tokensInUst = useTokenPrices();
 
   const query = address
     ? createQuery(pairs, address, generator)
@@ -175,6 +177,17 @@ export const useAllPools = () => {
             .plus(num(uluna2).times(bLunaPriceInLuna))
             .div(ONE_TOKEN)
             .times(lunaPrice)
+            .dp(6)
+            .toNumber();
+        }
+
+        if (!totalLiquidityInUst) {
+          // non-ust pool, bluna-luna pool
+          const token2UstValue = tokensInUst[token2];
+          totalLiquidityInUst = num(token2UstValue)
+            .times(assets[1].amount)
+            .div(ONE_TOKEN)
+            .times(2)
             .dp(6)
             .toNumber();
         }
