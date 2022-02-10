@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
+import { TxStep, useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useTx } from "modules/common";
 import { useClaimLockdropReward } from "modules/reward";
 
 type Props = {

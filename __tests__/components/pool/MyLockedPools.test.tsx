@@ -18,9 +18,6 @@ jest.mock("@arthuryeti/terra", () => {
 
   return {
     num: original.num,
-    useTx: () => ({
-      submit: jest.fn(),
-    }),
     useEstimateFee: () => ({
       fee: 0,
     }),
@@ -49,6 +46,9 @@ jest.mock("modules/common", () => {
       addNotification: jest.fn(),
     }),
     useTokenInfo: jest.fn(),
+    useTx: () => ({
+      submit: jest.fn(),
+    }),
   };
 });
 

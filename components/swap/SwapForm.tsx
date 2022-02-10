@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { num, useBalance, useEstimateFee, useTx } from "@arthuryeti/terra";
+import { num, useBalance, useEstimateFee } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 import numeral from "numeral";
@@ -12,6 +12,7 @@ import {
   useAstroswap,
   useTokenInfo,
   useNotEnoughUSTBalanceToPayFees,
+  useTx,
 } from "modules/common";
 
 import useDebounceValue from "hooks/useDebounceValue";
@@ -45,6 +46,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const [currentInput, setCurrentInput] = useState(null);
   const [customError, setCustomError] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
+  const [txHash, setTxHash] = useState<string>();
   const [slippageSetting, setSlippageSetting] = useLocalStorage(
     "slippageSetting",
     DEFAULT_SLIPPAGE
@@ -146,13 +148,14 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     msgs,
   });
 
-  const { submit, txHash } = useTx({
+  const { submit } = useTx({
     onPosting: () => {
       setSlippageSetting(slippage);
       setShowConfirm(false);
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
+      setTxHash(txHash);
       setIsPosting(false);
       resetWithSameTokens();
       addNotification({

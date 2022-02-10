@@ -2,13 +2,14 @@ import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { TxStep, useTx, useEstimateFee } from "@arthuryeti/terra";
+import { TxStep, useEstimateFee } from "@arthuryeti/terra";
 
 import { AstroFormType } from "types/common";
 import {
   useContracts,
   useAstroswap,
   useNotEnoughUSTBalanceToPayFees,
+  useTx,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGovStake } from "../hooks";
@@ -59,7 +60,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
     amount,
   });
 
-  const { submit, txHash } = useTx({
+  const { submit } = useTx({
     onPosting: () => {
       setIsPosting(true);
     },
@@ -104,7 +105,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
   }, [type, xAstroToken, astroToken, setValue]);
 
   if (isPosting) {
-    return <FormLoading txHash={txHash} />;
+    return <FormLoading />;
   }
 
   return (

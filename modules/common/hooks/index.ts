@@ -11,3 +11,4 @@ export * from "./useBalances";
 export * from "./useTokenPrices";
 export * from "./usePriceDerived";
 export * from "./useTokenTooltip";
+export * from "./useTx";

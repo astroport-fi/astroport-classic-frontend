@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { useTx, useEstimateFee } from "@arthuryeti/terra";
+import { useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
-import { useAstroswap } from "modules/common";
+import { useAstroswap, useTx } from "modules/common";
 import { useClaimAuctionReward } from "modules/reward";
 
 type Props = {
