@@ -122,4 +122,9 @@ export default extendTheme({
       lineHeight: "shorter",
     },
   },
+  sizes: {
+    md: "1080px",
+    lg: "1180px",
+    xl: "1380px",
+  },
 });

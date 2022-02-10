@@ -3,16 +3,12 @@ import { Box } from "@chakra-ui/react";
 
 type Props = {
   children: ReactNode;
+  minW?: string;
 };
 
-const Table: FC<Props> = ({ children }) => {
+const Table: FC<Props> = ({ children, minW = "lg" }) => {
   return (
-    <Box
-      color="white"
-      minWidth={1024}
-      backgroundColor="inherit"
-      overflow="visible"
-    >
+    <Box color="white" minW={minW} backgroundColor="inherit" overflow="visible">
       {children}
     </Box>
   );

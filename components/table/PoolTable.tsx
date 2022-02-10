@@ -11,6 +11,7 @@ type Props = {
   data: any;
   sortBy: string;
   emptyMsg?: string;
+  minW?: string;
 };
 
 const PoolTable: FC<Props> = ({
@@ -18,6 +19,7 @@ const PoolTable: FC<Props> = ({
   data,
   sortBy,
   emptyMsg = "No pools.",
+  minW,
 }) => {
   const tableInstance = usePoolTable(columns, data, sortBy);
 
@@ -28,6 +30,7 @@ const PoolTable: FC<Props> = ({
       hasData={rows.length > 0}
       tableInstance={tableInstance}
       emptyMsg={emptyMsg}
+      minW={minW}
     >
       <Box backgroundColor="inherit" {...getTableBodyProps()}>
         {page.map((row, i) => {

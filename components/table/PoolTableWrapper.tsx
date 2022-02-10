@@ -18,6 +18,7 @@ type Props = {
   tableInstance: TableInstance;
   emptyMsg: string;
   children: ReactNode;
+  minW?: string;
 };
 
 const PoolTableWrapper: FC<Props> = ({
@@ -25,6 +26,7 @@ const PoolTableWrapper: FC<Props> = ({
   tableInstance,
   emptyMsg,
   children,
+  minW,
 }) => {
   const address = useAddress();
 
@@ -85,7 +87,7 @@ const PoolTableWrapper: FC<Props> = ({
 
   return (
     <>
-      <Table {...getTableProps()}>
+      <Table minW={minW} {...getTableProps()}>
         {headerGroups.map((headerGroup, i) => (
           <Tr key={i} isHead {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column: any, i) => (
