@@ -209,6 +209,13 @@ const whitelist = {
         icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
         decimals: 8,
       },
+      terra1hnezwjqlhzawcrfysczcxs6xqxu2jawn729kkf: {
+        protocol: "Orne",
+        symbol: "ORNE",
+        token: "terra1hnezwjqlhzawcrfysczcxs6xqxu2jawn729kkf",
+        icon: "/tokens/orne.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -771,6 +778,26 @@ const whitelist = {
           xyk: {},
         },
       },
+      // orne-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hnezwjqlhzawcrfysczcxs6xqxu2jawn729kkf",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra13yftwgefkggq3u627gphq98s6ufwh9u85h5kmg",
+        liquidity_token: null,
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -912,6 +939,13 @@ const whitelist = {
         symbol: "UST",
         token: "uusd",
         icon: "https://assets.terra.money/icon/60/UST.png",
+      },
+      terra182zp52a95r3qg6lt0njxr7l0ujkfwan5h7t3l6: {
+        protocol: "Orne",
+        symbol: "ORNE",
+        token: "terra182zp52a95r3qg6lt0njxr7l0ujkfwan5h7t3l6",
+        icon: "/tokens/orne.png",
+        decimals: 6,
       },
     },
     pairs: [
@@ -1271,6 +1305,26 @@ const whitelist = {
         ],
         contract_addr: "terra1uwf0yn9rnt7anpceqm7s00zfgevnwaaqde2eee",
         liquidity_token: "terra1kyjspjr054v00nw7g2fttk6fq9furq9wjsy0x2",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // orne-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra182zp52a95r3qg6lt0njxr7l0ujkfwan5h7t3l6",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1eqzmr4gcx7vtwgcxvg86ccsaly8xqzwu0wu47u",
+        liquidity_token: null,
         pair_type: {
           xyk: {},
         },
