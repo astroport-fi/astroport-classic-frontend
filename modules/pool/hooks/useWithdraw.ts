@@ -1,7 +1,12 @@
 import { useMemo } from "react";
-import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
-import { TxInfo } from "@terra-money/terra.js";
-import { getTokenDenom, useTokenInfo } from "modules/common";
+import { useAddress, num } from "@arthuryeti/terra";
+import {
+  getTokenDenom,
+  useTokenInfo,
+  useTransaction,
+  TxStep,
+  TxErrorHandler,
+} from "modules/common";
 import {
   createWithdrawMsgs,
   useGetPool,
@@ -26,8 +31,7 @@ type Params = {
   lpToken: string;
   amount: string | null;
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
 export const useWithdraw = ({
@@ -35,7 +39,6 @@ export const useWithdraw = ({
   lpToken,
   amount,
   onBroadcasting,
-  onSuccess,
   onError,
 }: Params): WithdrawState => {
   const { data: pool } = useGetPool(contract);
@@ -97,7 +100,6 @@ export const useWithdraw = ({
   const { submit, ...rest } = useTransaction({
     msgs,
     onBroadcasting,
-    onSuccess,
     onError,
   });
 

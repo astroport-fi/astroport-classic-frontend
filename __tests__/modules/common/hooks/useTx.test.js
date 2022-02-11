@@ -1,4 +1,4 @@
-import { useTx, PostError } from "modules/common/hooks/useTx";
+import { useTx, TxPostError } from "modules/common/hooks/useTx";
 import { renderHook } from "@testing-library/react-hooks";
 import {
   UserDenied,
@@ -184,7 +184,7 @@ describe("useTx submit", () => {
         fee: mockFee,
       });
 
-      expect(onError).toHaveBeenCalledWith(PostError.UnknownError, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.UnknownError, error);
       expect(onError).toHaveBeenCalledAfter(mockPost);
 
       expect(onBroadcasting).not.toHaveBeenCalled();
@@ -193,13 +193,13 @@ describe("useTx submit", () => {
     it("invokes onError callback with UserDenied error", async () => {
       const error = new UserDenied();
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.UserDenied, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.UserDenied, error);
     });
 
     it("invokes onError callback with CreateTxFailed error", async () => {
       const error = new CreateTxFailed(jest.fn(), "failed to create tx");
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.CreateTxFailed, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.CreateTxFailed, error);
     });
 
     it("invokes onError callback with TxFailed error", async () => {
@@ -210,19 +210,22 @@ describe("useTx submit", () => {
         null
       );
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.TxFailed, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.TxFailed, error);
     });
 
     it("invokes onError callback with Timeout error", async () => {
       const error = new Timeout("timed out");
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.Timeout, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.Timeout, error);
     });
 
     it("invokes onError callback with TxUnspecifiedError error", async () => {
       const error = new TxUnspecifiedError(jest.fn(), "unspecified error");
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.TxUnspecifiedError, error);
+      expect(onError).toHaveBeenCalledWith(
+        TxPostError.TxUnspecifiedError,
+        error
+      );
     });
 
     it("invokes onError callback with UnknownError error when error type is not recognized", async () => {
@@ -235,7 +238,7 @@ describe("useTx submit", () => {
 
       const error = new FooError();
       await submitWithError({ onError }, error);
-      expect(onError).toHaveBeenCalledWith(PostError.UnknownError, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.UnknownError, error);
     });
   });
 });

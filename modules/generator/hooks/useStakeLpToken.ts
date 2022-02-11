@@ -1,15 +1,13 @@
 import { useMemo } from "react";
-import { TxInfo } from "@terra-money/terra.js";
-import {
-  useAddress,
-  useTransaction,
-  TxStep,
-  toTerraAmount,
-  num,
-} from "@arthuryeti/terra";
+import { useAddress, toTerraAmount, num } from "@arthuryeti/terra";
 
 import { createStakeLpMsgs } from "modules/generator";
-import { useContracts } from "modules/common";
+import {
+  useContracts,
+  useTransaction,
+  TxStep,
+  TxErrorHandler,
+} from "modules/common";
 
 export type StakeLpTokenState = {
   error: any;
@@ -24,15 +22,13 @@ type Params = {
   amount: string | null;
   token: string | null;
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
 export const useStakeLpToken = ({
   amount,
   token,
   onBroadcasting,
-  onSuccess,
   onError,
 }: Params): StakeLpTokenState => {
   const address = useAddress();
@@ -49,5 +45,5 @@ export const useStakeLpToken = ({
     );
   }, [address, amount, generator, token]);
 
-  return useTransaction({ msgs, onBroadcasting, onSuccess, onError });
+  return useTransaction({ msgs, onBroadcasting, onError });
 };

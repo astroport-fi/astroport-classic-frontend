@@ -15,8 +15,9 @@ const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const state = useClaimAll({
-    onSuccess,
     onBroadcasting: (txHash) => {
+      onSuccess();
+
       addNotification({
         notification: {
           type: "started",

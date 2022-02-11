@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import { useAddress, useTransaction, num } from "@arthuryeti/terra";
-import { TxInfo } from "@terra-money/terra.js";
+import { useAddress, num } from "@arthuryeti/terra";
 
-import { useContracts } from "modules/common";
+import { useContracts, useTransaction, TxErrorHandler } from "modules/common";
 import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
 import {
   useAirdrop,
@@ -26,11 +25,10 @@ import {
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
-export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
+export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
   const {
     lockdrop,
     auction,
@@ -240,7 +238,6 @@ export const useClaimAll = ({ onBroadcasting, onSuccess, onError }: Params) => {
   return useTransaction({
     msgs,
     onBroadcasting,
-    onSuccess,
     onError,
   });
 };

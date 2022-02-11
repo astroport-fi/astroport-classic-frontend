@@ -1,9 +1,13 @@
 import { useMemo } from "react";
-import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
-import { TxInfo } from "@terra-money/terra.js";
+import { useAddress, num } from "@arthuryeti/terra";
 
 import { createAuctionUnlockMsgs } from "modules/auction";
-import { useContracts } from "modules/common";
+import {
+  useContracts,
+  useTransaction,
+  TxStep,
+  TxErrorHandler,
+} from "modules/common";
 
 export type AuctionUnlockState = {
   error: any;
@@ -17,14 +21,12 @@ export type AuctionUnlockState = {
 type Params = {
   amount: string;
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
 export const useAuctionUnlock = ({
   amount,
   onBroadcasting,
-  onSuccess,
   onError,
 }: Params): AuctionUnlockState => {
   const address = useAddress();
@@ -53,7 +55,6 @@ export const useAuctionUnlock = ({
     msgs,
     gasAdjustment: 1.5,
     onBroadcasting,
-    onSuccess,
     onError,
   });
 };

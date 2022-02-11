@@ -1,8 +1,13 @@
 import { useMemo } from "react";
-import { Coin, TxInfo } from "@terra-money/terra.js";
-import { useAddress, useTransaction, TxStep, num } from "@arthuryeti/terra";
+import { Coin } from "@terra-money/terra.js";
+import { useAddress, num } from "@arthuryeti/terra";
 
-import { useTokenInfo } from "modules/common";
+import {
+  useTokenInfo,
+  useTransaction,
+  TxStep,
+  TxErrorHandler,
+} from "modules/common";
 import { createProvideMsgs, Pool } from "modules/pool";
 
 export type ProvideState = {
@@ -23,8 +28,7 @@ type Params = {
   amount2: string | null;
   autoStake: boolean;
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
 export const useProvide = ({
@@ -36,7 +40,6 @@ export const useProvide = ({
   amount2,
   autoStake,
   onBroadcasting,
-  onSuccess,
   onError,
 }: Params): ProvideState => {
   const address = useAddress();
@@ -86,7 +89,6 @@ export const useProvide = ({
   return useTransaction({
     msgs,
     onBroadcasting,
-    onSuccess,
     onError,
   });
 };

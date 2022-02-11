@@ -9,7 +9,7 @@ import {
   TxUnspecifiedError,
 } from "@terra-money/wallet-types";
 
-export enum PostError {
+export enum TxPostError {
   UserDenied,
   CreateTxFailed,
   TxFailed,
@@ -18,27 +18,32 @@ export enum PostError {
   UnknownError,
 }
 
+export type TxErrorHandler = (
+  errorType: TxPostError,
+  originalError: Error
+) => void;
+
 type Params = {
   onPosting?: () => void;
   onBroadcasting?: (txHash: string) => void;
 
   // originalErrors: https://github.com/terra-money/wallet-provider/blob/v3.7.1/packages/src/%40terra-dev/wallet-types/errors.ts
-  onError?: (errorType: PostError, originalError: Error) => void;
+  onError?: TxErrorHandler;
 };
 
-const enumForPostError = (error: Error) => {
+const enumForTxPostError = (error: Error) => {
   if (error instanceof UserDenied) {
-    return PostError.UserDenied;
+    return TxPostError.UserDenied;
   } else if (error instanceof CreateTxFailed) {
-    return PostError.CreateTxFailed;
+    return TxPostError.CreateTxFailed;
   } else if (error instanceof TxFailed) {
-    return PostError.TxFailed;
+    return TxPostError.TxFailed;
   } else if (error instanceof Timeout) {
-    return PostError.Timeout;
+    return TxPostError.Timeout;
   } else if (error instanceof TxUnspecifiedError) {
-    return PostError.TxUnspecifiedError;
+    return TxPostError.TxUnspecifiedError;
   } else {
-    return PostError.UnknownError;
+    return TxPostError.UnknownError;
   }
 };
 
@@ -61,7 +66,7 @@ export const useTx = ({ onPosting, onBroadcasting, onError }: Params) => {
 
         onBroadcasting?.(res.result.txhash);
       } catch (e) {
-        onError?.(enumForPostError(e), e);
+        onError?.(enumForTxPostError(e), e);
       }
     },
     [onPosting, onBroadcasting, onError]

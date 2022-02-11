@@ -1,15 +1,13 @@
 import { useMemo } from "react";
+import { useAddress, num, toTerraAmount } from "@arthuryeti/terra";
+
 import {
-  useAddress,
-  num,
+  useContracts,
   useTransaction,
   TxStep,
-  toTerraAmount,
-} from "@arthuryeti/terra";
-
-import { useContracts } from "modules/common";
+  TxErrorHandler,
+} from "modules/common";
 import { createUnstakeLpMsgs } from "modules/generator";
-import { TxInfo } from "@terra-money/terra.js";
 
 export type UnstakeLpTokenState = {
   error: any;
@@ -24,15 +22,13 @@ type Params = {
   amount: string | null;
   token: string | null;
   onBroadcasting?: (txHash: string) => void;
-  onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
-  onError?: (txHash?: string, txInfo?: TxInfo) => void;
+  onError?: TxErrorHandler;
 };
 
 export const useUnstakeLpToken = ({
   amount,
   token,
   onBroadcasting,
-  onSuccess,
   onError,
 }: Params): UnstakeLpTokenState => {
   const { generator } = useContracts();
@@ -52,7 +48,6 @@ export const useUnstakeLpToken = ({
   return useTransaction({
     msgs,
     onBroadcasting,
-    onSuccess,
     onError,
   });
 };
