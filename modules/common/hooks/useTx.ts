@@ -71,5 +71,3 @@ export const useTx = ({ onPosting, onBroadcasting, onError }: Params) => {
     submit,
   };
 };
-
-export default useTx;

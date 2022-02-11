@@ -1,4 +1,4 @@
-import useTx from "modules/common/hooks/useTx";
+import { useTx, PostError } from "modules/common/hooks/useTx";
 import { renderHook } from "@testing-library/react-hooks";
 import {
   UserDenied,
@@ -7,7 +7,6 @@ import {
   Timeout,
   TxUnspecifiedError,
 } from "@terra-money/wallet-types";
-import { PostError } from "modules/common";
 
 const mockPost = jest.fn();
 
