@@ -27,7 +27,7 @@ export type PairResponse = {
   contract_addr: string;
 
   /** LP contract address (not lp minter cw20 token) */
-  liquidity_token: string;
+  liquidity_token: string | null;
 
   pair_type: {
     xyk: any;

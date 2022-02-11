@@ -51,7 +51,7 @@ const createQuery = (pairs, address, generator) => {
   return gql`
     {
       ${pairs.map(({ liquidity_token, contract_addr }) => {
-        return `
+        let query = `
           ${contract_addr}: wasm {
             contractQuery(
               contractAddress: "${contract_addr}"
@@ -60,30 +60,36 @@ const createQuery = (pairs, address, generator) => {
               }
             )
           }
-
-          ${liquidity_token}: wasm {
-            contractQuery(
-              contractAddress: "${liquidity_token}"
-              query: {
-                balance: {
-                  address: "${address}"
-                }
-              }
-            )
-          }
-
-          staked${liquidity_token}: wasm {
-            contractQuery(
-              contractAddress: "${generator}"
-              query: {
-                deposit: {
-                  lp_token: "${liquidity_token}"
-                  user: "${address}"
-                }
-              }
-            )
-          }
         `;
+
+        if (liquidity_token != null) {
+          query += `
+            ${liquidity_token}: wasm {
+              contractQuery(
+                contractAddress: "${liquidity_token}"
+                query: {
+                  balance: {
+                    address: "${address}"
+                  }
+                }
+              )
+            }
+
+            staked${liquidity_token}: wasm {
+              contractQuery(
+                contractAddress: "${generator}"
+                query: {
+                  deposit: {
+                    lp_token: "${liquidity_token}"
+                    user: "${address}"
+                  }
+                }
+              )
+            }
+          `;
+        }
+
+        return query;
       })}
     }
 `;
@@ -134,6 +140,8 @@ export const useAllPools = () => {
     },
   });
 
+  console.log("pools", query, result);
+
   const getPoolInfo = (addr) => {
     return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);
   };
@@ -146,9 +154,13 @@ export const useAllPools = () => {
     return pairs.map(
       ({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
         const poolInfo = getPoolInfo(contract_addr);
-        const providedBalance = result[liquidity_token]?.contractQuery.balance;
+        const providedBalance = liquidity_token
+          ? result[liquidity_token]?.contractQuery.balance
+          : 0;
         const { total_share, assets } = result[contract_addr].contractQuery;
-        const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
+        const stakedBalance = liquidity_token
+          ? result[`staked${liquidity_token}`]?.contractQuery
+          : 0;
         const denoms = getPoolTokenDenoms(assets);
         const [token1, token2] = denoms;
         const balance = num(providedBalance).plus(stakedBalance);
@@ -201,7 +213,9 @@ export const useAllPools = () => {
           .dp(6)
           .toNumber();
 
-        const isStakable = stakableLp.includes(liquidity_token);
+        const isStakable = liquidity_token
+          ? stakableLp.includes(liquidity_token)
+          : false;
 
         return {
           inUse: balance.gt(0),
