@@ -16,13 +16,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@arthuryeti/terra": "^1.6.1",
+    "@arthuryeti/terra": "^1.7.0",
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@terra-money/terra.js": "^3.0.1",
+    "@terra-money/terra.js": "^3.0.4",
     "@terra-money/wallet-provider": "^3.7.1",
+    "@tns-money/tns.js": "^1.2.0",
     "bignumber.js": "^9.0.2",
     "chart.js": "^3.6.2",
     "dayjs": "^1.10.7",
