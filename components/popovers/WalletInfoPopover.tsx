@@ -22,9 +22,10 @@ import {
 } from "@arthuryeti/terra";
 import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
 
-import { truncate } from "libs/text";
+import { truncate, displayTNS } from "libs/text";
 import { useTokenInfo } from "modules/common";
 import useFinder from "hooks/useFinder";
+import useTNS from "hooks/useTNS";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 import PopoverWrapper from "components/popovers/PopoverWrapper";
@@ -46,6 +47,7 @@ const WalletInfoPopover: FC = () => {
   const price = useTokenPriceInUstWithSimulate("uusd");
   const terraAddress = useAddress();
   const finder = useFinder();
+  const tnsName = useTNS(terraAddress);
 
   const copyAddress = () => {
     copy(terraAddress);
@@ -82,7 +84,8 @@ const WalletInfoPopover: FC = () => {
               <HStack spacing="3">
                 <TerraIcon width="1.25rem" height="1.25rem" />
                 <Text fontSize="sm" color="white">
-                  {wallet && truncate(wallet.terraAddress, [2, 4])}
+                  {tnsName && displayTNS(tnsName)}
+                  {!tnsName && wallet && truncate(wallet.terraAddress, [2, 4])}
                 </Text>
               </HStack>
             </Box>
@@ -140,7 +143,7 @@ const WalletInfoPopover: FC = () => {
         <VStack mt={6} align="flex-start">
           <Text textStyle="minibutton">My Address</Text>
           <Text textStyle="small" variant="dimmed">
-            {truncate(terraAddress, [16, 16])}
+            {truncate(terraAddress, [16, 16])} ({tnsName})
           </Text>
         </VStack>
         <Flex mt={6} justify="space-between">
