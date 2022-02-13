@@ -140,8 +140,6 @@ export const useAllPools = () => {
     },
   });
 
-  console.log("pools", query, result);
-
   const getPoolInfo = (addr) => {
     return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);
   };
