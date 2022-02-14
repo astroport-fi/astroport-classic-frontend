@@ -11,7 +11,7 @@ export const useTokenTooltip = (
   myLiqudity?: number,
   totalLiquidity?: number
 ): Response => {
-  const { getSymbol } = useTokenInfo();
+  const { getSymbol, getDecimals } = useTokenInfo();
 
   return useMemo(() => {
     if (
@@ -26,6 +26,10 @@ export const useTokenTooltip = (
     const denoms = getPoolTokenDenoms(assets);
     const [token1, token2] = denoms;
     const [token1Symbol, token2Symbol] = [getSymbol(token1), getSymbol(token2)];
+    const [token1Decimals, token2Decimals] = [
+      getDecimals(token1),
+      getDecimals(token2),
+    ];
     let fraction = 1;
 
     if (type == "myLiquidity") {
@@ -35,11 +39,17 @@ export const useTokenTooltip = (
     return [
       {
         label: token1Symbol,
-        value: num(assets[0].amount).div(ONE_TOKEN).times(fraction).toNumber(),
+        value: num(assets[0].amount)
+          .div(10 ** token1Decimals)
+          .times(fraction)
+          .toNumber(),
       },
       {
         label: token2Symbol,
-        value: num(assets[1].amount).div(ONE_TOKEN).times(fraction).toNumber(),
+        value: num(assets[1].amount)
+          .div(10 ** token2Decimals)
+          .times(fraction)
+          .toNumber(),
       },
     ];
   }, [type, assets, myLiqudity, totalLiquidity]);

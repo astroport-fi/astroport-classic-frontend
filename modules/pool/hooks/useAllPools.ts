@@ -117,7 +117,7 @@ export const useAllPools = () => {
   const lunaPrice = useLunaPriceInUst();
   const bLunaPriceInLuna = useBLunaPriceInLuna();
   const poolsInfo = usePoolsInfo();
-  const { getSymbol } = useTokenInfo();
+  const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
   const tokensInUst = useTokenPrices();
 
@@ -182,9 +182,11 @@ export const useAllPools = () => {
         if (!totalLiquidityInUst) {
           // non-ust pool, bluna-luna pool
           const token2UstValue = tokensInUst[token2];
+          const token2Decimals = getDecimals(token2);
+
           totalLiquidityInUst = num(token2UstValue)
             .times(assets[1].amount)
-            .div(ONE_TOKEN)
+            .div(10 ** token2Decimals)
             .times(2)
             .dp(6)
             .toNumber();
