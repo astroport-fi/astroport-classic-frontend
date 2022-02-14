@@ -61,7 +61,7 @@ const Navbar: FC = () => {
             <NavbarLink text="Pool" href="/pools" />
             <NavbarLink text="Locked Liquidity" href="/locked-liquidity" />
             {ENV_DISPLAY_GOVERNANCE && (
-              <NavbarLink text="Staking" href="/staking" />
+              <NavbarLink text="Governance" href="/governance" />
             )}
             <NavbarLink text="Airdrop" href="/airdrop" />
           </HStack>

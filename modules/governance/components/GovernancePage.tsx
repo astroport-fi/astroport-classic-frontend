@@ -87,7 +87,11 @@ const GovernancePage = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="space-between">
-            <NextLink href="/staking/stake" passHref isDisabled={astroDisabled}>
+            <NextLink
+              href="/governance/stake"
+              passHref
+              isDisabled={astroDisabled}
+            >
               <Button
                 as="a"
                 type="button"
@@ -98,7 +102,7 @@ const GovernancePage = () => {
               </Button>
             </NextLink>
             <NextLink
-              href="/staking/unstake"
+              href="/governance/unstake"
               passHref
               isDisabled={xAstroDisabled}
             >
