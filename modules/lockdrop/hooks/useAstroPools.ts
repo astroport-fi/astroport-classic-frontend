@@ -73,29 +73,27 @@ const createSecondQuery = (pairs, address) => {
   return gql`
     {
       ${pairs.map(({ contract_addr, liquidity_token }) => {
-        if (liquidity_token != null) {
-          return `
-            pool${liquidity_token}: wasm {
-              contractQuery(
-                contractAddress: "${contract_addr}"
-                query: {
-                  pool: { }
-                }
-              )
-            }
+        return `
+          pool${liquidity_token}: wasm {
+            contractQuery(
+              contractAddress: "${contract_addr}"
+              query: {
+                pool: { }
+              }
+            )
+          }
 
-            balance${liquidity_token}: wasm {
-              contractQuery(
-                contractAddress: "${liquidity_token}"
-                query: {
-                  balance: {
-                    address: "${address}"
-                  }
+          balance${liquidity_token}: wasm {
+            contractQuery(
+              contractAddress: "${liquidity_token}"
+              query: {
+                balance: {
+                  address: "${address}"
                 }
-              )
-            }
-          `;
-        }
+              }
+            )
+          }
+        `;
       })}
     }
 `;

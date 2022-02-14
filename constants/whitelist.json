@@ -400,7 +400,7 @@
           }
         ],
         "contract_addr": "terra13yftwgefkggq3u627gphq98s6ufwh9u85h5kmg",
-        "liquidity_token": null,
+        "liquidity_token": "terra16zy9g2eym8rghxx95ny60c3dyrwqsfx0ypmu5y",
         "pair_type": {
           "xyk": {}
         }
@@ -718,7 +718,7 @@
           }
         ],
         "contract_addr": "terra1eqzmr4gcx7vtwgcxvg86ccsaly8xqzwu0wu47u",
-        "liquidity_token": null,
+        "liquidity_token": "terra1m29xstn4c45cud3m8e7ktggsgjvsm8p826qkez",
         "pair_type": {
           "xyk": {}
         }
