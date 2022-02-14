@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { TxStep } from "@arthuryeti/terra";
 import { Text, Button, VStack } from "@chakra-ui/react";
 
-import { useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useClaimAll } from "modules/reward";
 import FormFee from "components/common/FormFee";
 
@@ -11,20 +11,11 @@ type Props = {
 };
 
 const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
-  const { addNotification } = useAstroswap();
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const state = useClaimAll({
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       onSuccess();
-
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "claimRewards",
-        },
-      });
     },
   });
 

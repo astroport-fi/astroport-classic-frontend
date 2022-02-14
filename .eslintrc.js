@@ -26,10 +26,16 @@ module.exports = {
     "react-hooks/exhaustive-deps": 0,
   },
   overrides: [
-    // Only uses Testing Library lint rules in test files
     {
       files: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+
+      // Use Testing Library lint rules in test files
       extends: ["plugin:testing-library/react"],
+
+      // This rule isn't aware of Jest's resolvers, so it may not always be correct
+      rules: {
+        "import/no-unresolved": "off",
+      },
     },
   ],
 };

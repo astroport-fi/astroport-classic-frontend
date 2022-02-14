@@ -1,29 +1,32 @@
 import { TxInfo } from "@terra-money/terra.js";
 
+export type TxNotificationPayload = {
+  txHash: string;
+  txInfo?: TxInfo;
+  txType?: string;
+  data?: any;
+};
+
+export type GenericNotificationPayload = {
+  title: string;
+  description?: string;
+};
+
 type NotificationPayload =
-  | {
+  | ({
       type: "started";
-      txHash: string;
-      txInfo?: TxInfo;
-      txType?: string;
-      data?: any;
-    }
-  | {
+    } & TxNotificationPayload)
+  | ({
       type: "succeed";
-      txHash: string;
-      txInfo?: TxInfo;
-      txType?: string;
       originalTransaction?: string;
-      data?: any;
-    }
-  | {
+    } & TxNotificationPayload)
+  | ({
       type: "failed";
-      txHash: string;
-      txInfo?: TxInfo;
-      txType?: string;
       originalTransaction?: string;
-      data?: any;
-    };
+    } & TxNotificationPayload)
+  | ({
+      type: "error";
+    } & GenericNotificationPayload);
 
 export type Notification = { id: string } & NotificationPayload;
 

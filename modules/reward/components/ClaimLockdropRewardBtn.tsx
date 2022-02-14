@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { TxStep, useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
-import { useAstroswap, useTx } from "modules/common";
+import { useTx } from "modules/common";
 import { useClaimLockdropReward } from "modules/reward";
 
 type Props = {
@@ -16,22 +16,14 @@ const ClaimLockdropRewardBtn: FC<Props> = ({
   duration,
   txFeeNotEnough,
 }) => {
-  const { addNotification } = useAstroswap();
-
   const { msgs } = useClaimLockdropReward({
     contract,
     duration,
   });
 
   const { submit } = useTx({
-    onBroadcasting: (txHash) => {
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "claimRewards",
-        },
-      });
+    notification: {
+      type: "claimRewards",
     },
   });
 

@@ -46,6 +46,12 @@ export const useUnstakeLpToken = ({
   }, [address, amount, generator, token]);
 
   return useTransaction({
+    notification: {
+      type: "unstakeLp",
+      data: {
+        token,
+      },
+    },
     msgs,
     onBroadcasting,
     onError,

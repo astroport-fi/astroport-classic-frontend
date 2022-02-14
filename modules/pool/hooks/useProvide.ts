@@ -87,6 +87,13 @@ export const useProvide = ({
   ]);
 
   return useTransaction({
+    notification: {
+      type: "provide",
+      data: {
+        token1,
+        token2,
+      },
+    },
     msgs,
     onBroadcasting,
     onError,

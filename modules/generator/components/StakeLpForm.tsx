@@ -4,11 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
-import {
-  PairResponse,
-  useAstroswap,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { StakeLpFormInitial, useStakeLpToken } from "modules/generator";
 import { PoolFormType } from "types/common";
 
@@ -37,7 +33,6 @@ const StakeLpForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const { addNotification } = useAstroswap();
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -64,15 +59,8 @@ const StakeLpForm: FC<Props> = ({
   const state = useStakeLpToken({
     token,
     amount,
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/pools");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "stakeLp",
-        },
-      });
     },
     onError: () => {
       resetForm();

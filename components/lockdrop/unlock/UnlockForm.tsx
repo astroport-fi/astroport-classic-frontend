@@ -50,20 +50,11 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
   const stakedAmount = useLockedLpAmount(lpToken, duration);
   const state = useUnlock({
     token: lpToken,
+    astroLpToken,
     amount,
     duration: +duration,
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/locked-liquidity");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "lockdropUnlockLp",
-          data: {
-            token: astroLpToken,
-          },
-        },
-      });
     },
     onError: () => {
       resetForm();

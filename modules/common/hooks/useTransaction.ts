@@ -4,7 +4,11 @@ import { useQuery } from "react-query";
 import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { useTx, TxErrorHandler } from "modules/common";
+import {
+  useTx,
+  TxErrorHandler,
+  UseTxNotificationDetails,
+} from "modules/common";
 
 export enum TxStep {
   /**
@@ -38,6 +42,7 @@ type Params = {
   gasAdjustment?: number;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
+  notification: UseTxNotificationDetails;
 };
 
 export const useTransaction = ({
@@ -45,6 +50,7 @@ export const useTransaction = ({
   gasAdjustment = 1.2,
   onBroadcasting,
   onError,
+  notification,
 }: Params) => {
   const { client } = useTerraWebapp();
   const address = useAddress();
@@ -107,6 +113,7 @@ export const useTransaction = ({
   );
 
   const { submit: submitTx } = useTx({
+    notification,
     onPosting: () => {
       setTxStep(TxStep.Posting);
     },

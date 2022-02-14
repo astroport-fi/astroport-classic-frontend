@@ -11,6 +11,9 @@ const customJestConfig = {
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
     "^(components|constants|hooks|libs|modules|types)/(.*)$": "<rootDir>/$1/$2",
+
+    // Test utilities
+    "^test-utils/(.*)$": "<rootDir>/__tests__/__utils__/$1",
   },
   testEnvironment: "jest-environment-jsdom",
   transform: {
@@ -29,6 +32,7 @@ const customJestConfig = {
 
     "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
   },
+  testPathIgnorePatterns: ["/__utils__/"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

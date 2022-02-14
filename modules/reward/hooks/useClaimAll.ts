@@ -236,6 +236,9 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
   ]);
 
   return useTransaction({
+    notification: {
+      type: "claimRewards",
+    },
     msgs,
     onBroadcasting,
     onError,

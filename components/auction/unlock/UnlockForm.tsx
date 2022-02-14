@@ -5,11 +5,7 @@ import { TxStep, num, toTerraAmount } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 
 import { useAuctionUnlock } from "modules/auction";
-import {
-  useAstroswap,
-  useContracts,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
@@ -23,7 +19,6 @@ type FormValues = {
 
 const UnlockForm: FC = () => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const { addNotification } = useAstroswap();
   const router = useRouter();
   const { astroUstLpToken } = useContracts();
 
@@ -48,15 +43,8 @@ const UnlockForm: FC = () => {
 
   const state = useAuctionUnlock({
     amount: toTerraAmount(amount),
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/locked-liquidity");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "auctionUnlockLp",
-        },
-      });
     },
     onError: () => {
       resetForm();

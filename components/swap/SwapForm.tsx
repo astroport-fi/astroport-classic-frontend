@@ -37,7 +37,7 @@ type Props = {
 };
 
 const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
-  const { routes, addNotification } = useAstroswap();
+  const { routes } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const router = useRouter();
   const {
@@ -149,6 +149,13 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   });
 
   const { submit } = useTx({
+    notification: {
+      type: "swap",
+      data: {
+        token1,
+        token2,
+      },
+    },
     onPosting: () => {
       setSlippageSetting(slippage);
       setShowConfirm(false);
@@ -158,17 +165,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
       setTxHash(txHash);
       setIsPosting(false);
       resetWithSameTokens();
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "swap",
-          data: {
-            token1,
-            token2,
-          },
-        },
-      });
     },
     onError: () => {
       setShowConfirm(false);

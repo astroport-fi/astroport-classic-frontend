@@ -5,11 +5,7 @@ import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 
 import { useUnstakeLpToken, UnstakeLpFormInitial } from "modules/generator";
-import {
-  PairResponse,
-  useAstroswap,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType } from "types/common";
 
 import FormLoading from "components/common/FormLoading";
@@ -40,8 +36,6 @@ const UnstakeLpForm: FC<Props> = ({
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { addNotification } = useAstroswap();
-
   const methods = useForm<FormValues>({
     defaultValues: {
       token: pair.liquidity_token,
@@ -65,18 +59,8 @@ const UnstakeLpForm: FC<Props> = ({
   const state = useUnstakeLpToken({
     token,
     amount,
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/pools");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "unstakeLp",
-          data: {
-            token,
-          },
-        },
-      });
     },
     onError: () => {
       resetForm();

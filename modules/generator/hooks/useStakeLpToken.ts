@@ -45,5 +45,12 @@ export const useStakeLpToken = ({
     );
   }, [address, amount, generator, token]);
 
-  return useTransaction({ msgs, onBroadcasting, onError });
+  return useTransaction({
+    notification: {
+      type: "stakeLp",
+    },
+    msgs,
+    onBroadcasting,
+    onError,
+  });
 };

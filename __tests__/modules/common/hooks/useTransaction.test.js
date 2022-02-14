@@ -6,13 +6,6 @@ import { Coin, Coins } from "@terra-money/terra.js";
 import { useTx, TxPostError } from "modules/common";
 import { Timeout } from "@terra-money/wallet-types";
 
-// Stub useDebounceValue to just immediately return the provided value
-// (i.e. completely disable debounce behavior)
-jest.mock("hooks/useDebounceValue", () => ({
-  __esModule: true,
-  default: (value) => value,
-}));
-
 jest.mock("@arthuryeti/terra", () => ({
   useAddress: jest.fn(() => "terra123"),
   useTerraWebapp: jest.fn(),

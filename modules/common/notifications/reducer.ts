@@ -1,4 +1,4 @@
-import { Notification, Notifications } from "./model";
+import { Notification, Notifications, TxNotificationPayload } from "./model";
 
 interface AddNotification {
   type: "ADD_NOTIFICATION";
@@ -20,15 +20,20 @@ export function notificationReducer(
 
   switch (action.type) {
     case "ADD_NOTIFICATION":
-      const hasAlready = chainState.filter((item) => {
-        return (
-          action.notification.txHash == item.txHash &&
-          (item.type == "succeed" || item.type == "failed")
-        );
-      });
+      if (["started", "succeed", "failed"].includes(action.notification.type)) {
+        const { txHash: notificationTxHash } =
+          action.notification as TxNotificationPayload;
 
-      if (hasAlready.length > 0) {
-        return state;
+        const hasAlready = chainState.find((item) => {
+          return (
+            (item.type == "succeed" || item.type == "failed") &&
+            notificationTxHash == (item as TxNotificationPayload).txHash
+          );
+        });
+
+        if (hasAlready) {
+          return state;
+        }
       }
 
       return {

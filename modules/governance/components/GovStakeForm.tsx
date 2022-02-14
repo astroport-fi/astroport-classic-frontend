@@ -7,7 +7,6 @@ import { TxStep, useEstimateFee } from "@arthuryeti/terra";
 import { AstroFormType } from "types/common";
 import {
   useContracts,
-  useAstroswap,
   useNotEnoughUSTBalanceToPayFees,
   useTx,
 } from "modules/common";
@@ -32,7 +31,6 @@ type Props = {
 const GovStakeForm: FC<Props> = ({ type, setType }) => {
   const { astroToken, xAstroToken } = useContracts();
   const [isPosting, setIsPosting] = useState(false);
-  const { addNotification } = useAstroswap();
   const router = useRouter();
 
   const methods = useForm<FormValue>({
@@ -61,21 +59,16 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
   });
 
   const { submit } = useTx({
+    notification: {
+      type: type == AstroFormType.Stake ? "govStake" : "govUnstake",
+    },
     onPosting: () => {
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
       setIsPosting(false);
-      const txType = type == AstroFormType.Stake ? "govStake" : "govUnstake";
 
       router.push("/staking");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType,
-        },
-      });
     },
     onError: () => {
       setIsPosting(false);

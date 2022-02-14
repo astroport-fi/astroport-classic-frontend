@@ -52,6 +52,9 @@ export const useAuctionUnlock = ({
   }, [address, auction, amount]);
 
   return useTransaction({
+    notification: {
+      type: "auctionUnlockLp",
+    },
     msgs,
     gasAdjustment: 1.5,
     onBroadcasting,

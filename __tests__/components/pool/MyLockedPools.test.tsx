@@ -38,6 +38,7 @@ jest.mock("modules/common", () => {
   const original = jest.requireActual("modules/common");
 
   return {
+    ...original,
     useTokenTooltip: jest.fn(() => []),
     useNotEnoughUSTBalanceToPayFees: jest.fn(() => false),
     handleBigAndTinyAmount: original.handleBigAndTinyAmount,

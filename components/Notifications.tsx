@@ -2,7 +2,11 @@ import React, { FC } from "react";
 import { VStack } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 
-import { useAstroswap } from "modules/common";
+import {
+  useAstroswap,
+  TxNotificationPayload,
+  GenericNotificationPayload,
+} from "modules/common";
 
 import TransactionNotification from "components/notifications/Transaction";
 import TransactionStartedNotification from "components/notifications/TransactionStarted";
@@ -17,17 +21,12 @@ import ClaimRewardsNotification from "components/notifications/ClaimRewardsNotif
 import LockdropUnlockLpNotification from "components/notifications/LockdropUnlockLpNotification";
 import GovStakeNotification from "components/notifications/GovStakeNotification";
 import GovUnstakeNotification from "components/notifications/GovUnstakeNotification";
+import GenericNotification from "components/notifications/GenericNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
 
-  const renderContent = ({ txInfo, txType, type, data }: any) => {
-    if (type === "started") {
-      return;
-    }
-    if (type === "failed") {
-      return <FailedNotification txInfo={txInfo} />;
-    }
+  const renderSuccessfulTxContent = ({ txInfo, txType, data }: any) => {
     if (txType === "swap") {
       return <SwapNotification txInfo={txInfo} data={data} />;
     }
@@ -63,30 +62,71 @@ const Notifications: FC = () => {
   return (
     <VStack zIndex={2000} position="absolute" top="0" right={["0", "2rem"]}>
       <AnimatePresence initial={false}>
-        {notifications.items?.map(
-          ({ id, txHash, txInfo, txType, type, data }) => {
-            const Component = {
-              started: TransactionStartedNotification,
-              succeed: TransactionNotification,
-              failed: TransactionNotification,
-            }[type];
+        {notifications.items?.map(({ id, type, ...payload }) => {
+          const onClose = () => {
+            removeNotification({ notificationId: id });
+          };
 
-            return (
-              <Component
-                key={id}
-                txHash={txHash}
-                txType={txType}
-                type={type}
-                data={data}
-                onClose={() => {
-                  removeNotification({ notificationId: id });
-                }}
-              >
-                {renderContent({ txHash, txInfo, txType, type, data })}
-              </Component>
-            );
+          switch (type) {
+            case "started": {
+              const { txHash, txType, data } = payload as TxNotificationPayload;
+
+              return (
+                <TransactionStartedNotification
+                  key={id}
+                  txHash={txHash}
+                  txType={txType}
+                  data={data}
+                  onClose={onClose}
+                />
+              );
+            }
+            case "succeed": {
+              const { txHash } = payload as TxNotificationPayload;
+
+              return (
+                <TransactionNotification
+                  key={id}
+                  txHash={txHash}
+                  toastType="success"
+                  onClose={onClose}
+                >
+                  {renderSuccessfulTxContent({ type, ...payload })}
+                </TransactionNotification>
+              );
+            }
+            case "failed": {
+              const { txHash, txInfo } = payload as TxNotificationPayload;
+
+              return (
+                <TransactionNotification
+                  key={id}
+                  txHash={txHash}
+                  toastType="error"
+                  onClose={onClose}
+                >
+                  <FailedNotification txInfo={txInfo} />
+                </TransactionNotification>
+              );
+            }
+            case "error": {
+              const { title, description } =
+                payload as GenericNotificationPayload;
+
+              return (
+                <GenericNotification
+                  key={id}
+                  toastType={type}
+                  title={title}
+                  description={description}
+                  onClose={onClose}
+                />
+              );
+            }
+            default:
+              throw new Error("Unsupported notification type");
           }
-        )}
+        })}
       </AnimatePresence>
     </VStack>
   );

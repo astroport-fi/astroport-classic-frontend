@@ -6,7 +6,6 @@ import { TxStep } from "@arthuryeti/terra";
 
 import {
   PairResponse,
-  useAstroswap,
   useContracts,
   useNotEnoughUSTBalanceToPayFees,
 } from "modules/common";
@@ -47,7 +46,6 @@ const ProvideForm: FC<Props> = ({
   isChartOpen,
   onChartClick,
 }) => {
-  const { addNotification } = useAstroswap();
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
   const { stakableLp } = useContracts();
@@ -84,15 +82,8 @@ const ProvideForm: FC<Props> = ({
     amount1: debouncedAmount1,
     amount2: debouncedAmount2,
     autoStake,
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/pools");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "provide",
-        },
-      });
     },
     onError: () => {
       resetForm();

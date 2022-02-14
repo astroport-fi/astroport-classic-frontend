@@ -9,6 +9,7 @@ import {
 } from "@terra-money/wallet-types";
 
 const mockPost = jest.fn();
+const mockAddNotification = jest.fn();
 
 jest.mock("@terra-money/wallet-provider", () => ({
   useWallet: jest.fn(() => ({
@@ -16,8 +17,23 @@ jest.mock("@terra-money/wallet-provider", () => ({
   })),
 }));
 
+jest.mock("modules/common", () => ({
+  useAstroswap: jest.fn(() => ({
+    addNotification: mockAddNotification,
+  })),
+  useTokenInfo: jest.fn(() => ({
+    getSymbol: jest.fn((token) => {
+      return {
+        uusd: "UST",
+        uluna: "LUNA",
+      }[token];
+    }),
+  })),
+}));
+
 beforeEach(() => {
   mockPost.mockReset();
+  mockAddNotification.mockReset();
 });
 
 describe("useTx submit", () => {
@@ -105,11 +121,24 @@ describe("useTx submit", () => {
   });
 
   describe("successful post", () => {
-    it("posts when no callbacks are specified", () => {
-      const { result } = renderHook(() => useTx({}));
+    it("posts and adds started notification when no callbacks are specified", async () => {
+      const { result } = renderHook(() =>
+        useTx({
+          notification: {
+            type: "claimRewards",
+          },
+        })
+      );
+
       const { submit } = result.current;
 
-      submit({
+      mockPost.mockResolvedValue({
+        result: {
+          txhash: "ABCD123",
+        },
+      });
+
+      await submit({
         msgs: [mockMsg],
         fee: mockFee,
       });
@@ -118,12 +147,33 @@ describe("useTx submit", () => {
         msgs: [mockMsg],
         fee: mockFee,
       });
+
+      expect(mockAddNotification).toHaveBeenCalledAfter(mockPost);
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "started",
+          txType: "claimRewards",
+          txHash: "ABCD123",
+        },
+      });
     });
 
-    it("invokes onPosting callback, posts, invokes onBroadcasting (with txhash), and does not invoke onError when post is successful", async () => {
+    it("invokes onPosting callback, posts, adds started notification, invokes onBroadcasting (with txhash), and does not invoke onError when post is successful", async () => {
       const { result } = renderHook(() =>
-        useTx({ onPosting, onBroadcasting, onError })
+        useTx({
+          onPosting,
+          onBroadcasting,
+          onError,
+          notification: {
+            type: "swap",
+            data: {
+              token1: "uusd",
+              token2: "uluna",
+            },
+          },
+        })
       );
+
       const { submit } = result.current;
 
       mockPost.mockResolvedValue({
@@ -147,23 +197,52 @@ describe("useTx submit", () => {
       expect(onBroadcasting).toHaveBeenCalledWith("1234ABCD");
       expect(onBroadcasting).toHaveBeenCalledAfter(mockPost);
 
+      expect(mockAddNotification).toHaveBeenCalledAfter(mockPost);
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "started",
+          txHash: "1234ABCD",
+          txType: "swap",
+          data: {
+            token1: "uusd",
+            token2: "uluna",
+          },
+        },
+      });
+
       expect(onError).not.toHaveBeenCalled();
     });
   });
 
   describe("failed post", () => {
-    const render = ({ onPosting, onBroadcasting, onError }) => {
+    const render = ({ onPosting, onBroadcasting, onError, notification }) => {
       const { result } = renderHook(() =>
-        useTx({ onPosting, onBroadcasting, onError })
+        useTx({ onPosting, onBroadcasting, onError, notification })
       );
       return result.current;
     };
 
     const submitWithError = async (
-      { onPosting, onBroadcasting, onError },
+      {
+        onPosting,
+        onBroadcasting,
+        onError,
+        notification = {
+          type: "swap",
+          data: {
+            token1: "uusd",
+            token2: "uluna",
+          },
+        },
+      },
       error
     ) => {
-      const { submit } = render({ onPosting, onBroadcasting, onError });
+      const { submit } = render({
+        onPosting,
+        onBroadcasting,
+        onError,
+        notification,
+      });
 
       mockPost.mockRejectedValue(error);
 
@@ -173,7 +252,7 @@ describe("useTx submit", () => {
       });
     };
 
-    it("invokes onPosting callback, posts, then invokes onError with error when post fails, and never invokes onBroadcasting", async () => {
+    it("invokes onPosting callback, posts, adds error notification, and invokes onError with error when post fails, and never invokes onBroadcasting", async () => {
       const error = new Error();
       await submitWithError({ onPosting, onBroadcasting, onError }, error);
 
@@ -184,25 +263,60 @@ describe("useTx submit", () => {
         fee: mockFee,
       });
 
+      expect(mockAddNotification).toHaveBeenCalledAfter(mockPost);
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+        },
+      });
+
       expect(onError).toHaveBeenCalledWith(TxPostError.UnknownError, error);
       expect(onError).toHaveBeenCalledAfter(mockPost);
 
       expect(onBroadcasting).not.toHaveBeenCalled();
     });
 
-    it("invokes onError callback with UserDenied error", async () => {
+    it("invokes onError callback with UserDenied error and does not add error notification", async () => {
       const error = new UserDenied();
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(TxPostError.UserDenied, error);
+
+      expect(mockAddNotification).not.toHaveBeenCalled();
     });
 
-    it("invokes onError callback with CreateTxFailed error", async () => {
+    it("invokes onError callback with CreateTxFailed error and adds appropriate error notification", async () => {
       const error = new CreateTxFailed(jest.fn(), "failed to create tx");
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(TxPostError.CreateTxFailed, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+          description: "failed to create tx",
+        },
+      });
     });
 
-    it("invokes onError callback with TxFailed error", async () => {
+    it("invokes onError callback with Timeout error and adds appropriate error notification when CreateTxError due to a timeout is encountered", async () => {
+      const error = new CreateTxFailed(
+        jest.fn(),
+        "timeout of 42000ms exceeded"
+      );
+      await submitWithError({ onError }, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.Timeout, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+          description: "Timed out. Please try again.",
+        },
+      });
+    });
+
+    it("invokes onError callback with TxFailed error and adds appropriate error notification", async () => {
       const error = new TxFailed(
         jest.fn(),
         "123ABC",
@@ -211,24 +325,46 @@ describe("useTx submit", () => {
       );
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(TxPostError.TxFailed, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+        },
+      });
     });
 
-    it("invokes onError callback with Timeout error", async () => {
+    it("invokes onError callback with Timeout error and adds appropriate error notification", async () => {
       const error = new Timeout("timed out");
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(TxPostError.Timeout, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+          description: "Timed out. Please try again.",
+        },
+      });
     });
 
-    it("invokes onError callback with TxUnspecifiedError error", async () => {
+    it("invokes onError callback with TxUnspecifiedError error and adds appropriate error notification", async () => {
       const error = new TxUnspecifiedError(jest.fn(), "unspecified error");
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(
         TxPostError.TxUnspecifiedError,
         error
       );
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+        },
+      });
     });
 
-    it("invokes onError callback with UnknownError error when error type is not recognized", async () => {
+    it("invokes onError callback with UnknownError error when error type is not recognized and adds appropriate error notification", async () => {
       class FooError extends Error {
         constructor() {
           super("Something went wrong");
@@ -239,6 +375,215 @@ describe("useTx submit", () => {
       const error = new FooError();
       await submitWithError({ onError }, error);
       expect(onError).toHaveBeenCalledWith(TxPostError.UnknownError, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+        },
+      });
+    });
+
+    //   TODO: Adds error notification for all error and notification types
+
+    describe("error notification titles", () => {
+      // Default submitWithError maps to an unknown error,
+      // which does not currently have a description
+      const description = undefined;
+
+      it("uses correct title for swap error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "swap",
+            data: {
+              token1: "uluna",
+              token2: "uusd",
+            },
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Swap from LUNA to UST failed",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for provide error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "provide",
+            data: {
+              token1: "uluna",
+              token2: "uusd",
+            },
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Provide liquidity for LUNA and UST failed",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for withdraw error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "withdraw",
+            data: {
+              token1: "uluna",
+              token2: "uusd",
+            },
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Withdraw liquidity for LUNA and UST failed",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for unstakeLp error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "unstakeLp",
+            data: {
+              token: "uluna",
+            },
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Unstake LP tokens failed",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for lockdropUnlockLp error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "lockdropUnlockLp",
+            data: {
+              token: "uluna",
+            },
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed", // default message
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for govStake error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "govStake",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed", // default message
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for govUnstake error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "govUnstake",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed", // default message
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for claimRewards error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "claimRewards",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed to claim rewards",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for auctionUnlockLp error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "auctionUnlockLp",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed to unlock LP token",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for stakeLp error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "stakeLp",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Stake LP tokens failed",
+            description,
+          },
+        });
+      });
+
+      it("uses correct title for claimRewards error notifications", async () => {
+        await submitWithError({
+          notification: {
+            type: "claimRewards",
+          },
+        });
+
+        expect(mockAddNotification).toHaveBeenCalledWith({
+          notification: {
+            type: "error",
+            title: "Failed to claim rewards",
+            description,
+          },
+        });
+      });
     });
   });
 });

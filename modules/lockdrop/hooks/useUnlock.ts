@@ -21,6 +21,7 @@ export type UnlockState = {
 type Params = {
   duration: number;
   token: string;
+  astroLpToken: string;
   amount: number;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
@@ -28,6 +29,7 @@ type Params = {
 
 export const useUnlock = ({
   token,
+  astroLpToken,
   duration,
   onBroadcasting,
   onError,
@@ -51,6 +53,12 @@ export const useUnlock = ({
   }, [address, lockdrop, token, duration]);
 
   return useTransaction({
+    notification: {
+      type: "lockdropUnlockLp",
+      data: {
+        token: astroLpToken,
+      },
+    },
     msgs,
     onBroadcasting,
     onError,

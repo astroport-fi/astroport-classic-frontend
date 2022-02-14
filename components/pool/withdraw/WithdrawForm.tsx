@@ -5,11 +5,7 @@ import { useRouter } from "next/router";
 import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import {
-  PairResponse,
-  useAstroswap,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
 
@@ -39,8 +35,6 @@ const WithdrawForm: FC<Props> = ({
   onModeClick,
   onTypeClick,
 }) => {
-  const { addNotification } = useAstroswap();
-  // const { getSymbol } = useTokenInfo();
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
   const methods = useForm<FormValues>({
@@ -67,15 +61,8 @@ const WithdrawForm: FC<Props> = ({
     contract: pair.contract_addr,
     lpToken: pair.liquidity_token,
     amount: toTerraAmount(debouncedAmount),
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/pools");
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "withdraw",
-        },
-      });
     },
     onError: () => {
       resetForm();

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
-import { useAstroswap, useTx } from "modules/common";
+import { useTx } from "modules/common";
 import { useClaimAuctionReward } from "modules/reward";
 
 type Props = {
@@ -11,19 +11,11 @@ type Props = {
 };
 
 const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
-  const { addNotification } = useAstroswap();
-
   const { msgs } = useClaimAuctionReward({ amount });
 
   const { submit } = useTx({
-    onBroadcasting: (txHash) => {
-      addNotification({
-        notification: {
-          type: "started",
-          txHash,
-          txType: "claimRewards",
-        },
-      });
+    notification: {
+      type: "claimRewards",
     },
   });
 

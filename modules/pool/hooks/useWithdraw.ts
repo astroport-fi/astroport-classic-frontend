@@ -34,6 +34,13 @@ type Params = {
   onError?: TxErrorHandler;
 };
 
+type Tokens = {
+  token1?: string;
+  token2?: string;
+  token1Amount?: string;
+  token2Amount?: string;
+};
+
 export const useWithdraw = ({
   contract,
   lpToken,
@@ -58,7 +65,7 @@ export const useWithdraw = ({
     }, {});
   }, [pool]);
 
-  const tokens = useMemo(() => {
+  const tokens = useMemo<Tokens>(() => {
     if (pool == null || ratio == null || amount == null) {
       return {};
     }
@@ -98,6 +105,13 @@ export const useWithdraw = ({
   }, [address, contract, lpToken, amount]);
 
   const { submit, ...rest } = useTransaction({
+    notification: {
+      type: "withdraw",
+      data: {
+        token1: tokens.token1,
+        token2: tokens.token2,
+      },
+    },
     msgs,
     onBroadcasting,
     onError,
