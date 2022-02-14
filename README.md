@@ -17,6 +17,13 @@ Requirements:
 - node v14
 - npm v7
 
+Env Settings:
+Create an `.env.local` file. You can copy the existing template (`cp .env.template .env.local`)
+
+```
+DISPLAY_GOVERNANCE=1
+```
+
 If you have nvm installed, you should select the correct version for you based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.
 
 ### `npm run dev`

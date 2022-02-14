@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container, Flex, HStack, Image, Box } from "@chakra-ui/react";
 
 import { useAstroswap } from "modules/common";
+import { ENV_DISPLAY_GOVERNANCE } from "constants/constants";
 
 import TerraWallet from "components/TerraWallet";
 import NavbarLink from "components/NavbarLink";
@@ -59,7 +60,9 @@ const Navbar: FC = () => {
             <NavbarLink text="Swap" href="/swap" />
             <NavbarLink text="Pool" href="/pools" />
             <NavbarLink text="Locked Liquidity" href="/locked-liquidity" />
-            {/* <NavbarLink text="Staking" href="/staking" /> */}
+            {ENV_DISPLAY_GOVERNANCE && (
+              <NavbarLink text="Staking" href="/staking" />
+            )}
             <NavbarLink text="Airdrop" href="/airdrop" />
           </HStack>
         </Box>
