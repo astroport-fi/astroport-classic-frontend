@@ -384,8 +384,6 @@ describe("useTx submit", () => {
       });
     });
 
-    //   TODO: Adds error notification for all error and notification types
-
     describe("error notification titles", () => {
       // Default submitWithError maps to an unknown error,
       // which does not currently have a description
