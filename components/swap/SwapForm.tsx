@@ -159,6 +159,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     onPosting: () => {
       setSlippageSetting(slippage);
       setShowConfirm(false);
+      setTxHash(undefined);
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
