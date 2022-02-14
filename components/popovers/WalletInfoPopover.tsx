@@ -143,7 +143,8 @@ const WalletInfoPopover: FC = () => {
         <VStack mt={6} align="flex-start">
           <Text textStyle="minibutton">My Address</Text>
           <Text textStyle="small" variant="dimmed">
-            {truncate(terraAddress, [16, 16])} ({tnsName})
+            {truncate(terraAddress, [16, 16])}
+            {tnsName && <>&nbsp;({tnsName})</>}
           </Text>
         </VStack>
         <Flex mt={6} justify="space-between">
