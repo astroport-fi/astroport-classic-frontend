@@ -19,7 +19,9 @@ const GovUnstakeNotification: FC<Props> = ({ txInfo }) => {
   const { eventsByType } = logs[0];
   const amount = eventsByType.wasm.amount[0];
   const displayAmount = handleTinyAmount(
-    num(amount).div(ONE_TOKEN).dp(6).toNumber()
+    num(amount).div(ONE_TOKEN).dp(6).toNumber(),
+    undefined,
+    true
   );
 
   useEffect(() => {

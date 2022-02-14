@@ -35,7 +35,9 @@ const UnstakeLpNotification: FC<Props> = ({ txInfo, data }) => {
   const symbol1 = getSymbol(token1);
   const symbol2 = getSymbol(token2);
   const displayAmount = handleTinyAmount(
-    num(amount).div(ONE_TOKEN).dp(6).toNumber()
+    num(amount).div(ONE_TOKEN).dp(6).toNumber(),
+    undefined,
+    true
   );
 
   useEffect(() => {
