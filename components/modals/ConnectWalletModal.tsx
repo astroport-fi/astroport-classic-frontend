@@ -59,7 +59,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
       })),
   ];
 
-  // on mobile, will need to add terra-station and wallet-connect
+  // on mobile, will need to add wallet-connect
   // as above code will return empty array
   if (!wallets.some((key) => key.type === "WALLETCONNECT")) {
     wallets.push({
@@ -68,18 +68,6 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
       icon: "https://assets.terra.money/icon/wallet-provider/walletconnect.svg",
       walletAction: () => {
         connect(ConnectType.WALLETCONNECT);
-      },
-    });
-  }
-
-  if (!wallets.some((key) => key.identifier === "station")) {
-    wallets.push({
-      type: ConnectType.EXTENSION,
-      identifier: "station",
-      name: "Terra Station Wallet",
-      icon: "https://assets.terra.money/icon/station-extension/icon.png",
-      walletAction: () => {
-        connect(ConnectType.EXTENSION, "station");
       },
     });
   }
