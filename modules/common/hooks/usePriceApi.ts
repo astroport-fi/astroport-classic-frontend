@@ -5,7 +5,7 @@ import { useApi } from "modules/common";
 const query = gql`
   query Price($address: String!) {
     price(tokenAddress: $address) {
-      price
+      price_in_ust
     }
   }
 `;
@@ -27,7 +27,7 @@ export const usePriceApi = (token: string) => {
       return 0;
     }
 
-    if (data.price?.price == null) {
+    if (data.price?.price_in_ust == null) {
       return 0;
     }
 
