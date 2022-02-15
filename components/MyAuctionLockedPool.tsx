@@ -105,7 +105,7 @@ const MyAuctionLockedPool = () => {
         <PoolTable
           columns={columns}
           data={auctionPools}
-          minW="xl"
+          minW="1380px"
           emptyMsg="You didn't lock any positions."
           sortBy="totalUnlockedLiquidity"
         />

@@ -6,7 +6,7 @@ type Props = {
   minW?: string;
 };
 
-const Table: FC<Props> = ({ children, minW = "lg" }) => {
+const Table: FC<Props> = ({ children, minW = "1180px" }) => {
   return (
     <Box color="white" minW={minW} backgroundColor="inherit" overflow="visible">
       {children}
