@@ -31,7 +31,7 @@ export const usePriceApi = (token: string) => {
       return 0;
     }
 
-    return data.price?.price;
+    return data.price?.price_ust;
   }, [data, isLoading]);
 };
 
