@@ -316,6 +316,45 @@ describe("useTx submit", () => {
       });
     });
 
+    it("invokes onError callback with InsufficientFee error and adds appropriate error notification when CreateTxError due to a insufficient fee is encountered", async () => {
+      const error = new CreateTxFailed(
+        jest.fn(),
+        'insufficient fees; got: "42uusd", required: "..." = "..."(gas) +""(stability): insufficient fee'
+      );
+      await submitWithError({ onError }, error);
+      expect(onError).toHaveBeenCalledWith(TxPostError.InsufficientFee, error);
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+          description:
+            "Sorry, the specified fee was not enough to cover the cost of this transaction. Please try again.",
+        },
+      });
+    });
+
+    it("invokes onError callback with InsufficientFunds error and adds appropriate error notification when CreateTxError due to a insufficient funds is encountered", async () => {
+      const error = new CreateTxFailed(
+        jest.fn(),
+        "0uusd is smaller than 42uusd: insufficient funds: insufficient funds"
+      );
+      await submitWithError({ onError }, error);
+      expect(onError).toHaveBeenCalledWith(
+        TxPostError.InsufficientFunds,
+        error
+      );
+
+      expect(mockAddNotification).toHaveBeenCalledWith({
+        notification: {
+          type: "error",
+          title: "Swap from UST to LUNA failed",
+          description:
+            "We're sorry, you don't have enough funds to complete this request. Please try again when you have more funds available.",
+        },
+      });
+    });
+
     it("invokes onError callback with TxFailed error and adds appropriate error notification", async () => {
       const error = new TxFailed(
         jest.fn(),

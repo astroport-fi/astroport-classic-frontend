@@ -30,7 +30,7 @@ const friendlyMessages = {
   [CosmosError.MemoTooLarge]:
     "Sorry, the amount of text you included in your memo was too large. Please try again with a smaller amount of text.",
   [CosmosError.InsufficientFee]:
-    "Sorry, the fee you specified was not enough to cover the cost of this transaction. Please try again with a higher fee.",
+    "Sorry, the specified fee was not enough to cover the cost of this transaction. Please try again.",
   [CosmosError.MaxSignaturesExceeded]:
     "Sorry, the maximum number of signatures has been reached. Please try again with fewer signatures.",
   [CosmosError.NoSignatures]:
