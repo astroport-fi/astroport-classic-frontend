@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 import { useApi } from "modules/common";
 
 const query = gql`
-  query Price($address: String!) {
+  query price($address: String!) {
     price(tokenAddress: $address) {
       price_ust
     }
