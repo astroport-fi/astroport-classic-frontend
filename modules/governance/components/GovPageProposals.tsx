@@ -18,9 +18,7 @@ const GovPageProposals = () => {
           </Button>
         </NextLink>
       </Flex>
-      <Card>
-        <GovProposalDash proposals={proposals} />
-      </Card>
+      <GovProposalDash proposals={proposals} />
     </Box>
   );
 };

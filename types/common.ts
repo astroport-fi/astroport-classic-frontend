@@ -160,6 +160,19 @@ export enum ProvideFormMode {
 }
 
 // temporary governance proposal types
+export enum ProposalStatus {
+  Fail = 0,
+  Active = 1,
+  Passed = 2,
+  Implemented = 3,
+}
+
+export type ProposalStatusProperty = {
+  title: string;
+  lightColor: string;
+  color: string;
+};
+
 export type GovernanceProposal = {
   id?: string;
   title?: string;
@@ -167,4 +180,11 @@ export type GovernanceProposal = {
   msg?: string;
   link?: string;
   amount?: number;
+  endDate?: string;
+  votesFor?: number;
+  votesAgainst?: number;
+  votesQuorum?: number;
+  votesMax?: number;
+  address?: string;
+  status?: ProposalStatus;
 };

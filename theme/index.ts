@@ -89,6 +89,14 @@ export default extendTheme({
       green: "#7FE6A2",
       overlay: "#C2D9FF",
     },
+    proposalColours: {
+      green: "#00581E",
+      greenLight: "#D4F2DE",
+      purple: "#5643F2",
+      purpleLight: "#CAC3FF",
+      red: "#A30000",
+      redLight: "#FFD1CF",
+    },
   },
   textStyles: {
     h3: {
