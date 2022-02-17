@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 
 import { usePoolTable } from "modules/pool";
@@ -21,7 +21,10 @@ const PoolTable: FC<Props> = ({
   emptyMsg = "No pools.",
   minW,
 }) => {
-  const tableInstance = usePoolTable(columns, data, sortBy);
+  const _columns = useMemo(() => columns, [columns]);
+  const _data = useMemo(() => data, [data]);
+
+  const tableInstance = usePoolTable(_columns, _data, sortBy);
 
   const { getTableBodyProps, rows, page, prepareRow } = tableInstance;
 

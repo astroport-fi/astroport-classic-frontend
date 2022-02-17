@@ -27,36 +27,22 @@ const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
 
   const renderSuccessfulTxContent = ({ txInfo, txType, data }: any) => {
-    if (txType === "swap") {
-      return <SwapNotification txInfo={txInfo} data={data} />;
-    }
-    if (txType === "provide") {
-      return <ProvideNotification txInfo={txInfo} />;
-    }
-    if (txType === "withdraw") {
-      return <WithdrawNotification txInfo={txInfo} />;
-    }
-    if (txType === "stakeLp") {
-      return <StakeLpNotification txInfo={txInfo} data={data} />;
-    }
-    if (txType === "unstakeLp") {
-      return <UnstakeLpNotification txInfo={txInfo} data={data} />;
-    }
-    if (txType === "claimRewards") {
-      return <ClaimRewardsNotification txInfo={txInfo} />;
-    }
-    if (txType === "auctionUnlockLp") {
-      return <AuctionUnlockLpNotification txInfo={txInfo} />;
-    }
-    if (txType === "lockdropUnlockLp") {
-      return <LockdropUnlockLpNotification txInfo={txInfo} data={data} />;
-    }
-    if (txType === "govStake") {
-      return <GovStakeNotification txInfo={txInfo} />;
-    }
-    if (txType === "govUnstake") {
-      return <GovUnstakeNotification txInfo={txInfo} />;
-    }
+    const props = { txInfo, data };
+
+    const mapTxType = {
+      swap: <SwapNotification {...props} />,
+      provide: <ProvideNotification {...props} />,
+      withdraw: <WithdrawNotification {...props} />,
+      stakeLp: <StakeLpNotification {...props} />,
+      unstakeLp: <UnstakeLpNotification {...props} />,
+      lockdropUnlockLp: <LockdropUnlockLpNotification {...props} />,
+      govStake: <GovStakeNotification txInfo={txInfo} />,
+      govUnstake: <GovUnstakeNotification txInfo={txInfo} />,
+      claimRewards: <ClaimRewardsNotification txInfo={txInfo} />,
+      auctionUnlockLp: <AuctionUnlockLpNotification txInfo={txInfo} />,
+    };
+
+    return mapTxType[txType];
   };
 
   return (
@@ -91,7 +77,7 @@ const Notifications: FC = () => {
                   toastType="success"
                   onClose={onClose}
                 >
-                  {renderSuccessfulTxContent({ type, ...payload })}
+                  {renderSuccessfulTxContent({ ...payload })}
                 </TransactionNotification>
               );
             }
