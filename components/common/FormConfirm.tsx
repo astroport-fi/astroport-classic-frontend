@@ -28,6 +28,9 @@ type Props = {
   fee?: Fee | null;
   txFeeNotEnough?: boolean;
   actionLabel?: string;
+  buttonVariant?: string;
+  buttonRadius?: string;
+  maxW?: string;
   onCloseClick: () => void;
 };
 
@@ -36,6 +39,9 @@ const MotionBox = motion(Box);
 const FormConfirm: FC<Props> = ({
   title,
   actionLabel,
+  buttonVariant = "primary",
+  buttonRadius,
+  maxW = "470px",
   fee,
   txFeeNotEnough,
   contentComponent,
@@ -47,7 +53,7 @@ const FormConfirm: FC<Props> = ({
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      maxW="470px"
+      maxW={maxW}
       m="0 auto"
       mt="10"
       px={[6, 0]}
@@ -128,7 +134,8 @@ const FormConfirm: FC<Props> = ({
 
         <Flex flexDir="column" align="center" mt="8">
           <Button
-            variant="primary"
+            variant={buttonVariant}
+            borderRadius={buttonRadius}
             minW={["32", "64"]}
             size="sm"
             type="submit"

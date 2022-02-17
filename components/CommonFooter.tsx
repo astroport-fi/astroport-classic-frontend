@@ -14,6 +14,8 @@ export interface ConfirmButton {
   title: string;
   isLoading?: boolean;
   isDisabled?: boolean;
+  variant?: string;
+  borderRadius?: string;
   onClick?: () => void;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
@@ -57,8 +59,9 @@ const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
       )}
       <Flex flex="1" align="center" flexDirection="column" mt="8">
         <Button
-          variant="primary"
+          variant={confirmButton.variant || "primary"}
           type={confirmButton.type || "button"}
+          borderRadius={confirmButton.borderRadius}
           isDisabled={confirmButton.isDisabled}
           isLoading={confirmButton.isLoading}
           onClick={confirmButton.onClick}

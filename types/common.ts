@@ -158,3 +158,13 @@ export enum ProvideFormMode {
   Single = 0,
   Double = 1,
 }
+
+// temporary governance proposal types
+export type GovernanceProposal = {
+  id?: string;
+  title?: string;
+  description?: string;
+  msg?: string;
+  link?: string;
+  amount?: number;
+};

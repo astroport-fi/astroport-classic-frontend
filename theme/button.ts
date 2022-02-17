@@ -29,6 +29,26 @@ const button = {
         boxShadow: "none",
       },
     },
+    primarywhite: {
+      outline: "none",
+      borderRadius: "full",
+      fontWeight: "500",
+      bg: "white",
+      color: "brand.purple",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "brand.purple",
+        color: "white",
+        _disabled: {
+          bg: "white",
+          color: "brand.purple",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     mini: {
       outline: "none",
       borderRadius: "md",

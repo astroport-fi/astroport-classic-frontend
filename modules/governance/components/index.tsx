@@ -1,4 +1,9 @@
-export { default as GovernancePage } from "./GovernancePage";
+export { default as GovPage } from "./GovPage";
+export { default as GovProposalForm } from "./GovProposalForm";
+export { default as GovProposalFormInitial } from "./GovProposalFormInitial";
+export { default as GovProposalFormConfirm } from "./GovProposalFormConfirm";
+export { default as GovProposalFormFooter } from "./GovProposalFormFooter";
+export { default as GovProposalDash } from "./GovProposalDash";
 export { default as GovStakeFooter } from "./GovStakeFooter";
 export { default as GovStakeForm } from "./GovStakeForm";
 export { default as GovStakeFormInitial } from "./GovStakeFormInitial";

@@ -67,6 +67,7 @@ export default extendTheme({
     black: {
       100: "rgba(0,0,0,0.2)",
       200: "rgba(0,0,0,0.2)",
+      400: "rgba(0,0,0,0.4)",
     },
     tile: {
       dark: "rgba(0,13,55,0.8)",
