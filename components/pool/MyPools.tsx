@@ -106,7 +106,7 @@ const MyPools: FC = () => {
   );
 
   return (
-    <Card overflow="auto" noPadding>
+    <Card overflow="auto" position="initial" noPadding>
       <PoolTable
         data={myPools}
         columns={columns}
