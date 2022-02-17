@@ -1,8 +1,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-import GovPageStake from "./GovPageStake";
-import GovPageProposals from "./GovPageProposals";
+import { GovPageStake, GovPageProposals } from "modules/governance";
 
 const GovPage = () => {
   return (

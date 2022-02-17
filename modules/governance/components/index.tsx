@@ -1,11 +1,19 @@
 export { default as GovPage } from "./GovPage";
-export { default as GovProposalForm } from "./GovProposalForm";
-export { default as GovProposalFormInitial } from "./GovProposalFormInitial";
-export { default as GovProposalFormConfirm } from "./GovProposalFormConfirm";
-export { default as GovProposalFormFooter } from "./GovProposalFormFooter";
+export { default as GovPageStake } from "./GovPageStake";
+export { default as GovPageProposals } from "./GovPageProposals";
 export { default as GovProposalDash } from "./GovProposalDash";
-export { default as GovStakeFooter } from "./GovStakeFooter";
-export { default as GovStakeForm } from "./GovStakeForm";
-export { default as GovStakeFormInitial } from "./GovStakeFormInitial";
-export { default as GovStakeHeader } from "./GovStakeHeader";
-export { default as GovUnstakeFooter } from "./GovUnstakeFooter";
+
+// Form
+export { default as GovProposalForm } from "./form/GovProposalForm";
+export { default as GovProposalFormInitial } from "./form/GovProposalFormInitial";
+export { default as GovProposalFormConfirm } from "./form/GovProposalFormConfirm";
+export { default as GovProposalFormFooter } from "./form/GovProposalFormFooter";
+
+// Staking
+export { default as GovStakeForm } from "./staking/GovStakeForm";
+export { default as GovStakeFormInitial } from "./staking/GovStakeFormInitial";
+export { default as GovStakeHeader } from "./staking/GovStakeHeader";
+export { default as GovStakeFooter } from "./staking/GovStakeFooter";
+export { default as GovUnstakeFooter } from "./staking/GovUnstakeFooter";
+
+// Voting

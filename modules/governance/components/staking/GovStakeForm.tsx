@@ -11,7 +11,7 @@ import {
   useTx,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useGovStake } from "../hooks";
+import { useGovStake } from "modules/governance/hooks";
 
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
