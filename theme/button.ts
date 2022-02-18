@@ -49,6 +49,30 @@ const button = {
         boxShadow: "none",
       },
     },
+    votegreen: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "green.500",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _focus: {
+        boxShadow: "none",
+      },
+    },
+    votered: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "red.500",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     mini: {
       outline: "none",
       borderRadius: "md",

@@ -19,7 +19,7 @@ const Layout: FC = ({ children }) => {
           "html,body": {
             height: "100%",
             width: "100%",
-            overflowX: "hidden",
+            //overflowX: "hidden",
             position: "relative",
           },
           body: {

@@ -94,6 +94,7 @@ export default extendTheme({
       greenLight: "#D4F2DE",
       purple: "#5643F2",
       purpleLight: "#CAC3FF",
+      purpleAlt: "#ADA3FF",
       red: "#A30000",
       redLight: "#FFD1CF",
     },

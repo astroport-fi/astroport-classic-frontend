@@ -1,11 +1,23 @@
-import React from "react";
-import { Flex } from "@chakra-ui/react";
+import React, { FC } from "react";
+import { Container } from "@chakra-ui/react";
 
-const GovProposal = () => {
+import Proposal from "components/Proposal";
+
+type Props = {
+  id: string;
+};
+
+const GovProposal: FC<Props> = ({ id }) => {
   return (
-    <Flex h="100%" justify="center">
-      Gov Proposal
-    </Flex>
+    <Container
+      px={["6", null, "12"]}
+      maxWidth="container.lg"
+      pt="12"
+      pb="64"
+      color="white"
+    >
+      <Proposal id={id} />
+    </Container>
   );
 };
 

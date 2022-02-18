@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { GridItem, Flex, Box, Text, Button } from "@chakra-ui/react";
+import { GridItem, Flex, Center, Box, Text, Button } from "@chakra-ui/react";
 import { NextLink } from "modules/common";
 import {
   getProposalStatusProperties,
@@ -43,30 +43,30 @@ const CardHeader = ({ status, title, endDate }) => {
 
 const CardBody = () => {
   return (
-    <Flex
+    <Center
       borderY="1px"
       borderColor="white.100"
       height="100%"
-      align="center"
       fontSize="sm"
+      fontStyle="italic"
       p="5"
     >
       Voting information...
-    </Flex>
+    </Center>
   );
 };
 
 const CardFooter = ({ description, address, id }) => {
   return (
     <Flex p="5" flexDirection="column" height="100%">
-      <Box fontSize="sm" color="white.400">
+      <Box fontSize="sm" color="white.400" maxH="80px" overflow="hidden">
         {description}
       </Box>
       <Box mt="2" mb="auto" color="white.700" fontSize="sm">
         by: {address}
       </Box>
       <Flex justify="center">
-        <NextLink href={"/governance/proposal/" + id} passHref>
+        <NextLink href={`/governance/proposal/${id}`} passHref>
           <Button
             variant="primarywhite"
             type="button"
