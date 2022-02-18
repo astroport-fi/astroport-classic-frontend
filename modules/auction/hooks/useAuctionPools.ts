@@ -6,6 +6,7 @@ import { useContracts, useTokenInfo } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
 import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 export const useAuctionPools = () => {
   const { astroToken, astroUstPool } = useContracts();
@@ -14,6 +15,7 @@ export const useAuctionPools = () => {
   const config = useConfig();
   const state = useAuctionState();
   const { data: pool } = useGetPool(astroUstPool);
+  const price = useTokenPriceInUstWithSimulate(astroToken);
 
   const lockEnd = useMemo(() => {
     if (config == null) {
@@ -44,10 +46,10 @@ export const useAuctionPools = () => {
       .dp(6)
       .toNumber();
 
-    const myLiquidity = num(userInfo.lp_shares).div(ONE_TOKEN).dp(6).toNumber();
-    const myLiquidityInUst = num(myLiquidity)
-      .times(totalLiquidityInUst)
-      .div(totalLiquidity)
+    const myAstroInUst = num(userInfo.astro_delegated).times(price);
+    const myLiquidityInUst = num(userInfo.ust_delegated)
+      .plus(myAstroInUst)
+      .div(ONE_TOKEN)
       .dp(6)
       .toNumber();
 
@@ -89,7 +91,6 @@ export const useAuctionPools = () => {
         pairType: "xyk",
         totalLiquidity,
         totalLiquidityInUst,
-        myLiquidity,
         myLiquidityInUst,
         myUnlockableLiquidity,
         myUnlockableLiquidityInUst,
