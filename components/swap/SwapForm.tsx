@@ -53,7 +53,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   );
   const [expertMode, setExpertMode] = useLocalStorage("expertMode", false);
   const isReverse = currentInput == "amount2";
-  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -147,6 +146,8 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   } = useEstimateFee({
     msgs,
   });
+
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees(fee);
 
   const { submit } = useTx({
     notification: {

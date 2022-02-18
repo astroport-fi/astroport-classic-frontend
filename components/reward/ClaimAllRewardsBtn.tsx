@@ -11,13 +11,13 @@ type Props = {
 };
 
 const ClaimAllRewardsBtn: FC<Props> = ({ onSuccess }) => {
-  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
-
   const state = useClaimAll({
     onBroadcasting: () => {
       onSuccess();
     },
   });
+
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees(state.fee);
 
   return (
     <VStack>
