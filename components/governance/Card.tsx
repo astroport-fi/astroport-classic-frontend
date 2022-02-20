@@ -1,11 +1,21 @@
 import React, { FC } from "react";
-import { GridItem, Flex, Center, Box, Text, Button } from "@chakra-ui/react";
+import {
+  GridItem,
+  Flex,
+  Center,
+  Box,
+  Text,
+  Button,
+  HStack,
+} from "@chakra-ui/react";
 import { NextLink } from "modules/common";
 import {
   getProposalStatusProperties,
   convertTimestampToDate,
 } from "modules/common/helpers";
 import { GovernanceProposal } from "types/common";
+
+import ProgressBar from "components/common/ProgressBar";
 
 type Props = {
   proposal: GovernanceProposal;
@@ -43,16 +53,33 @@ const CardHeader = ({ status, title, endDate }) => {
 
 const CardBody = () => {
   return (
-    <Center
+    <Flex
+      flexDirection="column"
       borderY="1px"
       borderColor="white.100"
       height="100%"
       fontSize="sm"
-      fontStyle="italic"
       p="5"
     >
-      Voting information...
-    </Center>
+      <Flex mt="5">
+        <ProgressBar
+          elements={[
+            { value: 20, color: "green.500" },
+            { value: 20, color: "red.500" },
+          ]}
+        />
+      </Flex>
+      <HStack mt="5" spacing="5">
+        <Flex align="center">
+          <Box w="12px" h="12px" borderRadius="50%" bg="green.500" />
+          <Text pl="2">20% Votes for</Text>
+        </Flex>
+        <Flex align="center">
+          <Box w="12px" h="12px" borderRadius="50%" bg="red.500" />
+          <Text pl="2">20% Votes against</Text>
+        </Flex>
+      </HStack>
+    </Flex>
   );
 };
 
@@ -84,7 +111,7 @@ const CardFooter = ({ description, address, id }) => {
 const Card: FC<Props> = ({ proposal }) => {
   return (
     <GridItem
-      h="450px"
+      h="465px"
       alignItems="center"
       justifyContent="center"
       display="flex"
@@ -101,7 +128,7 @@ const Card: FC<Props> = ({ proposal }) => {
           endDate={proposal.endDate}
         />
       </Box>
-      <Box h="135px" w="100%">
+      <Box h="150px" w="100%">
         <CardBody />
       </Box>
       <Box flex="1" w="100%">
