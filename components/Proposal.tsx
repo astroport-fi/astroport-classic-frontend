@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { useProposals } from "modules/governance";
 
-import ProgressBar from "components/common/ProgressBar";
-import TimelineBar from "components/common/TimelineBar";
+import ProgressBar from "components/governance/ProgressBar";
+import TimelineBar from "components/governance/TimelineBar";
 
 import BackIcon from "components/icons/BackIcon";
 import TwitterIcon from "components/icons/TwitterIcon";
@@ -61,12 +61,7 @@ const VoteBox = ({ addressOpen, onClick }) => {
     >
       <Flex flexDirection="column" p="5" mt="5">
         <Flex>
-          <ProgressBar
-            elements={[
-              { value: 20, color: "green.500" },
-              { value: 20, color: "red.500" },
-            ]}
-          />
+          <ProgressBar voteFor={20} voteAgainst={20} quorum={40} />
         </Flex>
         <HStack mt="5" spacing="5">
           <Flex align="center">
@@ -131,7 +126,10 @@ const HistoryBox = () => {
       width="100%"
     >
       <Text mb="6">Proposal History</Text>
-      <TimelineBar />
+      <TimelineBar
+        dates={[1645433859, 1645433859, 1645433859, 1645433859, 1645433859]}
+        active={2}
+      />
     </Flex>
   );
 };

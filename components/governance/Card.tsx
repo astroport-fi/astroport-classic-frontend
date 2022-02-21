@@ -15,7 +15,7 @@ import {
 } from "modules/common/helpers";
 import { GovernanceProposal } from "types/common";
 
-import ProgressBar from "components/common/ProgressBar";
+import ProgressBar from "components/governance/ProgressBar";
 
 type Props = {
   proposal: GovernanceProposal;
@@ -62,12 +62,7 @@ const CardBody = () => {
       p="5"
     >
       <Flex mt="5">
-        <ProgressBar
-          elements={[
-            { value: 20, color: "green.500" },
-            { value: 20, color: "red.500" },
-          ]}
-        />
+        <ProgressBar voteFor={20} voteAgainst={20} quorum={40} />
       </Flex>
       <HStack mt="5" spacing="5">
         <Flex align="center">
