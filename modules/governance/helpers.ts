@@ -32,20 +32,26 @@ export const getProposalStatusProperties = (
   return null;
 };
 
-export const convertTimestampToDate = (timestamp: number): string => {
+export const convertTimestampToDate = (
+  timestamp: number = new Date().getTime(),
+  utc: boolean = false
+): string => {
   const date = new Date(timestamp * 1000);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+  const day = utc ? date.getUTCDate() : date.getDate();
+  const month = utc ? date.getUTCMonth() + 1 : date.getMonth() + 1;
+  const year = utc ? date.getUTCFullYear() : date.getFullYear();
 
   return `${month}/${day}/${String(year).substring(2)}`;
 };
 
-export const convertTimestapToMMHHSS = (timestamp: number): string => {
+export const convertTimestapToHHMMSS = (
+  timestamp: number = new Date().getTime(),
+  utc: boolean = false
+): string => {
   const date = new Date(timestamp * 1000);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+  const hours = utc ? date.getUTCHours() : date.getHours();
+  const minutes = utc ? date.getUTCMinutes() : date.getMinutes();
+  const seconds = utc ? date.getUTCSeconds() : date.getSeconds();
 
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
     2,
@@ -67,6 +73,6 @@ export const getProposalEndDateString = (timestamp: number): string => {
   if (daysDiff > 1) {
     return `${daysDiff} days left`;
   } else {
-    return `${convertTimestapToMMHHSS(timestamp)}`;
+    return `${convertTimestapToHHMMSS(timestamp)}`;
   }
 };

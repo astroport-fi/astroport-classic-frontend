@@ -1,117 +1,17 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
-import {
-  Box,
-  Button,
-  IconButton,
-  Flex,
-  Center,
-  HStack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Center, HStack, Text } from "@chakra-ui/react";
 import { useProposals } from "modules/governance";
+
+import ProposalHeader from "components/proposal/Header";
+import ProposalTime from "components/proposal/Time";
+import ProposalVoteStats from "components/proposal/VoteStats";
 
 import ProgressBar from "components/governance/ProgressBar";
 import TimelineBar from "components/governance/TimelineBar";
 
-import BackIcon from "components/icons/BackIcon";
-import TwitterIcon from "components/icons/TwitterIcon";
-
 type Props = {
   id: string;
-};
-
-const TimeBox = ({ endDate }) => {
-  const now = new Date();
-  const end = new Date(endDate * 1000);
-
-  return (
-    <Center
-      flexDirection="column"
-      h="100px"
-      bg="white.50"
-      mb="3"
-      borderRadius="xl"
-      width="100%"
-      borderWidth="2px"
-      borderColor="proposalColours.purple"
-    >
-      <Text fontSize="lg">{`${now.getUTCHours()}:${now.getUTCMinutes()}:${now.getUTCSeconds()} UTC`}</Text>
-      <Text fontSize="sm" mt="1" color="proposalColours.purpleAlt">
-        (
-        {`Ends ${end.getUTCDate()}/${
-          end.getUTCMonth() + 1
-        }/${end.getUTCFullYear()} ${end.getUTCHours()}:${end.getUTCMinutes()} UTC`}
-        )
-      </Text>
-    </Center>
-  );
-};
-
-const VoteBox = ({ addressOpen, onClick }) => {
-  return (
-    <Flex
-      flexDirection="column"
-      //h="250px"
-      bg="white.50"
-      mb="3"
-      borderRadius="xl"
-      width="100%"
-      fontSize="sm"
-    >
-      <Flex flexDirection="column" p="5" mt="5">
-        <Flex>
-          <ProgressBar voteFor={20} voteAgainst={20} quorum={40} />
-        </Flex>
-        <HStack mt="5" spacing="5">
-          <Flex align="center">
-            <Box w="12px" h="12px" borderRadius="50%" bg="green.500" />
-            <Text pl="2">20% Votes for</Text>
-          </Flex>
-          <Flex align="center">
-            <Box w="12px" h="12px" borderRadius="50%" bg="red.500" />
-            <Text pl="2">20% Votes against</Text>
-          </Flex>
-        </HStack>
-      </Flex>
-      <Box borderY="1px" borderColor="white.100" p="5">
-        For / Against %
-      </Box>
-      <Center flexDirection="column">
-        {addressOpen && (
-          <Flex width="100%" p="5">
-            <Box width="50%" mr="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text>x,xxx Addresses</Text>
-              <Flex justify="space-between">
-                <Text>terra....</Text>
-                <Text>[xx.xx%]</Text>
-              </Flex>
-            </Box>
-            <Box width="50%" ml="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text>x,xxx Addresses</Text>
-              <Flex justify="space-between">
-                <Text>terra....</Text>
-                <Text>[xx.xx%]</Text>
-              </Flex>
-            </Box>
-          </Flex>
-        )}
-        <Button
-          w="100%"
-          h="50px"
-          onClick={onClick}
-          bg="none"
-          color="proposalColours.purpleAlt"
-          textDecoration="underline"
-          _hover={{ bg: "none" }}
-          _active={{ bg: "none" }}
-          _focus={{ bg: "none" }}
-        >
-          {addressOpen ? "Close" : "View Addresses"}
-        </Button>
-      </Center>
-    </Flex>
-  );
 };
 
 const HistoryBox = () => {
@@ -219,58 +119,50 @@ const DiscussionBox = ({ link }) => {
   );
 };
 
+const LeftColumn = ({ proposal, addressOpen, setAddressOpen }) => {
+  return (
+    <Flex flexDirection="column" w={["100%", "100%", "66.6%"]} mr="5">
+      <ProposalTime endDate={proposal.endDate} />
+      <ProposalVoteStats
+        proposal={proposal}
+        addressOpen={addressOpen}
+        onClick={() => setAddressOpen(!addressOpen)}
+      />
+      <HistoryBox />
+      <DescriptionBox
+        address={proposal.address}
+        description={proposal.description}
+      />
+      <MsgBox msg={proposal.msg} />
+    </Flex>
+  );
+};
+
+const RightColumn = ({ id, discussionLink }) => {
+  return (
+    <Flex display={["none", "none", "flex"]} flexDirection="column" w="33.3%">
+      <MyVotingPowerBox id={id} />
+      <DiscussionBox link={discussionLink} />
+    </Flex>
+  );
+};
+
 const Proposal: FC<Props> = ({ id }) => {
   const proposals = useProposals();
   const proposal = proposals.find((p) => p.id === id);
   const [addressOpen, setAddressOpen] = useState(false);
-  const shareLink = `https://www.twitter.com/share?url=https://app.astroport.fi/governance/proposal/${id}`;
+  const twitterLink = `https://www.twitter.com/share?url=https://app.astroport.fi/governance/proposal/${id}`;
 
   return (
     <Box>
-      <Flex mb="5" justify="space-between">
-        <HStack spacing={4}>
-          <Link href="/governance" passHref>
-            <IconButton
-              aria-label="Back"
-              size="xs"
-              variant="icon"
-              isRound
-              icon={<BackIcon />}
-            />
-          </Link>
-          <Text>{proposal.title}</Text>
-        </HStack>
-        <IconButton
-          aria-label="Tweet"
-          size="xs"
-          variant="icon"
-          border="none"
-          p="1"
-          isRound
-          icon={<TwitterIcon />}
-          onClick={() => {
-            window.open(shareLink, "_blank");
-          }}
-        />
-      </Flex>
+      <ProposalHeader title={proposal.title} twitterLink={twitterLink} />
       <Flex>
-        <Flex flexDirection="column" w="66.6%" mr="5">
-          <TimeBox endDate={proposal.endDate} />
-          <VoteBox
-            addressOpen={addressOpen}
-            onClick={() => setAddressOpen(!addressOpen)}
-          />
-          <HistoryBox />
-          <DescriptionBox
-            address={proposal.address}
-            description={proposal.description}
-          />
-          <MsgBox msg={proposal.msg} />
-        </Flex>
-        <Flex flexDirection="column" w="33.3%">
-          <MyVotingPowerBox id={id} />
-          <DiscussionBox link={proposal.link} />
-        </Flex>
+        <LeftColumn
+          proposal={proposal}
+          addressOpen={addressOpen}
+          setAddressOpen={setAddressOpen}
+        />
+        <RightColumn id={id} discussionLink={proposal.link} />
       </Flex>
     </Box>
   );

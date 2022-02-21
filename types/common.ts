@@ -182,7 +182,9 @@ export type GovernanceProposal = {
   amount?: number;
   endDate?: string;
   votesFor?: number;
+  voteForNum?: number;
   votesAgainst?: number;
+  voteAgainstNum?: number;
   votesQuorum?: number;
   votesMax?: number;
   address?: string;
