@@ -9,8 +9,6 @@ import {
   Route,
 } from "modules/common";
 
-import { ProposalStatus, ProposalStatusProperty } from "types/common";
-
 // const formatPair = (
 //   routes: Routes,
 //   pair: PairResponse,
@@ -232,43 +230,10 @@ export const getSwapRoute = ({
   return result;
 };
 
-export const getProposalStatusProperties = (
-  value: ProposalStatus
-): ProposalStatusProperty => {
-  switch (value) {
-    case ProposalStatus.Fail:
-      return {
-        title: "failed",
-        lightColor: "proposalColours.redLight",
-        color: "proposalColours.red",
-      };
-    case ProposalStatus.Active:
-      return {
-        title: "active",
-        lightColor: "proposalColours.greenLight",
-        color: "proposalColours.green",
-      };
-    case ProposalStatus.Passed:
-      return {
-        title: "passed",
-        lightColor: "proposalColours.greenLight",
-        color: "proposalColours.green",
-      };
-    case ProposalStatus.Implemented:
-      return {
-        title: "implemented",
-        lightColor: "proposalColours.purpleLight",
-        color: "proposalColours.purple",
-      };
+export const truncateStr = (str: string, length: number) => {
+  if (str.length > length) {
+    return str.substring(0, length) + "...";
   }
-  return null;
-};
 
-export const convertTimestampToDate = (timestamp: number): string => {
-  const date = new Date(timestamp * 1000);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-
-  return `${month}/${day}/${String(year).substring(2)}`;
+  return str;
 };

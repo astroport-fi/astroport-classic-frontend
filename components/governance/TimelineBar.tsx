@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Flex, Box } from "@chakra-ui/react";
 import { GOV_PROPOSAL_STEPS } from "constants/constants";
-import { convertTimestampToDate } from "modules/common/helpers";
+import { convertTimestampToDate } from "modules/governance/helpers";
 
 type Props = {
   dates: number[];
