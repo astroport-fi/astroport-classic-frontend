@@ -47,7 +47,7 @@ const GovernancePage = () => {
           justifyContent="center"
           alignItems="start"
         >
-          <Text textStyle="medium">Get Involved</Text>
+          <Text textStyle="h3">Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
             Stake ASTRO for xASTRO in order to receive a % of Astroport’s
             revenue.
