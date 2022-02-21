@@ -52,7 +52,7 @@ const GovPageStake = () => {
           justifyContent="center"
           alignItems="start"
         >
-          <Text textStyle="medium">Get involved</Text>
+          <Text textStyle="medium">Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
             Stake ASTRO for xASTRO in order to receive a % of Astroport’s
             revenue.
@@ -76,7 +76,7 @@ const GovPageStake = () => {
                 {fromTerraAmount(astroBalance, "0,0.00")}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                ASTRO in my Wallet
+                ASTRO in My Wallet
               </Text>
             </Box>
             <Box textAlign="right">

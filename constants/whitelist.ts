@@ -921,10 +921,10 @@ const whitelist = {
         icon: "/tokens/astro.png",
         decimals: 6,
       },
-      terra1qpwzk9s9g4jzaqe923w6ym2masuuc7hzz5dv6g: {
+      terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np: {
         protocol: "Astroport",
         symbol: "xASTRO",
-        token: "terra1qpwzk9s9g4jzaqe923w6ym2masuuc7hzz5dv6g",
+        token: "terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np",
         icon: "/tokens/xAstro.png",
         decimals: 6,
       },
