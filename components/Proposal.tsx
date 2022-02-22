@@ -104,7 +104,7 @@ const DiscussionBox = ({ link }) => {
       <Text mt="2" mb="auto">
         Have thoughts about this proposal?
         <br />
-        Discuss with others.
+        Discuss with others on the forum.
       </Text>
       <Button
         variant="primary"
