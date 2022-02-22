@@ -7,6 +7,7 @@ import { useProposals } from "modules/governance";
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
 import FormFee from "components/common/FormFee";
+import { truncateStr } from "modules/common/helpers";
 
 type Props = {
   id: string;
@@ -20,7 +21,7 @@ const TitleBox = ({ title }) => {
         Proposal Title
       </Text>
       <Box bg="white.50" p="5" borderRadius="lg">
-        {title}
+        {truncateStr(title, 25)}
       </Box>
     </Box>
   );
@@ -58,6 +59,7 @@ const Footer = ({ action, fee, id }) => {
         <Button
           variant={variant}
           minW={["32", "64"]}
+          mb="2"
           size="md"
           type="submit"
           isDisabled={false}
@@ -81,7 +83,7 @@ const Vote: FC<Props> = ({ id, action }) => {
   return (
     <Card>
       <Flex justify="space-between" align="center" mb="8">
-        <Text textStyle={["small", "normal"]}>Confirm Vote</Text>
+        <Text fontSize="md">Confirm Vote</Text>
         <Link href={`/governance/proposal/${id}`} passHref>
           <Button
             aria-label="Close"
