@@ -41,10 +41,16 @@ const Layout: FC = ({ children }) => {
             top: "64px!important",
             right: "32px!important",
           },
-          "@font-face": {
-            fontFamily: "WhyteInktrap",
-            src: "url('/WhyteInktrap-Regular.woff') format('woff')",
-          },
+          "@font-face": [
+            {
+              fontFamily: "WhyteInktrap",
+              src: "url('/WhyteInktrap-Regular.woff') format('woff')",
+            },
+            {
+              fontFamily: "Roboto Mono",
+              src: "url('/RobotoMono-Regular.ttf') format('ttf')",
+            },
+          ],
         }}
       />
       {!isInitializing && (

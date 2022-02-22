@@ -18,9 +18,11 @@ const GovProposalFormConfirm: FC<Props> = ({ fee, proposal, onCloseClick }) => {
       maxW="540px"
       fee={fee}
       title="Submit Proposal"
+      titleLarge={true}
       actionLabel="Submit Proposal"
       buttonVariant="primarywhite"
       buttonRadius="md"
+      buttonSize="md"
       contentComponent={<FormSummary proposal={proposal} />}
       details={null}
       onCloseClick={onCloseClick}

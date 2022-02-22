@@ -22,7 +22,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
   return (
     <>
       <FormActions>
-        <Heading>Submit Proposal</Heading>
+        <Heading fontSize="lg">Submit Proposal</Heading>
       </FormActions>
 
       <FormTextItem
@@ -40,6 +40,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
       <FormTextItem
         title="Executable Messages:"
         type="textarea"
+        fontFamily="mono"
         value={msg}
         onChange={(text) => setValue("msg", text)}
       />
@@ -66,7 +67,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
           <Text>Deposit:</Text>
           <Flex>
             <Text color="white.500">In Wallet:</Text>
-            <Text ml="2">2,000 ASTRO</Text>
+            <Text ml="2">2,000 xASTRO</Text>
           </Flex>
         </Flex>
         <Box bg="black.400" px="5" py="3" borderRadius="md">

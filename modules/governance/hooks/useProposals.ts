@@ -12,7 +12,7 @@ let proposals: GovernanceProposal[] = [
     amount: 1253,
     endDate: "1647124720",
     address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    status: ProposalStatus.Fail,
+    status: ProposalStatus.Active,
   },
   {
     id: "2",
@@ -24,7 +24,7 @@ let proposals: GovernanceProposal[] = [
     amount: 5253,
     endDate: "1645124444",
     address: "wd021.ust",
-    status: ProposalStatus.Active,
+    status: ProposalStatus.Fail,
   },
   {
     id: "3",

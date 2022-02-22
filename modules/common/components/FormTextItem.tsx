@@ -6,6 +6,7 @@ type Props = {
   title?: string;
   value?: string;
   placeholder?: string;
+  fontFamily?: string | null;
   onChange: (text?: string) => void;
 };
 
@@ -13,7 +14,8 @@ const FormTextItem: FC<Props> = ({
   type = "input",
   value = "",
   title,
-  placeholder = "type here",
+  placeholder = "Type here",
+  fontFamily = null,
   onChange,
 }) => {
   return (
@@ -35,11 +37,12 @@ const FormTextItem: FC<Props> = ({
       {type === "input" && (
         <Input
           value={value}
+          fontFamily={fontFamily}
           placeholder={placeholder}
-          _placeholder={{ fontStyle: "italic" }}
+          _placeholder={{ fontStyle: "italic", color: "white.400" }}
           onChange={(e) => onChange(e.target.value)}
           borderWidth="1px"
-          borderColor="white.200"
+          borderColor="white.100"
           bg="black.400"
           color="white.600"
           h="12"
@@ -48,11 +51,12 @@ const FormTextItem: FC<Props> = ({
       {type === "textarea" && (
         <Textarea
           value={value}
+          fontFamily={fontFamily}
           placeholder={placeholder}
-          _placeholder={{ fontStyle: "italic" }}
+          _placeholder={{ fontStyle: "italic", color: "white.400" }}
           onChange={(e) => onChange(e.target.value)}
           borderWidth="1px"
-          borderColor="white.200"
+          borderColor="white.100"
           bg="black.400"
           color="white.600"
           h="40"

@@ -18,6 +18,7 @@ import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
   title?: string;
+  titleLarge?: boolean;
   contentComponent: ReactNode;
   details?: {
     label: string;
@@ -30,6 +31,7 @@ type Props = {
   actionLabel?: string;
   buttonVariant?: string;
   buttonRadius?: string;
+  buttonSize?: string;
   maxW?: string;
   onCloseClick: () => void;
 };
@@ -38,9 +40,11 @@ const MotionBox = motion(Box);
 
 const FormConfirm: FC<Props> = ({
   title,
+  titleLarge = false,
   actionLabel,
   buttonVariant = "primary",
   buttonRadius,
+  buttonSize = "sm",
   maxW = "470px",
   fee,
   txFeeNotEnough,
@@ -60,7 +64,12 @@ const FormConfirm: FC<Props> = ({
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text textStyle={["small", "normal"]}>{title}</Text>
+          <Text
+            fontSize={titleLarge ? "lg" : null}
+            textStyle={titleLarge ? null : ["small", "normal"]}
+          >
+            {title}
+          </Text>
           <IconButton
             aria-label="Close"
             variant="simple"
@@ -137,7 +146,7 @@ const FormConfirm: FC<Props> = ({
             variant={buttonVariant}
             borderRadius={buttonRadius}
             minW={["32", "64"]}
-            size="sm"
+            size={buttonSize}
             type="submit"
             isDisabled={txFeeNotEnough}
           >

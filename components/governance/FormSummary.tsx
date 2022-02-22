@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Heading, Box, Flex, Text, Code } from "@chakra-ui/react";
 import { GovernanceProposal } from "types/common";
 
 type Props = {
@@ -8,15 +8,15 @@ type Props = {
 
 const FormTextHeader = (text) => {
   return (
-    <Text mb="3" ml="1" fontSize="sm">
-      {text}
-    </Text>
+    <Heading mb="4" ml="1" fontSize="xs">
+      {text}:
+    </Heading>
   );
 };
 
 const FormBlock = ({ children }) => {
   return (
-    <Box bg="white.50" p="4" borderRadius="md">
+    <Box bg="white.50" p="4" borderRadius="lg">
       {children}
     </Box>
   );
@@ -27,34 +27,40 @@ const ForumSummary: FC<Props> = ({ proposal }) => {
 
   return (
     <Box>
-      <Box mb="5">
+      <Box mb="8">
         {FormTextHeader("Proposal Title")}
         <FormBlock>
           <Text>{title}</Text>
         </FormBlock>
       </Box>
-      <Box mb="5">
+      <Box mb="8">
         {FormTextHeader("Proposal Description")}
         <FormBlock>
           <Text>{description}</Text>
         </FormBlock>
       </Box>
-      <Box mb="5">
+      <Box mb="8">
         {FormTextHeader("Executable Messages")}
         <FormBlock>
-          <Text>{msg}</Text>
+          <Code bg="none" color="inherit">
+            {msg}
+          </Code>
         </FormBlock>
       </Box>
-      <Box mb="5">
+      <Box mb="8">
         {FormTextHeader("Additional Info")}
         <FormBlock>
           <Flex justify="space-between" fontSize="sm" mb="1">
-            <Text>Link to Discord:</Text>
-            <Text>{link}</Text>
+            <Text fontSize="xs">Link to Discord:</Text>
+            <Text color="white.600" fontSize="2xs">
+              {link}
+            </Text>
           </Flex>
           <Flex justify="space-between" fontSize="sm">
-            <Text>Deposit:</Text>
-            <Text>5,000 ASTRO ($250.00)</Text>
+            <Text fontSize="xs">Deposit:</Text>
+            <Text color="white.600" fontSize="2xs">
+              5,000 xASTRO ($250.00)
+            </Text>
           </Flex>
         </FormBlock>
       </Box>
