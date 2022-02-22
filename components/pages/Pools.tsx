@@ -15,17 +15,17 @@ const Pools: FC = () => {
       color="white"
     >
       <Box px="6" mb="4" mt="12">
-        <Heading>Overview</Heading>
+        <Heading fontSize="xl">Overview</Heading>
       </Box>
       <PoolsOverview />
 
       <Box px="6" mb="4" mt="12">
-        <Heading>My Pools</Heading>
+        <Heading fontSize="xl">My Pools</Heading>
       </Box>
       <MyPools />
 
       <Box px="6" mb="4" mt="12">
-        <Heading>Other Pools</Heading>
+        <Heading fontSize="xl">Other Pools</Heading>
       </Box>
       <OtherPools />
     </Container>

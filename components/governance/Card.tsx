@@ -25,6 +25,7 @@ type Props = {
 
 const CardHeader = ({ status, title, endDate }) => {
   const proposalStatus = getProposalStatusProperties(status);
+  const voteTimeLabel = getProposalEndDateString(endDate);
 
   return (
     <Box h="105px" w="100%">
@@ -42,15 +43,16 @@ const CardHeader = ({ status, title, endDate }) => {
             borderRadius="md"
             bg={proposalStatus.lightColor}
             color={proposalStatus.color}
+            fontWeight="500"
           >
             {proposalStatus.title}
           </Box>
           <Flex width="170px" bg="brand.dark" pl="2" borderLeftRadius="md">
-            <Text color="white.400">Ends:</Text>
-            <Text pl="1">{getProposalEndDateString(endDate)}</Text>
+            <Text color="white.400">{voteTimeLabel[0]}</Text>
+            <Text pl="1">{voteTimeLabel[1]}</Text>
           </Flex>
         </Flex>
-        <Flex pt="5">{title}</Flex>
+        <Flex pt="5">{truncateStr(title, 25)}</Flex>
       </Box>
     </Box>
   );
@@ -88,7 +90,7 @@ const CardFooter = ({ description, address, id }) => {
           {description}
         </Box>
         <Box mt="3" mb="auto" color="white.700" fontSize="sm" title={address}>
-          by: {truncateStr(address, 15)}
+          by: {address}
         </Box>
         <Flex justify="center" mb="2">
           <NextLink href={`/governance/proposal/${id}`} passHref>

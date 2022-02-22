@@ -113,7 +113,7 @@ const ProgressBar: FC<ProgressElements> = ({
   voteFor,
   voteAgainst,
   quorum,
-  height = 50,
+  height = 40,
 }) => {
   const bars = [
     { value: voteFor, color: "green.500" },

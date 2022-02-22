@@ -7,6 +7,7 @@ import {
   Flex,
   Divider,
   Link,
+  Heading,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -36,7 +37,11 @@ const GovPageStake = () => {
   ];
 
   return (
-    <Box mt="24">
+    <Box mt="24" color="white">
+      <Heading px="2" mb="6" fontSize="xl">
+        My ASTRO
+      </Heading>
+
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">

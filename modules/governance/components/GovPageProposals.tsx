@@ -11,7 +11,7 @@ const GovPageProposals = () => {
   return (
     <Box my="24" color="white">
       <Flex px="2" mb="6" justify="space-between" align="center">
-        <Heading>Active Proposals</Heading>
+        <Heading fontSize="xl">Active Proposals</Heading>
         <NextLink href="/governance/new-proposal" passHref>
           <Button borderRadius="md" variant="primary">
             Submit Proposal

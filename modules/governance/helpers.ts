@@ -59,7 +59,9 @@ export const convertTimestapToHHMMSS = (
   )}:${String(seconds).padStart(2, "0")}`;
 };
 
-export const getProposalEndDateString = (timestamp: number): string => {
+export const getProposalEndDateString = (
+  timestamp: number
+): [string, string] => {
   const daysBetween = (date1: Date, date2: Date): number => {
     const oneDay = 1000 * 60 * 60 * 24;
     const differenceMs = date2.getTime() - date1.getTime();
@@ -68,11 +70,13 @@ export const getProposalEndDateString = (timestamp: number): string => {
 
   const date = new Date(timestamp * 1000);
   const now = new Date();
-  const daysDiff = daysBetween(date, now);
+  const daysDiff = daysBetween(now, date);
 
   if (daysDiff > 1) {
-    return `${daysDiff} days left`;
-  } else {
-    return `${convertTimestapToHHMMSS(timestamp)}`;
+    return ["Ends:", `${daysDiff} days left`];
+  } else if (daysDiff < 0) {
+    return ["Vote ended:", convertTimestampToDate(timestamp)];
   }
+
+  return ["Ends:", `${convertTimestapToHHMMSS(timestamp)}`];
 };
