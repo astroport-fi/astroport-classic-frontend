@@ -80,3 +80,18 @@ export const getProposalEndDateString = (
 
   return ["Ends:", `${convertTimestapToHHMMSS(timestamp)}`];
 };
+
+export const getGovProposalStepStatus = (
+  index: number,
+  completeStatus: number
+) => {
+  let steps = [
+    "Created",
+    "Active",
+    completeStatus === -1 ? "Failed" : "Succeeded",
+    "Queued",
+    "Executed",
+  ];
+
+  return steps[index];
+};

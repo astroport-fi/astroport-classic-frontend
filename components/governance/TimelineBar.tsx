@@ -1,11 +1,14 @@
 import React, { FC } from "react";
 import { Flex, Box } from "@chakra-ui/react";
-import { GOV_PROPOSAL_STEPS } from "constants/constants";
-import { convertTimestampToDate } from "modules/governance/helpers";
+import {
+  getGovProposalStepStatus,
+  convertTimestampToDate,
+} from "modules/governance/helpers";
 
 type Props = {
   dates: number[];
   active: number;
+  completion: number;
 };
 
 enum TimelineStatus {
@@ -14,7 +17,13 @@ enum TimelineStatus {
   Active = 2,
 }
 
-const DotStyles = (status: number): any =>
+enum TimelineProposalCompleted {
+  Fail = -1,
+  Pending = 0,
+  Success = 1,
+}
+
+const DotStyles = (status: number, completion: number): any =>
   status === 2
     ? {
         w: "2",
@@ -22,7 +31,7 @@ const DotStyles = (status: number): any =>
         mt: "1.5",
         mr: "2",
         borderRadius: "50%",
-        bg: "green.500",
+        bg: completion === -1 ? "red.500" : "green.500",
         borderWidth: "2",
       }
     : {
@@ -34,13 +43,13 @@ const DotStyles = (status: number): any =>
         bg: status === 0 ? "whiteAlpha.200" : "whiteAlpha.900",
       };
 
-const StatusBox = ({ date, index, status }) => {
+const StatusBox = ({ date, index, status, completion }) => {
   return (
     <Flex>
-      <Box {...DotStyles(status)} />
+      <Box {...DotStyles(status, completion)} />
       <Box color={status === 0 ? "whiteAlpha.200" : "whiteAlpha.900"}>
-        <Box>{GOV_PROPOSAL_STEPS[index]}</Box>
-        <Box>{convertTimestampToDate(date)}</Box>
+        <Box>{getGovProposalStepStatus(index, completion)}</Box>
+        <Box mt="1">{convertTimestampToDate(date)}</Box>
       </Box>
     </Flex>
   );
@@ -52,9 +61,9 @@ const Split = () => {
   );
 };
 
-const TimelineBar: FC<Props> = ({ dates, active }) => {
+const TimelineBar: FC<Props> = ({ dates, active, completion }) => {
   return (
-    <Flex fontSize="sm" overflowY="hidden" overflowX="auto">
+    <Flex fontSize="xs" overflowY="hidden" overflowX="auto">
       {dates.map((date, i) => {
         const status =
           i < active
@@ -64,7 +73,12 @@ const TimelineBar: FC<Props> = ({ dates, active }) => {
             : TimelineStatus.Future;
         return (
           <Flex key={i}>
-            <StatusBox date={date} index={i} status={status} />
+            <StatusBox
+              date={date}
+              index={i}
+              status={status}
+              completion={completion}
+            />
             {i !== dates.length - 1 && <Split />}
           </Flex>
         );

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Flex, Box, Center, HStack, Text, Button } from "@chakra-ui/react";
 import { GovernanceProposal } from "types/common";
+import { truncateStr } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
 
@@ -17,38 +18,38 @@ type Props = {
 // Dummy data
 const votesForArr = [
   {
-    address: "terra123....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 8,
   },
   {
-    address: "terra456....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 3.4,
   },
   {
-    address: "terra789....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 2,
   },
   {
-    address: "terraabc....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 1,
   },
 ];
 
 const votesAgainstArr = [
   {
-    address: "terra123....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 5,
   },
   {
-    address: "terra456....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 4.4,
   },
   {
-    address: "terra789....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 4.1,
   },
   {
-    address: "terraabc....",
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 3.8,
   },
 ];
@@ -99,23 +100,33 @@ const VoteStats: FC<Props> = ({
         {addressOpen && (
           <Flex width="100%" p="5">
             <Box width="50%" mr="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text color="green.500" mb="1">
+              <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
                 {votesForArr.length} Addresses
               </Text>
               {votesForArr.map((vote, index) => (
-                <Flex key={index} justify="space-between" my="1">
-                  <Text>{vote.address}</Text>
+                <Flex
+                  key={index}
+                  justify="space-between"
+                  my="1.5"
+                  fontSize="xs"
+                >
+                  <Text>{truncateStr(vote.address, 15)}</Text>
                   <Text>{vote.percent}%</Text>
                 </Flex>
               ))}
             </Box>
             <Box width="50%" ml="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text color="red.500" mb="1">
+              <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
                 {votesAgainstArr.length} Addresses
               </Text>
               {votesAgainstArr.map((vote, index) => (
-                <Flex key={index} justify="space-between" my="1">
-                  <Text>{vote.address}</Text>
+                <Flex
+                  key={index}
+                  justify="space-between"
+                  my="1.5"
+                  fontSize="xs"
+                >
+                  <Text>{truncateStr(vote.address, 15)}</Text>
                   <Text>{vote.percent}%</Text>
                 </Flex>
               ))}
@@ -125,9 +136,8 @@ const VoteStats: FC<Props> = ({
         <UnderlineButton
           w="100%"
           h="50px"
-          bg="none"
           color="proposalColours.purpleAlt"
-          fontSize="md"
+          fontSize=".875rem"
           onClick={onClick}
         >
           {addressOpen ? "Close" : "View Addresses"}

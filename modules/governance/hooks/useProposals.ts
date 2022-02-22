@@ -13,6 +13,11 @@ let proposals: GovernanceProposal[] = [
     endDate: "1647124720",
     address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     status: ProposalStatus.Active,
+    history: {
+      dates: [1645433859, 1645433859, 1645433859, 1645433859, 1645433859],
+      status: 1,
+      completed: 0,
+    },
   },
   {
     id: "2",
@@ -25,6 +30,11 @@ let proposals: GovernanceProposal[] = [
     endDate: "1645124444",
     address: "wd021.ust",
     status: ProposalStatus.Fail,
+    history: {
+      dates: [1645433859, 1645433859, 1645433859, 1645433859, 1645433859],
+      status: 2,
+      completed: -1,
+    },
   },
   {
     id: "3",
@@ -37,6 +47,11 @@ let proposals: GovernanceProposal[] = [
     endDate: "1613588720",
     address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7sar321",
     status: ProposalStatus.Implemented,
+    history: {
+      dates: [1645433859, 1645433859, 1645433859, 1645433859, 1645433859],
+      status: 4,
+      completed: 1,
+    },
   },
 ];
 

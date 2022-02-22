@@ -23,7 +23,7 @@ const Header: FC<Props> = ({ title, twitterLink }) => {
             icon={<BackIcon />}
           />
         </Link>
-        <Text>{title}</Text>
+        <Text fontSize="xl">{title}</Text>
       </HStack>
       <IconButton
         aria-label="Tweet"

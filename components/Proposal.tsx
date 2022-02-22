@@ -1,6 +1,14 @@
 import React, { FC, useState } from "react";
 import Link from "next/link";
-import { Box, Button, Flex, Center, HStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Center,
+  HStack,
+  Text,
+  Code,
+} from "@chakra-ui/react";
 import { useProposals } from "modules/governance";
 
 import ProposalHeader from "components/proposal/Header";
@@ -14,7 +22,7 @@ type Props = {
   id: string;
 };
 
-const HistoryBox = () => {
+const HistoryBox = ({ history }: any) => {
   return (
     <Flex
       flexDirection="column"
@@ -27,8 +35,9 @@ const HistoryBox = () => {
     >
       <Text mb="6">Proposal History</Text>
       <TimelineBar
-        dates={[1645433859, 1645433859, 1645433859, 1645433859, 1645433859]}
-        active={2}
+        dates={history?.dates}
+        active={history?.status}
+        completion={history?.completed}
       />
     </Flex>
   );
@@ -52,9 +61,9 @@ const MsgBox = ({ msg }) => {
   return (
     <Box minH="150px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Executable Messages</Text>
-      <Text color="whiteAlpha.400" fontSize="sm">
+      <Code bg="none" color="whiteAlpha.400" fontSize="sm">
         {msg}
-      </Text>
+      </Code>
     </Box>
   );
 };
@@ -62,7 +71,7 @@ const MsgBox = ({ msg }) => {
 const MyVotingPowerBox = ({ id }) => {
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
-      <Text fontSize="sm">My Voting Power</Text>
+      <Text fontSize="xs">My Voting Power</Text>
       <Box bg="blackAlpha.400" p="3" my="3" borderRadius="lg">
         <Text>9,999,999.00</Text>
         <Text fontSize="sm" color="whiteAlpha.400">
@@ -96,11 +105,11 @@ const DiscussionBox = ({ link }) => {
       p="5"
       borderRadius="xl"
       color="blackAlpha.900"
-      fontSize="sm"
+      fontSize=".875rem"
       borderColor="proposalColours.purple"
       borderWidth="2px"
     >
-      <Text>Discuss</Text>
+      <Text fontWeight="500">Discuss</Text>
       <Text mt="2" mb="auto">
         Have thoughts about this proposal?
         <br />
@@ -128,7 +137,7 @@ const LeftColumn = ({ proposal, addressOpen, setAddressOpen }) => {
         addressOpen={addressOpen}
         onClick={() => setAddressOpen(!addressOpen)}
       />
-      <HistoryBox />
+      <HistoryBox history={proposal.history} />
       <DescriptionBox
         address={proposal.address}
         description={proposal.description}

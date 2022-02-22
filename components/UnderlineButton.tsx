@@ -8,6 +8,8 @@ type Props = {
 const UnderlineButton: FC<Props> = ({ children, ...props }) => {
   return (
     <Button
+      bg="none"
+      fontWeight="500"
       textDecoration="underline"
       _hover={{ bg: "none" }}
       _active={{ bg: "none" }}
