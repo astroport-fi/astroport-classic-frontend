@@ -216,6 +216,13 @@ const whitelist = {
         icon: "/tokens/orne.png",
         decimals: 6,
       },
+      terra1vchw83qt25j89zqwdpmdzj722sqxthnckqzxxp: {
+        protocol: "Local Terra Token",
+        symbol: "LOCAL",
+        token: "terra1vchw83qt25j89zqwdpmdzj722sqxthnckqzxxp",
+        icon: "/tokens/local.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -798,6 +805,26 @@ const whitelist = {
           xyk: {},
         },
       },
+      // loca-uusd
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1vchw83qt25j89zqwdpmdzj722sqxthnckqzxxp",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1296jw27cq8svlg4ywm8t84u448p3zs7mcqg9ra",
+        liquidity_token: "terra1c7upd2p5p294dtdj7xx0dd9yu5cm2ak4lgz2h0",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -945,6 +972,13 @@ const whitelist = {
         symbol: "ORNE",
         token: "terra182zp52a95r3qg6lt0njxr7l0ujkfwan5h7t3l6",
         icon: "/tokens/orne.png",
+        decimals: 6,
+      },
+      terra1j5xyaw8pjg665juf4rwgtn6wvkrvph3lzvwzer: {
+        protocol: "Local Terra Token",
+        symbol: "LOCAL",
+        token: "terra1j5xyaw8pjg665juf4rwgtn6wvkrvph3lzvwzer",
+        icon: "/tokens/local.png",
         decimals: 6,
       },
     },
@@ -1325,6 +1359,26 @@ const whitelist = {
         ],
         contract_addr: "terra1eqzmr4gcx7vtwgcxvg86ccsaly8xqzwu0wu47u",
         liquidity_token: "terra1m29xstn4c45cud3m8e7ktggsgjvsm8p826qkez",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // loca-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1j5xyaw8pjg665juf4rwgtn6wvkrvph3lzvwzer",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1vczj87j7lsjewm7mlf8j07gxjemz5gf6thq0nn",
+        liquidity_token: "terra12wmfzhxem75779c5xqky72hfp27y9nup3efm5c",
         pair_type: {
           xyk: {},
         },
