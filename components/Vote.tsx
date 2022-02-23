@@ -21,7 +21,7 @@ const TitleBox = ({ title }) => {
         Proposal Title
       </Text>
       <Box bg="white.50" p="5" borderRadius="lg">
-        {truncateStr(title, 25)}
+        {truncateStr(title, 35)}
       </Box>
     </Box>
   );

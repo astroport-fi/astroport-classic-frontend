@@ -52,7 +52,7 @@ const CardHeader = ({ status, title, endDate }) => {
             <Text pl="1">{voteTimeLabel[1]}</Text>
           </Flex>
         </Flex>
-        <Flex pt="5">{truncateStr(title, 25)}</Flex>
+        <Flex pt="5">{truncateStr(title, 35)}</Flex>
       </Box>
     </Box>
   );
