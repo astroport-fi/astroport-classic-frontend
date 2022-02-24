@@ -110,3 +110,10 @@ export const getGovProposalStepStatus = (
 
   return steps[index];
 };
+
+export const composeTwitterLink = (title: string, id: string) => {
+  return (
+    `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
+    `${title}%0A%0A&url=https://app.astroport.fi/governance/proposal/${id}`
+  );
+};

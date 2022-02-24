@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { NextLink } from "modules/common";
 import { useProposals } from "modules/governance";
+import { composeTwitterLink } from "modules/governance/helpers";
 
 import ProposalHeader from "components/proposal/Header";
 import ProposalTime from "components/proposal/Time";
@@ -179,7 +180,7 @@ const Proposal: FC<Props> = ({ id }) => {
   const proposals = useProposals();
   const proposal = proposals.find((p) => p.id === id);
   const [addressOpen, setAddressOpen] = useState(false);
-  const twitterLink = `https://www.twitter.com/share?url=https://app.astroport.fi/governance/proposal/${id}`;
+  const twitterLink = composeTwitterLink(proposal.title, id);
 
   return (
     <Box>
