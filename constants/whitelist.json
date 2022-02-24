@@ -7,6 +7,12 @@
         "token": "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
         "icon": "/tokens/astro.png"
       },
+      "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd": {
+        "protocol": "Astroport",
+        "symbol": "xASTRO",
+        "token": "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
+        "icon": "/tokens/xAstro.png"
+      },
       "uluna": {
         "protocol": "Terra",
         "symbol": "LUNA",

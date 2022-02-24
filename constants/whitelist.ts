@@ -8,6 +8,13 @@ const whitelist = {
         icon: "/tokens/astro.png",
         decimals: 6,
       },
+      terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd: {
+        protocol: "Astroport",
+        symbol: "xASTRO",
+        token: "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
+        icon: "/tokens/xAstro.png",
+        decimals: 6,
+      },
       uluna: {
         protocol: "Terra",
         symbol: "LUNA",
