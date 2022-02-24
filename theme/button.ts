@@ -57,6 +57,14 @@ const button = {
       color: "blackAlpha.900",
       px: "10",
       py: "2",
+      _hover: {
+        bg: "green.500",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "green.500",
+          color: "blackAlpha.900",
+        },
+      },
       _focus: {
         boxShadow: "none",
       },
@@ -69,6 +77,14 @@ const button = {
       color: "blackAlpha.900",
       px: "10",
       py: "2",
+      _hover: {
+        bg: "red.500",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "red.500",
+          color: "blackAlpha.900",
+        },
+      },
       _focus: {
         boxShadow: "none",
       },

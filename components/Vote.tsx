@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import Link from "next/link";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { Flex, Text, Box, IconButton, Button } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
+import { NextLink } from "modules/common";
 import { useProposals } from "modules/governance";
 
 import Card from "components/Card";
@@ -50,29 +51,35 @@ const ActionBox = ({ action, amount, percentage }) => {
   );
 };
 
-const Footer = ({ action, fee, id }) => {
+const Footer = ({ status, action, fee, id }) => {
   const variant = action === "for" ? "votegreen" : "votered";
 
   return (
     <Flex flexDir="column" align="center" mt="8">
-      <Link href="/governance" passHref>
+      <NextLink
+        href="/governance"
+        passHref
+        isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+      >
         <Button
           variant={variant}
           minW={["32", "64"]}
           mb="2"
           size="md"
           type="submit"
-          isDisabled={false}
+          isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
         >
           Confirm Vote
         </Button>
-      </Link>
+      </NextLink>
       <FormFee fee={fee} />
     </Flex>
   );
 };
 
 const Vote: FC<Props> = ({ id, action }) => {
+  const { status } = useWallet();
+
   // Get proposal
   let proposals = useProposals();
   let proposal = proposals.find((p) => p.id === id);
@@ -84,7 +91,7 @@ const Vote: FC<Props> = ({ id, action }) => {
     <Card>
       <Flex justify="space-between" align="center" mb="8">
         <Text fontSize="md">Confirm Vote</Text>
-        <Link href={`/governance/proposal/${id}`} passHref>
+        <NextLink href={`/governance/proposal/${id}`} passHref>
           <Button
             aria-label="Close"
             variant="simple"
@@ -100,11 +107,11 @@ const Vote: FC<Props> = ({ id, action }) => {
               BackgroundOpacity="0"
             />
           </Button>
-        </Link>
+        </NextLink>
       </Flex>
       <TitleBox title={proposal.title} />
       <ActionBox action={action} amount="5000.00" percentage="0.005%" />
-      <Footer action={action} fee={fee} id={id} />
+      <Footer status={status} action={action} fee={fee} id={id} />
     </Card>
   );
 };

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
   HStack,
@@ -17,6 +18,7 @@ import { useContracts, NextLink, handleTinyAmount } from "modules/common";
 import { useGovStakingRatio } from "../hooks";
 
 const GovPageStake = () => {
+  const { status } = useWallet();
   const { astroToken, xAstroToken, staking } = useContracts();
   const astroBalance = useBalance(astroToken);
   const xAstroBalance = useBalance(xAstroToken);
@@ -52,7 +54,7 @@ const GovPageStake = () => {
           justifyContent="center"
           alignItems="start"
         >
-          <Text textStyle="medium">Get Involved</Text>
+          <Text textStyle="h3">Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
             Stake ASTRO for xASTRO in order to receive a % of Astroport’s
             revenue.
@@ -95,13 +97,17 @@ const GovPageStake = () => {
             <NextLink
               href="/governance/stake"
               passHref
-              isDisabled={astroDisabled}
+              isDisabled={
+                astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
             >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={astroDisabled}
+                isDisabled={
+                  astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Stake ASTRO
               </Button>
@@ -109,13 +115,17 @@ const GovPageStake = () => {
             <NextLink
               href="/governance/unstake"
               passHref
-              isDisabled={xAstroDisabled}
+              isDisabled={
+                xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
             >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={xAstroDisabled}
+                isDisabled={
+                  xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Unstake xASTRO
               </Button>

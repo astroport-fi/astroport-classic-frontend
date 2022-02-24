@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import Link from "next/link";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
   Button,
@@ -9,6 +9,7 @@ import {
   Text,
   Code,
 } from "@chakra-ui/react";
+import { NextLink } from "modules/common";
 import { useProposals } from "modules/governance";
 
 import ProposalHeader from "components/proposal/Header";
@@ -68,7 +69,7 @@ const MsgBox = ({ msg }) => {
   );
 };
 
-const MyVotingPowerBox = ({ id }) => {
+const MyVotingPowerBox = ({ id, status }) => {
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
       <Text fontSize="xs">My Voting Power</Text>
@@ -79,16 +80,34 @@ const MyVotingPowerBox = ({ id }) => {
         </Text>
       </Box>
       <Flex>
-        <Link href={`/governance/proposal/${id}/vote/for`} passHref>
-          <Button width="50%" mr="1" variant="votegreen">
+        <NextLink
+          href={`/governance/proposal/${id}/vote/for`}
+          passHref
+          isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+        >
+          <Button
+            width="50%"
+            mr="1"
+            variant="votegreen"
+            isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+          >
             Vote For
           </Button>
-        </Link>
-        <Link href={`/governance/proposal/${id}/vote/against`} passHref>
-          <Button width="50%" ml="1" variant="votered">
+        </NextLink>
+        <NextLink
+          href={`/governance/proposal/${id}/vote/against`}
+          passHref
+          isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+        >
+          <Button
+            width="50%"
+            ml="1"
+            variant="votered"
+            isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+          >
             Vote Against
           </Button>
-        </Link>
+        </NextLink>
       </Flex>
     </Box>
   );
@@ -147,16 +166,17 @@ const LeftColumn = ({ proposal, addressOpen, setAddressOpen }) => {
   );
 };
 
-const RightColumn = ({ id, discussionLink }) => {
+const RightColumn = ({ id, status, discussionLink }) => {
   return (
     <Flex display={["none", "none", "flex"]} flexDirection="column" w="33.3%">
-      <MyVotingPowerBox id={id} />
+      <MyVotingPowerBox id={id} status={status} />
       <DiscussionBox link={discussionLink} />
     </Flex>
   );
 };
 
 const Proposal: FC<Props> = ({ id }) => {
+  const { status } = useWallet();
   const proposals = useProposals();
   const proposal = proposals.find((p) => p.id === id);
   const [addressOpen, setAddressOpen] = useState(false);
@@ -171,7 +191,7 @@ const Proposal: FC<Props> = ({ id }) => {
           addressOpen={addressOpen}
           setAddressOpen={setAddressOpen}
         />
-        <RightColumn id={id} discussionLink={proposal.link} />
+        <RightColumn id={id} status={status} discussionLink={proposal.link} />
       </Flex>
     </Box>
   );
