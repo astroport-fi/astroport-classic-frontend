@@ -40,14 +40,14 @@ const DotStyles = (status: number, completion: number): any =>
         mt: "2",
         mr: "2",
         borderRadius: "50%",
-        bg: status === 0 ? "whiteAlpha.200" : "whiteAlpha.900",
+        bg: status === 0 ? "whiteAlpha.400" : "whiteAlpha.900",
       };
 
 const StatusBox = ({ date, index, status, completion }) => {
   return (
     <Flex>
       <Box {...DotStyles(status, completion)} />
-      <Box color={status === 0 ? "whiteAlpha.200" : "whiteAlpha.900"}>
+      <Box color={status === 0 ? "whiteAlpha.400" : "whiteAlpha.900"}>
         <Box>{getGovProposalStepStatus(index, completion)}</Box>
         <Box mt="1">{convertTimestampToDate(date)}</Box>
       </Box>
