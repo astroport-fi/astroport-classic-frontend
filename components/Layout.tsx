@@ -17,7 +17,7 @@ const GlobalStyles = css`
   body {
     background-color: #000D37;
   }
-  *::-webkit-scrollbar: {
+  *::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }

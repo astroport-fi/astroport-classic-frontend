@@ -16,7 +16,6 @@ import ProposalHeader from "components/proposal/Header";
 import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
 
-import ProgressBar from "components/governance/ProgressBar";
 import TimelineBar from "components/governance/TimelineBar";
 
 type Props = {

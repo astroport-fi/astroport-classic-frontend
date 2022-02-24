@@ -57,7 +57,7 @@ const StatusBox = ({ date, index, status, completion }) => {
 
 const Split = () => {
   return (
-    <Box mx="2" my="2.5" width="40px" height="1px" bg="whiteAlpha.300"></Box>
+    <Box mx="2" my="2.5" width="35px" height="1px" bg="whiteAlpha.300"></Box>
   );
 };
 

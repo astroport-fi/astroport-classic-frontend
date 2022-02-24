@@ -38,10 +38,25 @@ export const convertTimestampToDate = (
 ): string => {
   const date = new Date(timestamp * 1000);
   const day = utc ? date.getUTCDate() : date.getDate();
-  const month = utc ? date.getUTCMonth() + 1 : date.getMonth() + 1;
+  const month = utc ? date.getUTCMonth() : date.getMonth();
   const year = utc ? date.getUTCFullYear() : date.getFullYear();
 
-  return `${month}/${day}/${String(year).substring(2)}`;
+  const abbrvMonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return `${day}/${abbrvMonths[month]}/${String(year).substring(2)}`;
 };
 
 export const convertTimestapToHHMMSS = (
