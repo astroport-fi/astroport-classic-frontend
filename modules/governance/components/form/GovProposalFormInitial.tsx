@@ -41,6 +41,8 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
         title="Executable Messages:"
         type="textarea"
         fontFamily="mono"
+        fontSize="sm"
+        _placeholder={{ color: "white.400" }}
         value={msg}
         onChange={(text) => setValue("msg", text)}
       />

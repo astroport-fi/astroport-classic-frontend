@@ -1,13 +1,22 @@
 import React, { FC } from "react";
-import { Textarea, Text, Input, Box } from "@chakra-ui/react";
+import { Textarea, Text, Input, Box, CSSObject } from "@chakra-ui/react";
 
 type Props = {
   type: "input" | "textarea";
   title?: string;
   value?: string;
   placeholder?: string;
+  _placeholder?: CSSObject;
+  fontSize?: string;
   fontFamily?: string | null;
   onChange: (text?: string) => void;
+};
+
+const InputStyles = {
+  borderWidth: "1px",
+  borderColor: "white.100",
+  bg: "black.400",
+  color: "white.600",
 };
 
 const FormTextItem: FC<Props> = ({
@@ -15,6 +24,8 @@ const FormTextItem: FC<Props> = ({
   value = "",
   title,
   placeholder = "Type here",
+  _placeholder = { fontStyle: "italic", color: "white.400" },
+  fontSize = null,
   fontFamily = null,
   onChange,
 }) => {
@@ -36,29 +47,25 @@ const FormTextItem: FC<Props> = ({
       )}
       {type === "input" && (
         <Input
+          {...InputStyles}
           value={value}
           fontFamily={fontFamily}
           placeholder={placeholder}
-          _placeholder={{ fontStyle: "italic", color: "white.400" }}
+          _placeholder={_placeholder}
+          fontSize={fontSize}
           onChange={(e) => onChange(e.target.value)}
-          borderWidth="1px"
-          borderColor="white.100"
-          bg="black.400"
-          color="white.600"
           h="12"
         />
       )}
       {type === "textarea" && (
         <Textarea
+          {...InputStyles}
           value={value}
           fontFamily={fontFamily}
           placeholder={placeholder}
-          _placeholder={{ fontStyle: "italic", color: "white.400" }}
+          _placeholder={_placeholder}
+          fontSize={fontSize}
           onChange={(e) => onChange(e.target.value)}
-          borderWidth="1px"
-          borderColor="white.100"
-          bg="black.400"
-          color="white.600"
           h="40"
           resize="none"
         />
