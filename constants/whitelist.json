@@ -7,6 +7,12 @@
         "token": "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
         "icon": "/tokens/astro.png"
       },
+      "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd": {
+        "protocol": "Astroport",
+        "symbol": "xASTRO",
+        "token": "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
+        "icon": "/tokens/xAstro.png"
+      },
       "uluna": {
         "protocol": "Terra",
         "symbol": "LUNA",
@@ -470,10 +476,10 @@
         "token": "terra1cc2up8erdqn2l7nz37qjgvnqy56sr38aj9vqry",
         "icon": "/tokens/astro.png"
       },
-      "terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y": {
+      "terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0": {
         "protocol": "Astroport",
         "symbol": "xASTRO",
-        "token": "terra1afev5mg7k6gpyn96sv45ql3r35tyknlr72qc3y",
+        "token": "terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0",
         "icon": "/tokens/xAstro.png"
       },
       "terra1krzfsvl9tgce2f2wsq23s0jmqqd69uwpcd3579": {

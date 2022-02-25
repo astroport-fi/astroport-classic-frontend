@@ -11,7 +11,7 @@ import {
   useTx,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useGovStake } from "../hooks";
+import { useGovStake, useXAstroPriceBoost } from "../hooks";
 
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
@@ -30,6 +30,7 @@ type Props = {
 
 const GovStakeForm: FC<Props> = ({ type, setType }) => {
   const { astroToken, xAstroToken } = useContracts();
+  const xAstroPriceBoost = useXAstroPriceBoost();
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
 
@@ -51,7 +52,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
 
   const { watch, setValue } = methods;
   const { amount } = watch();
-  const price = useTokenPriceInUstWithSimulate(astroToken);
+  let price = useTokenPriceInUstWithSimulate(astroToken);
 
   const { msgs } = useGovStake({
     type,
@@ -96,6 +97,12 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
 
     setValue("amount", "");
   }, [type, xAstroToken, astroToken, setValue]);
+
+  useEffect(() => {
+    if (type === AstroFormType.Unstake && xAstroPriceBoost) {
+      price = price * xAstroPriceBoost;
+    }
+  }, [type, xAstroPriceBoost]);
 
   if (isPosting) {
     return <FormLoading />;

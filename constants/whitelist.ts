@@ -8,6 +8,13 @@ const whitelist = {
         icon: "/tokens/astro.png",
         decimals: 6,
       },
+      terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd: {
+        protocol: "Astroport",
+        symbol: "xASTRO",
+        token: "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
+        icon: "/tokens/xAstro.png",
+        decimals: 6,
+      },
       uluna: {
         protocol: "Terra",
         symbol: "LUNA",
@@ -948,10 +955,10 @@ const whitelist = {
         icon: "/tokens/astro.png",
         decimals: 6,
       },
-      terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np: {
+      terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0: {
         protocol: "Astroport",
         symbol: "xASTRO",
-        token: "terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np",
+        token: "terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0",
         icon: "/tokens/xAstro.png",
         decimals: 6,
       },
