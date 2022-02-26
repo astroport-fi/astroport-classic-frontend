@@ -46,10 +46,15 @@ export const useAuctionPools = () => {
       .dp(6)
       .toNumber();
 
-    const myAstroInUst = num(userInfo.astro_delegated).times(price);
-    const myLiquidityInUst = num(userInfo.ust_delegated)
-      .plus(myAstroInUst)
+    const myLiquidity = num(userInfo.lp_shares)
+      .minus(num(userInfo.claimed_lp_shares))
       .div(ONE_TOKEN)
+      .dp(6)
+      .toNumber();
+
+    const myLiquidityInUst = num(myLiquidity)
+      .times(totalLiquidityInUst)
+      .div(totalLiquidity)
       .dp(6)
       .toNumber();
 
@@ -91,6 +96,7 @@ export const useAuctionPools = () => {
         pairType: "xyk",
         totalLiquidity,
         totalLiquidityInUst,
+        myLiquidity,
         myLiquidityInUst,
         myUnlockableLiquidity,
         myUnlockableLiquidityInUst,
