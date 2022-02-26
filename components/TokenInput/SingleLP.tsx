@@ -37,7 +37,6 @@ const SingleLP: FC<Props> = ({ asset }) => {
       px="4"
       h="16"
       lineHeight="1.2"
-      isFullWidth
     >
       <Flex align="center">
         <HStack spacing="-2">
