@@ -10,7 +10,6 @@ type Props = {
   isLpToken?: boolean;
   isSingle?: boolean;
   hidePrice?: boolean;
-  onBlur: any;
   onChange: any;
   value: string;
 };
@@ -19,7 +18,6 @@ const Field: FC<Props> = ({
   hideToken,
   value,
   onChange,
-  // onBlur,
   isSingle,
   hidePrice,
   isLpToken,
