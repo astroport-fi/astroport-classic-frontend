@@ -104,9 +104,10 @@ const SwapFormInitial: FC<Props> = ({
             name="slippage"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <SlippagePopover
-                {...field}
+                value={value}
+                onChange={onChange}
                 expertMode={expertMode}
                 onExpertModeChange={onExpertModeChange}
               />
