@@ -72,7 +72,6 @@ const Input: FC<Props> = ({
         onKeyPress={sanitizeAmount}
         clampValueOnBlur={clampValueOnBlur}
         isDisabled={isDisabled}
-        isLoading={isLoading}
       >
         <NumberInputField placeholder="0.0" pt={hidePrice ? 4 : 0} />
         {renderPrice()}
