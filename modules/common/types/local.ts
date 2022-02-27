@@ -4,7 +4,8 @@ export type Token = {
   protocol: string;
   symbol: string;
   token: string;
-  icon: string;
+  icon?: string;
+  decimals?: number;
 };
 
 export type TokenTooltip = {
@@ -22,14 +23,3 @@ export type Routes = {
     [to: string]: PairResponse;
   };
 };
-
-export type Data = {
-  mainnet: {
-    tokens: any;
-    pairs: any;
-  };
-  testnet: {
-    tokens: any;
-    pairs: any;
-  };
-} & { [key: string]: any };

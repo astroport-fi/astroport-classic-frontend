@@ -13,7 +13,7 @@ import RewardCenter from "components/RewardCenter";
 import PendingNotifications from "./PendingNotifications";
 
 const Navbar: FC = () => {
-  const { notifications } = useAstroswap();
+  const { notifications, isLoading } = useAstroswap();
   const pending = notifications.items?.filter(
     (item) => item.type === "started"
   );
@@ -27,7 +27,7 @@ const Navbar: FC = () => {
       <>
         <TerraWallet />
         <Box display={["none", null, null, "block"]}>
-          <RewardCenter />
+          {isLoading || <RewardCenter />}
         </Box>
       </>
     );
