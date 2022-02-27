@@ -9,7 +9,6 @@ import {
   Consumer,
   useCallback,
 } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
 import { nanoid } from "nanoid";
 
 import {
@@ -17,7 +16,8 @@ import {
   PairResponse,
   Route,
   Tokens,
-  Data,
+  useAllPairs,
+  useAllTokens,
 } from "modules/common";
 
 import { notificationReducer } from "modules/common/notifications/reducer";
@@ -27,23 +27,22 @@ import {
   AddNotificationPayload,
   RemoveNotificationPayload,
 } from "modules/common/notifications/model";
-import { usePrice } from "modules/swap";
 
 type Astroswap = {
+  isLoading: boolean;
   pairs: PairResponse[] | null;
   routes: Route[] | null;
   tokens: Tokens | null;
-  data: Data | null;
   notifications: Notifications;
   addNotification: (payload: AddNotificationPayload) => void;
   removeNotification: (payload: RemoveNotificationPayload) => void;
 };
 
 export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
+  isLoading: true,
   pairs: [],
   routes: null,
   tokens: null,
-  data: null,
   notifications: {},
   addNotification: () => undefined,
   removeNotification: () => undefined,
@@ -51,28 +50,24 @@ export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
 
 type Props = {
   children: ReactNode;
-  data: Data;
 };
 
-export const AstroswapProvider: FC<Props> = ({ children, data }) => {
+export const AstroswapProvider: FC<Props> = ({ children }) => {
   const [notifications, dispatch] = useReducer(
     notificationReducer,
     DEFAULT_NOTIFICATIONS
   );
-  const {
-    network: { name },
-  } = useTerraWebapp();
 
-  const pairs = useMemo(() => {
-    return data[name].pairs;
-  }, [data, name]);
+  const { pairs, isLoading: isLoadingPairs } = useAllPairs();
+  const { tokens, isLoading: isLoadingTokens } = useAllTokens();
 
-  const tokens = useMemo(() => {
-    return data[name].tokens;
-  }, [data, name]);
+  const isLoading = useMemo(
+    () => isLoadingPairs || isLoadingTokens,
+    [isLoadingPairs, isLoadingTokens]
+  );
 
   const routes = useMemo(() => {
-    if (pairs.length == 0) {
+    if (pairs === undefined || pairs.length == 0) {
       return null;
     }
 
@@ -102,10 +97,10 @@ export const AstroswapProvider: FC<Props> = ({ children, data }) => {
   return (
     <AstroswapContext.Provider
       value={{
+        isLoading,
         pairs,
         routes,
         tokens,
-        data,
         addNotification,
         notifications,
         removeNotification,

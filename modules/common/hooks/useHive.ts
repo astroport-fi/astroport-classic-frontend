@@ -12,13 +12,18 @@ type Params = {
   options?: any;
 };
 
-export const useHive = ({ name, query, variables, options }: Params) => {
+export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
-  let GRAPHQL = "https://hive.terra.dev/graphql";
 
   if (network.name == "testnet") {
-    GRAPHQL = "https://testnet-hive.terra.dev/graphql";
+    return "https://testnet-hive.terra.dev/graphql";
   }
+
+  return "https://hive.terra.dev/graphql";
+};
+
+export const useHive = ({ name, query, variables, options }: Params) => {
+  const GRAPHQL = useHiveEndpoint();
 
   const { data, isLoading } = useQuery(
     name,

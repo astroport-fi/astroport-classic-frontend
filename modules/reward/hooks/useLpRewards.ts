@@ -10,7 +10,7 @@ import {
 } from "modules/common";
 
 const createQuery = (pairs, address, generator) => {
-  if (pairs.length === 0) {
+  if (pairs.length === 0 || !address) {
     return;
   }
 

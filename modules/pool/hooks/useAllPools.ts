@@ -7,15 +7,18 @@ import {
   useAstroswap,
   useContracts,
   useLunaPriceInUst,
-  useHive,
   useTokenInfo,
   useTokenPrices,
+  useHiveEndpoint,
   Asset,
+  PairResponse,
+  requestInChunks,
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
+import { useQuery } from "react-query";
 
 export type AllPoolsPool = {
   inUse: boolean;
@@ -44,10 +47,6 @@ export type AllPoolsPool = {
 };
 
 const createQuery = (pairs, address, generator) => {
-  if (pairs.length === 0) {
-    return;
-  }
-
   return gql`
     {
       ${pairs.map(({ liquidity_token, contract_addr }) => {
@@ -88,10 +87,6 @@ const createQuery = (pairs, address, generator) => {
 };
 
 const createQueryNotConnected = (pairs) => {
-  if (pairs.length === 0) {
-    return;
-  }
-
   return gql`
     {
       ${pairs.map(({ contract_addr }) => {
@@ -120,17 +115,27 @@ export const useAllPools = () => {
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
   const tokensInUst = useTokenPrices();
+  const hiveEndpoint = useHiveEndpoint();
 
-  const query = address
-    ? createQuery(pairs, address, generator)
-    : createQueryNotConnected(pairs);
-  const result = useHive({
-    name: ["pools", "all", address],
-    query,
-    options: {
-      enabled: !!query,
+  const queryBuilder = address
+    ? (chunk) => createQuery(chunk, address, generator)
+    : (chunk) => createQueryNotConnected(chunk);
+
+  const { data: result } = useQuery(
+    ["pools", "all", address],
+    () => {
+      // Chunk pairs into multiple queries to stay below GraphQL query size limitations
+      return requestInChunks<PairResponse>(
+        50,
+        hiveEndpoint,
+        pairs,
+        queryBuilder
+      );
     },
-  });
+    {
+      enabled: pairs.length > 0,
+    }
+  );
 
   const getPoolInfo = (addr) => {
     return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);

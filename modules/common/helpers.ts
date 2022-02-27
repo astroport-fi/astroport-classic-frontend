@@ -1,5 +1,6 @@
 import numeral from "numeral";
 import { num } from "@arthuryeti/terra";
+import { request } from "graphql-request";
 
 import {
   findAsset,
@@ -231,4 +232,23 @@ export const getSwapRoute = ({
   });
 
   return result;
+};
+
+export const requestInChunks = async <Item = any, Response = any>(
+  chunkSize: number,
+  url: string,
+  items: Item[],
+  queryBuilder: (chunk: Item[]) => string
+): Promise<Response> => {
+  const totalChunks = Math.ceil(items.length / chunkSize);
+
+  const chunks = await Promise.all(
+    Array.from(Array(totalChunks).keys()).map((i) => {
+      const chunk = items.slice(i * chunkSize, (i + 1) * chunkSize);
+
+      return request<Response>(url, queryBuilder(chunk));
+    })
+  );
+
+  return chunks.reduce((all, chunk) => ({ ...all, ...chunk }));
 };
