@@ -101,7 +101,7 @@ export const useAllTokens = (): UseAllTokens => {
           ]
         ) => ({
           ...tokens,
-          [token]: { protocol, symbol, decimals },
+          [token]: { protocol, symbol, decimals, token },
         }),
         {}
       );
