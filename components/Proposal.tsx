@@ -51,9 +51,11 @@ const DescriptionBox = ({ address, description }) => {
       <Text mb="3" color="whiteAlpha.600" fontSize="sm">
         by: {address}
       </Text>
-      <Text color="whiteAlpha.400" fontSize="sm">
-        {description}
-      </Text>
+      <Box maxH="40" overflowY="auto">
+        <Text color="whiteAlpha.400" fontSize="sm">
+          {description}
+        </Text>
+      </Box>
     </Box>
   );
 };
@@ -62,9 +64,11 @@ const MsgBox = ({ msg }) => {
   return (
     <Box minH="150px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Executable Messages</Text>
-      <Code bg="none" color="whiteAlpha.400" fontSize="sm">
-        {msg}
-      </Code>
+      <Box maxH="40" overflowY="auto">
+        <Code bg="none" color="whiteAlpha.400" fontSize="sm">
+          {msg}
+        </Code>
+      </Box>
     </Box>
   );
 };

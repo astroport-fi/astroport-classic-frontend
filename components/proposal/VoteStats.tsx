@@ -33,6 +33,18 @@ const votesForArr = [
     address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
     percent: 1,
   },
+  {
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
+    percent: 3.4,
+  },
+  {
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
+    percent: 2,
+  },
+  {
+    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
+    percent: 1,
+  },
 ];
 
 const votesAgainstArr = [
@@ -105,37 +117,41 @@ const VoteStats: FC<Props> = ({
               <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
                 {votesForArr.length} Addresses
               </Text>
-              {votesForArr.map((vote, index) => (
-                <Flex
-                  key={index}
-                  justify="space-between"
-                  my="1.5"
-                  fontSize="xs"
-                >
-                  <Link href={finder(vote.address)} isExternal>
-                    <Text>{truncateStr(vote.address, 15)}</Text>
-                  </Link>
-                  <Text>{vote.percent}%</Text>
-                </Flex>
-              ))}
+              <Box height="32" overflowY="auto">
+                {votesForArr.map((vote, index) => (
+                  <Flex
+                    key={index}
+                    justify="space-between"
+                    my="1.5"
+                    fontSize="xs"
+                  >
+                    <Link href={finder(vote.address)} isExternal>
+                      <Text>{truncateStr(vote.address, 15)}</Text>
+                    </Link>
+                    <Text mr="1">{vote.percent}%</Text>
+                  </Flex>
+                ))}
+              </Box>
             </Box>
             <Box width="50%" ml="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
               <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
                 {votesAgainstArr.length} Addresses
               </Text>
-              {votesAgainstArr.map((vote, index) => (
-                <Flex
-                  key={index}
-                  justify="space-between"
-                  my="1.5"
-                  fontSize="xs"
-                >
-                  <Link href={finder(vote.address)} isExternal>
-                    <Text>{truncateStr(vote.address, 15)}</Text>
-                  </Link>
-                  <Text>{vote.percent}%</Text>
-                </Flex>
-              ))}
+              <Box height="32" overflowY="auto">
+                {votesAgainstArr.map((vote, index) => (
+                  <Flex
+                    key={index}
+                    justify="space-between"
+                    my="1.5"
+                    fontSize="xs"
+                  >
+                    <Link href={finder(vote.address)} isExternal>
+                      <Text>{truncateStr(vote.address, 15)}</Text>
+                    </Link>
+                    <Text mr="1">{vote.percent}%</Text>
+                  </Flex>
+                ))}
+              </Box>
             </Box>
           </Flex>
         )}
