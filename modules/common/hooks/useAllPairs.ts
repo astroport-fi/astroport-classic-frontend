@@ -22,26 +22,32 @@ export const useAllPairs = (): UseAllPairs => {
   const hiveEndpoint = useHiveEndpoint();
   const { factory } = useContracts();
 
-  const { data: pairs, isLoading } = useQuery(["pairs"], async () => {
-    const pairs = [];
+  const { data: pairs, isLoading } = useQuery(
+    ["pairs"],
+    async () => {
+      const pairs = [];
 
-    // Fetch pairs in sequential 30 pair chunks (contract max)
-    // until there aren't any more, then return them all.
-    while (true) {
-      const response = await request(hiveEndpoint, query, {
-        factory,
-        startAfter: pairs[pairs.length - 1]?.asset_infos,
-      });
+      // Fetch pairs in sequential 30 pair chunks (contract max)
+      // until there aren't any more, then return them all.
+      while (true) {
+        const response = await request(hiveEndpoint, query, {
+          factory,
+          startAfter: pairs[pairs.length - 1]?.asset_infos,
+        });
 
-      const pairsInPage = response.wasm.contractQuery.pairs;
+        const pairsInPage = response.wasm.contractQuery.pairs;
 
-      if (pairsInPage.length === 0) {
-        return pairs;
+        if (pairsInPage.length === 0) {
+          return pairs;
+        }
+
+        pairs.push(...pairsInPage);
       }
-
-      pairs.push(...pairsInPage);
+    },
+    {
+      refetchOnWindowFocus: false,
     }
-  });
+  );
 
   return {
     pairs,
