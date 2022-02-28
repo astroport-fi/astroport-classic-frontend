@@ -45,9 +45,9 @@ export const shouldReverseTokenOrder = (symbol1: string) => {
 export const orderPoolTokens = (token1: Token, token2: Token) => {
   const tokens = [token1, token2];
 
-  // if (shouldReverseTokenOrder(token1.symbol)) {
-  //   tokens.reverse();
-  // }
+  if (shouldReverseTokenOrder(token1.symbol)) {
+    tokens.reverse();
+  }
 
   return tokens.map((t) => t.asset);
 };
