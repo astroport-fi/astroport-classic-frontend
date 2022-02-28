@@ -218,16 +218,19 @@ describe("useAllTokens", () => {
         protocol: "Foo 2",
         symbol: "FOO2",
         decimals: 6,
+        token: "terratoken2",
       },
       terratoken3: {
         protocol: "Foo 3",
         symbol: "FOO3",
         decimals: 8,
+        token: "terratoken3",
       },
       terratoken5: {
         protocol: "Foo 5",
         symbol: "FOO5",
         decimals: 5,
+        token: "terratoken5",
       },
     });
 
