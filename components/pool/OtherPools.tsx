@@ -76,6 +76,7 @@ const OtherPools: FC = () => {
           <PoolNameTd
             assets={row.original.assets}
             pairType={row.original.pairType}
+            contract={row.original.contract}
           />
         ),
         accessor: "sortingAssets",
