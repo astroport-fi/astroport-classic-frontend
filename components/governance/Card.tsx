@@ -6,8 +6,9 @@ import {
   Box,
   Text,
   Button,
-  HStack,
+  Link,
 } from "@chakra-ui/react";
+import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { truncateStr } from "modules/common/helpers";
 import {
@@ -83,6 +84,8 @@ const CardBody = ({ voteFor, voteAgainst, quorum }) => {
 };
 
 const CardFooter = ({ description, address, id }) => {
+  const finder = useFinder();
+
   return (
     <Box flex="1" w="100%">
       <Flex p="5" flexDirection="column" height="100%">
@@ -90,7 +93,10 @@ const CardFooter = ({ description, address, id }) => {
           {description}
         </Box>
         <Box mt="3" mb="auto" color="white.700" fontSize="sm" title={address}>
-          by: {address}
+          by:{" "}
+          <Link href={finder(address)} isExternal>
+            {address}
+          </Link>
         </Box>
         <Flex justify="center" mb="2">
           <NextLink href={`/governance/proposal/${id}`} passHref>

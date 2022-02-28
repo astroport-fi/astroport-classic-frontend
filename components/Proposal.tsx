@@ -1,14 +1,7 @@
 import React, { FC, useState } from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
-import {
-  Box,
-  Button,
-  Flex,
-  Center,
-  HStack,
-  Text,
-  Code,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
+import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { useProposals } from "modules/governance";
 import { composeTwitterLink } from "modules/governance/helpers";
@@ -45,11 +38,16 @@ const HistoryBox = ({ history }: any) => {
 };
 
 const DescriptionBox = ({ address, description }) => {
+  const finder = useFinder();
+
   return (
     <Box minH="250px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Description</Text>
       <Text mb="3" color="whiteAlpha.600" fontSize="sm">
-        by: {address}
+        by:{" "}
+        <Link href={finder(address)} isExternal>
+          {address}
+        </Link>
       </Text>
       <Box maxH="40" overflowY="auto">
         <Text color="whiteAlpha.400" fontSize="sm">
