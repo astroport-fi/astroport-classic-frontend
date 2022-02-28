@@ -12,14 +12,12 @@ import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
-import { useContracts, NextLink, handleTinyAmount } from "modules/common";
-import { useGovStakingRatio } from "../hooks";
+import { NextLink, handleTinyAmount } from "modules/common";
+import { useGovStakingRatio, useGovStakingBalances } from "../hooks";
 
 const GovernancePage = () => {
-  const { astroToken, xAstroToken, staking } = useContracts();
-  const astroBalance = useBalance(astroToken);
-  const xAstroBalance = useBalance(xAstroToken);
-  const govXAstroBalance = useBalance(astroToken, staking);
+  const { astroBalance, xAstroBalance, stakedAstroBalance } =
+    useGovStakingBalances();
   const stakingRatio = useGovStakingRatio();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
@@ -27,7 +25,7 @@ const GovernancePage = () => {
   const data = [
     {
       label: "Total Staked ASTRO",
-      value: fromTerraAmount(govXAstroBalance, "0,0.00"),
+      value: fromTerraAmount(stakedAstroBalance, "0,0.00"),
     },
     {
       label: "Protocol Staking Ratio",
