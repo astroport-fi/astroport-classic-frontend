@@ -113,6 +113,7 @@ export const useAllTokens = (): UseAllTokens => {
     },
     {
       enabled: !isLoadingPairs,
+      refetchOnWindowFocus: false,
     }
   );
 
