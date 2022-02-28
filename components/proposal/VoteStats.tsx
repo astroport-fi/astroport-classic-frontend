@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { Flex, Box, Center, HStack, Text, Button } from "@chakra-ui/react";
+import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
+import useFinder from "hooks/useFinder";
 import { GovernanceProposal } from "types/common";
 import { truncateStr } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
-
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 
@@ -60,6 +60,8 @@ const VoteStats: FC<Props> = ({
   addressOpen,
   onClick,
 }) => {
+  const finder = useFinder();
+
   return (
     <Flex
       flexDirection="column"
@@ -110,7 +112,9 @@ const VoteStats: FC<Props> = ({
                   my="1.5"
                   fontSize="xs"
                 >
-                  <Text>{truncateStr(vote.address, 15)}</Text>
+                  <Link href={finder(vote.address)} isExternal>
+                    <Text>{truncateStr(vote.address, 15)}</Text>
+                  </Link>
                   <Text>{vote.percent}%</Text>
                 </Flex>
               ))}
@@ -126,7 +130,9 @@ const VoteStats: FC<Props> = ({
                   my="1.5"
                   fontSize="xs"
                 >
-                  <Text>{truncateStr(vote.address, 15)}</Text>
+                  <Link href={finder(vote.address)} isExternal>
+                    <Text>{truncateStr(vote.address, 15)}</Text>
+                  </Link>
                   <Text>{vote.percent}%</Text>
                 </Flex>
               ))}
