@@ -3,7 +3,7 @@ import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 import { useContracts } from "modules/common";
 
-export const useXAstroPriceBoost = (): number | null => {
+export const useAstroMintRatio = (): number | null => {
   const { client } = useTerraWebapp();
   const { staking } = useContracts();
 

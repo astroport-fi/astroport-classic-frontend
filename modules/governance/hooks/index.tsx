@@ -2,4 +2,4 @@ export * from "./useGovStake";
 export * from "./useGovStakingAPY";
 export * from "./useGovStakingRatio";
 export * from "./useGovStakingBalances";
-export * from "./useXAstroPriceBoost";
+export * from "./useAstroMintRatio";
