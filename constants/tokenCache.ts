@@ -244,6 +244,20 @@ const tokenCache: TokenCache = {
       icon: "/tokens/local.png",
       decimals: 6,
     },
+    terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn: {
+      protocol: "Kuji",
+      symbol: "KUJI",
+      token: "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn",
+      icon: "/tokens/kuji.png",
+      decimals: 6,
+    },
+    terra188w26t95tf4dz77raftme8p75rggatxjxfeknw: {
+      protocol: "Staked KUJI",
+      symbol: "sKUJI",
+      token: "terra188w26t95tf4dz77raftme8p75rggatxjxfeknw",
+      icon: "/tokens/skuji.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
