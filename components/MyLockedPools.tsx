@@ -25,6 +25,7 @@ const MyLockedPools = () => {
           <PoolNameTd
             assets={row.original.assets}
             pairType={row.original.pairType}
+            contract={row.original.contract}
           />
         ),
         width: 250,

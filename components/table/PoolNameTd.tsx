@@ -12,7 +12,7 @@ type Props = {
   contract?: string;
 };
 
-type BodyProps = {
+type TokenComponentProps = {
   token1Icon: string;
   token1Symbol: string;
   token2Icon: string;
@@ -20,12 +20,11 @@ type BodyProps = {
   formattedFee: string;
 };
 
-const Body: FC<BodyProps> = ({
+const TokenComponent: FC<TokenComponentProps> = ({
   token1Icon,
   token1Symbol,
   token2Icon,
   token2Symbol,
-  formattedFee,
 }) => {
   return (
     <HStack spacing={2}>
@@ -36,9 +35,6 @@ const Body: FC<BodyProps> = ({
       <HStack>
         <Text textStyle="medium">
           {token1Symbol} - {token2Symbol}
-        </Text>
-        <Text textStyle="medium" variant="dimmed">
-          ({formattedFee}% fee)
         </Text>
       </HStack>
     </HStack>
@@ -55,8 +51,8 @@ const PoolNameTd: FC<Props> = ({ assets, pairType, contract }) => {
   const fee = usePoolFee(pairType);
   const formattedFee = numeral(fee).divide(100).format("0.00");
 
-  const BodyComponent = (
-    <Body
+  const Token = (
+    <TokenComponent
       token1Icon={getIcon(token1)}
       token1Symbol={getSymbol(token1)}
       token2Icon={getIcon(token2)}
@@ -65,12 +61,18 @@ const PoolNameTd: FC<Props> = ({ assets, pairType, contract }) => {
     />
   );
 
-  return contract ? (
-    <Link href={finder(contract, "address")} isExternal>
-      {BodyComponent}{" "}
-    </Link>
-  ) : (
-    <>{BodyComponent}</>
+  return (
+    <HStack spacing={2}>
+      {contract && (
+        <Link href={finder(contract, "address")} isExternal>
+          {Token}
+        </Link>
+      )}
+      {!contract && <>{Token}</>}
+      <Text textStyle="medium" variant="dimmed">
+        ({formattedFee}% fee)
+      </Text>
+    </HStack>
   );
 };
 

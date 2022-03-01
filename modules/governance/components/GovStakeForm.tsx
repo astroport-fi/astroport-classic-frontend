@@ -98,14 +98,6 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
     setValue("amount", "");
   }, [type, xAstroToken, astroToken, setValue]);
 
-  /*
-    useEffect(() => {
-      if (type === AstroFormType.Unstake && astroMintRatio) {
-        price = price * astroMintRatio;
-      }
-    }, [type, astroMintRatio]);
-  */
-
   if (isPosting) {
     return <FormLoading />;
   }
