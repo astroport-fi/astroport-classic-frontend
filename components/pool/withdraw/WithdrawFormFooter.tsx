@@ -54,7 +54,7 @@ const WithdrawFormFooter: FC<Props> = ({
     },
     {
       title: "APR",
-      value: formattedApr,
+      value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
       render: () => <AprFooter pool={pool} />,
     },
   ];

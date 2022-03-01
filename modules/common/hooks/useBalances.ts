@@ -11,7 +11,7 @@ interface Balances {
 const createQuery = (address: string, tokens: string[]) => {
   const allowedTokens = tokens.filter((token) => !token.startsWith("u"));
 
-  if (allowedTokens.length === 0) {
+  if (allowedTokens.length === 0 || !address) {
     return;
   }
 

@@ -9,7 +9,7 @@ import { AstroFormType } from "types/common";
 import CommonFooter from "components/CommonFooter";
 
 type Props = {
-  amount: string;
+  amount: number;
   fee: Fee;
   type: AstroFormType;
   isLoading: boolean;
@@ -25,12 +25,12 @@ const GovStakeFooter: FC<Props> = ({
 }) => {
   const { xAstroToken } = useContracts();
   const xAstroBalance = useBalance(xAstroToken);
-  const newStakeXAstro = num(amount || 0)
+  const newStakeXAstro = num(amount)
     .times(ONE_TOKEN)
     .plus(xAstroBalance)
     .toString();
   const newUnstakeXAstro = num(xAstroBalance)
-    .minus(num(amount || 0).times(ONE_TOKEN))
+    .minus(num(amount).times(ONE_TOKEN))
     .toString();
   const title = type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake ASTRO";
   const newXAstro =

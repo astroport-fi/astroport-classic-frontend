@@ -1,5 +1,6 @@
 import numeral from "numeral";
 import { num } from "@arthuryeti/terra";
+import { request } from "graphql-request";
 
 import {
   findAsset,
@@ -85,11 +86,14 @@ export const handleTinyAmount = (
   includeZero: boolean = false,
   numberPrefix: string = ""
 ) => {
-  if (includeZero && num(value).eq(0)) {
+  const bigNumValue = num(value);
+
+  if (includeZero && bigNumValue.eq(0)) {
     return `< ${numberPrefix}0.01`;
   }
 
-  if (num(value).lt(0.01) && num(value).gt(0)) {
+  // not so necessary but also can check if it's positive number -bignumValue.gt()
+  if (bigNumValue.lt(0.01)) {
     return `< ${numberPrefix}0.01`;
   }
 
@@ -236,4 +240,23 @@ export const truncateStr = (str: string, length: number) => {
   }
 
   return str;
+};
+
+export const requestInChunks = async <Item = any, Response = any>(
+  chunkSize: number,
+  url: string,
+  items: Item[],
+  queryBuilder: (chunk: Item[]) => string
+): Promise<Response> => {
+  const totalChunks = Math.ceil(items.length / chunkSize);
+
+  const chunks = await Promise.all(
+    Array.from(Array(totalChunks).keys()).map((i) => {
+      const chunk = items.slice(i * chunkSize, (i + 1) * chunkSize);
+
+      return request<Response>(url, queryBuilder(chunk));
+    })
+  );
+
+  return chunks.reduce((all, chunk) => ({ ...all, ...chunk }));
 };

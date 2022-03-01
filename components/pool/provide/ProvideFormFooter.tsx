@@ -34,12 +34,16 @@ const ProvideFormFooter: FC<Props> = ({
     amount2: amount2,
   });
   const formattedShareInUst = numeral(shareInUst).format("0,0.00");
-  const formattedApr = handleBigPercentage(pool.rewards.total * 100);
+  const formattedApr = handleBigPercentage(
+    pool.rewards.total * 100,
+    "0,0a.00",
+    ""
+  );
 
   const cells = [
     {
       title: "My Liquidity",
-      value: `$ ${formattedShareInUst || "0"}`,
+      value: handleTinyAmount(formattedShareInUst, "0.00", false, "$"),
     },
     {
       title: "Share of Pool",
@@ -47,7 +51,7 @@ const ProvideFormFooter: FC<Props> = ({
     },
     {
       title: "APR",
-      value: formattedApr,
+      value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
       render: () => <AprFooter pool={pool} />,
     },
   ];

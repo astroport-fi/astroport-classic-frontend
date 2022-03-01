@@ -1,6 +1,11 @@
 import React from "react";
 import { Box, Text, Image, Flex, HStack, chakra } from "@chakra-ui/react";
-import { TokenInWallet, useTokenInfo, handleTinyAmount } from "modules/common";
+import {
+  TokenInWallet,
+  useTokenInfo,
+  handleTinyAmount,
+  handleBigAndTinyAmount,
+} from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
@@ -10,7 +15,7 @@ type Props = {
 
 const ListItem = ({ token, onClick }: Props) => {
   const { getIcon, getSymbol, getProtocol } = useTokenInfo();
-  const balanceFormmated = handleTinyAmount(token.balance);
+  const balanceFormmated = handleBigAndTinyAmount(token.balance);
   const tokenPrice = useTokenPriceInUstWithSimulate(token.address);
 
   return (

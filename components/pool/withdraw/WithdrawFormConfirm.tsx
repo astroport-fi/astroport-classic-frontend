@@ -48,7 +48,7 @@ const WithdrawFormConfirm: FC<Props> = ({
       details={[
         {
           label: "APR",
-          value: formattedApr,
+          value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
         },
         {
           label: "Share of Pool",

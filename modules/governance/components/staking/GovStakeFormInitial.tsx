@@ -19,6 +19,7 @@ type Props = {
   txFeeNotEnough?: boolean;
   fee: Fee;
   price?: number;
+  astroMintRatio?: number | null;
   error: any;
 };
 
@@ -30,6 +31,7 @@ const GovStakeFormInitial: FC<Props> = ({
   txFeeNotEnough,
   fee,
   price,
+  astroMintRatio,
   error,
 }) => {
   const { control, watch } = useFormContext();
@@ -38,6 +40,14 @@ const GovStakeFormInitial: FC<Props> = ({
   const balance = num(balData)
     .div(10 ** 6)
     .toNumber();
+  const adjPrice =
+    type === AstroFormType.Unstake && astroMintRatio
+      ? price * astroMintRatio
+      : price;
+  const adjAmount =
+    type === AstroFormType.Stake && astroMintRatio
+      ? num(amount || 0).times(astroMintRatio)
+      : num(amount || 0);
 
   return (
     <Box py="12">
@@ -86,7 +96,7 @@ const GovStakeFormInitial: FC<Props> = ({
                   <NewAmountInput
                     asset={token}
                     max={balance}
-                    price={price}
+                    price={adjPrice}
                     {...field}
                   />
                 )}
@@ -100,7 +110,7 @@ const GovStakeFormInitial: FC<Props> = ({
           type={type}
           isLoading={isLoading}
           isDisabled={fee == null || txFeeNotEnough}
-          amount={amount}
+          amount={adjAmount.toNumber()}
         />
       </Stack>
 

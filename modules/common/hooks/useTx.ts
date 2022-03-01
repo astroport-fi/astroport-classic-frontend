@@ -17,6 +17,8 @@ export enum TxPostError {
   Timeout,
   TxUnspecifiedError,
   UnknownError,
+  InsufficientFunds,
+  InsufficientFee,
 }
 
 export type TxErrorHandler = (
@@ -65,6 +67,10 @@ const enumForTxPostError = (error: Error) => {
     if (/^timeout of \d+ms exceeded$/.test(error.message)) {
       // Treat CreateTxFailed for timeouts as Timeout errors
       return TxPostError.Timeout;
+    } else if (error.message.endsWith(": insufficient funds")) {
+      return TxPostError.InsufficientFunds;
+    } else if (error.message.endsWith(": insufficient fee")) {
+      return TxPostError.InsufficientFee;
     } else {
       return TxPostError.CreateTxFailed;
     }
@@ -134,6 +140,10 @@ export const useTx = ({
     switch (errorEnum) {
       case TxPostError.Timeout:
         return "Timed out. Please try again.";
+      case TxPostError.InsufficientFunds:
+        return "We're sorry, you don't have enough funds to complete this request. Please try again when you have more funds available.";
+      case TxPostError.InsufficientFee:
+        return "Sorry, the specified fee was not enough to cover the cost of this transaction. Please try again.";
       case TxPostError.CreateTxFailed:
         return originalError.message;
     }

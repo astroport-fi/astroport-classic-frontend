@@ -39,10 +39,12 @@ const ProvideNotification: FC<Props> = ({ txInfo }) => {
   );
 
   useEffect(() => {
-    queryClient.invalidateQueries("pools");
-    queryClient.invalidateQueries("pool");
-    queryClient.invalidateQueries("balance");
-  }, []);
+    (async () => {
+      await queryClient.invalidateQueries("balance");
+      await queryClient.invalidateQueries("pools");
+      await queryClient.invalidateQueries("pool");
+    })();
+  });
 
   return (
     <Text textStyle={["small", "medium"]}>

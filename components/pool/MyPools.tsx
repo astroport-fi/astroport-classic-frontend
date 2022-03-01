@@ -34,6 +34,7 @@ const MyPools: FC = () => {
           <PoolNameTd
             assets={row.original.assets}
             pairType={row.original.pairType}
+            contract={row.original.contract}
           />
         ),
         accessor: "sortingAssets",
@@ -106,7 +107,7 @@ const MyPools: FC = () => {
   );
 
   return (
-    <Card overflow="auto" noPadding>
+    <Card overflow="auto" position="initial" noPadding>
       <PoolTable
         data={myPools}
         columns={columns}
