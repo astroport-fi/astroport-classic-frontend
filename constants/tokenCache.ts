@@ -162,7 +162,7 @@ const tokenCache: TokenCache = {
     },
     terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w: {
       protocol: "Wormhole Avax USDC",
-      symbol: "wavUSDC",
+      symbol: "wavUSDC.e",
       token: "terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w",
       icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/USDCav_wh.png",
       decimals: 6,
