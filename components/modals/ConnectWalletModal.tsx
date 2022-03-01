@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useWallet, ConnectType } from "@terra-money/wallet-provider";
-import { Text, HStack, Flex, chakra, Image } from "@chakra-ui/react";
+import { Text, HStack, Flex, chakra, Image, Box } from "@chakra-ui/react";
 import Modal from "components/modals/Modal";
 import TerraExtensionIcon from "components/icons/TerraExtensionIcon";
 import XDefiIcon from "components/icons/XDefiIcon";
@@ -17,6 +17,16 @@ type WalletOptions = {
   icon: string;
   isInstalled?: boolean;
   walletAction: () => void;
+};
+
+const ButtonStyle = {
+  transition: "0.2s all",
+  p: "6",
+  borderRadius: "xl",
+  bg: "brand.purple",
+  color: "white",
+  width: "100%",
+  mb: "4",
 };
 
 const getIconImg = (identifier: string, icon: string) => {
@@ -52,7 +62,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
         identifier,
         name: "Install " + name,
         icon,
-        isInstalled: true,
+        isInstalled: false,
         walletAction: () => {
           window.open(url, "_blank");
         },
@@ -81,16 +91,27 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
         textAlign="center"
       >
         {wallets.map((wallet, index) => {
-          return (
+          return wallet.identifier === "xdefi-wallet" &&
+            wallet.isInstalled === false &&
+            //@ts-ignore
+            typeof window.xfi !== "undefined" ? (
+            <Box {...ButtonStyle}>
+              <HStack justify="space-between">
+                <Box textAlign="left">
+                  <Text>XDEFI Wallet</Text>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="500"
+                    color="whiteAlpha.600"
+                  >{`Turn on "Prioritise XDEFI" in settings to enable`}</Text>
+                </Box>
+                {getIconImg(wallet.identifier, wallet.icon)}
+              </HStack>
+            </Box>
+          ) : (
             <chakra.button
               key={index}
-              transition="0.2s all"
-              p="6"
-              borderRadius="xl"
-              bg="brand.purple"
-              color="white"
-              width="100%"
-              mb="4"
+              {...ButtonStyle}
               _hover={{
                 bg: "white",
                 color: "brand.dark",
