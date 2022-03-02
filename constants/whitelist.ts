@@ -223,6 +223,13 @@ const whitelist = {
         icon: "/tokens/local.png",
         decimals: 6,
       },
+      terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk: {
+        protocol: "LUART token",
+        symbol: "LUART",
+        token: "terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk",
+        icon: "/tokens/luart.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -821,6 +828,26 @@ const whitelist = {
         ],
         contract_addr: "terra1296jw27cq8svlg4ywm8t84u448p3zs7mcqg9ra",
         liquidity_token: "terra1c7upd2p5p294dtdj7xx0dd9yu5cm2ak4lgz2h0",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // luart-uusd
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra143az0w2e504n56q7k43qyh2fu69fh3rhup32n3",
+        liquidity_token: "terra1tgg6ccwy42aya75rjtpx4cagpg64p5rz59vxtj",
         pair_type: {
           xyk: {},
         },
