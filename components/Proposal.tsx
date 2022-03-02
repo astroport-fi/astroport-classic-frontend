@@ -152,7 +152,7 @@ const DiscussionBox = ({ link }) => {
 const LeftColumn = ({ proposal, addressOpen, setAddressOpen }) => {
   return (
     <Flex flexDirection="column" w={["100%", "100%", "66.6%"]} mr="5">
-      <ProposalTime endDate={proposal.endDate} />
+      <ProposalTime endDate={proposal.endDate} status={proposal.status} />
       <ProposalVoteStats
         proposal={proposal}
         addressOpen={addressOpen}

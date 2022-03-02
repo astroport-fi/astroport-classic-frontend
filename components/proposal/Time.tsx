@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Box, Center, Text } from "@chakra-ui/react";
+import { ProposalStatus } from "types/common";
 
 import {
   convertTimestampToDate,
@@ -8,10 +9,11 @@ import {
 
 type Props = {
   endDate: number;
+  status: ProposalStatus;
   height?: number;
 };
 
-const Time: FC<Props> = ({ endDate, height = "100px" }) => {
+const Time: FC<Props> = ({ endDate, status, height = "100px" }) => {
   const end = new Date(endDate * 1000);
 
   return (
@@ -35,7 +37,9 @@ const Time: FC<Props> = ({ endDate, height = "100px" }) => {
           )} UTC`}</Text>
           <Text fontSize="sm" mt="1" color="proposalColours.purpleAlt">
             (
-            {`Ends ${convertTimestampToDate(
+            {`${
+              status === ProposalStatus.Active ? `Ends` : `Ended`
+            } ${convertTimestampToDate(
               endDate,
               true
             )} ${end.getUTCHours()}:${end.getUTCMinutes()} UTC`}
