@@ -13,7 +13,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
     <>
       {proposals.length === 0 && "no proposals"}
       {proposals.length > 0 && (
-        <Grid templateColumns={["auto", "auto", "auto", "auto auto"]} gap={10}>
+        <Grid templateColumns={["auto", "auto", "auto", "auto auto"]} gap={8}>
           {proposals.map((proposal, i) => {
             return <Card key={i} proposal={proposal} />;
           })}
