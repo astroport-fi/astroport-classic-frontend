@@ -148,7 +148,7 @@ describe("OtherPools", () => {
       expect(within(row1[3]).getByText("$ 200.00M")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
-      expect(within(row2[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(row2[1]).getByText("(0.05% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
@@ -177,7 +177,7 @@ describe("OtherPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
     });
 
@@ -192,7 +192,7 @@ describe("OtherPools", () => {
       // This is the order the pools are returned from useAllPools
       expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("sorts by APR ascending when heading is clicked once", async () => {
@@ -201,7 +201,7 @@ describe("OtherPools", () => {
       await userEvent.click(screen.getByText("Combined APR"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
       expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
     });
@@ -215,7 +215,7 @@ describe("OtherPools", () => {
       const rows = screen.getAllByRole("row");
       expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("removes sort when APR heading is clicked thrice", async () => {
@@ -229,7 +229,7 @@ describe("OtherPools", () => {
       // This is the order the pools are returned from useAllPools
       expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("only shows matching pools when searching by token name", async () => {
@@ -242,7 +242,7 @@ describe("OtherPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(3); // header + 2 matching pools
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument(); // second token name
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument(); // second token name
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument(); // first token name
     });
 
@@ -282,7 +282,7 @@ describe("OtherPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(3); // header + 2 matching pools
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
     });
 
@@ -296,7 +296,7 @@ describe("OtherPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(3); // header + 2 matching pools
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
     });
 
@@ -339,7 +339,7 @@ describe("OtherPools", () => {
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(4); // header + all 3 pools
       expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[3]).getByText("FOO - UST")).toBeInTheDocument();
     });
 
@@ -354,7 +354,7 @@ describe("OtherPools", () => {
       const rows = screen.getAllByRole("row");
       expect(rows.length).toEqual(3); // header + 2 matching pools
       expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("shows message when no pools match search query", async () => {
@@ -422,7 +422,7 @@ describe("OtherPools", () => {
         mockPool("terra123", ["uluna", "uusd"], 0.4242, 200_000_000, "xyk"), // LUNA - UST
         mockPool("terra456", ["terratoken1", "uusd"], 0.2409, 1_000_000, "xyk"), // BAR - UST
         mockPool(
-          // LUNA - FOO
+          // FOO - LUNA
           "terra789",
           ["uluna", "terratoken1"],
           0.07,
@@ -487,7 +487,7 @@ describe("OtherPools", () => {
       expect(within(row4[3]).getByText("$ 0")).toBeInTheDocument();
 
       const row5 = within(rows[5]).getAllByRole("cell");
-      expect(within(row5[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(row5[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(row5[1]).getByText("(0.05% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
@@ -519,7 +519,7 @@ describe("OtherPools", () => {
         within(rows[3]).getByText("Assets not in my wallet")
       ).toBeInTheDocument();
       expect(within(rows[4]).getByText("FOO - BAR")).toBeInTheDocument();
-      expect(within(rows[5]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[5]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[6]).getByText("FOO - UST")).toBeInTheDocument();
 
       // Combined APR descending
@@ -533,7 +533,7 @@ describe("OtherPools", () => {
         within(rows[3]).getByText("Assets not in my wallet")
       ).toBeInTheDocument();
       expect(within(rows[4]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[5]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[5]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[6]).getByText("FOO - BAR")).toBeInTheDocument();
     });
 
@@ -554,13 +554,13 @@ describe("OtherPools", () => {
       ).toBeInTheDocument();
       expect(within(rows[4]).getByText("FOO - BAR")).toBeInTheDocument(); // Favorited, but not in user's wallet
       expect(within(rows[5]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[6]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[6]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("renders divider on first page and not second page when first page contains pools the user can and cannot provide liquidity to", () => {
       const pools = useAllPools() as object[];
 
-      // Add 10 more LUNA - FOO pools (total 12)
+      // Add 10 more FOO - LUNA pools (total 12)
       for (let i = 0; i < 11; i++) {
         pools.push(
           mockPool(
@@ -590,9 +590,9 @@ describe("OtherPools", () => {
       ).toBeInTheDocument();
       expect(within(rows[4]).getByText("FOO - BAR")).toBeInTheDocument();
 
-      // Remaining rows are the LUNA - FOO pool
+      // Remaining rows are the FOO - LUNA pool
       for (let i = 5; i < 17; i++) {
-        expect(within(rows[i]).getByText("LUNA - FOO")).toBeInTheDocument();
+        expect(within(rows[i]).getByText("FOO - LUNA")).toBeInTheDocument();
       }
 
       userEvent.click(screen.getByRole("button", { name: "Go to next page" }));
@@ -650,7 +650,7 @@ describe("OtherPools", () => {
         within(rows[2]).getByText("Assets not in my wallet")
       ).toBeInTheDocument();
       expect(within(rows[3]).getByText("FOO - BAR")).toBeInTheDocument();
-      expect(within(rows[4]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[4]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[5]).getByText("FOO - UST")).toBeInTheDocument();
     });
   });
