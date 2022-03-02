@@ -108,22 +108,95 @@ export const handleDollarTinyAmount = (
   return handleTinyAmount(value, format, includeZero, "$ ");
 };
 
+// Old Routing Function - Deprecated due to performance issues.
+// Every added pair with uusd results in a non-linear increase
+// in time it takes for this function to execute.
+/*
+  export const toRoutes = (
+    allPairs: PairResponse[],
+    r: PairResponse[],
+    parentFrom: string | null,
+    parentTo: string | null,
+    parentContracts: string[],
+    index?: number
+  ): Route[] => {
+    return r.map((v) => {
+      const { contract_addr, asset_infos, pair_type } = v;
+      const [token1, token2] = getTokenDenoms(asset_infos);
+
+      const newParentContracts = [...parentContracts, contract_addr];
+
+      const from: string = parentTo ? parentTo : index == 0 ? token1 : token2;
+      const to: string = from === token1 ? token2 : token1;
+
+      const children = allPairs
+        .filter((pair) => {
+          return findAsset(pair.asset_infos, to);
+        })
+        .filter((pair) => {
+          return pair.asset_infos.find((asset) => {
+            return (
+              getTokenDenom(asset) !== parentFrom &&
+              getTokenDenom(asset) !== parentTo
+            );
+          });
+        })
+        .filter((pair) => {
+          return (
+            pair.contract_addr !== contract_addr &&
+            !newParentContracts.includes(pair.contract_addr)
+          );
+        });
+
+      return {
+        contract_addr,
+        type: Object.keys(pair_type)[0],
+        from,
+        to,
+        children: toRoutes(allPairs, children, from, to, newParentContracts),
+      };
+    });
+  };
+*/
+
+// New Routing Function - Stores childRoutes at depth == 0, and so
+// the same to:token at depth == 0 will not need to compute over and over.
+// Since we have many to:uusd pairs, it will save a lot of time.
 export const toRoutes = (
   allPairs: PairResponse[],
   r: PairResponse[],
   parentFrom: string | null,
   parentTo: string | null,
   parentContracts: string[],
-  index?: number
+  index?: number,
+  childRoutes?: { [key: string]: Route[] },
+  depth?: number
 ): Route[] => {
-  return r.map((v) => {
-    const { contract_addr, asset_infos, pair_type } = v;
+  let routes = [];
+
+  for (let i = 0; i < r.length; i++) {
+    const { contract_addr, asset_infos, pair_type } = r[i];
     const [token1, token2] = getTokenDenoms(asset_infos);
 
     const newParentContracts = [...parentContracts, contract_addr];
 
     const from: string = parentTo ? parentTo : index == 0 ? token1 : token2;
     const to: string = from === token1 ? token2 : token1;
+
+    const pairType = Object.keys(pair_type)[0];
+
+    if (childRoutes[`${to}.${pairType}`] && depth === 0) {
+      let response = {
+        contract_addr,
+        type: pairType,
+        from,
+        to,
+        children: childRoutes[`${to}.${pairType}`],
+      };
+
+      routes.push(response);
+      continue;
+    }
 
     const children = allPairs
       .filter((pair) => {
@@ -144,20 +217,37 @@ export const toRoutes = (
         );
       });
 
-    return {
+    let response = {
       contract_addr,
-      type: Object.keys(pair_type)[0],
+      type: pairType,
       from,
       to,
-      children: toRoutes(allPairs, children, from, to, newParentContracts),
+      children: toRoutes(
+        allPairs,
+        children,
+        from,
+        to,
+        newParentContracts,
+        undefined,
+        childRoutes,
+        depth + 1
+      ),
     };
-  });
+
+    if (depth === 0) {
+      childRoutes[`${to}.${pairType}`] = response.children;
+    }
+
+    routes.push(response);
+  }
+
+  return routes;
 };
 
 export const formatPairsToRoutes = (pairs: PairResponse[]): Route[] => {
   return [
-    ...toRoutes(pairs, pairs, null, null, [], 0),
-    ...toRoutes(pairs, pairs, null, null, [], 1),
+    ...toRoutes(pairs, pairs, null, null, [], 0, {}, 0),
+    ...toRoutes(pairs, pairs, null, null, [], 1, {}, 0),
   ];
 };
 
