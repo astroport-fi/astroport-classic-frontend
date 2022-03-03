@@ -77,7 +77,7 @@ export const useAllTokens = (): UseAllTokens => {
     isLoading,
     isError,
   } = useQuery<Tokens>(
-    ["tokens", name],
+    [hiveEndpoint, "tokens", name],
     async () => {
       const tokensToFetch = uniqueTokens(pairs).filter(
         (token) => !(token in cachedTokens)

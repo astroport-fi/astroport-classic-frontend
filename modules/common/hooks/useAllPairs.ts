@@ -33,7 +33,7 @@ export const useAllPairs = (): UseAllPairs => {
     isLoading,
     isError,
   } = useQuery(
-    ["pairs"],
+    [hiveEndpoint, "pairs"],
     async () => {
       const pairs = [];
 
