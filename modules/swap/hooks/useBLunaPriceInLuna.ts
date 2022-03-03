@@ -34,7 +34,7 @@ export const useBLunaPriceInLuna = () => {
   );
 
   return useMemo(() => {
-    if (swapRouteInLuna.length == 1) {
+    if (swapRouteInLuna?.length == 1) {
       // TODO: Create a proper hook for stable pool
       if (swapRouteInLuna[0].type == "stable" && bLunaData != null) {
         // @ts-expect-error
