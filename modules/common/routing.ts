@@ -73,14 +73,12 @@ const pairsToRoute = (pairs: PairResponse[], from: string) => {
   }, []);
 };
 
-type UnvisitedNodes = {
-  [token: string]: {
-    token: string;
-    route: PairResponse[] | null;
-  };
+type EnqueuedSearchNode = {
+  token: string;
+  pairs: PairResponse[];
 };
 
-// Implementation of Dijkstra's algorithm
+// Breadth-first search for shortest route between two tokens
 // Given a token graph (in the form of an adjacency list),
 // finds the shortest route between two token nodes.
 export const getSwapRoute = ({
@@ -102,53 +100,25 @@ export const getSwapRoute = ({
     return [];
   }
 
-  const unvisited: UnvisitedNodes = Object.fromEntries(
-    Object.keys(tokenGraph).map((token) => [
-      token,
-      {
-        token,
-        route: null,
-      },
-    ])
-  );
+  const queue: EnqueuedSearchNode[] = [{ token: from, pairs: [] }];
+  const visited = new Set<string>(from);
 
-  unvisited[from].route = [];
+  while (queue.length > 0) {
+    const node = queue.shift();
 
-  // Begin with from token's node
-  let currentNode = unvisited[from];
+    for (const neighbor of Array.from(tokenGraph[node.token])) {
+      const pairs = [...node.pairs, neighbor.pair];
 
-  do {
-    // Look at all unvisited neighbors of current node,
-    // and set route to it if it doesn't already have one
-    // (first time we encounter the node will be the shortest route)
-    tokenGraph[currentNode.token].forEach((neighbor) => {
-      const neighborNode = unvisited[neighbor.token];
-
-      if (neighborNode && neighborNode.route == null) {
-        neighborNode.route = [...currentNode.route, neighbor.pair];
+      if (neighbor.token == to) {
+        return pairsToRoute(pairs, from);
       }
-    });
 
-    delete unvisited[currentNode.token];
-
-    // Select next node by finding node with shortest route
-    currentNode = Object.values(unvisited).reduce((selectedNode, node) =>
-      selectedNode.route == null ||
-      node.route?.length < selectedNode.route?.length
-        ? node
-        : selectedNode
-    );
-
-    // If the next node doesn't have a route, then we could not find a route,
-    // just return null
-    if (currentNode.route == null) {
-      return null;
+      if (!visited.has(neighbor.token)) {
+        visited.add(neighbor.token);
+        queue.push({ token: neighbor.token, pairs });
+      }
     }
+  }
 
-    // If the next node is the "to" node, there's no need to visit it,
-    // we've found our most efficient route
-    if (currentNode.token == to) {
-      return pairsToRoute(currentNode.route, from);
-    }
-  } while (true);
+  return null;
 };
