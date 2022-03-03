@@ -98,6 +98,11 @@ export default extendTheme({
       red: "#A30000",
       redLight: "#FFD1CF",
     },
+    errors: {
+      main: "#EF5177",
+      dark: "#A30000",
+      light: "#FFD1CF",
+    },
   },
   textStyles: {
     h3: {

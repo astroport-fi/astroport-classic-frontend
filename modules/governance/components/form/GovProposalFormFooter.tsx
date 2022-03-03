@@ -7,14 +7,9 @@ import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 type Props = {
   fee: Fee;
   txFeeNotEnough?: boolean;
-  onConfirmClick: () => void;
 };
 
-const GovProposalFormFooter: FC<Props> = ({
-  fee,
-  txFeeNotEnough,
-  onConfirmClick,
-}) => {
+const GovProposalFormFooter: FC<Props> = ({ fee, txFeeNotEnough }) => {
   const confirmButton: ConfirmButton = {
     title: "Submit Proposal",
     borderRadius: "md",
@@ -22,7 +17,7 @@ const GovProposalFormFooter: FC<Props> = ({
     isLoading: false,
     isDisabled: false,
     type: "submit",
-    onClick: onConfirmClick,
+    onClick: null,
   };
 
   return (

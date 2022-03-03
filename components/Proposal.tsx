@@ -186,7 +186,11 @@ const Proposal: FC<Props> = ({ id }) => {
 
   return (
     <Box>
-      <ProposalHeader title={proposal.title} twitterLink={twitterLink} />
+      <ProposalHeader
+        title={proposal.title}
+        status={proposal.status}
+        twitterLink={twitterLink}
+      />
       <Flex>
         <LeftColumn
           proposal={proposal}

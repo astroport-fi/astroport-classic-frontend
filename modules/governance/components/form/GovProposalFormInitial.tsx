@@ -1,17 +1,27 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Heading } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, UseFormReturn } from "react-hook-form";
 import { FormActions, FormTextItem } from "modules/common";
 import { GovProposalFormFooter } from "modules/governance";
+import { GovernanceProposal } from "types/common";
 
 type Props = {
   fee: Fee;
-  onClick: () => void;
+  inputErrors: any;
+  methods: UseFormReturn<GovernanceProposal, object>;
 };
 
-const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
-  const { watch, setValue } = useFormContext();
+const CommonFormProps = (
+  type: "input" | "textarea",
+  id: string,
+  title: string
+) => {
+  return { type, id, title };
+};
+
+const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
+  const { watch } = useFormContext();
   const [title, description, msg, link] = [
     watch("title"),
     watch("description"),
@@ -26,32 +36,38 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
       </FormActions>
 
       <FormTextItem
-        title="Set Title:"
-        type="input"
+        {...CommonFormProps("input", "title", "Set Title:")}
         value={title}
-        onChange={(text) => setValue("title", text)}
+        formRegister={methods.register}
+        error={inputErrors?.title || null}
+        required={true}
+        onChange={(text) => methods.setValue("title", text)}
       />
       <FormTextItem
-        title="Insert Description:"
-        type="textarea"
+        {...CommonFormProps("textarea", "description", "Insert Description:")}
         value={description}
-        onChange={(text) => setValue("description", text)}
+        formRegister={methods.register}
+        error={inputErrors?.description || null}
+        required={true}
+        onChange={(text) => methods.setValue("description", text)}
       />
       <FormTextItem
-        title="Executable Messages:"
-        type="textarea"
+        {...CommonFormProps("textarea", "msg", "Executable Messages:")}
         fontFamily="mono"
         fontSize="sm"
         _placeholder={{ color: "white.400" }}
         value={msg}
-        onChange={(text) => setValue("msg", text)}
+        formRegister={methods.register}
+        required={false}
+        onChange={(text) => methods.setValue("msg", text)}
       />
       <FormTextItem
-        title="Insert Link to Discussion:"
+        {...CommonFormProps("input", "link", "Insert Link to Discussion:")}
         placeholder="https://discord.gg/..."
-        type="input"
         value={link}
-        onChange={(text) => setValue("link", text)}
+        formRegister={methods.register}
+        required={false}
+        onChange={(text) => methods.setValue("link", text)}
       />
 
       {/* Deposit Box. More work to be done here... */}
@@ -83,11 +99,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, onClick }) => {
       </Box>
       {/* Deposit Box. More work to be done here... */}
 
-      <GovProposalFormFooter
-        fee={fee}
-        txFeeNotEnough={false}
-        onConfirmClick={onClick}
-      />
+      <GovProposalFormFooter fee={fee} txFeeNotEnough={false} />
     </>
   );
 };

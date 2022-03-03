@@ -39,7 +39,7 @@ const ForumSummary: FC<Props> = ({ proposal }) => {
   const { title, description, msg, link } = proposal;
 
   return (
-    <Box>
+    <Box fontSize="0.875rem">
       <Box mb="8">
         {FormTextHeader("Proposal Title")}
         <FormBlock>

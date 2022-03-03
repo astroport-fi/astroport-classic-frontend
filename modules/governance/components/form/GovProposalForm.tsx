@@ -36,14 +36,19 @@ const GovProposalForm = () => {
     <FormProvider {...methods}>
       <chakra.form
         onSubmit={methods.handleSubmit(() => {
-          router.push("/governance");
+          if (showConfirm === true) {
+            router.push("/governance");
+          } else if (Object.keys(methods.formState.errors).length === 0) {
+            setShowConfirm(true);
+          }
         })}
         width="full"
       >
         {!showConfirm && (
           <GovProposalFormInitial
             fee={fee}
-            onClick={() => setShowConfirm(true)}
+            inputErrors={methods.formState.errors}
+            methods={methods}
           />
         )}
         {showConfirm && (

@@ -11,21 +11,18 @@ import {
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { truncateStr } from "modules/common/helpers";
-import {
-  getProposalStatusProperties,
-  getProposalEndDateString,
-} from "modules/governance/helpers";
+import { getProposalEndDateString } from "modules/governance/helpers";
 import { GovernanceProposal } from "types/common";
 
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
+import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
   proposal: GovernanceProposal;
 };
 
 const CardHeader = ({ status, title, endDate }) => {
-  const proposalStatus = getProposalStatusProperties(status);
   const voteTimeLabel = getProposalEndDateString(endDate);
 
   return (
@@ -37,17 +34,7 @@ const CardHeader = ({ status, title, endDate }) => {
           height="24px"
           lineHeight="24px"
         >
-          <Box
-            borderWidth="1px"
-            borderColor={proposalStatus.color}
-            px="2"
-            borderRadius="md"
-            bg={proposalStatus.lightColor}
-            color={proposalStatus.color}
-            fontWeight="500"
-          >
-            {proposalStatus.title}
-          </Box>
+          <StatusTitle status={status} />
           <Flex width="170px" bg="brand.dark" pl="2" borderLeftRadius="md">
             <Text color="white.400">{voteTimeLabel[0]}</Text>
             <Text pl="1">{voteTimeLabel[1]}</Text>
