@@ -119,19 +119,13 @@ export const getSwapRoute = ({
 
   do {
     // Look at all unvisited neighbors of current node,
-    // and update route to it if it's shorter to route through the current node
+    // and set route to it if it doesn't already have one
+    // (first time we encounter the node will be the shortest route)
     tokenGraph[currentNode.token].forEach((neighbor) => {
       const neighborNode = unvisited[neighbor.token];
 
-      if (neighborNode) {
-        const distance = currentNode.route.length + 1;
-
-        if (
-          neighborNode.route == null ||
-          distance < neighborNode.route.length
-        ) {
-          neighborNode.route = [...currentNode.route, neighbor.pair];
-        }
+      if (neighborNode && neighborNode.route == null) {
+        neighborNode.route = [...currentNode.route, neighbor.pair];
       }
     });
 
