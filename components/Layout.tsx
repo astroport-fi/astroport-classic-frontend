@@ -17,6 +17,12 @@ const Layout: FC = ({ children }) => {
     </Center>
   );
 
+  const errorLoadingData = (
+    <Center h="full">
+      <Box color="red.500">Error Loading Data</Box>
+    </Center>
+  );
+
   return (
     <Flex height="100vh" direction="column">
       <Global
@@ -62,8 +68,14 @@ const Layout: FC = ({ children }) => {
           <AstroswapProvider>
             <Navbar />
             <AstroswapConsumer>
-              {({ isLoading }) =>
-                isLoading ? spinner : <Box flex="1">{children}</Box>
+              {({ isLoading, isErrorLoadingData }) =>
+                isLoading ? (
+                  spinner
+                ) : isErrorLoadingData ? (
+                  errorLoadingData
+                ) : (
+                  <Box flex="1">{children}</Box>
+                )
               }
             </AstroswapConsumer>
           </AstroswapProvider>

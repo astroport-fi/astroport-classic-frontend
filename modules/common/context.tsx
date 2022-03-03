@@ -30,6 +30,7 @@ import {
 
 type Astroswap = {
   isLoading: boolean;
+  isErrorLoadingData: boolean;
   pairs: PairResponse[] | null;
   tokenGraph: TokenGraphAdjacencyList | null;
   tokens: Tokens | null;
@@ -40,6 +41,7 @@ type Astroswap = {
 
 export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
   isLoading: true,
+  isErrorLoadingData: false,
   pairs: [],
   tokenGraph: null,
   tokens: null,
@@ -58,12 +60,25 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
     DEFAULT_NOTIFICATIONS
   );
 
-  const { pairs, isLoading: isLoadingPairs } = useAllPairs();
-  const { tokens, isLoading: isLoadingTokens } = useAllTokens();
+  const {
+    pairs,
+    isLoading: isLoadingPairs,
+    isError: isErrorFetchingPairs,
+  } = useAllPairs();
+  const {
+    tokens,
+    isLoading: isLoadingTokens,
+    isError: isErrorLoadingTokens,
+  } = useAllTokens();
 
   const isLoading = useMemo(
     () => isLoadingPairs || isLoadingTokens,
     [isLoadingPairs, isLoadingTokens]
+  );
+
+  const isErrorLoadingData = useMemo(
+    () => isErrorFetchingPairs || isErrorLoadingTokens,
+    [isErrorFetchingPairs, isErrorLoadingTokens]
   );
 
   const tokenGraph = useMemo(() => {
@@ -98,6 +113,7 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
     <AstroswapContext.Provider
       value={{
         isLoading,
+        isErrorLoadingData,
         pairs,
         tokenGraph,
         tokens,
