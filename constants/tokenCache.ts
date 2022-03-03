@@ -412,6 +412,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/local.png",
       decimals: 6,
     },
+    terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn: {
+      protocol: "LDO",
+      symbol: "LDO",
+      token: "terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn",
+      icon: "https://static.lido.fi/LDO/LDO.png",
+      decimals: 8,
+    },
   },
 };
 
