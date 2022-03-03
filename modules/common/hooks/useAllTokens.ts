@@ -14,6 +14,7 @@ import { useTerraWebapp } from "@arthuryeti/terra";
 export type UseAllTokens = {
   tokens: Tokens | null;
   isLoading: boolean;
+  isError: boolean;
 };
 
 type NamedTokenInfoResponses = {
@@ -56,7 +57,7 @@ const buildQuery = (tokens: string[]) => gql`
         )
       }
     `
-    )} 
+    )}
   }
 `;
 
@@ -71,8 +72,12 @@ export const useAllTokens = (): UseAllTokens => {
   const hiveEndpoint = useHiveEndpoint();
   const cachedTokens = tokenCache[name];
 
-  const { data: tokens, isLoading } = useQuery<Tokens>(
-    ["tokens", name],
+  const {
+    data: tokens,
+    isLoading,
+    isError,
+  } = useQuery<Tokens>(
+    [hiveEndpoint, "tokens", name],
     async () => {
       const tokensToFetch = uniqueTokens(pairs).filter(
         (token) => !(token in cachedTokens)
@@ -120,5 +125,6 @@ export const useAllTokens = (): UseAllTokens => {
   return {
     tokens,
     isLoading,
+    isError,
   };
 };

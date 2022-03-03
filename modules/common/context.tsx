@@ -12,9 +12,9 @@ import {
 import { nanoid } from "nanoid";
 
 import {
-  formatPairsToRoutes,
+  pairsToGraph,
   PairResponse,
-  Route,
+  TokenGraphAdjacencyList,
   Tokens,
   useAllPairs,
   useAllTokens,
@@ -30,8 +30,9 @@ import {
 
 type Astroswap = {
   isLoading: boolean;
+  isErrorLoadingData: boolean;
   pairs: PairResponse[] | null;
-  routes: Route[] | null;
+  tokenGraph: TokenGraphAdjacencyList | null;
   tokens: Tokens | null;
   notifications: Notifications;
   addNotification: (payload: AddNotificationPayload) => void;
@@ -40,8 +41,9 @@ type Astroswap = {
 
 export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
   isLoading: true,
+  isErrorLoadingData: false,
   pairs: [],
-  routes: null,
+  tokenGraph: null,
   tokens: null,
   notifications: {},
   addNotification: () => undefined,
@@ -58,20 +60,33 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
     DEFAULT_NOTIFICATIONS
   );
 
-  const { pairs, isLoading: isLoadingPairs } = useAllPairs();
-  const { tokens, isLoading: isLoadingTokens } = useAllTokens();
+  const {
+    pairs,
+    isLoading: isLoadingPairs,
+    isError: isErrorFetchingPairs,
+  } = useAllPairs();
+  const {
+    tokens,
+    isLoading: isLoadingTokens,
+    isError: isErrorLoadingTokens,
+  } = useAllTokens();
 
   const isLoading = useMemo(
     () => isLoadingPairs || isLoadingTokens,
     [isLoadingPairs, isLoadingTokens]
   );
 
-  const routes = useMemo(() => {
+  const isErrorLoadingData = useMemo(
+    () => isErrorFetchingPairs || isErrorLoadingTokens,
+    [isErrorFetchingPairs, isErrorLoadingTokens]
+  );
+
+  const tokenGraph = useMemo(() => {
     if (pairs === undefined || pairs.length == 0) {
       return null;
     }
 
-    return formatPairsToRoutes(pairs);
+    return pairsToGraph(pairs);
   }, [pairs]);
 
   const addNotification = useCallback(
@@ -98,8 +113,9 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
     <AstroswapContext.Provider
       value={{
         isLoading,
+        isErrorLoadingData,
         pairs,
-        routes,
+        tokenGraph,
         tokens,
         addNotification,
         notifications,

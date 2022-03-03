@@ -1,5 +1,10 @@
 import { gql, request } from "graphql-request";
-import { PairResponse, useContracts, useHiveEndpoint } from "modules/common";
+import {
+  PairResponse,
+  pairsToGraph,
+  useContracts,
+  useHiveEndpoint,
+} from "modules/common";
 import { useQuery } from "react-query";
 
 const query = gql`
@@ -16,14 +21,19 @@ const query = gql`
 export type UseAllPairs = {
   pairs: PairResponse[] | undefined;
   isLoading: boolean;
+  isError: boolean;
 };
 
 export const useAllPairs = (): UseAllPairs => {
   const hiveEndpoint = useHiveEndpoint();
   const { factory } = useContracts();
 
-  const { data: pairs, isLoading } = useQuery(
-    ["pairs"],
+  const {
+    data: pairs,
+    isLoading,
+    isError,
+  } = useQuery(
+    [hiveEndpoint, "pairs"],
     async () => {
       const pairs = [];
 
@@ -52,5 +62,6 @@ export const useAllPairs = (): UseAllPairs => {
   return {
     pairs,
     isLoading,
+    isError,
   };
 };

@@ -58,7 +58,13 @@ const query = gql`
 `;
 
 const renderUseAllPairs = () => {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
 
   const wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -228,5 +234,16 @@ describe("useAllPairs", () => {
     await waitFor(() => !result.current.isLoading);
 
     expect(result.current.pairs).toEqual([]);
+  });
+
+  it("sets isError to true when there's an error fetching pairs", async () => {
+    request.mockRejectedValue();
+
+    const { result, waitFor } = renderUseAllPairs();
+
+    // Wait for data to fail to load
+    await waitFor(() => !result.current.isLoading);
+
+    expect(result.current.isError).toEqual(true);
   });
 });

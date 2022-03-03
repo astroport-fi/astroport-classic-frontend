@@ -60,7 +60,13 @@ jest.mock("@arthuryeti/terra", () => ({
 }));
 
 const renderUseAllTokens = () => {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
 
   const wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -304,5 +310,20 @@ describe("useAllTokens", () => {
         icon: "http://example.com/uusd.png",
       },
     });
+  });
+
+  it("sets isError to true when there's an error fetching tokens", async () => {
+    useAllPairs.mockReturnValue({
+      pairs: [stubPair],
+    });
+
+    requestInChunks.mockRejectedValue();
+
+    const { result, waitFor } = renderUseAllTokens();
+
+    // Wait for data to fail to load
+    await waitFor(() => !result.current.isLoading);
+
+    expect(result.current.isError).toEqual(true);
   });
 });
