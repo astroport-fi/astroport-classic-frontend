@@ -258,6 +258,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/skuji.png",
       decimals: 6,
     },
+    terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk: {
+      protocol: "LUART token",
+      symbol: "LUART",
+      token: "terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk",
+      icon: "/tokens/luart.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
