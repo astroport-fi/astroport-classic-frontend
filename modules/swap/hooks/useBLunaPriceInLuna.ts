@@ -8,10 +8,10 @@ import { useSwapRoute } from "modules/swap";
 
 export const useBLunaPriceInLuna = () => {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { bLunaToken } = useContracts();
   const swapRouteInLuna = useSwapRoute({
-    routes,
+    tokenGraph,
     from: bLunaToken,
     to: "uluna",
   });

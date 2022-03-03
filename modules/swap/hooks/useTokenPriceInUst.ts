@@ -16,11 +16,15 @@ import { getAssetAmountsInPool } from "libs/terra";
 
 export const useTokenPriceInUst = (token: string | null) => {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const lunaPrice = useLunaPriceInUst();
-  const swapRouteInUst = useSwapRoute({ routes, from: token, to: "uusd" });
-  const swapRouteInLuna = useSwapRoute({ routes, from: token, to: "uluna" });
+  const swapRouteInUst = useSwapRoute({ tokenGraph, from: token, to: "uusd" });
+  const swapRouteInLuna = useSwapRoute({
+    tokenGraph,
+    from: token,
+    to: "uluna",
+  });
 
   const { data: ustData } = useGetPool(swapRouteInUst?.[0]?.contract_addr);
   const { data: lunaData } = useGetPool(swapRouteInLuna?.[0]?.contract_addr);

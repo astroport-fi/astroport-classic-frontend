@@ -20,10 +20,10 @@ type Params = {
 
 export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({
-    routes,
+    tokenGraph,
     from,
     to,
   });

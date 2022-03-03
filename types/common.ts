@@ -98,12 +98,6 @@ export type XYKPair = {
   xyk: object;
 };
 
-export type Routes = {
-  [from: string]: {
-    [to: string]: Pair;
-  };
-};
-
 export interface ISelect {
   list: string[];
   setValue: (v: string) => void;

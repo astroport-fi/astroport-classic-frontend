@@ -5,9 +5,9 @@ import { useAstroswap, useLunaPriceInUst, useTokenInfo } from "modules/common";
 import { useSwapRoute, useSwapSimulate } from "modules/swap";
 
 export const useTokenPriceInUstWithSimulate = (token: string | null) => {
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
-  const swapRoute = useSwapRoute({ routes, from: token, to: "uusd" });
+  const swapRoute = useSwapRoute({ tokenGraph, from: token, to: "uusd" });
 
   const simulate = useSwapSimulate({
     swapRoute,

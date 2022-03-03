@@ -1,17 +1,21 @@
 import { useMemo } from "react";
 
-import { Route, getSwapRoute } from "modules/common";
+import { Route, getSwapRoute, TokenGraphAdjacencyList } from "modules/common";
 
 type Params = {
-  routes: Route[] | null;
+  tokenGraph: TokenGraphAdjacencyList | null;
   from: string | null;
   to: string | null;
 };
 
-export const useSwapRoute = ({ routes, from, to }: Params): Route[] | null => {
+export const useSwapRoute = ({
+  tokenGraph,
+  from,
+  to,
+}: Params): Route[] | null => {
   return useMemo(() => {
-    return getSwapRoute({ routes, from, to });
-  }, [routes, from, to]);
+    return getSwapRoute({ tokenGraph, from, to });
+  }, [tokenGraph, from, to]);
 };
 
 export default useSwapRoute;

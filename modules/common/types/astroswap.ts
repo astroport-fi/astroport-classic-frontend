@@ -140,5 +140,4 @@ export type Route = {
   from: string;
   to: string;
   type: string;
-  children: Route[];
 };
