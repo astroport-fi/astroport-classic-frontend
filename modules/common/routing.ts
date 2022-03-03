@@ -145,16 +145,16 @@ export const getSwapRoute = ({
         : selectedNode
     );
 
-    // If the next node is the "to" node, there's no need to visit it,
-    // we've found our most efficient route
-    if (currentNode.token == to) {
-      return pairsToRoute(currentNode.route, from);
-    }
-
     // If the next node doesn't have a route, then we could not find a route,
     // just return null
     if (currentNode.route == null) {
       return null;
+    }
+
+    // If the next node is the "to" node, there's no need to visit it,
+    // we've found our most efficient route
+    if (currentNode.token == to) {
+      return pairsToRoute(currentNode.route, from);
     }
   } while (true);
 };

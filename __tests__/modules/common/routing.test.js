@@ -64,6 +64,8 @@ describe("routing", () => {
   );
   const terrapair6 = buildPair("terrapair6", ["terratoken3", "terratoken5"]);
   const terrapair7 = buildPair("terrapair7", ["terratoken4", "uluna"]);
+  const terrapair8 = buildPair("terrapair8", ["terratoken4", "terratoken2"]);
+  const terrapair9 = buildPair("terrapair9", ["terratoken1", "terratoken2"]);
 
   let pairs;
 
@@ -77,6 +79,8 @@ describe("routing", () => {
       terrapair5,
       terrapair6,
       terrapair7,
+      terrapair8,
+      terrapair9,
     ]);
   });
 
@@ -94,10 +98,15 @@ describe("routing", () => {
           { pair: terrapair1, token: "uusd" },
           { pair: terrapair7, token: "terratoken4" },
         ]),
-        terratoken1: new Set([{ pair: terrapair2, token: "uusd" }]),
+        terratoken1: new Set([
+          { pair: terrapair2, token: "uusd" },
+          { pair: terrapair9, token: "terratoken2" },
+        ]),
         terratoken2: new Set([
           { pair: terrapair3, token: "uusd" },
           { pair: terrapair4, token: "terratoken3" },
+          { pair: terrapair8, token: "terratoken4" },
+          { pair: terrapair9, token: "terratoken1" },
         ]),
         terratoken3: new Set([
           { pair: terrapair4, token: "terratoken2" },
@@ -107,6 +116,7 @@ describe("routing", () => {
         terratoken4: new Set([
           { pair: terrapair5, token: "terratoken3" },
           { pair: terrapair7, token: "uluna" },
+          { pair: terrapair8, token: "terratoken2" },
         ]),
         terratoken5: new Set([{ pair: terrapair6, token: "terratoken3" }]),
       });
@@ -189,8 +199,11 @@ describe("routing", () => {
         to: "terratoken5",
       });
 
-      // This is the shortest route, but the longer route is:
+      // This is the shortest route, but longer routes are:
       //  uluna -> uusd -> terratoken2 -> terratoken3 -> terratoken5
+      //  uluna -> uusd -> terratoken2 -> terratoken4 -> terratoken3 -> terratoken5
+      //  uluna -> uusd -> terratoken1 -> terratoken2 -> terratoken3 -> terratoken5
+      //  uluna -> uusd -> terratoken1 -> terratoken2 -> terratoken4 -> terratoken3 -> terratoken5
 
       expect(route).toEqual([
         {
@@ -292,6 +305,16 @@ describe("routing", () => {
         tokenGraph: pairsToGraph(pairs),
         from: "uluna",
         to: "foo",
+      });
+
+      expect(route).toEqual(null);
+    });
+
+    it("returns null when a route does not exist", () => {
+      const route = getSwapRoute({
+        tokenGraph: pairsToGraph([terrapair1, terrapair9]),
+        from: "uluna",
+        to: "terratoken2",
       });
 
       expect(route).toEqual(null);
