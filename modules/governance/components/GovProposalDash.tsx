@@ -18,6 +18,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
+  const [inputPageNum, setInputPageNum] = useState<number | string>("");
   const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
 
   useEffect(() => {
@@ -40,9 +41,17 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    if (filterIntegers(value).length > 0) {
-      goToPage(Number(value));
+    const digitsOnly = value.replace(/\D/g, "");
+
+    if (
+      digitsOnly.length > 0 &&
+      Number(digitsOnly) > 0 &&
+      Number(digitsOnly) <= pageCount
+    ) {
+      goToPage(Number(digitsOnly));
     }
+
+    setInputPageNum(digitsOnly);
   };
 
   return (
@@ -83,6 +92,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
           <Text mr="2">show</Text>
           <Select
             onChange={(e) => {
+              console.log("ww");
               setItemsPerPage(parseInt(e.target.value));
               goToPage(1);
             }}
@@ -97,12 +107,14 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
             Go to
           </Text>
           <Input
+            pattern="[0-9]*"
             w="40px"
             h="25px"
             fontSize="sm"
             p="2"
             textAlign="center"
-            onChange={handleChange}
+            value={inputPageNum}
+            onChange={(e) => handleChange(e)}
           />
         </Flex>
       </Flex>
