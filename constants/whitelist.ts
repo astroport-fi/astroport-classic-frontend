@@ -230,6 +230,20 @@ const whitelist = {
         icon: "/tokens/luart.png",
         decimals: 6,
       },
+      terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn: {
+        protocol: "Kuji",
+        symbol: "KUJI",
+        token: "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn",
+        icon: "/tokens/kuji.png",
+        decimals: 6,
+      },
+      terra188w26t95tf4dz77raftme8p75rggatxjxfeknw: {
+        protocol: "Staked KUJI",
+        symbol: "sKUJI",
+        token: "terra188w26t95tf4dz77raftme8p75rggatxjxfeknw",
+        icon: "/tokens/skuji.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -852,6 +866,26 @@ const whitelist = {
           xyk: {},
         },
       },
+      // skuji-kuji
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra188w26t95tf4dz77raftme8p75rggatxjxfeknw",
+            },
+          },
+        ],
+        contract_addr: "terra1hlq6ye6km5sq2pcnmrvlf784gs9zygt0akwvsu",
+        liquidity_token: "terra1kp4n4tms5w4tvvypya7589zswssqqahtjxy6da",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -918,6 +952,13 @@ const whitelist = {
         token: "terra1e42d7l5z5u53n7g990ry24tltdphs9vugap8cd",
         icon: "https://static.lido.fi/stLUNA/stLUNA.png",
         decimals: 6,
+      },
+      terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn: {
+        protocol: "LDO",
+        symbol: "LDO",
+        token: "terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn",
+        icon: "https://static.lido.fi/LDO/LDO.png",
+        decimals: 8,
       },
       terra1szee0j4m8c75etfs9le9tepa4mc80t3vpf72ls: {
         protocol: "StarTerra",
@@ -1406,6 +1447,26 @@ const whitelist = {
         ],
         contract_addr: "terra1vczj87j7lsjewm7mlf8j07gxjemz5gf6thq0nn",
         liquidity_token: "terra12wmfzhxem75779c5xqky72hfp27y9nup3efm5c",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // ldo-stLuna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1e42d7l5z5u53n7g990ry24tltdphs9vugap8cd",
+            },
+          },
+        ],
+        contract_addr: "terra1y858u95ru6kawazkf7c3204wpj4xtjxfpd49rg",
+        liquidity_token: "terra1yswta20vpvja93lw3r4f0xh50dpjuqjnzjrm9l",
         pair_type: {
           xyk: {},
         },
