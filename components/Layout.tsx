@@ -32,6 +32,20 @@ const GlobalStyles = css`
     top: 64px !important;
     right: "32px !important;
   }
+  .pagination {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    list-style: none;
+    margin: auto;
+  }
+  .pagination li {
+    margin: 0 5px;
+  }
+  .pagination-active {
+    color: white;
+    font-weight: 500;
+  }
   @font-face {
     font-family: WhyteInktrap;
     src: url('/WhyteInktrap-Regular.woff') format('woff');
