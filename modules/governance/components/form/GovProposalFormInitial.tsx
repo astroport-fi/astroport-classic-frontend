@@ -41,7 +41,10 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         formRegister={methods.register}
         error={inputErrors?.title || null}
         required={true}
-        onChange={(text) => methods.setValue("title", text)}
+        onChange={(text) => {
+          methods.setValue("title", text);
+          methods.clearErrors("title");
+        }}
       />
       <FormTextItem
         {...CommonFormProps("textarea", "description", "Insert Description:")}
@@ -49,7 +52,10 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         formRegister={methods.register}
         error={inputErrors?.description || null}
         required={true}
-        onChange={(text) => methods.setValue("description", text)}
+        onChange={(text) => {
+          methods.setValue("description", text);
+          methods.clearErrors("description");
+        }}
       />
       <FormTextItem
         {...CommonFormProps("textarea", "msg", "Executable Messages:")}
