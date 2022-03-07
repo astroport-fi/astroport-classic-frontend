@@ -1,5 +1,8 @@
 import React, { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
 import {
   TokenInWallet,
   useBalances,
@@ -86,11 +89,27 @@ const List: FC<Props> = ({
         </Text>
       )}
       <Box h={["28", "3xs"]} overflowY="auto" mt="2">
-        {sortedTokensByFilterTerm.map((token) => {
-          return (
-            <ListItem key={token.address} token={token} onClick={onClick} />
-          );
-        })}
+        <AutoSizer>
+          {({ height, width }) => (
+            <FixedSizeList
+              height={height}
+              width={width}
+              itemCount={sortedTokensByFilterTerm.length}
+              itemSize={64.5} // Pixel height of each ListItem
+              itemData={sortedTokensByFilterTerm}
+              itemKey={(index, tokens) => tokens[index].address}
+            >
+              {({ index, style, data: tokens }) => (
+                <ListItem
+                  key={tokens[index].address}
+                  token={tokens[index]}
+                  onClick={onClick}
+                  style={style}
+                />
+              )}
+            </FixedSizeList>
+          )}
+        </AutoSizer>
       </Box>
     </Box>
   );
