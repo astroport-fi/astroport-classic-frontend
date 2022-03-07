@@ -265,6 +265,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/luart.png",
       decimals: 6,
     },
+    terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n: {
+      protocol: "MARS",
+      symbol: "MARS",
+      token: "terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n",
+      icon: "/tokens/mars.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
