@@ -16,10 +16,10 @@ export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
 
   if (network.name == "testnet") {
-    return "https://testnet-hive.terra.dev/graphql";
+    return "https://hive-terra-test.everstake.one/graphql";
   }
 
-  return "https://hive.terra.dev/graphql";
+  return "https://hive-terra.everstake.one/graphql";
 };
 
 export const useHive = ({ name, query, variables, options }: Params) => {
