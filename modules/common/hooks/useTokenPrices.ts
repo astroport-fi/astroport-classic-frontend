@@ -65,6 +65,11 @@ export const useTokenPrices = () => {
 
     xykPairsUst.forEach(({ contract_addr }) => {
       const pool = result[contract_addr];
+
+      // in the event of switching networks, pair and price queries are still being refetched
+      // and pool info may not be in the result yet.
+      if (!pool) return;
+
       const pair1 = pool.contractQuery.assets[0];
       const pair2 = pool.contractQuery.assets[1];
       const token1 =
@@ -97,6 +102,11 @@ export const useTokenPrices = () => {
 
     xykPairsNonUst.forEach(({ contract_addr }) => {
       const pool = result[contract_addr];
+
+      // in the event of switching networks, pair and price queries are still being refetched
+      // and pool info may not be in the result yet.
+      if (!pool) return;
+
       const pair1 = pool.contractQuery.assets[0];
       const pair2 = pool.contractQuery.assets[1];
       const token1 =
