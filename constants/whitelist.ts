@@ -244,6 +244,13 @@ const whitelist = {
         icon: "/tokens/skuji.png",
         decimals: 6,
       },
+      terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n: {
+        protocol: "MARS",
+        symbol: "MARS",
+        token: "terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n",
+        icon: "/tokens/mars.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -882,6 +889,26 @@ const whitelist = {
         ],
         contract_addr: "terra1hlq6ye6km5sq2pcnmrvlf784gs9zygt0akwvsu",
         liquidity_token: "terra1kp4n4tms5w4tvvypya7589zswssqqahtjxy6da",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // mars-uusd
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra19wauh79y42u5vt62c5adt2g5h4exgh26t3rpds",
+        liquidity_token: "terra1ww6sqvfgmktp0afcmvg78st6z89x5zr3tmvpss",
         pair_type: {
           xyk: {},
         },
