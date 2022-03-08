@@ -22,6 +22,8 @@ export const useBreakdownRewardsInUst = () => {
   );
 
   const rewardsWithUst = rewards.map((reward, index) => {
+    if (!data) return;
+
     const price = data[index];
     return {
       token: reward.token,
