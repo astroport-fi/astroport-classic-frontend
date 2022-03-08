@@ -12,6 +12,7 @@ const TagItem = ({ token, onClick }: Props) => {
 
   return (
     <Box
+      isFocusable={false}
       as={Button}
       p={1}
       variant="filter"
