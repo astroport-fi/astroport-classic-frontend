@@ -251,6 +251,13 @@ const whitelist = {
         icon: "/tokens/mars.png",
         decimals: 6,
       },
+      terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr: {
+        protocol: "loterra",
+        symbol: "LOTA",
+        token: "terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr",
+        icon: "/tokens/lota.png",
+        decimals: 6,
+      },
     },
     pairs: [
       // luna-ust
@@ -909,6 +916,26 @@ const whitelist = {
         ],
         contract_addr: "terra19wauh79y42u5vt62c5adt2g5h4exgh26t3rpds",
         liquidity_token: "terra1ww6sqvfgmktp0afcmvg78st6z89x5zr3tmvpss",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // lota-uusd
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1z7634s8kyyvjjuv7lcgkfy49hamxssxq9f9xw6",
+        liquidity_token: "terra1sw3kfuzd84t89krrshqusylqqvqw6amavp7rsu",
         pair_type: {
           xyk: {},
         },
