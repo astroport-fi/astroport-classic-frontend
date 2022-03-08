@@ -5,9 +5,8 @@ import ReactPaginate from "react-paginate";
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
 import { GovernanceProposal } from "types/common";
-import { filterIntegers } from "modules/common";
 
-const DEFAULT_ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 4;
 
 type Props = {
   proposals: GovernanceProposal[];
@@ -19,22 +18,21 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [inputPageNum, setInputPageNum] = useState<number | string>("");
-  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
 
   useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
+    const endOffset = itemOffset + ITEMS_PER_PAGE;
     setCurrentItems(proposals.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(proposals.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+    setPageCount(Math.ceil(proposals.length / ITEMS_PER_PAGE));
+  }, [itemOffset, ITEMS_PER_PAGE]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % proposals.length;
+    const newOffset = (event.selected * ITEMS_PER_PAGE) % proposals.length;
     setItemOffset(newOffset);
     setPageNum(event.selected + 1);
   };
 
   const goToPage = (page: number) => {
-    const newOffset = ((page - 1) * itemsPerPage) % proposals.length;
+    const newOffset = ((page - 1) * ITEMS_PER_PAGE) % proposals.length;
     setItemOffset(newOffset);
     setPageNum(page);
   };
@@ -54,6 +52,26 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
     setInputPageNum(digitsOnly);
   };
 
+  const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const digitsOnly = value.replace(/\D/g, "");
+
+    // ignore
+    if (digitsOnly.length === 0) {
+      goToPage(pageNum);
+      setInputPageNum(pageNum);
+      return;
+    }
+
+    if (Number(digitsOnly) === 0) {
+      goToPage(1);
+      setInputPageNum(1);
+    } else if (Number(digitsOnly) > pageCount) {
+      goToPage(pageCount);
+      setInputPageNum(pageCount);
+    }
+  };
+
   return (
     <>
       <Grid templateColumns={["auto", "auto", "auto", "auto auto"]} gap={8}>
@@ -71,7 +89,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
         fontSize="sm"
         color="white.400"
       >
-        <Flex w="230px" ml="4" color="proposalColours.purpleAlt">
+        <Flex w="130px" ml="4" color="proposalColours.purpleAlt">
           Page {pageNum} of {pageCount}
         </Flex>
         <ReactPaginate
@@ -88,22 +106,8 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
           activeClassName="pagination-active"
           forcePage={pageNum - 1}
         />
-        <Flex w="230px" mr="4" align="center">
-          <Text mr="2">show</Text>
-          <Select
-            onChange={(e) => {
-              console.log("ww");
-              setItemsPerPage(parseInt(e.target.value));
-              goToPage(1);
-            }}
-            w="100px"
-            size="xs"
-            borderRadius="md"
-          >
-            <option value={4}>4 items</option>
-            <option value={2}>2 items</option>
-          </Select>
-          <Text ml="4" w="50px">
+        <Flex w="130px" mr="4" align="center" justifyContent="flex-end">
+          <Text mr="3" color="white.600">
             Go to
           </Text>
           <Input
@@ -113,8 +117,10 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
             fontSize="sm"
             p="2"
             textAlign="center"
+            borderColor="white.200"
             value={inputPageNum}
             onChange={(e) => handleChange(e)}
+            onBlur={(e) => handleBlur(e)}
           />
         </Flex>
       </Flex>

@@ -100,7 +100,3 @@ export const truncateStr = (str: string, length: number) => {
 
   return str;
 };
-
-export const filterIntegers = (value: string | number) => {
-  return value.toString().replace(/[^0-9]/g, "");
-};
