@@ -110,7 +110,8 @@ const Select: FC<Props> = ({
     <PopoverWrapper
       title="Select token"
       placement={placement}
-      isLazy
+      // if performance of animation on popover is poor, enable isLazy again
+      // isLazy
       matchWidth
       isOpen={isOpen}
       onOpen={handleOpen}
