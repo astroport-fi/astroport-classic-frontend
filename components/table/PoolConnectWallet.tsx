@@ -11,7 +11,9 @@ const PoolConnectWallet: FC = () => {
   return (
     <Tr>
       <Td>
-        <Text textStyle="medium">You need to connect your Wallet.</Text>
+        <Text textStyle="medium" ml="8">
+          You need to connect your Wallet.
+        </Text>
       </Td>
       <Td>
         <Flex justify="flex-end" align="center">
