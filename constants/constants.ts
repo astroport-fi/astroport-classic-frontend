@@ -31,3 +31,10 @@ export const REWARDS_NOTICE =
 /* env variables */
 export const ENV_DISPLAY_GOVERNANCE =
   process.env.NEXT_PUBLIC_DISPLAY_GOVERNANCE === "1" ? true : false;
+
+export const ENV_MAINNET_GRAPHQL =
+  process.env.NEXT_PUBLIC_MAINNET_GRAPHQL || "https://hive.terra.dev/graphql";
+
+export const ENV_TESTNET_GRAPHQL =
+  process.env.NEXT_PUBLIC_TESTNET_GRAPHQL ||
+  "https://testnet-hive.terra.dev/graphql";
