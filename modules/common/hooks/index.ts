@@ -13,5 +13,4 @@ export * from "./usePriceDerived";
 export * from "./useTokenTooltip";
 export * from "./useTx";
 export * from "./useTransaction";
-export * from "./useAllPairs";
 export * from "./useAllTokens";

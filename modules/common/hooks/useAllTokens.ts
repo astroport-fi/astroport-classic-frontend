@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import { gql } from "graphql-request";
 import {
   Tokens,
-  useAllPairs,
   PairResponse,
   useHiveEndpoint,
   requestInChunks,
@@ -61,14 +60,17 @@ const buildQuery = (tokens: string[]) => gql`
   }
 `;
 
+interface Props {
+  pairs: PairResponse[];
+}
+
 // TODO: Should we exclude cached tokens that are not part of any pairs?
 //       If we did, we could get rid of useTokenInfo's isHidden
-export const useAllTokens = (): UseAllTokens => {
+export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
   const {
     network: { name },
   } = useTerraWebapp();
 
-  const { pairs, isLoading: isLoadingPairs } = useAllPairs();
   const hiveEndpoint = useHiveEndpoint();
   const cachedTokens = tokenCache[name];
 
@@ -117,7 +119,7 @@ export const useAllTokens = (): UseAllTokens => {
       };
     },
     {
-      enabled: !isLoadingPairs,
+      enabled: pairs?.length > 0,
       refetchOnWindowFocus: false,
     }
   );
