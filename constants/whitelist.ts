@@ -695,6 +695,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // lunax-uluna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1qswfc7hmmsnwf7f2nyyx843sug60urnqgz75zu",
+        liquidity_token: "terra1k7lexx35v4lutnfdf7n7luf3hmt2wphn633fau",
+        pair_type: {
+          stable: {},
+        },
+      },
     ],
   },
   testnet: {

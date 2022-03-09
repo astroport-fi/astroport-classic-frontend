@@ -272,6 +272,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/lota.png",
       decimals: 6,
     },
+    terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup: {
+      protocol: "Stader LunaX Token",
+      symbol: "LunaX",
+      token: "terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup",
+      icon: "/tokens/lunax.svg",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
