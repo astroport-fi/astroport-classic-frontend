@@ -17,7 +17,7 @@ export const ASTRO_TOKEN = "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3";
 export const DEFAULT_SLIPPAGE = 0.5;
 export const COMMISSION = 0.003;
 export const ESTIMATE_TOKEN = "uusd";
-export const MULTI_SWAP_MAX_SPREAD = "0.1";
+export const MULTI_SWAP_MAX_SPREAD = "0.15";
 
 export const ONE_TOKEN = 1000000;
 export const DECIMALS = 4;
