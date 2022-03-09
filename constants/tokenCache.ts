@@ -22,13 +22,6 @@ const tokenCache: TokenCache = {
       icon: "/tokens/astro.png",
       decimals: 6,
     },
-    terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd: {
-      protocol: "Astroport",
-      symbol: "xASTRO",
-      token: "terra1cw7znqh9w5f2ryyskq76fmxhj9hdl06uv0j0cd",
-      icon: "/tokens/xAstro.png",
-      decimals: 6,
-    },
     uluna: {
       protocol: "Terra",
       symbol: "LUNA",
@@ -162,7 +155,7 @@ const tokenCache: TokenCache = {
     },
     terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w: {
       protocol: "Wormhole Avax USDC",
-      symbol: "wavUSDC.e",
+      symbol: "wavUSDC",
       token: "terra1pvel56a2hs93yd429pzv9zp5aptcjg5ulhkz7w",
       icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/USDCav_wh.png",
       decimals: 6,
@@ -244,6 +237,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/local.png",
       decimals: 6,
     },
+    terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk: {
+      protocol: "LUART token",
+      symbol: "LUART",
+      token: "terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk",
+      icon: "/tokens/luart.png",
+      decimals: 6,
+    },
     terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn: {
       protocol: "Kuji",
       symbol: "KUJI",
@@ -256,13 +256,6 @@ const tokenCache: TokenCache = {
       symbol: "sKUJI",
       token: "terra188w26t95tf4dz77raftme8p75rggatxjxfeknw",
       icon: "/tokens/skuji.png",
-      decimals: 6,
-    },
-    terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk: {
-      protocol: "LUART token",
-      symbol: "LUART",
-      token: "terra1vwz7t30q76s7xx6qgtxdqnu6vpr3ak3vw62ygk",
-      icon: "/tokens/luart.png",
       decimals: 6,
     },
     terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n: {
@@ -344,6 +337,13 @@ const tokenCache: TokenCache = {
       icon: "https://static.lido.fi/stLUNA/stLUNA.png",
       decimals: 6,
     },
+    terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn: {
+      protocol: "LDO",
+      symbol: "LDO",
+      token: "terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn",
+      icon: "https://static.lido.fi/LDO/LDO.png",
+      decimals: 8,
+    },
     terra1szee0j4m8c75etfs9le9tepa4mc80t3vpf72ls: {
       protocol: "StarTerra",
       symbol: "STT",
@@ -400,10 +400,10 @@ const tokenCache: TokenCache = {
       icon: "/tokens/astro.png",
       decimals: 6,
     },
-    terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0: {
+    terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np: {
       protocol: "Astroport",
       symbol: "xASTRO",
-      token: "terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0",
+      token: "terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np",
       icon: "/tokens/xAstro.png",
       decimals: 6,
     },
@@ -432,13 +432,6 @@ const tokenCache: TokenCache = {
       token: "terra1j5xyaw8pjg665juf4rwgtn6wvkrvph3lzvwzer",
       icon: "/tokens/local.png",
       decimals: 6,
-    },
-    terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn: {
-      protocol: "LDO",
-      symbol: "LDO",
-      token: "terra1ayee07wl7z965hw20pw75rx2ychgwv5jf5u7cn",
-      icon: "https://static.lido.fi/LDO/LDO.png",
-      decimals: 8,
     },
   },
 };
