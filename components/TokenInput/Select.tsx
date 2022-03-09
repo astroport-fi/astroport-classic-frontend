@@ -111,7 +111,6 @@ const Select: FC<Props> = ({
       title="Select token"
       placement={placement}
       isLazy
-      lazyBehavior="keepMounted"
       matchWidth
       isOpen={isOpen}
       onOpen={handleOpen}
