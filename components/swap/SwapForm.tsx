@@ -37,7 +37,7 @@ type Props = {
 };
 
 const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const router = useRouter();
   const {
@@ -77,7 +77,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const token1Balance = useBalance(token1);
 
   const swapRoute = useSwapRoute({
-    routes,
+    tokenGraph,
     from: token1,
     to: token2,
   });

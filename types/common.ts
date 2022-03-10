@@ -98,23 +98,6 @@ export type XYKPair = {
   xyk: object;
 };
 
-export type Token = {
-  protocol: string;
-  symbol: string;
-  token: string;
-  icon: string;
-};
-
-export type Tokens = {
-  [token: string]: Token;
-};
-
-export type Routes = {
-  [from: string]: {
-    [to: string]: Pair;
-  };
-};
-
 export interface ISelect {
   list: string[];
   setValue: (v: string) => void;

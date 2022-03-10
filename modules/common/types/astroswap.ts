@@ -29,9 +29,13 @@ export type PairResponse = {
   /** LP contract address (not lp minter cw20 token) */
   liquidity_token: string;
 
-  pair_type: {
-    xyk: any;
-  };
+  pair_type:
+    | {
+        xyk: {};
+      }
+    | {
+        stable: {};
+      };
 };
 
 export type FeeResponse = {
@@ -140,5 +144,4 @@ export type Route = {
   from: string;
   to: string;
   type: string;
-  children: Route[];
 };

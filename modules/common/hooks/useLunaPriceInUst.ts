@@ -7,8 +7,12 @@ import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 
 export const useLunaPriceInUst = () => {
-  const { routes } = useAstroswap();
-  const swapRouteInUst = useSwapRoute({ routes, from: "uluna", to: "uusd" });
+  const { tokenGraph } = useAstroswap();
+  const swapRouteInUst = useSwapRoute({
+    tokenGraph,
+    from: "uluna",
+    to: "uusd",
+  });
 
   const { data: ustData } = useGetPool(swapRouteInUst?.[0]?.contract_addr);
 

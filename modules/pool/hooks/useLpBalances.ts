@@ -38,7 +38,7 @@ export const useLpBalances = () => {
       );
     },
     {
-      enabled: pairs != null,
+      enabled: pairs != null && !!address,
     }
   );
 

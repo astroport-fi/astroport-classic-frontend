@@ -1,5 +1,6 @@
 import { toBase64 } from "@arthuryeti/terra";
 import { LCDClient, Coin, MsgExecuteContract } from "@terra-money/terra.js";
+import { MULTI_SWAP_MAX_SPREAD } from "constants/constants";
 
 import {
   isNativeAsset,
@@ -103,6 +104,7 @@ export const createSwapMsgs = (
             offer_amount: amount,
             operations,
             minimum_receive: minReceive.toString(),
+            max_spread: MULTI_SWAP_MAX_SPREAD,
           },
         },
         [new Coin(token, amount)]
@@ -120,6 +122,7 @@ export const createSwapMsgs = (
             offer_amount: amount,
             operations,
             minimum_receive: minReceive.toString(),
+            max_spread: MULTI_SWAP_MAX_SPREAD,
           },
         }),
       },

@@ -2,6 +2,7 @@ import { request } from "graphql-request";
 import { useQuery } from "react-query";
 
 import { useTerraWebapp } from "@arthuryeti/terra";
+import { ENV_MAINNET_GRAPHQL, ENV_TESTNET_GRAPHQL } from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -12,13 +13,18 @@ type Params = {
   options?: any;
 };
 
-export const useHive = ({ name, query, variables, options }: Params) => {
+export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
-  let GRAPHQL = "https://hive.terra.dev/graphql";
 
   if (network.name == "testnet") {
-    GRAPHQL = "https://testnet-hive.terra.dev/graphql";
+    return ENV_TESTNET_GRAPHQL;
   }
+
+  return ENV_MAINNET_GRAPHQL;
+};
+
+export const useHive = ({ name, query, variables, options }: Params) => {
+  const GRAPHQL = useHiveEndpoint();
 
   const { data, isLoading } = useQuery(
     name,

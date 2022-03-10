@@ -133,7 +133,7 @@ export const usePool = ({
       },
     };
 
-    if (shouldReverseTokenOrder(getSymbol(token1))) {
+    if (shouldReverseTokenOrder(getSymbol(token1), getSymbol(token2))) {
       const tempToken1 = data.token1;
       data.token1 = data.token2;
       data.token2 = tempToken1;

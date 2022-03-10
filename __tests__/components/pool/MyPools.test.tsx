@@ -141,7 +141,7 @@ describe("MyPools", () => {
       expect(within(headers[5]).getByText("My Liquidity")).toBeInTheDocument();
 
       const row1 = within(rows[1]).getAllByRole("cell");
-      expect(within(row1[1]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(row1[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(row1[1]).getByText("(0.30% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
@@ -161,7 +161,7 @@ describe("MyPools", () => {
       expect(within(row2[5]).getByText("$ 1,000.00")).toBeInTheDocument();
 
       const row3 = within(rows[3]).getAllByRole("cell");
-      expect(within(row3[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(row3[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(row3[1]).getByText("(0.05% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
@@ -181,8 +181,8 @@ describe("MyPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - FOO")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
     });
 
     it("sorts by APR ascending when heading is clicked once", async () => {
@@ -191,8 +191,8 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("Combined APR"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[3]).getByText("FOO - UST")).toBeInTheDocument();
     });
 
@@ -204,8 +204,8 @@ describe("MyPools", () => {
 
       const rows = screen.getAllByRole("row");
       expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("UST - LUNA")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("sorts by My Liquidity ascending when heading is clicked once", async () => {
@@ -214,9 +214,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("My Liquidity"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
     });
 
     it("sorts by My Liquidity descending when heading is clicked twice", async () => {
@@ -226,9 +226,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("My Liquidity"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
 
     it("removes sort when My Liquidity heading is clicked thrice", async () => {
@@ -240,9 +240,9 @@ describe("MyPools", () => {
 
       const rows = screen.getAllByRole("row");
       // This is the order the pools are returned from useMyPools
-      expect(within(rows[1]).getByText("UST - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
       expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - FOO")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
     });
   });
 

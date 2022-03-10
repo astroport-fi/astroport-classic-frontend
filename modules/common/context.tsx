@@ -13,11 +13,11 @@ import { useTerraWebapp } from "@arthuryeti/terra";
 import { nanoid } from "nanoid";
 
 import {
-  formatPairsToRoutes,
+  pairsToGraph,
   PairResponse,
-  Route,
+  TokenGraphAdjacencyList,
   Tokens,
-  Data,
+  useAllTokens,
 } from "modules/common";
 
 import { notificationReducer } from "modules/common/notifications/reducer";
@@ -27,23 +27,25 @@ import {
   AddNotificationPayload,
   RemoveNotificationPayload,
 } from "modules/common/notifications/model";
-import { usePrice } from "modules/swap";
+import whitelist from "constants/whitelist";
 
 type Astroswap = {
+  isLoading: boolean;
+  isErrorLoadingData: boolean;
   pairs: PairResponse[] | null;
-  routes: Route[] | null;
+  tokenGraph: TokenGraphAdjacencyList | null;
   tokens: Tokens | null;
-  data: Data | null;
   notifications: Notifications;
   addNotification: (payload: AddNotificationPayload) => void;
   removeNotification: (payload: RemoveNotificationPayload) => void;
 };
 
 export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
+  isLoading: true,
+  isErrorLoadingData: false,
   pairs: [],
-  routes: null,
+  tokenGraph: null,
   tokens: null,
-  data: null,
   notifications: {},
   addNotification: () => undefined,
   removeNotification: () => undefined,
@@ -51,32 +53,41 @@ export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
 
 type Props = {
   children: ReactNode;
-  data: Data;
 };
 
-export const AstroswapProvider: FC<Props> = ({ children, data }) => {
+export const AstroswapProvider: FC<Props> = ({ children }) => {
   const [notifications, dispatch] = useReducer(
     notificationReducer,
     DEFAULT_NOTIFICATIONS
   );
+
   const {
     network: { name },
   } = useTerraWebapp();
 
   const pairs = useMemo(() => {
-    return data[name].pairs;
-  }, [data, name]);
+    return whitelist[name].pairs;
+  }, [whitelist, name]);
 
-  const tokens = useMemo(() => {
-    return data[name].tokens;
-  }, [data, name]);
+  const {
+    tokens,
+    isLoading: isLoadingTokens,
+    isError: isErrorLoadingTokens,
+  } = useAllTokens({ pairs });
 
-  const routes = useMemo(() => {
-    if (pairs.length == 0) {
+  const isLoading = useMemo(() => isLoadingTokens, [isLoadingTokens]);
+
+  const isErrorLoadingData = useMemo(
+    () => isErrorLoadingTokens,
+    [isErrorLoadingTokens]
+  );
+
+  const tokenGraph = useMemo(() => {
+    if (pairs === undefined || pairs.length == 0) {
       return null;
     }
 
-    return formatPairsToRoutes(pairs);
+    return pairsToGraph(pairs);
   }, [pairs]);
 
   const addNotification = useCallback(
@@ -102,10 +113,11 @@ export const AstroswapProvider: FC<Props> = ({ children, data }) => {
   return (
     <AstroswapContext.Provider
       value={{
+        isLoading,
+        isErrorLoadingData,
         pairs,
-        routes,
+        tokenGraph,
         tokens,
-        data,
         addNotification,
         notifications,
         removeNotification,

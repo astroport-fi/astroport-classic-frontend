@@ -25,6 +25,7 @@ const MyAuctionLockedPool = () => {
           <PoolNameTd
             assets={row.original.assets}
             pairType={row.original.pairType}
+            contract={row.original.contract}
           />
         ),
         width: 250,
@@ -80,7 +81,7 @@ const MyAuctionLockedPool = () => {
             isClaimable={row.original.isClaimable}
             isClaimed={row.original.isClaimed}
             txFeeNotEnough={notEnoughUSTToPayFees}
-            amount={row.original.amount}
+            amount="0"
           />
         ),
         accessor: "actions",

@@ -12,7 +12,7 @@ import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
 
 export const usePrice = () => {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { router } = useContracts();
   const { getDecimals } = useTokenInfo();
   const ldoPrice = usePriceApi("terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z"); // Use external api for LDO price
@@ -24,7 +24,7 @@ export const usePrice = () => {
     }
 
     const decimals = getDecimals(token);
-    const swapRoute = getSwapRoute({ routes, from: token, to: "uusd" });
+    const swapRoute = getSwapRoute({ tokenGraph, from: token, to: "uusd" });
 
     if (swapRoute.length > 1) {
       const data = await simulateMultiSwap({

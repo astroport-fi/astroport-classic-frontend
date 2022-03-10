@@ -31,7 +31,7 @@ jest.mock("@arthuryeti/terra", () => {
 jest.mock("modules/common/context", () => {
   return {
     useAstroswap: jest.fn().mockReturnValue({
-      routes: [],
+      tokenGraph: {},
       tokens: {
         uusd: {},
         terra123: {},

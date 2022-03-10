@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { useWallet } from "@terra-money/wallet-provider";
 import { truncate } from "libs/text";
 import { AssetInfo } from "types/common";
 import { useAstroswap } from "../context";
@@ -12,51 +11,48 @@ export type TokenInWallet = {
 };
 
 export const useTokenInfo = () => {
-  const {
-    network: { name },
-  } = useWallet();
-  const { data, pairs } = useAstroswap();
+  const { tokens, pairs } = useAstroswap();
 
   const getProtocol = useCallback(
     (token: string) => {
-      if (data == null) {
+      if (tokens == null) {
         return token;
       }
 
-      return data[name].tokens[token]?.protocol ?? truncate(token, [3, 3]);
+      return tokens[token]?.protocol ?? truncate(token, [3, 3]);
     },
-    [name, data]
+    [tokens]
   );
 
   const getSymbol = useCallback(
     (token: string) => {
-      if (data == null) {
+      if (tokens == null) {
         return token;
       }
 
-      return data[name].tokens[token]?.symbol ?? truncate(token, [3, 3]);
+      return tokens[token]?.symbol ?? truncate(token, [3, 3]);
     },
-    [name, data]
+    [tokens]
   );
 
   const getDecimals = useCallback(
-    (token: string) => {
-      if (data == null) {
-        return token;
+    (token: string): number => {
+      if (tokens == null) {
+        return null;
       }
 
-      return data[name].tokens[token]?.decimals ?? 6;
+      return tokens[token]?.decimals ?? 6;
     },
-    [name, data]
+    [tokens]
   );
 
   const getIcon = useCallback(
     (token: string) => {
-      if (data == null) {
+      if (tokens == null) {
         return "";
       }
 
-      const info = data[name].tokens[token];
+      const info = tokens[token];
 
       if (info?.icon) {
         return info?.icon;
@@ -64,12 +60,12 @@ export const useTokenInfo = () => {
 
       return "/tokens/default.png";
     },
-    [name, data]
+    [tokens]
   );
 
   const isHidden = useCallback(
     (token: string) => {
-      if (data == null) {
+      if (tokens == null || pairs == null) {
         return true;
       }
 
@@ -83,7 +79,7 @@ export const useTokenInfo = () => {
         }).length <= 0
       );
     },
-    [name, data]
+    [tokens, pairs]
   );
 
   return {

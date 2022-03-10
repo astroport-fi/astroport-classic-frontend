@@ -20,10 +20,10 @@ type Params = {
 
 export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
   const { client } = useTerraWebapp();
-  const { routes } = useAstroswap();
+  const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({
-    routes,
+    tokenGraph,
     from,
     to,
   });
@@ -67,14 +67,11 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
         .div(10 ** 5)
         .toNumber();
 
-      return Math.max(
-        num(1)
-          .minus(num(bLunaPrice).div(price))
-          .times(100)
-          .dp(2, BigNumber.ROUND_HALF_UP)
-          .toNumber(),
-        0.05
-      );
+      return num(1)
+        .minus(num(bLunaPrice).div(price))
+        .times(100)
+        .dp(2, BigNumber.ROUND_HALF_UP)
+        .toNumber();
     }
 
     if (swapRoute.length == 1 && swapRoute[0].type == "xyk") {

@@ -22,19 +22,25 @@ const PoolsOverview: FC = () => {
     <Card>
       <Flex justify="space-between">
         <Box>
-          <Text textStyle="h3">${handleTinyAmount(totalLiquidity, "0,0")}</Text>
+          <Text textStyle="h3">
+            {handleTinyAmount(totalLiquidity, "0,0", undefined, "$")}
+          </Text>
           <Text textStyle="small" variant="dimmed">
             Total Liquidity
           </Text>
         </Box>
         <Box>
-          <Text textStyle="h3">${handleTinyAmount(dailyVolume, "0,0")}</Text>
+          <Text textStyle="h3">
+            {handleTinyAmount(dailyVolume, "0,0", undefined, "$")}
+          </Text>
           <Text textStyle="small" variant="dimmed">
             24h Volume
           </Text>
         </Box>
         <Box>
-          <Text textStyle="h3">${handleTinyAmount(price)}</Text>
+          <Text textStyle="h3">
+            {handleTinyAmount(price, undefined, undefined, "$")}
+          </Text>
           <Text textStyle="small" variant="dimmed">
             ASTRO price
           </Text>

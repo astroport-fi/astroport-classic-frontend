@@ -11,9 +11,13 @@ import { useTokenPriceInUstWithSimulate } from "modules/swap";
 type Props = {
   token: TokenInWallet;
   onClick: (token: string) => void;
+  style: React.CSSProperties;
 };
 
-const ListItem = ({ token, onClick }: Props) => {
+// NOTE: The rendered height of this element must be configured
+//       on the FixedSizeList itemSize in the List component.
+
+const ListItem = ({ token, onClick, style }: Props) => {
   const { getIcon, getSymbol, getProtocol } = useTokenInfo();
   const balanceFormmated = handleBigAndTinyAmount(token.balance);
   const tokenPrice = useTokenPriceInUstWithSimulate(token.address);
@@ -33,6 +37,7 @@ const ListItem = ({ token, onClick }: Props) => {
         color: "brand.purple",
       }}
       onClick={() => onClick(token.address)}
+      style={style}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="3">
