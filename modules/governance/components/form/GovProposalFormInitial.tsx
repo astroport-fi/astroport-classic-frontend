@@ -32,7 +32,12 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
   return (
     <>
       <FormActions>
-        <Heading fontSize="lg">Submit Proposal</Heading>
+        <Flex flexDirection="column">
+          <Heading fontSize="lg">Submit Proposal</Heading>
+          <Heading fontSize="sm" mt="2px" color="white.300">
+            You need 50 xASTRO that will be locked in order to submit a proposal
+          </Heading>
+        </Flex>
       </FormActions>
 
       <FormTextItem
@@ -64,6 +69,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         _placeholder={{ color: "white.400" }}
         value={msg}
         formRegister={methods.register}
+        error={inputErrors?.msg || null}
         required={false}
         onChange={(text) => methods.setValue("msg", text)}
       />
@@ -72,6 +78,7 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         placeholder="https://discord.gg/..."
         value={link}
         formRegister={methods.register}
+        error={inputErrors?.link || null}
         required={false}
         onChange={(text) => methods.setValue("link", text)}
       />

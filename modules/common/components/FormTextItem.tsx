@@ -8,6 +8,13 @@ import {
   Circle,
   CSSObject,
 } from "@chakra-ui/react";
+import {
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH,
+  MIN_DESCRIPTION_LENGTH,
+  MAX_DESCRIPTION_LENGTH,
+} from "constants/proposals";
+import { validateJsonInput, validateUrl } from "modules/common/helpers";
 
 type Props = {
   type: "input" | "textarea";
@@ -52,6 +59,64 @@ const ErrorBubble = () => {
   );
 };
 
+const formErrorMsg = (id, error) => {
+  switch (id) {
+    case "title":
+    case "description": {
+      if (error.type === "minLength") {
+        return `The ${id} must have at least ${
+          id === "title" ? MIN_TITLE_LENGTH : MIN_DESCRIPTION_LENGTH
+        } characters`;
+      } else if (error.type === "maxLength") {
+        return `The ${id} must have maximum ${
+          id === "title" ? MAX_TITLE_LENGTH : MAX_DESCRIPTION_LENGTH
+        } characters`;
+      }
+
+      return "This input is required";
+    }
+    case "msg":
+      return "Inccorectly formatted JSON";
+    case "link":
+      return "Inccorectly formatted URL";
+  }
+
+  return "This input is required";
+};
+
+const formValidationRule = (id) => {
+  switch (id) {
+    case "title":
+      return {
+        required: true,
+        minLength: MIN_TITLE_LENGTH,
+        maxLength: MAX_TITLE_LENGTH,
+      };
+    case "description":
+      return {
+        required: true,
+        minLength: MIN_DESCRIPTION_LENGTH,
+        maxLength: MAX_DESCRIPTION_LENGTH,
+      };
+    case "msg":
+      return {
+        required: false,
+        validate: (value) =>
+          value.length === 0 || (value.length > 0 && validateJsonInput(value)),
+      };
+    case "link":
+      return {
+        required: false,
+        validate: (value) =>
+          value.length === 0 || (value.length > 0 && validateUrl(value)),
+      };
+  }
+
+  return {
+    required: false,
+  };
+};
+
 const FormTextItem: FC<Props> = ({
   type = "input",
   id,
@@ -86,7 +151,7 @@ const FormTextItem: FC<Props> = ({
         <Input
           id={id}
           {...InputStyles(error)}
-          {...formRegister(id, { required, minLength: 1 })}
+          {...formRegister(id, formValidationRule(id))}
           value={value}
           fontFamily={fontFamily}
           placeholder={placeholder}
@@ -102,7 +167,7 @@ const FormTextItem: FC<Props> = ({
         <Textarea
           id={id}
           {...InputStyles(error)}
-          {...formRegister(id, { required, minLength: 1 })}
+          {...formRegister(id, formValidationRule(id))}
           value={value}
           fontFamily={fontFamily}
           placeholder={placeholder}
@@ -118,7 +183,7 @@ const FormTextItem: FC<Props> = ({
       {error && <ErrorBubble />}
       {error && (
         <Text mt="2" color="errors.main" fontSize="sm">
-          This input is required
+          {formErrorMsg(id, error)}
         </Text>
       )}
     </Box>

@@ -100,3 +100,23 @@ export const truncateStr = (str: string, length: number) => {
 
   return str;
 };
+
+export const validateJsonInput = (json: string): Boolean => {
+  try {
+    JSON.parse(json);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+};
+
+export const validateUrl = (url: string): Boolean => {
+  try {
+    new URL(url);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+};
