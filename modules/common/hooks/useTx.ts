@@ -47,7 +47,8 @@ export type UseTxNotificationDetails =
         | "claimRewards"
         | "auctionUnlockLp"
         | "stakeLp"
-        | "claimRewards";
+        | "claimRewards"
+        | "createProposal";
     };
 
 type Params = {
@@ -128,6 +129,8 @@ export const useTx = ({
       }
       case "claimRewards":
         return "Failed to claim rewards";
+      case "createProposal":
+        return "Failed to submit an Assembly proposal";
     }
 
     return "Failed";
