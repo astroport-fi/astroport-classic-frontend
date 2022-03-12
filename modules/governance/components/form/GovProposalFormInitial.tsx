@@ -1,13 +1,19 @@
 import React, { FC } from "react";
-import { Box, Text, Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
 import { useFormContext, UseFormReturn } from "react-hook-form";
-import { FormActions, FormTextItem } from "modules/common";
-import { GovProposalFormFooter } from "modules/governance";
+import { FormActions, FormTextItem, useContracts } from "modules/common";
+import { GovProposalFormFooter, useAstroMintRatio } from "modules/governance";
 import { GovernanceProposal } from "types/common";
+import { ONE_TOKEN } from "constants/constants";
+import DepositBox from "components/proposal/DepositBox";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   fee: Fee;
+  txFeeNotEnough?: boolean;
+  xAstroRequired?: string;
+  xAstroBalance?: string;
   inputErrors: any;
   methods: UseFormReturn<GovernanceProposal, object>;
 };
@@ -20,7 +26,18 @@ const CommonFormProps = (
   return { type, id, title };
 };
 
-const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
+const GovProposalFormInitial: FC<Props> = ({
+  fee,
+  txFeeNotEnough,
+  xAstroRequired,
+  xAstroBalance,
+  inputErrors,
+  methods,
+}) => {
+  const { astroToken } = useContracts();
+  const astroMintRatio = useAstroMintRatio();
+  let astroPrice = useTokenPriceInUstWithSimulate(astroToken);
+
   const { watch } = useFormContext();
   const [title, description, msg, link] = [
     watch("title"),
@@ -29,14 +46,22 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
     watch("link"),
   ];
 
+  const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || null;
+  const xAstroBalanceTokens = Number(xAstroBalance) / ONE_TOKEN || null;
+  const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : null;
+  const balanceError = xAstroRequiredTokens > xAstroBalanceTokens || false;
+
   return (
     <>
       <FormActions>
         <Flex flexDirection="column">
           <Heading fontSize="lg">Submit Proposal</Heading>
-          <Heading fontSize="sm" mt="2px" color="white.300">
-            You need 50 xASTRO that will be locked in order to submit a proposal
-          </Heading>
+          {xAstroRequiredTokens && (
+            <Heading fontSize="sm" mt="2px" color="white.300">
+              You need {xAstroRequiredTokens} xASTRO that will be locked in
+              order to submit a proposal
+            </Heading>
+          )}
         </Flex>
       </FormActions>
 
@@ -71,7 +96,10 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         formRegister={methods.register}
         error={inputErrors?.msg || null}
         required={false}
-        onChange={(text) => methods.setValue("msg", text)}
+        onChange={(text) => {
+          methods.setValue("msg", text);
+          methods.clearErrors("msg");
+        }}
       />
       <FormTextItem
         {...CommonFormProps("input", "link", "Insert Link to Discussion:")}
@@ -80,39 +108,24 @@ const GovProposalFormInitial: FC<Props> = ({ fee, inputErrors, methods }) => {
         formRegister={methods.register}
         error={inputErrors?.link || null}
         required={false}
-        onChange={(text) => methods.setValue("link", text)}
+        onChange={(text) => {
+          methods.setValue("link", text);
+          methods.clearErrors("link");
+        }}
       />
 
-      {/* Deposit Box. More work to be done here... */}
-      <Box
-        bg="brand.defaultTable"
-        py={["2", "5"]}
-        px={["4", "8"]}
-        mb="5"
-        borderWidth="none"
-        borderRadius="xl"
-        position="relative"
-        color="white"
-      >
-        <Flex mb="2" mx="1" fontSize="sm" justify="space-between">
-          <Text>Deposit:</Text>
-          <Flex>
-            <Text color="white.500">In Wallet:</Text>
-            <Text ml="2">2,000 xASTRO</Text>
-          </Flex>
-        </Flex>
-        <Box bg="black.400" px="5" py="3" borderRadius="md">
-          <Flex color="white.600" fontSize="md">
-            5000.00 xASTRO
-          </Flex>
-          <Flex color="white.400" fontSize="sm">
-            $7,500.00
-          </Flex>
-        </Box>
-      </Box>
-      {/* Deposit Box. More work to be done here... */}
+      <DepositBox
+        xAstroRequiredTokens={xAstroRequiredTokens}
+        xAstroBalanceTokens={xAstroBalanceTokens}
+        xAstroPrice={xAstroPrice}
+        balanceError={balanceError}
+      />
 
-      <GovProposalFormFooter fee={fee} txFeeNotEnough={false} />
+      <GovProposalFormFooter
+        fee={fee}
+        txFeeNotEnough={txFeeNotEnough}
+        balanceError={balanceError}
+      />
     </>
   );
 };

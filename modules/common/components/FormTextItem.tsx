@@ -15,6 +15,7 @@ import {
   MAX_DESCRIPTION_LENGTH,
 } from "constants/proposals";
 import { validateJsonInput, validateUrl } from "modules/common/helpers";
+import ErrorBubble from "components/common/ErrorBubble";
 
 type Props = {
   type: "input" | "textarea";
@@ -38,25 +39,6 @@ const InputStyles = (hasErrors?: any) => {
     bg: "black.400",
     color: "white.600",
   };
-};
-
-const ErrorBubble = () => {
-  return (
-    <Circle
-      position="absolute"
-      top="60px"
-      right="48px"
-      background="errors.light"
-      borderWidth="1px"
-      color="errors.dark"
-      borderColor="errors.dark"
-      w="24px"
-      h="24px"
-      align="center"
-    >
-      !
-    </Circle>
-  );
 };
 
 const formErrorMsg = (id, error) => {
@@ -180,7 +162,7 @@ const FormTextItem: FC<Props> = ({
           resize="none"
         />
       )}
-      {error && <ErrorBubble />}
+      {error && <ErrorBubble text="!" />}
       {error && (
         <Text mt="2" color="errors.main" fontSize="sm">
           {formErrorMsg(id, error)}

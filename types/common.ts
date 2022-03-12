@@ -172,5 +172,5 @@ export type GovernanceProposal = {
   votesMax?: number;
   address?: string;
   status?: ProposalStatus;
-  history: any;
+  history?: any;
 };
