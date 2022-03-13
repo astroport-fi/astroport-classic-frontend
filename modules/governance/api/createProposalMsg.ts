@@ -18,7 +18,7 @@ export const createProposalMsg = (
           title: proposal?.title,
           description: proposal?.description,
           link: proposal?.link?.length > 0 ? proposal.link : null,
-          messages: proposal?.msg?.length > 0 ? proposal.msg : null,
+          messages: proposal?.msg?.length > 0 ? JSON.parse(proposal.msg) : null,
         },
       }),
     },
