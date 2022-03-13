@@ -1,10 +1,12 @@
 import React, { FC } from "react";
 import { Heading, Box, Flex, Text, Code, Link } from "@chakra-ui/react";
 import { GovernanceProposal } from "types/common";
-import { truncateStr } from "modules/common/helpers";
+import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
 
 type Props = {
   proposal: GovernanceProposal;
+  xAstroRequiredTokens?: number;
+  xAstroPrice?: number;
 };
 
 const FormTextHeader = (text) => {
@@ -35,7 +37,11 @@ const FormBlock = ({
   );
 };
 
-const ForumSummary: FC<Props> = ({ proposal }) => {
+const ForumSummary: FC<Props> = ({
+  proposal,
+  xAstroRequiredTokens,
+  xAstroPrice,
+}) => {
   const { title, description, msg, link } = proposal;
 
   return (
@@ -76,7 +82,8 @@ const ForumSummary: FC<Props> = ({ proposal }) => {
           <Flex justify="space-between" fontSize="sm">
             <Text fontSize="xs">Deposit:</Text>
             <Text color="white.600" fontSize="2xs">
-              5,000 xASTRO ($250.00)
+              {xAstroRequiredTokens} xASTRO ($
+              {handleBigAndTinyAmount(xAstroPrice * xAstroRequiredTokens)})
             </Text>
           </Flex>
         </FormBlock>

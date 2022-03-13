@@ -2,16 +2,16 @@ import React, { FC } from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
 import { useFormContext, UseFormReturn } from "react-hook-form";
-import { FormActions, FormTextItem, useContracts } from "modules/common";
-import { GovProposalFormFooter, useAstroMintRatio } from "modules/governance";
+import { FormActions, FormTextItem } from "modules/common";
+import { GovProposalFormFooter } from "modules/governance";
 import { GovernanceProposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 import DepositBox from "components/proposal/DepositBox";
-import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   fee: Fee;
   txFeeNotEnough?: boolean;
+  xAstroPrice?: number;
   xAstroRequired?: string;
   xAstroBalance?: string;
   inputErrors: any;
@@ -29,15 +29,12 @@ const CommonFormProps = (
 const GovProposalFormInitial: FC<Props> = ({
   fee,
   txFeeNotEnough,
+  xAstroPrice,
   xAstroRequired,
   xAstroBalance,
   inputErrors,
   methods,
 }) => {
-  const { astroToken } = useContracts();
-  const astroMintRatio = useAstroMintRatio();
-  let astroPrice = useTokenPriceInUstWithSimulate(astroToken);
-
   const { watch } = useFormContext();
   const [title, description, msg, link] = [
     watch("title"),
@@ -48,7 +45,6 @@ const GovProposalFormInitial: FC<Props> = ({
 
   const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || null;
   const xAstroBalanceTokens = Number(xAstroBalance) / ONE_TOKEN || null;
-  const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : null;
   const balanceError = xAstroRequiredTokens > xAstroBalanceTokens || false;
 
   return (

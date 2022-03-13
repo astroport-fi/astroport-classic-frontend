@@ -4,12 +4,17 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEstimateFee } from "@arthuryeti/terra";
 
-import { useNotEnoughUSTBalanceToPayFees, useTx } from "modules/common";
+import {
+  useContracts,
+  useNotEnoughUSTBalanceToPayFees,
+  useTx,
+} from "modules/common";
 import {
   GovProposalFormInitial,
   GovProposalFormConfirm,
 } from "modules/governance";
 import {
+  useAstroMintRatio,
   useConfig,
   useCreateProposal,
   useGovStakingBalances,
@@ -17,11 +22,15 @@ import {
 import { GovernanceProposal } from "types/common";
 import FormLoading from "components/common/FormLoading";
 import useDebounceValue from "hooks/useDebounceValue";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 const GovProposalForm = () => {
+  const { astroToken } = useContracts();
   const router = useRouter();
   const proposalConfig = useConfig();
   const { xAstroBalance } = useGovStakingBalances();
+  const astroMintRatio = useAstroMintRatio();
+  const astroPrice = useTokenPriceInUstWithSimulate(astroToken);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const methods = useForm<GovernanceProposal>();
@@ -31,6 +40,7 @@ const GovProposalForm = () => {
     amount: proposalConfig?.proposal_required_deposit,
     proposal: formProposal,
   });
+  const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : null;
 
   // Limit fee calculations to once every 2500ms
   const debouncedMsg = useDebounceValue(msgs, 2500);
@@ -82,6 +92,7 @@ const GovProposalForm = () => {
           <GovProposalFormInitial
             fee={fee}
             txFeeNotEnough={notEnoughUSTToPayFees}
+            xAstroPrice={xAstroPrice}
             xAstroRequired={proposalConfig?.proposal_required_deposit}
             xAstroBalance={xAstroBalance}
             inputErrors={methods.formState.errors}
@@ -92,6 +103,8 @@ const GovProposalForm = () => {
           <GovProposalFormConfirm
             proposal={formProposal}
             fee={fee}
+            xAstroPrice={xAstroPrice}
+            xAstroRequired={proposalConfig?.proposal_required_deposit}
             onCloseClick={() => {
               setShowConfirm(false);
             }}
