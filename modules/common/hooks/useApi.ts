@@ -1,6 +1,6 @@
 import { request } from "graphql-request";
 import { useQuery } from "react-query";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { ENV_API_ENDPOINT } from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -12,18 +12,10 @@ type Params = {
 };
 
 export const useApi = ({ name, query, variables, options }: Params) => {
-  const { network } = useTerraWebapp();
-  let GRAPHQL = "https://api.astroport.fi/graphql";
-
-  if (network.name == "testnet") {
-    GRAPHQL =
-      "https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql";
-  }
-
   const result = useQuery(
     name,
     () => {
-      return request(GRAPHQL, query, variables);
+      return request(ENV_API_ENDPOINT, query, variables);
     },
     options
   );

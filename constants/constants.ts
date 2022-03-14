@@ -38,3 +38,6 @@ export const ENV_MAINNET_GRAPHQL =
 export const ENV_TESTNET_GRAPHQL =
   process.env.NEXT_PUBLIC_TESTNET_GRAPHQL ||
   "https://testnet-hive.terra.dev/graphql";
+
+export const ENV_API_ENDPOINT =
+  process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.astroport.fi/graphql";
