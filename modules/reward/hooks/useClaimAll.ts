@@ -127,7 +127,6 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
 
     if (
       auctionUserInfo != null &&
-      !auctionUserInfo.astro_incentive_transferred &&
       num(auctionUserInfo.auction_incentive_amount).gt(0)
     ) {
       const phase2Msgs = createPhase2ClaimAllMsgs(

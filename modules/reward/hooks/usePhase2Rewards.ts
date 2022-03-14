@@ -12,10 +12,6 @@ export const usePhase2Rewards = () => {
       return 0;
     }
 
-    if (userInfo.astro_incentive_transferred) {
-      return 0;
-    }
-
     if (num(userInfo.auction_incentive_amount).eq(0)) {
       return 0;
     }
