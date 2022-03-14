@@ -19,9 +19,13 @@ const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
     },
   });
 
+  // when not withdrawing lp, msgs amount = 0. This resuts in an error
+  // when estimating fee. So we need to set msgs amount to 1 in useFeeEstimate.
+  const { msgs: msgsFeeEstimate } = useClaimAuctionReward({ amount: "1" });
+
   const { fee } = useEstimateFee({
-    msgs,
-    gasAdjustment: 1.5,
+    msgs: msgsFeeEstimate,
+    gasAdjustment: 1.4,
   });
 
   const handleClick = () => {

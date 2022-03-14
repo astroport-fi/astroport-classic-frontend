@@ -150,6 +150,11 @@ export const useAllPools = () => {
       ({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
         const poolInfo = getPoolInfo(contract_addr);
         const providedBalance = result[liquidity_token]?.contractQuery.balance;
+
+        // in the event of switching networks, pair and price queries are still being refetched
+        // and pool info may not be in the result yet.
+        if (!result[contract_addr]) return;
+
         const { total_share, assets } = result[contract_addr].contractQuery;
         const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
         const denoms = getPoolTokenDenoms(assets);

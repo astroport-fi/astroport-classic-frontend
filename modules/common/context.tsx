@@ -9,6 +9,7 @@ import {
   Consumer,
   useCallback,
 } from "react";
+import { useTerraWebapp } from "@arthuryeti/terra";
 import { nanoid } from "nanoid";
 
 import {
@@ -16,7 +17,6 @@ import {
   PairResponse,
   TokenGraphAdjacencyList,
   Tokens,
-  useAllPairs,
   useAllTokens,
 } from "modules/common";
 
@@ -27,6 +27,7 @@ import {
   AddNotificationPayload,
   RemoveNotificationPayload,
 } from "modules/common/notifications/model";
+import whitelist from "constants/whitelist";
 
 type Astroswap = {
   isLoading: boolean;
@@ -61,24 +62,24 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
   );
 
   const {
-    pairs,
-    isLoading: isLoadingPairs,
-    isError: isErrorFetchingPairs,
-  } = useAllPairs();
+    network: { name },
+  } = useTerraWebapp();
+
+  const pairs = useMemo(() => {
+    return whitelist[name].pairs;
+  }, [whitelist, name]);
+
   const {
     tokens,
     isLoading: isLoadingTokens,
     isError: isErrorLoadingTokens,
-  } = useAllTokens();
+  } = useAllTokens({ pairs });
 
-  const isLoading = useMemo(
-    () => isLoadingPairs || isLoadingTokens,
-    [isLoadingPairs, isLoadingTokens]
-  );
+  const isLoading = useMemo(() => isLoadingTokens, [isLoadingTokens]);
 
   const isErrorLoadingData = useMemo(
-    () => isErrorFetchingPairs || isErrorLoadingTokens,
-    [isErrorFetchingPairs, isErrorLoadingTokens]
+    () => isErrorLoadingTokens,
+    [isErrorLoadingTokens]
   );
 
   const tokenGraph = useMemo(() => {

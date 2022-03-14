@@ -8,6 +8,7 @@ type Props = {
   isClaimable: boolean;
   isClaimed: boolean;
   txFeeNotEnough?: boolean;
+  // amount is withdraw_lp_shares in "claim_rewards"
   amount: string;
 };
 

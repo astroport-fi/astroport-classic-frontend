@@ -81,7 +81,7 @@ const MyAuctionLockedPool = () => {
             isClaimable={row.original.isClaimable}
             isClaimed={row.original.isClaimed}
             txFeeNotEnough={notEnoughUSTToPayFees}
-            amount={row.original.amount}
+            amount="0"
           />
         ),
         accessor: "actions",

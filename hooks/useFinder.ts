@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useTerraWebapp } from "@arthuryeti/terra";
 
-import { FINDER } from "constants/constants";
+import { FINDER, CHAIN_TO_FINDER_INFO } from "constants/constants";
 
 const useFinder = () => {
   const {
@@ -10,7 +10,7 @@ const useFinder = () => {
 
   return useCallback(
     (address: string, path: string = "account") => {
-      return `${FINDER}/${chainID}/${path}/${address}`;
+      return `${FINDER}/${CHAIN_TO_FINDER_INFO[chainID]}/${path}/${address}`;
     },
     [chainID]
   );

@@ -63,6 +63,8 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
 
   const msgs = useMemo(() => {
     let data = [];
+    let claimedLps = [];
+    let claimedLockdrops = [];
 
     if (num(airdropBalance).gt(0)) {
       const airdrop = airdropData.find(
@@ -105,6 +107,13 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
       !userInfoWithList.astro_transferred &&
       num(userInfoWithList.total_astro_rewards).gt(0)
     ) {
+      // createPhase1ClaimAllMsgs currently adds 1st item to data.
+      // add this to claimedLockdrops to prevent duplicate from
+      // positions in lpAndLockdropRewards
+      if (items.length > 0) {
+        claimedLockdrops.push(items[0].contract);
+      }
+
       const phase1Msgs = createPhase1ClaimAllMsgs(
         {
           contract: lockdrop,
@@ -136,9 +145,6 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
     // highest value first. Once splice is removed, we can revert to
     // old method commented out below.
     if (lpAndLockdropRewards?.length > 0) {
-      let claimedLps = [];
-      let claimedLockdrops = [];
-
       lpAndLockdropRewards.forEach((item) => {
         const positions = item.positions?.sort(function (a, b) {
           return a.amount < b.amount ? 1 : -1;

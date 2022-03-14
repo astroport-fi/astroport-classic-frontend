@@ -1,5 +1,5 @@
 import { useAllTokens } from "modules/common/hooks/useAllTokens";
-import { requestInChunks, useAllPairs } from "modules/common";
+import { requestInChunks } from "modules/common";
 import { renderHook } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -20,7 +20,6 @@ jest.mock("modules/common", () => {
     useContracts: jest.fn(() => ({ factory: "terrafactoryaddress" })),
     useHiveEndpoint: jest.fn(() => "https://example.com/hive"),
     requestInChunks: jest.fn(),
-    useAllPairs: jest.fn(),
   };
 });
 
@@ -59,7 +58,7 @@ jest.mock("@arthuryeti/terra", () => ({
   })),
 }));
 
-const renderUseAllTokens = () => {
+const renderUseAllTokens = (pairs) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -72,7 +71,7 @@ const renderUseAllTokens = () => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
-  return renderHook(() => useAllTokens(), { wrapper });
+  return renderHook(() => useAllTokens({ pairs }), { wrapper });
 };
 
 const stubPair = {
@@ -101,71 +100,68 @@ beforeEach(() => {
 
 describe("useAllTokens", () => {
   it("fetches token info for all uncached contract tokens", async () => {
-    useAllPairs.mockReturnValue({
-      pairs: [
-        {
-          ...stubPair,
-          asset_infos: [
-            {
-              token: {
-                contract_addr: "terratoken1", // Cached
-              },
+    const pairs = [
+      {
+        ...stubPair,
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terratoken1", // Cached
             },
-            {
-              token: {
-                contract_addr: "terratoken2",
-              },
+          },
+          {
+            token: {
+              contract_addr: "terratoken2",
             },
-          ],
-        },
-        {
-          ...stubPair,
-          asset_infos: [
-            {
-              token: {
-                contract_addr: "terratoken2",
-              },
+          },
+        ],
+      },
+      {
+        ...stubPair,
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terratoken2",
             },
-            {
-              native_token: {
-                denom: "uusd", // Cached
-              },
+          },
+          {
+            native_token: {
+              denom: "uusd", // Cached
             },
-          ],
-        },
-        {
-          ...stubPair,
-          asset_infos: [
-            {
-              token: {
-                contract_addr: "terratoken3",
-              },
+          },
+        ],
+      },
+      {
+        ...stubPair,
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terratoken3",
             },
-            {
-              token: {
-                contract_addr: "terratoken4", // Cached
-              },
+          },
+          {
+            token: {
+              contract_addr: "terratoken4", // Cached
             },
-          ],
-        },
-        {
-          ...stubPair,
-          asset_infos: [
-            {
-              native_token: {
-                denom: "uluna", // NOTE: Not cached
-              },
+          },
+        ],
+      },
+      {
+        ...stubPair,
+        asset_infos: [
+          {
+            native_token: {
+              denom: "uluna", // NOTE: Not cached
             },
-            {
-              token: {
-                contract_addr: "terratoken5",
-              },
+          },
+          {
+            token: {
+              contract_addr: "terratoken5",
             },
-          ],
-        },
-      ],
-      isLoading: false,
-    });
+          },
+        ],
+      },
+    ];
 
     requestInChunks.mockResolvedValue({
       terratoken2: {
@@ -191,7 +187,7 @@ describe("useAllTokens", () => {
       },
     });
 
-    const { result, waitFor } = renderUseAllTokens();
+    const { result, waitFor } = renderUseAllTokens(pairs);
 
     expect(result.current.isLoading).toEqual(true);
 
@@ -248,13 +244,8 @@ describe("useAllTokens", () => {
     );
   });
 
-  it("does not fetch while pairs are loading", () => {
-    useAllPairs.mockImplementation(() => ({
-      pairs: null,
-      isLoading: true,
-    }));
-
-    const { result } = renderUseAllTokens();
+  it("does not fetch while pairs are null", () => {
+    const { result } = renderUseAllTokens(null);
 
     // Disabled while pairs are loading, so is not loading
     expect(result.current.isLoading).toEqual(false);
@@ -262,28 +253,35 @@ describe("useAllTokens", () => {
     expect(requestInChunks).not.toHaveBeenCalled();
   });
 
-  it("does not fetch when all tokens are cached", async () => {
-    useAllPairs.mockReturnValue({
-      pairs: [
-        {
-          ...stubPair,
-          asset_infos: [
-            {
-              token: {
-                contract_addr: "terratoken1",
-              },
-            },
-            {
-              native_token: {
-                denom: "uusd",
-              },
-            },
-          ],
-        },
-      ],
-    });
+  it("does not fetch if pairs are empty", () => {
+    const { result } = renderUseAllTokens([]);
 
-    const { result, waitFor } = renderUseAllTokens();
+    // Disabled while pairs are empty, so is not loading
+    expect(result.current.isLoading).toEqual(false);
+
+    expect(requestInChunks).not.toHaveBeenCalled();
+  });
+
+  it("does not fetch when all tokens are cached", async () => {
+    const pairs = [
+      {
+        ...stubPair,
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terratoken1",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+      },
+    ];
+
+    const { result, waitFor } = renderUseAllTokens(pairs);
 
     expect(result.current.isLoading).toEqual(true);
 
@@ -313,13 +311,9 @@ describe("useAllTokens", () => {
   });
 
   it("sets isError to true when there's an error fetching tokens", async () => {
-    useAllPairs.mockReturnValue({
-      pairs: [stubPair],
-    });
-
     requestInChunks.mockRejectedValue();
 
-    const { result, waitFor } = renderUseAllTokens();
+    const { result, waitFor } = renderUseAllTokens([stubPair]);
 
     // Wait for data to fail to load
     await waitFor(() => !result.current.isLoading);

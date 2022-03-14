@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -37,6 +37,7 @@ const Select: FC<Props> = ({
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value).toFixed(2);
   const [filter, setFilter] = useState("");
+  const [isLazy, setIsLazy] = useState(true);
 
   const matchTokenOrExactAddress = (token: string) => {
     return (
@@ -59,6 +60,16 @@ const Select: FC<Props> = ({
   const handleOpen = () => {
     setFilter("");
     onOpen();
+    setIsLazy(false);
+  };
+
+  // delay in isLazy=true ensures dismiss animation of popover
+  // shows properly
+  const handleClose = () => {
+    onClose();
+    setTimeout(function () {
+      setIsLazy(true);
+    }, 500);
   };
 
   const handleClick = (token: string) => {
@@ -110,11 +121,11 @@ const Select: FC<Props> = ({
     <PopoverWrapper
       title="Select token"
       placement={placement}
-      isLazy
+      isLazy={isLazy}
       matchWidth
       isOpen={isOpen}
       onOpen={handleOpen}
-      onClose={onClose}
+      onClose={handleClose}
       initialFocusRef={initialFocusRef}
       triggerElement={() => (
         <Button

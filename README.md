@@ -22,6 +22,9 @@ Create an `.env.local` file. You can copy the existing template (`cp .env.templa
 
 ```
 DISPLAY_GOVERNANCE=1
+NEXT_PUBLIC_MAINNET_GRAPHQL=https://hive-terra.everstake.one/graphql
+NEXT_PUBLIC_TESTNET_GRAPHQL=https://hive-terra-test.everstake.one/graphql
+NEXT_PUBLIC_API_ENDPOINT=https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql
 ```
 
 If you have nvm installed, you should select the correct version for you based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.

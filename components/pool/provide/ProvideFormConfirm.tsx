@@ -53,6 +53,34 @@ const ProvideForm: FC<Props> = ({
     ""
   );
 
+  let details = [
+    {
+      label: "My Provided Liquidity",
+      value: handleTinyAmount(formattedShareInUst, "0.00", false, "$"),
+    },
+    {
+      label: "APR",
+      value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
+      tooltip: REWARDS_NOTICE,
+    },
+    {
+      label: "Share of Pool",
+      value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+    },
+  ];
+
+  // autoStake = canStake
+  if (autoStake) {
+    details.push({
+      label: "Staked LP Tokens",
+      value: `${handleTinyAmount(
+        estLpBalance,
+        "0.00",
+        true
+      )} ${symbol1}-${symbol2}-LP`,
+    });
+  }
+
   return (
     <FormConfirm
       fee={fee}
@@ -68,27 +96,7 @@ const ProvideForm: FC<Props> = ({
           ]}
         />
       }
-      details={[
-        {
-          label: "My Provided Liquidity",
-          value: handleTinyAmount(formattedShareInUst, "0.00", false, "$"),
-        },
-        {
-          label: "APR",
-          value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
-          tooltip: REWARDS_NOTICE,
-        },
-        {
-          label: "Share of Pool",
-          value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
-        },
-        {
-          label: "Staked LP Tokens",
-          value: `${
-            autoStake ? handleTinyAmount(estLpBalance, "0.00", true) : 0
-          } ${symbol1}-${symbol2}-LP`,
-        },
-      ]}
+      details={details}
       onCloseClick={onCloseClick}
     >
       <Box mt="6">
