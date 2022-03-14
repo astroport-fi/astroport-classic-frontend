@@ -11,6 +11,7 @@ import DepositBox from "components/proposal/DepositBox";
 type Props = {
   fee: Fee;
   txFeeNotEnough?: boolean;
+  feeIsLoading?: boolean;
   xAstroPrice?: number;
   xAstroRequired?: string;
   xAstroBalance?: string;
@@ -29,6 +30,7 @@ const CommonFormProps = (
 const GovProposalFormInitial: FC<Props> = ({
   fee,
   txFeeNotEnough,
+  feeIsLoading,
   xAstroPrice,
   xAstroRequired,
   xAstroBalance,
@@ -120,6 +122,7 @@ const GovProposalFormInitial: FC<Props> = ({
       <GovProposalFormFooter
         fee={fee}
         txFeeNotEnough={txFeeNotEnough}
+        feeIsLoading={feeIsLoading}
         balanceError={balanceError}
       />
     </>

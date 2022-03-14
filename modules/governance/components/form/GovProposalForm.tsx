@@ -42,8 +42,8 @@ const GovProposalForm = () => {
   });
   const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : null;
 
-  // Limit fee calculations to once every 2500ms
-  const debouncedMsg = useDebounceValue(msgs, 2500);
+  // Limit fee calculations to once every 1000ms
+  const debouncedMsg = useDebounceValue(msgs, 1000);
 
   const { fee, isLoading: feeIsLoading } = useEstimateFee({
     msgs: debouncedMsg,
@@ -92,6 +92,7 @@ const GovProposalForm = () => {
           <GovProposalFormInitial
             fee={fee}
             txFeeNotEnough={notEnoughUSTToPayFees}
+            feeIsLoading={feeIsLoading}
             xAstroPrice={xAstroPrice}
             xAstroRequired={proposalConfig?.proposal_required_deposit}
             xAstroBalance={xAstroBalance}

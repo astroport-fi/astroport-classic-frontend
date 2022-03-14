@@ -6,12 +6,14 @@ import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
   fee: Fee;
+  feeIsLoading?: boolean;
   balanceError?: boolean;
   txFeeNotEnough?: boolean;
 };
 
 const GovProposalFormFooter: FC<Props> = ({
   fee,
+  feeIsLoading,
   balanceError,
   txFeeNotEnough,
 }) => {
@@ -19,8 +21,8 @@ const GovProposalFormFooter: FC<Props> = ({
     title: "Submit Proposal",
     borderRadius: "md",
     variant: "primarywhite",
-    isLoading: false,
-    isDisabled: balanceError || txFeeNotEnough,
+    isLoading: feeIsLoading,
+    isDisabled: balanceError || feeIsLoading || txFeeNotEnough,
     type: "submit",
     onClick: null,
   };
