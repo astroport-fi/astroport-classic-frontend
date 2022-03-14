@@ -6,6 +6,11 @@ export const CHROME = "https://google.com/chrome";
 export const DOCS = "https://docs.astroportprotocol.com";
 export const ICON_URL = "https://whitelist.mirror.finance/images";
 
+export const CHAIN_TO_FINDER_INFO = {
+  "columbus-5": "mainnet",
+  "bombay-12": "testnet",
+};
+
 /* terra:wasm */
 export const WASMQUERY = "WasmContractsContractAddressStore";
 
