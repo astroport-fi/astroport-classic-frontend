@@ -95,7 +95,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
             wallet.isInstalled === false &&
             //@ts-ignore
             typeof window.xfi !== "undefined" ? (
-            <Box {...ButtonStyle}>
+            <Box key={index} {...ButtonStyle}>
               <HStack justify="space-between">
                 <Box textAlign="left">
                   <Text>XDEFI Wallet</Text>
