@@ -1,5 +1,6 @@
 import { toBase64 } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
+import { validateJsonInput } from "modules/common";
 import { GovernanceProposal } from "types/common";
 
 export const createProposalMsg = (
@@ -18,7 +19,10 @@ export const createProposalMsg = (
           title: proposal?.title,
           description: proposal?.description,
           link: proposal?.link?.length > 0 ? proposal.link : null,
-          messages: proposal?.msg?.length > 0 ? JSON.parse(proposal.msg) : null,
+          messages:
+            proposal?.msg?.length > 0 && validateJsonInput(proposal.msg)
+              ? JSON.parse(proposal.msg)
+              : null,
         },
       }),
     },
