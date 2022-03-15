@@ -1199,6 +1199,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // sayve-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1x23y2hxpxph6wueyqj5m5grlr23z5dt4wvpn0r",
+        liquidity_token: "terra1dj3u83nfe9zpqd5r46plwmmmhe30kzr3axtx9x",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
 };

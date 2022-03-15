@@ -447,6 +447,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/local.png",
       decimals: 6,
     },
+    terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm: {
+      protocol: "Sayve",
+      symbol: "SAYVE",
+      token: "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm",
+      icon: "/tokens/sayve.png",
+      decimals: 6,
+    },
   },
 };
 
