@@ -1,21 +1,16 @@
 import React from "react";
-import Head from "next/head";
-import { BrowserView, MobileView } from "react-device-detect";
+import { BrowserView, isMobile } from "react-device-detect";
 
-import Page from "components/pages/error";
+import { useRouter } from "next/router";
 
 const HideOnMobile = (props) => {
-  return (
-    <>
-      <BrowserView>{props.children}</BrowserView>
-      <MobileView>
-        <Head>
-          <title>Error Page</title>
-        </Head>
-        <Page statusCode={404} />
-      </MobileView>
-    </>
-  );
+  const router = useRouter();
+
+  if (isMobile) {
+    router.push("404");
+  }
+
+  return <BrowserView>{props.children}</BrowserView>;
 };
 
 export default HideOnMobile;
