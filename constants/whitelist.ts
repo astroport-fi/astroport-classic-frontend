@@ -715,6 +715,26 @@ const whitelist: Whitelist = {
           stable: {},
         },
       },
+      // ldo-stLuna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1yg3j2s986nyp5z7r2lvt0hx3r0lnd7kwvwwtsc",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z",
+            },
+          },
+        ],
+        contract_addr: "terra1repcset8dt8z9wm5s6x77n3sjg8hduem9tntd6",
+        liquidity_token: "terra1yfwpk58tlvgzxx7zfrutlskgcp0cdqxtngpp6y",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
