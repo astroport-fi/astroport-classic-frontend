@@ -735,6 +735,46 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // bETH-wETH
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra14tl83xcwqjy0ken9peu4pjjuu755lrry2uy25r",
+            },
+          },
+        ],
+        contract_addr: "terra1wgdjvp388mlvhad8u7ly5d34ga4zyyfvf3e5j8",
+        liquidity_token: "terra19tmtkl0w6kfgvxj6tt3dg0vepzrzugh0x9yfpk",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // bETH-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1myl709y74vrdcyuxy6g9wv5l2sgah4e9lstnwe",
+        liquidity_token: "terra1dy8mq25x79jrdzz30j230suka37xt39lcgdcl4",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
