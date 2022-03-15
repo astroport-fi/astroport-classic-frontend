@@ -1,23 +1,23 @@
 import React, { FC } from "react";
-import { Circle } from "@chakra-ui/react";
+import { BoxProps, Circle } from "@chakra-ui/react";
+import { CSSProperties } from "@emotion/serialize";
 
 type Props = {
   text: string;
-};
+  size?: string;
+} & BoxProps;
 
-const ErrorBubble: FC<Props> = ({ text }) => {
+const ErrorBubble: FC<Props> = ({ text, size = "24px", ...props }) => {
   return (
     <Circle
-      position="absolute"
-      top="60px"
-      right="48px"
       background="errors.light"
       borderWidth="1px"
       color="errors.dark"
       borderColor="errors.dark"
-      w="24px"
-      h="24px"
       align="center"
+      w={size}
+      h={size}
+      {...props}
     >
       {text}
     </Circle>

@@ -55,7 +55,9 @@ const DepositBox: FC<Props> = ({
           )}
         </Box>
       )}
-      {balanceError && <ErrorBubble text="!" />}
+      {balanceError && (
+        <ErrorBubble text="!" position="absolute" top="60px" right="48px" />
+      )}
       {balanceError && (
         <Text mt="2" color="errors.main" fontSize="sm">
           Insufficient xASTRO to lock

@@ -7,6 +7,7 @@ import { GovProposalFormFooter } from "modules/governance";
 import { GovernanceProposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 import DepositBox from "components/proposal/DepositBox";
+import ErrorBox from "components/proposal/ErrorBox";
 
 type Props = {
   fee: Fee;
@@ -62,6 +63,8 @@ const GovProposalFormInitial: FC<Props> = ({
           )}
         </Flex>
       </FormActions>
+
+      {balanceError && <ErrorBox />}
 
       <FormTextItem
         {...CommonFormProps("input", "title", "Set Title:")}

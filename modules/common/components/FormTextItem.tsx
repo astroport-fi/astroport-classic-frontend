@@ -162,7 +162,9 @@ const FormTextItem: FC<Props> = ({
           resize="none"
         />
       )}
-      {error && <ErrorBubble text="!" />}
+      {error && (
+        <ErrorBubble text="!" position="absolute" top="60px" right="48px" />
+      )}
       {error && (
         <Text mt="2" color="errors.main" fontSize="sm">
           {formErrorMsg(id, error)}
