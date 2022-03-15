@@ -158,6 +158,7 @@ const VoteStats: FC<Props> = ({
         <UnderlineButton
           w="100%"
           h="50px"
+          fontWeight="500"
           color="proposalColours.purpleAlt"
           fontSize=".875rem"
           onClick={onClick}

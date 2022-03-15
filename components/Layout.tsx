@@ -24,6 +24,9 @@ const GlobalStyles = css`
     background-color: #5643F2;
     border-radius: 6px;
   }
+  pre {
+    font-family: monospace;
+  }
   #chakra-toast-manager-bottom-right {
     right: 32px !important;
     bottom: 32px !important;

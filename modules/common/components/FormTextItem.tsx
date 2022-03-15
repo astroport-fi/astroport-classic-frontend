@@ -1,13 +1,5 @@
-import React, { FC } from "react";
-import {
-  Textarea,
-  Text,
-  Input,
-  Box,
-  Flex,
-  Circle,
-  CSSObject,
-} from "@chakra-ui/react";
+import React, { FC, useState, useRef } from "react";
+import { Textarea, Text, Input, Box, Flex, CSSObject } from "@chakra-ui/react";
 import {
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
@@ -16,6 +8,8 @@ import {
 } from "constants/proposals";
 import { validateJsonInput, validateUrl } from "modules/common/helpers";
 import ErrorBubble from "components/common/ErrorBubble";
+import ExecMsgExamples from "components/proposal/ExecMsgExamples";
+import UnderlineButton from "components/UnderlineButton";
 
 type Props = {
   type: "input" | "textarea";
@@ -113,6 +107,9 @@ const FormTextItem: FC<Props> = ({
   error,
   onChange,
 }) => {
+  const [showExamples, setShowExamples] = useState(false);
+  const msgRef = useRef(null);
+
   return (
     <Box
       bg="brand.defaultTable"
@@ -124,10 +121,29 @@ const FormTextItem: FC<Props> = ({
       position="relative"
       color="white"
     >
-      {title && (
-        <Text mb="2" ml="1" fontSize="sm">
-          {title}
-        </Text>
+      <Flex mb="2" ml="1">
+        {title && <Text fontSize="sm">{title}</Text>}
+        {id === "msg" && (
+          <UnderlineButton
+            ml="auto"
+            h="inherit"
+            color="proposalColours.purpleAlt"
+            fontWeight="400"
+            onClick={() => setShowExamples(!showExamples)}
+          >
+            {showExamples && "close example code"}
+            {!showExamples && "show example code"}
+          </UnderlineButton>
+        )}
+      </Flex>
+      {showExamples && (
+        <ExecMsgExamples
+          focusTextArea={() => {
+            if (msgRef.current) {
+              msgRef.current.focus();
+            }
+          }}
+        />
       )}
       {type === "input" && (
         <Input
@@ -160,6 +176,7 @@ const FormTextItem: FC<Props> = ({
           onChange={(e) => onChange(e.target.value)}
           h="40"
           resize="none"
+          ref={id === "msg" ? msgRef : null}
         />
       )}
       {error && (
