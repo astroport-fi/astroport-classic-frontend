@@ -454,6 +454,20 @@ const tokenCache: TokenCache = {
       icon: "/tokens/sayve.png",
       decimals: 6,
     },
+    terra1qqaufxewaygpcnc7er0x02wl03f0wanz65v0ya: {
+      protocol: "Governance OHM",
+      symbol: "gOHM",
+      token: "terra1qqaufxewaygpcnc7er0x02wl03f0wanz65v0ya",
+      icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+      decimals: 8,
+    },
+    terra1xgadan68ufnd0am08xd2vurqmz0wayctexv5fh: {
+      protocol: "gOHM reward token",
+      symbol: "rgOHM",
+      token: "terra1xgadan68ufnd0am08xd2vurqmz0wayctexv5fh",
+      icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+      decimals: 6,
+    },
   },
 };
 
