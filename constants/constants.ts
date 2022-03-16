@@ -11,6 +11,11 @@ export const CHAIN_TO_FINDER_INFO = {
   "bombay-12": "testnet",
 };
 
+export const ASTROPORT_URLS = {
+  mainnet: "https://app.astroport.fi/",
+  testnet: "https://develop.astroport.fi/",
+};
+
 /* terra:wasm */
 export const WASMQUERY = "WasmContractsContractAddressStore";
 

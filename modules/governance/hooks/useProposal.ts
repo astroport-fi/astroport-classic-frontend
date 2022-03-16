@@ -4,8 +4,8 @@ import { useApi } from "modules/common";
 import { Proposal } from "types/common";
 
 const query = gql`
-  query Proposals {
-    proposals {
+  query Proposal($proposalId: String!) {
+    proposal(proposal_id: $proposalId) {
       proposal_id
       state
       title
@@ -19,26 +19,25 @@ const query = gql`
   }
 `;
 
-export const useProposals = (): Proposal[] => {
-  const { data, isLoading } = useApi({
-    name: "proposals",
+export const useProposal = (proposalId: string): Proposal => {
+  const { data, isLoading, error } = useApi({
+    name: "proposal",
     query,
+    variables: {
+      proposalId,
+    },
     options: {
       enabled: !!query,
     },
   });
 
   return useMemo(() => {
-    if (isLoading || data == null || data.proposals == null) {
+    if (isLoading || data == null || data.proposal == null) {
       return null;
     }
 
-    // filter out stale and executed proposals
-    return data.proposals.filter(
-      (proposal: Proposal) =>
-        proposal.state !== "Stale" && proposal.state !== "Executed"
-    );
+    return data.proposal;
   }, [data, isLoading]);
 };
 
-export default useProposals;
+export default useProposal;

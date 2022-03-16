@@ -12,18 +12,18 @@ import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { truncateStr } from "modules/common/helpers";
 import { getProposalEndDateString } from "modules/governance/helpers";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
-  proposal: GovernanceProposal;
+  proposal: Proposal;
 };
 
-const CardHeader = ({ status, title, endDate }) => {
-  const voteTimeLabel = getProposalEndDateString(endDate);
+const CardHeader = ({ state, title, endTimestamp }) => {
+  const voteTimeLabel = getProposalEndDateString(endTimestamp);
 
   return (
     <Box h="105px" w="100%">
@@ -34,7 +34,7 @@ const CardHeader = ({ status, title, endDate }) => {
           height="24px"
           lineHeight="24px"
         >
-          <StatusTitle status={status} />
+          <StatusTitle state={state} />
           <Flex width="170px" bg="brand.dark" pl="2" borderLeftRadius="md">
             <Text color="white.400">{voteTimeLabel[0]}</Text>
             <Text pl="1">{voteTimeLabel[1]}</Text>
@@ -114,15 +114,15 @@ const Card: FC<Props> = ({ proposal }) => {
         borderRadius="2xl"
       >
         <CardHeader
-          status={proposal.status}
+          state={proposal.state}
           title={proposal.title}
-          endDate={proposal.endDate}
+          endTimestamp={proposal.end_timestamp}
         />
-        <CardBody voteFor={20} voteAgainst={20} quorum={40} />
+        <CardBody voteFor={0} voteAgainst={0} quorum={10} />
         <CardFooter
           description={proposal.description}
-          address={proposal.address}
-          id={proposal.id}
+          address={proposal.submitter}
+          id={proposal.proposal_id}
         />
       </Center>
     </GridItem>

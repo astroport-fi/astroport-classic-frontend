@@ -12,7 +12,7 @@ const GovPageProposals = () => {
   return (
     <Box my="24" color="white">
       <Flex px="2" mb="6" justify="space-between" align="center">
-        <Heading fontSize="xl">Active Proposals</Heading>
+        <Heading fontSize="xl">Assembly Proposals</Heading>
         <NextLink
           href="/governance/new-proposal"
           passHref
@@ -27,7 +27,7 @@ const GovPageProposals = () => {
           </Button>
         </NextLink>
       </Flex>
-      <GovProposalDash proposals={proposals} />
+      {proposals?.length > 0 && <GovProposalDash proposals={proposals} />}
     </Box>
   );
 };

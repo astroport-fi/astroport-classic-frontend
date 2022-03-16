@@ -1,16 +1,17 @@
 import React, { FC, useState } from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import { useTerraWebapp } from "@arthuryeti/terra";
 import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
-import { useProposals } from "modules/governance";
+import { useProposal } from "modules/governance";
 import { composeTwitterLink } from "modules/governance/helpers";
 
 import ProposalHeader from "components/proposal/Header";
 import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
-
 import TimelineBar from "components/governance/TimelineBar";
+import FormLoading from "components/common/FormLoading";
 
 type Props = {
   id: string;
@@ -179,18 +180,23 @@ const RightColumn = ({ id, status, discussionLink }) => {
 
 const Proposal: FC<Props> = ({ id }) => {
   const { status } = useWallet();
-  const proposals = useProposals();
-  const proposal = proposals.find((p) => p.id === id);
+  const proposal = useProposal(id);
+  const { network } = useTerraWebapp();
   const [addressOpen, setAddressOpen] = useState(false);
-  const twitterLink = composeTwitterLink(proposal.title, id);
+  const twitterLink = composeTwitterLink(network.name, proposal?.title, id);
+
+  if (!proposal) {
+    return <FormLoading />;
+  }
 
   return (
     <Box>
       <ProposalHeader
         title={proposal.title}
-        status={proposal.status}
+        state={proposal.state}
         twitterLink={twitterLink}
       />
+      {/* <ProposalFooter
       <Flex>
         <LeftColumn
           proposal={proposal}
@@ -199,6 +205,7 @@ const Proposal: FC<Props> = ({ id }) => {
         />
         <RightColumn id={id} status={status} discussionLink={proposal.link} />
       </Flex>
+      */}
     </Box>
   );
 };

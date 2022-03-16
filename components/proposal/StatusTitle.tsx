@@ -1,26 +1,26 @@
 import React, { FC } from "react";
 import { Flex, HStack, Text, IconButton, Box } from "@chakra-ui/react";
 
-import { ProposalStatus } from "types/common";
-import { getProposalStatusProperties } from "modules/governance/helpers";
+import { Proposal_Status } from "types/common";
+import { PROPOSAL_STATE_COLORS } from "constants/proposals";
 
 type Props = {
-  status: ProposalStatus;
+  state: Proposal_Status;
   fontSize?: string;
 };
 
-const StatusTitle: FC<Props> = ({ status, fontSize = "sm" }) => {
-  const proposalStatus = getProposalStatusProperties(status);
+const StatusTitle: FC<Props> = ({ state, fontSize = "sm" }) => {
+  const proposalStatus = PROPOSAL_STATE_COLORS[state];
 
   return (
     <Box
       fontSize={fontSize}
-      borderWidth="1px"
       borderColor={proposalStatus.color}
-      px="2"
-      borderRadius="md"
       bg={proposalStatus.lightColor}
       color={proposalStatus.color}
+      px="2"
+      borderWidth="1px"
+      borderRadius="md"
       fontWeight="500"
     >
       {proposalStatus.title}

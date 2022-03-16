@@ -4,16 +4,16 @@ import { Flex, HStack, Text, IconButton, Box } from "@chakra-ui/react";
 
 import BackIcon from "components/icons/BackIcon";
 import TwitterIcon from "components/icons/TwitterIcon";
-import { ProposalStatus } from "types/common";
+import { Proposal_Status } from "types/common";
 import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
   title: string;
-  status: ProposalStatus;
+  state: Proposal_Status;
   twitterLink: string;
 };
 
-const Header: FC<Props> = ({ title, status, twitterLink }) => {
+const Header: FC<Props> = ({ title, state, twitterLink }) => {
   return (
     <Flex mb="5" justify="space-between">
       <HStack spacing={4}>
@@ -27,7 +27,7 @@ const Header: FC<Props> = ({ title, status, twitterLink }) => {
           />
         </Link>
         <Text fontSize="xl">{title}</Text>
-        <StatusTitle status={status} />
+        <StatusTitle state={state} />
       </HStack>
       <IconButton
         aria-label="Tweet"

@@ -1,42 +1,10 @@
-import { ProposalStatus, ProposalStatusProperty } from "types/common";
-
-export const getProposalStatusProperties = (
-  value: ProposalStatus
-): ProposalStatusProperty => {
-  switch (value) {
-    case ProposalStatus.Fail:
-      return {
-        title: "failed",
-        lightColor: "proposalColours.redLight",
-        color: "proposalColours.red",
-      };
-    case ProposalStatus.Active:
-      return {
-        title: "active",
-        lightColor: "proposalColours.greenLight",
-        color: "proposalColours.green",
-      };
-    case ProposalStatus.Passed:
-      return {
-        title: "passed",
-        lightColor: "proposalColours.greenLight",
-        color: "proposalColours.green",
-      };
-    case ProposalStatus.Implemented:
-      return {
-        title: "implemented",
-        lightColor: "proposalColours.purpleLight",
-        color: "proposalColours.purple",
-      };
-  }
-  return null;
-};
+import { ASTROPORT_URLS } from "constants/constants";
 
 export const convertTimestampToDate = (
   timestamp: number = new Date().getTime(),
   utc: boolean = false
 ): string => {
-  const date = new Date(timestamp * 1000);
+  const date = new Date(timestamp);
   const day = utc ? date.getUTCDate() : date.getDate();
   const month = utc ? date.getUTCMonth() : date.getMonth();
   const year = utc ? date.getUTCFullYear() : date.getFullYear();
@@ -63,7 +31,7 @@ export const convertTimestapToHHMMSS = (
   timestamp: number = new Date().getTime(),
   utc: boolean = false
 ): string => {
-  const date = new Date(timestamp * 1000);
+  const date = new Date(timestamp);
   const hours = utc ? date.getUTCHours() : date.getHours();
   const minutes = utc ? date.getUTCMinutes() : date.getMinutes();
   const seconds = utc ? date.getUTCSeconds() : date.getSeconds();
@@ -75,7 +43,7 @@ export const convertTimestapToHHMMSS = (
 };
 
 export const getProposalEndDateString = (
-  timestamp: number
+  dateString: string
 ): [string, string] => {
   const daysBetween = (date1: Date, date2: Date): number => {
     const oneDay = 1000 * 60 * 60 * 24;
@@ -83,17 +51,17 @@ export const getProposalEndDateString = (
     return Math.round(differenceMs / oneDay);
   };
 
-  const date = new Date(timestamp * 1000);
+  const date = new Date(dateString);
   const now = new Date();
   const daysDiff = daysBetween(now, date);
 
   if (daysDiff > 1) {
     return ["Ends:", `${daysDiff} days left`];
   } else if (daysDiff < 0) {
-    return ["Vote ended:", convertTimestampToDate(timestamp)];
+    return ["Vote ended:", convertTimestampToDate(date.getTime())];
   }
 
-  return ["Ends:", `${convertTimestapToHHMMSS(timestamp)}`];
+  return ["Ends:", `${convertTimestapToHHMMSS(date.getTime())}`];
 };
 
 export const getGovProposalStepStatus = (
@@ -111,9 +79,13 @@ export const getGovProposalStepStatus = (
   return steps[index];
 };
 
-export const composeTwitterLink = (title: string, id: string) => {
+export const composeTwitterLink = (
+  network: string,
+  title: string,
+  id: string
+) => {
   return (
     `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
-    `${title}%0A%0A&url=https://app.astroport.fi/governance/proposal/${id}`
+    `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
   );
 };

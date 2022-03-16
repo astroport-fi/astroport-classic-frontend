@@ -3,7 +3,7 @@ import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { Flex, Text, Box, IconButton, Button } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
 import { NextLink } from "modules/common";
-import { useProposals } from "modules/governance";
+import { useProposal } from "modules/governance";
 
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
@@ -81,37 +81,38 @@ const Vote: FC<Props> = ({ id, action }) => {
   const { status } = useWallet();
 
   // Get proposal
-  let proposals = useProposals();
-  let proposal = proposals.find((p) => p.id === id);
+  let proposal = useProposal(id);
 
   // Temporary fee example
   const fee = new Fee(500, { uusd: 45000 });
 
   return (
     <Card>
-      <Flex justify="space-between" align="center" mb="8">
-        <Text fontSize="md">Confirm Vote</Text>
-        <NextLink href={`/governance/proposal/${id}`} passHref>
-          <Button
-            aria-label="Close"
-            variant="simple"
-            isRound
-            _hover={{
-              bg: "rgba(255,255,255,0.1)",
-            }}
-          >
-            <CloseIcon
-              w={["4", "6"]}
-              h={["4", "6"]}
-              color="white"
-              BackgroundOpacity="0"
-            />
-          </Button>
-        </NextLink>
-      </Flex>
-      <TitleBox title={proposal.title} />
-      <ActionBox action={action} amount="5000.00" percentage="0.005%" />
-      <Footer status={status} action={action} fee={fee} id={id} />
+      {/*
+          <Flex justify="space-between" align="center" mb="8">
+            <Text fontSize="md">Confirm Vote</Text>
+            <NextLink href={`/governance/proposal/${id}`} passHref>
+              <Button
+                aria-label="Close"
+                variant="simple"
+                isRound
+                _hover={{
+                  bg: "rgba(255,255,255,0.1)",
+                }}
+              >
+                <CloseIcon
+                  w={["4", "6"]}
+                  h={["4", "6"]}
+                  color="white"
+                  BackgroundOpacity="0"
+                />
+              </Button>
+            </NextLink>
+          </Flex>
+          <TitleBox title={proposal.title} />
+          <ActionBox action={action} amount="5000.00" percentage="0.005%" />
+          <Footer status={status} action={action} fee={fee} id={id} />
+        */}
     </Card>
   );
 };

@@ -4,12 +4,12 @@ import ReactPaginate from "react-paginate";
 
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 
 const ITEMS_PER_PAGE = 4;
 
 type Props = {
-  proposals: GovernanceProposal[];
+  proposals: Proposal[];
 };
 
 const GovProposalDash: FC<Props> = ({ proposals }) => {
@@ -76,7 +76,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
     <>
       <Grid templateColumns={["auto", "auto", "auto", "auto auto"]} gap={8}>
         {currentItems &&
-          currentItems.map((item: GovernanceProposal, i: React.Key) => (
+          currentItems.map((item: Proposal, i: React.Key) => (
             <Card key={i} proposal={item} />
           ))}
       </Grid>

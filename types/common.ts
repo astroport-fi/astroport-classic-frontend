@@ -150,12 +150,6 @@ export enum ProposalStatus {
   Implemented = 3,
 }
 
-export type ProposalStatusProperty = {
-  title: string;
-  lightColor: string;
-  color: string;
-};
-
 export type GovernanceProposal = {
   id?: string;
   title?: string;
@@ -174,3 +168,30 @@ export type GovernanceProposal = {
   status?: ProposalStatus;
   history?: any;
 };
+
+// gov types
+export interface Proposal {
+  proposal_id: string;
+  state: Proposal_Status;
+  title: string;
+  description: string;
+  link?: string;
+  messages?: string;
+  submitter: string;
+  start_timestamp: string;
+  end_timestamp: string;
+}
+
+export enum Proposal_Status {
+  Active = "Active",
+  Passed = "Passed",
+  Executed = "Executed",
+  Rejected = "Rejected",
+  Stale = "Stale",
+}
+
+export interface Proposal_Status_Props {
+  title: string;
+  lightColor: string;
+  color: string;
+}
