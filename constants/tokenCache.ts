@@ -465,7 +465,7 @@ const tokenCache: TokenCache = {
       protocol: "gOHM reward token",
       symbol: "rgOHM",
       token: "terra1xgadan68ufnd0am08xd2vurqmz0wayctexv5fh",
-      icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+      icon: "/tokens/default.png",
       decimals: 6,
     },
   },
