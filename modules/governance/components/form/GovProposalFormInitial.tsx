@@ -71,7 +71,6 @@ const GovProposalFormInitial: FC<Props> = ({
         value={title}
         formRegister={methods.register}
         error={inputErrors?.title || null}
-        required={true}
         onChange={(text) => {
           methods.setValue("title", text);
           methods.clearErrors("title");
@@ -82,7 +81,6 @@ const GovProposalFormInitial: FC<Props> = ({
         value={description}
         formRegister={methods.register}
         error={inputErrors?.description || null}
-        required={true}
         onChange={(text) => {
           methods.setValue("description", text);
           methods.clearErrors("description");
@@ -96,7 +94,6 @@ const GovProposalFormInitial: FC<Props> = ({
         value={msg}
         formRegister={methods.register}
         error={inputErrors?.msg || null}
-        required={false}
         onChange={(text) => {
           methods.setValue("msg", text);
           methods.clearErrors("msg");
@@ -108,7 +105,6 @@ const GovProposalFormInitial: FC<Props> = ({
         value={link}
         formRegister={methods.register}
         error={inputErrors?.link || null}
-        required={false}
         onChange={(text) => {
           methods.setValue("link", text);
           methods.clearErrors("link");

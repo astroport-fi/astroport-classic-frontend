@@ -16,7 +16,6 @@ type Props = {
   id: string;
   title?: string;
   value?: string;
-  required?: boolean;
   placeholder?: string;
   _placeholder?: CSSObject;
   fontSize?: string;
@@ -77,14 +76,18 @@ const formValidationRule = (id) => {
     case "msg":
       return {
         required: false,
-        validate: (value) =>
-          value.length === 0 || (value.length > 0 && validateJsonInput(value)),
+        validate: (value: string | null) =>
+          !value ||
+          value.length === 0 ||
+          (value.length > 0 && validateJsonInput(value)),
       };
     case "link":
       return {
         required: false,
-        validate: (value) =>
-          value.length === 0 || (value.length > 0 && validateUrl(value)),
+        validate: (value: string | null) =>
+          !value ||
+          value.length === 0 ||
+          (value.length > 0 && validateUrl(value)),
       };
   }
 
@@ -99,7 +102,6 @@ const FormTextItem: FC<Props> = ({
   formRegister,
   title,
   value = "",
-  required = null,
   placeholder = "Type here",
   _placeholder = { fontStyle: "italic", color: "white.400" },
   fontSize = null,
