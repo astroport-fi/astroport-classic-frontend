@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Heading, Box, Flex, Text, Code, Link } from "@chakra-ui/react";
 import { GovernanceProposal } from "types/common";
 import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
+import Warning from "components/icons/Warning";
 
 type Props = {
   proposal: GovernanceProposal;
@@ -84,6 +85,17 @@ const ForumSummary: FC<Props> = ({
             <Text color="white.600" fontSize="2xs">
               {xAstroRequiredTokens} xASTRO ($
               {handleBigAndTinyAmount(xAstroPrice * xAstroRequiredTokens)})
+            </Text>
+          </Flex>
+        </FormBlock>
+      </Box>
+      <Box mb="8">
+        <FormBlock>
+          <Flex align="center">
+            <Warning />
+            <Text mx="3" fontSize="xs">
+              Please be aware that new proposals can take about ~5min to show up
+              on the dashboard.
             </Text>
           </Flex>
         </FormBlock>
