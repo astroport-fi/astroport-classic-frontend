@@ -9,8 +9,10 @@ import AprTd from "components/table/AprTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
+import { useAddress } from "@arthuryeti/terra";
 
 const MyPools: FC = () => {
+  const address = useAddress();
   const myPools = useAllPools().filter((pool) => pool.inUse);
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 
@@ -113,6 +115,7 @@ const MyPools: FC = () => {
         columns={columns}
         emptyMsg="You need to add liquidity first."
         sortBy="myLiquidityInUst"
+        renderFilters={address.length !== 0}
       />
     </Card>
   );

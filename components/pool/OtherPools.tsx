@@ -238,6 +238,7 @@ const OtherPools: FC = () => {
         tableInstance={tableInstance}
         emptyMsg="No pools."
         minW="1080px"
+        renderFilters={true}
       >
         <Box backgroundColor="inherit" {...getTableBodyProps()}>
           {tableRows}
