@@ -4,14 +4,14 @@ import { Fee } from "@terra-money/terra.js";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/governance/FormSummary";
 
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
   fee: Fee;
   xAstroPrice?: number;
   xAstroRequired?: string;
-  proposal: GovernanceProposal;
+  proposal: Proposal;
   onCloseClick: () => void;
 };
 

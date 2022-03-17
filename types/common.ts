@@ -142,44 +142,25 @@ export enum ProvideFormMode {
   Double = 1,
 }
 
-// temporary governance proposal types
-export enum ProposalStatus {
-  Fail = 0,
-  Active = 1,
-  Passed = 2,
-  Implemented = 3,
-}
-
-export type GovernanceProposal = {
-  id?: string;
-  title?: string;
-  description?: string;
-  msg?: string;
-  link?: string;
-  amount?: number;
-  endDate?: string;
-  votesFor?: number;
-  voteForNum?: number;
-  votesAgainst?: number;
-  voteAgainstNum?: number;
-  votesQuorum?: number;
-  votesMax?: number;
-  address?: string;
-  status?: ProposalStatus;
-  history?: any;
-};
-
-// gov types
+// Governance interface and types
 export interface Proposal {
   proposal_id: string;
   state: Proposal_Status;
+  // details
   title: string;
   description: string;
   link?: string;
   messages?: string;
   submitter: string;
+  // voting period
   start_timestamp: string;
   end_timestamp: string;
+  // state timestamps
+  active: string | null;
+  passed: string | null;
+  executed: string | null;
+  rejected: string | null;
+  expired: string | null;
 }
 
 export enum Proposal_Status {
@@ -195,3 +176,15 @@ export interface Proposal_Status_Props {
   lightColor: string;
   color: string;
 }
+
+export type FixedSizeArray<N extends number, T> = N extends 0
+  ? never[]
+  : {
+      0: T;
+      length: N;
+    } & ReadonlyArray<T>;
+
+export type Proposal_History = FixedSizeArray<
+  5,
+  { title: string; dotColor: string; color: string; timestamp: string } | null
+>;

@@ -4,7 +4,7 @@ import { Fee } from "@terra-money/terra.js";
 import { useFormContext, UseFormReturn } from "react-hook-form";
 import { FormActions, FormTextItem } from "modules/common";
 import { GovProposalFormFooter } from "modules/governance";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 import DepositBox from "components/proposal/DepositBox";
 import ErrorBox from "components/proposal/ErrorBox";
@@ -17,7 +17,7 @@ type Props = {
   xAstroRequired?: string;
   xAstroBalance?: string;
   inputErrors: any;
-  methods: UseFormReturn<GovernanceProposal, object>;
+  methods: UseFormReturn<Proposal, object>;
 };
 
 const CommonFormProps = (
@@ -39,10 +39,10 @@ const GovProposalFormInitial: FC<Props> = ({
   methods,
 }) => {
   const { watch } = useFormContext();
-  const [title, description, msg, link] = [
+  const [title, description, messages, link] = [
     watch("title"),
     watch("description"),
-    watch("msg"),
+    watch("messages"),
     watch("link"),
   ];
 
@@ -87,16 +87,16 @@ const GovProposalFormInitial: FC<Props> = ({
         }}
       />
       <FormTextItem
-        {...CommonFormProps("textarea", "msg", "Executable Messages:")}
+        {...CommonFormProps("textarea", "messages", "Executable Messages:")}
         fontFamily="mono"
         fontSize="sm"
         _placeholder={{ color: "white.400" }}
-        value={msg}
+        value={messages}
         formRegister={methods.register}
-        error={inputErrors?.msg || null}
+        error={inputErrors?.messages || null}
         onChange={(text) => {
-          methods.setValue("msg", text);
-          methods.clearErrors("msg");
+          methods.setValue("messages", text);
+          methods.clearErrors("messages");
         }}
       />
       <FormTextItem

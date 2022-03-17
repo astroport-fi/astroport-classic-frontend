@@ -15,6 +15,11 @@ const query = gql`
       submitter
       start_timestamp
       end_timestamp
+      active
+      passed
+      executed
+      rejected
+      expired
     }
   }
 `;

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Container } from "@chakra-ui/react";
 
-import Proposal from "components/Proposal";
+import { GovProposalPage } from "modules/governance";
 
 type Props = {
   id: string;
@@ -16,7 +16,7 @@ const GovProposal: FC<Props> = ({ id }) => {
       pb="64"
       color="white"
     >
-      <Proposal id={id} />
+      <GovProposalPage id={id} />
     </Container>
   );
 };

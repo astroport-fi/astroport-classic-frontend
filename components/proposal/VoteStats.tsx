@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 import { truncateStr } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
@@ -9,62 +9,16 @@ import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 
 type Props = {
-  proposal: GovernanceProposal;
+  proposal: Proposal;
   minH?: number;
   addressOpen: boolean;
   onClick: () => void;
 };
 
 // Dummy data
-const votesForArr = [
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 8,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 3.4,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 2,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 1,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 3.4,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 2,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 1,
-  },
-];
+const votesForArr = [];
 
-const votesAgainstArr = [
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 5,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 4.4,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 4.1,
-  },
-  {
-    address: "terra14zees4lwrdds0em258axe7d3lqqj9n4v7saq7e",
-    percent: 3.8,
-  },
-];
+const votesAgainstArr = [];
 
 const VoteStats: FC<Props> = ({
   proposal,
@@ -86,9 +40,9 @@ const VoteStats: FC<Props> = ({
     >
       <Flex flexDirection="column" p="5" mt="5">
         <Flex>
-          <ProgressBar voteFor={20} voteAgainst={20} quorum={40} />
+          <ProgressBar voteFor={0} voteAgainst={0} quorum={10} />
         </Flex>
-        <ProgressLabel voteFor={20} voteAgainst={20} />
+        <ProgressLabel voteFor={0} voteAgainst={0} />
       </Flex>
       <Flex borderY="1px" borderColor="white.100" p="6">
         <Flex flexDirection="column" w="50%" mr="1">

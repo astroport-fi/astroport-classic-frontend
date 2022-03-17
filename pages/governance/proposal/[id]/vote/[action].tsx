@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import GovVote from "components/pages/GovVote";
 
-const GovernanceProposal: NextPage = () => {
+const GovernanceVote: NextPage = () => {
   const { query } = useRouter();
 
   return (
@@ -18,4 +18,4 @@ const GovernanceProposal: NextPage = () => {
   );
 };
 
-export default GovernanceProposal;
+export default GovernanceVote;

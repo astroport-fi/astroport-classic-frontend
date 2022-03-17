@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Heading, Box, Flex, Text, Code, Link } from "@chakra-ui/react";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
 import Warning from "components/icons/Warning";
 
 type Props = {
-  proposal: GovernanceProposal;
+  proposal: Proposal;
   xAstroRequiredTokens?: number;
   xAstroPrice?: number;
 };
@@ -43,7 +43,7 @@ const ForumSummary: FC<Props> = ({
   xAstroRequiredTokens,
   xAstroPrice,
 }) => {
-  const { title, description, msg, link } = proposal;
+  const { title, description, messages, link } = proposal;
 
   return (
     <Box fontSize="0.875rem">
@@ -65,7 +65,7 @@ const ForumSummary: FC<Props> = ({
         {FormTextHeader("Executable Messages")}
         <FormBlock maxH="40" overflowY="auto" overflow={null}>
           <Code bg="none" color="inherit">
-            {msg}
+            {messages}
           </Code>
         </FormBlock>
       </Box>
@@ -94,7 +94,7 @@ const ForumSummary: FC<Props> = ({
           <Flex align="center">
             <Warning />
             <Text mx="3" fontSize="xs">
-              Please be aware that new proposals can take about ~5min to show up
+              Please be aware that new proposals can take a few mins to show up
               on the dashboard.
             </Text>
           </Flex>

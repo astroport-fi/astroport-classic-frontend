@@ -50,7 +50,7 @@ const formErrorMsg = (id, error) => {
 
       return "This input is required";
     }
-    case "msg":
+    case "messages":
       return "Inccorectly formatted JSON";
     case "link":
       return "Inccorectly formatted URL";
@@ -73,7 +73,7 @@ const formValidationRule = (id) => {
         minLength: MIN_DESCRIPTION_LENGTH,
         maxLength: MAX_DESCRIPTION_LENGTH,
       };
-    case "msg":
+    case "messages":
       return {
         required: false,
         validate: (value: string | null) =>
@@ -125,7 +125,7 @@ const FormTextItem: FC<Props> = ({
     >
       <Flex mb="2" ml="1">
         {title && <Text fontSize="sm">{title}</Text>}
-        {id === "msg" && (
+        {id === "messages" && (
           <UnderlineButton
             ml="auto"
             h="inherit"
@@ -178,7 +178,7 @@ const FormTextItem: FC<Props> = ({
           onChange={(e) => onChange(e.target.value)}
           h="40"
           resize="none"
-          ref={id === "msg" ? msgRef : null}
+          ref={id === "messages" ? msgRef : null}
         />
       )}
       {error && (

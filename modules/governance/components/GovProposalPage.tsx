@@ -1,23 +1,48 @@
 import React, { FC, useState } from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { useTerraWebapp } from "@arthuryeti/terra";
-import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Text,
+  Code,
+  Center,
+  Spinner,
+} from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { useProposal } from "modules/governance";
-import { composeTwitterLink } from "modules/governance/helpers";
+import {
+  composeTwitterLink,
+  appendHttp,
+  createHistoryBlocks,
+} from "modules/governance/helpers";
 
 import ProposalHeader from "components/proposal/Header";
 import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
 import TimelineBar from "components/governance/TimelineBar";
-import FormLoading from "components/common/FormLoading";
+import { Proposal, Proposal_History } from "types/common";
 
 type Props = {
   id: string;
 };
 
-const HistoryBox = ({ history }: any) => {
+type LeftColumnProps = {
+  proposal: Proposal;
+  addressOpen: boolean;
+  setAddressOpen: (value: boolean) => void;
+};
+
+type RightColumnProps = {
+  id: string;
+  status: WalletStatus;
+  link: string;
+};
+
+const HistoryBox: FC<{ blocks: Proposal_History }> = ({ blocks }) => {
   return (
     <Flex
       flexDirection="column"
@@ -29,16 +54,15 @@ const HistoryBox = ({ history }: any) => {
       width="100%"
     >
       <Text mb="6">Proposal History</Text>
-      <TimelineBar
-        dates={history?.dates}
-        active={history?.status}
-        completion={history?.completed}
-      />
+      <TimelineBar blocks={blocks} />
     </Flex>
   );
 };
 
-const DescriptionBox = ({ address, description }) => {
+const DescriptionBox: FC<{ address: string; description: string }> = ({
+  address,
+  description,
+}) => {
   const finder = useFinder();
 
   return (
@@ -59,25 +83,28 @@ const DescriptionBox = ({ address, description }) => {
   );
 };
 
-const MsgBox = ({ msg }) => {
+const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
   return (
     <Box minH="150px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Executable Messages</Text>
       <Box maxH="40" overflowY="auto">
         <Code bg="none" color="whiteAlpha.400" fontSize="sm">
-          {msg}
+          {messages}
         </Code>
       </Box>
     </Box>
   );
 };
 
-const MyVotingPowerBox = ({ id, status }) => {
+const MyVotingPowerBox: FC<{ id: string; status: WalletStatus }> = ({
+  id,
+  status,
+}) => {
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
       <Text fontSize="xs">My Voting Power</Text>
       <Box bg="blackAlpha.400" p="3" my="3" borderRadius="lg">
-        <Text>9,999,999.00</Text>
+        <Text>x,xxx,xxx.xx</Text>
         <Text fontSize="sm" color="whiteAlpha.400">
           x.xxx%
         </Text>
@@ -116,8 +143,8 @@ const MyVotingPowerBox = ({ id, status }) => {
   );
 };
 
-const DiscussionBox = ({ link }) => {
-  const forumLink = "https://forum.astroport.fi";
+const DiscussionBox: FC<{ link: string | null }> = ({ link }) => {
+  const forumLink = link ? appendHttp(link) : "https://forum.astroport.fi";
 
   return (
     <Flex
@@ -150,35 +177,42 @@ const DiscussionBox = ({ link }) => {
   );
 };
 
-const LeftColumn = ({ proposal, addressOpen, setAddressOpen }) => {
+const LeftColumn: FC<LeftColumnProps> = ({
+  proposal,
+  addressOpen,
+  setAddressOpen,
+}) => {
   return (
     <Flex flexDirection="column" w={["100%", "100%", "66.6%"]} mr="5">
-      <ProposalTime endDate={proposal.endDate} status={proposal.status} />
+      <ProposalTime
+        endTimestamp={proposal.end_timestamp}
+        state={proposal.state}
+      />
       <ProposalVoteStats
         proposal={proposal}
         addressOpen={addressOpen}
         onClick={() => setAddressOpen(!addressOpen)}
       />
-      <HistoryBox history={proposal.history} />
+      <HistoryBox blocks={createHistoryBlocks(proposal)} />
       <DescriptionBox
-        address={proposal.address}
+        address={proposal.submitter}
         description={proposal.description}
       />
-      <MsgBox msg={proposal.msg} />
+      <MsgBox messages={proposal.messages} />
     </Flex>
   );
 };
 
-const RightColumn = ({ id, status, discussionLink }) => {
+const RightColumn: FC<RightColumnProps> = ({ id, status, link }) => {
   return (
     <Flex display={["none", "none", "flex"]} flexDirection="column" w="33.3%">
       <MyVotingPowerBox id={id} status={status} />
-      <DiscussionBox link={discussionLink} />
+      <DiscussionBox link={link} />
     </Flex>
   );
 };
 
-const Proposal: FC<Props> = ({ id }) => {
+const GovProposalPage: FC<Props> = ({ id }) => {
   const { status } = useWallet();
   const proposal = useProposal(id);
   const { network } = useTerraWebapp();
@@ -186,7 +220,7 @@ const Proposal: FC<Props> = ({ id }) => {
   const twitterLink = composeTwitterLink(network.name, proposal?.title, id);
 
   if (!proposal) {
-    return <FormLoading />;
+    return null;
   }
 
   return (
@@ -196,18 +230,16 @@ const Proposal: FC<Props> = ({ id }) => {
         state={proposal.state}
         twitterLink={twitterLink}
       />
-      {/* <ProposalFooter
       <Flex>
         <LeftColumn
           proposal={proposal}
           addressOpen={addressOpen}
           setAddressOpen={setAddressOpen}
         />
-        <RightColumn id={id} status={status} discussionLink={proposal.link} />
+        <RightColumn id={id} status={status} link={proposal.link} />
       </Flex>
-      */}
     </Box>
   );
 };
 
-export default Proposal;
+export default GovProposalPage;

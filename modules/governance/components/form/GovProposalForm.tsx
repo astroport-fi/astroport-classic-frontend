@@ -19,7 +19,7 @@ import {
   useCreateProposal,
   useGovStakingBalances,
 } from "modules/governance/hooks";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 import FormLoading from "components/common/FormLoading";
 import useDebounceValue from "hooks/useDebounceValue";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
@@ -33,7 +33,7 @@ const GovProposalForm = () => {
   const astroPrice = useTokenPriceInUstWithSimulate(astroToken);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
-  const methods = useForm<GovernanceProposal>();
+  const methods = useForm<Proposal>();
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
   const formProposal = methods.watch();
   const { msgs } = useCreateProposal({

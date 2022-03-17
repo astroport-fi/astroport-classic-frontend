@@ -2,6 +2,7 @@ export { default as GovPage } from "./GovPage";
 export { default as GovPageStake } from "./GovPageStake";
 export { default as GovPageProposals } from "./GovPageProposals";
 export { default as GovProposalDash } from "./GovProposalDash";
+export { default as GovProposalPage } from "./GovProposalPage";
 
 // Form
 export { default as GovProposalForm } from "./form/GovProposalForm";

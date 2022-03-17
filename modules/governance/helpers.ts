@@ -1,10 +1,11 @@
 import { ASTROPORT_URLS } from "constants/constants";
+import { Proposal, Proposal_History, Proposal_Status } from "types/common";
 
 export const convertTimestampToDate = (
-  timestamp: number = new Date().getTime(),
+  dateString: string = new Date().toISOString(),
   utc: boolean = false
 ): string => {
-  const date = new Date(timestamp);
+  const date = new Date(dateString);
   const day = utc ? date.getUTCDate() : date.getDate();
   const month = utc ? date.getUTCMonth() : date.getMonth();
   const year = utc ? date.getUTCFullYear() : date.getFullYear();
@@ -28,10 +29,10 @@ export const convertTimestampToDate = (
 };
 
 export const convertTimestapToHHMMSS = (
-  timestamp: number = new Date().getTime(),
+  dateString: string = new Date().toISOString(),
   utc: boolean = false
 ): string => {
-  const date = new Date(timestamp);
+  const date = new Date(dateString);
   const hours = utc ? date.getUTCHours() : date.getHours();
   const minutes = utc ? date.getUTCMinutes() : date.getMinutes();
   const seconds = utc ? date.getUTCSeconds() : date.getSeconds();
@@ -58,25 +59,67 @@ export const getProposalEndDateString = (
   if (daysDiff > 1) {
     return ["Ends:", `${daysDiff} days left`];
   } else if (daysDiff < 0) {
-    return ["Vote ended:", convertTimestampToDate(date.getTime())];
+    return ["Vote ended:", convertTimestampToDate(date.toISOString())];
   }
 
-  return ["Ends:", `${convertTimestapToHHMMSS(date.getTime())}`];
+  return ["Ends:", `${convertTimestapToHHMMSS(date.toISOString())}`];
 };
 
-export const getGovProposalStepStatus = (
-  index: number,
-  completeStatus: number
-) => {
-  let steps = [
-    "Created",
-    "Active",
-    completeStatus === -1 ? "Failed" : "Succeeded",
-    "Queued",
-    "Executed",
-  ];
+export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
+  const colorOn = "whiteAlpha.900";
+  const colorOff = "whiteAlpha.400";
+  const colorGreen = "green.500";
+  const colorRed = "red.500";
 
-  return steps[index];
+  const state = proposal.state;
+
+  const activeOn = !proposal.active ? colorOff : colorOn;
+  const succeededOn = !(proposal.passed || proposal.rejected)
+    ? colorOff
+    : colorOn;
+  const executedOn = !proposal.executed ? colorOff : colorOn;
+
+  const created = {
+    title: "Created",
+    dotColor: colorOn,
+    color: colorOn,
+    timestamp: proposal.start_timestamp,
+  };
+
+  const active = {
+    title: "Active",
+    dotColor: state === Proposal_Status.Active ? colorGreen : activeOn,
+    color: activeOn,
+    timestamp: proposal.active,
+  };
+
+  const succeeded = {
+    title: proposal.rejected ? "Failed" : "Succeeded",
+    dotColor:
+      state === Proposal_Status.Passed
+        ? colorGreen
+        : state === Proposal_Status.Rejected
+        ? colorRed
+        : succeededOn,
+    color: succeededOn,
+    timestamp: proposal.passed || proposal.rejected,
+  };
+
+  const queued = {
+    title: "Queued",
+    dotColor: executedOn,
+    color: executedOn,
+    timestamp: proposal.executed,
+  };
+
+  const executed = {
+    title: "Executed",
+    dotColor: state === Proposal_Status.Executed ? colorGreen : executedOn,
+    color: executedOn,
+    timestamp: proposal.executed,
+  };
+
+  return [created, active, succeeded, queued, executed];
 };
 
 export const composeTwitterLink = (
@@ -88,4 +131,12 @@ export const composeTwitterLink = (
     `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
     `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
   );
+};
+
+export const appendHttp = (url: string) => {
+  if (!/^(f|ht)tps?:\/\//i.test(url)) {
+    url = "http://" + url;
+  }
+
+  return url;
 };

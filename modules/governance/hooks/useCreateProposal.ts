@@ -3,11 +3,11 @@ import { useAddress } from "@arthuryeti/terra";
 
 import { useContracts } from "modules/common";
 import { createProposalMsg } from "modules/governance";
-import { GovernanceProposal } from "types/common";
+import { Proposal } from "types/common";
 
 type Params = {
   amount: string;
-  proposal: GovernanceProposal;
+  proposal: Proposal;
 };
 
 export const useCreateProposal = ({ amount, proposal }: Params): any => {
@@ -33,7 +33,7 @@ export const useCreateProposal = ({ amount, proposal }: Params): any => {
     amount,
     proposal.title,
     proposal.description,
-    proposal.msg,
+    proposal.messages,
     proposal.link,
   ]);
 
