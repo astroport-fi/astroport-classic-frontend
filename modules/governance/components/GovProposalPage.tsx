@@ -172,7 +172,7 @@ const DiscussionBox: FC<{ link: string | null }> = ({ link }) => {
           window.open(forumLink, "_blank");
         }}
       >
-        Go To Forum
+        Go to Forum
       </Button>
     </Flex>
   );
