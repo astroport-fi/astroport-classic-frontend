@@ -10,6 +10,7 @@ import ProgressLabel from "components/governance/ProgressLabel";
 
 type Props = {
   proposal: Proposal;
+  quorum: any;
   minH?: number;
   addressOpen: boolean;
   onClick: () => void;
@@ -22,6 +23,7 @@ const votesAgainstArr = [];
 
 const VoteStats: FC<Props> = ({
   proposal,
+  quorum,
   minH = "250px",
   addressOpen,
   onClick,
@@ -40,7 +42,11 @@ const VoteStats: FC<Props> = ({
     >
       <Flex flexDirection="column" p="5" mt="5">
         <Flex>
-          <ProgressBar voteFor={0} voteAgainst={0} quorum={10} />
+          <ProgressBar
+            voteFor={0}
+            voteAgainst={0}
+            quorum={quorum * 100 || null}
+          />
         </Flex>
         <ProgressLabel voteFor={0} voteAgainst={0} />
       </Flex>

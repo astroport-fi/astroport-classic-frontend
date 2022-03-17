@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
+import { handleTinyAmount } from "modules/common";
 
 type ProgressElements = {
   voteFor: number;
   voteAgainst: number;
-  quorum: number;
+  quorum: number | null;
   height?: number;
 };
 
@@ -65,6 +66,7 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
         h="30px"
         width="1px"
         bg="whiteAlpha.200"
+        zIndex="2"
       ></Box>
       <Flex
         pos="absolute"
@@ -72,10 +74,12 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
         left={leftPosition}
         pl="2"
         color="whiteAlpha.600"
+        bg="brand.defaultTable"
+        zIndex="1"
       >
         <Text>Quorum</Text>
         <Text pl="1" color="white">
-          {quorum}%
+          {handleTinyAmount(quorum)}%
         </Text>
       </Flex>
     </>
@@ -124,7 +128,7 @@ const ProgressBar: FC<ProgressElements> = ({
     <Box pos="relative" width="100%" height={`${height}px`}>
       <LeftFixedTip />
       <RightFixedTip />
-      <QuorumFixedTip quorum={quorum} />
+      {quorum && <QuorumFixedTip quorum={quorum} />}
       <Box
         pos="relative"
         overflow="hidden"

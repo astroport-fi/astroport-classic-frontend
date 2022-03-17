@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
 import { Proposal } from "types/common";
+import { useConfig } from "modules/governance/hooks";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -18,6 +19,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [inputPageNum, setInputPageNum] = useState<number | string>("");
+  const quorum = useConfig()?.proposal_required_quorum;
 
   useEffect(() => {
     const endOffset = itemOffset + ITEMS_PER_PAGE;
@@ -77,7 +79,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
       <Grid templateColumns={["auto", "auto", "auto", "auto auto"]} gap={8}>
         {currentItems &&
           currentItems.map((item: Proposal, i: React.Key) => (
-            <Card key={i} proposal={item} />
+            <Card key={i} proposal={item} quorum={quorum} />
           ))}
       </Grid>
       <Flex

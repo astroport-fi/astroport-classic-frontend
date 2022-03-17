@@ -20,6 +20,7 @@ import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
   proposal: Proposal;
+  quorum: string | null;
 };
 
 const CardHeader = ({ state, title, endTimestamp }) => {
@@ -61,7 +62,7 @@ const CardBody = ({ voteFor, voteAgainst, quorum }) => {
           <ProgressBar
             voteFor={voteFor}
             voteAgainst={voteAgainst}
-            quorum={quorum}
+            quorum={quorum * 100 || null}
           />
         </Flex>
         <ProgressLabel voteFor={voteFor} voteAgainst={voteAgainst} />
@@ -102,7 +103,7 @@ const CardFooter = ({ description, address, id }) => {
   );
 };
 
-const Card: FC<Props> = ({ proposal }) => {
+const Card: FC<Props> = ({ proposal, quorum }) => {
   return (
     <GridItem h="485px" overflow="hidden">
       <Center
@@ -118,7 +119,7 @@ const Card: FC<Props> = ({ proposal }) => {
           title={proposal.title}
           endTimestamp={proposal.end_timestamp}
         />
-        <CardBody voteFor={0} voteAgainst={0} quorum={10} />
+        <CardBody voteFor={0} voteAgainst={0} quorum={quorum} />
         <CardFooter
           description={proposal.description}
           address={proposal.submitter}

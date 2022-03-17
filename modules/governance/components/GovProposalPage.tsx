@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
-import { useProposal } from "modules/governance";
+import { useConfig, useProposal } from "modules/governance";
 import {
   composeTwitterLink,
   appendHttp,
@@ -33,6 +33,7 @@ type Props = {
 type LeftColumnProps = {
   proposal: Proposal;
   addressOpen: boolean;
+  quorum: string | null;
   setAddressOpen: (value: boolean) => void;
 };
 
@@ -180,6 +181,7 @@ const DiscussionBox: FC<{ link: string | null }> = ({ link }) => {
 const LeftColumn: FC<LeftColumnProps> = ({
   proposal,
   addressOpen,
+  quorum,
   setAddressOpen,
 }) => {
   return (
@@ -190,6 +192,7 @@ const LeftColumn: FC<LeftColumnProps> = ({
       />
       <ProposalVoteStats
         proposal={proposal}
+        quorum={quorum}
         addressOpen={addressOpen}
         onClick={() => setAddressOpen(!addressOpen)}
       />
@@ -215,6 +218,7 @@ const RightColumn: FC<RightColumnProps> = ({ id, status, link }) => {
 const GovProposalPage: FC<Props> = ({ id }) => {
   const { status } = useWallet();
   const proposal = useProposal(id);
+  const quorum = useConfig()?.proposal_required_quorum;
   const { network } = useTerraWebapp();
   const [addressOpen, setAddressOpen] = useState(false);
   const twitterLink = composeTwitterLink(network.name, proposal?.title, id);
@@ -234,6 +238,7 @@ const GovProposalPage: FC<Props> = ({ id }) => {
         <LeftColumn
           proposal={proposal}
           addressOpen={addressOpen}
+          quorum={quorum}
           setAddressOpen={setAddressOpen}
         />
         <RightColumn id={id} status={status} link={proposal.link} />
