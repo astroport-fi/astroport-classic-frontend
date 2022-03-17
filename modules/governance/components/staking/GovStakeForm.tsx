@@ -67,8 +67,6 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
-      setIsPosting(false);
-
       router.push("/governance");
     },
     onError: () => {

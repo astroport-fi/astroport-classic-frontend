@@ -57,7 +57,6 @@ const GovProposalForm = () => {
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
-      setIsPosting(false);
       router.push("/governance");
     },
     onError: () => {
