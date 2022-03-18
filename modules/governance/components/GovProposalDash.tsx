@@ -15,7 +15,7 @@ type Props = {
 
 const GovProposalDash: FC<Props> = ({ proposals }) => {
   const [currentItems, setCurrentItems] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [inputPageNum, setInputPageNum] = useState<number | string>("");
