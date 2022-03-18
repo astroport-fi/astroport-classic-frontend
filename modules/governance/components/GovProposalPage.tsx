@@ -1,19 +1,15 @@
 import React, { FC, useState } from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
-import { useTerraWebapp } from "@arthuryeti/terra";
-import {
-  Box,
-  Button,
-  Flex,
-  Link,
-  Text,
-  Code,
-  Center,
-  Spinner,
-} from "@chakra-ui/react";
+import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useRouter } from "next/router";
+import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
-import { useConfig, useProposalApi } from "modules/governance";
+import {
+  useConfig,
+  useProposalApi,
+  useProposalClient,
+} from "modules/governance";
 import {
   composeTwitterLink,
   appendHttp,
@@ -25,7 +21,7 @@ import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
 import TimelineBar from "components/governance/TimelineBar";
 import { Proposal, Proposal_History } from "types/common";
-import { useRouter } from "next/router";
+import VotePower from "components/proposal/VotePower";
 
 type Props = {
   id: string;
@@ -40,8 +36,10 @@ type LeftColumnProps = {
 
 type RightColumnProps = {
   id: string;
+  address: string;
   status: WalletStatus;
   link: string;
+  proposalContract: any;
 };
 
 const HistoryBox: FC<{ blocks: Proposal_History }> = ({ blocks }) => {
@@ -94,53 +92,6 @@ const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
           {messages}
         </Code>
       </Box>
-    </Box>
-  );
-};
-
-const MyVotingPowerBox: FC<{ id: string; status: WalletStatus }> = ({
-  id,
-  status,
-}) => {
-  return (
-    <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
-      <Text fontSize="xs">My Voting Power</Text>
-      <Box bg="blackAlpha.400" p="3" my="3" borderRadius="lg">
-        <Text>x,xxx,xxx.xx</Text>
-        <Text fontSize="sm" color="whiteAlpha.400">
-          x.xxx%
-        </Text>
-      </Box>
-      <Flex>
-        <NextLink
-          href={`/governance/proposal/${id}/vote/for`}
-          passHref
-          isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
-        >
-          <Button
-            width="50%"
-            mr="1"
-            variant="votegreen"
-            isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
-          >
-            Vote For
-          </Button>
-        </NextLink>
-        <NextLink
-          href={`/governance/proposal/${id}/vote/against`}
-          passHref
-          isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
-        >
-          <Button
-            width="50%"
-            ml="1"
-            variant="votered"
-            isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
-          >
-            Vote Against
-          </Button>
-        </NextLink>
-      </Flex>
     </Box>
   );
 };
@@ -207,10 +158,21 @@ const LeftColumn: FC<LeftColumnProps> = ({
   );
 };
 
-const RightColumn: FC<RightColumnProps> = ({ id, status, link }) => {
+const RightColumn: FC<RightColumnProps> = ({
+  id,
+  address,
+  status,
+  link,
+  proposalContract,
+}) => {
   return (
     <Flex display={["none", "none", "flex"]} flexDirection="column" w="33.3%">
-      <MyVotingPowerBox id={id} status={status} />
+      <VotePower
+        id={id}
+        address={address}
+        status={status}
+        proposalContract={proposalContract}
+      />
       <DiscussionBox link={link} />
     </Flex>
   );
@@ -218,8 +180,10 @@ const RightColumn: FC<RightColumnProps> = ({ id, status, link }) => {
 
 const GovProposalPage: FC<Props> = ({ id }) => {
   const { status } = useWallet();
+  const address = useAddress();
   const router = useRouter();
   const { proposal, proposalExists } = useProposalApi(id);
+  const proposalContract = useProposalClient(id);
   const quorum = useConfig()?.proposal_required_quorum;
   const { network } = useTerraWebapp();
   const [addressOpen, setAddressOpen] = useState(false);
@@ -227,7 +191,7 @@ const GovProposalPage: FC<Props> = ({ id }) => {
 
   // proposal doesn't exist
   if (proposalExists === false) {
-    router.push("/governance");
+    router.push("/404");
   }
 
   if (!proposal) {
@@ -248,7 +212,13 @@ const GovProposalPage: FC<Props> = ({ id }) => {
           quorum={quorum}
           setAddressOpen={setAddressOpen}
         />
-        <RightColumn id={id} status={status} link={proposal.link} />
+        <RightColumn
+          id={id}
+          address={address}
+          status={status}
+          link={proposal.link}
+          proposalContract={proposalContract}
+        />
       </Flex>
     </Box>
   );

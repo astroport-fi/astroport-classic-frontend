@@ -62,7 +62,7 @@ const ActionBox = ({ action, amount, percentage }) => {
 const GovVoteForm: FC<Props> = ({ id, action }) => {
   const address = useAddress();
   const { proposal, proposalExists } = useProposalApi(id);
-  const proposalClient = useProposalClient(id);
+  const proposalContract = useProposalClient(id);
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
 
@@ -85,27 +85,27 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
     }
 
     // user is creator
-    if (proposalClient?.submitter === address) {
+    if (proposalContract?.submitter === address) {
       return "You cannot vote on your own proposal.";
     }
 
     // user already voted
     if (
-      proposalClient?.for_voters.includes(address) ||
-      proposalClient?.against_voters.includes(address)
+      proposalContract?.for_voters.includes(address) ||
+      proposalContract?.against_voters.includes(address)
     ) {
       return `You have already voted ${
-        proposalClient?.for_voters.includes(address) ? "for" : "against"
+        proposalContract?.for_voters.includes(address) ? "for" : "against"
       } this proposal.`;
     }
 
     // voting period over
-    if (proposalClient?.status !== "Active") {
+    if (proposalContract?.status !== "Active") {
       return "Voting period is over.";
     }
 
     return false;
-  }, [notEnoughUSTToPayFees, proposalClient]);
+  }, [notEnoughUSTToPayFees, proposalContract]);
 
   const { submit } = useTx({
     notification: {
@@ -135,7 +135,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
 
   // proposal doesn't exist
   if (proposalExists === false) {
-    router.push("/governance");
+    router.push("/404");
   }
 
   if (!proposal) {
