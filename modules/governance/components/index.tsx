@@ -18,3 +18,4 @@ export { default as GovStakeFooter } from "./staking/GovStakeFooter";
 export { default as GovUnstakeFooter } from "./staking/GovUnstakeFooter";
 
 // Voting
+export { default as GovVoteForm } from "./vote/GovVoteForm";

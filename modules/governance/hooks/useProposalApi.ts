@@ -24,7 +24,9 @@ const query = gql`
   }
 `;
 
-export const useProposal = (proposalId: string): Proposal => {
+export const useProposalApi = (
+  proposalId: string
+): { proposal?: Proposal; proposalExists?: boolean } => {
   const { data, isLoading, error } = useApi({
     name: "proposal",
     query,
@@ -37,12 +39,17 @@ export const useProposal = (proposalId: string): Proposal => {
   });
 
   return useMemo(() => {
-    if (isLoading || data == null || data.proposal == null) {
-      return null;
+    if (isLoading || data == null) {
+      return { proposal: null };
     }
 
-    return data.proposal;
+    // proposal doesn't exist
+    if (data.proposal == null) {
+      return { proposalExists: false };
+    }
+
+    return { proposal: data.proposal, proposalExists: true };
   }, [data, isLoading]);
 };
 
-export default useProposal;
+export default useProposalApi;

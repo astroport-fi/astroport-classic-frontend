@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
-import { useConfig, useProposal } from "modules/governance";
+import { useConfig, useProposalApi } from "modules/governance";
 import {
   composeTwitterLink,
   appendHttp,
@@ -25,6 +25,7 @@ import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
 import TimelineBar from "components/governance/TimelineBar";
 import { Proposal, Proposal_History } from "types/common";
+import { useRouter } from "next/router";
 
 type Props = {
   id: string;
@@ -217,11 +218,17 @@ const RightColumn: FC<RightColumnProps> = ({ id, status, link }) => {
 
 const GovProposalPage: FC<Props> = ({ id }) => {
   const { status } = useWallet();
-  const proposal = useProposal(id);
+  const router = useRouter();
+  const { proposal, proposalExists } = useProposalApi(id);
   const quorum = useConfig()?.proposal_required_quorum;
   const { network } = useTerraWebapp();
   const [addressOpen, setAddressOpen] = useState(false);
   const twitterLink = composeTwitterLink(network.name, proposal?.title, id);
+
+  // proposal doesn't exist
+  if (proposalExists === false) {
+    router.push("/governance");
+  }
 
   if (!proposal) {
     return null;
