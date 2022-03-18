@@ -78,7 +78,7 @@ const CardFooter = ({ description, address, id }) => {
     <Box flex="1" w="100%">
       <Flex p="5" flexDirection="column" height="100%">
         <Box fontSize="sm" color="white.400" maxH="80px" overflow="hidden">
-          {description}
+          {truncateStr(description, 300)}
         </Box>
         <Box mt="3" mb="auto" color="white.700" fontSize="sm" title={address}>
           by:{" "}
