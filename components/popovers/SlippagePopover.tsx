@@ -46,8 +46,11 @@ const SlippagePopover: FC<Props> = ({
       //Replace all '.' but not first.
       value = value.replace(/(?<=\..*)\./g, "");
 
-      //Replace minus character
+      //Remove minus character
       value = value.replace("-", "");
+
+      //Remove e character
+      value = value.replace("e", "").replace("E", "");
 
       // Allow only 2 decimals
       const i = value.indexOf(".");
@@ -57,8 +60,8 @@ const SlippagePopover: FC<Props> = ({
 
       const f = parseFloat(value);
       if (!isNaN(f)) {
-        // clamp value
-        if (f > maxSlippage || f < minSlippage) {
+        // clamp value (allow 0 but it will be changed onBlur)
+        if (f > maxSlippage || f < 0) {
           return;
         }
 
@@ -72,7 +75,8 @@ const SlippagePopover: FC<Props> = ({
 
   const onBlurInput = () => {
     let f = parseFloat(stringValue);
-    if (isNaN(f) || f === 0) {
+
+    if (isNaN(f) || f < minSlippage) {
       setStringValue(minSlippage.toFixed(2));
       onChange(minSlippage);
     } else {
@@ -153,6 +157,7 @@ const SlippagePopover: FC<Props> = ({
                 value={stringValue}
                 onChange={setValue}
                 onBlur={onBlurInput}
+                clampValueOnBlur={false}
               >
                 <NumberInputField
                   placeholder="Custom"
