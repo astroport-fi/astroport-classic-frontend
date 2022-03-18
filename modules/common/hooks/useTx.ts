@@ -41,6 +41,13 @@ export type UseTxNotificationDetails =
       };
     }
   | {
+      type: "govVote";
+      data: {
+        proposal_id: string;
+        action: string;
+      };
+    }
+  | {
       type:
         | "govStake"
         | "govUnstake"
@@ -131,6 +138,11 @@ export const useTx = ({
         return "Failed to claim rewards";
       case "createProposal":
         return "Failed to submit an Assembly proposal";
+      case "govVote": {
+        const { proposal_id } = notification.data;
+
+        return `Failed to vote on proposal ${proposal_id}`;
+      }
     }
 
     return "Failed";
