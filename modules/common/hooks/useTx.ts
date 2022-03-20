@@ -44,7 +44,6 @@ export type UseTxNotificationDetails =
       type:
         | "govStake"
         | "govUnstake"
-        | "claimRewards"
         | "auctionUnlockLp"
         | "stakeLp"
         | "claimRewards";
@@ -126,8 +125,6 @@ export const useTx = ({
           token2
         )} failed`;
       }
-      case "claimRewards":
-        return "Failed to claim rewards";
     }
 
     return "Failed";
