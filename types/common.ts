@@ -168,7 +168,7 @@ export enum Proposal_Status {
   Passed = "Passed",
   Executed = "Executed",
   Rejected = "Rejected",
-  Stale = "Stale",
+  Expired = "Expired",
 }
 
 export interface Proposal_Status_Props {

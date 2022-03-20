@@ -38,10 +38,10 @@ export const useProposals = (): Proposal[] => {
       return null;
     }
 
-    // filter out stale and executed proposals
+    // filter out expired and executed proposals
     return data.proposals.filter(
       (proposal: Proposal) =>
-        proposal.state !== "Stale" && proposal.state !== "Executed"
+        proposal.state !== "Expired" && proposal.state !== "Executed"
     );
   }, [data, isLoading]);
 };
