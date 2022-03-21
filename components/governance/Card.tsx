@@ -11,7 +11,10 @@ import {
 import useFinder from "hooks/useFinder";
 import { NextLink } from "modules/common";
 import { truncateStr } from "modules/common/helpers";
-import { getProposalEndDateString } from "modules/governance/helpers";
+import {
+  getProposalEndDateString,
+  calcVotingPercentages,
+} from "modules/governance/helpers";
 import { Proposal } from "types/common";
 
 import ProgressBar from "components/governance/ProgressBar";
@@ -104,6 +107,8 @@ const CardFooter = ({ description, address, id }) => {
 };
 
 const Card: FC<Props> = ({ proposal, quorum }) => {
+  const { voteForPerc, voteAgainstPerc } = calcVotingPercentages(proposal);
+
   return (
     <GridItem h="485px" overflow="hidden">
       <Center
@@ -119,7 +124,11 @@ const Card: FC<Props> = ({ proposal, quorum }) => {
           title={proposal.title}
           endTimestamp={proposal.end_timestamp}
         />
-        <CardBody voteFor={0} voteAgainst={0} quorum={quorum} />
+        <CardBody
+          voteFor={voteForPerc}
+          voteAgainst={voteAgainstPerc}
+          quorum={quorum}
+        />
         <CardFooter
           description={proposal.description}
           address={proposal.submitter}

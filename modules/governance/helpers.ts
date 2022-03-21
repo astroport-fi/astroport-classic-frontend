@@ -1,5 +1,10 @@
 import { ASTROPORT_URLS } from "constants/constants";
-import { Proposal, Proposal_History, Proposal_Status } from "types/common";
+import {
+  Proposal,
+  Proposal_History,
+  Proposal_Vote_Stats,
+  Proposal_Status,
+} from "types/common";
 
 export const convertTimestampToDate = (
   dateString: string = new Date().toISOString(),
@@ -120,6 +125,24 @@ export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
   };
 
   return [created, active, succeeded, queued, executed];
+};
+
+export const calcVotingPercentages = (
+  proposal: Proposal
+): Proposal_Vote_Stats => {
+  const voteForPerc =
+    proposal.votes_for_power && proposal.total_voting_power
+      ? (proposal.votes_for_power / proposal.total_voting_power) * 100
+      : 0;
+  const voteAgainstPerc =
+    proposal.votes_against_power && proposal.total_voting_power
+      ? (proposal.votes_against_power / proposal.total_voting_power) * 100
+      : 0;
+
+  return {
+    voteForPerc,
+    voteAgainstPerc,
+  };
 };
 
 export const composeTwitterLink = (

@@ -2,11 +2,12 @@ import React, { FC } from "react";
 import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { Proposal } from "types/common";
-import { truncateStr } from "modules/common/helpers";
+import { handleTinyAmount, truncateStr } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
+import { calcVotingPercentages } from "modules/governance/helpers";
 
 type Props = {
   proposal: Proposal;
@@ -29,6 +30,7 @@ const VoteStats: FC<Props> = ({
   onClick,
 }) => {
   const finder = useFinder();
+  const { voteForPerc, voteAgainstPerc } = calcVotingPercentages(proposal);
 
   return (
     <Flex
@@ -43,19 +45,19 @@ const VoteStats: FC<Props> = ({
       <Flex flexDirection="column" p="5" mt="5">
         <Flex>
           <ProgressBar
-            voteFor={0}
-            voteAgainst={0}
+            voteFor={voteForPerc}
+            voteAgainst={voteAgainstPerc}
             quorum={quorum * 100 || null}
           />
         </Flex>
-        <ProgressLabel voteFor={0} voteAgainst={0} />
+        <ProgressLabel voteFor={voteForPerc} voteAgainst={voteAgainstPerc} />
       </Flex>
       <Flex borderY="1px" borderColor="white.100" p="6">
         <Flex flexDirection="column" w="50%" mr="1">
           <Text mb="2">For</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="green.500">
-              xx.xx%
+              {handleTinyAmount(voteForPerc)}%
             </Text>
             <Text color="white.400">x,xxx,xxx Votes</Text>
           </Box>
@@ -64,7 +66,7 @@ const VoteStats: FC<Props> = ({
           <Text mb="2">Against</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="red.500">
-              xx.xx%
+              {handleTinyAmount(voteAgainstPerc)}%
             </Text>
             <Text color="white.400">x,xxx,xxx Votes</Text>
           </Box>

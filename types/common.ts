@@ -155,6 +155,10 @@ export interface Proposal {
   // voting period
   start_timestamp: string;
   end_timestamp: string;
+  // voting power
+  votes_for_power: number | null;
+  votes_against_power: number | null;
+  total_voting_power: number | null;
   // state timestamps
   active: string | null;
   passed: string | null;
@@ -176,6 +180,11 @@ export interface Proposal_Status_Props {
   lightColor: string;
   color: string;
 }
+
+export type Proposal_Vote_Stats = {
+  voteForPerc: number;
+  voteAgainstPerc: number;
+};
 
 export type FixedSizeArray<N extends number, T> = N extends 0
   ? never[]

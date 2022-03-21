@@ -20,6 +20,9 @@ const query = gql`
       executed
       rejected
       expired
+      votes_for_power
+      votes_against_power
+      total_voting_power
     }
   }
 `;
