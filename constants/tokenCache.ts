@@ -286,6 +286,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/bETH.svg",
       decimals: 6,
     },
+    terra14v9wrjs55qsn9lkvylsqela3w2ytwxzkycqzcr: {
+      protocol: "Sayve",
+      symbol: "SAYVE",
+      token: "terra14v9wrjs55qsn9lkvylsqela3w2ytwxzkycqzcr",
+      icon: "/tokens/sayve.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
