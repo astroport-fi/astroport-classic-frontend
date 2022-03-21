@@ -40,7 +40,7 @@ const VotePower: FC<Props> = ({ id, address, status, proposalContract }) => {
               <Button
                 width="50%"
                 mr="1"
-                variant="votegreen"
+                variant={isOwner ? "voteinvalid" : "votegreen"}
                 isDisabled={
                   status === WalletStatus.WALLET_NOT_CONNECTED || isOwner
                 }
@@ -58,7 +58,7 @@ const VotePower: FC<Props> = ({ id, address, status, proposalContract }) => {
               <Button
                 width="50%"
                 ml="1"
-                variant="votered"
+                variant={isOwner ? "voteinvalid" : "votered"}
                 isDisabled={
                   status === WalletStatus.WALLET_NOT_CONNECTED || isOwner
                 }

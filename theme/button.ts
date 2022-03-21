@@ -89,6 +89,26 @@ const button = {
         boxShadow: "none",
       },
     },
+    voteinvalid: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "whiteAlpha.400",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "whiteAlpha.400",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "whiteAlpha.400",
+          color: "blackAlpha.900",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     mini: {
       outline: "none",
       borderRadius: "md",
