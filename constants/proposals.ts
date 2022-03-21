@@ -24,4 +24,14 @@ export const PROPOSAL_STATE_COLORS: { [key: string]: Proposal_Status_Props } = {
     lightColor: "proposalColours.redLight",
     color: "proposalColours.red",
   },
+  [Proposal_Status.Expired]: {
+    title: "expired",
+    lightColor: "white.100",
+    color: "whiteAlpha.400",
+  },
+  [Proposal_Status.Executed]: {
+    title: "executed",
+    lightColor: "white.100",
+    color: "whiteAlpha.400",
+  },
 };

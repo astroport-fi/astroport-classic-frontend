@@ -98,7 +98,7 @@ export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
     dotColor:
       state === Proposal_Status.Passed
         ? colorGreen
-        : state === Proposal_Status.Rejected
+        : state === Proposal_Status.Rejected || proposal.rejected
         ? colorRed
         : succeededOn,
     color: succeededOn,
