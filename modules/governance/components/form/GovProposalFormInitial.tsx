@@ -55,12 +55,6 @@ const GovProposalFormInitial: FC<Props> = ({
       <FormActions>
         <Flex flexDirection="column">
           <Heading fontSize="lg">Submit Proposal</Heading>
-          {xAstroRequiredTokens && (
-            <Heading fontSize="sm" mt="2px" color="white.300">
-              You need {xAstroRequiredTokens} xASTRO that will be locked in
-              order to submit a proposal
-            </Heading>
-          )}
         </Flex>
       </FormActions>
 
