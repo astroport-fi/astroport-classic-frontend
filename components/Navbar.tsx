@@ -63,7 +63,6 @@ const Navbar: FC = () => {
             {ENV_DISPLAY_GOVERNANCE && (
               <NavbarLink text="Staking" href="/staking" />
             )}
-            <NavbarLink text="Airdrop" href="/airdrop" />
           </HStack>
         </Box>
         <HStack spacing="4" justify="flex-end">

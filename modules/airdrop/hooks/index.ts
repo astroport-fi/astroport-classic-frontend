@@ -1,5 +1,3 @@
-export * from "./useAirdropStillClaimable";
-export * from "./useAirdrop2StillClaimable";
 export * from "./useAirdrop";
 export * from "./useConfig";
 export * from "./useUserInfo";
