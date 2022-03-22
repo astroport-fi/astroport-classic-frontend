@@ -1,30 +1,45 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { WalletStatus } from "@terra-money/wallet-provider";
-import { NextLink } from "modules/common";
+import { handleBigAndTinyAmount, NextLink } from "modules/common";
+import { useVotingPower } from "modules/governance/hooks";
 import React, { FC } from "react";
 
 type Props = {
   id: string;
   address: string;
   status: WalletStatus;
+  totalVotePower: number | null;
   proposalContract: any;
 };
 
-const VotePower: FC<Props> = ({ id, address, status, proposalContract }) => {
+const VotePower: FC<Props> = ({
+  id,
+  address,
+  status,
+  totalVotePower,
+  proposalContract,
+}) => {
   const isOwner = address === proposalContract?.submitter;
   const isVotingOver = proposalContract?.status !== "Active";
   const isVotedFor = proposalContract?.for_voters.includes(address);
   const isVotedAgainst = proposalContract?.against_voters.includes(address);
 
   const showVotingOptions = !isVotingOver && !isVotedFor && !isVotedAgainst;
+  const userVotingPower = useVotingPower({ proposal_id: Number(id) });
+  const userVotingPowerPerc =
+    userVotingPower && totalVotePower
+      ? (Number(userVotingPower) / totalVotePower) * 100
+      : `-`;
 
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
       <Text fontSize="xs">My Voting Power</Text>
       <Box bg="blackAlpha.400" p="3" mt="3" borderRadius="lg">
-        <Text>x,xxx,xxx.xx</Text>
-        <Text fontSize="sm" color="whiteAlpha.400">
-          x.xxx%
+        <Text>
+          {userVotingPower ? Number(userVotingPower).toLocaleString() : `-`}
+        </Text>
+        <Text fontSize="sm" mt="2px" color="whiteAlpha.400">
+          {handleBigAndTinyAmount(userVotingPowerPerc)}%
         </Text>
       </Box>
       <Flex mt="4">

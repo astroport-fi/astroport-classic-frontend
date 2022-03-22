@@ -39,6 +39,7 @@ type RightColumnProps = {
   address: string;
   status: WalletStatus;
   link: string;
+  totalVotePower: number | null;
   proposalContract: any;
 };
 
@@ -163,6 +164,7 @@ const RightColumn: FC<RightColumnProps> = ({
   address,
   status,
   link,
+  totalVotePower,
   proposalContract,
 }) => {
   return (
@@ -171,6 +173,7 @@ const RightColumn: FC<RightColumnProps> = ({
         id={id}
         address={address}
         status={status}
+        totalVotePower={totalVotePower}
         proposalContract={proposalContract}
       />
       <DiscussionBox link={link} />
@@ -217,6 +220,7 @@ const GovProposalPage: FC<Props> = ({ id }) => {
           address={address}
           status={status}
           link={proposal.link}
+          totalVotePower={proposal.total_voting_power}
           proposalContract={proposalContract}
         />
       </Flex>

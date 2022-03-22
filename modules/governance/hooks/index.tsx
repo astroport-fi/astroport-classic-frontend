@@ -9,3 +9,4 @@ export * from "./useProposals";
 export * from "./useConfig";
 export * from "./useCreateProposal";
 export * from "./useVote";
+export * from "./useVotingPower";

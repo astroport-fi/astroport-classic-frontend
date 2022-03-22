@@ -7,13 +7,17 @@ import {
   useNotEnoughUSTBalanceToPayFees,
   useTx,
 } from "modules/common";
-import { truncateStr } from "modules/common/helpers";
+import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
 
-import { useProposalApi, useProposalClient, useVote } from "modules/governance";
+import {
+  useProposalApi,
+  useProposalClient,
+  useVote,
+  useVotingPower,
+} from "modules/governance";
 
 import Card from "components/Card";
 import CloseIcon from "components/icons/CloseIcon";
-import FormFee from "components/common/FormFee";
 import FormLoading from "components/common/FormLoading";
 import WarningMessage from "components/common/WarningMessage";
 import GovVoteFormFooter from "./GovVoteFormFooter";
@@ -63,6 +67,11 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
   const address = useAddress();
   const { proposal, proposalExists } = useProposalApi(id);
   const proposalContract = useProposalClient(id);
+  const userVotingPower = useVotingPower({ proposal_id: Number(id) });
+  const userVotingPowerPerc =
+    userVotingPower && proposal?.total_voting_power
+      ? (Number(userVotingPower) / proposal.total_voting_power) * 100
+      : `-`;
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
 
@@ -170,7 +179,13 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
           </NextLink>
         </Flex>
         <TitleBox title={proposal.title} />
-        <ActionBox action={action} amount="xxxx.xx" percentage="x.xxx%" />
+        {userVotingPower && (
+          <ActionBox
+            action={action}
+            amount={Number(userVotingPower).toLocaleString()}
+            percentage={`${handleBigAndTinyAmount(userVotingPowerPerc)}%`}
+          />
+        )}
         <GovVoteFormFooter
           action={action}
           fee={fee}
