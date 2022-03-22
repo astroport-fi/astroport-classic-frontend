@@ -31,7 +31,7 @@ export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
 export const COMMON_TOKENS = ["uusd", "uluna"];
 
 export const REWARDS_NOTICE =
-  "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projections based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
+  "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
 
 /* env variables */
 export const ENV_DISPLAY_GOVERNANCE =
