@@ -2,6 +2,12 @@ import React, { FC } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { handleTinyAmount } from "modules/common";
 
+// min value to display quorum UI on progress bar
+const QuorumMinPosition = 2;
+
+// hide left tooltip value
+const QuorumHideLeftToolTip = 5;
+
 type ProgressElements = {
   voteFor: number;
   voteAgainst: number;
@@ -21,15 +27,13 @@ type QuorumTipProps = {
 const LeftFixedTip = () => {
   return (
     <>
-      <Box
+      <Text
         pos="absolute"
-        top="0"
+        top="-20px"
         left="0"
-        h="100%"
-        width="1px"
-        bg="whiteAlpha.200"
-      />
-      <Text pos="absolute" top="-25px" left="0" color="whiteAlpha.600">
+        color="whiteAlpha.600"
+        fontSize="xs"
+      >
         0%
       </Text>
     </>
@@ -39,15 +43,13 @@ const LeftFixedTip = () => {
 const RightFixedTip = () => {
   return (
     <>
-      <Box
+      <Text
         pos="absolute"
-        top="0"
+        top="-20px"
         right="0"
-        h="100%"
-        width="1px"
-        bg="whiteAlpha.200"
-      ></Box>
-      <Text pos="absolute" top="-25px" right="0" color="whiteAlpha.600">
+        color="whiteAlpha.600"
+        fontSize="xs"
+      >
         100%
       </Text>
     </>
@@ -55,27 +57,22 @@ const RightFixedTip = () => {
 };
 
 const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
-  const leftPosition = `${quorum}%`;
+  const leftPosition = `${
+    quorum > QuorumMinPosition ? quorum : QuorumMinPosition
+  }%`;
 
   return (
     <>
-      <Box
-        pos="absolute"
-        top="-20px"
-        left={leftPosition}
-        h="30px"
-        width="1px"
-        bg="whiteAlpha.200"
-        zIndex="2"
-      ></Box>
       <Flex
         pos="absolute"
-        top="-25px"
+        top="-20px"
         left={leftPosition}
         pl="2"
         color="whiteAlpha.600"
         bg="brand.defaultTable"
         zIndex="1"
+        p="0"
+        fontSize="xs"
       >
         <Text>Quorum</Text>
         <Text pl="1" color="white">
@@ -86,13 +83,45 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
   );
 };
 
+const QuorumSplit: FC<QuorumTipProps> = ({ quorum }) => {
+  const leftPosition = `calc(${
+    quorum > QuorumMinPosition ? quorum : QuorumMinPosition
+  }% - 4px)`;
+
+  return (
+    <Box
+      pos="absolute"
+      w="8px"
+      h="100%"
+      left={leftPosition}
+      bg="blackAlpha.500"
+      zIndex="2"
+      borderRadius={quorum < QuorumMinPosition ? "xl" : null}
+    >
+      <Box
+        pos="absolute"
+        w="2px"
+        top="-3px"
+        left="3px"
+        height="calc(100% + 6px)"
+        bg="white"
+        borderRadius="sm"
+      />
+    </Box>
+  );
+};
+
 const createBars = (bars: BarValues[]) => {
   let offset = 0;
   let newBars = [] as any[];
 
   bars.forEach((bar, i) => {
-    const roundRight = i === bars.length - 1;
-    const roundRightString = roundRight ? "40px 40px" : "0 0";
+    const borderRadius =
+      i == 0
+        ? "40px 0 0 40px"
+        : i === bars.length - 1
+        ? "0 40px 40px 0"
+        : "0 0 0 0";
 
     newBars.push(
       <Box
@@ -103,7 +132,7 @@ const createBars = (bars: BarValues[]) => {
         width={`${bar.value}%`}
         bg={bar.color}
         height="100%"
-        borderRadius={`0 ${roundRightString} 0`}
+        borderRadius={borderRadius}
       />
     );
 
@@ -126,20 +155,18 @@ const ProgressBar: FC<ProgressElements> = ({
 
   return (
     <Box pos="relative" width="100%" height={`${height}px`}>
-      <LeftFixedTip />
+      {quorum > QuorumHideLeftToolTip && <LeftFixedTip />}
       <RightFixedTip />
       {quorum && <QuorumFixedTip quorum={quorum} />}
       <Box
         pos="relative"
-        overflow="hidden"
-        bg="blackAlpha.200"
-        borderWidth="1px"
-        borderColor="whiteAlpha.200"
+        bg="blackAlpha.500"
         mt="10px"
         borderRadius="full"
         width="100%"
         height={`${height - 20}px`}
       >
+        {quorum && <QuorumSplit quorum={quorum} />}
         {createBars(bars).map((element, i) => (
           <Box key={i}>{element}</Box>
         ))}
