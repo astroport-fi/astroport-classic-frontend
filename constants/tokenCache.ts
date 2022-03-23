@@ -475,6 +475,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/default.png",
       decimals: 6,
     },
+    terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw: {
+      protocol: "WIW Token",
+      symbol: "WIW",
+      token: "terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw",
+      icon: "/tokens/wiw.svg",
+      decimals: 6,
+    },
   },
 };
 

@@ -1259,6 +1259,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // WIW-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra17xs6alzt3msk3e7hfem9mrkx3ycjh3nm5xcpw6",
+        liquidity_token: "terra1xw6xxtmuz6awhyyqclz280fwtwnvfgrsngkjkg",
+        pair_type: {
+          stable: {},
+        },
+      },
     ],
   },
 };
