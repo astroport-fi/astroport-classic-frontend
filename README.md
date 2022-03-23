@@ -1,8 +1,8 @@
+# Astroport Core UI
+
 | Master | Develop |
 | ------ | ------- |
 | ![Test Suite (master)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=master) | ![Test Suite (develop)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=develop) |
-
-# Astroport Core UI
 
 The Astroport Core UI is a web frontend used for interacting with the Astroport Smart Contracts. It is intended to be used with the [Terra Station Extension](https://terra.money/extension) plugin for Chromium browsers.
 
@@ -17,8 +17,7 @@ Requirements:
 - node v14
 - npm v7
 
-Env Settings:
-Create an `.env.local` file. You can copy the existing template (`cp .env.template .env.local`)
+For environment settings, you should create a `.env.local` file. You can copy the existing template (`cp .env.template .env.local`) in order to do so:
 
 ```
 DISPLAY_GOVERNANCE=1
@@ -27,7 +26,7 @@ NEXT_PUBLIC_TESTNET_GRAPHQL=https://hive-terra-test.everstake.one/graphql
 NEXT_PUBLIC_API_ENDPOINT=https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql
 ```
 
-If you have nvm installed, you should select the correct version for you based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.
+If you have nvm installed, you should select the correct npm version for your environment based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.
 
 ### `npm run dev`
 
@@ -37,7 +36,7 @@ Runs the app in development mode.
 
 Launches the test runner in the interactive watch mode.
 
-### Notifications & Transaction Tracking
+## Notifications & Transaction Tracking
 
 Astroport Core UI provides a notification system that uses Toast-style notifications to provide feedback to the user.
 
@@ -49,13 +48,13 @@ The `"started"` notification type is a special type, which increases the "Pendin
 
 Transaction-related notifications (including `"started"` notifications) are handled for you automatically when using the `useTx` or `useTransaction` hooks (more below).
 
-### Posting Transactions
+## Posting Transactions
 
 Astroport Core UI provides two hooks designed to simplify transaction posting:
 - `useTx` — Thin wrapper around `@terra-money/wallet-provider`'s `post` function. Can be configured with `onPosting`, `onBroadcasting`, and `onError` lifecycle hooks. Returns a `submit` function that accepts Messages and a Fee. Hooks into Astroport Core's notification and transaction tracking systems to provide feedback to the user via Toast notifications.
 - `useTransaction` — Higher-level hook that provides message debouncing, automatic fee calculation, and lifecycle state. Internally uses `useTx` to post. Can be configured with `onBroadcasting` and `onError` lifecycle hooks. Returns some state and a `submit` function to post the transaction.
 
-#### Adding new transactions
+### Adding new transactions
 
 When adding a new transactions to the Astroport Core UI, the following tasks must be completed:
 1. Select a new notification `txType` string for the transaction.

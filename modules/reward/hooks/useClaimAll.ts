@@ -127,8 +127,11 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
 
     if (
       auctionUserInfo != null &&
-      !auctionUserInfo.astro_incentive_transferred &&
-      num(auctionUserInfo.auction_incentive_amount).gt(0)
+      // initial claim from phase 2
+      ((!auctionUserInfo.astro_incentive_transferred &&
+        num(auctionUserInfo.auction_incentive_amount).gt(0)) ||
+        // ongoing emissions from ust-astro in auction contract
+        num(auctionUserInfo.withdrawable_lp_shares).gt(0))
     ) {
       const phase2Msgs = createPhase2ClaimAllMsgs(
         {

@@ -6,6 +6,7 @@ import { Flex } from "@chakra-ui/react";
 
 import Pool from "components/pages/Pool";
 import { useAstroswap } from "modules/common";
+import HideOnMobile from "components/common/HideOnMobile";
 
 const PoolPage: NextPage = () => {
   const { query } = useRouter();
@@ -18,12 +19,12 @@ const PoolPage: NextPage = () => {
     });
 
   return (
-    <>
+    <HideOnMobile>
       <Head>
         <title>Astroport</title>
       </Head>
       <Flex>{pair != null && <Pool pair={pair} />}</Flex>
-    </>
+    </HideOnMobile>
   );
 };
 

@@ -236,7 +236,7 @@ export const useAstroPools = () => {
           token2,
           info.terraswap_lp_token,
         ],
-        pairType: Object.keys(pair?.pair_type)[0],
+        pairType: pair?.pair_type ? Object.keys(pair?.pair_type)[0] : null,
         totalLiquidity,
         totalLiquidityInUst,
         myLiquidity,

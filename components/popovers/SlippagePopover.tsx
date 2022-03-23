@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
   Box,
   InputGroup,
@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import GearIcon from "components/icons/GearIcon";
+import { clampValue } from "@chakra-ui/utils";
 
 type Props = {
   value: number;
@@ -24,6 +25,8 @@ type Props = {
 };
 
 const tolerances = [0.1, 0.5, 1, 2];
+const minSlippage = 0.01;
+const maxSlippage = 50;
 
 const SlippagePopover: FC<Props> = ({
   value,
@@ -35,6 +38,53 @@ const SlippagePopover: FC<Props> = ({
     base: "bottom-end",
     md: "left",
   }) as PlacementWithLogical;
+
+  const [stringValue, setStringValue] = useState(value.toFixed(2));
+
+  const setValue = useCallback(
+    (value: string) => {
+      //Replace all '.' but not first.
+      value = value.replace(/(?<=\..*)\./g, "");
+
+      //Remove minus character
+      value = value.replace("-", "");
+
+      //Remove e character
+      value = value.replace("e", "").replace("E", "");
+
+      // Allow only 2 decimals
+      const i = value.indexOf(".");
+      if (i >= 0) {
+        value = value.substring(0, i + 3);
+      }
+
+      const f = parseFloat(value);
+      if (!isNaN(f)) {
+        // clamp value (allow 0 but it will be changed onBlur)
+        if (f > maxSlippage || f < 0) {
+          return;
+        }
+
+        onChange(f);
+      }
+
+      setStringValue(value);
+    },
+    [onChange, setStringValue]
+  );
+
+  const onBlurInput = () => {
+    let f = parseFloat(stringValue);
+
+    if (isNaN(f) || f < minSlippage) {
+      setStringValue(minSlippage.toFixed(2));
+      onChange(minSlippage);
+    } else {
+      f = clampValue(f, minSlippage, maxSlippage);
+      setStringValue(f.toFixed(2));
+      onChange(f);
+    }
+  };
 
   return (
     <PopoverWrapper
@@ -88,7 +138,7 @@ const SlippagePopover: FC<Props> = ({
                   bg="brand.lightPurple"
                   isActive={value === tolerance}
                   onClick={() => {
-                    onChange(tolerance);
+                    setValue(tolerance.toFixed(2));
                   }}
                 >
                   {tolerance.toPrecision(1)}%
@@ -103,11 +153,11 @@ const SlippagePopover: FC<Props> = ({
             >
               <NumberInput
                 w="100%"
-                min={0.01}
-                precision={3}
-                max={50}
-                value={value || undefined}
-                onChange={(_, v) => onChange(v)}
+                step={0.01}
+                value={stringValue}
+                onChange={setValue}
+                onBlur={onBlurInput}
+                clampValueOnBlur={false}
               >
                 <NumberInputField
                   placeholder="Custom"

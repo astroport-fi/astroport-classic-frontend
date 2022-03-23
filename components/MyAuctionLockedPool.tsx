@@ -12,8 +12,10 @@ import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import RewardsTd from "components/table/RewardsTd";
 import AuctionActionsTd from "components/table/AuctionActionsTd";
+import { useAddress } from "@arthuryeti/terra";
 
 const MyAuctionLockedPool = () => {
+  const address = useAddress();
   const auctionPools = useAuctionPools();
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
@@ -81,7 +83,7 @@ const MyAuctionLockedPool = () => {
             isClaimable={row.original.isClaimable}
             isClaimed={row.original.isClaimed}
             txFeeNotEnough={notEnoughUSTToPayFees}
-            amount="0"
+            amount={row.original.amount}
           />
         ),
         accessor: "actions",
@@ -106,7 +108,8 @@ const MyAuctionLockedPool = () => {
         <PoolTable
           columns={columns}
           data={auctionPools}
-          minW="1380px"
+          minW={address.length !== 0 ? "1380px" : undefined}
+          renderFilters={address.length !== 0}
           emptyMsg="You didn't lock any positions."
           sortBy="totalUnlockedLiquidity"
         />

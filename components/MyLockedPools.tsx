@@ -12,8 +12,10 @@ import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import RewardsTd from "components/table/RewardsTd";
 import MyLockActionsTd from "components/table/MyLockActionsTd";
+import { useAddress } from "@arthuryeti/terra";
 
 const MyLockedPools = () => {
+  const address = useAddress();
   const pools = useAstroPools();
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 
@@ -102,6 +104,7 @@ const MyLockedPools = () => {
           data={pools}
           emptyMsg="You didn't lock any positions."
           sortBy="totalLiquidityInUst"
+          renderFilters={address.length !== 0}
         />
       </Card>
     </Box>

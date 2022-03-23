@@ -34,7 +34,7 @@ const WithdrawFormConfirm: FC<Props> = ({
     <FormConfirm
       fee={fee}
       txFeeNotEnough={txFeeNotEnough}
-      title="Confirm withdraw liquidity"
+      title="Confirm Withdraw Liquidity"
       actionLabel="Confirm Withdraw"
       contentComponent={
         <FormSummary

@@ -85,8 +85,8 @@ const ProvideForm: FC<Props> = ({
     <FormConfirm
       fee={fee}
       txFeeNotEnough={txFeeNotEnough}
-      title="Confirm adding liquidity"
-      actionLabel="Confirm Adding Liquidity"
+      title="Confirm Adding Liquidity"
+      actionLabel="Confirm Add"
       contentComponent={
         <FormSummary
           label="You are providing"

@@ -12,6 +12,7 @@ type Props = {
   sortBy: string;
   emptyMsg?: string;
   minW?: string;
+  renderFilters?: boolean;
 };
 
 const PoolTable: FC<Props> = ({
@@ -20,6 +21,7 @@ const PoolTable: FC<Props> = ({
   sortBy,
   emptyMsg = "No pools.",
   minW,
+  renderFilters = true,
 }) => {
   const _columns = useMemo(() => columns, [columns]);
   const _data = useMemo(() => data, [data]);
@@ -34,6 +36,7 @@ const PoolTable: FC<Props> = ({
       tableInstance={tableInstance}
       emptyMsg={emptyMsg}
       minW={minW}
+      renderFilters={renderFilters}
     >
       <Box backgroundColor="inherit" {...getTableBodyProps()}>
         {page.map((row, i) => {

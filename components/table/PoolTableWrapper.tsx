@@ -19,6 +19,7 @@ type Props = {
   emptyMsg: string;
   children: ReactNode;
   minW?: string;
+  renderFilters: boolean;
 };
 
 const PoolTableWrapper: FC<Props> = ({
@@ -27,6 +28,7 @@ const PoolTableWrapper: FC<Props> = ({
   emptyMsg,
   children,
   minW,
+  renderFilters,
 }) => {
   const address = useAddress();
 
@@ -79,7 +81,11 @@ const PoolTableWrapper: FC<Props> = ({
     }
 
     if (column.id == "pool-actions") {
-      return <PoolFilters filter={globalFilter} setFilter={setGlobalFilter} />;
+      return (
+        renderFilters && (
+          <PoolFilters filter={globalFilter} setFilter={setGlobalFilter} />
+        )
+      );
     }
 
     return renderHeadTdContents(column);

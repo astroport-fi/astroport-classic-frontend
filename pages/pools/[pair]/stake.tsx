@@ -6,6 +6,7 @@ import { Flex } from "@chakra-ui/react";
 
 import Stake from "components/pages/Stake";
 import { useAstroswap } from "modules/common";
+import HideOnMobile from "components/common/HideOnMobile";
 
 const StakePage: NextPage = () => {
   const { query } = useRouter();
@@ -18,12 +19,12 @@ const StakePage: NextPage = () => {
     });
 
   return (
-    <>
+    <HideOnMobile>
       <Head>
         <title>Astroport</title>
       </Head>
       <Flex>{pair != null && <Stake pair={pair} />}</Flex>
-    </>
+    </HideOnMobile>
   );
 };
 

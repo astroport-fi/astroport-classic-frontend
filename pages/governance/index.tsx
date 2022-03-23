@@ -5,10 +5,11 @@ import { Container } from "@chakra-ui/react";
 import { ENV_DISPLAY_GOVERNANCE } from "constants/constants";
 
 import { GovPage } from "modules/governance";
+import HideOnMobile from "components/common/HideOnMobile";
 
 const Governance: NextPage = () => {
   return (
-    <>
+    <HideOnMobile>
       <Head>
         <title>Astroport</title>
       </Head>
@@ -17,7 +18,7 @@ const Governance: NextPage = () => {
           <GovPage />
         </Container>
       )}
-    </>
+    </HideOnMobile>
   );
 };
 

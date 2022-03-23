@@ -715,6 +715,86 @@ const whitelist: Whitelist = {
           stable: {},
         },
       },
+      // ldo-stLuna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1yg3j2s986nyp5z7r2lvt0hx3r0lnd7kwvwwtsc",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z",
+            },
+          },
+        ],
+        contract_addr: "terra1repcset8dt8z9wm5s6x77n3sjg8hduem9tntd6",
+        liquidity_token: "terra1yfwpk58tlvgzxx7zfrutlskgcp0cdqxtngpp6y",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // bETH-wETH
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra14tl83xcwqjy0ken9peu4pjjuu755lrry2uy25r",
+            },
+          },
+        ],
+        contract_addr: "terra1wgdjvp388mlvhad8u7ly5d34ga4zyyfvf3e5j8",
+        liquidity_token: "terra19tmtkl0w6kfgvxj6tt3dg0vepzrzugh0x9yfpk",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // bETH-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1dzhzukyezv0etz22ud940z7adyv7xgcjkahuun",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1myl709y74vrdcyuxy6g9wv5l2sgah4e9lstnwe",
+        liquidity_token: "terra1dy8mq25x79jrdzz30j230suka37xt39lcgdcl4",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // sayve-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra14v9wrjs55qsn9lkvylsqela3w2ytwxzkycqzcr",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1k8lvj3w7dxzd6zlyptcj086gfwms422xkqjmzx",
+        liquidity_token: "terra1drradty46zqun4624p8a3sp9h5jfg9phwlgnm2",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -1137,6 +1217,66 @@ const whitelist: Whitelist = {
         liquidity_token: "terra1yswta20vpvja93lw3r4f0xh50dpjuqjnzjrm9l",
         pair_type: {
           xyk: {},
+        },
+      },
+      // sayve-ust
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1x23y2hxpxph6wueyqj5m5grlr23z5dt4wvpn0r",
+        liquidity_token: "terra1dj3u83nfe9zpqd5r46plwmmmhe30kzr3axtx9x",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // gOHM-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1qqaufxewaygpcnc7er0x02wl03f0wanz65v0ya",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1c4y6c04v575kgxpmywfqjm2mj0wq4ukjwhx7z2",
+        liquidity_token: "terra1ad0pm20a0zfrrwfqn4sr8nrzhns0kyjefqrt8x",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // WIW-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra17xs6alzt3msk3e7hfem9mrkx3ycjh3nm5xcpw6",
+        liquidity_token: "terra1xw6xxtmuz6awhyyqclz280fwtwnvfgrsngkjkg",
+        pair_type: {
+          stable: {},
         },
       },
     ],

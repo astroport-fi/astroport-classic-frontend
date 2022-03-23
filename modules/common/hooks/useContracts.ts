@@ -68,6 +68,8 @@ const defaultContracts: { [key: string]: any } = {
       "terra1pjfqacx7k6dg63v2h5q96zjg7w5q25093wnkjc",
       "terra1t53c8p0zwvj5xx7sxh3qtse0fq5765dltjrg33",
       "terra1ww6sqvfgmktp0afcmvg78st6z89x5zr3tmvpss",
+      "terra16zy9g2eym8rghxx95ny60c3dyrwqsfx0ypmu5y",
+      "terra1yfwpk58tlvgzxx7zfrutlskgcp0cdqxtngpp6y",
     ],
   },
   testnet: {
@@ -107,6 +109,7 @@ const defaultContracts: { [key: string]: any } = {
       "terra1pmratq75tq4wtp36sedtl3g5awm9vt4ac9udhl",
       "terra1yswta20vpvja93lw3r4f0xh50dpjuqjnzjrm9l",
       "terra1m29xstn4c45cud3m8e7ktggsgjvsm8p826qkez",
+      "terra1dj3u83nfe9zpqd5r46plwmmmhe30kzr3axtx9x",
     ],
   },
 };

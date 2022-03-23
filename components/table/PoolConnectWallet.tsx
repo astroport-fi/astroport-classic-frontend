@@ -18,7 +18,7 @@ const PoolConnectWallet: FC = () => {
       <Td>
         <Flex justify="flex-end" align="center">
           <Button variant="primary" size="sm" onClick={onOpen}>
-            <Text>Connect your Wallet</Text>
+            <Text>Connect Your Wallet</Text>
           </Button>
           <ConnectWalletModal isOpen={isOpen} onClose={onClose} />
         </Flex>
