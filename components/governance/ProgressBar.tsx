@@ -155,7 +155,7 @@ const ProgressBar: FC<ProgressElements> = ({
 
   return (
     <Box pos="relative" width="100%" height={`${height}px`}>
-      {quorum > QuorumHideLeftToolTip && <LeftFixedTip />}
+      {(quorum > QuorumHideLeftToolTip || !quorum) && <LeftFixedTip />}
       <RightFixedTip />
       {quorum && <QuorumFixedTip quorum={quorum} />}
       <Box
