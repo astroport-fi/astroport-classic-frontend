@@ -5,4 +5,3 @@ export * from "./createLockdropRewardsMsgs";
 export * from "./createAuctionRewardMsgs";
 export * from "./createLpRewardMsgs";
 export * from "./createLpRewardsMsgs";
-export * from "./createClaimAirdropMsgs";
