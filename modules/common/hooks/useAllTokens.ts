@@ -9,6 +9,7 @@ import {
 import { CW20AssetInfo } from "types/common";
 import tokenCache from "constants/tokenCache";
 import { useTerraWebapp } from "@arthuryeti/terra";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export type UseAllTokens = {
   tokens: Tokens | null;
@@ -121,6 +122,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
     {
       enabled: pairs?.length > 0,
       refetchOnWindowFocus: false,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

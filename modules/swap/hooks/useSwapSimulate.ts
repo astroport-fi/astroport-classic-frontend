@@ -12,6 +12,7 @@ import {
 } from "modules/common";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 function isMultiSimulation(
   value:
@@ -95,6 +96,7 @@ export const useSwapSimulate = ({
       refetchOnWindowFocus: false,
       retry: false,
       onError,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

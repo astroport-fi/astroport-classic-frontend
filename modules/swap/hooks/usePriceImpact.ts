@@ -9,6 +9,7 @@ import { getAssetAmountsInPool } from "libs/terra";
 
 import { useGetPool } from "modules/pool";
 import BigNumber from "bignumber.js";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Params = {
   from: string;
@@ -46,6 +47,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
     },
     {
       enabled: swapRoute?.[0]?.type == "stable" && from != null,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

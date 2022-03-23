@@ -16,7 +16,7 @@ import {
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
-import { ONE_TOKEN } from "constants/constants";
+import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
 import { useQuery } from "react-query";
 
@@ -134,6 +134,7 @@ export const useAllPools = () => {
     },
     {
       enabled: pairs.length > 0,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

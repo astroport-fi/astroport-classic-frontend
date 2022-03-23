@@ -3,6 +3,7 @@ import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Response = {
   astro_token: string;
@@ -23,11 +24,17 @@ export const useConfig = () => {
   const { client } = useTerraWebapp();
   const { lockdrop } = useContracts();
 
-  const { data, isLoading } = useQuery("config", () => {
-    return client.wasm.contractQuery<Response>(lockdrop, {
-      config: {},
-    });
-  });
+  const { data, isLoading } = useQuery(
+    "config",
+    () => {
+      return client.wasm.contractQuery<Response>(lockdrop, {
+        config: {},
+      });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
+    }
+  );
 
   return useMemo(() => {
     if (isLoading || data == null) {
