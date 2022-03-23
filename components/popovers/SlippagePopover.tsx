@@ -45,7 +45,7 @@ const SlippagePopover: FC<Props> = ({
     (value: string) => {
       //Replace all '.' but not first.
       value = value.replace(/(?<=\..*)\./g, "");
-
+      
       //Remove minus character
       value = value.replace("-", "");
 
@@ -75,7 +75,6 @@ const SlippagePopover: FC<Props> = ({
 
   const onBlurInput = () => {
     let f = parseFloat(stringValue);
-
     if (isNaN(f) || f < minSlippage) {
       setStringValue(minSlippage.toFixed(2));
       onChange(minSlippage);
