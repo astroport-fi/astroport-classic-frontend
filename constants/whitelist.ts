@@ -1279,6 +1279,26 @@ const whitelist: Whitelist = {
           stable: {},
         },
       },
+      // WIW-luna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1z962r8fryj5rrym9gf5sz4ece6jxc0n3haayqa",
+        liquidity_token: "terra1npr89peecxtq55dxddcwwgwmx672ael69l0f23",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
 };
