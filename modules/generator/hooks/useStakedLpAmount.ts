@@ -3,6 +3,7 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { LpDepositResponse, useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export const useStakedLpAmount = (lpTokenContract: string): string => {
   const address = useAddress();
@@ -18,6 +19,9 @@ export const useStakedLpAmount = (lpTokenContract: string): string => {
           user: address,
         },
       });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

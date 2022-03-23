@@ -2,6 +2,7 @@ import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { PoolResponse } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export const useGetPool = (contract: string | null) => {
   const { client } = useTerraWebapp();
@@ -16,6 +17,7 @@ export const useGetPool = (contract: string | null) => {
     {
       refetchOnWindowFocus: false,
       enabled: contract != null,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 };

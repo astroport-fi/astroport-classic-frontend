@@ -3,6 +3,7 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Response = {
   total_astro_rewards: string;
@@ -30,6 +31,9 @@ export const useUserInfoWithList = () => {
           address,
         },
       });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
     }
   );
 
