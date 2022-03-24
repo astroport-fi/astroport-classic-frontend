@@ -22,7 +22,10 @@ export const useTokenPriceInUstWithSimulate = (token: string | null) => {
       return 1;
     }
 
-    if (token === "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm") {
+    if (
+      token === "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm" ||
+      token === "terra182zp52a95r3qg6lt0njxr7l0ujkfwan5h7t3l6"
+    ) {
       return 0;
     }
 

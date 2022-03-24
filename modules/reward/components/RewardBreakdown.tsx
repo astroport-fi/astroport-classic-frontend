@@ -1,27 +1,21 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Switch } from "@chakra-ui/react";
 
-import { useBreakdownRewardsInUst } from "modules/reward";
-
 import RewardLineItem from "components/reward/RewardLineItem";
 import useLocalStorage from "hooks/useLocalStorage";
+import { useBreakdownRewardsToShow } from "modules/reward/hooks/useBreakdownRewardsToShow";
 
 const RewardBreakdown: FC = () => {
   const [renderRewardsWithPrice, setRenderRewardsWithPrice] = useLocalStorage(
     "renderRewardsWithPrice",
     true
   );
-  const rewardsInUst = useBreakdownRewardsInUst();
+  const { rewards, renderSwitch } = useBreakdownRewardsToShow();
 
-  if (rewardsInUst.length === 0) {
+  if (rewards.length === 0) {
     return null;
   }
 
-  const renderSwitch = rewardsInUst.filter((r) => r.price === 0).length > 0;
-  const rewardsToShow =
-    renderSwitch && renderRewardsWithPrice === false
-      ? rewardsInUst.filter((r) => r.price === 0)
-      : rewardsInUst.filter((r) => r.price !== 0);
   return (
     <Box>
       <Flex justify="space-between" align="center">
@@ -44,8 +38,8 @@ const RewardBreakdown: FC = () => {
           </Flex>
         )}
       </Flex>
-      <Box maxH="300" py="2" overflowY="auto">
-        {rewardsToShow.map((reward) => (
+      <Box maxH="300" mt="3" overflowY="auto">
+        {rewards.map((reward) => (
           <RewardLineItem
             key={reward.token}
             token={reward.token}

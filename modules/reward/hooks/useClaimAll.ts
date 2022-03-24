@@ -14,6 +14,7 @@ import {
   createLpRewardMsgs,
   createLockdropRewardMsgs,
 } from "modules/reward";
+import { useBreakdownRewardsToShow } from "modules/reward/hooks/useBreakdownRewardsToShow";
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;
@@ -27,7 +28,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
   const auctionUserInfo = useAuctionUserInfo();
   const { data: lockdropRewards } = useLockdropRewards();
   const lpRewards = useLpRewards();
-  const lpAndLockdropRewards = useBreakdownRewardsInUst();
+  const { rewards: lpAndLockdropRewards } = useBreakdownRewardsToShow();
 
   const items = useMemo(() => {
     if (userInfoWithList == null) {
