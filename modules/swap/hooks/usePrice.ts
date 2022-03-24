@@ -23,6 +23,9 @@ export const usePrice = () => {
       return ldoPrice;
     }
 
+    if (token === "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm") {
+      return 0;
+    }
     const decimals = getDecimals(token);
     const swapRoute = getSwapRoute({ tokenGraph, from: token, to: "uusd" });
 

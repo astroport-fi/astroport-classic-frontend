@@ -22,6 +22,10 @@ export const useTokenPriceInUstWithSimulate = (token: string | null) => {
       return 1;
     }
 
+    if (token === "terra16t7x97wuckxm5h927jygjfrt3tcwrzh3u2rlqm") {
+      return 0;
+    }
+
     if (simulate.amount == null) {
       return 0;
     }
