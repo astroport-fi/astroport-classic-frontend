@@ -21,6 +21,7 @@ import CloseIcon from "components/icons/CloseIcon";
 import FormLoading from "components/common/FormLoading";
 import WarningMessage from "components/common/WarningMessage";
 import GovVoteFormFooter from "./GovVoteFormFooter";
+import Warning from "components/icons/Warning";
 
 type Props = {
   id: string;
@@ -58,6 +59,28 @@ const ActionBox = ({ action, amount, percentage }) => {
             {percentage}
           </Text>
         </Flex>
+      </Flex>
+    </Box>
+  );
+};
+
+const WarningBox = () => {
+  return (
+    <Box
+      bg="white.50"
+      p="4"
+      mt="4"
+      borderWidth="2px"
+      borderColor="white.100"
+      borderRadius="2xl"
+      color="white"
+    >
+      <Flex align="center">
+        <Warning />
+        <Text mx="3" fontSize="xs">
+          Please be aware that voting figures can take a few mins to update on
+          the dashboard.
+        </Text>
       </Flex>
     </Box>
   );
@@ -195,6 +218,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
           onClick={onSubmit}
         />
       </Card>
+      {!error && <WarningBox />}
       {error && <WarningMessage mb="8" content={error} />}
     </>
   );
