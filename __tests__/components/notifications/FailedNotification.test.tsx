@@ -93,7 +93,7 @@ describe("FailedNotification", () => {
     expect(screen.getByText("raw error message")).toBeInTheDocument();
   });
 
-  it("displays raw_log when codespace (wasm) and code has a mapping, but there is no friendly error message for it", () => {
+  it("displays a generic friendly error message for WasmError.ExecuteFailed", () => {
     const txInfo: any = {
       codespace: "wasm",
       code: 4, // WasmError.ExecuteFailed
@@ -102,6 +102,26 @@ describe("FailedNotification", () => {
 
     render(<FailedNotification txInfo={txInfo} />);
 
-    expect(screen.getByText("contract execute failed")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Execution failed: we're sorry, we were unable to realize your transaction. Please try again."
+      )
+    ).toBeInTheDocument();
+  });
+
+  it("displays a non generic friendly error message for a detectable WasmError.ExecuteFailed", () => {
+    const txInfo: any = {
+      codespace: "wasm",
+      code: 4, // WasmError.ExecuteFailed
+      raw_log: "minimum receive amount",
+    };
+
+    render(<FailedNotification txInfo={txInfo} />);
+
+    expect(
+      screen.getByText(
+        "Execution failed: slippage tolerance exceeded for the current swap."
+      )
+    ).toBeInTheDocument();
   });
 });

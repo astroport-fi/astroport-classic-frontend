@@ -74,7 +74,7 @@ const friendlyMessages = {
   // [WasmError.ContractAccountExists]: "",
   // [WasmError.InstantiateFailed]: "",
   [WasmError.ExecuteFailed]:
-    "Execution failed: We're sorry, we were unable to realize your transaction. Please try again.",
+    "Execution failed: we're sorry, we were unable to realize your transaction. Please try again.",
   // [WasmError.InsufficientGas]: "",
   // [WasmError.InvalidGenesis]: "",
   // [WasmError.NotFound]: "",
