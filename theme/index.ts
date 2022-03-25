@@ -97,6 +97,8 @@ export default extendTheme({
       purpleAlt: "#ADA3FF",
       red: "#A30000",
       redLight: "#FFD1CF",
+      blue: "#001E58",
+      blueLight: "#D4DEF2",
     },
     errors: {
       main: "#EF5177",

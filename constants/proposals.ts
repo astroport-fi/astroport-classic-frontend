@@ -11,8 +11,8 @@ export const MAX_DESCRIPTION_LENGTH = 1024;
 export const PROPOSAL_STATE_COLORS: { [key: string]: Proposal_Status_Props } = {
   [Proposal_Status.Active]: {
     title: "active",
-    lightColor: "proposalColours.purpleLight",
-    color: "proposalColours.purple",
+    lightColor: "proposalColours.blueLight",
+    color: "proposalColours.blue",
   },
   [Proposal_Status.Passed]: {
     title: "successful",
