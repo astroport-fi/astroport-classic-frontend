@@ -60,14 +60,18 @@ export const getProposalEndDateString = (
   const date = new Date(dateString);
   const now = new Date();
   const daysDiff = daysBetween(now, date);
+  const timeDiff = date.getTime() - now.getTime();
 
   if (daysDiff > 1) {
     return ["Ends:", `${daysDiff} days left`];
-  } else if (daysDiff < 0) {
+  } else if (now > date) {
     return ["Vote ended:", convertTimestampToDate(date.toISOString())];
   }
 
-  return ["Ends:", `${convertTimestapToHHMMSS(date.toISOString())}`];
+  const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+  const minsLeft = Math.floor((timeDiff / (1000 * 60)) % 60);
+
+  return ["Ends:", `${hoursLeft} hours ${minsLeft} mins`];
 };
 
 export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
