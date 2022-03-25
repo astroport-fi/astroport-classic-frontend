@@ -76,7 +76,10 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
 
   return (
     <>
-      <Grid templateColumns={["auto", "auto", "auto", "50% 50%"]} gap={8}>
+      <Grid
+        templateColumns={["auto", "auto", "auto", "repeat(2, 1fr)"]}
+        gap={8}
+      >
         {currentItems &&
           currentItems.map((item: Proposal, i: React.Key) => (
             <Card key={i} proposal={item} quorum={quorum} />
