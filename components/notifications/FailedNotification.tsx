@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
-import { TERRA_ERROR_MAP, CosmosError } from "constants/terra";
+import { TERRA_ERROR_MAP, CosmosError, WasmError } from "constants/terra";
 
 type Props = {
   txInfo: TxInfo;
@@ -73,7 +73,8 @@ const friendlyMessages = {
 
   // [WasmError.ContractAccountExists]: "",
   // [WasmError.InstantiateFailed]: "",
-  // [WasmError.ExecuteFailed]: "",
+  [WasmError.ExecuteFailed]:
+    "Execution failed: We're sorry, we were unable to realize your transaction. Please try again.",
   // [WasmError.InsufficientGas]: "",
   // [WasmError.InvalidGenesis]: "",
   // [WasmError.NotFound]: "",
@@ -91,6 +92,18 @@ const friendlyMessages = {
   // [WasmError.ExceedMaxQueryDepth]: "",
 };
 
+const executeFailedMessages = [
+  {
+    keySearch: "minimum receive amount",
+    message:
+      "Execution failed: Slippage tolerance exceeded for the current swap.",
+  },
+  {
+    keySearch: "Error parsing into type",
+    message: "Execution failed: Parsing error. Please try again.",
+  },
+];
+
 const FailedNotification: FC<Props> = ({ txInfo }) => {
   const { codespace, code, raw_log } = txInfo;
 
@@ -99,6 +112,15 @@ const FailedNotification: FC<Props> = ({ txInfo }) => {
   if (codespace && code) {
     const terraError = TERRA_ERROR_MAP[codespace]?.[code];
     message = friendlyMessages[terraError];
+
+    // Replace generic WasmError.ExecuteFailed message
+    if (codespace === "wasm" && code === 4) {
+      executeFailedMessages.forEach((efm) => {
+        if (txInfo.raw_log.includes(efm.keySearch)) {
+          message = efm.message;
+        }
+      });
+    }
   }
 
   return <Text textStyle={["small", "medium"]}>{message ?? raw_log}</Text>;
