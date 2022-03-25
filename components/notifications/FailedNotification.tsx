@@ -96,11 +96,11 @@ const executeFailedMessages = [
   {
     keySearch: "minimum receive amount",
     message:
-      "Execution failed: Slippage tolerance exceeded for the current swap.",
+      "Execution failed: slippage tolerance exceeded for the current swap.",
   },
   {
     keySearch: "Error parsing into type",
-    message: "Execution failed: Parsing error. Please try again.",
+    message: "Execution failed: parsing error. Please try again.",
   },
 ];
 
