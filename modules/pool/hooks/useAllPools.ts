@@ -115,26 +115,25 @@ export const useAllPools = () => {
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
   const tokensInUst = useTokenPrices();
-  const hiveEndpoint = useHiveEndpoint();
+  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
 
   const queryBuilder = address
     ? (chunk) => createQuery(chunk, address, generator)
     : (chunk) => createQueryNotConnected(chunk);
 
+  let firstAttempt = true;
   const { data: result } = useQuery(
     ["pools", "all", address],
     () => {
+      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      firstAttempt = false;
       // Chunk pairs into multiple queries to stay below GraphQL query size limitations
-      return requestInChunks<PairResponse>(
-        50,
-        hiveEndpoint,
-        pairs,
-        queryBuilder
-      );
+      return requestInChunks<PairResponse>(50, url, pairs, queryBuilder);
     },
     {
       enabled: pairs.length > 0,
       staleTime: QUERY_STALE_TIME,
+      retry: 1,
     }
   );
 

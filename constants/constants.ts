@@ -36,15 +36,18 @@ export const REWARDS_NOTICE =
   "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
 
 /* env variables */
+export const DEFAULT_MAINNET_GRAPHQL = "https://hive.terra.dev/graphql";
+
+export const DEFAULT_TESTNET_GRAPHQL = "https://testnet-hive.terra.dev/graphql";
+
 export const ENV_DISPLAY_GOVERNANCE =
   process.env.NEXT_PUBLIC_DISPLAY_GOVERNANCE === "1" ? true : false;
 
 export const ENV_MAINNET_GRAPHQL =
-  process.env.NEXT_PUBLIC_MAINNET_GRAPHQL || "https://hive.terra.dev/graphql";
+  process.env.NEXT_PUBLIC_MAINNET_GRAPHQL || DEFAULT_MAINNET_GRAPHQL;
 
 export const ENV_TESTNET_GRAPHQL =
-  process.env.NEXT_PUBLIC_TESTNET_GRAPHQL ||
-  "https://testnet-hive.terra.dev/graphql";
+  process.env.NEXT_PUBLIC_TESTNET_GRAPHQL || DEFAULT_TESTNET_GRAPHQL;
 
 export const ENV_API_ENDPOINT =
   process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.astroport.fi/graphql";
