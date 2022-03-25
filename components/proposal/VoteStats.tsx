@@ -59,7 +59,9 @@ const VoteStats: FC<Props> = ({
             <Text fontSize="lg" color="green.500">
               {handleTinyAmount(voteForPerc)}%
             </Text>
-            <Text color="white.400">x,xxx,xxx Votes</Text>
+            <Text color="white.400">
+              {Number(proposal.votes_for).toLocaleString()} Votes
+            </Text>
           </Box>
         </Flex>
         <Flex flexDirection="column" w="50%" ml="1">
@@ -68,7 +70,9 @@ const VoteStats: FC<Props> = ({
             <Text fontSize="lg" color="red.500">
               {handleTinyAmount(voteAgainstPerc)}%
             </Text>
-            <Text color="white.400">x,xxx,xxx Votes</Text>
+            <Text color="white.400">
+              {Number(proposal.votes_against).toLocaleString()} Votes
+            </Text>
           </Box>
         </Flex>
       </Flex>

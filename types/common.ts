@@ -156,6 +156,8 @@ export interface Proposal {
   start_timestamp: string;
   end_timestamp: string;
   // voting power
+  votes_for: number | null;
+  votes_against: number | null;
   votes_for_power: number | null;
   votes_against_power: number | null;
   total_voting_power: number | null;
