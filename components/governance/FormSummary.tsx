@@ -64,9 +64,16 @@ const ForumSummary: FC<Props> = ({
       <Box mb="8">
         {FormTextHeader("Executable Messages")}
         <FormBlock maxH="40" overflowY="auto" overflow={null}>
-          <Code bg="none" color="inherit">
-            {messages}
-          </Code>
+          {messages && messages.length > 0 && (
+            <Code bg="none" color="inherit">
+              {messages}
+            </Code>
+          )}
+          {!(messages && messages.length > 0) && (
+            <Text fontSize="sm" color="whiteAlpha.400">
+              No executable messages.
+            </Text>
+          )}
         </FormBlock>
       </Box>
       <Box mb="8">
