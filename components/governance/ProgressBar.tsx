@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { handleTinyAmount } from "modules/common";
 
-// min value to display quorum UI on progress bar
+// min value to display quorum dark padding on progress bar
 const QuorumMinPosition = 2;
 
 // hide left tooltip value
@@ -58,9 +58,7 @@ const RightFixedTip = () => {
 };
 
 const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, height }) => {
-  const leftPosition = `${
-    quorum > QuorumMinPosition ? quorum : QuorumMinPosition
-  }%`;
+  const leftPosition = `${quorum}%`;
 
   return (
     <>
@@ -85,9 +83,7 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, height }) => {
 };
 
 const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
-  const leftPosition = `calc(${
-    quorum > QuorumMinPosition ? quorum : QuorumMinPosition
-  }% - 4px)`;
+  const leftPosition = `calc(${quorum}% - 4px)`;
 
   return (
     <Box
@@ -96,9 +92,8 @@ const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
       w="8px"
       h={height}
       left={leftPosition}
-      bg="blackAlpha.900"
+      bg={quorum < QuorumMinPosition ? null : "blackAlpha.900"}
       zIndex="2"
-      borderRadius={quorum < QuorumMinPosition ? "xl" : null}
     >
       <Box
         pos="absolute"
