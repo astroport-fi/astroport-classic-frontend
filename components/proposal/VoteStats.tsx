@@ -51,7 +51,7 @@ const VoteStats: FC<Props> = ({
         </Flex>
         <ProgressLabel voteFor={voteForPerc} voteAgainst={voteAgainstPerc} />
       </Flex>
-      <Flex borderY="1px" borderColor="white.100" p="6">
+      <Flex borderTop="1px" borderColor="white.100" p="6">
         <Flex flexDirection="column" w="50%" mr="1">
           <Text mb="2">For</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
@@ -75,62 +75,76 @@ const VoteStats: FC<Props> = ({
           </Box>
         </Flex>
       </Flex>
-      <Center flexDirection="column">
-        {addressOpen && (
-          <Flex width="100%" p="5">
-            <Box width="50%" mr="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
-                {proposal.votes_for} Addresses
-              </Text>
-              <Box height="32" overflowY="auto">
-                {votesFor.map((vote, index) => (
-                  <Flex
-                    key={index}
-                    justify="space-between"
-                    my="1.5"
-                    fontSize="xs"
-                  >
-                    <Link href={finder(vote.voter)} isExternal>
-                      <Text>{truncateStr(vote.voter, 15)}</Text>
-                    </Link>
-                    <Text mr="1">
-                      {handleTinyAmount(
-                        (vote.voting_power / proposal.total_voting_power) * 100
-                      )}
-                      %
-                    </Text>
-                  </Flex>
-                ))}
+      {(proposal.votes_for > 0 || proposal.votes_against > 0) && (
+        <Center borderTop="1px" borderColor="white.100" flexDirection="column">
+          {addressOpen && (
+            <Flex width="100%" p="5">
+              <Box
+                width="50%"
+                mr="2"
+                p="3"
+                bg="whiteAlpha.50"
+                borderRadius="lg"
+              >
+                <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
+                  {proposal.votes_for} Addresses
+                </Text>
+                <Box height="32" overflowY="auto">
+                  {votesFor.map((vote, index) => (
+                    <Flex
+                      key={index}
+                      justify="space-between"
+                      my="1.5"
+                      fontSize="xs"
+                    >
+                      <Link href={finder(vote.voter)} isExternal>
+                        <Text>{truncateStr(vote.voter, 15)}</Text>
+                      </Link>
+                      <Text mr="1">
+                        {handleTinyAmount(
+                          (vote.voting_power / proposal.total_voting_power) *
+                            100
+                        )}
+                        %
+                      </Text>
+                    </Flex>
+                  ))}
+                </Box>
               </Box>
-            </Box>
-            <Box width="50%" ml="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
-              <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
-                {proposal.votes_against} Addresses
-              </Text>
-              <Box height="32" overflowY="auto">
-                {votesAgainst.map((vote, index) => (
-                  <Flex
-                    key={index}
-                    justify="space-between"
-                    my="1.5"
-                    fontSize="xs"
-                  >
-                    <Link href={finder(vote.voter)} isExternal>
-                      <Text>{truncateStr(vote.voter, 15)}</Text>
-                    </Link>
-                    <Text mr="1">
-                      {handleTinyAmount(
-                        (vote.voting_power / proposal.total_voting_power) * 100
-                      )}
-                      %
-                    </Text>
-                  </Flex>
-                ))}
+              <Box
+                width="50%"
+                ml="2"
+                p="3"
+                bg="whiteAlpha.50"
+                borderRadius="lg"
+              >
+                <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
+                  {proposal.votes_against} Addresses
+                </Text>
+                <Box height="32" overflowY="auto">
+                  {votesAgainst.map((vote, index) => (
+                    <Flex
+                      key={index}
+                      justify="space-between"
+                      my="1.5"
+                      fontSize="xs"
+                    >
+                      <Link href={finder(vote.voter)} isExternal>
+                        <Text>{truncateStr(vote.voter, 15)}</Text>
+                      </Link>
+                      <Text mr="1">
+                        {handleTinyAmount(
+                          (vote.voting_power / proposal.total_voting_power) *
+                            100
+                        )}
+                        %
+                      </Text>
+                    </Flex>
+                  ))}
+                </Box>
               </Box>
-            </Box>
-          </Flex>
-        )}
-        {(proposal.votes_for > 0 || proposal.votes_against > 0) && (
+            </Flex>
+          )}
           <UnderlineButton
             w="100%"
             h="50px"
@@ -141,8 +155,8 @@ const VoteStats: FC<Props> = ({
           >
             {addressOpen ? "Close" : "View Addresses"}
           </UnderlineButton>
-        )}
-      </Center>
+        </Center>
+      )}
     </Flex>
   );
 };
