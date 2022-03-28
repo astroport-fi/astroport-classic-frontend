@@ -8,6 +8,7 @@ import UnderlineButton from "components/UnderlineButton";
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 import { calcVotingPercentages } from "modules/governance/helpers";
+import { useProposalVotes } from "modules/governance";
 
 type Props = {
   proposal: Proposal;
@@ -16,11 +17,6 @@ type Props = {
   addressOpen: boolean;
   onClick: () => void;
 };
-
-// Dummy data
-const votesForArr = [];
-
-const votesAgainstArr = [];
 
 const VoteStats: FC<Props> = ({
   proposal,
@@ -31,6 +27,9 @@ const VoteStats: FC<Props> = ({
 }) => {
   const finder = useFinder();
   const { voteForPerc, voteAgainstPerc } = calcVotingPercentages(proposal);
+  const { votesFor, votesAgainst } = useProposalVotes(
+    String(proposal.proposal_id)
+  );
 
   return (
     <Flex
@@ -81,56 +80,68 @@ const VoteStats: FC<Props> = ({
           <Flex width="100%" p="5">
             <Box width="50%" mr="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
               <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
-                {votesForArr.length} Addresses
+                {proposal.votes_for} Addresses
               </Text>
               <Box height="32" overflowY="auto">
-                {votesForArr.map((vote, index) => (
+                {votesFor.map((vote, index) => (
                   <Flex
                     key={index}
                     justify="space-between"
                     my="1.5"
                     fontSize="xs"
                   >
-                    <Link href={finder(vote.address)} isExternal>
-                      <Text>{truncateStr(vote.address, 15)}</Text>
+                    <Link href={finder(vote.voter)} isExternal>
+                      <Text>{truncateStr(vote.voter, 15)}</Text>
                     </Link>
-                    <Text mr="1">{vote.percent}%</Text>
+                    <Text mr="1">
+                      {handleTinyAmount(
+                        (vote.voting_power / proposal.total_voting_power) * 100
+                      )}
+                      %
+                    </Text>
                   </Flex>
                 ))}
               </Box>
             </Box>
             <Box width="50%" ml="2" p="3" bg="whiteAlpha.50" borderRadius="lg">
               <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
-                {votesAgainstArr.length} Addresses
+                {proposal.votes_against} Addresses
               </Text>
               <Box height="32" overflowY="auto">
-                {votesAgainstArr.map((vote, index) => (
+                {votesAgainst.map((vote, index) => (
                   <Flex
                     key={index}
                     justify="space-between"
                     my="1.5"
                     fontSize="xs"
                   >
-                    <Link href={finder(vote.address)} isExternal>
-                      <Text>{truncateStr(vote.address, 15)}</Text>
+                    <Link href={finder(vote.voter)} isExternal>
+                      <Text>{truncateStr(vote.voter, 15)}</Text>
                     </Link>
-                    <Text mr="1">{vote.percent}%</Text>
+                    <Text mr="1">
+                      {handleTinyAmount(
+                        (vote.voting_power / proposal.total_voting_power) * 100
+                      )}
+                      %
+                    </Text>
                   </Flex>
                 ))}
               </Box>
             </Box>
           </Flex>
         )}
-        <UnderlineButton
-          w="100%"
-          h="50px"
-          fontWeight="500"
-          color="proposalColours.purpleAlt"
-          fontSize=".875rem"
-          onClick={onClick}
-        >
-          {addressOpen ? "Close" : "View Addresses"}
-        </UnderlineButton>
+        {(proposal.votes_for > 0 || proposal.votes_against > 0) && (
+          <UnderlineButton
+            w="100%"
+            h="50px"
+            fontWeight="500"
+            color="proposalColours.purpleAlt"
+            fontSize=".875rem"
+            onClick={onClick}
+          >
+            {addressOpen ? "Close" : "View Addresses"}
+          </UnderlineButton>
+        )}
       </Center>
     </Flex>
   );
