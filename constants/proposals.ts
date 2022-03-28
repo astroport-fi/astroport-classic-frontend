@@ -7,6 +7,9 @@ export const MAX_TITLE_LENGTH = 64;
 export const MIN_DESCRIPTION_LENGTH = 4;
 export const MAX_DESCRIPTION_LENGTH = 1024;
 
+export const MIN_LINK_LENGTH = 12;
+export const MAX_LINK_LENGTH = 128;
+
 /* state colors */
 export const PROPOSAL_STATE_COLORS: { [key: string]: Proposal_Status_Props } = {
   [Proposal_Status.Active]: {

@@ -8,6 +8,14 @@ import { Proposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 import DepositBox from "components/proposal/DepositBox";
 import ErrorBox from "components/proposal/ErrorBox";
+import {
+  MAX_DESCRIPTION_LENGTH,
+  MAX_LINK_LENGTH,
+  MAX_TITLE_LENGTH,
+  MIN_DESCRIPTION_LENGTH,
+  MIN_LINK_LENGTH,
+  MIN_TITLE_LENGTH,
+} from "constants/proposals";
 
 type Props = {
   fee: Fee;
@@ -23,9 +31,10 @@ type Props = {
 const CommonFormProps = (
   type: "input" | "textarea",
   id: string,
-  title: string
+  title: string,
+  placeholder?: string
 ) => {
-  return { type, id, title };
+  return { type, id, title, placeholder };
 };
 
 const GovProposalFormInitial: FC<Props> = ({
@@ -61,7 +70,12 @@ const GovProposalFormInitial: FC<Props> = ({
       {balanceError && <ErrorBox />}
 
       <FormTextItem
-        {...CommonFormProps("input", "title", "Set Title:")}
+        {...CommonFormProps(
+          "input",
+          "title",
+          "Set Title:",
+          `Type a title that is between ${MIN_TITLE_LENGTH} and ${MAX_TITLE_LENGTH} characters long`
+        )}
         value={title}
         formRegister={methods.register}
         error={inputErrors?.title || null}
@@ -71,7 +85,12 @@ const GovProposalFormInitial: FC<Props> = ({
         }}
       />
       <FormTextItem
-        {...CommonFormProps("textarea", "description", "Insert Description:")}
+        {...CommonFormProps(
+          "textarea",
+          "description",
+          "Insert Description:",
+          `Type a description that is between ${MIN_DESCRIPTION_LENGTH} and ${MAX_DESCRIPTION_LENGTH} characters long`
+        )}
         value={description}
         formRegister={methods.register}
         error={inputErrors?.description || null}
@@ -94,8 +113,12 @@ const GovProposalFormInitial: FC<Props> = ({
         }}
       />
       <FormTextItem
-        {...CommonFormProps("input", "link", "Insert Link to Discussion:")}
-        placeholder="https://discord.gg/..."
+        {...CommonFormProps(
+          "input",
+          "link",
+          "Insert Link to Discussion:",
+          `Add a link that is between ${MIN_LINK_LENGTH} and ${MAX_LINK_LENGTH} characters long`
+        )}
         value={link}
         formRegister={methods.register}
         error={inputErrors?.link || null}

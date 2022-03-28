@@ -5,6 +5,8 @@ import {
   MAX_TITLE_LENGTH,
   MIN_DESCRIPTION_LENGTH,
   MAX_DESCRIPTION_LENGTH,
+  MIN_LINK_LENGTH,
+  MAX_LINK_LENGTH,
 } from "constants/proposals";
 import { validateJsonInput, validateUrl } from "modules/common/helpers";
 import ErrorBubble from "components/common/ErrorBubble";
@@ -52,8 +54,15 @@ const formErrorMsg = (id, error) => {
     }
     case "messages":
       return "Inccorectly formatted JSON";
-    case "link":
+    case "link": {
+      if (error.type === "minLength") {
+        return `The ${id} must have at least ${MIN_LINK_LENGTH} characters`;
+      } else if (error.type === "maxLength") {
+        return `The ${id} must have maximum ${MAX_LINK_LENGTH} characters`;
+      }
+
       return "Inccorectly formatted URL";
+    }
   }
 
   return "This input is required";
@@ -84,10 +93,15 @@ const formValidationRule = (id) => {
     case "link":
       return {
         required: false,
+        minLength: MIN_LINK_LENGTH,
+        maxLength: MAX_LINK_LENGTH,
         validate: (value: string | null) =>
           !value ||
           value.length === 0 ||
-          (value.length > 0 && validateUrl(value)),
+          (value.length > 0 &&
+            value.length >= MIN_LINK_LENGTH &&
+            value.length <= MAX_LINK_LENGTH &&
+            validateUrl(value)),
       };
   }
 
@@ -177,6 +191,7 @@ const FormTextItem: FC<Props> = ({
           fontSize={fontSize}
           onChange={(e) => onChange(e.target.value)}
           h="40"
+          p="4"
           resize="none"
           ref={id === "messages" ? msgRef : null}
         />
