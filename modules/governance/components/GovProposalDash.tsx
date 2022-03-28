@@ -128,6 +128,8 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
             p="2"
             textAlign="center"
             borderColor="white.200"
+            placeholder="1"
+            _placeholder={{ color: "whiteAlpha.300" }}
             value={inputPageNum}
             onChange={(e) => handleChange(e)}
             onBlur={(e) => handleBlur(e)}
