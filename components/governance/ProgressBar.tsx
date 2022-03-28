@@ -22,6 +22,7 @@ type BarValues = {
 
 type QuorumTipProps = {
   quorum: number;
+  height: string;
 };
 
 const LeftFixedTip = () => {
@@ -56,7 +57,7 @@ const RightFixedTip = () => {
   );
 };
 
-const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
+const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, height }) => {
   const leftPosition = `${
     quorum > QuorumMinPosition ? quorum : QuorumMinPosition
   }%`;
@@ -83,7 +84,7 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
   );
 };
 
-const QuorumSplit: FC<QuorumTipProps> = ({ quorum }) => {
+const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
   const leftPosition = `calc(${
     quorum > QuorumMinPosition ? quorum : QuorumMinPosition
   }% - 4px)`;
@@ -91,19 +92,20 @@ const QuorumSplit: FC<QuorumTipProps> = ({ quorum }) => {
   return (
     <Box
       pos="absolute"
+      mt="10px"
       w="8px"
-      h="100%"
+      h={height}
       left={leftPosition}
-      bg="blackAlpha.500"
+      bg="blackAlpha.900"
       zIndex="2"
       borderRadius={quorum < QuorumMinPosition ? "xl" : null}
     >
       <Box
         pos="absolute"
         w="2px"
-        top="-3px"
+        top="-6px"
         left="3px"
-        height="calc(100% + 6px)"
+        height="calc(100% + 12px)"
         bg="white"
         borderRadius="sm"
       />
@@ -157,16 +159,21 @@ const ProgressBar: FC<ProgressElements> = ({
     <Box pos="relative" width="100%" height={`${height}px`}>
       {(quorum > QuorumHideLeftToolTip || !quorum) && <LeftFixedTip />}
       <RightFixedTip />
-      {quorum && <QuorumFixedTip quorum={quorum} />}
+      {quorum && (
+        <>
+          <QuorumFixedTip quorum={quorum} height={`${height - 20}px`} />
+          <QuorumSplit quorum={quorum} height={`${height - 20}px`} />
+        </>
+      )}
       <Box
         pos="relative"
         bg="blackAlpha.500"
         mt="10px"
         borderRadius="full"
         width="100%"
+        overflow="hidden"
         height={`${height - 20}px`}
       >
-        {quorum && <QuorumSplit quorum={quorum} />}
         {createBars(bars).map((element, i) => (
           <Box key={i}>{element}</Box>
         ))}
