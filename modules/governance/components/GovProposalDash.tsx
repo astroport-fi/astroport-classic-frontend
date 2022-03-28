@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { Grid, Box, Flex, Text, Select, Input } from "@chakra-ui/react";
 import ReactPaginate from "react-paginate";
 
+import ArrowLeft from "components/icons/ArrowLeft";
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
 import { Proposal } from "types/common";
@@ -98,6 +99,11 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
           Page {pageNum} of {pageCount}
         </Flex>
         <ReactPaginate
+          previousLabel={
+            <Box mr="2">
+              <ArrowLeft />
+            </Box>
+          }
           nextLabel={
             <Box ml="2">
               <ArrowRight />
@@ -105,7 +111,6 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
           }
           onPageChange={handlePageClick}
           pageCount={pageCount}
-          previousLabel={<> </>}
           renderOnZeroPageCount={null}
           containerClassName="pagination"
           activeClassName="pagination-active"
