@@ -84,16 +84,18 @@ const DescriptionBox: FC<{ address: string; description: string }> = ({
 };
 
 const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
+  const hasExecMsg = messages && messages.length > 0;
+
   return (
     <Box minH="150px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Executable Messages</Text>
       <Box maxH="40" overflowY="auto">
-        {messages && messages.length > 0 && (
+        {hasExecMsg && (
           <Code bg="none" color="whiteAlpha.400" fontSize="sm">
             {messages}
           </Code>
         )}
-        {!(messages && messages.length > 0) && (
+        {!hasExecMsg && (
           <Text fontSize="sm" color="whiteAlpha.400">
             No executable messages.
           </Text>

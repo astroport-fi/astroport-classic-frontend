@@ -44,6 +44,7 @@ const ForumSummary: FC<Props> = ({
   xAstroPrice,
 }) => {
   const { title, description, messages, link } = proposal;
+  const hasExecMsg = messages && messages.length > 0;
 
   return (
     <Box fontSize="0.875rem">
@@ -64,12 +65,12 @@ const ForumSummary: FC<Props> = ({
       <Box mb="8">
         {FormTextHeader("Executable Messages")}
         <FormBlock maxH="40" overflowY="auto" overflow={null}>
-          {messages && messages.length > 0 && (
+          {hasExecMsg && (
             <Code bg="none" color="inherit">
               {messages}
             </Code>
           )}
-          {!(messages && messages.length > 0) && (
+          {!hasExecMsg && (
             <Text fontSize="sm" color="whiteAlpha.400">
               No executable messages.
             </Text>
