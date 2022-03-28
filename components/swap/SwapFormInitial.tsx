@@ -131,7 +131,18 @@ const SwapFormInitial: FC<Props> = ({
               name="token1"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => <TokenInput {...field} />}
+              render={({ field }) => (
+                <TokenInput
+                  {...field}
+                  onChange={(value) => {
+                    if (value === token2) {
+                      reverse();
+                    } else {
+                      setValue("token1", value);
+                    }
+                  }}
+                />
+              )}
             />
           </Box>
           <Box flex="1" ml={[null, null, "8"]} mt={["4", null, "0"]}>
@@ -198,7 +209,18 @@ const SwapFormInitial: FC<Props> = ({
               name="token2"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => <TokenInput {...field} />}
+              render={({ field }) => (
+                <TokenInput
+                  {...field}
+                  onChange={(value) => {
+                    if (value === token1) {
+                      reverse();
+                    } else {
+                      setValue("token2", value);
+                    }
+                  }}
+                />
+              )}
             />
           </Box>
           <Box flex="1" ml={[null, null, "8"]} mt={["4", null, "0"]}>
