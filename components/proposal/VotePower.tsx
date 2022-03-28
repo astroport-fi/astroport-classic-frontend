@@ -104,7 +104,7 @@ const VotePower: FC<Props> = ({
                 }
                 fontWeight="500"
               >{`Voted ${
-                isVotedFor ? "in favor of" : "against the"
+                isVotedFor ? "in favor of the" : "against the"
               } proposal`}</Text>
             )}
             {!(isVotedFor || isVotedAgainst) && (
