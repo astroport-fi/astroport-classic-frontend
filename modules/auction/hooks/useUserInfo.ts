@@ -26,6 +26,10 @@ export const useUserInfo = () => {
   const { data, isLoading } = useQuery(
     ["userInfo", "auction", address],
     () => {
+      if (!address) {
+        return null;
+      }
+
       return client.wasm.contractQuery<Response>(auction, {
         user_info: {
           address,

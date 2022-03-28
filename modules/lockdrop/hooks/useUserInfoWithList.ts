@@ -26,6 +26,10 @@ export const useUserInfoWithList = () => {
   const { data, isLoading } = useQuery(
     ["userInfoWithList", "lockdrop", address],
     () => {
+      if (!address) {
+        return null;
+      }
+
       return client.wasm.contractQuery<Response>(lockdrop, {
         user_info_with_lockups_list: {
           address,
