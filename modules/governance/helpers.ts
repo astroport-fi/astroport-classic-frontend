@@ -159,11 +159,3 @@ export const composeTwitterLink = (
     `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
   );
 };
-
-export const appendHttp = (url: string) => {
-  if (!/^(f|ht)tps?:\/\//i.test(url)) {
-    url = "http://" + url;
-  }
-
-  return url;
-};

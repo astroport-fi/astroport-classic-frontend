@@ -4,7 +4,6 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
-import { NextLink } from "modules/common";
 import {
   useConfig,
   useProposalApi,
@@ -12,7 +11,6 @@ import {
 } from "modules/governance";
 import {
   composeTwitterLink,
-  appendHttp,
   createHistoryBlocks,
 } from "modules/governance/helpers";
 
@@ -22,6 +20,8 @@ import ProposalVoteStats from "components/proposal/VoteStats";
 import TimelineBar from "components/governance/TimelineBar";
 import { Proposal, Proposal_History } from "types/common";
 import VotePower from "components/proposal/VotePower";
+import { ASTRO_FORUM_LINK } from "constants/constants";
+import { truncateStr } from "modules/common";
 
 type Props = {
   id: string;
@@ -38,7 +38,6 @@ type RightColumnProps = {
   id: string;
   address: string;
   status: WalletStatus;
-  link: string;
   totalVotePower: number | null;
   proposalContract: any;
 };
@@ -97,9 +96,31 @@ const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
   );
 };
 
-const DiscussionBox: FC<{ link: string | null }> = ({ link }) => {
-  const forumLink = link ? appendHttp(link) : "https://forum.astroport.fi";
+const LinkBox: FC<{ link: string | null }> = ({ link }) => {
+  return (
+    <Box bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
+      <Text mb="3">Discussion Link</Text>
+      {link && (
+        <Link
+          href={link}
+          title={link}
+          isExternal
+          fontSize="sm"
+          color="whiteAlpha.400"
+        >
+          {truncateStr(link, 50)}
+        </Link>
+      )}
+      {!link && (
+        <Text fontSize="sm" color="whiteAlpha.400">
+          No link
+        </Text>
+      )}
+    </Box>
+  );
+};
 
+const DiscussionBox = () => {
   return (
     <Flex
       flexDirection="column"
@@ -118,15 +139,15 @@ const DiscussionBox: FC<{ link: string | null }> = ({ link }) => {
         <br />
         Discuss with others on the forum.
       </Text>
-      <Button
-        variant="primary"
-        borderRadius="md"
-        onClick={() => {
-          window.open(forumLink, "_blank");
-        }}
+      <Link
+        href={ASTRO_FORUM_LINK}
+        isExternal
+        _hover={{ textDecoration: "none" }}
       >
-        Go to Forum
-      </Button>
+        <Button variant="primary" borderRadius="md">
+          Go to Forum
+        </Button>
+      </Link>
     </Flex>
   );
 };
@@ -155,6 +176,7 @@ const LeftColumn: FC<LeftColumnProps> = ({
         description={proposal.description}
       />
       <MsgBox messages={proposal.messages} />
+      <LinkBox link={proposal.link} />
     </Flex>
   );
 };
@@ -163,7 +185,6 @@ const RightColumn: FC<RightColumnProps> = ({
   id,
   address,
   status,
-  link,
   totalVotePower,
   proposalContract,
 }) => {
@@ -176,7 +197,7 @@ const RightColumn: FC<RightColumnProps> = ({
         totalVotePower={totalVotePower}
         proposalContract={proposalContract}
       />
-      <DiscussionBox link={link} />
+      <DiscussionBox />
     </Flex>
   );
 };
@@ -219,7 +240,6 @@ const GovProposalPage: FC<Props> = ({ id }) => {
           id={id}
           address={address}
           status={status}
-          link={proposal.link}
           totalVotePower={proposal.total_voting_power}
           proposalContract={proposalContract}
         />

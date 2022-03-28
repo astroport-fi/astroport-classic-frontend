@@ -38,6 +38,8 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 export const REWARDS_NOTICE =
   "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
 
+export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
+
 /* env variables */
 export const ENV_DISPLAY_GOVERNANCE =
   process.env.NEXT_PUBLIC_DISPLAY_GOVERNANCE === "1" ? true : false;
