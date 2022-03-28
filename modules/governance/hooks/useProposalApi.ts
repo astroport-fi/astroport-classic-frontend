@@ -33,7 +33,7 @@ export const useProposalApi = (
   proposalId: string
 ): { proposal?: Proposal; proposalExists?: boolean } => {
   const { data, isLoading, error } = useApi({
-    name: "proposal",
+    name: ["proposal", proposalId],
     query,
     variables: {
       proposalId,
