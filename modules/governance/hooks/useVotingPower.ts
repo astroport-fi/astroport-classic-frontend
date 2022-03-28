@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
@@ -8,7 +8,7 @@ type Params = {
   proposal_id: number;
 };
 
-type Response = string | null;
+type Response = number | null;
 
 export const useVotingPower = ({ proposal_id }: Params): Response => {
   const { client } = useTerraWebapp();
@@ -29,7 +29,9 @@ export const useVotingPower = ({ proposal_id }: Params): Response => {
       return null;
     }
 
-    return data;
+    return num(data)
+      .div(10 ** 6)
+      .toNumber();
   }, [isLoading]);
 };
 

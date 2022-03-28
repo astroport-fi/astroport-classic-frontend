@@ -93,7 +93,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
     userVotingPower && proposal?.total_voting_power
-      ? (Number(userVotingPower) / proposal.total_voting_power) * 100
+      ? (userVotingPower / proposal.total_voting_power) * 100
       : `-`;
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
@@ -205,7 +205,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
         {userVotingPower && (
           <ActionBox
             action={action}
-            amount={Number(userVotingPower).toLocaleString()}
+            amount={userVotingPower.toLocaleString()}
             percentage={`${handleBigAndTinyAmount(userVotingPowerPerc)}%`}
           />
         )}

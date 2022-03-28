@@ -28,16 +28,14 @@ const VotePower: FC<Props> = ({
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
     userVotingPower && totalVotePower
-      ? (Number(userVotingPower) / totalVotePower) * 100
+      ? (userVotingPower / totalVotePower) * 100
       : `-`;
 
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
       <Text fontSize="xs">My Voting Power</Text>
       <Box bg="blackAlpha.400" p="3" mt="3" borderRadius="lg">
-        <Text>
-          {userVotingPower ? Number(userVotingPower).toLocaleString() : `-`}
-        </Text>
+        <Text>{userVotingPower ? userVotingPower.toLocaleString() : `-`}</Text>
         <Text fontSize="sm" mt="2px" color="whiteAlpha.400">
           {handleBigAndTinyAmount(userVotingPowerPerc)}%
         </Text>
