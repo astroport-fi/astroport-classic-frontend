@@ -103,9 +103,9 @@ const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
       <Box
         pos="absolute"
         w="2px"
-        top="-6px"
+        top="-4px"
         left="3px"
-        height="calc(100% + 12px)"
+        height="calc(100% + 8px)"
         bg="white"
         borderRadius="sm"
       />
