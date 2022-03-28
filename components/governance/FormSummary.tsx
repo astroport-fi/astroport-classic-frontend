@@ -92,10 +92,13 @@ const ForumSummary: FC<Props> = ({
       <Box mb="8">
         <FormBlock>
           <Flex align="center">
-            <Warning />
+            <Flex shrink={0}>
+              <Warning />
+            </Flex>
             <Text mx="3" fontSize="xs">
               Please be aware that new proposals can take a few mins to show up
-              on the dashboard.
+              on the dashboard. Also note that you will not be able to vote on
+              your own proposal.
             </Text>
           </Flex>
         </FormBlock>

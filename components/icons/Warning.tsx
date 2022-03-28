@@ -3,8 +3,8 @@ import * as React from "react";
 export default function VaultIcon(props: any) {
   return (
     <svg
-      width="20px"
-      height="20px"
+      width="14px"
+      height="14px"
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
