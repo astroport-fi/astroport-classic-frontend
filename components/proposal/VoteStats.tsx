@@ -57,7 +57,7 @@ const VoteStats: FC<Props> = ({
           <Text mb="2">For</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="green.500">
-              {handleTinyAmount(voteForPerc)}%
+              {voteForPerc > 0 ? handleTinyAmount(voteForPerc) : "0"}%
             </Text>
             <Text color="white.400">
               {Number(proposal.votes_for).toLocaleString()} Votes
@@ -68,7 +68,7 @@ const VoteStats: FC<Props> = ({
           <Text mb="2">Against</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="red.500">
-              {handleTinyAmount(voteAgainstPerc)}%
+              {voteAgainstPerc > 0 ? handleTinyAmount(voteAgainstPerc) : "0"}%
             </Text>
             <Text color="white.400">
               {Number(proposal.votes_against).toLocaleString()} Votes
