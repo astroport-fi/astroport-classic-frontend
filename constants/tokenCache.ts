@@ -22,6 +22,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/astro.png",
       decimals: 6,
     },
+    terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7: {
+      protocol: "Astroport",
+      symbol: "xASTRO",
+      token: "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7",
+      icon: "/tokens/xAstro.png",
+      decimals: 6,
+    },
     uluna: {
       protocol: "Terra",
       symbol: "LUNA",
