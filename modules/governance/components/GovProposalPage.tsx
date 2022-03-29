@@ -10,6 +10,7 @@ import {
   useProposalClient,
 } from "modules/governance";
 import {
+  appendHttps,
   composeTwitterLink,
   createHistoryBlocks,
 } from "modules/governance/helpers";
@@ -111,8 +112,8 @@ const LinkBox: FC<{ link: string | null }> = ({ link }) => {
       <Text mb="3">Discussion Link</Text>
       {link && (
         <Link
-          href={link}
-          title={link}
+          href={appendHttps(link)}
+          title={appendHttps(link)}
           isExternal
           fontSize="sm"
           color="whiteAlpha.400"
