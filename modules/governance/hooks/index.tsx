@@ -1,6 +1,6 @@
 export * from "./useGovStake";
 export * from "./useGovStakingAPY";
-export * from "./useGovStakingRatio";
+export * from "./useGovRatios";
 export * from "./useGovStakingBalances";
 export * from "./useAstroMintRatio";
 export * from "./useProposalApi";

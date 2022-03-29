@@ -18,9 +18,10 @@ import {
   NextLink,
   handleTinyAmount,
   handleBigPercentage,
+  handleBigAndTinyAmount,
 } from "modules/common";
 import {
-  useGovStakingRatio,
+  useGovRatios,
   useGovStakingAPY,
   useGovStakingBalances,
 } from "../hooks";
@@ -28,7 +29,7 @@ import {
 const GovPageStake = () => {
   const { astroBalance, xAstroBalance, stakedAstroBalance } =
     useGovStakingBalances();
-  const stakingRatio = useGovStakingRatio();
+  const { stakingRatio, xAstroRatio } = useGovRatios();
   const stakingAPY = useGovStakingAPY();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
@@ -41,6 +42,10 @@ const GovPageStake = () => {
     {
       label: "APY",
       value: stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`,
+    },
+    {
+      label: "ASTRO:xASTRO Ratio",
+      value: `${handleBigPercentage(xAstroRatio)}`,
     },
     {
       label: "Protocol Staking Ratio",
