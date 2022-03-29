@@ -38,7 +38,7 @@ const GovStakeFooter: FC<Props> = ({
   const newUnstakeXAstro = num(xAstroBalance)
     .minus(num(amount).times(ONE_TOKEN))
     .toString();
-  const title = type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake ASTRO";
+  const title = type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake xASTRO";
   const newXAstro =
     type === AstroFormType.Stake ? newStakeXAstro : newUnstakeXAstro;
 
