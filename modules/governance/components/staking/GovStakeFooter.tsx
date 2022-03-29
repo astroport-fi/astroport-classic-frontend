@@ -11,7 +11,6 @@ import {
 import { AstroFormType } from "types/common";
 
 import CommonFooter from "components/CommonFooter";
-import { useGovRatios } from "modules/governance/hooks";
 
 type Props = {
   amount: number;
@@ -19,6 +18,7 @@ type Props = {
   type: AstroFormType;
   isLoading: boolean;
   isDisabled: boolean;
+  astroMintRatio: number | null;
 };
 
 const GovStakeFooter: FC<Props> = ({
@@ -27,9 +27,9 @@ const GovStakeFooter: FC<Props> = ({
   isLoading,
   isDisabled,
   amount,
+  astroMintRatio,
 }) => {
   const { xAstroToken } = useContracts();
-  const { astroToXRatio, xToAstroRatio } = useGovRatios();
   const xAstroBalance = useBalance(xAstroToken);
   const newStakeXAstro = num(amount)
     .times(ONE_TOKEN)
@@ -47,14 +47,11 @@ const GovStakeFooter: FC<Props> = ({
       fee={fee}
       cells={[
         {
-          title:
-            type === AstroFormType.Stake
-              ? "ASTRO:xASTRO Ratio"
-              : "xASTRO:ASTRO Ratio",
+          title: type === AstroFormType.Stake ? "ASTRO:xASTRO" : "xASTRO:ASTRO",
           value:
             type === AstroFormType.Stake
-              ? handleBigPercentage(astroToXRatio)
-              : `${handleTinyAmount(xToAstroRatio)}%`,
+              ? `1:${astroMintRatio}`
+              : `1:${num(1 / astroMintRatio).dp(2)}`,
         },
         {
           title: "Current xASTRO",

@@ -111,6 +111,7 @@ const GovStakeFormInitial: FC<Props> = ({
           isLoading={isLoading}
           isDisabled={fee == null || txFeeNotEnough}
           amount={adjAmount.toNumber()}
+          astroMintRatio={astroMintRatio}
         />
       </Stack>
 
