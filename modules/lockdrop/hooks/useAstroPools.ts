@@ -9,9 +9,9 @@ import {
   getPoolTokenDenoms,
   useAstroswap,
   useContracts,
-  useLunaPrice,
   useHive,
   useTokenInfo,
+  useLunaPriceInUst,
 } from "modules/common";
 import { useUserInfoWithList } from "modules/lockdrop";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -82,17 +82,6 @@ const createSecondQuery = (pairs, address) => {
               }
             )
           }
-
-          balance${liquidity_token}: wasm {
-            contractQuery(
-              contractAddress: "${liquidity_token}"
-              query: {
-                balance: {
-                  address: "${address}"
-                }
-              }
-            )
-          }
         `;
       })}
     }
@@ -104,7 +93,7 @@ export const useAstroPools = () => {
   const { lockdrop, astroToken, stakableLp, generator } = useContracts();
   const { getDecimals } = useTokenInfo();
   const address = useAddress();
-  const lunaPrice = useLunaPrice();
+  const lunaPrice = useLunaPriceInUst();
   const userInfo = useUserInfoWithList();
   const bLunaPrice = useBLunaPriceInLuna();
   const currentTimestamp = dayjs().unix();
@@ -165,8 +154,6 @@ export const useAstroPools = () => {
     const items = filteredItems.map((info) => {
       const { assets, total_share } =
         secondResult[`pool${info.astroport_lp_token}`]?.contractQuery;
-      const { balance } =
-        secondResult[`balance${info.astroport_lp_token}`]?.contractQuery;
       const pair = pairs.find(
         (pair) => pair.liquidity_token == info.astroport_lp_token
       );
@@ -194,7 +181,7 @@ export const useAstroPools = () => {
       }
 
       const totalLiquidityInUst = amountOfUst;
-      const totalLiquidity = num(balance).div(ONE_TOKEN).toNumber();
+      const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
       const myLiquidity = num(info.astroport_lp_units)
         .div(ONE_TOKEN)
         .toNumber();
@@ -229,6 +216,7 @@ export const useAstroPools = () => {
         name: info.terraswap_lp_token,
         astroLpToken: info.astroport_lp_token,
         assets: [token1, token2],
+        poolAssets: assets,
         sortingAssets: [
           token1Symbol.toLowerCase(),
           token2Symbol.toLowerCase(),

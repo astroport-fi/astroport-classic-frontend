@@ -16,7 +16,7 @@ import {
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
-import { ONE_TOKEN } from "constants/constants";
+import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { useBLunaPriceInLuna } from "modules/swap";
 import { useQuery } from "react-query";
 
@@ -115,25 +115,25 @@ export const useAllPools = () => {
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
   const tokensInUst = useTokenPrices();
-  const hiveEndpoint = useHiveEndpoint();
+  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
 
   const queryBuilder = address
     ? (chunk) => createQuery(chunk, address, generator)
     : (chunk) => createQueryNotConnected(chunk);
 
+  let firstAttempt = true;
   const { data: result } = useQuery(
     ["pools", "all", address],
     () => {
+      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      firstAttempt = false;
       // Chunk pairs into multiple queries to stay below GraphQL query size limitations
-      return requestInChunks<PairResponse>(
-        50,
-        hiveEndpoint,
-        pairs,
-        queryBuilder
-      );
+      return requestInChunks<PairResponse>(50, url, pairs, queryBuilder);
     },
     {
       enabled: pairs.length > 0,
+      staleTime: QUERY_STALE_TIME,
+      retry: 1,
     }
   );
 

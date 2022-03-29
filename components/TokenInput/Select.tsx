@@ -19,20 +19,13 @@ import { useTokenInfo } from "modules/common";
 import { COMMON_TOKENS } from "constants/constants";
 
 type Props = {
-  hideToken?: string;
   hidePrice?: boolean;
   value: string;
   onClick: (token: string) => void;
   tokens: string[];
 };
 
-const Select: FC<Props> = ({
-  hideToken,
-  hidePrice = false,
-  value,
-  onClick,
-  tokens,
-}) => {
+const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
   const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value).toFixed(2);
@@ -46,13 +39,7 @@ const Select: FC<Props> = ({
     );
   };
   const allowedTokens = tokens.filter((token: string) => !isHidden(token));
-  const notHiddenTokens = allowedTokens.filter(
-    (token: string) => token !== hideToken
-  );
-  const filteredTokens = notHiddenTokens.filter(matchTokenOrExactAddress);
-  const commonTokens = COMMON_TOKENS.filter(
-    (token: string) => token !== hideToken
-  );
+  const filteredTokens = allowedTokens.filter(matchTokenOrExactAddress);
 
   const noTokensFound = filteredTokens.length === 0;
   const inputColor = noTokensFound ? "red.500" : "brand.deepBlue";
@@ -167,11 +154,11 @@ const Select: FC<Props> = ({
           variant="search"
           ref={initialFocusRef}
         />
-        <TagList tokens={commonTokens} onClick={handleClick} />
+        <TagList tokens={COMMON_TOKENS} onClick={handleClick} />
         <List
           onClick={handleClick}
           tokens={filteredTokens}
-          filtered={filteredTokens.length !== notHiddenTokens.length}
+          filtered={filteredTokens.length !== allowedTokens.length}
           filteredTerm={filter}
         />
       </VStack>

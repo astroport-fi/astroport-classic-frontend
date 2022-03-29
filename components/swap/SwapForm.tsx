@@ -47,7 +47,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const [customError, setCustomError] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
   const [txHash, setTxHash] = useState<string>();
-  const [slippageSetting, setSlippageSetting] = useLocalStorage(
+  const [slippageSetting, setSlippageSetting] = useLocalStorage<number>(
     "slippageSetting",
     DEFAULT_SLIPPAGE
   );
@@ -104,7 +104,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   }, [networkName]);
 
   useEffect(() => {
-    if (slippage != slippageSetting) {
+    if (slippage !== undefined && slippage != slippageSetting) {
       setSlippageSetting(slippage);
     }
   }, [slippage]);

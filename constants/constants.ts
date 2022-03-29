@@ -32,6 +32,8 @@ export const MULTI_SWAP_MAX_SPREAD = "0.15";
 export const ONE_TOKEN = 1000000;
 export const DECIMALS = 4;
 
+export const QUERY_STALE_TIME = 30000; // 30 sec
+
 export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
 export const COMMON_TOKENS = ["uusd", "uluna"];
 
@@ -41,15 +43,18 @@ export const REWARDS_NOTICE =
 export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
 
 /* env variables */
+export const DEFAULT_MAINNET_GRAPHQL = "https://hive.terra.dev/graphql";
+
+export const DEFAULT_TESTNET_GRAPHQL = "https://testnet-hive.terra.dev/graphql";
+
 export const ENV_DISPLAY_GOVERNANCE =
   process.env.NEXT_PUBLIC_DISPLAY_GOVERNANCE === "1" ? true : false;
 
 export const ENV_MAINNET_GRAPHQL =
-  process.env.NEXT_PUBLIC_MAINNET_GRAPHQL || "https://hive.terra.dev/graphql";
+  process.env.NEXT_PUBLIC_MAINNET_GRAPHQL || DEFAULT_MAINNET_GRAPHQL;
 
 export const ENV_TESTNET_GRAPHQL =
-  process.env.NEXT_PUBLIC_TESTNET_GRAPHQL ||
-  "https://testnet-hive.terra.dev/graphql";
+  process.env.NEXT_PUBLIC_TESTNET_GRAPHQL || DEFAULT_TESTNET_GRAPHQL;
 
 export const ENV_API_ENDPOINT =
   process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.astroport.fi/graphql";

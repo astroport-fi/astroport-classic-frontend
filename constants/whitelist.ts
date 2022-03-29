@@ -795,6 +795,206 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // KUJI-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1hasy32pvxmgu485x5tujylemqxynsv72lsu7ve",
+        liquidity_token: "terra1r0cq3zmc07dzf95h4du6ja59n5gmxr9fp3lkcc",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // PRISM-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra10nfk6fcz5nc5uru964qmpels9ctg6j0vczjgl7",
+        liquidity_token: "terra156sdvmjkezv5yxpgcxug0s73zkvdqk72pldkva",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // aUST-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra18fl6aywx2c8xlfp5epl40dygqnrvqp9a678a9c",
+        liquidity_token: "terra1g3cf0ml4yr2qkz6k3lkh07yykwuhlpsg6x5lvz",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // AVAX-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hj8de24c3yqvcsv9r8chr03fzwsak3hgd8gv3m",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1hn8d8ldzu2v2td5uj335pz32phanm90a4kjfal",
+        liquidity_token: "terra1cmvmemsas2rrmytq6wtvt7jf0nrg7dpc804jws",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // PRISM-xPRISM
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1042wzrwg2uk6jqxjm34ysqquyr9esdgm5qyswz",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw",
+            },
+          },
+        ],
+        contract_addr: "terra1c868juk7lk9vuvetf0644qgxscsu4xwag6yaxs",
+        liquidity_token: "terra198en0xuzldzyark7pqz409p3u2d2g3y3k8u3py",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // AVAX-wasAVAX
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hj8de24c3yqvcsv9r8chr03fzwsak3hgd8gv3m",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1z3e2e4jpk4n0xzzwlkgcfvc95pc5ldq0xcny58",
+            },
+          },
+        ],
+        contract_addr: "terra1pxexyejamkg856vmspyttcy4sva84qgyaq445z",
+        liquidity_token: "terra140ss694rxten5r6l2dxqta0xgzt60ev5pnh3pt",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // cLUNA-LUNA
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra102t6psqa45ahfd7wjskk3gcnfev32wdngkcjzd",
+        liquidity_token: "terra1snhuxa7zjmy3cpa3d85uu3pe7m5q8h66xgsqss",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // cLUNA-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1tkcnky57lthm2w7xce9cj5jeu9hjtq427tpwxr",
+        liquidity_token: "terra1k2y7sk3ltg064xt462a8ut22fpw85qsamujzz7",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // pLUNA-LUNA
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1tlgelulz9pdkhls6uglfn5lmxarx7f2gxtdzh2",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1r6fchdsr8k65082u3cyrdn6x2n8hrpyrp72je0",
+        liquidity_token: "terra1j2zvs6gwwnwta39smr0a8qq2grax96nky0xh2y",
+        pair_type: {
+          xyk: {},
+        },
+      },
+      // yLUNA-LUNA
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra17wkadg0tah554r35x6wvff0y5s7ve8npcjfuhz",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1aa68js6yxavg9zzzle2zaynem9cstvmaj3xyu3",
+        liquidity_token: "terra12kf0s56pz2xhus9cqs4wva2xgz8wdkuqmh396s",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -1277,6 +1477,26 @@ const whitelist: Whitelist = {
         liquidity_token: "terra1xw6xxtmuz6awhyyqclz280fwtwnvfgrsngkjkg",
         pair_type: {
           stable: {},
+        },
+      },
+      // WIW-luna
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1hw6gee9vfmm5vga9mspc3jh0ppv7khmf2jttfw",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1z962r8fryj5rrym9gf5sz4ece6jxc0n3haayqa",
+        liquidity_token: "terra1npr89peecxtq55dxddcwwgwmx672ael69l0f23",
+        pair_type: {
+          xyk: {},
         },
       },
     ],

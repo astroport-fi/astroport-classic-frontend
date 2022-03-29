@@ -5,6 +5,7 @@ import { num, useTerraWebapp } from "@arthuryeti/terra";
 import { useAstroswap, useContracts } from "modules/common";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { useSwapRoute } from "modules/swap";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export const useBLunaPriceInLuna = () => {
   const { client } = useTerraWebapp();
@@ -30,6 +31,7 @@ export const useBLunaPriceInLuna = () => {
     },
     {
       enabled: swapRouteInLuna?.[0]?.type == "stable" && bLunaToken != null,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

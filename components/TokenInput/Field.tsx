@@ -5,7 +5,6 @@ import { Select, Single, SingleLP, SelectLP } from "components/TokenInput";
 import { useAstroswap } from "modules/common";
 
 type Props = {
-  hideToken?: string;
   tokens?: string[];
   isLpToken?: boolean;
   isSingle?: boolean;
@@ -15,10 +14,7 @@ type Props = {
 };
 
 const Field: FC<Props> = forwardRef(
-  (
-    { hideToken, value, onChange, isSingle, hidePrice, isLpToken, tokens },
-    ref
-  ) => {
+  ({ value, onChange, isSingle, hidePrice, isLpToken, tokens }, ref) => {
     const { tokens: allTokens } = useAstroswap();
     const currentTokens = tokens ?? Object.keys(allTokens);
 
@@ -43,7 +39,6 @@ const Field: FC<Props> = forwardRef(
         <Select
           value={value}
           tokens={currentTokens}
-          hideToken={hideToken}
           hidePrice={hidePrice}
           onClick={handleClick}
         />

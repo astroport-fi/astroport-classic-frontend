@@ -5,7 +5,6 @@ import numeral from "numeral";
 import { useContracts } from "modules/common";
 import { usePhase1Rewards, usePhase2Rewards } from "modules/reward";
 import { useOneTimeLockdropRewards } from "modules/lockdrop";
-import { useAirdropBalance, useAirdrop2Balance } from "modules/airdrop";
 
 import RewardLineItem from "components/reward/RewardLineItem";
 
@@ -13,8 +12,6 @@ const RewardLockdrop: FC = () => {
   const { astroToken } = useContracts();
   const phase1Rewards = usePhase1Rewards();
   const phase2Rewards = usePhase2Rewards();
-  const airdropBalance = useAirdropBalance();
-  const airdrop2Balance = useAirdrop2Balance();
   const total = useOneTimeLockdropRewards();
 
   return (
@@ -24,16 +21,6 @@ const RewardLockdrop: FC = () => {
           <Text textStyle="minibutton" fontSize="xs">
             Your ASTRO Rewards
           </Text>
-        </Box>
-      )}
-
-      {airdropBalance + airdrop2Balance > 0 && (
-        <Box mt={6}>
-          <RewardLineItem
-            token={astroToken}
-            amount={airdropBalance + airdrop2Balance}
-            desc="ASTRO from Airdrop"
-          />
         </Box>
       )}
 

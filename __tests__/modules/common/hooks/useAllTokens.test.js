@@ -18,7 +18,10 @@ jest.mock("modules/common", () => {
   return {
     ...original,
     useContracts: jest.fn(() => ({ factory: "terrafactoryaddress" })),
-    useHiveEndpoint: jest.fn(() => "https://example.com/hive"),
+    useHiveEndpoint: jest.fn(() => ({
+      hiveEndpoint: "https://example.com/hive",
+      defaultHiveEndpoint: "https://example.com/hive",
+    })),
     requestInChunks: jest.fn(),
   };
 });
@@ -315,8 +318,8 @@ describe("useAllTokens", () => {
 
     const { result, waitFor } = renderUseAllTokens([stubPair]);
 
-    // Wait for data to fail to load
-    await waitFor(() => !result.current.isLoading);
+    // Wait for data to fail to load. Added more time sinse have 1 retry now
+    await waitFor(() => !result.current.isLoading, { timeout: 2000 });
 
     expect(result.current.isError).toEqual(true);
   });

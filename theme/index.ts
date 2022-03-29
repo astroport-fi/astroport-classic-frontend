@@ -11,6 +11,7 @@ import NumberInput from "./numberInput";
 import Heading from "./heading";
 import Menu from "./menu";
 import Slider from "./slider";
+import Switch from "./switch";
 import Input from "./input";
 import Alert from "./alert";
 
@@ -31,6 +32,7 @@ export default extendTheme({
     Heading,
     NumberInput,
     Slider,
+    Switch,
     Tabs,
     Menu,
     Input,

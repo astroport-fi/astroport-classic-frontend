@@ -3,18 +3,10 @@ import { useAddress, num } from "@arthuryeti/terra";
 
 import { useContracts, useTransaction, TxErrorHandler } from "modules/common";
 import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
-import {
-  useAirdrop,
-  useAirdropBalance,
-  useUserInfo as useAirdropUserInfo,
-  useUserInfo2 as useAirdrop2UserInfo,
-  useAirdrop2Balance,
-} from "modules/airdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
 import {
   useLpRewards,
   useBreakdownRewardsInUst,
-  createClaimAirdropMsgs,
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
   createLpRewardsMsgs,
@@ -22,6 +14,7 @@ import {
   createLpRewardMsgs,
   createLockdropRewardMsgs,
 } from "modules/reward";
+import { useBreakdownRewardsToShow } from "modules/reward/hooks/useBreakdownRewardsToShow";
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;
@@ -29,24 +22,13 @@ type Params = {
 };
 
 export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
-  const {
-    lockdrop,
-    auction,
-    generator,
-    airdrop: airdropContract,
-    airdrop2: airdrop2Contract,
-  } = useContracts();
+  const { lockdrop, auction, generator } = useContracts();
   const address = useAddress();
   const userInfoWithList = useUserInfoWithList();
-  const { isLoading, data: airdropData } = useAirdrop(address);
   const auctionUserInfo = useAuctionUserInfo();
-  const airdropUserInfo = useAirdropUserInfo();
-  const airdrop2UserInfo = useAirdrop2UserInfo();
-  const airdropBalance = useAirdropBalance();
-  const airdrop2Balance = useAirdrop2Balance();
   const { data: lockdropRewards } = useLockdropRewards();
   const lpRewards = useLpRewards();
-  const lpAndLockdropRewards = useBreakdownRewardsInUst();
+  const { rewards: lpAndLockdropRewards } = useBreakdownRewardsToShow();
 
   const items = useMemo(() => {
     if (userInfoWithList == null) {
@@ -65,42 +47,6 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
     let data = [];
     let claimedLps = [];
     let claimedLockdrops = [];
-
-    if (num(airdropBalance).gt(0)) {
-      const airdrop = airdropData.find(
-        ({ airdrop_series }) => airdrop_series === 1
-      );
-      const airdropMsgs = createClaimAirdropMsgs(
-        {
-          contract: airdropContract,
-          isClaimed: num(airdropUserInfo.airdrop_amount).gt(0),
-          merkleProof: airdrop?.merkle_proof,
-          claimAmount: airdrop?.amount,
-          rootIndex: airdrop?.index,
-        },
-        address
-      );
-
-      data.push(...airdropMsgs);
-    }
-
-    if (num(airdrop2Balance).gt(0)) {
-      const airdrop = airdropData.find(
-        ({ airdrop_series }) => airdrop_series === 2
-      );
-      const airdrop2Msgs = createClaimAirdropMsgs(
-        {
-          contract: airdrop2Contract,
-          isClaimed: num(airdrop2UserInfo.airdrop_amount).gt(0),
-          merkleProof: airdrop?.merkle_proof,
-          claimAmount: airdrop?.amount,
-          rootIndex: airdrop?.index,
-        },
-        address
-      );
-
-      data.push(...airdrop2Msgs);
-    }
 
     if (
       userInfoWithList != null &&
@@ -230,18 +176,10 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
     lpRewards,
     items,
     auction,
-    airdropUserInfo,
     auctionUserInfo,
     userInfoWithList,
-    airdrop2UserInfo,
-    airdropContract,
-    airdrop2Contract,
-    airdropBalance,
-    airdrop2Balance,
     lockdropRewards,
     lpAndLockdropRewards[0]?.amountUst,
-    airdropData,
-    isLoading,
   ]);
 
   return useTransaction({
