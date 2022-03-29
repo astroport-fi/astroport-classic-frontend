@@ -9,6 +9,7 @@ import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 import { calcVotingPercentages } from "modules/governance/helpers";
 import { useProposalVotes } from "modules/governance";
+import { num } from "@arthuryeti/terra";
 
 type Props = {
   proposal: Proposal;
@@ -102,7 +103,10 @@ const VoteStats: FC<Props> = ({
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
-                          (vote.voting_power / proposal.total_voting_power) *
+                          (num(vote.voting_power)
+                            .div(10 ** 6)
+                            .toNumber() /
+                            proposal.total_voting_power) *
                             100
                         )}
                         %
@@ -134,7 +138,10 @@ const VoteStats: FC<Props> = ({
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
-                          (vote.voting_power / proposal.total_voting_power) *
+                          (num(vote.voting_power)
+                            .div(10 ** 6)
+                            .toNumber() /
+                            proposal.total_voting_power) *
                             100
                         )}
                         %

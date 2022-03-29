@@ -1,3 +1,4 @@
+import { num } from "@arthuryeti/terra";
 import { ASTROPORT_URLS } from "constants/constants";
 import {
   Proposal,
@@ -140,11 +141,19 @@ export const calcVotingPercentages = (
 ): Proposal_Vote_Stats => {
   const voteForPerc =
     proposal.votes_for_power && proposal.total_voting_power
-      ? (proposal.votes_for_power / proposal.total_voting_power) * 100
+      ? (num(proposal.votes_for_power)
+          .div(10 ** 6)
+          .toNumber() /
+          proposal.total_voting_power) *
+        100
       : 0;
   const voteAgainstPerc =
     proposal.votes_against_power && proposal.total_voting_power
-      ? (proposal.votes_against_power / proposal.total_voting_power) * 100
+      ? (num(proposal.votes_against_power)
+          .div(10 ** 6)
+          .toNumber() /
+          proposal.total_voting_power) *
+        100
       : 0;
 
   return {
