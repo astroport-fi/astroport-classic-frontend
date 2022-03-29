@@ -46,7 +46,9 @@ export const useProposals = (): Proposal[] => {
     // filter out expired and executed proposals
     return data.proposals.filter(
       (proposal: Proposal) =>
-        proposal.state !== "Expired" && proposal.state !== "Executed"
+        proposal.state !== "Expired" &&
+        proposal.state !== "Executed" &&
+        proposal.state !== "Hidden"
     );
   }, [data, isLoading]);
 };

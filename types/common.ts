@@ -174,6 +174,7 @@ export enum Proposal_Status {
   Passed = "Passed",
   Executed = "Executed",
   Rejected = "Rejected",
+  Hidden = "Hidden",
   Expired = "Expired",
 }
 
