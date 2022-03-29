@@ -30,6 +30,7 @@ const Header: FC<Props> = ({ title, state, twitterLink }) => {
         <StatusTitle state={state} />
       </HStack>
       <IconButton
+        bg="brand.purple"
         aria-label="Tweet"
         size="xs"
         variant="icon"
