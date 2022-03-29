@@ -49,9 +49,11 @@ const GovStakeFooter: FC<Props> = ({
         {
           title: type === AstroFormType.Stake ? "ASTRO:xASTRO" : "xASTRO:ASTRO",
           value:
-            type === AstroFormType.Stake
-              ? `1:${astroMintRatio}`
-              : `1:${num(1 / astroMintRatio).dp(2)}`,
+            astroMintRatio !== null
+              ? type === AstroFormType.Stake
+                ? `1:${astroMintRatio}`
+                : `1:${num(1 / astroMintRatio).dp(2)}`
+              : `-`,
         },
         {
           title: "Current xASTRO",
