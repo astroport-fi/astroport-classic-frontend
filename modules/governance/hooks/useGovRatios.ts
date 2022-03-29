@@ -6,7 +6,8 @@ import { useContracts } from "modules/common";
 
 type GovRatiosResponse = {
   stakingRatio: number;
-  xAstroRatio: number;
+  astroToXRatio: number;
+  xToAstroRatio: number;
 };
 
 type Response = {
@@ -37,7 +38,8 @@ export const useGovRatios = (): GovRatiosResponse => {
     if (data == null || dataxAstro == null) {
       return {
         stakingRatio: 0,
-        xAstroRatio: 0,
+        astroToXRatio: 0,
+        xToAstroRatio: 0,
       };
     }
 
@@ -58,7 +60,8 @@ export const useGovRatios = (): GovRatiosResponse => {
 
     return {
       stakingRatio: num((staked * 100) / totalAstro).toNumber(),
-      xAstroRatio: num((totalAstro * 100) / totalxAstro).toNumber(),
+      astroToXRatio: num((totalAstro * 100) / totalxAstro).toNumber(),
+      xToAstroRatio: num((totalxAstro * 100) / totalAstro).toNumber(),
     };
   }, [data, dataxAstro, govAstroBalance, isLoading, isLoadingXAstro]);
 };

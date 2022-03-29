@@ -29,7 +29,7 @@ import {
 const GovPageStake = () => {
   const { astroBalance, xAstroBalance, stakedAstroBalance } =
     useGovStakingBalances();
-  const { stakingRatio, xAstroRatio } = useGovRatios();
+  const { stakingRatio, astroToXRatio } = useGovRatios();
   const stakingAPY = useGovStakingAPY();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
@@ -45,7 +45,7 @@ const GovPageStake = () => {
     },
     {
       label: "ASTRO:xASTRO Ratio",
-      value: `${handleBigPercentage(xAstroRatio)}`,
+      value: `${handleBigPercentage(astroToXRatio)}`,
     },
     {
       label: "Protocol Staking Ratio",

@@ -3,7 +3,11 @@ import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
-import { handleBigPercentage, useContracts } from "modules/common";
+import {
+  handleBigPercentage,
+  handleTinyAmount,
+  useContracts,
+} from "modules/common";
 import { AstroFormType } from "types/common";
 
 import CommonFooter from "components/CommonFooter";
@@ -25,7 +29,7 @@ const GovStakeFooter: FC<Props> = ({
   amount,
 }) => {
   const { xAstroToken } = useContracts();
-  const { xAstroRatio } = useGovRatios();
+  const { astroToXRatio, xToAstroRatio } = useGovRatios();
   const xAstroBalance = useBalance(xAstroToken);
   const newStakeXAstro = num(amount)
     .times(ONE_TOKEN)
@@ -43,8 +47,14 @@ const GovStakeFooter: FC<Props> = ({
       fee={fee}
       cells={[
         {
-          title: "ASTRO:xASTRO Ratio",
-          value: handleBigPercentage(xAstroRatio),
+          title:
+            type === AstroFormType.Stake
+              ? "ASTRO:xASTRO Ratio"
+              : "xASTRO:ASTRO Ratio",
+          value:
+            type === AstroFormType.Stake
+              ? handleBigPercentage(astroToXRatio)
+              : `${handleTinyAmount(xToAstroRatio)}%`,
         },
         {
           title: "Current xASTRO",
