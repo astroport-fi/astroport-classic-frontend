@@ -1,5 +1,5 @@
 import { num } from "@arthuryeti/terra";
-import { ASTROPORT_URLS } from "constants/constants";
+import { ASTROPORT_URLS, PROPOSAL_VOTE_POWER } from "constants/constants";
 import { handleAmountWithoutTrailingZeros } from "modules/common";
 import {
   Proposal,
@@ -141,19 +141,11 @@ export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
 export const calcVotingPower = (proposal: Proposal): Proposal_Vote_Power => {
   const voteForPower =
     proposal.votes_for_power && proposal.total_voting_power
-      ? (num(proposal.votes_for_power)
-          .div(10 ** 6)
-          .toNumber() /
-          proposal.total_voting_power) *
-        100
+      ? (proposal.votes_for_power / proposal.total_voting_power) * 100
       : 0;
   const voteAgainstPower =
     proposal.votes_against_power && proposal.total_voting_power
-      ? (num(proposal.votes_against_power)
-          .div(10 ** 6)
-          .toNumber() /
-          proposal.total_voting_power) *
-        100
+      ? (proposal.votes_against_power / proposal.total_voting_power) * 100
       : 0;
 
   return {

@@ -30,6 +30,7 @@ export const ESTIMATE_TOKEN = "uusd";
 export const MULTI_SWAP_MAX_SPREAD = "0.15";
 
 export const ONE_TOKEN = 1000000;
+export const PROPOSAL_VOTE_POWER = 1000000;
 export const DECIMALS = 4;
 
 export const QUERY_STALE_TIME = 30000; // 30 sec

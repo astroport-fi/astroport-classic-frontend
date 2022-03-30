@@ -1,6 +1,8 @@
+import { num } from "@arthuryeti/terra";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { WalletStatus } from "@terra-money/wallet-provider";
-import { handleBigAndTinyAmount, NextLink } from "modules/common";
+import { PROPOSAL_VOTE_POWER } from "constants/constants";
+import { handleTinyAmount, NextLink } from "modules/common";
 import { useVotingPower } from "modules/governance/hooks";
 import React, { FC } from "react";
 
@@ -28,7 +30,9 @@ const VotePower: FC<Props> = ({
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
     userVotingPower && totalVotePower
-      ? (userVotingPower / totalVotePower) * 100
+      ? (userVotingPower /
+          num(totalVotePower).div(PROPOSAL_VOTE_POWER).toNumber()) *
+        100
       : `-`;
 
   return (
@@ -37,7 +41,7 @@ const VotePower: FC<Props> = ({
       <Box bg="blackAlpha.400" p="3" mt="3" borderRadius="lg">
         <Text>{userVotingPower ? userVotingPower.toLocaleString() : `-`}</Text>
         <Text fontSize="sm" mt="2px" color="whiteAlpha.400">
-          {handleBigAndTinyAmount(userVotingPowerPerc)}%
+          {handleTinyAmount(userVotingPowerPerc)}%
         </Text>
       </Box>
       <Flex mt="4">

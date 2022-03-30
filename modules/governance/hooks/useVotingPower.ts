@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
+import { PROPOSAL_VOTE_POWER } from "constants/constants";
 
 import { useContracts } from "modules/common";
 
@@ -29,9 +30,7 @@ export const useVotingPower = ({ proposal_id }: Params): Response => {
       return null;
     }
 
-    return num(data)
-      .div(10 ** 6)
-      .toNumber();
+    return num(data).div(PROPOSAL_VOTE_POWER).toNumber();
   }, [isLoading]);
 };
 
