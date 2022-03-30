@@ -230,8 +230,8 @@ export const composeProtocolRatioDisplay = (
   }
 
   if (xAstroSupply === "0") {
-    return `${handleTinyAmount(stakingRatio)}%`;
+    return stakingRatio ? `${handleTinyAmount(stakingRatio)}%` : `-`;
   }
 
-  return `${handleTinyAmount(1 / astroMintRatio)}%`;
+  return astroMintRatio ? `${handleTinyAmount(1 / astroMintRatio)}%` : `-`;
 };
