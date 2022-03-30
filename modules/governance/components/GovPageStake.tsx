@@ -20,6 +20,7 @@ import {
   handleBigPercentage,
   handleBigAndTinyAmount,
 } from "modules/common";
+import { composeAstroRatioDisplay } from "modules/governance/helpers";
 import {
   useGovStakingRatio,
   useGovStakingAPY,
@@ -47,7 +48,7 @@ const GovPageStake = () => {
     },
     {
       label: "ASTRO:xASTRO",
-      value: astroMintRatio ? `1:${astroMintRatio}` : "-",
+      value: composeAstroRatioDisplay(astroMintRatio),
     },
     {
       label: "Protocol Staking Ratio",

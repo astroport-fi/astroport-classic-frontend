@@ -11,6 +11,7 @@ import {
 import { AstroFormType } from "types/common";
 
 import CommonFooter from "components/CommonFooter";
+import { composeAstroRatioDisplay } from "modules/governance/helpers";
 
 type Props = {
   amount: number;
@@ -48,12 +49,10 @@ const GovStakeFooter: FC<Props> = ({
       cells={[
         {
           title: type === AstroFormType.Stake ? "ASTRO:xASTRO" : "xASTRO:ASTRO",
-          value:
-            astroMintRatio !== null
-              ? type === AstroFormType.Stake
-                ? `1:${astroMintRatio}`
-                : `1:${num(1 / astroMintRatio).dp(2)}`
-              : `-`,
+          value: composeAstroRatioDisplay(
+            astroMintRatio,
+            type === AstroFormType.Stake
+          ),
         },
         {
           title: "Current xASTRO",

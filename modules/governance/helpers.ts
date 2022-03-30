@@ -1,5 +1,6 @@
 import { num } from "@arthuryeti/terra";
 import { ASTROPORT_URLS } from "constants/constants";
+import { handleAmountWithoutTrailingZeros } from "modules/common";
 import {
   Proposal,
   Proposal_History,
@@ -186,6 +187,24 @@ export const composeTwitterLink = (
     `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
     `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
   );
+};
+
+export const composeAstroRatioDisplay = (
+  astroMintRatio: number | null,
+  astroToXAstro: boolean = true,
+  minDisplayValue: number = 0.01
+): string => {
+  if (!astroMintRatio) {
+    return `-`;
+  }
+
+  const ratio = astroToXAstro ? astroMintRatio : 1 / astroMintRatio;
+
+  if (ratio < minDisplayValue) {
+    return `< 1:0.01`;
+  }
+
+  return `1:${handleAmountWithoutTrailingZeros(ratio)}`;
 };
 
 export const appendHttps = (url: string) => {
