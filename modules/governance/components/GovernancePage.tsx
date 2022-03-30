@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
   HStack,
@@ -29,6 +30,7 @@ const GovernancePage = () => {
   const stakingAPY = useGovStakingAPY();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
+  const { status } = useWallet();
 
   const data = [
     {
@@ -102,12 +104,20 @@ const GovernancePage = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="space-between">
-            <NextLink href="/staking/stake" passHref isDisabled={astroDisabled}>
+            <NextLink
+              href="/staking/stake"
+              passHref
+              isDisabled={
+                astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
+            >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={astroDisabled}
+                isDisabled={
+                  astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Stake ASTRO
               </Button>
@@ -115,13 +125,17 @@ const GovernancePage = () => {
             <NextLink
               href="/staking/unstake"
               passHref
-              isDisabled={xAstroDisabled}
+              isDisabled={
+                xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
             >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={xAstroDisabled}
+                isDisabled={
+                  xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Unstake xASTRO
               </Button>

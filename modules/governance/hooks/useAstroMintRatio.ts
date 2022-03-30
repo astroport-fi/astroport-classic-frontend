@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { num, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 import { useContracts } from "modules/common";
 
@@ -24,6 +24,12 @@ export const useAstroMintRatio = (): number | null => {
       return null;
     }
 
-    return Number(totalShares) / Number(totalDeposit);
+    if (totalShares > 0 && totalDeposit > 0) {
+      return num(Number(totalShares) / Number(totalDeposit))
+        .dp(2)
+        .toNumber();
+    } else {
+      return 1;
+    }
   }, [totalShares, totalDeposit]);
 };
