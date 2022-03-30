@@ -70,6 +70,13 @@ export const handleDollarTinyAmount = (
   return handleTinyAmount(value, format, includeZero, "$ ");
 };
 
+export const handleAmountWithoutTrailingZeros = (
+  value: number,
+  significantDigits: number = 2
+) => {
+  return parseFloat(value.toFixed(significantDigits));
+};
+
 export const isObject = (value: any) => {
   return typeof value === "object";
 };
@@ -91,4 +98,32 @@ export const requestInChunks = async <Item = any, Response = any>(
   );
 
   return chunks.reduce((all, chunk) => ({ ...all, ...chunk }));
+};
+
+export const truncateStr = (str: string, length: number) => {
+  if (str?.length > length) {
+    return str.substring(0, length).trim() + "...";
+  }
+
+  return str;
+};
+
+export const validateJsonInput = (json: string): Boolean => {
+  try {
+    JSON.parse(json);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+};
+
+export const validateUrl = (url: string): Boolean => {
+  try {
+    new URL(url);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
 };

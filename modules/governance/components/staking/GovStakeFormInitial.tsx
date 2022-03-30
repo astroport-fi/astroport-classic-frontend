@@ -69,8 +69,9 @@ const GovStakeFormInitial: FC<Props> = ({
       <Stack direction="column" space={2}>
         <Card py={5} px={12}>
           <Text textStyle="small" variant="secondary">
-            {type == AstroFormType.Stake && "Stake ASTRO for xASTRO."}
-            {type == AstroFormType.Unstake && "Unstake ASTRO from xASTRO."}
+            {type == AstroFormType.Stake && "Stake ASTRO to receive xASTRO."}
+            {type == AstroFormType.Unstake &&
+              "Unstake xASTRO to receive ASTRO."}
           </Text>
         </Card>
 
@@ -110,6 +111,7 @@ const GovStakeFormInitial: FC<Props> = ({
           isLoading={isLoading}
           isDisabled={fee == null || txFeeNotEnough}
           amount={adjAmount.toNumber()}
+          astroMintRatio={astroMintRatio}
         />
       </Stack>
 

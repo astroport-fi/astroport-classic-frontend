@@ -8,6 +8,7 @@ import {
   Flex,
   Divider,
   Link,
+  Heading,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -17,16 +18,20 @@ import {
   NextLink,
   handleTinyAmount,
   handleBigPercentage,
+  handleBigAndTinyAmount,
 } from "modules/common";
+import {
+  composeAstroRatioDisplay,
+  composeProtocolRatioDisplay,
+} from "modules/governance/helpers";
 import {
   useGovStakingRatio,
   useGovStakingAPY,
   useGovStakingBalances,
   useAstroMintRatio,
 } from "../hooks";
-import { composeProtocolRatioDisplay } from "../helpers";
 
-const GovernancePage = () => {
+const GovPageStake = () => {
   const {
     astroBalance,
     xAstroBalance,
@@ -51,6 +56,10 @@ const GovernancePage = () => {
       value: /* stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`*/ `-`,
     },
     {
+      label: "ASTRO:xASTRO",
+      value: composeAstroRatioDisplay(astroMintRatio),
+    },
+    {
       label: "Protocol Staking Ratio",
       value: composeProtocolRatioDisplay(
         stakedAstroBalance,
@@ -62,7 +71,11 @@ const GovernancePage = () => {
   ];
 
   return (
-    <Box mt="24">
+    <Box mt="24" color="white">
+      <Heading px="2" mb="6" fontSize="xl">
+        My ASTRO
+      </Heading>
+
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">
@@ -114,7 +127,7 @@ const GovernancePage = () => {
 
           <Flex justify="space-between">
             <NextLink
-              href="/staking/stake"
+              href="/governance/stake"
               passHref
               isDisabled={
                 astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
@@ -132,7 +145,7 @@ const GovernancePage = () => {
               </Button>
             </NextLink>
             <NextLink
-              href="/staking/unstake"
+              href="/governance/unstake"
               passHref
               isDisabled={
                 xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
@@ -156,4 +169,4 @@ const GovernancePage = () => {
   );
 };
 
-export default GovernancePage;
+export default GovPageStake;

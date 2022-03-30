@@ -57,7 +57,7 @@ const buildQuery = (tokens: string[]) => gql`
         )
       }
     `
-    )} 
+    )}
   }
 `;
 

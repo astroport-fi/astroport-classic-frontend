@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { Container } from "@chakra-ui/react";
 import { ENV_DISPLAY_GOVERNANCE } from "constants/constants";
 
-import { GovernancePage } from "modules/governance";
+import { GovPage } from "modules/governance";
 import HideOnMobile from "components/common/HideOnMobile";
 
 const Governance: NextPage = () => {
@@ -15,7 +15,7 @@ const Governance: NextPage = () => {
       </Head>
       {ENV_DISPLAY_GOVERNANCE && (
         <Container px={["6", null, "12"]} maxWidth="container.xl">
-          <GovernancePage />
+          <GovPage />
         </Container>
       )}
     </HideOnMobile>

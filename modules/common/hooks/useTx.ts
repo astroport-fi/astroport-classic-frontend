@@ -41,12 +41,20 @@ export type UseTxNotificationDetails =
       };
     }
   | {
+      type: "govVote";
+      data: {
+        proposal_id: string;
+        action: string;
+      };
+    }
+  | {
       type:
         | "govStake"
         | "govUnstake"
         | "auctionUnlockLp"
         | "stakeLp"
-        | "claimRewards";
+        | "claimRewards"
+        | "createProposal";
     };
 
 type Params = {
@@ -124,6 +132,13 @@ export const useTx = ({
         return `Withdraw liquidity for ${getSymbol(token1)} and ${getSymbol(
           token2
         )} failed`;
+      }
+      case "createProposal":
+        return "Failed to submit an Assembly proposal";
+      case "govVote": {
+        const { proposal_id } = notification.data;
+
+        return `Failed to vote on proposal ${proposal_id}`;
       }
     }
 

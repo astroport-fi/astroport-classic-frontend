@@ -11,6 +11,11 @@ export const CHAIN_TO_FINDER_INFO = {
   "bombay-12": "testnet",
 };
 
+export const ASTROPORT_URLS = {
+  mainnet: "https://app.astroport.fi/",
+  testnet: "https://develop.astroport.fi/",
+};
+
 /* terra:wasm */
 export const WASMQUERY = "WasmContractsContractAddressStore";
 
@@ -25,6 +30,7 @@ export const ESTIMATE_TOKEN = "uusd";
 export const MULTI_SWAP_MAX_SPREAD = "0.15";
 
 export const ONE_TOKEN = 1000000;
+export const PROPOSAL_VOTE_POWER = 1000000;
 export const DECIMALS = 4;
 
 export const QUERY_STALE_TIME = 30000; // 30 sec
@@ -34,6 +40,8 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 
 export const REWARDS_NOTICE =
   "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
+
+export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
 
 /* env variables */
 export const DEFAULT_MAINNET_GRAPHQL = "https://hive.terra.dev/graphql";

@@ -22,6 +22,7 @@ type Contracts = {
   airdrop: string;
   airdrop2: string;
   auction: string;
+  assembly: string;
   stakableLp: string[];
 };
 
@@ -47,6 +48,7 @@ const defaultContracts: { [key: string]: any } = {
     airdrop: "terra1dpe2aqykm2vnakcz4vgpha0agxnlkjvgfahhk7",
     airdrop2: "terra1hk7fturdl9fnvrn566dxer6ds7v4jklp2wqmp7",
     auction: "terra1tvld5k6pus2yh7pcu7xuwyjedn7mjxfkkkjjap",
+    assembly: "",
     stakableLp: [
       "terra17n5sunn88hpy965mzvt3079fqx3rttnplg779g",
       "terra1htw7hm40ch0hacm8qpgd24sus4h0tq3hsseatl",
@@ -87,6 +89,7 @@ const defaultContracts: { [key: string]: any } = {
     airdrop: "terra1xd4ceehws4z5052v8qp3t65ugn9zptv8gx23el",
     airdrop2: "terra1ph5h0xe73rg35024f4geq325tnsexwkzcz5ln4",
     auction: "terra1mjqjcv7yl94h6y35ng7eqstakxjx9g57suscx7",
+    assembly: "terra1ujc6hpxcnq9kcq4e5qttf0z5cz2zykhwff2zm7",
     stakableLp: [
       "terra1dqjpcqej9nxej80u0p56rhkrzlr6w8tp7txkmj",
       "terra14e7z2ll6eweq6cxe6qkvl28hatapmw2uflxcyt",

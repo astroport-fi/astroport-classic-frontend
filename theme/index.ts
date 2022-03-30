@@ -69,6 +69,7 @@ export default extendTheme({
     black: {
       100: "rgba(0,0,0,0.2)",
       200: "rgba(0,0,0,0.2)",
+      400: "rgba(0,0,0,0.4)",
     },
     tile: {
       dark: "rgba(0,13,55,0.8)",
@@ -89,6 +90,22 @@ export default extendTheme({
     otherColours: {
       green: "#7FE6A2",
       overlay: "#C2D9FF",
+    },
+    proposalColours: {
+      green: "#00581E",
+      greenLight: "#D4F2DE",
+      purple: "#5643F2",
+      purpleLight: "#CAC3FF",
+      purpleAlt: "#ADA3FF",
+      red: "#A30000",
+      redLight: "#FFD1CF",
+      blue: "#001E58",
+      blueLight: "#D4DEF2",
+    },
+    errors: {
+      main: "#EF5177",
+      dark: "#A30000",
+      light: "#FFD1CF",
     },
   },
   textStyles: {

@@ -3,10 +3,15 @@ import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
-import { useContracts } from "modules/common";
+import {
+  handleBigPercentage,
+  handleTinyAmount,
+  useContracts,
+} from "modules/common";
 import { AstroFormType } from "types/common";
 
 import CommonFooter from "components/CommonFooter";
+import { composeAstroRatioDisplay } from "modules/governance/helpers";
 
 type Props = {
   amount: number;
@@ -14,6 +19,7 @@ type Props = {
   type: AstroFormType;
   isLoading: boolean;
   isDisabled: boolean;
+  astroMintRatio: number | null;
 };
 
 const GovStakeFooter: FC<Props> = ({
@@ -22,6 +28,7 @@ const GovStakeFooter: FC<Props> = ({
   isLoading,
   isDisabled,
   amount,
+  astroMintRatio,
 }) => {
   const { xAstroToken } = useContracts();
   const xAstroBalance = useBalance(xAstroToken);
@@ -32,7 +39,7 @@ const GovStakeFooter: FC<Props> = ({
   const newUnstakeXAstro = num(xAstroBalance)
     .minus(num(amount).times(ONE_TOKEN))
     .toString();
-  const title = type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake ASTRO";
+  const title = type === AstroFormType.Stake ? "Stake ASTRO" : "Unstake xASTRO";
   const newXAstro =
     type === AstroFormType.Stake ? newStakeXAstro : newUnstakeXAstro;
 
@@ -40,6 +47,13 @@ const GovStakeFooter: FC<Props> = ({
     <CommonFooter
       fee={fee}
       cells={[
+        {
+          title: type === AstroFormType.Stake ? "ASTRO:xASTRO" : "xASTRO:ASTRO",
+          value: composeAstroRatioDisplay(
+            astroMintRatio,
+            type === AstroFormType.Stake
+          ),
+        },
         {
           title: "Current xASTRO",
           value: fromTerraAmount(xAstroBalance),

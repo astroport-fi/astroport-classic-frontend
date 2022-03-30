@@ -22,6 +22,8 @@ import LockdropUnlockLpNotification from "components/notifications/LockdropUnloc
 import GovStakeNotification from "components/notifications/GovStakeNotification";
 import GovUnstakeNotification from "components/notifications/GovUnstakeNotification";
 import GenericNotification from "components/notifications/GenericNotification";
+import CreateProposalNotification from "components/notifications/CreateProposalNotification";
+import GovVoteNotification from "components/notifications/GovVoteNotification";
 
 const Notifications: FC = () => {
   const { notifications, removeNotification } = useAstroswap();
@@ -40,6 +42,8 @@ const Notifications: FC = () => {
       govUnstake: <GovUnstakeNotification txInfo={txInfo} />,
       claimRewards: <ClaimRewardsNotification txInfo={txInfo} />,
       auctionUnlockLp: <AuctionUnlockLpNotification txInfo={txInfo} />,
+      createProposal: <CreateProposalNotification {...props} />,
+      govVote: <GovVoteNotification {...props} />,
     };
 
     return mapTxType[txType];

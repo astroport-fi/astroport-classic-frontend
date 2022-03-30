@@ -11,7 +11,7 @@ import {
   useTx,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useGovStake, useAstroMintRatio } from "../hooks";
+import { useGovStake, useAstroMintRatio } from "modules/governance/hooks";
 
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
@@ -67,9 +67,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
       setIsPosting(true);
     },
     onBroadcasting: (txHash) => {
-      setIsPosting(false);
-
-      router.push("/staking");
+      router.push("/governance");
     },
     onError: () => {
       setIsPosting(false);
