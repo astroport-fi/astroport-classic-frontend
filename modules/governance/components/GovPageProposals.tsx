@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import { NextLink } from "modules/common";
@@ -28,6 +28,11 @@ const GovPageProposals = () => {
         </NextLink>
       </Flex>
       {proposals?.length > 0 && <GovProposalDash proposals={proposals} />}
+      {proposals?.length === 0 && (
+        <Text my="50px" color="whiteAlpha.500" textAlign="center">
+          No active proposals
+        </Text>
+      )}
     </Box>
   );
 };
