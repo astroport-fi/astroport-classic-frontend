@@ -835,7 +835,8 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
-      // aUST-UST
+      // aUST-UST // Hidden for now: https://astrochad.slack.com/archives/C02L22MKE1Z/p1648541976551629
+      /*
       {
         asset_infos: [
           {
@@ -854,7 +855,7 @@ const whitelist: Whitelist = {
         pair_type: {
           stable: {},
         },
-      },
+      },*/
       // AVAX-UST
       {
         asset_infos: [

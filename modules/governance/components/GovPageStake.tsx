@@ -20,7 +20,10 @@ import {
   handleBigPercentage,
   handleBigAndTinyAmount,
 } from "modules/common";
-import { composeAstroRatioDisplay } from "modules/governance/helpers";
+import {
+  composeAstroRatioDisplay,
+  composeProtocolRatioDisplay,
+} from "modules/governance/helpers";
 import {
   useGovStakingRatio,
   useGovStakingAPY,
@@ -29,13 +32,14 @@ import {
 } from "../hooks";
 
 const GovPageStake = () => {
-  const { astroBalance, xAstroBalance, stakedAstroBalance } =
+  const { astroBalance, xAstroBalance, stakedAstroBalance, xAstroSupply } =
     useGovStakingBalances();
   const stakingRatio = useGovStakingRatio();
   const astroMintRatio = useAstroMintRatio();
   const stakingAPY = useGovStakingAPY();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
+  const { status } = useWallet();
 
   const data = [
     {
@@ -52,7 +56,12 @@ const GovPageStake = () => {
     },
     {
       label: "Protocol Staking Ratio",
-      value: `${handleTinyAmount(stakingRatio)}%`,
+      value: composeProtocolRatioDisplay(
+        stakedAstroBalance,
+        xAstroSupply,
+        astroMintRatio,
+        stakingRatio
+      ),
     },
   ];
 

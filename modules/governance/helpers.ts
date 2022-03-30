@@ -1,6 +1,9 @@
 import { num } from "@arthuryeti/terra";
 import { ASTROPORT_URLS, PROPOSAL_VOTE_POWER } from "constants/constants";
-import { handleAmountWithoutTrailingZeros } from "modules/common";
+import {
+  handleTinyAmount,
+  handleAmountWithoutTrailingZeros,
+} from "modules/common";
 import {
   Proposal,
   Proposal_History,
@@ -205,4 +208,30 @@ export const appendHttps = (url: string) => {
   }
 
   return url;
+};
+
+export const composeProtocolRatioDisplay = (
+  stakedAstroBalance: string | null,
+  xAstroSupply: string | null,
+  astroMintRatio: number | null,
+  stakingRatio: number | null
+): string => {
+  if (
+    stakedAstroBalance === undefined ||
+    xAstroSupply === undefined ||
+    astroMintRatio === undefined ||
+    stakingRatio === undefined
+  ) {
+    return `-`;
+  }
+
+  if (stakedAstroBalance === "0") {
+    return `0%`;
+  }
+
+  if (xAstroSupply === "0") {
+    return `${handleTinyAmount(stakingRatio)}%`;
+  }
+
+  return `${handleTinyAmount(1 / astroMintRatio)}%`;
 };
