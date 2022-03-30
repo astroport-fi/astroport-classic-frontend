@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { useAddress, useEstimateFee } from "@arthuryeti/terra";
+import { num, useAddress, useEstimateFee } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { Flex, Text, Box, Button } from "@chakra-ui/react";
 import {
@@ -8,6 +8,7 @@ import {
   useTx,
 } from "modules/common";
 import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
+import { PROPOSAL_VOTE_POWER } from "constants/constants";
 
 import {
   useProposalApi,
@@ -92,8 +93,12 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
   const proposalContract = useProposalClient(id);
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
-    userVotingPower && proposal?.total_voting_power
-      ? (userVotingPower / proposal.total_voting_power) * 100
+    userVotingPower && proposal.total_voting_power
+      ? (userVotingPower /
+          num(proposal.total_voting_power)
+            .div(PROPOSAL_VOTE_POWER)
+            .toNumber()) *
+        100
       : `-`;
   const [isPosting, setIsPosting] = useState(false);
   const router = useRouter();
