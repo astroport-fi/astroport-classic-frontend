@@ -31,10 +31,9 @@ const Time: FC<Props> = ({ endTimestamp, state, height = "100px" }) => {
           bg="white.50"
           borderRadius="xl"
         >
-          <Text fontSize="lg">{`${convertTimestapToHHMMSS(
-            undefined,
-            true
-          )} UTC`}</Text>
+          <Text fontSize="lg">
+            Current time: {`${convertTimestapToHHMMSS(undefined, true)} UTC`}
+          </Text>
           <Text fontSize="sm" mt="1" color="proposalColours.purpleAlt">
             (
             {`${
