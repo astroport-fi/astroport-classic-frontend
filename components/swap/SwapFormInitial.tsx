@@ -132,7 +132,16 @@ const SwapFormInitial: FC<Props> = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TokenInput hideToken={token2} {...field} />
+                <TokenInput
+                  {...field}
+                  onChange={(value) => {
+                    if (value === token2) {
+                      reverse();
+                    } else {
+                      setValue("token1", value);
+                    }
+                  }}
+                />
               )}
             />
           </Box>
@@ -201,7 +210,16 @@ const SwapFormInitial: FC<Props> = ({
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TokenInput hideToken={token1} {...field} />
+                <TokenInput
+                  {...field}
+                  onChange={(value) => {
+                    if (value === token1) {
+                      reverse();
+                    } else {
+                      setValue("token2", value);
+                    }
+                  }}
+                />
               )}
             />
           </Box>

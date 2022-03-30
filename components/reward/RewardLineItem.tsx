@@ -44,7 +44,7 @@ const RewardLineItem: FC<Props> = ({ token, amount, desc }) => {
               {balance}
             </Text>
             <Text fontSize="sm" textAlign="right" variant="dimmed">
-              {handleDollarTinyAmount(total)}
+              {price > 0 ? handleDollarTinyAmount(total) : "\u00A0"}
             </Text>
           </Box>
         </Box>

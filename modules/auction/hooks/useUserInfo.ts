@@ -3,6 +3,7 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Response = {
   astro_delegated: string;
@@ -22,13 +23,23 @@ export const useUserInfo = () => {
   const address = useAddress();
   const { auction } = useContracts();
 
-  const { data, isLoading } = useQuery(["userInfo", "auction", address], () => {
-    return client.wasm.contractQuery<Response>(auction, {
-      user_info: {
-        address,
-      },
-    });
-  });
+  const { data, isLoading } = useQuery(
+    ["userInfo", "auction", address],
+    () => {
+      if (!address) {
+        return null;
+      }
+
+      return client.wasm.contractQuery<Response>(auction, {
+        user_info: {
+          address,
+        },
+      });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
+    }
+  );
 
   return useMemo(() => {
     if (isLoading || data == null) {

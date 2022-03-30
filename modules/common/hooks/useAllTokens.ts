@@ -9,6 +9,7 @@ import {
 import { CW20AssetInfo } from "types/common";
 import tokenCache from "constants/tokenCache";
 import { useTerraWebapp } from "@arthuryeti/terra";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export type UseAllTokens = {
   tokens: Tokens | null;
@@ -71,7 +72,8 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
     network: { name },
   } = useTerraWebapp();
 
-  const hiveEndpoint = useHiveEndpoint();
+  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
+  let firstAttempt = true;
   const cachedTokens = tokenCache[name];
 
   const {
@@ -81,6 +83,9 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
   } = useQuery<Tokens>(
     [hiveEndpoint, "tokens", name],
     async () => {
+      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      firstAttempt = false;
+
       const tokensToFetch = uniqueTokens(pairs).filter(
         (token) => !(token in cachedTokens)
       );
@@ -92,7 +97,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
       // Request in 100 token chunks to ensure we always stay below request size limits
       const response = await requestInChunks<string, NamedTokenInfoResponses>(
         100,
-        hiveEndpoint,
+        url,
         tokensToFetch,
         buildQuery
       );
@@ -121,6 +126,8 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
     {
       enabled: pairs?.length > 0,
       refetchOnWindowFocus: false,
+      staleTime: QUERY_STALE_TIME,
+      retry: 1,
     }
   );
 

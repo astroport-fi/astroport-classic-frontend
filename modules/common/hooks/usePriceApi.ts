@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { useApi } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 const query = gql`
   query price($address: String!) {
@@ -19,6 +20,7 @@ export const usePriceApi = (token: string) => {
     },
     options: {
       enabled: !!query,
+      staleTime: QUERY_STALE_TIME,
     },
   });
 

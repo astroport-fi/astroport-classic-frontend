@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
-import { useContracts, useTokenInfo } from "modules/common";
+import { getTokenDenom, useContracts, useTokenInfo } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
 import { useGetPool } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -81,11 +81,31 @@ export const useAuctionPools = () => {
       },
     ];
 
+    let poolAssets;
+    if (getTokenDenom(pool.assets[0].info) === astroToken) {
+      poolAssets = [
+        {
+          amount: pool.assets[0].amount,
+          info: { token: { contract_addr: astroToken } },
+        },
+        pool.assets[1],
+      ];
+    } else if (getTokenDenom(pool.assets[1].info) === astroToken) {
+      poolAssets = [
+        {
+          amount: pool.assets[1].amount,
+          info: { token: { contract_addr: astroToken } },
+        },
+        pool.assets[0],
+      ];
+    }
+
     return [
       {
         name: config.pool_info?.astro_ust_pool_address,
         contract: config.pool_info?.astro_ust_pool_address,
         assets: [astroToken, "uusd"],
+        poolAssets,
         sortingAssets: [
           config.pool_info?.astro_ust_pool_address,
           astroToken,

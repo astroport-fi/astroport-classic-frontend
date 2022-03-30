@@ -7,10 +7,15 @@ type Response = {
   balance: string;
 };
 
+type ResponseSupply = {
+  total_supply: string;
+};
+
 type BalanceReturns = {
   astroBalance: string | null;
   xAstroBalance: string | null;
   stakedAstroBalance: string | null;
+  xAstroSupply: string | null;
 };
 
 export const useGovStakingBalances = (): BalanceReturns => {
@@ -51,9 +56,16 @@ export const useGovStakingBalances = (): BalanceReturns => {
     }
   );
 
+  const { data: xAstroSupply } = useQuery(["supply", xAstroToken], () => {
+    return client.wasm.contractQuery<ResponseSupply>(xAstroToken, {
+      token_info: {},
+    });
+  });
+
   return {
     astroBalance: astroBalance?.balance,
     xAstroBalance: xAstroBalance?.balance,
     stakedAstroBalance: stakedAstroBalance?.balance,
+    xAstroSupply: xAstroSupply?.total_supply,
   };
 };

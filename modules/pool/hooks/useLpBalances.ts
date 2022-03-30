@@ -1,4 +1,5 @@
 import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { QUERY_STALE_TIME } from "constants/constants";
 import { useAstroswap } from "modules/common";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
@@ -39,6 +40,7 @@ export const useLpBalances = () => {
     },
     {
       enabled: pairs != null && !!address,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

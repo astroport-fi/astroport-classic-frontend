@@ -2,7 +2,12 @@ import { request } from "graphql-request";
 import { useQuery } from "react-query";
 
 import { useTerraWebapp } from "@arthuryeti/terra";
-import { ENV_MAINNET_GRAPHQL, ENV_TESTNET_GRAPHQL } from "constants/constants";
+import {
+  DEFAULT_MAINNET_GRAPHQL,
+  DEFAULT_TESTNET_GRAPHQL,
+  ENV_MAINNET_GRAPHQL,
+  ENV_TESTNET_GRAPHQL,
+} from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -17,21 +22,30 @@ export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
 
   if (network.name == "testnet") {
-    return ENV_TESTNET_GRAPHQL;
+    return {
+      hiveEndpoint: ENV_TESTNET_GRAPHQL,
+      defaultHiveEndpoint: DEFAULT_TESTNET_GRAPHQL,
+    };
   }
 
-  return ENV_MAINNET_GRAPHQL;
+  return {
+    hiveEndpoint: ENV_MAINNET_GRAPHQL,
+    defaultHiveEndpoint: DEFAULT_MAINNET_GRAPHQL,
+  };
 };
 
 export const useHive = ({ name, query, variables, options }: Params) => {
-  const GRAPHQL = useHiveEndpoint();
+  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
 
+  let firstAttempt = true;
   const { data, isLoading } = useQuery(
     name,
     () => {
-      return request(GRAPHQL, query, variables);
+      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      firstAttempt = false;
+      return request(url, query, variables);
     },
-    options
+    { ...options, retry: 1 }
   );
 
   if (isLoading || data == null) {

@@ -2,6 +2,7 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Response = {
   owner: string;
@@ -25,11 +26,17 @@ export const useConfig = () => {
   const { client } = useTerraWebapp();
   const { auction } = useContracts();
 
-  const { data, isLoading } = useQuery(["auction", "config"], () => {
-    return client.wasm.contractQuery<Response>(auction, {
-      config: {},
-    });
-  });
+  const { data, isLoading } = useQuery(
+    ["auction", "config"],
+    () => {
+      return client.wasm.contractQuery<Response>(auction, {
+        config: {},
+      });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
+    }
+  );
 
   if (isLoading || data == null) {
     return null;

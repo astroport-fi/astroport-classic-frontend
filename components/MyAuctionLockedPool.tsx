@@ -37,6 +37,12 @@ const MyAuctionLockedPool = () => {
         Header: "Total Liquidity",
         Cell: ({ row }: any) => (
           <NumberInUstTd
+            type="totalLiquidity"
+            tokenTooltip={{
+              poolAssets: row.original.poolAssets,
+              myLiquidity: row.original.myLiquidity,
+              totalLiquidity: row.original.totalLiquidity,
+            }}
             value={row.original.totalLiquidityInUst}
             format="0,0"
           />
@@ -48,7 +54,15 @@ const MyAuctionLockedPool = () => {
       {
         Header: "My Liquidity",
         Cell: ({ row }: any) => (
-          <NumberInUstTd value={row.original.myLiquidityInUst} />
+          <NumberInUstTd
+            type="myLiquidity"
+            tokenTooltip={{
+              poolAssets: row.original.poolAssets,
+              myLiquidity: row.original.myLiquidity,
+              totalLiquidity: row.original.totalLiquidity,
+            }}
+            value={row.original.myLiquidityInUst}
+          />
         ),
         width: 125,
         accessor: "myLiquidityInUst",

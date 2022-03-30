@@ -4,6 +4,7 @@ import { num } from "@arthuryeti/terra";
 
 import { useBreakdownRewards } from "modules/reward";
 import { usePrice } from "modules/swap";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 export const useBreakdownRewardsTotalInUst = () => {
   const rewards = useBreakdownRewards();
@@ -18,6 +19,7 @@ export const useBreakdownRewardsTotalInUst = () => {
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

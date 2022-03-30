@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
   HStack,
@@ -17,15 +18,19 @@ import {
   useGovStakingRatio,
   useGovStakingAPY,
   useGovStakingBalances,
+  useAstroMintRatio,
 } from "../hooks";
+import { composeProtocolRatioDisplay } from "../helpers";
 
 const GovernancePage = () => {
-  const { astroBalance, xAstroBalance, stakedAstroBalance } =
+  const { astroBalance, xAstroBalance, stakedAstroBalance, xAstroSupply } =
     useGovStakingBalances();
   const stakingRatio = useGovStakingRatio();
+  const astroMintRatio = useAstroMintRatio();
   const stakingAPY = useGovStakingAPY();
   const astroDisabled = num(astroBalance).eq(0);
   const xAstroDisabled = num(xAstroBalance).eq(0);
+  const { status } = useWallet();
 
   const data = [
     {
@@ -38,7 +43,12 @@ const GovernancePage = () => {
     },
     {
       label: "Protocol Staking Ratio",
-      value: `${handleTinyAmount(stakingRatio)}%`,
+      value: composeProtocolRatioDisplay(
+        stakedAstroBalance,
+        xAstroSupply,
+        astroMintRatio,
+        stakingRatio
+      ),
     },
   ];
 
@@ -94,12 +104,20 @@ const GovernancePage = () => {
           <Divider bg="white.200" my="8" />
 
           <Flex justify="space-between">
-            <NextLink href="/staking/stake" passHref isDisabled={astroDisabled}>
+            <NextLink
+              href="/staking/stake"
+              passHref
+              isDisabled={
+                astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
+            >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={astroDisabled}
+                isDisabled={
+                  astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Stake ASTRO
               </Button>
@@ -107,13 +125,17 @@ const GovernancePage = () => {
             <NextLink
               href="/staking/unstake"
               passHref
-              isDisabled={xAstroDisabled}
+              isDisabled={
+                xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+              }
             >
               <Button
                 as="a"
                 type="button"
                 variant="primary"
-                isDisabled={xAstroDisabled}
+                isDisabled={
+                  xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
+                }
               >
                 Unstake xASTRO
               </Button>

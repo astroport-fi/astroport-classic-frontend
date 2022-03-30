@@ -3,6 +3,7 @@ import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
 type Response = {
   total_astro_rewards: string;
@@ -36,11 +37,18 @@ export const useUserInfo = () => {
   const { data, isLoading } = useQuery(
     ["userInfo", "lockdrop", address],
     () => {
+      if (!address) {
+        return null;
+      }
+
       return client.wasm.contractQuery<Response>(lockdrop, {
         user_info: {
           address,
         },
       });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
     }
   );
 

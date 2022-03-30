@@ -77,7 +77,6 @@ const SlippagePopover: FC<Props> = ({
 
   const onBlurInput = () => {
     let f = parseFloat(stringValue);
-
     if (isNaN(f) || f < minSlippage) {
       setStringValue(minSlippage.toFixed(2));
       onChange(minSlippage);

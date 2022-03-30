@@ -25,6 +25,9 @@ export const usePrice = () => {
 
     const decimals = getDecimals(token);
     const swapRoute = getSwapRoute({ tokenGraph, from: token, to: "uusd" });
+    if (!swapRoute) {
+      return 0;
+    }
 
     if (swapRoute.length > 1) {
       const data = await simulateMultiSwap({

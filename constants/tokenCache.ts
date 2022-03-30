@@ -22,6 +22,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/astro.png",
       decimals: 6,
     },
+    terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7: {
+      protocol: "Astroport",
+      symbol: "xASTRO",
+      token: "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7",
+      icon: "/tokens/xAstro.png",
+      decimals: 6,
+    },
     uluna: {
       protocol: "Terra",
       symbol: "LUNA",
@@ -108,7 +115,7 @@ const tokenCache: TokenCache = {
       protocol: "Wormhole Avalanche",
       symbol: "wAVAX",
       token: "terra1hj8de24c3yqvcsv9r8chr03fzwsak3hgd8gv3m",
-      icon: "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/assets/AVAX_wh.png",
+      icon: "/tokens/avax.png",
       decimals: 8,
     },
     terra1cetg5wruw2wsdjp7j46rj44xdel00z006e9yg8: {
@@ -293,6 +300,55 @@ const tokenCache: TokenCache = {
       icon: "/tokens/sayve.png",
       decimals: 6,
     },
+    terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw: {
+      protocol: "Prism",
+      symbol: "PRISM",
+      token: "terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw",
+      icon: "/tokens/prism.png",
+      decimals: 6,
+    },
+    terra1042wzrwg2uk6jqxjm34ysqquyr9esdgm5qyswz: {
+      protocol: "Prism Governance Token",
+      symbol: "xPRISM",
+      token: "terra1042wzrwg2uk6jqxjm34ysqquyr9esdgm5qyswz",
+      icon: "/tokens/xPRISM.svg",
+      decimals: 6,
+    },
+    terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu: {
+      protocol: "Anchor Terra USD",
+      symbol: "aUST",
+      token: "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu",
+      icon: "/tokens/aUST.png",
+      decimals: 6,
+    },
+    terra1z3e2e4jpk4n0xzzwlkgcfvc95pc5ldq0xcny58: {
+      protocol: "Wormhole wasAVAX",
+      symbol: "wasAVAX",
+      token: "terra1z3e2e4jpk4n0xzzwlkgcfvc95pc5ldq0xcny58",
+      icon: "/tokens/wasAVAX.png",
+      decimals: 8,
+    },
+    terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau: {
+      protocol: "Prism cLuna",
+      symbol: "cLuna",
+      token: "terra13zaagrrrxj47qjwczsczujlvnnntde7fdt0mau",
+      icon: "/tokens/cLUNA.svg",
+      decimals: 6,
+    },
+    terra1tlgelulz9pdkhls6uglfn5lmxarx7f2gxtdzh2: {
+      protocol: "Prism pLuna",
+      symbol: "pLuna",
+      token: "terra1tlgelulz9pdkhls6uglfn5lmxarx7f2gxtdzh2",
+      icon: "/tokens/pLUNA.svg",
+      decimals: 6,
+    },
+    terra17wkadg0tah554r35x6wvff0y5s7ve8npcjfuhz: {
+      protocol: "Prism yLuna",
+      symbol: "yLuna",
+      token: "terra17wkadg0tah554r35x6wvff0y5s7ve8npcjfuhz",
+      icon: "/tokens/yLUNA.svg",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
@@ -421,10 +477,10 @@ const tokenCache: TokenCache = {
       icon: "/tokens/astro.png",
       decimals: 6,
     },
-    terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np: {
+    terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0: {
       protocol: "Astroport",
       symbol: "xASTRO",
-      token: "terra1nlyd0f9mhuy5gsm6vsql5wx6avmqc8g7hz87np",
+      token: "terra1yufp7cv85qrxrx56ulpfgstt2gxz905fgmysq0",
       icon: "/tokens/xAstro.png",
       decimals: 6,
     },
