@@ -3,13 +3,13 @@ import { handleTinyAmount } from "modules/common";
 export const composeProtocolRatioDisplay = (
   stakedAstroBalance: string | null,
   xAstroSupply: string | null,
-  astroMintRatio: number | null,
+  astroCircSupply: number | null,
   stakingRatio: number | null
 ): string => {
   if (
     stakedAstroBalance === undefined ||
     xAstroSupply === undefined ||
-    astroMintRatio === undefined ||
+    astroCircSupply === undefined ||
     stakingRatio === undefined
   ) {
     return `-`;
@@ -23,5 +23,9 @@ export const composeProtocolRatioDisplay = (
     return stakingRatio ? `${handleTinyAmount(stakingRatio)}%` : `-`;
   }
 
-  return astroMintRatio ? `${handleTinyAmount(1 / astroMintRatio)}%` : `-`;
+  return stakedAstroBalance && astroCircSupply
+    ? `${handleTinyAmount(
+        Number(stakedAstroBalance) / (astroCircSupply * 10 ** 4)
+      )}%`
+    : `-`;
 };

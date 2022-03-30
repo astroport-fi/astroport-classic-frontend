@@ -27,8 +27,13 @@ import {
 import { composeProtocolRatioDisplay } from "../helpers";
 
 const GovernancePage = () => {
-  const { astroBalance, xAstroBalance, stakedAstroBalance, xAstroSupply } =
-    useGovStakingBalances();
+  const {
+    astroBalance,
+    xAstroBalance,
+    stakedAstroBalance,
+    xAstroSupply,
+    astroCircSupply,
+  } = useGovStakingBalances();
   const stakingRatio = useGovStakingRatio();
   const astroMintRatio = useAstroMintRatio();
   const stakingAPY = useGovStakingAPY();
@@ -43,14 +48,14 @@ const GovernancePage = () => {
     },
     {
       label: "APY",
-      value: stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`,
+      value: /* stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`*/ `-`,
     },
     {
       label: "Protocol Staking Ratio",
       value: composeProtocolRatioDisplay(
         stakedAstroBalance,
         xAstroSupply,
-        astroMintRatio,
+        astroCircSupply,
         stakingRatio
       ),
     },

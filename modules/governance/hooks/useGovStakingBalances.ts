@@ -1,7 +1,16 @@
-import { useCallback, useMemo } from "react";
+import { gql } from "graphql-request";
 import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
-import { useContracts } from "modules/common";
+import { useApi, useContracts } from "modules/common";
 import { useQuery } from "react-query";
+import { QUERY_STALE_TIME } from "constants/constants";
+
+const query = gql`
+  query Supply {
+    supply {
+      circulatingSupply
+    }
+  }
+`;
 
 type Response = {
   balance: string;
@@ -16,6 +25,7 @@ type BalanceReturns = {
   xAstroBalance: string | null;
   stakedAstroBalance: string | null;
   xAstroSupply: string | null;
+  astroCircSupply: any;
 };
 
 export const useGovStakingBalances = (): BalanceReturns => {
@@ -56,6 +66,15 @@ export const useGovStakingBalances = (): BalanceReturns => {
     }
   );
 
+  const { data: astroCircSupply } = useApi({
+    name: "supply",
+    query,
+    options: {
+      enabled: !!query,
+      staleTime: QUERY_STALE_TIME,
+    },
+  });
+
   const { data: xAstroSupply } = useQuery(["supply", xAstroToken], () => {
     return client.wasm.contractQuery<ResponseSupply>(xAstroToken, {
       token_info: {},
@@ -67,5 +86,6 @@ export const useGovStakingBalances = (): BalanceReturns => {
     xAstroBalance: xAstroBalance?.balance,
     stakedAstroBalance: stakedAstroBalance?.balance,
     xAstroSupply: xAstroSupply?.total_supply,
+    astroCircSupply: astroCircSupply?.supply?.circulatingSupply,
   };
 };
