@@ -13,7 +13,11 @@ import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
-import { NextLink, handleTinyAmount } from "modules/common";
+import {
+  NextLink,
+  handleTinyAmount,
+  handleBigPercentage,
+} from "modules/common";
 import {
   useGovStakingRatio,
   useGovStakingAPY,
@@ -39,7 +43,7 @@ const GovernancePage = () => {
     },
     {
       label: "APY",
-      value: stakingAPY === 0 ? `>100k%` : `${handleTinyAmount(stakingAPY)}%`,
+      value: stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`,
     },
     {
       label: "Protocol Staking Ratio",
