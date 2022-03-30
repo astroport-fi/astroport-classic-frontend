@@ -2,12 +2,19 @@ import React, { FC } from "react";
 import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { Proposal } from "types/common";
-import { handleTinyAmount, truncateStr } from "modules/common/helpers";
+import {
+  handleAmountWithoutTrailingZeros,
+  handleTinyAmount,
+  truncateStr,
+} from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
-import { calcVotingPercentages } from "modules/governance/helpers";
+import {
+  calcVotingPower,
+  calcVotingDistribution,
+} from "modules/governance/helpers";
 import { useProposalVotes } from "modules/governance";
 import { num } from "@arthuryeti/terra";
 
@@ -27,7 +34,8 @@ const VoteStats: FC<Props> = ({
   onClick,
 }) => {
   const finder = useFinder();
-  const { voteForPerc, voteAgainstPerc } = calcVotingPercentages(proposal);
+  const { voteForPower, voteAgainstPower } = calcVotingPower(proposal);
+  const { voteForDist, voteAgainstDist } = calcVotingDistribution(proposal);
   const { votesFor, votesAgainst } = useProposalVotes(
     String(proposal.proposal_id)
   );
@@ -45,19 +53,22 @@ const VoteStats: FC<Props> = ({
       <Flex flexDirection="column" p="5" mt="5">
         <Flex>
           <ProgressBar
-            voteFor={voteForPerc}
-            voteAgainst={voteAgainstPerc}
+            voteFor={voteForPower}
+            voteAgainst={voteAgainstPower}
             quorum={quorum * 100 || null}
           />
         </Flex>
-        <ProgressLabel voteFor={voteForPerc} voteAgainst={voteAgainstPerc} />
+        <ProgressLabel proposal={proposal} />
       </Flex>
       <Flex borderTop="1px" borderColor="white.100" p="6">
         <Flex flexDirection="column" w="50%" mr="1">
           <Text mb="2">For</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="green.500">
-              {voteForPerc > 0 ? handleTinyAmount(voteForPerc) : "0"}%
+              {voteForDist > 0
+                ? handleAmountWithoutTrailingZeros(voteForDist)
+                : "0"}
+              %
             </Text>
             <Text color="white.400">
               {Number(proposal.votes_for).toLocaleString()} Votes
@@ -68,7 +79,10 @@ const VoteStats: FC<Props> = ({
           <Text mb="2">Against</Text>
           <Box bg="blackAlpha.400" px="4" py="2" borderRadius="lg">
             <Text fontSize="lg" color="red.500">
-              {voteAgainstPerc > 0 ? handleTinyAmount(voteAgainstPerc) : "0"}%
+              {voteAgainstDist > 0
+                ? handleAmountWithoutTrailingZeros(voteAgainstDist)
+                : "0"}
+              %
             </Text>
             <Text color="white.400">
               {Number(proposal.votes_against).toLocaleString()} Votes

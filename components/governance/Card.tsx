@@ -13,7 +13,7 @@ import { NextLink } from "modules/common";
 import { truncateStr } from "modules/common/helpers";
 import {
   getProposalEndDateString,
-  calcVotingPercentages,
+  calcVotingPower,
 } from "modules/governance/helpers";
 import { Proposal } from "types/common";
 
@@ -50,7 +50,9 @@ const CardHeader = ({ state, title, endTimestamp }) => {
   );
 };
 
-const CardBody = ({ voteFor, voteAgainst, quorum }) => {
+const CardBody = ({ proposal, quorum }) => {
+  const { voteForPower, voteAgainstPower } = calcVotingPower(proposal);
+
   return (
     <Box h="150px" w="100%">
       <Flex
@@ -63,12 +65,12 @@ const CardBody = ({ voteFor, voteAgainst, quorum }) => {
       >
         <Flex mt="5">
           <ProgressBar
-            voteFor={voteFor}
-            voteAgainst={voteAgainst}
+            voteFor={voteForPower}
+            voteAgainst={voteAgainstPower}
             quorum={quorum * 100 || null}
           />
         </Flex>
-        <ProgressLabel voteFor={voteFor} voteAgainst={voteAgainst} />
+        <ProgressLabel proposal={proposal} />
       </Flex>
     </Box>
   );
@@ -107,8 +109,6 @@ const CardFooter = ({ description, address, id }) => {
 };
 
 const Card: FC<Props> = ({ proposal, quorum }) => {
-  const { voteForPerc, voteAgainstPerc } = calcVotingPercentages(proposal);
-
   return (
     <GridItem h="485px" overflow="hidden">
       <Center
@@ -124,11 +124,7 @@ const Card: FC<Props> = ({ proposal, quorum }) => {
           title={proposal.title}
           endTimestamp={proposal.end_timestamp}
         />
-        <CardBody
-          voteFor={voteForPerc}
-          voteAgainst={voteAgainstPerc}
-          quorum={quorum}
-        />
+        <CardBody proposal={proposal} quorum={quorum} />
         <CardFooter
           description={proposal.description}
           address={proposal.submitter}

@@ -70,6 +70,13 @@ export const handleDollarTinyAmount = (
   return handleTinyAmount(value, format, includeZero, "$ ");
 };
 
+export const handleAmountWithoutTrailingZeros = (
+  value: number,
+  significantDigits: number = 2
+) => {
+  return parseFloat(value.toFixed(significantDigits));
+};
+
 export const isObject = (value: any) => {
   return typeof value === "object";
 };

@@ -184,9 +184,14 @@ export interface Proposal_Status_Props {
   color: string;
 }
 
-export type Proposal_Vote_Stats = {
-  voteForPerc: number;
-  voteAgainstPerc: number;
+export type Proposal_Vote_Power = {
+  voteForPower: number;
+  voteAgainstPower: number;
+};
+
+export type Proposal_Vote_Dist = {
+  voteForDist: number;
+  voteAgainstDist: number;
 };
 
 export type FixedSizeArray<N extends number, T> = N extends 0

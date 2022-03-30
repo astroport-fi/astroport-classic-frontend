@@ -3,7 +3,8 @@ import { ASTROPORT_URLS } from "constants/constants";
 import {
   Proposal,
   Proposal_History,
-  Proposal_Vote_Stats,
+  Proposal_Vote_Power,
+  Proposal_Vote_Dist,
   Proposal_Status,
 } from "types/common";
 
@@ -136,10 +137,8 @@ export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
   return [created, active, succeeded, queued, executed];
 };
 
-export const calcVotingPercentages = (
-  proposal: Proposal
-): Proposal_Vote_Stats => {
-  const voteForPerc =
+export const calcVotingPower = (proposal: Proposal): Proposal_Vote_Power => {
+  const voteForPower =
     proposal.votes_for_power && proposal.total_voting_power
       ? (num(proposal.votes_for_power)
           .div(10 ** 6)
@@ -147,7 +146,7 @@ export const calcVotingPercentages = (
           proposal.total_voting_power) *
         100
       : 0;
-  const voteAgainstPerc =
+  const voteAgainstPower =
     proposal.votes_against_power && proposal.total_voting_power
       ? (num(proposal.votes_against_power)
           .div(10 ** 6)
@@ -157,8 +156,24 @@ export const calcVotingPercentages = (
       : 0;
 
   return {
-    voteForPerc,
-    voteAgainstPerc,
+    voteForPower,
+    voteAgainstPower,
+  };
+};
+
+export const calcVotingDistribution = (
+  proposal: Proposal
+): Proposal_Vote_Dist => {
+  const voteForDist =
+    (proposal.votes_for * 100) /
+      (proposal.votes_for + proposal.votes_against) || 0;
+  const voteAgainstDist =
+    (proposal.votes_against * 100) /
+      (proposal.votes_for + proposal.votes_against) || 0;
+
+  return {
+    voteForDist,
+    voteAgainstDist,
   };
 };
 
