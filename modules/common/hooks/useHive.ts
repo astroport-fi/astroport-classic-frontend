@@ -3,10 +3,10 @@ import { useQuery } from "react-query";
 
 import { useTerraWebapp } from "@arthuryeti/terra";
 import {
-  DEFAULT_MAINNET_GRAPHQL,
-  DEFAULT_TESTNET_GRAPHQL,
   ENV_MAINNET_GRAPHQL,
   ENV_TESTNET_GRAPHQL,
+  ENV_MAINNET_FALLBACK_GRAPHQL,
+  ENV_TESTNET_FALLBACK_GRAPHQL,
 } from "constants/constants";
 
 type Params = {
@@ -24,24 +24,24 @@ export const useHiveEndpoint = () => {
   if (network.name == "testnet") {
     return {
       hiveEndpoint: ENV_TESTNET_GRAPHQL,
-      defaultHiveEndpoint: DEFAULT_TESTNET_GRAPHQL,
+      fallbackHiveEndpoint: ENV_TESTNET_FALLBACK_GRAPHQL,
     };
   }
 
   return {
     hiveEndpoint: ENV_MAINNET_GRAPHQL,
-    defaultHiveEndpoint: DEFAULT_MAINNET_GRAPHQL,
+    fallbackHiveEndpoint: ENV_MAINNET_FALLBACK_GRAPHQL,
   };
 };
 
 export const useHive = ({ name, query, variables, options }: Params) => {
-  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
+  const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
 
   let firstAttempt = true;
   const { data, isLoading } = useQuery(
     name,
     () => {
-      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
       return request(url, query, variables);
     },
