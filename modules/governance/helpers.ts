@@ -161,11 +161,11 @@ export const calcVotingDistribution = (
   proposal: Proposal
 ): Proposal_Vote_Dist => {
   const voteForDist =
-    (proposal.votes_for * 100) /
-      (proposal.votes_for + proposal.votes_against) || 0;
+    (proposal.votes_for_power * 100) /
+      (proposal.votes_for_power + proposal.votes_against_power) || 0;
   const voteAgainstDist =
-    (proposal.votes_against * 100) /
-      (proposal.votes_for + proposal.votes_against) || 0;
+    (proposal.votes_against_power * 100) /
+      (proposal.votes_for_power + proposal.votes_against_power) || 0;
 
   return {
     voteForDist,

@@ -118,8 +118,7 @@ const VoteStats: FC<Props> = ({
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
-                          (vote.voting_power / proposal.total_voting_power) *
-                            100
+                          (vote.voting_power / proposal.votes_for_power) * 100
                         )}
                         %
                       </Text>
@@ -150,7 +149,7 @@ const VoteStats: FC<Props> = ({
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
-                          (vote.voting_power / proposal.total_voting_power) *
+                          (vote.voting_power / proposal.votes_against_power) *
                             100
                         )}
                         %
