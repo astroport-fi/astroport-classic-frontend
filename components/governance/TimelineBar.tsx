@@ -16,8 +16,8 @@ const StatusBox = ({ block }) => {
       <Box
         w={redGreenDot ? "2" : "1"}
         h={redGreenDot ? "2" : "1"}
-        mt={redGreenDot ? "1.5" : "2"}
-        mr="2"
+        mt={redGreenDot ? "5px" : "7px"}
+        mr="7px"
         borderRadius="50%"
         bg={block.dotColor}
       />
