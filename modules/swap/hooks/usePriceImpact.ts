@@ -7,7 +7,7 @@ import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { useSwapRoute } from "modules/swap";
 import { getAssetAmountsInPool } from "libs/terra";
 
-import { useGetPool } from "modules/pool";
+import useGetPools from "modules/pool/hooks/useGetPools";
 import BigNumber from "bignumber.js";
 import { QUERY_STALE_TIME } from "constants/constants";
 
@@ -32,7 +32,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
   const fromDecimals = getDecimals(from);
   const toDecimals = getDecimals(to);
 
-  const { data } = useGetPool(swapRoute?.[0]?.contract_addr);
+  const pools = useGetPools(swapRoute?.map((sri) => sri?.contract_addr));
 
   const { data: bLunaData } = useQuery<unknown>(
     ["priceImpact", from],
@@ -52,7 +52,12 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
   );
 
   return useMemo(() => {
-    if (swapRoute == null || data == null || price == null) {
+    if (
+      swapRoute == null ||
+      pools == null ||
+      swapRoute.length !== pools.length ||
+      price == null
+    ) {
       return 0;
     }
 
@@ -77,7 +82,7 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
     }
 
     if (swapRoute.length == 1 && swapRoute[0].type == "xyk") {
-      const { token1, token2 } = getAssetAmountsInPool(data.assets, to);
+      const { token1, token2 } = getAssetAmountsInPool(pools[0].assets, to);
       const poolPrice = num(token2)
         .div(10 ** fromDecimals)
         .div(num(token1).div(10 ** toDecimals))
@@ -92,8 +97,30 @@ export function usePriceImpact({ from, to, amount1, amount2, price }: Params) {
         .toNumber();
     }
 
+    if (swapRoute.length > 1) {
+      const poolPrices = swapRoute.map((sri, index) => {
+        const { token1, token2 } = getAssetAmountsInPool(
+          pools[index].assets,
+          sri.to
+        );
+        return num(token2)
+          .div(10 ** fromDecimals)
+          .div(num(token1).div(10 ** toDecimals))
+          .dp(18)
+          .toNumber();
+      });
+
+      const combinedPoolPrices = poolPrices.reduce((p, c) => p * c);
+      return num(price)
+        .minus(combinedPoolPrices)
+        .div(combinedPoolPrices)
+        .times(100)
+        .dp(2)
+        .toNumber();
+    }
+
     return 0;
-  }, [data, price, bLunaData]);
+  }, [pools, price, bLunaData]);
 }
 
 export default usePriceImpact;

@@ -61,34 +61,25 @@ const SwapFormFooter: FC<Props> = ({
       return null;
     }
 
-    if (swapRoute?.length > 1) {
-      return (
-        <>
-          {swapRoutePath.tooltip != null ? (
-            <Box d="inline-block">
-              <Tooltip
-                label={swapRoutePath.tooltip}
-                placement="top"
-                aria-label="Complete Swap Route"
-              >
-                <Text textStyle="medium">{swapRoutePath.text}</Text>
-              </Tooltip>
-            </Box>
-          ) : (
-            <Text textStyle="medium">{swapRoutePath}</Text>
-          )}
-          <Text textStyle="small" variant="dimmed">
-            Route
-          </Text>
-        </>
-      );
-    }
-
     return (
       <>
-        <Text textStyle="medium" color={priceImpactColor}>
-          {handleTinyAmount(priceImpact, "0.00")}%
-        </Text>
+        {swapRoutePath.tooltip != null ? (
+          <Box d="inline-block">
+            <Tooltip
+              label={swapRoutePath.tooltip}
+              placement="top"
+              aria-label="Complete Swap Route"
+            >
+              <Text textStyle="medium" color={priceImpactColor}>
+                {handleTinyAmount(priceImpact, "0.00")}%
+              </Text>
+            </Tooltip>
+          </Box>
+        ) : (
+          <Text textStyle="medium" color={priceImpactColor}>
+            {handleTinyAmount(priceImpact, "0.00")}%
+          </Text>
+        )}
         <Text textStyle="small" variant="dimmed">
           Price Impact
         </Text>
