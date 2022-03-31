@@ -88,8 +88,8 @@ const GovPageStake = () => {
         >
           <Text textStyle="h3">Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
-            Stake ASTRO for xASTRO in order to receive a % of Astroport’s
-            revenue.
+            Stake ASTRO for xASTRO in order to receive a % of Astroport smart
+            contract fees.
             <br />
             To learn more about Astroport, join the community on Discord.
           </Text>
