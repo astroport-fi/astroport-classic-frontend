@@ -55,6 +55,15 @@ const GovStakeFooter: FC<Props> = ({
           ),
         },
         {
+          title:
+            type === AstroFormType.Stake ? "xASTRO Received" : "ASTRO Received",
+          value: amount
+            ? type === AstroFormType.Stake
+              ? handleTinyAmount(amount)
+              : handleTinyAmount(amount * (1 / astroMintRatio))
+            : "-",
+        },
+        {
           title: "Current xASTRO",
           value: fromTerraAmount(xAstroBalance),
         },

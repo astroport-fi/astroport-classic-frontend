@@ -25,9 +25,7 @@ export const useAstroMintRatio = (): number | null => {
     }
 
     if (totalShares > 0 && totalDeposit > 0) {
-      return num(Number(totalShares) / Number(totalDeposit))
-        .dp(2)
-        .toNumber();
+      return num(Number(totalShares) / Number(totalDeposit)).toNumber();
     } else {
       return 1;
     }
