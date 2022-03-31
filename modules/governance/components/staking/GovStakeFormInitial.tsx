@@ -42,7 +42,7 @@ const GovStakeFormInitial: FC<Props> = ({
     .toNumber();
   const adjPrice =
     type === AstroFormType.Unstake && astroMintRatio
-      ? price * astroMintRatio
+      ? price * (1 / astroMintRatio)
       : price;
   const adjAmount =
     type === AstroFormType.Stake && astroMintRatio
