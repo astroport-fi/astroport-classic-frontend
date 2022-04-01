@@ -44,9 +44,6 @@ export const REWARDS_NOTICE =
 export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
 
 /* env variables */
-export const ENV_DISPLAY_GOVERNANCE =
-  process.env.NEXT_PUBLIC_DISPLAY_GOVERNANCE === "1" ? true : false;
-
 export const ENV_MAINNET_GRAPHQL = process.env.NEXT_PUBLIC_MAINNET_GRAPHQL;
 
 export const ENV_MAINNET_FALLBACK_GRAPHQL =
