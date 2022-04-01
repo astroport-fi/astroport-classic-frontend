@@ -27,7 +27,7 @@ export const useGovStakingAPY = (): number | null => {
       return null;
     }
 
-    return Number(data.staking?._24h_apy);
+    return Number(data.staking?._24h_apy * 100);
   }, [data, isLoading]);
 };
 
