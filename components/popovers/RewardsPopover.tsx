@@ -19,7 +19,7 @@ const RewardsPopover: FC<Props> = ({ rewards, children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const rows = [
-    { label: "Pool APR", value: handleBigPercentage(rewards.pool * 100) },
+    { label: "Pool APY", value: handleBigPercentage(rewards.pool * 100) },
     {
       label: "Astro Generator APR",
       value: handleBigPercentage(rewards.astro * 100),
@@ -29,7 +29,6 @@ const RewardsPopover: FC<Props> = ({ rewards, children }) => {
       value: handleBigPercentage(rewards.protocol * 100),
     },
     { label: "Total APR", value: handleBigPercentage(rewards.total * 100) },
-    { label: "Total APY", value: handleBigPercentage(rewards.apy * 100) },
   ].filter(Boolean);
 
   return (
