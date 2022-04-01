@@ -50,7 +50,7 @@ const RewardLockdrop: FC = () => {
           <RewardLineItem
             token={astroToken}
             amount={phase2Rewards.ongoingEmissions}
-            desc="ASTRO emissions from Phase 2"
+            desc="ASTRO Emissions from Phase 2"
           />
         </Box>
       )}
