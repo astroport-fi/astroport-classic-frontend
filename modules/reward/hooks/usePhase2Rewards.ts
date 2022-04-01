@@ -9,21 +9,37 @@ export const usePhase2Rewards = () => {
 
   return useMemo(() => {
     if (userInfo == null) {
-      return 0;
+      return {
+        oneTimeRewards: 0,
+        ongoingEmissions: 0,
+      };
     }
 
+    const ongoingEmissions = num(userInfo.withdrawable_lp_shares).eq(0)
+      ? 0
+      : num(userInfo.withdrawable_lp_shares).div(ONE_TOKEN).dp(6).toNumber();
+
     if (userInfo.astro_incentive_transferred) {
-      return 0;
+      return {
+        oneTimeRewards: 0,
+        ongoingEmissions,
+      };
     }
 
     if (num(userInfo.auction_incentive_amount).eq(0)) {
-      return 0;
+      return {
+        oneTimeRewards: 0,
+        ongoingEmissions,
+      };
     }
 
-    return num(userInfo.auction_incentive_amount)
-      .div(ONE_TOKEN)
-      .dp(6)
-      .toNumber();
+    return {
+      oneTimeRewards: num(userInfo.auction_incentive_amount)
+        .div(ONE_TOKEN)
+        .dp(6)
+        .toNumber(),
+      ongoingEmissions,
+    };
   }, [userInfo]);
 };
 
