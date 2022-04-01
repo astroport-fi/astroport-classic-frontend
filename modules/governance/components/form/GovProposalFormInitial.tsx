@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
+import DOMPurify from "dompurify";
 import { useFormContext, UseFormReturn } from "react-hook-form";
 import { FormActions, FormTextItem } from "modules/common";
 import { GovProposalFormFooter } from "modules/governance";
@@ -80,7 +81,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.title || null}
         onChange={(text) => {
-          methods.setValue("title", text);
+          methods.setValue("title", DOMPurify.sanitize(text));
           methods.clearErrors("title");
         }}
       />
@@ -95,7 +96,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.description || null}
         onChange={(text) => {
-          methods.setValue("description", text);
+          methods.setValue("description", DOMPurify.sanitize(text));
           methods.clearErrors("description");
         }}
       />
