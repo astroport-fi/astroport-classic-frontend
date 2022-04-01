@@ -53,7 +53,7 @@ const GovPageStake = () => {
     },
     {
       label: "APY",
-      value: /* stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`*/ `-`,
+      value: stakingAPY === 0 ? `>100k%` : `${handleBigPercentage(stakingAPY)}`,
     },
     {
       label: "ASTRO:xASTRO",
