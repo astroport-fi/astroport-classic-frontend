@@ -14,6 +14,15 @@ const nextConfig = {
   experimental: {
     esmExternals: false,
   },
+  async redirects() {
+    return [
+      {
+        source: "/staking",
+        destination: "/governance",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
