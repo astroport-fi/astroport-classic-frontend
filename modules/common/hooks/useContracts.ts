@@ -89,7 +89,7 @@ const defaultContracts: { [key: string]: any } = {
     airdrop: "terra1xd4ceehws4z5052v8qp3t65ugn9zptv8gx23el",
     airdrop2: "terra1ph5h0xe73rg35024f4geq325tnsexwkzcz5ln4",
     auction: "terra1mjqjcv7yl94h6y35ng7eqstakxjx9g57suscx7",
-    assembly: "terra18vjnrvt4jssry6735f32mpu7gwkl9wwdmgqlgs",
+    assembly: "terra109039nj38vnzyryqvcjctdh33r4qlq5dmrzqn0",
     stakableLp: [
       "terra1dqjpcqej9nxej80u0p56rhkrzlr6w8tp7txkmj",
       "terra14e7z2ll6eweq6cxe6qkvl28hatapmw2uflxcyt",
