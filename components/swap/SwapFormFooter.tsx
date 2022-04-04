@@ -6,6 +6,7 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Spinner,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
@@ -59,6 +60,19 @@ const SwapFormFooter: FC<Props> = ({
   const renderRightMetric = () => {
     if (!isFormValid) {
       return null;
+    }
+
+    if (isLoading) {
+      return (
+        <>
+          <Text height={"13px"} textStyle="small" variant="dimmed">
+            <Spinner size="xs" />
+          </Text>
+          <Text textStyle="small" variant="dimmed">
+            Price Impact
+          </Text>
+        </>
+      );
     }
 
     return (
