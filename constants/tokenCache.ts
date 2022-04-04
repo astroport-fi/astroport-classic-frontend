@@ -369,7 +369,7 @@ const tokenCache: TokenCache = {
       symbol: "SCRT",
       token:
         "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09",
-      icon: "/tokens/scrt.png",
+      icon: "/tokens/secret.png",
       decimals: 6,
     },
     "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262": {
