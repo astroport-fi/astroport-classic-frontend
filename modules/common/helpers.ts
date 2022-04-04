@@ -117,13 +117,3 @@ export const validateJsonInput = (json: string): Boolean => {
 
   return true;
 };
-
-export const validateUrl = (url: string): Boolean => {
-  try {
-    new URL(url);
-  } catch (e) {
-    return false;
-  }
-
-  return true;
-};

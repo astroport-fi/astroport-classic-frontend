@@ -1,5 +1,6 @@
 import { num } from "@arthuryeti/terra";
 import { ASTROPORT_URLS, PROPOSAL_VOTE_POWER } from "constants/constants";
+import { PROPOSAL_VALID_URLS } from "constants/proposals";
 import {
   handleTinyAmount,
   handleAmountWithoutTrailingZeros,
@@ -238,4 +239,16 @@ export const composeProtocolRatioDisplay = (
         Number(stakedAstroBalance) / (astroCircSupply * 10 ** 4)
       )}%`
     : `-`;
+};
+
+export const validateProposalUrl = (input: string): Boolean => {
+  const validUrl = PROPOSAL_VALID_URLS.find((url) => {
+    return input.startsWith(url);
+  });
+
+  if (validUrl) {
+    return true;
+  }
+
+  return false;
 };

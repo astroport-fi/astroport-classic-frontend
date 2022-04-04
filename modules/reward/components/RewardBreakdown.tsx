@@ -20,7 +20,7 @@ const RewardBreakdown: FC = () => {
     <Box>
       <Flex justify="space-between" align="center">
         <Text textStyle="minibutton" fontSize="xs">
-          Rewards BreakDown
+          Rewards Breakdown
         </Text>
         {renderSwitch && (
           <Flex justify="space-between" align="center">

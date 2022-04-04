@@ -1,5 +1,13 @@
 import React, { FC, useState, useRef } from "react";
-import { Textarea, Text, Input, Box, Flex, CSSObject } from "@chakra-ui/react";
+import {
+  Textarea,
+  Text,
+  Input,
+  Box,
+  Flex,
+  CSSObject,
+  Link,
+} from "@chakra-ui/react";
 import {
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
@@ -7,8 +15,10 @@ import {
   MAX_DESCRIPTION_LENGTH,
   MIN_LINK_LENGTH,
   MAX_LINK_LENGTH,
+  PROPOSAL_VALID_URLS_HELPER_LINK,
 } from "constants/proposals";
-import { validateJsonInput, validateUrl } from "modules/common/helpers";
+import { validateJsonInput } from "modules/common/helpers";
+import { validateProposalUrl } from "modules/governance/helpers";
 import ErrorBubble from "components/common/ErrorBubble";
 import ExecMsgExamples from "components/proposal/ExecMsgExamples";
 import UnderlineButton from "components/UnderlineButton";
@@ -61,7 +71,19 @@ const formErrorMsg = (id, error) => {
         return `The ${id} must have maximum ${MAX_LINK_LENGTH} characters`;
       }
 
-      return "Inccorectly formatted URL";
+      return (
+        <Flex>
+          <Text>Invalid domain. Please check valid domains</Text>
+          <Link
+            ml="1"
+            fontWeight="bold"
+            isExternal
+            href={PROPOSAL_VALID_URLS_HELPER_LINK}
+          >
+            here.
+          </Link>
+        </Flex>
+      );
     }
   }
 
@@ -101,7 +123,7 @@ const formValidationRule = (id) => {
           (value.length > 0 &&
             value.length >= MIN_LINK_LENGTH &&
             value.length <= MAX_LINK_LENGTH &&
-            validateUrl(value)),
+            validateProposalUrl(value)),
       };
   }
 
