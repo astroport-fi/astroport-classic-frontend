@@ -62,7 +62,7 @@ const SwapFormFooter: FC<Props> = ({
       return null;
     }
 
-    if (isLoading) {
+    if (price == null || isLoading) {
       return (
         <>
           <Text height={"13px"} textStyle="small" variant="dimmed">
