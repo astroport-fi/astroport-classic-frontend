@@ -272,6 +272,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/mars.png",
       decimals: 6,
     },
+    terra1a04v570f9cxp49mk06vjsm8axsswndpwwt67k4: {
+      protocol: "MARS",
+      symbol: "xMARS",
+      token: "terra1a04v570f9cxp49mk06vjsm8axsswndpwwt67k4",
+      icon: "/tokens/mars.png",
+      decimals: 6,
+    },
     terra1ez46kxtulsdv07538fh5ra5xj8l68mu8eg24vr: {
       protocol: "loterra",
       symbol: "LOTA",

@@ -1059,6 +1059,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // MARS-xMARS
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1a04v570f9cxp49mk06vjsm8axsswndpwwt67k4",
+            },
+          },
+        ],
+        contract_addr: "terra1dawj5mr2qt2nlurge30lfgjg6ly4ls99yeyd25",
+        liquidity_token: "terra1cxmdyn5srv8uwvhgz5ckqf28zf8c7uwyz08f2j",
+        pair_type: {
+          stable: {},
+        },
+      },
     ],
   },
   testnet: {
