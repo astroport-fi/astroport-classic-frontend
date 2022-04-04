@@ -124,7 +124,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.link || null}
         onChange={(text) => {
-          methods.setValue("link", text);
+          methods.setValue("link", text.toLowerCase());
           methods.clearErrors("link");
         }}
       />
