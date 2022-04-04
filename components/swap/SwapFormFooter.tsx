@@ -18,6 +18,7 @@ import {
 
 import FormFee from "components/common/FormFee";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
+import useExchangeRate from "modules/swap/hooks/useExchangeRate";
 
 type Props = {
   from: string;
@@ -26,7 +27,7 @@ type Props = {
   amount2: string;
   fee: any;
   price: string;
-  formattedPrice: string;
+  exchangeRate: string | null;
   isLoading: boolean;
   swapRoute: Route[];
   isFormValid: boolean;
@@ -41,7 +42,7 @@ const SwapFormFooter: FC<Props> = ({
   to,
   amount2,
   price,
-  formattedPrice,
+  exchangeRate,
   isLoading,
   isFormValid,
   txFeeNotEnough,
@@ -51,7 +52,6 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const swapRoutePath = useSwapRoutePath(swapRoute);
-  const { getSymbol } = useTokenInfo();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
   const priceImpactColor = usePriceImpactColor(priceImpact);
@@ -106,8 +106,8 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex={1} color="white">
         {isFormValid && (
           <>
-            <Text textStyle="medium">
-              1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
+            <Text height={"13px"} textStyle="medium">
+              {exchangeRate !== null ? exchangeRate : <Spinner size="xs" />}
             </Text>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate

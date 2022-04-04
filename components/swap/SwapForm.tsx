@@ -22,6 +22,7 @@ import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import FormLoading from "components/common/FormLoading";
+import useExchangeRate from "modules/swap/hooks/useExchangeRate";
 
 type FormValues = {
   token1: string;
@@ -248,9 +249,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     notEnoughUSTToPayFees,
   ]);
 
-  const formattedPrice = useMemo(() => {
-    return numeral(simulated?.price).format("0,0.00[000]").toString();
-  }, [simulated?.price]);
+  const exchangeRate = useExchangeRate(token1, token2, simulated?.price);
 
   if (isPosting) {
     return <FormLoading txHash={txHash} />;
@@ -282,7 +281,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               amount2={amount2}
               isLoading={feeIsLoading}
               price={simulated?.price}
-              formattedPrice={formattedPrice}
+              exchangeRate={exchangeRate}
               swapRoute={swapRoute}
               fee={fee}
               error={error}
@@ -305,7 +304,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             slippage={slippage}
             fee={fee}
             price={simulated?.price}
-            formattedPrice={formattedPrice}
+            exchangeRate={exchangeRate}
             commission={simulated?.commission}
             minReceive={minReceive}
             onCloseClick={() => setShowConfirm(false)}

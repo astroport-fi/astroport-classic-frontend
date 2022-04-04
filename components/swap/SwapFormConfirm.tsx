@@ -22,7 +22,7 @@ type Props = {
   slippage: number;
   fee: Fee;
   price: string;
-  formattedPrice: string;
+  exchangeRate: string;
   commission: string;
   minReceive: string | number;
   onCloseClick: () => void;
@@ -37,7 +37,7 @@ const SwapFormConfirm: FC<Props> = ({
   slippage,
   fee,
   price,
-  formattedPrice,
+  exchangeRate,
   commission,
   minReceive,
   onCloseClick,
@@ -78,7 +78,7 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Exchange Rate",
-      value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(token1)}`,
+      value: exchangeRate,
     },
     {
       label: "Minimum Received",
@@ -103,9 +103,7 @@ const SwapFormConfirm: FC<Props> = ({
       },
       {
         label: "Exchange Rate",
-        value: `1 ${getSymbol(token2)} = ${formattedPrice} ${getSymbol(
-          token1
-        )}`,
+        value: exchangeRate,
       },
       {
         label: "Minimum Received",
