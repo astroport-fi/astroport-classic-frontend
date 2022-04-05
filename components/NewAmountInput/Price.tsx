@@ -23,7 +23,12 @@ const Price: FC<Props> = ({ token, amount, priceToken }) => {
       return "$" + (0).toFixed(2);
     }
 
-    return handleTinyAmount(amount, "0,0.00", false, "$");
+    return handleTinyAmount(
+      num(amount).times(price).toNumber(),
+      "0,0.00",
+      false,
+      "$"
+    );
   }, [price, amount]);
 
   return (
