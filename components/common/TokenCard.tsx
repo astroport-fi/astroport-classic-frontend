@@ -3,7 +3,7 @@ import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
 
-import { handleDollarTinyAmount, useTokenInfo } from "modules/common";
+import { handleTinyAmount, useTokenInfo } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
@@ -15,7 +15,7 @@ const TokenCard: FC<Props> = ({ token }) => {
   const price = useTokenPriceInUstWithSimulate(token.asset).toFixed(6);
   const totalInUst = num(token.amount).times(price).toFixed(6);
   const tokenAmount = numeral(token.amount).format("0,0.[000000]");
-  const totalAmount = handleDollarTinyAmount(totalInUst);
+  const totalAmount = handleTinyAmount(totalInUst, "0,0.00", false, "$");
 
   return (
     <Box

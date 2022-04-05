@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { handleDollarTinyAmount } from "modules/common";
+import { handleTinyAmount } from "modules/common";
 
 type Props = {
   token: string;
@@ -23,7 +23,7 @@ const Price: FC<Props> = ({ token, amount, priceToken }) => {
       return "$" + (0).toFixed(2);
     }
 
-    return handleDollarTinyAmount(amount);
+    return handleTinyAmount(amount, "0,0.00", false, "$");
   }, [price, amount]);
 
   return (
