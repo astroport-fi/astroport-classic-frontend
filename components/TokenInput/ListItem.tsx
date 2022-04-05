@@ -3,7 +3,7 @@ import { Box, Text, Image, Flex, HStack, chakra } from "@chakra-ui/react";
 import {
   TokenInWallet,
   useTokenInfo,
-  handleTinyAmount,
+  handleDollarTinyAmount,
   handleBigAndTinyAmount,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
@@ -70,7 +70,7 @@ const ListItem = ({ token, onClick, style }: Props) => {
                 {balanceFormmated}
               </Text>
               <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
-                ${handleTinyAmount(tokenPrice)}
+                {handleDollarTinyAmount(tokenPrice)}
               </Text>
             </Box>
           </HStack>

@@ -67,7 +67,7 @@ export const handleDollarTinyAmount = (
   format: string = "0,0.00",
   includeZero: boolean = false
 ) => {
-  return handleTinyAmount(value, format, includeZero, "$ ");
+  return handleTinyAmount(value, format, includeZero, "$");
 };
 
 export const handleAmountWithoutTrailingZeros = (

@@ -3,6 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
 
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
+import { handleDollarTinyAmount } from "modules/common";
 
 type Props = {
   token: string;
@@ -19,16 +20,16 @@ const Price: FC<Props> = ({ token, amount, priceToken }) => {
 
   const totalInUst = useMemo(() => {
     if (amount == "" || num(amount).eq(0)) {
-      return (0).toFixed(2);
+      return "$" + (0).toFixed(2);
     }
 
-    return num(amount).times(price).toFixed(2);
+    return handleDollarTinyAmount(amount);
   }, [price, amount]);
 
   return (
     <Box position="absolute" bottom="2" right="4" color="white">
       <Text textStyle="small" variant="dimmed">
-        ${totalInUst}
+        {totalInUst}
       </Text>
     </Box>
   );
