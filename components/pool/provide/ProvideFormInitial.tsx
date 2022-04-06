@@ -152,7 +152,9 @@ const ProvideFormInitial: FC<Props> = ({
                 name="token1"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <TokenInput isSingle {...field} />}
+                render={({ field }) => (
+                  <TokenInput isSingle {...field} priceSource="pool-ratio" />
+                )}
               />
             </Box>
             <Box flex="1">
@@ -192,7 +194,13 @@ const ProvideFormInitial: FC<Props> = ({
                     name="token2"
                     control={control}
                     rules={{ required: true }}
-                    render={({ field }) => <TokenInput isSingle {...field} />}
+                    render={({ field }) => (
+                      <TokenInput
+                        isSingle
+                        {...field}
+                        priceSource="pool-ratio"
+                      />
+                    )}
                   />
                 </Box>
                 <Box flex="1">

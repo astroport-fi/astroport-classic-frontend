@@ -11,10 +11,14 @@ type Props = {
   hidePrice?: boolean;
   onChange: any;
   value: string;
+  priceSource?: "swap-simulation" | "pool-ratio";
 };
 
 const Field: FC<Props> = forwardRef(
-  ({ value, onChange, isSingle, hidePrice, isLpToken, tokens }, ref) => {
+  (
+    { value, onChange, isSingle, hidePrice, isLpToken, tokens, priceSource },
+    ref
+  ) => {
     const { tokens: allTokens } = useAstroswap();
     const currentTokens = tokens ?? Object.keys(allTokens);
 
@@ -27,7 +31,9 @@ const Field: FC<Props> = forwardRef(
         return <SingleLP asset={value} />;
       }
 
-      return <Single asset={value} hidePrice={hidePrice} />;
+      return (
+        <Single asset={value} hidePrice={hidePrice} priceSource={priceSource} />
+      );
     };
 
     const renderSelect = () => {

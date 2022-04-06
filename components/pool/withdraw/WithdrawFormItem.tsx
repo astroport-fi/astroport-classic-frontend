@@ -1,7 +1,10 @@
 import React, { FC } from "react";
 import { Box, Flex, BoxProps, Image, Text, HStack } from "@chakra-ui/react";
-import { useTokenInfo, handleTinyAmount } from "modules/common";
-import { useTokenPriceInUstWithSimulate } from "modules/swap";
+import {
+  useTokenInfo,
+  handleTinyAmount,
+  usePriceDerived,
+} from "modules/common";
 
 type Props = {
   token: string;
@@ -10,7 +13,7 @@ type Props = {
 
 const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUstWithSimulate(token).toFixed(2);
+  const price = usePriceDerived(token).toFixed(2);
   const totalPrice = +price * +amount;
   const formatted = handleTinyAmount(amount);
   const formattedPrice = handleTinyAmount(price);

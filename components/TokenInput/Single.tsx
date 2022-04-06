@@ -1,17 +1,32 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
-import { handleTinyAmount, useTokenInfo } from "modules/common";
+import {
+  handleTinyAmount,
+  usePriceDerived,
+  useTokenInfo,
+} from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   asset: string;
   hidePrice?: boolean;
+  priceSource?: "swap-simulation" | "pool-ratio";
 };
 
-const Single: FC<Props> = ({ asset, hidePrice = false }) => {
+const Single: FC<Props> = ({
+  asset,
+  hidePrice = false,
+  priceSource = "swap-simulation",
+}) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = useTokenPriceInUstWithSimulate(asset).toFixed(2);
-  const formattedPrice = handleTinyAmount(price, "0,0.00", false, "$");
+  const swapSimulationPrice = useTokenPriceInUstWithSimulate(asset);
+  const poolRatioPrice = usePriceDerived(asset);
+  const price =
+    priceSource === "swap-simulation" ? swapSimulationPrice : poolRatioPrice;
+  const formattedPrice =
+    price === 0
+      ? "$--.--"
+      : handleTinyAmount(price.toFixed(2), "0,0.00", false, "$");
   const icon = getIcon(asset);
 
   return (
