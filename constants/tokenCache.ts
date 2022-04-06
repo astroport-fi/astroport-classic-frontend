@@ -356,30 +356,33 @@ const tokenCache: TokenCache = {
       icon: "/tokens/yLUNA.svg",
       decimals: 6,
     },
-    "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B": {
-      protocol: "Osmosis",
-      symbol: "OSMO",
-      token:
-        "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B",
-      icon: "/tokens/osmo.png",
-      decimals: 6,
-    },
-    "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09": {
-      protocol: "Secret",
-      symbol: "SCRT",
-      token:
-        "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09",
-      icon: "/tokens/secret.png",
-      decimals: 6,
-    },
-    "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262": {
-      protocol: "Cosmos",
-      symbol: "ATOM",
-      token:
-        "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262",
-      icon: "/tokens/atom.png",
-      decimals: 6,
-    },
+    // ibc address tokens not yet fully supported
+    /*
+      "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B": {
+        protocol: "Osmosis",
+        symbol: "OSMO",
+        token:
+          "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B",
+        icon: "/tokens/osmo.png",
+        decimals: 6,
+      },
+      "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09": {
+        protocol: "Secret",
+        symbol: "SCRT",
+        token:
+          "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09",
+        icon: "/tokens/secret.png",
+        decimals: 6,
+      },
+      "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262": {
+        protocol: "Cosmos",
+        symbol: "ATOM",
+        token:
+          "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262",
+        icon: "/tokens/atom.png",
+        decimals: 6,
+      },
+    */
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
