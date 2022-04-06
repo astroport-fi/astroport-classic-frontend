@@ -18,7 +18,6 @@ import {
 
 import FormFee from "components/common/FormFee";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
-import useExchangeRate from "modules/swap/hooks/useExchangeRate";
 
 type Props = {
   from: string;

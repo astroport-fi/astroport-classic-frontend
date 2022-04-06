@@ -128,7 +128,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     setCurrentInput(value);
   };
 
-  const { msgs, minReceive, simulated } = useSwap({
+  const { msgs, minReceive, simulated, exchangeRate } = useSwap({
     swapRoute,
     token1: token1,
     token2: token2,
@@ -248,8 +248,6 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     customError,
     notEnoughUSTToPayFees,
   ]);
-
-  const exchangeRate = useExchangeRate(token1, token2, simulated?.price);
 
   if (isPosting) {
     return <FormLoading txHash={txHash} />;

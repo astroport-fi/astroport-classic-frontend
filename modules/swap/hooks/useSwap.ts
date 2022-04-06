@@ -5,6 +5,7 @@ import { useContracts, Route, useTokenInfo } from "modules/common";
 import { minAmountReceive, useSwapSimulate } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
 import { createSwapMsgs as createMonoSwapMsgs } from "modules/swap/monoSwap";
+import useExchangeRate from "./useExchangeRate";
 
 type Params = {
   swapRoute: Route[] | null;
@@ -49,6 +50,15 @@ export const useSwap = ({
     onSuccess: onSimulateSuccess,
     onError: onSimulateError,
   });
+
+  const exchangeRate = useExchangeRate(
+    token1,
+    token2,
+    terraAmount1,
+    terraAmount2,
+    reverse,
+    simulated?.price
+  );
 
   const minReceive = useMemo(() => {
     if (amount2 == "") {
@@ -113,8 +123,9 @@ export const useSwap = ({
       msgs,
       minReceive,
       simulated,
+      exchangeRate,
     };
-  }, [msgs, minReceive, simulated]);
+  }, [msgs, minReceive, simulated, exchangeRate]);
 };
 
 export default useSwap;
