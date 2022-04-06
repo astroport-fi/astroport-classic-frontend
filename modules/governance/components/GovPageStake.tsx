@@ -59,6 +59,8 @@ const GovPageStake = () => {
             ? `>100k%`
             : `${handleBigPercentage(stakingAPY)}`
           : `-`,
+      tooltip:
+        "The APY is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days",
     },
     {
       label: "ASTRO:xASTRO",
