@@ -105,7 +105,7 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex={1} color="white">
         {isFormValid && (
           <>
-            <Text height={"13px"} textStyle="medium">
+            <Text height={"13px"} textStyle="medium" display={"table"}>
               {exchangeRate !== null ? exchangeRate : <Spinner size="xs" />}
             </Text>
             <Text textStyle="small" variant="dimmed">
