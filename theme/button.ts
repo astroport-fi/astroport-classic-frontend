@@ -29,6 +29,86 @@ const button = {
         boxShadow: "none",
       },
     },
+    primarywhite: {
+      outline: "none",
+      borderRadius: "full",
+      fontWeight: "500",
+      bg: "white",
+      color: "brand.purple",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "brand.purple",
+        color: "white",
+        _disabled: {
+          bg: "white",
+          color: "brand.purple",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
+    votegreen: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "green.500",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "green.500",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "green.500",
+          color: "blackAlpha.900",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
+    votered: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "red.500",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "red.500",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "red.500",
+          color: "blackAlpha.900",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
+    voteinvalid: {
+      outline: "none",
+      borderRadius: "md",
+      fontWeight: "500",
+      bg: "whiteAlpha.400",
+      color: "blackAlpha.900",
+      px: "10",
+      py: "2",
+      _hover: {
+        bg: "whiteAlpha.400",
+        color: "blackAlpha.900",
+        _disabled: {
+          bg: "whiteAlpha.400",
+          color: "blackAlpha.900",
+        },
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+    },
     mini: {
       outline: "none",
       borderRadius: "md",

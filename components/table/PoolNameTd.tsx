@@ -64,7 +64,7 @@ const PoolNameTd: FC<Props> = ({ assets, pairType, contract }) => {
   return (
     <HStack spacing={2}>
       {contract && (
-        <Link href={finder(contract, "address")} isExternal>
+        <Link href={finder(contract, "contract")} isExternal>
           {Token}
         </Link>
       )}

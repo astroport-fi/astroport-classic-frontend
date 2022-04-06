@@ -70,7 +70,7 @@ const ListItem = ({ token, onClick, style }: Props) => {
                 {balanceFormmated}
               </Text>
               <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
-                ${handleTinyAmount(tokenPrice)}
+                {handleTinyAmount(tokenPrice, "0,0.00", false, "$")}
               </Text>
             </Box>
           </HStack>

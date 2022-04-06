@@ -115,7 +115,7 @@ export const useAllPools = () => {
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
   const tokensInUst = useTokenPrices();
-  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
+  const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
 
   const queryBuilder = address
     ? (chunk) => createQuery(chunk, address, generator)
@@ -125,7 +125,7 @@ export const useAllPools = () => {
   const { data: result } = useQuery(
     ["pools", "all", address],
     () => {
-      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
       // Chunk pairs into multiple queries to stay below GraphQL query size limitations
       return requestInChunks<PairResponse>(50, url, pairs, queryBuilder);
@@ -233,7 +233,7 @@ export const useAllPools = () => {
           myLiquidityInUst,
           _24hr_volume: poolInfo?._24hr_volume,
           rewards: {
-            pool: poolInfo?.trading_fees?.apr || 0,
+            pool: poolInfo?.trading_fees?.apy || 0,
             astro: poolInfo?.astro_rewards?.apr || 0,
             protocol: poolInfo?.protocol_rewards?.apr || 0,
             total: poolInfo?.total_rewards?.apr || 0,

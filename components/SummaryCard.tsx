@@ -1,12 +1,14 @@
 import React, { FC } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, Tooltip } from "@chakra-ui/react";
 
 import Card from "components/Card";
+import InfoIcon from "components/icons/InfoIcon";
 
 type Props = {
   data: {
     label: string;
     value: string;
+    tooltip?: string;
   }[];
 };
 
@@ -23,9 +25,21 @@ const SummaryCard: FC<Props> = ({ data }) => {
               _last={{ textAlign: "right" }}
             >
               <Text textStyle="h3">{item.value}</Text>
-              <Text textStyle="small" variant="dimmed">
-                {item.label}
-              </Text>
+              {item.tooltip && (
+                <Tooltip label={item.tooltip} placement="bottom">
+                  <Flex align="center" justify="center" cursor="pointer">
+                    <Text mr="2px" textStyle="small" variant="dimmed">
+                      {item.label}
+                    </Text>
+                    <InfoIcon width="1rem" height="1rem" color="#6e748d" />
+                  </Flex>
+                </Tooltip>
+              )}
+              {!item.tooltip && (
+                <Text textStyle="small" variant="dimmed">
+                  {item.label}
+                </Text>
+              )}
             </Box>
           );
         })}

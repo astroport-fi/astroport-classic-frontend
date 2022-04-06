@@ -6,6 +6,7 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Spinner,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
 import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
@@ -25,7 +26,7 @@ type Props = {
   amount2: string;
   fee: any;
   price: string;
-  formattedPrice: string;
+  exchangeRate: string | null;
   isLoading: boolean;
   swapRoute: Route[];
   isFormValid: boolean;
@@ -40,7 +41,7 @@ const SwapFormFooter: FC<Props> = ({
   to,
   amount2,
   price,
-  formattedPrice,
+  exchangeRate,
   isLoading,
   isFormValid,
   txFeeNotEnough,
@@ -50,7 +51,6 @@ const SwapFormFooter: FC<Props> = ({
   onConfirmClick,
 }) => {
   const swapRoutePath = useSwapRoutePath(swapRoute);
-  const { getSymbol } = useTokenInfo();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
   const priceImpactColor = usePriceImpactColor(priceImpact);
@@ -61,24 +61,14 @@ const SwapFormFooter: FC<Props> = ({
       return null;
     }
 
-    if (swapRoute?.length > 1) {
+    if (price == null || isLoading) {
       return (
         <>
-          {swapRoutePath.tooltip != null ? (
-            <Box d="inline-block">
-              <Tooltip
-                label={swapRoutePath.tooltip}
-                placement="top"
-                aria-label="Complete Swap Route"
-              >
-                <Text textStyle="medium">{swapRoutePath.text}</Text>
-              </Tooltip>
-            </Box>
-          ) : (
-            <Text textStyle="medium">{swapRoutePath}</Text>
-          )}
+          <Text height={"13px"} textStyle="small" variant="dimmed">
+            <Spinner size="xs" />
+          </Text>
           <Text textStyle="small" variant="dimmed">
-            Route
+            Price Impact
           </Text>
         </>
       );
@@ -86,9 +76,23 @@ const SwapFormFooter: FC<Props> = ({
 
     return (
       <>
-        <Text textStyle="medium" color={priceImpactColor}>
-          {handleTinyAmount(priceImpact, "0.00")}%
-        </Text>
+        {swapRoutePath.tooltip != null ? (
+          <Box d="inline-block">
+            <Tooltip
+              label={swapRoutePath.tooltip}
+              placement="top"
+              aria-label="Complete Swap Route"
+            >
+              <Text textStyle="medium" color={priceImpactColor}>
+                {handleTinyAmount(priceImpact, "0.00")}%
+              </Text>
+            </Tooltip>
+          </Box>
+        ) : (
+          <Text textStyle="medium" color={priceImpactColor}>
+            {handleTinyAmount(priceImpact, "0.00")}%
+          </Text>
+        )}
         <Text textStyle="small" variant="dimmed">
           Price Impact
         </Text>
@@ -101,8 +105,8 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex={1} color="white">
         {isFormValid && (
           <>
-            <Text textStyle="medium">
-              1 {getSymbol(to)} = {formattedPrice} {getSymbol(from)}
+            <Text height={"13px"} textStyle="medium" display={"table"}>
+              {exchangeRate !== null ? exchangeRate : <Spinner size="xs" />}
             </Text>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate

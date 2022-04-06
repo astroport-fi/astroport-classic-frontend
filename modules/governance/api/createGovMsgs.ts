@@ -1,3 +1,6 @@
+// Math.round needed to prevent quirky floating point precision issues with js
+// ex: 1043.826097 * (10 ** 6) = 1043826096.99999.. which fails to execute in the contract
+
 import { toBase64 } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
@@ -12,7 +15,7 @@ export const createAstroStakeMsgs = (
   const msgs = new MsgExecuteContract(sender, token, {
     send: {
       contract: staking,
-      amount: String(+amount * ONE_TOKEN),
+      amount: String(Math.round(+amount * ONE_TOKEN)),
       msg: toBase64({
         enter: {},
       }),
@@ -31,7 +34,7 @@ export const createAstroUnstakeMsg = (
   const msgs = new MsgExecuteContract(sender, token, {
     send: {
       contract: staking,
-      amount: String(+amount * ONE_TOKEN),
+      amount: String(Math.round(+amount * ONE_TOKEN)),
       msg: toBase64({
         leave: {},
       }),

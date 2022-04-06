@@ -141,3 +141,67 @@ export enum ProvideFormMode {
   Single = 0,
   Double = 1,
 }
+
+// Governance interface and types
+export interface Proposal {
+  proposal_id: string;
+  state: Proposal_Status;
+  // details
+  title: string;
+  description: string;
+  link?: string;
+  messages?: string;
+  submitter: string;
+  // voting period
+  start_timestamp: string;
+  end_timestamp: string;
+  // voting power
+  votes_for: number | null;
+  votes_against: number | null;
+  votes_for_power: number | null;
+  votes_against_power: number | null;
+  total_voting_power: number | null;
+  // state timestamps
+  active: string | null;
+  passed: string | null;
+  executed: string | null;
+  rejected: string | null;
+  expired: string | null;
+}
+
+export enum Proposal_Status {
+  Active = "Active",
+  Passed = "Passed",
+  Executed = "Executed",
+  Rejected = "Rejected",
+  Hidden = "Hidden",
+  Expired = "Expired",
+}
+
+export interface Proposal_Status_Props {
+  title: string;
+  lightColor: string;
+  color: string;
+}
+
+export type Proposal_Vote_Power = {
+  voteForPower: number;
+  voteAgainstPower: number;
+};
+
+export type Proposal_Vote_Dist = {
+  voteForDist: number;
+  voteAgainstDist: number;
+};
+
+export type FixedSizeArray<N extends number, T> = N extends 0
+  ? never[]
+  : {
+      0: T;
+      length: N;
+    } & ReadonlyArray<T>;
+
+export type Proposal_History = FixedSizeArray<
+  5,
+  { title: string; dotColor: string; color: string; timestamp: string } | null
+>;

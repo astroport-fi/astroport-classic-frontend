@@ -15,7 +15,7 @@ import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { TagList, List } from "components/TokenInput";
 import Search from "components/common/Search";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { handleTinyAmount, useTokenInfo } from "modules/common";
 import { COMMON_TOKENS } from "constants/constants";
 
 type Props = {
@@ -28,7 +28,8 @@ type Props = {
 const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
   const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const price = useTokenPriceInUstWithSimulate(value).toFixed(2);
+  const price = useTokenPriceInUstWithSimulate(value);
+  const formattedPrice = handleTinyAmount(price, "0,0.00", false, "$");
   const [filter, setFilter] = useState("");
   const [isLazy, setIsLazy] = useState(true);
 
@@ -83,7 +84,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
             <Text textStyle={["medium", "h3"]}>{getSymbol(value)}</Text>
             {!hidePrice && (
               <Text textStyle={["small", "medium"]} color="white.400">
-                Price: ${price}
+                Price: {formattedPrice}
               </Text>
             )}
           </Box>

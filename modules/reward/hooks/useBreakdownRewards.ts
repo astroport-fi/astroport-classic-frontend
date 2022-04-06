@@ -5,10 +5,12 @@ import { num } from "@arthuryeti/terra";
 
 import { useLockdropRewards } from "modules/lockdrop";
 import { useLpRewards } from "modules/reward";
+import { useContracts } from "modules/common";
 
 export const useBreakdownRewards = () => {
   const { list: lockRewards } = useLockdropRewards();
   const lpRewards = useLpRewards();
+  const { astroToken } = useContracts();
 
   return useMemo(() => {
     const lpRewardsGroups = groupBy(lpRewards, "token");
@@ -35,7 +37,7 @@ export const useBreakdownRewards = () => {
         positions: [...lpPositions, ...lockdropPositions],
       };
     });
-  }, [lpRewards, lockRewards]);
+  }, [lpRewards, lockRewards, astroToken]);
 };
 
 export default useBreakdownRewards;

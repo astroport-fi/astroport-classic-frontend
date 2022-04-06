@@ -20,9 +20,12 @@ Requirements:
 For environment settings, you should create a `.env.local` file. You can copy the existing template (`cp .env.template .env.local`) in order to do so:
 
 ```
-DISPLAY_GOVERNANCE=1
 NEXT_PUBLIC_MAINNET_GRAPHQL=https://hive-terra.everstake.one/graphql
+NEXT_PUBLIC_MAINNET_FALLBACK_GRAPHQL=https://hive.terra.dev/graphql
+
 NEXT_PUBLIC_TESTNET_GRAPHQL=https://hive-terra-test.everstake.one/graphql
+NEXT_PUBLIC_TESTNET_FALLBACK_GRAPHQL=https://testnet-hive.terra.dev/graphql
+
 NEXT_PUBLIC_API_ENDPOINT=https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql
 ```
 

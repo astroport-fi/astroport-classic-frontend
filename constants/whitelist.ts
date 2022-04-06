@@ -996,6 +996,92 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // ibc address tokens not yet fully supported
+      /*
+        //OSMO-UST
+        {
+          asset_infos: [
+            {
+              native_token: {
+                denom:
+                  "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B",
+              },
+            },
+            {
+              native_token: {
+                denom: "uusd",
+              },
+            },
+          ],
+          contract_addr: "terra1ngs0xlmxan6ktqwtcj8c2l2ddp3z00wpxt43vr",
+          liquidity_token: "terra1lz898jzfs2l5w6afzucg90nwf67j8xtl9ugzcl",
+          pair_type: {
+            xyk: {},
+          },
+        },
+        //SCRT-UST
+        {
+          asset_infos: [
+            {
+              native_token: {
+                denom:
+                  "ibc/EB2CED20AB0466F18BE49285E56B31306D4C60438A022EA995BA65D5E3CF7E09",
+              },
+            },
+            {
+              native_token: {
+                denom: "uusd",
+              },
+            },
+          ],
+          contract_addr: "terra12k8d0uzrgcqn4ge4k8ntr4aaycpwunz7pu2umj",
+          liquidity_token: "terra19dkkjtyrmkhxx7weg2xp9aftks7yjmzmc7xz6m",
+          pair_type: {
+            xyk: {},
+          },
+        },
+        //ATOM-UST
+        {
+          asset_infos: [
+            {
+              native_token: {
+                denom:
+                  "ibc/18ABA66B791918D51D33415DA173632735D830E2E77E63C91C11D3008CFD5262",
+              },
+            },
+            {
+              native_token: {
+                denom: "uusd",
+              },
+            },
+          ],
+          contract_addr: "terra14rnschsdlllt00yk8fxvxmcqgzhme3cx06t2x4",
+          liquidity_token: "terra1s0cg9adk0c76swm5qqcv5lt8n9uaqwg9e5puw9",
+          pair_type: {
+            xyk: {},
+          },
+        },
+      */
+      // MARS-xMARS
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra12hgwnpupflfpuual532wgrxu2gjp0tcagzgx4n",
+            },
+          },
+          {
+            token: {
+              contract_addr: "terra1a04v570f9cxp49mk06vjsm8axsswndpwwt67k4",
+            },
+          },
+        ],
+        contract_addr: "terra1dawj5mr2qt2nlurge30lfgjg6ly4ls99yeyd25",
+        liquidity_token: "terra1cxmdyn5srv8uwvhgz5ckqf28zf8c7uwyz08f2j",
+        pair_type: {
+          stable: {},
+        },
+      },
     ],
   },
   testnet: {

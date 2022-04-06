@@ -11,7 +11,7 @@ type Props = {
 const Single: FC<Props> = ({ asset, hidePrice = false }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const price = useTokenPriceInUstWithSimulate(asset).toFixed(2);
-  const formattedPrice = handleTinyAmount(price);
+  const formattedPrice = handleTinyAmount(price, "0,0.00", false, "$");
   const icon = getIcon(asset);
 
   return (
@@ -38,7 +38,7 @@ const Single: FC<Props> = ({ asset, hidePrice = false }) => {
           <Text textStyle="h3">{getSymbol(asset)}</Text>
           {!hidePrice && (
             <Text textStyle="small" variant="dimmed">
-              Price: ${formattedPrice}
+              Price: {formattedPrice}
             </Text>
           )}
         </Box>

@@ -57,7 +57,7 @@ const buildQuery = (tokens: string[]) => gql`
         )
       }
     `
-    )} 
+    )}
   }
 `;
 
@@ -72,7 +72,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
     network: { name },
   } = useTerraWebapp();
 
-  const { hiveEndpoint, defaultHiveEndpoint } = useHiveEndpoint();
+  const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
   let firstAttempt = true;
   const cachedTokens = tokenCache[name];
 
@@ -83,7 +83,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
   } = useQuery<Tokens>(
     [hiveEndpoint, "tokens", name],
     async () => {
-      const url = firstAttempt ? hiveEndpoint : defaultHiveEndpoint;
+      const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
 
       const tokensToFetch = uniqueTokens(pairs).filter(

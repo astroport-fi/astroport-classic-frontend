@@ -8,6 +8,7 @@ import {
   Flex,
   Divider,
   Link,
+  Heading,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 
@@ -17,16 +18,20 @@ import {
   NextLink,
   handleTinyAmount,
   handleBigPercentage,
+  handleBigAndTinyAmount,
 } from "modules/common";
+import {
+  composeAstroRatioDisplay,
+  composeProtocolRatioDisplay,
+} from "modules/governance/helpers";
 import {
   useGovStakingRatio,
   useGovStakingAPY,
   useGovStakingBalances,
   useAstroMintRatio,
 } from "../hooks";
-import { composeProtocolRatioDisplay } from "../helpers";
 
-const GovernancePage = () => {
+const GovPageStake = () => {
   const {
     astroBalance,
     xAstroBalance,
@@ -54,6 +59,12 @@ const GovernancePage = () => {
             ? `>100k%`
             : `${handleBigPercentage(stakingAPY)}`
           : `-`,
+      tooltip:
+        "The APY is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days",
+    },
+    {
+      label: "ASTRO:xASTRO",
+      value: composeAstroRatioDisplay(astroMintRatio),
     },
     {
       label: "Protocol Staking Ratio",
@@ -67,7 +78,11 @@ const GovernancePage = () => {
   ];
 
   return (
-    <Box mt="24">
+    <Box mt="24" color="white">
+      <Heading px="2" mb="6" fontSize="xl">
+        My ASTRO
+      </Heading>
+
       <SummaryCard data={data} />
 
       <HStack spacing={8} mt="12" align="stretch">
@@ -80,8 +95,8 @@ const GovernancePage = () => {
         >
           <Text textStyle="h3">Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
-            Stake ASTRO for xASTRO in order to receive a % of Astroport’s
-            revenue.
+            Stake ASTRO for xASTRO in order to receive a % of Astroport smart
+            contract fees.
             <br />
             To learn more about Astroport, join the community on Discord.
           </Text>
@@ -119,7 +134,7 @@ const GovernancePage = () => {
 
           <Flex justify="space-between">
             <NextLink
-              href="/staking/stake"
+              href="/governance/stake"
               passHref
               isDisabled={
                 astroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
@@ -137,7 +152,7 @@ const GovernancePage = () => {
               </Button>
             </NextLink>
             <NextLink
-              href="/staking/unstake"
+              href="/governance/unstake"
               passHref
               isDisabled={
                 xAstroDisabled || status === WalletStatus.WALLET_NOT_CONNECTED
@@ -161,4 +176,4 @@ const GovernancePage = () => {
   );
 };
 
-export default GovernancePage;
+export default GovPageStake;
