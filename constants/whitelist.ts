@@ -1082,6 +1082,26 @@ const whitelist: Whitelist = {
           stable: {},
         },
       },
+      // BRO-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1mt2ytlrxhvd5c4d4fshxxs3zcus3fkdmuv4mk2",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra170x0m3vmc7s5pdvpt5lh9n6wfmsz6wcykcr0vg",
+        liquidity_token: "terra1mzslpzys2j67c2pzmde8kvj27vvkup978ujgcg",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {

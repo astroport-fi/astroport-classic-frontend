@@ -356,6 +356,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/yLUNA.svg",
       decimals: 6,
     },
+    terra1mt2ytlrxhvd5c4d4fshxxs3zcus3fkdmuv4mk2: {
+      protocol: "Bro",
+      symbol: "BRO",
+      token: "terra1mt2ytlrxhvd5c4d4fshxxs3zcus3fkdmuv4mk2",
+      icon: "/tokens/bro.svg",
+      decimals: 6,
+    },
     // ibc address tokens not yet fully supported
     /*
       "ibc/0471F1C4E7AFD3F07702BEF6DC365268D64570F7C1FDC98EA6098DD6DE59817B": {
