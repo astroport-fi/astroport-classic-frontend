@@ -124,7 +124,7 @@ export const usePool = ({
       },
       _24hr_volume: poolInfo?._24hr_volume,
       rewards: {
-        pool: poolInfo?.trading_fees?.apr || 0,
+        pool: poolInfo?.trading_fees?.apy || 0,
         astro: poolInfo?.astro_rewards?.apr || 0,
         protocol: poolInfo?.protocol_rewards?.apr || 0,
         total: poolInfo?.total_rewards?.apr || 0,
