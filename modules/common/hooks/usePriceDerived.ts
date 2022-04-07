@@ -5,6 +5,10 @@ export const usePriceDerived = (token: string) => {
   const prices = useTokenPrices();
 
   return useMemo(() => {
+    if (token === "uusd") {
+      return 1;
+    }
+
     if (!prices[token]) {
       return 0;
     }
