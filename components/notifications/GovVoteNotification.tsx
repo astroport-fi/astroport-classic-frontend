@@ -10,7 +10,7 @@ const GovVoteNotification: FC<Props> = ({ data }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Voted {action} Assembly proposal with ID #{proposal_id}
+      Voted {action} Assembly Proposal with ID #{proposal_id}
     </Text>
   );
 };
