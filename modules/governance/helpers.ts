@@ -37,7 +37,9 @@ export const convertTimestampToDate = (
     "Dec",
   ];
 
-  return `${day}/${abbrvMonths[month]}/${String(year).substring(2)}`;
+  return `${String(day).padStart(2, "0")}/${abbrvMonths[month]}/${String(
+    year
+  ).substring(2)}`;
 };
 
 export const convertTimestapToHHMMSS = (

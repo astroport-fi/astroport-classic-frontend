@@ -38,10 +38,12 @@ const Time: FC<Props> = ({ endTimestamp, state, height = "100px" }) => {
             (
             {`${
               state === Proposal_Status.Active ? `Ends` : `Ended`
-            } ${convertTimestampToDate(
-              endTimestamp,
-              true
-            )} ${end.getUTCHours()}:${end.getUTCMinutes()} UTC`}
+            } ${convertTimestampToDate(endTimestamp, true)} ${String(
+              end.getUTCHours()
+            ).padStart(2, "0")}:${String(end.getUTCMinutes()).padStart(
+              2,
+              "0"
+            )} UTC`}
             )
           </Text>
         </Center>
