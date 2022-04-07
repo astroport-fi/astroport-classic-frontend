@@ -11,6 +11,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { ASTRO_DISCORD_LINK, ASTRO_FORUM_LINK } from "constants/constants";
 
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
@@ -100,15 +101,27 @@ const GovPageStake = () => {
             <br />
             To learn more about Astroport, join the community on Discord.
           </Text>
-          <Button
-            as="a"
-            variant="primary"
-            href="https://discord.gg/astroport"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Join Discord
-          </Button>
+          <Flex>
+            <Button
+              as="a"
+              variant="primary"
+              href={ASTRO_DISCORD_LINK}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join Discord
+            </Button>
+            <Button
+              ml="5"
+              as="a"
+              variant="primary"
+              href={ASTRO_FORUM_LINK}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join the Forum
+            </Button>
+          </Flex>
         </Card>
         <Card flex={1} display="flex" flexDir="column" justifyContent="center">
           <Flex justify="space-between">
