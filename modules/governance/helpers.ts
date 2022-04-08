@@ -191,14 +191,13 @@ export const composeTwitterLink = (
 
 export const composeAstroRatioDisplay = (
   astroMintRatio: number | null,
-  astroToXAstro: boolean = true,
   minDisplayValue: number = 0.01
 ): string => {
   if (!astroMintRatio) {
     return `-`;
   }
 
-  const ratio = astroToXAstro ? astroMintRatio : 1 / astroMintRatio;
+  const ratio = 1 / astroMintRatio;
 
   if (ratio < minDisplayValue) {
     return `< 1:0.01`;

@@ -4,6 +4,7 @@ import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
+  handleBigAndTinyAmount,
   handleBigPercentage,
   handleTinyAmount,
   useContracts,
@@ -48,28 +49,17 @@ const GovStakeFooter: FC<Props> = ({
       fee={fee}
       cells={[
         {
-          title: type === AstroFormType.Stake ? "ASTRO:xASTRO" : "xASTRO:ASTRO",
-          value: composeAstroRatioDisplay(
-            astroMintRatio,
-            type === AstroFormType.Stake
-          ),
+          title: "xASTRO:ASTRO",
+          value: composeAstroRatioDisplay(astroMintRatio),
         },
         {
           title:
             type === AstroFormType.Stake ? "xASTRO Received" : "ASTRO Received",
           value: amount
             ? type === AstroFormType.Stake
-              ? handleTinyAmount(amount)
-              : handleTinyAmount(amount * (1 / astroMintRatio))
+              ? handleBigAndTinyAmount(amount)
+              : handleBigAndTinyAmount(amount * (1 / astroMintRatio))
             : "-",
-        },
-        {
-          title: "Current xASTRO",
-          value: fromTerraAmount(xAstroBalance),
-        },
-        {
-          title: "New xASTRO",
-          value: fromTerraAmount(newXAstro),
         },
       ]}
       confirmButton={{
