@@ -16,9 +16,13 @@ import {
   MIN_LINK_LENGTH,
   MAX_LINK_LENGTH,
   PROPOSAL_VALID_URLS_HELPER_LINK,
+  PROPOSAL_INVALID_CHARS,
 } from "constants/proposals";
 import { validateJsonInput } from "modules/common/helpers";
-import { validateProposalUrl } from "modules/governance/helpers";
+import {
+  validateInvalidChars,
+  validateProposalUrl,
+} from "modules/governance/helpers";
 import ErrorBubble from "components/common/ErrorBubble";
 import ExecMsgExamples from "components/proposal/ExecMsgExamples";
 import UnderlineButton from "components/UnderlineButton";
@@ -58,6 +62,10 @@ const formErrorMsg = (id, error) => {
         return `The ${id} must have maximum ${
           id === "title" ? MAX_TITLE_LENGTH : MAX_DESCRIPTION_LENGTH
         } characters`;
+      } else if (error.type === "validate") {
+        return `Input format error. The following characters are not allowed: ${PROPOSAL_INVALID_CHARS.join(
+          ", "
+        )}`;
       }
 
       return "This input is required";
@@ -97,12 +105,22 @@ const formValidationRule = (id) => {
         required: true,
         minLength: MIN_TITLE_LENGTH,
         maxLength: MAX_TITLE_LENGTH,
+        validate: (value: string | null) =>
+          value.length > 0 &&
+          value.length >= MIN_TITLE_LENGTH &&
+          value.length <= MAX_TITLE_LENGTH &&
+          validateInvalidChars(value),
       };
     case "description":
       return {
         required: true,
         minLength: MIN_DESCRIPTION_LENGTH,
         maxLength: MAX_DESCRIPTION_LENGTH,
+        validate: (value: string | null) =>
+          value.length > 0 &&
+          value.length >= MIN_DESCRIPTION_LENGTH &&
+          value.length <= MAX_DESCRIPTION_LENGTH &&
+          validateInvalidChars(value),
       };
     case "messages":
       return {

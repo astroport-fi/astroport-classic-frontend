@@ -10,6 +10,19 @@ export const MAX_DESCRIPTION_LENGTH = 1024;
 export const MIN_LINK_LENGTH = 12;
 export const MAX_LINK_LENGTH = 128;
 
+export const PROPOSAL_INVALID_CHARS = [
+  "$",
+  ":",
+  "^",
+  "@",
+  "|",
+  "=",
+  "~",
+  "`",
+  "\\",
+  ";",
+];
+
 /* proposal links */
 export const PROPOSAL_VALID_URLS = [
   "https://forum.astroport.fi/",

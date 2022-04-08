@@ -1,6 +1,8 @@
-import { num } from "@arthuryeti/terra";
-import { ASTROPORT_URLS, PROPOSAL_VOTE_POWER } from "constants/constants";
-import { PROPOSAL_VALID_URLS } from "constants/proposals";
+import { ASTROPORT_URLS } from "constants/constants";
+import {
+  PROPOSAL_INVALID_CHARS,
+  PROPOSAL_VALID_URLS,
+} from "constants/proposals";
 import {
   handleTinyAmount,
   handleAmountWithoutTrailingZeros,
@@ -253,4 +255,16 @@ export const validateProposalUrl = (input: string): Boolean => {
   }
 
   return false;
+};
+
+export const validateInvalidChars = (input: string): Boolean => {
+  const invalidChars = PROPOSAL_INVALID_CHARS.find((char) => {
+    return input.includes(char);
+  });
+
+  if (invalidChars) {
+    return false;
+  }
+
+  return true;
 };
