@@ -99,7 +99,8 @@ const GovPageStake = () => {
             Stake ASTRO for xASTRO in order to receive a % of Astroport smart
             contract fees.
             <br />
-            To learn more about Astroport, join the community on Discord.
+            To learn more about Astroport, join the community on Discord or on
+            the Forum.
           </Text>
           <Flex>
             <Button
