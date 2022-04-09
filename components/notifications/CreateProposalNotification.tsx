@@ -19,7 +19,7 @@ const CreateProposalNotification: FC<Props> = ({ txInfo }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Submitted new Assembly Proposal with ID #{proposalId}
+      Submitted New Assembly Proposal with ID #{proposalId}
     </Text>
   );
 };
