@@ -93,57 +93,54 @@ export const createHistoryBlocks = (proposal: Proposal): Proposal_History => {
 
   const state = proposal.state;
 
-  const activeOn = !proposal.active ? colorOff : colorOn;
-  const succeededOn = !(proposal.passed || proposal.rejected)
+  const blockBHighlight = !proposal.active ? colorOff : colorOn;
+  const blockCHighlight = !(
+    proposal.passed ||
+    proposal.rejected ||
+    state === Proposal_Status.Hidden
+  )
     ? colorOff
     : colorOn;
-  const executedOn = !proposal.executed ? colorOff : colorOn;
+  const blockDHighlight = !proposal.executed ? colorOff : colorOn;
 
-  const created = {
+  const blockA = {
     title: "Created",
     dotColor: colorOn,
     color: colorOn,
     timestamp: proposal.start_timestamp,
   };
 
-  const active = {
+  const blockB = {
     title: "Active",
-    dotColor: state === Proposal_Status.Active ? colorGreen : activeOn,
-    color: activeOn,
+    dotColor: state === Proposal_Status.Active ? colorGreen : blockBHighlight,
+    color: blockBHighlight,
     timestamp: proposal.active,
   };
 
-  const succeeded = {
+  const blockC = {
     title: proposal.rejected
       ? "Failed"
-      : proposal.state === "Hidden"
+      : state === "Hidden"
       ? "Timed Out"
-      : "Succeeded",
+      : "Queued",
     dotColor:
       state === Proposal_Status.Passed
         ? colorGreen
         : state === Proposal_Status.Rejected || proposal.rejected
         ? colorRed
-        : succeededOn,
-    color: succeededOn,
+        : blockCHighlight,
+    color: blockCHighlight,
     timestamp: proposal.passed || proposal.rejected,
   };
 
-  const queued = {
-    title: "Queued",
-    dotColor: executedOn,
-    color: executedOn,
-    timestamp: proposal.executed,
-  };
-
-  const executed = {
+  const blockD = {
     title: "Executed",
-    dotColor: state === Proposal_Status.Executed ? colorGreen : executedOn,
-    color: executedOn,
+    dotColor: state === Proposal_Status.Executed ? colorGreen : blockDHighlight,
+    color: blockDHighlight,
     timestamp: proposal.executed,
   };
 
-  return [created, active, succeeded, queued, executed];
+  return [blockA, blockB, blockC, blockD];
 };
 
 export const calcVotingPower = (proposal: Proposal): Proposal_Vote_Power => {

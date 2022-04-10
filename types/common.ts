@@ -202,6 +202,6 @@ export type FixedSizeArray<N extends number, T> = N extends 0
     } & ReadonlyArray<T>;
 
 export type Proposal_History = FixedSizeArray<
-  5,
+  4,
   { title: string; dotColor: string; color: string; timestamp: string } | null
 >;

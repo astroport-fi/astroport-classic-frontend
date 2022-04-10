@@ -42,7 +42,7 @@ export const PROPOSAL_STATE_COLORS: { [key: string]: Proposal_Status_Props } = {
     color: "proposalColours.blue",
   },
   [Proposal_Status.Passed]: {
-    title: "successful",
+    title: "queued",
     lightColor: "proposalColours.greenLight",
     color: "proposalColours.green",
   },

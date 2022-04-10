@@ -33,7 +33,14 @@ const StatusBox = ({ block }) => {
 
 const Split = () => {
   return (
-    <Box mx="2" my="2.5" width="35px" height="1px" bg="whiteAlpha.300"></Box>
+    <Box
+      ml="2"
+      mr="4"
+      my="9px"
+      width="50px"
+      height="1px"
+      bg="whiteAlpha.300"
+    ></Box>
   );
 };
 
