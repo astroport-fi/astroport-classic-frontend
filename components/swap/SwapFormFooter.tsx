@@ -64,9 +64,9 @@ const SwapFormFooter: FC<Props> = ({
     if (price == null || isLoading) {
       return (
         <>
-          <Text height={"13px"} textStyle="small" variant="dimmed">
+          <Box height={"13px"} textStyle="small" variant="dimmed">
             <Spinner size="xs" />
-          </Text>
+          </Box>
           <Text textStyle="small" variant="dimmed">
             Price Impact
           </Text>
@@ -105,9 +105,9 @@ const SwapFormFooter: FC<Props> = ({
       <Box flex={1} color="white">
         {isFormValid && (
           <>
-            <Text height={"13px"} textStyle="medium" display={"table"}>
+            <Box height={"13px"} textStyle="medium" display={"table"}>
               {exchangeRate !== null ? exchangeRate : <Spinner size="xs" />}
-            </Text>
+            </Box>
             <Text textStyle="small" variant="dimmed">
               Exchange Rate
             </Text>
