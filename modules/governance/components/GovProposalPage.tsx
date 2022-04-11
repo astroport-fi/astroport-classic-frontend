@@ -106,31 +106,7 @@ const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
   );
 };
 
-const LinkBox: FC<{ link: string | null }> = ({ link }) => {
-  return (
-    <Box bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
-      <Text mb="3">Discussion Link</Text>
-      {link && (
-        <Link
-          href={appendHttps(link)}
-          title={appendHttps(link)}
-          isExternal
-          fontSize="sm"
-          color="whiteAlpha.400"
-        >
-          {truncateStr(link, 50)}
-        </Link>
-      )}
-      {!link && (
-        <Text fontSize="sm" color="whiteAlpha.400">
-          No link
-        </Text>
-      )}
-    </Box>
-  );
-};
-
-const DiscussionBox = () => {
+const DiscussionBox: FC<{ link: string }> = ({ link }) => {
   return (
     <Flex
       flexDirection="column"
@@ -150,7 +126,7 @@ const DiscussionBox = () => {
         Discuss with others on the forum.
       </Text>
       <Link
-        href={ASTRO_FORUM_LINK}
+        href={link ? link : ASTRO_FORUM_LINK}
         isExternal
         _hover={{ textDecoration: "none" }}
       >
@@ -186,7 +162,6 @@ const LeftColumn: FC<LeftColumnProps> = ({
         description={proposal.description}
       />
       <MsgBox messages={proposal.messages} />
-      <LinkBox link={proposal.link} />
     </Flex>
   );
 };
@@ -207,7 +182,7 @@ const RightColumn: FC<RightColumnProps> = ({
         totalVotePower={totalVotePower}
         proposalContract={proposalContract}
       />
-      <DiscussionBox />
+      <DiscussionBox link={proposalContract?.link} />
     </Flex>
   );
 };
