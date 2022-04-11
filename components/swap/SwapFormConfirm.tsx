@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
+import { useTerraWebapp, fromTerraAmount, num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
+import tokenRules from "constants/tokenRules";
 
 import {
   usePriceImpact,
@@ -42,6 +43,9 @@ const SwapFormConfirm: FC<Props> = ({
   minReceive,
   onCloseClick,
 }) => {
+  const {
+    network: { name },
+  } = useTerraWebapp();
   const swapRoutePath = useSwapRoutePath(swapRoute);
   const { getSymbol } = useTokenInfo();
   const priceImpact = usePriceImpact({
@@ -53,6 +57,8 @@ const SwapFormConfirm: FC<Props> = ({
   });
   const priceImpactColor = usePriceImpactColor(priceImpact);
   const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
+
+  const rulesForToken = tokenRules[name];
 
   let details = [
     {
@@ -114,6 +120,16 @@ const SwapFormConfirm: FC<Props> = ({
           "The amount includes the maximum slippage tolerance you selected",
       },
     ];
+  }
+
+  if (rulesForToken[token1] || rulesForToken[token2]) {
+    details.push({
+      label: "Token Behaviour",
+      value: `-`,
+      tooltip: rulesForToken[token1]
+        ? rulesForToken[token1]
+        : rulesForToken[token2],
+    });
   }
 
   return (
