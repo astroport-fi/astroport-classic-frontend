@@ -22,7 +22,6 @@ import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import FormLoading from "components/common/FormLoading";
-import useExchangeRate from "modules/swap/hooks/useExchangeRate";
 
 type FormValues = {
   token1: string;

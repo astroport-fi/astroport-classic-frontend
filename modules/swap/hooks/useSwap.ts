@@ -51,14 +51,7 @@ export const useSwap = ({
     onError: onSimulateError,
   });
 
-  const exchangeRate = useExchangeRate(
-    token1,
-    token2,
-    terraAmount1,
-    terraAmount2,
-    reverse,
-    simulated?.price
-  );
+  const exchangeRate = useExchangeRate(token1, token2, simulated?.price);
 
   const minReceive = useMemo(() => {
     if (amount2 == "") {
