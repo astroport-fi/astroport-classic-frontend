@@ -8,10 +8,10 @@ type Props = {
 };
 
 const SingleLP: FC<Props> = ({ asset }) => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
-  const pair = (pairs || []).find((v) => v.liquidity_token == asset);
-  const assets = getTokenDenoms(pair?.asset_infos || []);
+  const pool = (pools || []).find((p) => p.lp_address == asset);
+  const assets = getTokenDenoms(pool?.assets || []);
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }

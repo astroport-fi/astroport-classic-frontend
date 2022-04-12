@@ -199,12 +199,12 @@ describe("useTokenInfo", () => {
   });
 
   describe("isHidden", () => {
-    it("returns false if token is the first asset of any pair", () => {
+    it("returns false if token is the first asset of any pool", () => {
       useAstroswap.mockReturnValue({
         tokens: {},
-        pairs: [
+        pools: [
           {
-            asset_infos: [
+            assets: [
               {
                 token: {
                   contract_addr: "terratoken1",
@@ -225,12 +225,12 @@ describe("useTokenInfo", () => {
       expect(result.current.isHidden("terratoken1")).toEqual(false);
     });
 
-    it("returns false if token is the second asset of any pair", () => {
+    it("returns false if token is the second asset of any pool", () => {
       useAstroswap.mockReturnValue({
         tokens: {},
-        pairs: [
+        pools: [
           {
-            asset_infos: [
+            assets: [
               {
                 token: {
                   contract_addr: "terratoken1",
@@ -253,7 +253,7 @@ describe("useTokenInfo", () => {
 
     it("returns true if tokens state is nullish", () => {
       useAstroswap.mockReturnValue({
-        pairs: [],
+        pools: [],
       });
 
       const { result } = renderHook(useTokenInfo);
@@ -261,7 +261,7 @@ describe("useTokenInfo", () => {
       expect(result.current.isHidden("terratoken1")).toEqual(true);
     });
 
-    it("returns true if pairs state is nullish", () => {
+    it("returns true if pools state is nullish", () => {
       useAstroswap.mockReturnValue({
         tokens: {},
       });
@@ -271,7 +271,7 @@ describe("useTokenInfo", () => {
       expect(result.current.isHidden("terratoken1")).toEqual(true);
     });
 
-    it("returns true if token and pairs state are both nullish", () => {
+    it("returns true if token and pools state are both nullish", () => {
       const { result } = renderHook(useTokenInfo);
 
       expect(result.current.isHidden("terratoken1")).toEqual(true);

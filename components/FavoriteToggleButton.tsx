@@ -1,23 +1,21 @@
 import React, { FC } from "react";
 import useLocalStorage from "hooks/useLocalStorage";
 import { IconButton, Box } from "@chakra-ui/react";
-
-import { useTogglePairToFavorite } from "modules/common";
-
+import { useTogglePoolToFavorite } from "modules/common";
 import FavoriteIcon from "components/icons/FavoriteIcon";
 
 type Props = {
-  pair: string;
+  pool: string;
 };
 
-const FavoriteToggleButton: FC<Props> = ({ pair }) => {
+const FavoriteToggleButton: FC<Props> = ({ pool }) => {
   const [favoritesPools, setFavoritesPools] = useLocalStorage<string[]>(
     "favoritesPools",
     []
   );
 
-  const newFavoritePools = useTogglePairToFavorite(pair, ...favoritesPools);
-  const isSelected = favoritesPools.indexOf(pair) > -1;
+  const newFavoritePools = useTogglePoolToFavorite(pool, ...favoritesPools);
+  const isSelected = favoritesPools.indexOf(pool) > -1;
 
   const handleClick = () => {
     setFavoritesPools(newFavoritePools);

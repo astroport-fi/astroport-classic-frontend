@@ -2,7 +2,6 @@ import React, { FC, useMemo } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
 import num from "libs/num";
 import numeral from "numeral";
-
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGetPool, useLpToTokens, orderPoolTokens } from "modules/pool";
@@ -12,15 +11,16 @@ type Props = {
 };
 
 const LpTokenCard: FC<Props> = ({ token }) => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
-  const pair = (pairs || []).find((v) => v.liquidity_token == token.asset);
-  const assets = pair ? getTokenDenoms(pair.asset_infos) : [];
+  const pool = (pools || []).find((p) => p.lp_address == token.asset);
+  const assets = pool ? getTokenDenoms(pool.assets) : [];
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
   );
-  const { data: pool } = useGetPool(pair ? pair.contract_addr : "");
+
+  const { data: poolData } = useGetPool(pool?.pool_address);
   const protocol1 = getProtocol(token1 || "");
   const icon1 = getIcon(token1 || "");
   const symbol1 = getSymbol(token1 || "");
@@ -29,10 +29,10 @@ const LpTokenCard: FC<Props> = ({ token }) => {
   const symbol2 = getSymbol(token2 || "");
   const price1 = useTokenPriceInUstWithSimulate(token1 || "");
   const price2 = useTokenPriceInUstWithSimulate(token2 || "");
-  const tokenAmounts = useLpToTokens({ pool, amount: token.amount });
+  const tokenAmounts = useLpToTokens({ pool: poolData, amount: token.amount });
 
   const totalInUst = useMemo(() => {
-    if (pool == null || tokenAmounts == null || !token1 || !token2) {
+    if (poolData == null || tokenAmounts == null || !token1 || !token2) {
       return 0;
     }
 
@@ -40,7 +40,7 @@ const LpTokenCard: FC<Props> = ({ token }) => {
     const totalPrice2 = num(tokenAmounts[token2]).times(price2);
 
     return totalPrice1.plus(totalPrice2).toString();
-  }, [pool]);
+  }, [poolData]);
 
   const tokenAmount = numeral(token.amount).format("0,0.00[0000]");
   const totalAmount = numeral(totalInUst).format("0,0.00");

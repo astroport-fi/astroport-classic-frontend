@@ -4,18 +4,18 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { Flex } from "@chakra-ui/react";
 
-import Pool from "components/pages/Pool";
+import Stake from "components/pages/Stake";
 import { useAstroswap } from "modules/common";
 import HideOnMobile from "components/common/HideOnMobile";
 
-const PoolPage: NextPage = () => {
+const StakePage: NextPage = () => {
   const { query } = useRouter();
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
 
-  const pair =
-    pairs &&
-    pairs.find(({ contract_addr }) => {
-      return query["pair"] === contract_addr;
+  const pool =
+    pools &&
+    pools.find(({ pool_address }) => {
+      return query["pool"] === pool_address;
     });
 
   return (
@@ -23,9 +23,9 @@ const PoolPage: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <Flex>{pair != null && <Pool pair={pair} />}</Flex>
+      <Flex>{pool != null && <Stake pool={pool} />}</Flex>
     </HideOnMobile>
   );
 };
 
-export default PoolPage;
+export default StakePage;

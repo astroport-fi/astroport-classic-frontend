@@ -2,7 +2,6 @@ import React, { FC, useMemo } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import num from "libs/num";
 import numeral from "numeral";
-
 import { useAstroswap, getTokenDenoms } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGetPool, useLpToTokens } from "modules/pool";
@@ -13,16 +12,16 @@ type Props = {
 };
 
 const PriceLP: FC<Props> = ({ token, amount }) => {
-  const { pairs } = useAstroswap();
-  const pair = (pairs || []).find((v) => v.liquidity_token == token);
-  const [token1, token2] = getTokenDenoms(pair?.asset_infos || []);
-  const { data: pool } = useGetPool(pair?.contract_addr || "");
+  const { pools } = useAstroswap();
+  const pool = (pools || []).find((p) => p.lp_address == token);
+  const [token1, token2] = getTokenDenoms(pool?.assets || []);
+  const { data: poolData } = useGetPool(pool?.pool_address || "");
   const price1 = useTokenPriceInUstWithSimulate(token1 || "");
   const price2 = useTokenPriceInUstWithSimulate(token2 || "");
-  const tokenAmounts = useLpToTokens({ pool, amount });
+  const tokenAmounts = useLpToTokens({ pool: poolData, amount });
 
   const totalInUst = useMemo(() => {
-    if (pool == null || tokenAmounts == null) {
+    if (poolData == null || tokenAmounts == null) {
       return 0;
     }
 
@@ -30,7 +29,7 @@ const PriceLP: FC<Props> = ({ token, amount }) => {
     const totalPrice2 = num(tokenAmounts[token2 || ""]).times(price2);
 
     return totalPrice1.plus(totalPrice2).toString();
-  }, [pool, tokenAmounts]);
+  }, [poolData, tokenAmounts]);
 
   const totalAmount = numeral(totalInUst).format("0,0.[00]");
 

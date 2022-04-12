@@ -14,9 +14,9 @@ const createQuery = (pools: any) => {
     {
       ${pools.map((pool: any) => {
         return `
-        ${pool.contract_addr}: wasm {
+        ${pool.pool_address}: wasm {
           contractQuery(
-            contractAddress: "${pool.contract_addr}"
+            contractAddress: "${pool.pool_address}"
             query: {
               pool: { }
             }
@@ -30,20 +30,19 @@ const createQuery = (pools: any) => {
 
 export const useTokenPrices = () => {
   const { getDecimals } = useTokenInfo();
-  const { pairs } = useAstroswap();
-  const xykPairsUst = (pairs || []).filter((pair) => {
-    const xyk = Object.keys(pair.pair_type).includes("xyk");
-    const ustPair = pair.asset_infos.find(
-      // @ts-ignore
+  const { pools } = useAstroswap();
+
+  const xykPairsUst = (pools || []).filter((pool) => {
+    const xyk = pool.pool_type === "xyk";
+    const ustPair = pool.assets.find(
       (asset: AssetInfo) => asset.native_token?.denom === "uusd"
     );
     return xyk && ustPair;
   });
-  const xykPairsNonUst = (pairs || []).filter((pair) => {
-    const xyk = Object.keys(pair.pair_type).includes("xyk");
+  const xykPairsNonUst = (pools || []).filter((pool) => {
+    const xyk = pool.pool_type === "xyk";
     return (
-      xyk &&
-      !xykPairsUst.map((p) => p.contract_addr).includes(pair.contract_addr)
+      xyk && !xykPairsUst.map((p) => p.pool_address).includes(pool.pool_address)
     );
   });
 
@@ -64,8 +63,8 @@ export const useTokenPrices = () => {
 
     let tokens: any = {};
 
-    xykPairsUst.forEach(({ contract_addr }) => {
-      const pool = result[contract_addr];
+    xykPairsUst.forEach(({ pool_address }) => {
+      const pool = result[pool_address];
 
       // in the event of switching networks, pair and price queries are still being refetched
       // and pool info may not be in the result yet.
@@ -101,8 +100,8 @@ export const useTokenPrices = () => {
       }
     });
 
-    xykPairsNonUst.forEach(({ contract_addr }) => {
-      const pool = result[contract_addr];
+    xykPairsNonUst.forEach(({ pool_address }) => {
+      const pool = result[pool_address];
 
       // in the event of switching networks, pair and price queries are still being refetched
       // and pool info may not be in the result yet.

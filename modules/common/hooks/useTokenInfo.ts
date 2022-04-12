@@ -13,7 +13,7 @@ export type TokenInWallet = {
 };
 
 export const useTokenInfo = () => {
-  const { tokens, pairs } = useAstroswap();
+  const { tokens, pools } = useAstroswap();
 
   const getProtocol = useCallback(
     (token: string) => {
@@ -67,15 +67,14 @@ export const useTokenInfo = () => {
 
   const isHidden = useCallback(
     (token: string) => {
-      if (tokens == null || pairs == null || TOKEN_DENYLIST.includes(token)) {
+      if (tokens == null || pools == null) {
         return true;
       }
 
       return (
-        pairs.filter((pair) => {
+        pools.filter((pool) => {
           return (
-            // @ts-ignore
-            pair.asset_infos.filter((asset: AssetInfo) => {
+            pool.assets.filter((asset: AssetInfo) => {
               return (
                 (asset?.token?.contract_addr == token ||
                   asset?.native_token?.denom == token) &&
@@ -86,7 +85,7 @@ export const useTokenInfo = () => {
         }).length <= 0
       );
     },
-    [tokens, pairs]
+    [tokens, pools]
   );
 
   return {

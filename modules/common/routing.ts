@@ -1,8 +1,9 @@
-import { PairResponse, Route } from "modules/common/types";
+import { Route } from "modules/common/types";
 import { getTokenDenom, getTokenDenoms } from "modules/common/asset";
+import { Pool } from "modules/common";
 
 type TokenGraphEdge = {
-  pair: PairResponse;
+  pool: Pool;
   token: string;
 };
 
@@ -16,30 +17,27 @@ type GetSwapRouteOpts = {
   to: string | null;
 };
 
-// Given an array of pairs, returns an object
-// with a key for every unique token across all pairs,
-// each with a Set value of objects for each pair the key token is in,
-// containing the pair object and the token on the other side of the pair.
+// Given an array of pools, returns an object
+// with a key for every unique token across all pools,
+// each with a Set value of objects for each pool the key token is in,
+// containing the pool object and the token on the other side of the pool.
 // In graph theory terminology, this is an adjacency list.
 // There's an entry for each node with a Set of neighboring nodes/edges.
-export const pairsToGraph = (
-  pairs: PairResponse[]
-): TokenGraphAdjacencyList => {
+export const poolsToGraph = (pools: Pool[]): TokenGraphAdjacencyList => {
   const adjacencyList: any = {};
 
-  for (const pair of pairs) {
-    for (const asset of pair.asset_infos) {
+  for (const pool of pools) {
+    for (const asset of pool.assets) {
       const token = getTokenDenom(asset);
       adjacencyList[token] ||= new Set<TokenGraphEdge>();
 
       const otherToken = getTokenDenom(
-        // @ts-ignore
-        pair.asset_infos.find((otherAsset) => otherAsset != asset)
+        pool.assets.find((otherAsset) => otherAsset != asset)
       );
 
       // Add edge
       adjacencyList[token].add({
-        pair,
+        pool,
         token: otherToken,
       });
     }
@@ -48,13 +46,13 @@ export const pairsToGraph = (
   return adjacencyList;
 };
 
-// Given an array of pairs, returns a Route array,
+// Given an array of pools, returns a Route array,
 // with "to" token of each Route matching the "from"
 // token of the next Route.
 // e.g. FOO/UST, BAR/UST becomes FOO/UST -> UST/BAR
-const pairsToRoute = (pairs: PairResponse[], from: string) => {
-  return pairs.reduce<Route[]>((routes: any, pair, i) => {
-    const tokens = getTokenDenoms(pair.asset_infos);
+const poolsToRoute = (pools: Pool[], from: string) => {
+  return pools.reduce<Route[]>((routes: any, pool, i) => {
+    const tokens = getTokenDenoms(pool.assets);
 
     const previousTo = i == 0 ? from : routes[i - 1].to;
 
@@ -67,8 +65,8 @@ const pairsToRoute = (pairs: PairResponse[], from: string) => {
       {
         from: tokens[0],
         to: tokens[1],
-        contract_addr: pair.contract_addr,
-        type: Object.keys(pair.pair_type)[0],
+        contract_addr: pool.pool_address,
+        type: pool.pool_type,
       },
     ];
   }, []);
@@ -76,7 +74,7 @@ const pairsToRoute = (pairs: PairResponse[], from: string) => {
 
 type EnqueuedSearchNode = {
   token: string;
-  pairs: PairResponse[];
+  pools: Pool[];
 };
 
 // Breadth-first search for shortest route between two tokens
@@ -101,7 +99,7 @@ export const getSwapRoute = ({
     return [];
   }
 
-  const queue: EnqueuedSearchNode[] = [{ token: from, pairs: [] }];
+  const queue: EnqueuedSearchNode[] = [{ token: from, pools: [] }];
   const visited = new Set<string>(from);
 
   while (queue.length > 0) {
@@ -109,15 +107,15 @@ export const getSwapRoute = ({
 
     // @ts-expect-error
     for (const neighbor of Array.from(tokenGraph[node.token])) {
-      const pairs = [...node.pairs, neighbor.pair];
+      const pools = [...node.pools, neighbor.pool];
 
       if (neighbor.token == to) {
-        return pairsToRoute(pairs, from);
+        return poolsToRoute(pools, from);
       }
 
       if (!visited.has(neighbor.token)) {
         visited.add(neighbor.token);
-        queue.push({ token: neighbor.token, pairs });
+        queue.push({ token: neighbor.token, pools });
       }
     }
   }

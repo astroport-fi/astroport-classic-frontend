@@ -19,13 +19,13 @@ type Props = {
 };
 
 const LockdropUnlockLpNotification: FC<Props> = ({ txInfo, data }) => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const queryClient = useQueryClient();
   const { getSymbol } = useTokenInfo();
   const eventsByType = getEventsByType(txInfo);
   const amount = eventsByType?.wasm.astroport_lp_unlocked[0];
-  const pair = (pairs || []).find((v) => v.liquidity_token == data.token);
-  const assets = getTokenDenoms(pair?.asset_infos || []);
+  const pool = (pools || []).find((p) => p.lp_address == data.token);
+  const assets = getTokenDenoms(pool?.assets || []);
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }

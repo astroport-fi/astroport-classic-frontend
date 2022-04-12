@@ -1,23 +1,16 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
-import useAddress from "hooks/useAddress";
-import num from "libs/num";
+import { num, useAddress } from "@arthuryeti/terra";
+import { useContracts, useTokenInfo, useHive } from "modules/common";
 
-import {
-  useAstroswap,
-  useContracts,
-  useTokenInfo,
-  useHive,
-} from "modules/common";
-
-const createQuery = (pairs: any[], address: string, generator: string) => {
-  if (pairs.length === 0 || !address) {
+const createQuery = (lps: any[], address: string, generator: string) => {
+  if (lps.length === 0 || !address) {
     return;
   }
 
   return gql`
     {
-      ${pairs.map((lp) => {
+      ${lps.map((lp) => {
         return `
           ${lp}: wasm {
             contractQuery(
@@ -48,7 +41,6 @@ const createQuery = (pairs: any[], address: string, generator: string) => {
 };
 
 export const useLpRewards = () => {
-  const { pairs } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
@@ -97,7 +89,7 @@ export const useLpRewards = () => {
     });
 
     return data;
-  }, [pairs, result]);
+  }, [stakableLp, result]);
 };
 
 export default useLpRewards;

@@ -67,7 +67,7 @@ jest.mock("context/TerraWebappContext", () => ({
   })),
 }));
 
-const renderUseAllTokens = (pairs) => {
+const renderUseAllTokens = (pools) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -80,11 +80,11 @@ const renderUseAllTokens = (pairs) => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
-  return renderHook(() => useAllTokens({ pairs }), { wrapper });
+  return renderHook(() => useAllTokens({ pools }), { wrapper });
 };
 
-const stubPair = {
-  asset_infos: [
+const stubPool = {
+  assets: [
     {
       token: {
         contract_addr: "terratoken",
@@ -96,11 +96,9 @@ const stubPair = {
       },
     },
   ],
-  contract_addr: "terrapair",
-  liquidity_token: "terralp",
-  pair_type: {
-    xyk: {},
-  },
+  lp_address: "terralp",
+  pool_address: "terrapool",
+  pool_type: "xyk",
 };
 
 beforeEach(() => {
@@ -109,10 +107,10 @@ beforeEach(() => {
 
 describe("useAllTokens", () => {
   it("fetches token info for all uncached contract tokens", async () => {
-    const pairs = [
+    const pools = [
       {
-        ...stubPair,
-        asset_infos: [
+        ...stubPool,
+        assets: [
           {
             token: {
               contract_addr: "terratoken1", // Cached
@@ -126,8 +124,8 @@ describe("useAllTokens", () => {
         ],
       },
       {
-        ...stubPair,
-        asset_infos: [
+        ...stubPool,
+        assets: [
           {
             token: {
               contract_addr: "terratoken2",
@@ -141,8 +139,8 @@ describe("useAllTokens", () => {
         ],
       },
       {
-        ...stubPair,
-        asset_infos: [
+        ...stubPool,
+        assets: [
           {
             token: {
               contract_addr: "terratoken3",
@@ -156,8 +154,8 @@ describe("useAllTokens", () => {
         ],
       },
       {
-        ...stubPair,
-        asset_infos: [
+        ...stubPool,
+        assets: [
           {
             native_token: {
               denom: "uluna", // NOTE: Not cached
@@ -196,7 +194,7 @@ describe("useAllTokens", () => {
       },
     });
 
-    const { result, waitFor } = renderUseAllTokens(pairs);
+    const { result, waitFor } = renderUseAllTokens(pools);
 
     expect(result.current.isLoading).toEqual(true);
 
@@ -253,29 +251,29 @@ describe("useAllTokens", () => {
     );
   });
 
-  it("does not fetch while pairs are null", () => {
+  it("does not fetch while pools are null", () => {
     const { result } = renderUseAllTokens(null);
 
-    // Disabled while pairs are loading, so is not loading
+    // Disabled while pools are loading, so is not loading
     expect(result.current.isLoading).toEqual(false);
 
     expect(requestInChunks).not.toHaveBeenCalled();
   });
 
-  it("does not fetch if pairs are empty", () => {
+  it("does not fetch if pools are empty", () => {
     const { result } = renderUseAllTokens([]);
 
-    // Disabled while pairs are empty, so is not loading
+    // Disabled while pools are empty, so is not loading
     expect(result.current.isLoading).toEqual(false);
 
     expect(requestInChunks).not.toHaveBeenCalled();
   });
 
   it("does not fetch when all tokens are cached", async () => {
-    const pairs = [
+    const pools = [
       {
-        ...stubPair,
-        asset_infos: [
+        ...stubPool,
+        assets: [
           {
             token: {
               contract_addr: "terratoken1",
@@ -290,7 +288,7 @@ describe("useAllTokens", () => {
       },
     ];
 
-    const { result, waitFor } = renderUseAllTokens(pairs);
+    const { result, waitFor } = renderUseAllTokens(pools);
 
     expect(result.current.isLoading).toEqual(true);
 
@@ -322,7 +320,7 @@ describe("useAllTokens", () => {
   it("sets isError to true when there's an error fetching tokens", async () => {
     requestInChunks.mockRejectedValue();
 
-    const { result, waitFor } = renderUseAllTokens([stubPair]);
+    const { result, waitFor } = renderUseAllTokens([stubPool]);
 
     // Wait for data to fail to load. Added more time sinse have 1 retry now
     await waitFor(() => !result.current.isLoading, { timeout: 2000 });

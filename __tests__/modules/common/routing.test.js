@@ -1,12 +1,12 @@
-import { pairsToGraph, getSwapRoute } from "modules/common/routing";
+import { poolsToGraph, getSwapRoute } from "modules/common";
 
-const buildPair = (
-  contract_addr = "terrapair1",
+const buildPool = (
+  pool_address = "terrapool1",
   assets = ["uluna", "uust"],
-  pair_type = "xyk",
-  liquidity_token = "terralp1"
+  pool_type = "xyk",
+  lp_address = "terralp1"
 ) => {
-  const asset_infos = assets.map((asset) => {
+  const buildAssets = assets.map((asset) => {
     if (asset.startsWith("u")) {
       return {
         native_token: {
@@ -23,12 +23,10 @@ const buildPair = (
   });
 
   return {
-    contract_addr,
-    asset_infos,
-    liquidity_token,
-    pair_type: {
-      [pair_type]: {},
-    },
+    lp_address,
+    pool_address,
+    pool_type,
+    assets: buildAssets,
   };
 };
 
@@ -53,72 +51,72 @@ function shuffle(array) {
 }
 
 describe("routing", () => {
-  const terrapair1 = buildPair("terrapair1", ["uusd", "uluna"]);
-  const terrapair2 = buildPair("terrapair2", ["uusd", "terratoken1"]);
-  const terrapair3 = buildPair("terrapair3", ["uusd", "terratoken2"]);
-  const terrapair4 = buildPair("terrapair4", ["terratoken2", "terratoken3"]);
-  const terrapair5 = buildPair(
-    "terrapair5",
+  const terrapool1 = buildPool("terrapool1", ["uusd", "uluna"]);
+  const terrapool2 = buildPool("terrapool2", ["uusd", "terratoken1"]);
+  const terrapool3 = buildPool("terrapool3", ["uusd", "terratoken2"]);
+  const terrapool4 = buildPool("terrapool4", ["terratoken2", "terratoken3"]);
+  const terrapool5 = buildPool(
+    "terrapool5",
     ["terratoken3", "terratoken4"],
     "stable"
   );
-  const terrapair6 = buildPair("terrapair6", ["terratoken3", "terratoken5"]);
-  const terrapair7 = buildPair("terrapair7", ["terratoken4", "uluna"]);
-  const terrapair8 = buildPair("terrapair8", ["terratoken4", "terratoken2"]);
-  const terrapair9 = buildPair("terrapair9", ["terratoken1", "terratoken2"]);
+  const terrapool6 = buildPool("terrapool6", ["terratoken3", "terratoken5"]);
+  const terrapool7 = buildPool("terrapool7", ["terratoken4", "uluna"]);
+  const terrapool8 = buildPool("terrapool8", ["terratoken4", "terratoken2"]);
+  const terrapool9 = buildPool("terrapool9", ["terratoken1", "terratoken2"]);
 
-  let pairs;
+  let pools;
 
   beforeEach(() => {
-    // Shuffle pairs to add some entropy to our tests and ensure we're never reliant on pair order
-    pairs = shuffle([
-      terrapair1,
-      terrapair2,
-      terrapair3,
-      terrapair4,
-      terrapair5,
-      terrapair6,
-      terrapair7,
-      terrapair8,
-      terrapair9,
+    // Shuffle pools to add some entropy to our tests and ensure we're never reliant on pool order
+    pools = shuffle([
+      terrapool1,
+      terrapool2,
+      terrapool3,
+      terrapool4,
+      terrapool5,
+      terrapool6,
+      terrapool7,
+      terrapool8,
+      terrapool9,
     ]);
   });
 
-  describe("pairsToGraph", () => {
-    it("returns adjacency list of all tokens in all pairs and the tokens they can swap to", () => {
-      const graph = pairsToGraph(pairs);
+  describe("poolsToGraph", () => {
+    it("returns adjacency list of all tokens in all pools and the tokens they can swap to", () => {
+      const graph = poolsToGraph(pools);
 
       expect(graph).toEqual({
         uusd: new Set([
-          { pair: terrapair1, token: "uluna" },
-          { pair: terrapair2, token: "terratoken1" },
-          { pair: terrapair3, token: "terratoken2" },
+          { pool: terrapool1, token: "uluna" },
+          { pool: terrapool2, token: "terratoken1" },
+          { pool: terrapool3, token: "terratoken2" },
         ]),
         uluna: new Set([
-          { pair: terrapair1, token: "uusd" },
-          { pair: terrapair7, token: "terratoken4" },
+          { pool: terrapool1, token: "uusd" },
+          { pool: terrapool7, token: "terratoken4" },
         ]),
         terratoken1: new Set([
-          { pair: terrapair2, token: "uusd" },
-          { pair: terrapair9, token: "terratoken2" },
+          { pool: terrapool2, token: "uusd" },
+          { pool: terrapool9, token: "terratoken2" },
         ]),
         terratoken2: new Set([
-          { pair: terrapair3, token: "uusd" },
-          { pair: terrapair4, token: "terratoken3" },
-          { pair: terrapair8, token: "terratoken4" },
-          { pair: terrapair9, token: "terratoken1" },
+          { pool: terrapool3, token: "uusd" },
+          { pool: terrapool4, token: "terratoken3" },
+          { pool: terrapool8, token: "terratoken4" },
+          { pool: terrapool9, token: "terratoken1" },
         ]),
         terratoken3: new Set([
-          { pair: terrapair4, token: "terratoken2" },
-          { pair: terrapair5, token: "terratoken4" },
-          { pair: terrapair6, token: "terratoken5" },
+          { pool: terrapool4, token: "terratoken2" },
+          { pool: terrapool5, token: "terratoken4" },
+          { pool: terrapool6, token: "terratoken5" },
         ]),
         terratoken4: new Set([
-          { pair: terrapair5, token: "terratoken3" },
-          { pair: terrapair7, token: "uluna" },
-          { pair: terrapair8, token: "terratoken2" },
+          { pool: terrapool5, token: "terratoken3" },
+          { pool: terrapool7, token: "uluna" },
+          { pool: terrapool8, token: "terratoken2" },
         ]),
-        terratoken5: new Set([{ pair: terrapair6, token: "terratoken3" }]),
+        terratoken5: new Set([{ pool: terrapool6, token: "terratoken3" }]),
       });
     });
   });
@@ -126,14 +124,14 @@ describe("routing", () => {
   describe("getSwapRoute", () => {
     it("returns single hop route between native tokens (uluna/uusd)", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uluna",
         to: "uusd",
       });
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair1",
+          contract_addr: "terrapool1",
           from: "uluna",
           to: "uusd",
           type: "xyk",
@@ -143,14 +141,14 @@ describe("routing", () => {
 
     it("returns route from/to in requested order (uusd/uluna and not uluna/uusd) for single hop route", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uusd",
         to: "uluna",
       });
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair1",
+          contract_addr: "terrapool1",
           from: "uusd",
           to: "uluna",
           type: "xyk",
@@ -160,14 +158,14 @@ describe("routing", () => {
 
     it("returns single hop route with mixed native and contract tokens", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "terratoken1",
         to: "uusd",
       });
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair2",
+          contract_addr: "terrapool2",
           from: "terratoken1",
           to: "uusd",
           type: "xyk",
@@ -177,14 +175,14 @@ describe("routing", () => {
 
     it("returns single hop route with contract tokens", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "terratoken2",
         to: "terratoken3",
       });
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair4",
+          contract_addr: "terrapool4",
           from: "terratoken2",
           to: "terratoken3",
           type: "xyk",
@@ -194,7 +192,7 @@ describe("routing", () => {
 
     it("returns shortest multi-hop route when there are multiple possible routes", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uluna",
         to: "terratoken5",
       });
@@ -207,19 +205,19 @@ describe("routing", () => {
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair7",
+          contract_addr: "terrapool7",
           from: "uluna",
           to: "terratoken4",
           type: "xyk",
         },
         {
-          contract_addr: "terrapair5",
+          contract_addr: "terrapool5",
           from: "terratoken4",
           to: "terratoken3",
           type: "stable",
         },
         {
-          contract_addr: "terrapair6",
+          contract_addr: "terrapool6",
           from: "terratoken3",
           to: "terratoken5",
           type: "xyk",
@@ -229,20 +227,20 @@ describe("routing", () => {
 
     it("returns only route when there is only one possible route", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "terratoken1",
         to: "uluna",
       });
 
       expect(route).toEqual([
         {
-          contract_addr: "terrapair2",
+          contract_addr: "terrapool2",
           from: "terratoken1",
           to: "uusd",
           type: "xyk",
         },
         {
-          contract_addr: "terrapair1",
+          contract_addr: "terrapool1",
           from: "uusd",
           to: "uluna",
           type: "xyk",
@@ -262,7 +260,7 @@ describe("routing", () => {
 
     it("returns empty array when from token is null", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: null,
         to: "uluna",
       });
@@ -272,7 +270,7 @@ describe("routing", () => {
 
     it("returns empty array when to token is null", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uusd",
         to: null,
       });
@@ -282,7 +280,7 @@ describe("routing", () => {
 
     it("returns empty array when from and to token are the same", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uluna",
         to: "uluna",
       });
@@ -292,7 +290,7 @@ describe("routing", () => {
 
     it("returns empty array when from token is not in graph", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "foo",
         to: "uluna",
       });
@@ -302,7 +300,7 @@ describe("routing", () => {
 
     it("returns empty array when to token is not in graph", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph(pairs),
+        tokenGraph: poolsToGraph(pools),
         from: "uluna",
         to: "foo",
       });
@@ -312,7 +310,7 @@ describe("routing", () => {
 
     it("returns empty array when a route does not exist", () => {
       const route = getSwapRoute({
-        tokenGraph: pairsToGraph([terrapair1, terrapair9]),
+        tokenGraph: poolsToGraph([terrapool1, terrapool9]),
         from: "uluna",
         to: "terratoken2",
       });

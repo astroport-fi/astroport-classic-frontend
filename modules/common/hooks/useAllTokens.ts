@@ -1,11 +1,6 @@
 import { useQuery } from "react-query";
 import { gql } from "graphql-request";
-import {
-  Tokens,
-  PairResponse,
-  useHiveEndpoint,
-  requestInChunks,
-} from "modules/common";
+import { Pool, Tokens, useHiveEndpoint, requestInChunks } from "modules/common";
 import { CW20AssetInfo } from "types/common";
 import tokenCache from "constants/tokenCache";
 import { useTerraWebapp } from "context/TerraWebappContext";
@@ -28,11 +23,11 @@ type NamedTokenInfoResponses = {
   };
 };
 
-const uniqueTokens = (pairs: PairResponse[]): string[] => {
+const uniqueTokens = (pools: Pool[]): string[] => {
   const tokens = new Set<string>();
 
-  for (const { asset_infos } of pairs) {
-    for (const asset of asset_infos) {
+  for (const { assets } of pools) {
+    for (const asset of assets) {
       const { token } = asset as CW20AssetInfo;
 
       if (token) {
@@ -62,12 +57,12 @@ const buildQuery = (tokens: string[]) => gql`
 `;
 
 interface Props {
-  pairs: PairResponse[];
+  pools: Pool[];
 }
 
-// TODO: Should we exclude cached tokens that are not part of any pairs?
+// TODO: Should we exclude cached tokens that are not part of any pools?
 //       If we did, we could get rid of useTokenInfo's isHidden
-export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
+export const useAllTokens = ({ pools }: Props): UseAllTokens => {
   const {
     network: { name },
   } = useTerraWebapp();
@@ -87,7 +82,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
       const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
 
-      const tokensToFetch = uniqueTokens(pairs).filter(
+      const tokensToFetch = uniqueTokens(pools).filter(
         (token) => !(token in cachedTokens)
       );
 
@@ -125,7 +120,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
       };
     },
     {
-      enabled: pairs?.length > 0,
+      enabled: pools?.length > 0,
       refetchOnWindowFocus: false,
       staleTime: QUERY_STALE_TIME,
       retry: 1,

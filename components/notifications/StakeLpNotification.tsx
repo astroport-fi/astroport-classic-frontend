@@ -20,13 +20,13 @@ type Props = {
 const StakeLpNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
   const { getSymbol } = useTokenInfo();
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const eventsByType = getEventsByType(txInfo, 1);
   const amount = eventsByType?.wasm.amount[0];
   const lpToken = eventsByType?.wasm.contract_address[0];
 
-  const pair = (pairs || []).find((v) => v.liquidity_token == lpToken);
-  const assets = getTokenDenoms(pair?.asset_infos || []);
+  const pool = (pools || []).find((p) => p.lp_address == lpToken);
+  const assets = getTokenDenoms(pool?.assets || []);
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }

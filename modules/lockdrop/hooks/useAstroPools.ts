@@ -78,25 +78,25 @@ const createFirstQuery = ({
 `;
 };
 
-const createSecondQuery = (pairs: any) => {
-  if (pairs == null || pairs.length === 0) {
+const createSecondQuery = (pools: any) => {
+  if (pools == null || pools.length === 0) {
     return;
   }
 
   return gql`
     {
-      ${pairs.map(
+      ${pools.map(
         ({
-          contract_addr,
-          liquidity_token,
+          pool_address,
+          lp_address,
         }: {
-          contract_addr: string;
-          liquidity_token: string;
+          pool_address: string;
+          lp_address: string;
         }) => {
           return `
-          pool${liquidity_token}: wasm {
+          pool${lp_address}: wasm {
             contractQuery(
-              contractAddress: "${contract_addr}"
+              contractAddress: "${pool_address}"
               query: {
                 pool: { }
               }
@@ -110,7 +110,7 @@ const createSecondQuery = (pairs: any) => {
 };
 
 export const useAstroPools = () => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const { lockdrop, astroToken, stakableLp, generator, bLunaToken } =
     useContracts();
   const { getDecimals } = useTokenInfo();
@@ -136,7 +136,7 @@ export const useAstroPools = () => {
     },
   });
 
-  const secondQuery = createSecondQuery(pairs);
+  const secondQuery = createSecondQuery(pools);
 
   const secondResult = useHive({
     name: "astro-pools-second",
@@ -175,8 +175,8 @@ export const useAstroPools = () => {
     const items = filteredItems.map((info) => {
       const { assets, total_share } =
         secondResult[`pool${info.astroport_lp_token}`]?.contractQuery;
-      const pair = (pairs || []).find(
-        (pair) => pair.liquidity_token == info.astroport_lp_token
+      const pool = (pools || []).find(
+        (pool) => pool.lp_address == info.astroport_lp_token
       );
       const { token1: token1Amount } = getAssetAmountsInPool(assets, "uusd");
       let amountOfUst = num(token1Amount)
@@ -245,7 +245,7 @@ export const useAstroPools = () => {
           token2,
           info.terraswap_lp_token,
         ],
-        pairType: pair?.pair_type ? Object.keys(pair?.pair_type)[0] : null,
+        pairType: pool?.pool_type,
         totalLiquidity,
         totalLiquidityInUst,
         myLiquidity,

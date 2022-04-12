@@ -63,7 +63,7 @@ const OtherPools: FC = () => {
         width: 48,
         flexGrow: 0,
         Cell: ({ row }: any) => (
-          <FavoriteToggleButton pair={row.original.assets.toString()} />
+          <FavoriteToggleButton pool={row.original.assets.toString()} />
         ),
         accessor: "favorite",
         disableSortBy: true,

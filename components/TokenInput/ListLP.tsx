@@ -9,9 +9,9 @@ type Props = {
 };
 
 const ListLP: FC<Props> = ({ onClick }) => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
 
-  if (pairs == null) {
+  if (pools == null) {
     return null;
   }
 
@@ -19,11 +19,11 @@ const ListLP: FC<Props> = ({ onClick }) => {
     <Box>
       <Box h="xs" overflowY="auto" px="2" mt="2">
         <Box>
-          {pairs.map((pair) => {
+          {pools.map((pool) => {
             return (
               <ListLPItem
-                key={pair.contract_addr}
-                pair={pair}
+                key={pool.pool_address}
+                pool={pool}
                 onClick={onClick}
               />
             );

@@ -1,21 +1,21 @@
 import React, { FC, useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { usePool } from "modules/pool";
-import { PairResponse } from "modules/common";
+import { Pool } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import WithdrawForm from "components/pool/withdraw/WithdrawForm";
 import ProvideForm from "components/pool/provide/ProvideForm";
 
 type Props = {
-  pair: PairResponse;
+  pool: Pool;
 };
 
-const Pool: FC<Props> = ({ pair }) => {
+const Pool: FC<Props> = ({ pool: pair }) => {
   const [type, setType] = useState(PoolFormType.Provide);
   const [mode, setMode] = useState(ProvideFormMode.Double);
   const pool = usePool({
-    pairContract: pair.contract_addr,
-    lpTokenContract: pair?.liquidity_token,
+    pairContract: pair.pool_address,
+    lpTokenContract: pair?.lp_address,
   });
 
   if (!pool) {
@@ -28,7 +28,6 @@ const Pool: FC<Props> = ({ pair }) => {
         <Box w="container.sm">
           {type === PoolFormType.Provide && (
             <ProvideForm
-              pair={pair}
               pool={pool}
               mode={mode}
               onModeClick={setMode}
@@ -37,12 +36,7 @@ const Pool: FC<Props> = ({ pair }) => {
             />
           )}
           {type === PoolFormType.Withdraw && (
-            <WithdrawForm
-              pair={pair}
-              pool={pool}
-              type={type}
-              onTypeClick={setType}
-            />
+            <WithdrawForm pool={pool} type={type} onTypeClick={setType} />
           )}
         </Box>
       </Flex>

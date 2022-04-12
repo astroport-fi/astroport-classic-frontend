@@ -4,15 +4,12 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 import { TxStep } from "@arthuryeti/terra";
 import { useUnstakeLpToken, UnstakeLpFormInitial } from "modules/generator";
-import {
-  PairResponse,
-  TxStep,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType } from "types/common";
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
+import { Pool } from "modules/pool";
 
 type FormValues = {
   token: string;
@@ -20,19 +17,18 @@ type FormValues = {
 };
 
 type Props = {
-  pair: PairResponse;
-  pool: any;
+  pool: Pool;
   type: PoolFormType;
   onTypeClick: (v: PoolFormType) => void;
 };
 
-const UnstakeLpForm: FC<Props> = ({ pair, type, onTypeClick }) => {
+const UnstakeLpForm: FC<Props> = ({ pool, type, onTypeClick }) => {
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      token: pair.liquidity_token,
+      token: pool.lpTokenContract,
       amount: "",
     },
   });

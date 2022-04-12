@@ -3,22 +3,22 @@ import { withRouter, NextRouter } from "next/router";
 import { Box, Flex } from "@chakra-ui/react";
 import { PoolFormTypeFactory, PoolFormType } from "types/common";
 import { usePool } from "modules/pool";
-import { PairResponse } from "modules/common";
+import { Pool } from "modules/common";
 import { StakeLpForm, UnstakeLpForm } from "modules/generator";
 
 type Props = {
-  pair: PairResponse;
+  pool: Pool;
   router: NextRouter;
 };
 
-const Stake: FC<Props> = ({ pair, router }) => {
+const Stake: FC<Props> = ({ pool: pair, router }) => {
   const [type, setType] = useState<PoolFormType>(
     PoolFormTypeFactory(String(router.query["type"])) || PoolFormType.Stake
   );
 
   const pool = usePool({
-    pairContract: pair.contract_addr,
-    lpTokenContract: pair?.liquidity_token,
+    pairContract: pair.pool_address,
+    lpTokenContract: pair?.lp_address,
   });
 
   const renderStakeLpForm = () => {
@@ -26,20 +26,15 @@ const Stake: FC<Props> = ({ pair, router }) => {
       return null;
     }
 
-    return (
-      <StakeLpForm pair={pair} pool={pool} type={type} onTypeClick={setType} />
-    );
+    return <StakeLpForm pool={pool} type={type} onTypeClick={setType} />;
   };
 
   const renderUnstakeLpForm = () => {
-    return (
-      <UnstakeLpForm
-        pair={pair}
-        pool={pool}
-        type={type}
-        onTypeClick={setType}
-      />
-    );
+    if (pool == null || pool.token1 == null || pool.token2 == null) {
+      return null;
+    }
+
+    return <UnstakeLpForm pool={pool} type={type} onTypeClick={setType} />;
   };
 
   return (

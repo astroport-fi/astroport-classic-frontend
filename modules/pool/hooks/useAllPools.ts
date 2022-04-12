@@ -12,8 +12,8 @@ import {
   useHiveEndpoint,
   useStableTokenPrice,
   Asset,
-  PairResponse,
   requestInChunks,
+  Pool,
 } from "modules/common";
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
@@ -49,29 +49,29 @@ export type AllPoolsPool = {
   isStakable: boolean;
 };
 
-const createQuery = (pairs: any, address: string, generator: string) => {
+const createQuery = (pools: any, address: string, generator: string) => {
   return gql`
     {
-      ${pairs.map(
+      ${pools.map(
         ({
-          liquidity_token,
-          contract_addr,
+          lp_address,
+          pool_address,
         }: {
-          liquidity_token: string;
-          contract_addr: string;
+          lp_address: string;
+          pool_address: string;
         }) => {
           return `
-          ${contract_addr}: wasm {
+          ${pool_address}: wasm {
             contractQuery(
-              contractAddress: "${contract_addr}"
+              contractAddress: "${pool_address}"
               query: {
                 pool: { }
               }
             )
           }
-          ${liquidity_token}: wasm {
+          ${lp_address}: wasm {
             contractQuery(
-              contractAddress: "${liquidity_token}"
+              contractAddress: "${lp_address}"
               query: {
                 balance: {
                   address: "${address}"
@@ -79,12 +79,12 @@ const createQuery = (pairs: any, address: string, generator: string) => {
               }
             )
           }
-          staked${liquidity_token}: wasm {
+          staked${lp_address}: wasm {
             contractQuery(
               contractAddress: "${generator}"
               query: {
                 deposit: {
-                  lp_token: "${liquidity_token}"
+                  lp_token: "${lp_address}"
                   user: "${address}"
                 }
               }
@@ -97,14 +97,14 @@ const createQuery = (pairs: any, address: string, generator: string) => {
 `;
 };
 
-const createQueryNotConnected = (pairs: any) => {
+const createQueryNotConnected = (pools: any) => {
   return gql`
     {
-      ${pairs.map(({ contract_addr }: { contract_addr: string }) => {
+      ${pools.map(({ pool_address }: { pool_address: string }) => {
         return `
-          ${contract_addr}: wasm {
+          ${pool_address}: wasm {
             contractQuery(
-              contractAddress: "${contract_addr}"
+              contractAddress: "${pool_address}"
               query: {
                 pool: { }
               }
@@ -117,7 +117,7 @@ const createQueryNotConnected = (pairs: any) => {
 };
 
 export const useAllPools = () => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const { network } = useTerraWebapp();
   const { generator, stakableLp, bLunaToken } = useContracts();
   const address = useAddress();
@@ -139,11 +139,11 @@ export const useAllPools = () => {
     () => {
       const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
-      // Chunk pairs into multiple queries to stay below GraphQL query size limitations
-      return requestInChunks<PairResponse>(50, url, pairs || [], queryBuilder);
+      // Chunk pools into multiple queries to stay below GraphQL query size limitations
+      return requestInChunks<Pool>(50, url, pools || [], queryBuilder);
     },
     {
-      enabled: (pairs || []).length > 0,
+      enabled: (pools || []).length > 0,
       staleTime: QUERY_STALE_TIME,
       retry: 1,
     }
@@ -154,22 +154,22 @@ export const useAllPools = () => {
   };
 
   return useMemo((): AllPoolsPool[] => {
-    if (result == null || !pairs) {
+    if (result == null || !pools) {
       return [];
     }
 
-    return pairs
-      .map(({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
-        const poolInfo = getPoolInfo(contract_addr);
-        const providedBalance = result[liquidity_token]?.contractQuery.balance;
+    return pools
+      .map(({ pool_address, lp_address, pool_type }): AllPoolsPool => {
+        const poolInfo = getPoolInfo(pool_address);
+        const providedBalance = result[lp_address]?.contractQuery.balance;
 
         // in the event of switching networks, pair and price queries are still being refetched
         // and pool info may not be in the result yet.
         // @ts-ignore
-        if (!result[contract_addr]) return null;
+        if (!result[pool_address]) return null;
 
-        const { total_share, assets } = result[contract_addr].contractQuery;
-        const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
+        const { total_share, assets } = result[pool_address].contractQuery;
+        const stakedBalance = result[`staked${lp_address}`]?.contractQuery;
         const denoms = getPoolTokenDenoms(assets);
         const [token1, token2] = denoms;
         const balance = num(providedBalance).plus(stakedBalance);
@@ -187,7 +187,7 @@ export const useAllPools = () => {
 
         // bluna-luna pool
         // @ts-ignore
-        if (contract_addr === BLUNA_LUNA_PAIR_ADDR[network.name]) {
+        if (pool_address === BLUNA_LUNA_PAIR_ADDR[network.name]) {
           const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
             assets,
             "uluna"
@@ -222,12 +222,12 @@ export const useAllPools = () => {
           .dp(6)
           .toNumber();
 
-        const isStakable = stakableLp.includes(liquidity_token);
+        const isStakable = stakableLp.includes(lp_address);
 
         return {
           inUse: balance.gt(0),
           favorite: favoritesPools.indexOf(denoms.toString()) > -1,
-          contract: contract_addr,
+          contract: pool_address,
           assets: denoms,
           poolAssets: assets,
           sortingAssets: [
@@ -235,9 +235,9 @@ export const useAllPools = () => {
             getSymbol(token2 || "").toLowerCase(),
             token1 || "",
             token2 || "",
-            contract_addr,
+            pool_address,
           ],
-          pairType: Object.keys(pair_type)[0] || "",
+          pairType: pool_type,
           totalLiquidity,
           totalLiquidityInUst,
           myLiquidity,
@@ -257,7 +257,7 @@ export const useAllPools = () => {
         };
       })
       .filter(Boolean);
-  }, [lunaPrice, pairs, result, poolsInfo, favoritesPools]);
+  }, [lunaPrice, pools, result, poolsInfo, favoritesPools]);
 };
 
 export default useAllPools;

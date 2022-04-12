@@ -11,24 +11,26 @@ import {
 } from "react";
 import { nanoid } from "nanoid";
 import {
-  pairsToGraph,
-  PairResponse,
+  Pool,
+  poolsToGraph,
   TokenGraphAdjacencyList,
   Tokens,
   useAllTokens,
+  useAllPools,
+} from "modules/common";
+
+import { notificationReducer } from "modules/common/notifications/reducer";
+import {
   Notifications,
   DEFAULT_NOTIFICATIONS,
   AddNotificationPayload,
   RemoveNotificationPayload,
-  notificationReducer,
-} from "modules/common";
-import whitelist from "constants/whitelist";
-import { useTerraWebapp } from "context/TerraWebappContext";
+} from "modules/common/notifications/model";
 
 type Astroswap = {
   isLoading: boolean;
   isErrorLoadingData: boolean;
-  pairs: PairResponse[] | null;
+  pools: Pool[] | null;
   tokenGraph: TokenGraphAdjacencyList | null;
   tokens?: Tokens | undefined;
   notifications: Notifications;
@@ -39,7 +41,7 @@ type Astroswap = {
 const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
   isLoading: true,
   isErrorLoadingData: false,
-  pairs: [],
+  pools: [],
   tokenGraph: null,
   tokens: undefined,
   notifications: {},
@@ -58,34 +60,34 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
   );
 
   const {
-    network: { name },
-  } = useTerraWebapp();
-
-  const pairs = useMemo(() => {
-    // @ts-ignore
-    return whitelist[name].pairs;
-  }, [whitelist, name]);
+    pools,
+    isLoading: isLoadingPools,
+    isError: isErrorLoadingPools,
+  } = useAllPools();
 
   const {
     tokens,
     isLoading: isLoadingTokens,
     isError: isErrorLoadingTokens,
-  } = useAllTokens({ pairs });
+  } = useAllTokens({ pools });
 
-  const isLoading = useMemo(() => isLoadingTokens, [isLoadingTokens]);
+  const isLoading = useMemo(
+    () => isLoadingPools || isLoadingTokens,
+    [isLoadingPools, isLoadingTokens]
+  );
 
   const isErrorLoadingData = useMemo(
-    () => isErrorLoadingTokens,
-    [isErrorLoadingTokens]
+    () => isErrorLoadingPools || isErrorLoadingTokens,
+    [isErrorLoadingPools, isErrorLoadingTokens]
   );
 
   const tokenGraph = useMemo(() => {
-    if (pairs === undefined || pairs.length == 0) {
+    if (pools === undefined || pools.length == 0) {
       return null;
     }
 
-    return pairsToGraph(pairs);
-  }, [pairs]);
+    return poolsToGraph(pools);
+  }, [pools]);
 
   const addNotification = useCallback(
     ({ notification }: AddNotificationPayload) => {
@@ -123,7 +125,7 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
       value={{
         isLoading,
         isErrorLoadingData,
-        pairs,
+        pools,
         tokenGraph,
         tokens,
         addNotification,

@@ -21,10 +21,10 @@ type Props = {
 };
 
 const SelectLP: FC<Props> = ({ value, onClick }) => {
-  const { pairs } = useAstroswap();
+  const { pools } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  const pair = (pairs || []).find((v) => v.liquidity_token == value);
-  const assets = getTokenDenoms(pair?.asset_infos || []);
+  const pool = (pools || []).find((p) => p.lp_address == value);
+  const assets = getTokenDenoms(pool?.assets || []);
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
@@ -35,7 +35,7 @@ const SelectLP: FC<Props> = ({ value, onClick }) => {
   const symbol2 = getSymbol(token2 || "");
 
   const renderButton = () => {
-    if (pair) {
+    if (pool) {
       return (
         <Flex align="center" justify="space-between">
           <HStack spacing="-2">

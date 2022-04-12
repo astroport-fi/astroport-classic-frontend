@@ -3,12 +3,7 @@ import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import {
-  PairResponse,
-  TxStep,
-  useContracts,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -25,7 +20,6 @@ type FormValues = {
 };
 
 type Props = {
-  pair: PairResponse;
   pool: Pool;
   mode: ProvideFormMode;
   type: PoolFormType;
@@ -34,7 +28,6 @@ type Props = {
 };
 
 const ProvideForm: FC<Props> = ({
-  pair,
   pool,
   mode,
   onModeClick,
@@ -70,7 +63,7 @@ const ProvideForm: FC<Props> = ({
   const debouncedAmount2 = useDebounceValue(amount2, 200);
 
   const state = useProvide({
-    contract: pair.contract_addr,
+    contract: pool.pairContract,
     pool: pool,
     token1: token1,
     token2: token2,

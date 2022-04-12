@@ -2,12 +2,11 @@ import React, { FC, useCallback, useState, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
+import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { PoolFormType } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
-
 import FormLoading from "components/common/FormLoading";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
 import WithdrawFormConfirm from "components/pool/withdraw//WithdrawFormConfirm";
@@ -19,18 +18,17 @@ type FormValues = {
 };
 
 type Props = {
-  pair: PairResponse;
-  pool?: Pool;
+  pool: Pool;
   type: PoolFormType;
   onTypeClick: (v: PoolFormType) => void;
 };
 
-const WithdrawForm: FC<Props> = ({ pair, pool, type, onTypeClick }) => {
+const WithdrawForm: FC<Props> = ({ pool, type, onTypeClick }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
   const methods = useForm<FormValues>({
     defaultValues: {
-      token: pair.liquidity_token,
+      token: pool.lpTokenContract,
       amount: "",
     },
   });
@@ -49,8 +47,8 @@ const WithdrawForm: FC<Props> = ({ pair, pool, type, onTypeClick }) => {
   const debouncedAmount = useDebounceValue(amount, 500);
 
   const state = useWithdraw({
-    contract: pair.contract_addr,
-    lpToken: pair.liquidity_token,
+    contract: pool.pairContract,
+    lpToken: pool.lpTokenContract,
     amount: toTerraAmount(debouncedAmount),
     onBroadcasting: () => {
       router.push("/pools");

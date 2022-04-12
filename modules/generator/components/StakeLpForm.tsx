@@ -2,18 +2,14 @@ import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
-import {
-  PairResponse,
-  TxStep,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { TxStep } from "@arthuryeti/terra";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { StakeLpFormInitial, useStakeLpToken } from "modules/generator";
 import { PoolFormType } from "types/common";
-
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
+import { Pool } from "modules/pool";
 
 type FormValues = {
   token: string;
@@ -21,19 +17,18 @@ type FormValues = {
 };
 
 type Props = {
-  pair: PairResponse;
-  pool: any;
+  pool: Pool;
   type: PoolFormType;
   onTypeClick: (v: PoolFormType) => void;
 };
 
-const StakeLpForm: FC<Props> = ({ pair, type, onTypeClick }) => {
+const StakeLpForm: FC<Props> = ({ pool, type, onTypeClick }) => {
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const methods = useForm<FormValues>({
     defaultValues: {
-      token: pair.liquidity_token,
+      token: pool.lpTokenContract,
       amount: "",
     },
   });

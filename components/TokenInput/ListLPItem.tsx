@@ -1,23 +1,18 @@
 import React, { FC } from "react";
 import { Box, Text, Image, Flex, HStack } from "@chakra-ui/react";
-import { fromTerraAmount } from "libs/terra";
-import {
-  useBalance,
-  useTokenInfo,
-  getTokenDenoms,
-  PairResponse,
-} from "modules/common";
+import { fromTerraAmount } from "@arthuryeti/terra";
+import { useBalance, useTokenInfo, getTokenDenoms, Pool } from "modules/common";
 import { orderPoolTokens } from "modules/pool";
 
 type Props = {
-  pair: PairResponse;
+  pool: Pool;
   onClick: (v: string) => void;
 };
 
-const ListLPItem: FC<Props> = ({ pair, onClick }) => {
+const ListLPItem: FC<Props> = ({ pool, onClick }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const balance = useBalance(pair.liquidity_token);
-  const assets = getTokenDenoms(pair.asset_infos);
+  const balance = useBalance(pool.lp_address);
+  const assets = getTokenDenoms(pool.assets);
   const [token1, token2] = orderPoolTokens(
     { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
     { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
@@ -38,7 +33,7 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
       _hover={{
         bg: "white.500",
       }}
-      onClick={() => onClick(pair.liquidity_token)}
+      onClick={() => onClick(pool.lp_address)}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="2">
