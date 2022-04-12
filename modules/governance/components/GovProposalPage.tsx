@@ -70,11 +70,11 @@ const DescriptionBox: FC<{ address: string; description: string }> = ({
     <Box minH="250px" bg="white.50" mb="3" p="6" borderRadius="xl" width="100%">
       <Text mb="3">Description</Text>
       <Box mb="3" maxH="40" overflowY="auto">
-        <Text color="whiteAlpha.400" fontSize="sm">
+        <Text color="whiteAlpha.600" fontSize="sm">
           {description}
         </Text>
       </Box>
-      <Text mb="3" color="whiteAlpha.600" fontSize="sm">
+      <Text mb="3" color="whiteAlpha.800" fontSize="sm">
         by:{" "}
         <Link href={finder(address)} isExternal>
           {address}
@@ -92,12 +92,12 @@ const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
       <Text mb="3">Executable Messages</Text>
       <Box maxH="40" overflowY="auto">
         {hasExecMsg && (
-          <Code bg="none" color="whiteAlpha.400" fontSize="sm">
+          <Code bg="none" color="whiteAlpha.600" fontSize="sm">
             {messages}
           </Code>
         )}
         {!hasExecMsg && (
-          <Text fontSize="sm" color="whiteAlpha.400">
+          <Text fontSize="sm" color="whiteAlpha.600">
             No executable messages.
           </Text>
         )}
