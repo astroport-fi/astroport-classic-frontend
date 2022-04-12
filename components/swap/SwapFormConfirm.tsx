@@ -125,7 +125,7 @@ const SwapFormConfirm: FC<Props> = ({
   if (rulesForToken[token1] || rulesForToken[token2]) {
     details.push({
       label: "Token Behaviour",
-      value: `-`,
+      value: null,
       tooltip: rulesForToken[token1]
         ? rulesForToken[token1]
         : rulesForToken[token2],
