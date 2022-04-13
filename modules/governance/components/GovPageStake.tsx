@@ -61,7 +61,7 @@ const GovPageStake = () => {
             : `${handleBigPercentage(stakingAPY)}`
           : `-`,
       tooltip:
-        "The APY is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days",
+        "The APY is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days. It is derived from fees coming into the protocol, not from ASTRO sent to stakers and it excludes any fees accrued prior to the xASTRO launch.",
     },
     {
       label: "xASTRO:ASTRO",
