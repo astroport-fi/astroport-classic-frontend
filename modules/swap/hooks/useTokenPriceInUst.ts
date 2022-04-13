@@ -1,3 +1,4 @@
+// deprecated
 import { useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { num, useTerraWebapp } from "@arthuryeti/terra";
