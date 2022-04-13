@@ -14,3 +14,4 @@ export * from "./useTokenTooltip";
 export * from "./useTx";
 export * from "./useTransaction";
 export * from "./useAllTokens";
+export * from "./useStableTokenPrice";
