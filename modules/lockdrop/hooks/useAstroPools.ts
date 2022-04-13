@@ -12,10 +12,10 @@ import {
   useHive,
   useTokenInfo,
   useLunaPriceInUst,
+  useStableTokenPrice,
 } from "modules/common";
 import { useUserInfoWithList } from "modules/lockdrop";
 import { getAssetAmountsInPool } from "libs/terra";
-import { useBLunaPriceInLuna } from "modules/swap";
 
 const createFirstQuery = ({
   infos,
@@ -90,12 +90,13 @@ const createSecondQuery = (pairs, address) => {
 
 export const useAstroPools = () => {
   const { pairs } = useAstroswap();
-  const { lockdrop, astroToken, stakableLp, generator } = useContracts();
+  const { lockdrop, astroToken, stakableLp, generator, bLunaToken } =
+    useContracts();
   const { getDecimals } = useTokenInfo();
   const address = useAddress();
   const lunaPrice = useLunaPriceInUst();
   const userInfo = useUserInfoWithList();
-  const bLunaPrice = useBLunaPriceInLuna();
+  const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");
   const currentTimestamp = dayjs().unix();
   const { getSymbol } = useTokenInfo();
 

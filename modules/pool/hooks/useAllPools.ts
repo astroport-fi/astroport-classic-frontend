@@ -10,6 +10,7 @@ import {
   useTokenInfo,
   useTokenPrices,
   useHiveEndpoint,
+  useStableTokenPrice,
   Asset,
   PairResponse,
   requestInChunks,
@@ -17,7 +18,6 @@ import {
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
-import { useBLunaPriceInLuna } from "modules/swap";
 import { useQuery } from "react-query";
 
 export type AllPoolsPool = {
@@ -107,10 +107,10 @@ const createQueryNotConnected = (pairs) => {
 
 export const useAllPools = () => {
   const { pairs } = useAstroswap();
-  const { generator, stakableLp } = useContracts();
+  const { generator, stakableLp, bLunaToken } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPriceInUst();
-  const bLunaPriceInLuna = useBLunaPriceInLuna();
+  const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");
   const poolsInfo = usePoolsInfo();
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
@@ -182,7 +182,7 @@ export const useAllPools = () => {
             "uluna"
           );
           totalLiquidityInUst = num(uluna)
-            .plus(num(uluna2).times(bLunaPriceInLuna))
+            .plus(num(uluna2).times(bLunaPrice))
             .div(ONE_TOKEN)
             .times(lunaPrice)
             .dp(6)
