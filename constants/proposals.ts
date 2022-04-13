@@ -21,6 +21,7 @@ export const PROPOSAL_INVALID_CHARS = [
   "`",
   "\\",
   ";",
+  ",",
 ];
 
 /* proposal links */
