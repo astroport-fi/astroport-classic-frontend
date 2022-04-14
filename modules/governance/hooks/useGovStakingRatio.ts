@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { num, useBalance, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
-
+import { QUERY_STALE_TIME } from "constants/constants";
 import { useContracts } from "modules/common";
 
 type Response = {
@@ -13,11 +13,17 @@ export const useGovStakingRatio = () => {
   const { astroToken, staking } = useContracts();
   const govAstroBalance = useBalance(astroToken, staking);
 
-  const { data, isLoading } = useQuery(["supply", astroToken], () => {
-    return client.wasm.contractQuery<Response>(astroToken, {
-      token_info: {},
-    });
-  });
+  const { data, isLoading } = useQuery(
+    ["supply", astroToken],
+    () => {
+      return client.wasm.contractQuery<Response>(astroToken, {
+        token_info: {},
+      });
+    },
+    {
+      staleTime: QUERY_STALE_TIME,
+    }
+  );
 
   return useMemo(() => {
     if (data == null) {

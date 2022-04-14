@@ -28,7 +28,7 @@ const GovProposalForm = () => {
   const { astroToken } = useContracts();
   const router = useRouter();
   const proposalConfig = useConfig();
-  const { xAstroBalance } = useGovStakingBalances();
+  const { xAstroBalance } = useGovStakingBalances({ getXAstroBalance: true });
   const astroMintRatio = useAstroMintRatio();
   const astroPrice = useTokenPriceInUstWithSimulate(astroToken);
   const [showConfirm, setShowConfirm] = useState(false);

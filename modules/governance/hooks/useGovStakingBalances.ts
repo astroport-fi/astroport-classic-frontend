@@ -1,3 +1,6 @@
+// balances can't use useBalance from @arthuryeti/terra as it returns 0 in loading state.
+// need differentiation of 0 = balance and 0 = loading
+
 import { gql } from "graphql-request";
 import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useApi, useContracts } from "modules/common";
@@ -11,6 +14,14 @@ const query = gql`
     }
   }
 `;
+
+type Params = {
+  getAstroBalance?: boolean;
+  getXAstroBalance?: boolean;
+  getStakedAstroBalance?: boolean;
+  getAstroCircSupply?: boolean;
+  getXAstroSupply?: boolean;
+};
 
 type Response = {
   balance: string;
@@ -28,7 +39,13 @@ type BalanceReturns = {
   astroCircSupply: any;
 };
 
-export const useGovStakingBalances = (): BalanceReturns => {
+export const useGovStakingBalances = ({
+  getAstroBalance = false,
+  getXAstroBalance = false,
+  getStakedAstroBalance = false,
+  getAstroCircSupply = false,
+  getXAstroSupply = false,
+}: Params): BalanceReturns => {
   const { client } = useTerraWebapp();
   const address = useAddress();
   const { astroToken, xAstroToken, staking } = useContracts();
@@ -41,6 +58,10 @@ export const useGovStakingBalances = (): BalanceReturns => {
           address,
         },
       });
+    },
+    {
+      enabled: getAstroBalance,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 
@@ -52,6 +73,10 @@ export const useGovStakingBalances = (): BalanceReturns => {
           address,
         },
       });
+    },
+    {
+      enabled: getXAstroBalance,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 
@@ -63,6 +88,10 @@ export const useGovStakingBalances = (): BalanceReturns => {
           address: staking,
         },
       });
+    },
+    {
+      enabled: getStakedAstroBalance,
+      staleTime: QUERY_STALE_TIME,
     }
   );
 
@@ -70,16 +99,23 @@ export const useGovStakingBalances = (): BalanceReturns => {
     name: "supply",
     query,
     options: {
-      enabled: !!query,
+      enabled: !!query && getAstroCircSupply,
       staleTime: QUERY_STALE_TIME,
     },
   });
 
-  const { data: xAstroSupply } = useQuery(["supply", xAstroToken], () => {
-    return client.wasm.contractQuery<ResponseSupply>(xAstroToken, {
-      token_info: {},
-    });
-  });
+  const { data: xAstroSupply } = useQuery(
+    ["supply", xAstroToken],
+    () => {
+      return client.wasm.contractQuery<ResponseSupply>(xAstroToken, {
+        token_info: {},
+      });
+    },
+    {
+      enabled: getXAstroSupply,
+      staleTime: QUERY_STALE_TIME,
+    }
+  );
 
   return {
     astroBalance: astroBalance?.balance,

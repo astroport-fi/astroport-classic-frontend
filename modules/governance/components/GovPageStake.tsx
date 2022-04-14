@@ -39,7 +39,13 @@ const GovPageStake = () => {
     stakedAstroBalance,
     xAstroSupply,
     astroCircSupply,
-  } = useGovStakingBalances();
+  } = useGovStakingBalances({
+    getAstroBalance: true,
+    getXAstroBalance: true,
+    getStakedAstroBalance: true,
+    getAstroCircSupply: true,
+    getXAstroSupply: true,
+  });
   const stakingRatio = useGovStakingRatio();
   const astroMintRatio = useAstroMintRatio();
   const stakingAPY = useGovStakingAPY();
