@@ -6,6 +6,7 @@ import tokenRules from "constants/tokenRules";
 import {
   usePriceImpact,
   usePriceImpactColor,
+  usePriceImpactMultiSwap,
   useSwapRoutePath,
 } from "modules/swap";
 import { useTokenInfo, Route, handleTinyAmount } from "modules/common";
@@ -48,22 +49,24 @@ const SwapFormConfirm: FC<Props> = ({
   } = useTerraWebapp();
   const swapRoutePath = useSwapRoutePath(swapRoute);
   const { getSymbol } = useTokenInfo();
-  const priceImpact = usePriceImpact({
+
+  const priceImpact = usePriceImpact({ from: token1, to: token2, price });
+  const priceImpactMultiSwap = usePriceImpactMultiSwap({
     from: token1,
     to: token2,
     amount1,
-    amount2,
-    price,
   });
-  const priceImpactColor = usePriceImpactColor(priceImpact);
-  const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
+  const priceImpactValue =
+    swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;
+  const priceImpactColor = usePriceImpactColor(priceImpactValue);
 
+  const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
   const rulesForToken = tokenRules[name];
 
   let details = [
     {
       label: "Price Impact",
-      value: `${handleTinyAmount(priceImpact, "0.00")}%`,
+      value: `${handleTinyAmount(priceImpactValue, "0.00")}%`,
       color: priceImpactColor,
     },
     {

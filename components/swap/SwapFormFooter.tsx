@@ -13,6 +13,7 @@ import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
 import {
   usePriceImpact,
   usePriceImpactColor,
+  usePriceImpactMultiSwap,
   useSwapRoutePath,
 } from "modules/swap";
 
@@ -50,11 +51,15 @@ const SwapFormFooter: FC<Props> = ({
   fee,
   onConfirmClick,
 }) => {
+  const address = useAddress();
   const swapRoutePath = useSwapRoutePath(swapRoute);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const priceImpact = usePriceImpact({ from, to, amount1, amount2, price });
-  const priceImpactColor = usePriceImpactColor(priceImpact);
-  const address = useAddress();
+
+  const priceImpact = usePriceImpact({ from, to, price });
+  const priceImpactMultiSwap = usePriceImpactMultiSwap({ from, to, amount1 });
+  const priceImpactValue =
+    swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;
+  const priceImpactColor = usePriceImpactColor(priceImpactValue);
 
   const renderRightMetric = () => {
     if (!isFormValid) {
@@ -84,13 +89,13 @@ const SwapFormFooter: FC<Props> = ({
               aria-label="Complete Swap Route"
             >
               <Text textStyle="medium" color={priceImpactColor}>
-                {handleTinyAmount(priceImpact, "0.00")}%
+                {handleTinyAmount(priceImpactValue, "0.00")}%
               </Text>
             </Tooltip>
           </Box>
         ) : (
           <Text textStyle="medium" color={priceImpactColor}>
-            {handleTinyAmount(priceImpact, "0.00")}%
+            {handleTinyAmount(priceImpactValue, "0.00")}%
           </Text>
         )}
         <Text textStyle="small" variant="dimmed">

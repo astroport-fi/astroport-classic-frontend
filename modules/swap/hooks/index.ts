@@ -6,3 +6,4 @@ export * from "./useSwap";
 export * from "./usePrice";
 export * from "./usePriceImpact";
 export * from "./usePriceImpactColor";
+export * from "./usePriceImpactMultiSwap";
