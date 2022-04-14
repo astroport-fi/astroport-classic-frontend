@@ -29,6 +29,7 @@ export const useStableTokenPrice = (token1: string, token2: string) => {
       });
     },
     {
+      enabled: swapRoute?.[0]?.type == "stable" && token1 != null,
       staleTime: QUERY_STALE_TIME,
     }
   );
