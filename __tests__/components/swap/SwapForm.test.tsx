@@ -81,6 +81,7 @@ jest.mock("modules/swap", () => {
       }[token];
     },
     usePriceImpact: () => 0,
+    usePriceImpactMultiSwap: () => 0,
   };
 });
 
