@@ -1102,6 +1102,46 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // KUST-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1g53pyke8jtmt4lwvk4yl0xaqc4u0qlsl8dz3ex",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra15rx5ghq4nxrv62fqvdvm78kuasfkl95c6mcmqs",
+        liquidity_token: "terra16aurvlp5xctv0ftcelaseypyc89ylf4y0s5q0y",
+        pair_type: {
+          stable: {},
+        },
+      },
+      // KNTC-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1yeyr6taynkwdl85ppaggr3zr8txhf66cny2ang",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra14sal7lg7ny207yz0ue4dc02mdqs03zytegsn2r",
+        liquidity_token: "terra1nv2un60yflp8rxe6vhhgx976l74n64gyye825m",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {

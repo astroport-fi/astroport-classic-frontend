@@ -390,6 +390,20 @@ const tokenCache: TokenCache = {
         decimals: 6,
       },
     */
+    terra1g53pyke8jtmt4lwvk4yl0xaqc4u0qlsl8dz3ex: {
+      protocol: "Synthetic UST token",
+      symbol: "kUST",
+      token: "terra1g53pyke8jtmt4lwvk4yl0xaqc4u0qlsl8dz3ex",
+      icon: "/tokens/kUST.svg",
+      decimals: 6,
+    },
+    terra1yeyr6taynkwdl85ppaggr3zr8txhf66cny2ang: {
+      protocol: "Kinetic Token",
+      symbol: "KNTC",
+      token: "terra1yeyr6taynkwdl85ppaggr3zr8txhf66cny2ang",
+      icon: "/tokens/kinetic.svg",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
