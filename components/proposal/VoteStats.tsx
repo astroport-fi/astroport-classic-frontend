@@ -2,10 +2,10 @@ import React, { FC } from "react";
 import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
 import { Proposal } from "types/common";
+import { truncate } from "libs/text";
 import {
   handleAmountWithoutTrailingZeros,
   handleTinyAmount,
-  truncateStr,
 } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
@@ -16,8 +16,6 @@ import {
   calcVotingDistribution,
 } from "modules/governance/helpers";
 import { useProposalVotes } from "modules/governance";
-import { num } from "@arthuryeti/terra";
-import { PROPOSAL_VOTE_POWER } from "constants/constants";
 
 type Props = {
   proposal: Proposal;
@@ -114,7 +112,7 @@ const VoteStats: FC<Props> = ({
                       fontSize="xs"
                     >
                       <Link href={finder(vote.voter)} isExternal>
-                        <Text>{truncateStr(vote.voter, 15)}</Text>
+                        <Text>{truncate(vote.voter, [10, 4])}</Text>
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
@@ -145,7 +143,7 @@ const VoteStats: FC<Props> = ({
                       fontSize="xs"
                     >
                       <Link href={finder(vote.voter)} isExternal>
-                        <Text>{truncateStr(vote.voter, 15)}</Text>
+                        <Text>{truncate(vote.voter, [10, 4])}</Text>
                       </Link>
                       <Text mr="1">
                         {handleTinyAmount(
