@@ -593,6 +593,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/wiw.svg",
       decimals: 6,
     },
+    terra1fm3xjxn8k553fxqvl7vs7myr4lvjdxa7wpaqu3: {
+      protocol: "ANAVEL",
+      symbol: "NVL",
+      token: "terra1fm3xjxn8k553fxqvl7vs7myr4lvjdxa7wpaqu3",
+      icon: "/tokens/levana.svg",
+      decimals: 6,
+    },
   },
 };
 

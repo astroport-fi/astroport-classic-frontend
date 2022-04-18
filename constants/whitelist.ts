@@ -1646,6 +1646,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // NVL-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1fm3xjxn8k553fxqvl7vs7myr4lvjdxa7wpaqu3",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1k425ew677lm5dsvaxxg6yafnk65jjreym8j5f2",
+        liquidity_token: "terra1njtk0xrc908m35hfzyu8adya0x7250emu4xt5u",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
 };
