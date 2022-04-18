@@ -600,6 +600,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/levana.svg",
       decimals: 6,
     },
+    terra1pw8kuxf3d7xnlsrqr39p29emwvufyr0yyjk3fg: {
+      protocol: "Bonded ATOM",
+      symbol: "bATOM",
+      token: "terra1pw8kuxf3d7xnlsrqr39p29emwvufyr0yyjk3fg",
+      icon: "/tokens/bATOM.svg",
+      decimals: 6,
+    },
   },
 };
 

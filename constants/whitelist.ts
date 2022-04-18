@@ -1666,6 +1666,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // bATOM-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1pw8kuxf3d7xnlsrqr39p29emwvufyr0yyjk3fg",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1xu2r64k7ffwqv5pzq6fxupglg5tthwr68t9lwc",
+        liquidity_token: "terra1q5q8pg5e20l0pqzcjhj2qh92x3vcufje9lnltv",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
 };
