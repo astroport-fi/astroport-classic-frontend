@@ -1,12 +1,7 @@
 import React, { FC } from "react";
-import { Flex, Box, Center, Link, Text } from "@chakra-ui/react";
-import useFinder from "hooks/useFinder";
+import { Flex, Box, Center, Text } from "@chakra-ui/react";
 import { Proposal } from "types/common";
-import { truncate } from "libs/text";
-import {
-  handleAmountWithoutTrailingZeros,
-  handleTinyAmount,
-} from "modules/common/helpers";
+import { handleAmountWithoutTrailingZeros } from "modules/common/helpers";
 
 import UnderlineButton from "components/UnderlineButton";
 import ProgressBar from "components/governance/ProgressBar";
@@ -15,7 +10,8 @@ import {
   calcVotingPower,
   calcVotingDistribution,
 } from "modules/governance/helpers";
-import { useProposalVotes } from "modules/governance";
+
+import VoteArray from "./VoteArray";
 
 type Props = {
   proposal: Proposal;
@@ -32,12 +28,8 @@ const VoteStats: FC<Props> = ({
   addressOpen,
   onClick,
 }) => {
-  const finder = useFinder();
   const { voteForPower, voteAgainstPower } = calcVotingPower(proposal);
   const { voteForDist, voteAgainstDist } = calcVotingDistribution(proposal);
-  const { votesFor, votesAgainst } = useProposalVotes(
-    String(proposal.proposal_id)
-  );
 
   return (
     <Flex
@@ -103,26 +95,11 @@ const VoteStats: FC<Props> = ({
                 <Text color="green.500" mb="1" fontSize="2xs" fontWeight="500">
                   {proposal.votes_for} Addresses
                 </Text>
-                <Box height="32" overflowY="auto">
-                  {votesFor.map((vote, index) => (
-                    <Flex
-                      key={index}
-                      justify="space-between"
-                      my="1.5"
-                      fontSize="xs"
-                    >
-                      <Link href={finder(vote.voter)} isExternal>
-                        <Text>{truncate(vote.voter, [10, 4])}</Text>
-                      </Link>
-                      <Text mr="1">
-                        {handleTinyAmount(
-                          (vote.voting_power / proposal.votes_for_power) * 100
-                        )}
-                        %
-                      </Text>
-                    </Flex>
-                  ))}
-                </Box>
+                <VoteArray
+                  proposalId={proposal.proposal_id.toString()}
+                  choice="for"
+                  totalVotingPower={proposal.votes_for_power}
+                />
               </Box>
               <Box
                 width="50%"
@@ -134,27 +111,11 @@ const VoteStats: FC<Props> = ({
                 <Text color="red.500" mb="1" fontSize="2xs" fontWeight="500">
                   {proposal.votes_against} Addresses
                 </Text>
-                <Box height="32" overflowY="auto">
-                  {votesAgainst.map((vote, index) => (
-                    <Flex
-                      key={index}
-                      justify="space-between"
-                      my="1.5"
-                      fontSize="xs"
-                    >
-                      <Link href={finder(vote.voter)} isExternal>
-                        <Text>{truncate(vote.voter, [10, 4])}</Text>
-                      </Link>
-                      <Text mr="1">
-                        {handleTinyAmount(
-                          (vote.voting_power / proposal.votes_against_power) *
-                            100
-                        )}
-                        %
-                      </Text>
-                    </Flex>
-                  ))}
-                </Box>
+                <VoteArray
+                  proposalId={proposal.proposal_id.toString()}
+                  choice="against"
+                  totalVotingPower={proposal.votes_against_power}
+                />
               </Box>
             </Flex>
           )}

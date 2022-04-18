@@ -1,16 +1,29 @@
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { gql } from "graphql-request";
 import { useApi } from "modules/common";
-import { Proposal } from "types/common";
+import { QUERY_STALE_TIME } from "constants/constants";
 
-type VoteResponse = {
-  voter: string;
-  voting_power: number;
+type Response = {
+  isLoading: boolean;
+  hasMore: boolean;
+  votes: { voter: string; voting_power: number }[];
 };
 
+const DEFAULT_VOTES_LIMIT = 50;
+
 const query = gql`
-  query Votes($proposalId: String!, $choice: String) {
-    votes(proposal_id: $proposalId, choice: $choice) {
+  query Votes(
+    $proposalId: String!
+    $choice: String
+    $offset: Int
+    $limit: Int
+  ) {
+    votes(
+      proposal_id: $proposalId
+      choice: $choice
+      offset: $offset
+      limit: $limit
+    ) {
       voter
       voting_power
     }
@@ -18,38 +31,38 @@ const query = gql`
 `;
 
 export const useProposalVotes = (
-  proposalId: string
-): { votesFor: VoteResponse[]; votesAgainst: VoteResponse[] } => {
-  const { data: votesFor } = useApi({
-    name: ["proposal", "votes", "for", proposalId],
+  proposalId: string,
+  choice: "for" | "against",
+  pageNum: number
+): Response => {
+  const [hasMore, setHasMore] = useState(false);
+  const [votes, setVotes] = useState([]);
+
+  const { data, isLoading } = useApi({
+    name: ["proposal", "votes", proposalId, choice, pageNum.toString()],
     query,
     variables: {
       proposalId,
-      choice: "for",
+      choice,
+      offset: pageNum * DEFAULT_VOTES_LIMIT,
+      limit: DEFAULT_VOTES_LIMIT,
     },
     options: {
       enabled: !!query,
+      staleTime: QUERY_STALE_TIME,
     },
   });
 
-  const { data: votesAgainst } = useApi({
-    name: ["proposal", "votes", "against", proposalId],
-    query,
-    variables: {
-      proposalId,
-      choice: "against",
-    },
-    options: {
-      enabled: !!query,
-    },
-  });
+  useEffect(() => {
+    if (data?.votes && data?.votes.length > 0) {
+      setVotes((votes) => [...votes, ...data.votes]);
+      setHasMore(true);
+    } else {
+      setHasMore(false);
+    }
+  }, [data, isLoading]);
 
-  return useMemo(() => {
-    return {
-      votesFor: votesFor?.votes || [],
-      votesAgainst: votesAgainst?.votes || [],
-    };
-  }, [votesFor, votesAgainst]);
+  return { votes, isLoading, hasMore };
 };
 
 export default useProposalVotes;
