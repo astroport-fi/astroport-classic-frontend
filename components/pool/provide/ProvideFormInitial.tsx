@@ -64,7 +64,7 @@ const ProvideFormInitial: FC<Props> = ({
     .div(num(pool.token1.share).div(10 ** token1Decimals))
     .toNumber();
   const priceSource =
-    pool.poolType === "stable" ? "swap-simulation" : "pool-ratio";
+    pool.poolType === "xyk" ? "pool-ratio" : "swap-simulation";
 
   const balances = {
     token1: num(token1Balance)

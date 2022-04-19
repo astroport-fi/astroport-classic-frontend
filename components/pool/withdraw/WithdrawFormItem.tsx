@@ -18,7 +18,7 @@ const WithdrawFormItem: FC<Props> = ({ token, amount, poolType, ...props }) => {
 
   const swapSimulationPrice = useTokenPriceInUstWithSimulate(token).toFixed(2);
   const poolRatioPrice = usePriceDerived(token).toFixed(2);
-  const price = poolType === "stable" ? swapSimulationPrice : poolRatioPrice;
+  const price = poolType === "xyk" ? poolRatioPrice : swapSimulationPrice;
 
   const totalPrice = +price * +amount;
   const formatted = handleTinyAmount(amount);
