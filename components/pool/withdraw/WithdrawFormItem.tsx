@@ -5,15 +5,21 @@ import {
   handleTinyAmount,
   usePriceDerived,
 } from "modules/common";
+import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
   token: string;
   amount: string;
+  poolType: string | null;
 } & BoxProps;
 
-const WithdrawFormItem: FC<Props> = ({ token, amount, ...props }) => {
+const WithdrawFormItem: FC<Props> = ({ token, amount, poolType, ...props }) => {
   const { getIcon, getSymbol } = useTokenInfo();
-  const price = usePriceDerived(token).toFixed(2);
+
+  const swapSimulationPrice = useTokenPriceInUstWithSimulate(token).toFixed(2);
+  const poolRatioPrice = usePriceDerived(token).toFixed(2);
+  const price = poolType === "stable" ? swapSimulationPrice : poolRatioPrice;
+
   const totalPrice = +price * +amount;
   const formatted = handleTinyAmount(amount);
   const formattedPrice = handleTinyAmount(price);

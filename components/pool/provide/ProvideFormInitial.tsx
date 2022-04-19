@@ -63,6 +63,8 @@ const ProvideFormInitial: FC<Props> = ({
     .div(10 ** token2Decimals)
     .div(num(pool.token1.share).div(10 ** token1Decimals))
     .toNumber();
+  const priceSource =
+    pool.poolType === "stable" ? "swap-simulation" : "pool-ratio";
 
   const balances = {
     token1: num(token1Balance)
@@ -153,7 +155,7 @@ const ProvideFormInitial: FC<Props> = ({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <TokenInput isSingle {...field} priceSource="pool-ratio" />
+                  <TokenInput isSingle {...field} priceSource={priceSource} />
                 )}
               />
             </Box>
@@ -198,7 +200,7 @@ const ProvideFormInitial: FC<Props> = ({
                       <TokenInput
                         isSingle
                         {...field}
-                        priceSource="pool-ratio"
+                        priceSource={priceSource}
                       />
                     )}
                   />

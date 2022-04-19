@@ -50,8 +50,19 @@ const WithdrawFormInitial: FC<Props> = ({
     setValue("amount", String(value));
   };
 
-  const renderWithdrawFormItem = (token: any, amount: any) => {
-    return <WithdrawFormItem token={token} amount={amount} mb="4" />;
+  const renderWithdrawFormItem = (
+    token: any,
+    amount: any,
+    poolType: string | null
+  ) => {
+    return (
+      <WithdrawFormItem
+        token={token}
+        amount={amount}
+        poolType={poolType}
+        mb="4"
+      />
+    );
   };
 
   return (
@@ -119,8 +130,16 @@ const WithdrawFormInitial: FC<Props> = ({
         </Text>
 
         <Box mt="6" mb="4">
-          {renderWithdrawFormItem(state.token1, state.token1Amount)}
-          {renderWithdrawFormItem(state.token2, state.token2Amount)}
+          {renderWithdrawFormItem(
+            state.token1,
+            state.token1Amount,
+            pool.poolType
+          )}
+          {renderWithdrawFormItem(
+            state.token2,
+            state.token2Amount,
+            pool.poolType
+          )}
         </Box>
       </Card>
 

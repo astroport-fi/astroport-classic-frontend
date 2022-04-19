@@ -25,6 +25,7 @@ export type Pool = {
   assets: [Asset, Asset];
   pairContract: string;
   lpTokenContract: string;
+  poolType: string | null;
   total: {
     share: string;
     shareInUst: string | number | null;
@@ -103,6 +104,7 @@ export const usePool = ({
       assets: pool.assets,
       pairContract: pairContract,
       lpTokenContract: lpTokenContract,
+      poolType: poolInfo?.pool_type,
       total: {
         share: pool.total_share,
         shareInUst: totalShareInUst,

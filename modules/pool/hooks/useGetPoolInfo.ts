@@ -10,6 +10,7 @@ const query = gql`
       trading_fee
       pool_liquidity
       _24hr_volume
+      pool_type
       trading_fees {
         apy
         apr
