@@ -227,7 +227,7 @@ const tokenCache: TokenCache = {
       protocol: "Wormhole Governance OHM",
       symbol: "wgOHM",
       token: "terra1fpfn2kkr8mv390wx4dtpfk3vkjx9ch3thvykl3",
-      icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+      icon: "/tokens/wgohm.png",
       decimals: 8,
     },
     terra1hnezwjqlhzawcrfysczcxs6xqxu2jawn729kkf: {
@@ -576,7 +576,7 @@ const tokenCache: TokenCache = {
       protocol: "Governance OHM",
       symbol: "gOHM",
       token: "terra1qqaufxewaygpcnc7er0x02wl03f0wanz65v0ya",
-      icon: "https://assets.coingecko.com/coins/images/21129/large/token_wsOHM_logo.png",
+      icon: "/tokens/wgohm.png",
       decimals: 8,
     },
     terra1xgadan68ufnd0am08xd2vurqmz0wayctexv5fh: {
