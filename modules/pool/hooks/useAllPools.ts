@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
-import { num, useAddress } from "@arthuryeti/terra";
+import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import useLocalStorage from "hooks/useLocalStorage";
 import {
   getPoolTokenDenoms,
@@ -18,6 +18,7 @@ import {
 import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
+import { BLUNA_LUNA_PAIR_ADDR } from "constants/contracts";
 import { useQuery } from "react-query";
 
 export type AllPoolsPool = {
@@ -107,6 +108,7 @@ const createQueryNotConnected = (pairs) => {
 
 export const useAllPools = () => {
   const { pairs } = useAstroswap();
+  const { network } = useTerraWebapp();
   const { generator, stakableLp, bLunaToken } = useContracts();
   const address = useAddress();
   const lunaPrice = useLunaPriceInUst();
@@ -172,11 +174,8 @@ export const useAllPools = () => {
             .toNumber();
         }
 
-        if (
-          contract_addr === "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w" ||
-          contract_addr === "terra1esle9h9cjeavul53dqqws047fpwdhj6tynj5u4"
-        ) {
-          // bluna-luna pool
+        // bluna-luna pool
+        if (contract_addr === BLUNA_LUNA_PAIR_ADDR[network.name]) {
           const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
             assets,
             "uluna"
@@ -189,8 +188,8 @@ export const useAllPools = () => {
             .toNumber();
         }
 
+        // non-ust pool, bluna-luna pool
         if (!totalLiquidityInUst) {
-          // non-ust pool, bluna-luna pool
           const token2UstValue = tokensInUst[token2];
           const token2Decimals = getDecimals(token2);
 
