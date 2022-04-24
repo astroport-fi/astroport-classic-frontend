@@ -14,16 +14,11 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import {
-  fromTerraAmount,
-  num,
-  useAddress,
-  useBalance,
-} from "@arthuryeti/terra";
+import { fromTerraAmount, num, useAddress } from "@arthuryeti/terra";
 import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
 
 import { truncate, displayTNS } from "libs/text";
-import { useTokenInfo } from "modules/common";
+import { useBalance, useTokenInfo } from "modules/common";
 import useFinder from "hooks/useFinder";
 import useTNS from "hooks/useTNS";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";

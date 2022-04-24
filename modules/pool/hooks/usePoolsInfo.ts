@@ -2,9 +2,11 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { useApi } from "modules/common";
 
+const POOL_QUERY_LIMIT = 500;
+
 const query = gql`
-  query {
-    pools {
+  query Query($limit: Int) {
+    pools(limit: $limit) {
       pool_address
       token_symbol
       trading_fee
@@ -38,6 +40,7 @@ export const usePoolsInfo = () => {
   const { data, isLoading } = useApi({
     name: ["pools", "all", "info"],
     query,
+    variables: { limit: POOL_QUERY_LIMIT },
     options: {
       enabled: !!query,
     },

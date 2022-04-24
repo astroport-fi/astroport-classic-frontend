@@ -1,8 +1,12 @@
 import React, { FC } from "react";
-import { TxStep, useBalance, num } from "@arthuryeti/terra";
+import { TxStep, num } from "@arthuryeti/terra";
 import numeral from "numeral";
 import { ONE_TOKEN } from "constants/constants";
-import { handleTinyAmount, handleBigPercentage } from "modules/common";
+import {
+  useBalance,
+  handleTinyAmount,
+  handleBigPercentage,
+} from "modules/common";
 import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import AprFooter from "components/pool/AprFooter";

@@ -13,7 +13,7 @@ export function isNativeAssetInfo(
 }
 
 export const isNativeToken = (token: string = ""): boolean => {
-  return token.startsWith("u");
+  return token.startsWith("u") || token.startsWith("ibc/");
 };
 
 export const isNativeAsset = (info: AssetInfo): boolean => {

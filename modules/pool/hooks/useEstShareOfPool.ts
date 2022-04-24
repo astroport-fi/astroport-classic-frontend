@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
+import { useBalance } from "modules/common";
 import { Pool, useTokensToLp } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
 

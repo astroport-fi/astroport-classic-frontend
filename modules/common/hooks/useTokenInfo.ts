@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { truncate } from "libs/text";
 import { AssetInfo } from "types/common";
 import { useAstroswap } from "../context";
+import { COMMON_TOKENS } from "constants/constants";
 
 export type TokenInWallet = {
   address: string;
@@ -73,7 +74,11 @@ export const useTokenInfo = () => {
         pairs.filter((pair) => {
           return (
             pair.asset_infos.filter((asset: AssetInfo) => {
-              return asset?.token?.contract_addr == token;
+              return (
+                (asset?.token?.contract_addr == token ||
+                  asset?.native_token?.denom == token) &&
+                !COMMON_TOKENS.includes(token)
+              );
             }).length > 0
           );
         }).length <= 0

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 import {
   useGetPool,
@@ -9,7 +9,7 @@ import {
   useGetPoolInfo,
   shouldReverseTokenOrder,
 } from "modules/pool";
-import { Asset, getTokenDenom, useTokenInfo } from "modules/common";
+import { useBalance, Asset, getTokenDenom, useTokenInfo } from "modules/common";
 import { useStakedLpAmount } from "modules/generator";
 
 export type Rewards = {

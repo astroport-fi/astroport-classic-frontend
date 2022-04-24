@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import { Box, Text, Image, Flex, HStack } from "@chakra-ui/react";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
-import { useTokenInfo, getTokenDenoms, PairResponse } from "modules/common";
+import { fromTerraAmount } from "@arthuryeti/terra";
+import {
+  useBalance,
+  useTokenInfo,
+  getTokenDenoms,
+  PairResponse,
+} from "modules/common";
 import { orderPoolTokens } from "modules/pool";
 
 type Props = {
@@ -13,8 +18,11 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const balance = useBalance(pair.liquidity_token);
   const assets = getTokenDenoms(pair.asset_infos);
-  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
-  
+  const [token1, token2] = orderPoolTokens(
+    { asset: assets[0], symbol: getSymbol(assets[0]) },
+    { asset: assets[1], symbol: getSymbol(assets[1]) }
+  );
+
   const icon1 = getIcon(token1);
   const symbol1 = getSymbol(token1);
   const icon2 = getIcon(token2);

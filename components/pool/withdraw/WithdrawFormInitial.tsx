@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount } from "@arthuryeti/terra";
 import { WithdrawState } from "modules/pool";
-import { FormActions, FormActionItem } from "modules/common";
+import { useBalance, FormActions, FormActionItem } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import Card from "components/Card";
 import WarningMessage from "components/common/WarningMessage";

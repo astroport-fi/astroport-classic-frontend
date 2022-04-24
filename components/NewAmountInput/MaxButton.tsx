@@ -1,7 +1,8 @@
 import React, { FC, useMemo } from "react";
 import { Button } from "@chakra-ui/react";
-import { num, useTerraWebapp, useBalance } from "@arthuryeti/terra";
+import { num, useTerraWebapp } from "@arthuryeti/terra";
 
+import { useBalance } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 
 type Props = {

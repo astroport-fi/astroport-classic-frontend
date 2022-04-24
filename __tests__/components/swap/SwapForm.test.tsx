@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEstimateFee } from "@arthuryeti/terra";
-import { useTx } from "modules/common";
+import { useTx, useBalance } from "modules/common";
 import { useSwap } from "modules/swap";
 import { Coin, Coins } from "@terra-money/terra.js";
 
@@ -22,7 +22,6 @@ jest.mock("@arthuryeti/terra", () => {
 
   return {
     ...original,
-    useBalance: (token) => 100_000_000,
     useEstimateFee: jest.fn(),
     useAddress: () => "terra42",
   };
@@ -56,6 +55,7 @@ jest.mock("modules/common", () => {
       getIcon: () => {},
       isHidden: () => false,
     }),
+    useBalance: (token) => 100_000_000,
     useTx: jest.fn(),
   };
 });

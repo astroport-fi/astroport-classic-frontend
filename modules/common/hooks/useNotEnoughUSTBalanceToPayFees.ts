@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
-import { useTokenInfo } from "modules/common";
+import { useBalance, useTokenInfo } from "modules/common";
 
 export const useNotEnoughUSTBalanceToPayFees = (fee?: Fee) => {
   const token = "uusd";

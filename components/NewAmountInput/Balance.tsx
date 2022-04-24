@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, HStack } from "@chakra-ui/react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 import { MaxButton } from "components/NewAmountInput";
-import { useTokenInfo } from "modules/common";
+import { useBalance, useTokenInfo } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 import numeral from "numeral";
 

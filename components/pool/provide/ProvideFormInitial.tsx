@@ -1,10 +1,15 @@
 import React, { FC } from "react";
 import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
-import { useTokenInfo, FormActions, FormActionItem } from "modules/common";
+import {
+  useBalance,
+  useTokenInfo,
+  FormActions,
+  FormActionItem,
+} from "modules/common";
 import Card from "components/Card";
 import CircularIcon from "components/common/CircularIcon";
 import WarningMessage from "components/common/WarningMessage";

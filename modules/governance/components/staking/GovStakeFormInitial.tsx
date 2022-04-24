@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Box, Stack, Text, Flex } from "@chakra-ui/react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 import { AstroFormType } from "types/common";
-import { FormActionItem, FormActions } from "modules/common";
+import { useBalance, FormActionItem, FormActions } from "modules/common";
 import Card from "components/Card";
 import WarningMessage from "components/common/WarningMessage";
 import GovStakeFooter from "./GovStakeFooter";

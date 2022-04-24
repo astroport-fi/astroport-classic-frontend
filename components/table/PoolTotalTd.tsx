@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Text } from "@chakra-ui/react";
 
-import { useContracts } from "modules/common";
-import { fromTerraAmount, useBalance } from "@arthuryeti/terra";
+import { useBalance, useContracts } from "modules/common";
+import { fromTerraAmount } from "@arthuryeti/terra";
 
 type Props = {
   value: string;

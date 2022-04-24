@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 import { useLpToTokens, Pool } from "modules/pool";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useTokenInfo } from "modules/common";
+import { useBalance, useTokenInfo } from "modules/common";
 
 type Response = number | null;
 

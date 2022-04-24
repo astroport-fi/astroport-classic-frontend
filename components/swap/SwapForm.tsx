@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { num, useBalance, useEstimateFee } from "@arthuryeti/terra";
+import { num, useEstimateFee } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 import numeral from "numeral";
@@ -9,6 +9,7 @@ import numeral from "numeral";
 import { DEFAULT_SLIPPAGE, ONE_TOKEN } from "constants/constants";
 import { useSwap, useSwapRoute } from "modules/swap";
 import {
+  useBalance,
   useAstroswap,
   useTokenInfo,
   useNotEnoughUSTBalanceToPayFees,

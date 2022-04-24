@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num, useBalance } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
 import { StakeLpFormFooter, StakeLpTokenState } from "modules/generator";
-import { FormActionItem, FormActions } from "modules/common";
+import { useBalance, FormActionItem, FormActions } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 import { PoolFormType } from "types/common";
 

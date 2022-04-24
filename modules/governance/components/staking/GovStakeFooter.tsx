@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
+import { fromTerraAmount, num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
+  useBalance,
   handleBigAndTinyAmount,
   handleBigPercentage,
   handleTinyAmount,

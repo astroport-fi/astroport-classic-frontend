@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Button, HStack } from "@chakra-ui/react";
-import { useBalance, num } from "@arthuryeti/terra";
+import { num } from "@arthuryeti/terra";
 
+import { useBalance } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 import numeral from "numeral";
 

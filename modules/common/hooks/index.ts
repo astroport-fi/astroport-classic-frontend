@@ -7,6 +7,7 @@ export * from "./useHive";
 export * from "./usePriceApi";
 export * from "./useApi";
 export * from "./useTogglePairToFavorite";
+export * from "./useBalance";
 export * from "./useBalances";
 export * from "./useTokenPrices";
 export * from "./usePriceDerived";
