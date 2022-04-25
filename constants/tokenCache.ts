@@ -401,6 +401,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/kinetic.svg",
       decimals: 6,
     },
+    terra18zqcnl83z98tf6lly37gghm7238k7lh79u4z9a: {
+      protocol: "Bonded ATOM",
+      symbol: "bATOM",
+      token: "terra18zqcnl83z98tf6lly37gghm7238k7lh79u4z9a",
+      icon: "/tokens/bATOM.svg",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
