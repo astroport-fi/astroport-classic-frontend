@@ -1,6 +1,10 @@
 import { request } from "graphql-request";
 import { useQuery } from "react-query";
-import { ENV_API_ENDPOINT } from "constants/constants";
+import { useTerraWebapp } from "@arthuryeti/terra";
+import {
+  ENV_COLUMBUS_API_ENDPOINT,
+  ENV_BOMBAY_API_ENDPOINT,
+} from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -12,10 +16,16 @@ type Params = {
 };
 
 export const useApi = ({ name, query, variables, options }: Params) => {
+  const { network } = useTerraWebapp();
+  const API_URL =
+    network.name === "testnet"
+      ? ENV_BOMBAY_API_ENDPOINT
+      : ENV_COLUMBUS_API_ENDPOINT;
+
   const result = useQuery(
     name,
     () => {
-      return request(ENV_API_ENDPOINT, query, variables);
+      return request(API_URL, query, variables);
     },
     options
   );

@@ -55,5 +55,8 @@ export const ENV_TESTNET_GRAPHQL = process.env.NEXT_PUBLIC_TESTNET_GRAPHQL;
 export const ENV_TESTNET_FALLBACK_GRAPHQL =
   process.env.NEXT_PUBLIC_TESTNET_FALLBACK_GRAPHQL;
 
-export const ENV_API_ENDPOINT =
-  process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.astroport.fi/graphql";
+export const ENV_COLUMBUS_API_ENDPOINT =
+  process.env.NEXT_PUBLIC_COLUMBUS_API_ENDPOINT;
+
+export const ENV_BOMBAY_API_ENDPOINT =
+  process.env.NEXT_PUBLIC_BOMBAY_API_ENDPOINT;

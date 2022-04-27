@@ -26,7 +26,8 @@ NEXT_PUBLIC_MAINNET_FALLBACK_GRAPHQL=https://hive.terra.dev/graphql
 NEXT_PUBLIC_TESTNET_GRAPHQL=https://hive-terra-test.everstake.one/graphql
 NEXT_PUBLIC_TESTNET_FALLBACK_GRAPHQL=https://testnet-hive.terra.dev/graphql
 
-NEXT_PUBLIC_API_ENDPOINT=https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql
+NEXT_PUBLIC_COLUMBUS_API_ENDPOINT=https://api.astroport.fi/graphql
+NEXT_PUBLIC_BOMBAY_API_ENDPOINT=https://2h8711jruf.execute-api.us-east-1.amazonaws.com/dev/graphql
 ```
 
 If you have nvm installed, you should select the correct npm version for your environment based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.
