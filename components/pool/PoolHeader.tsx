@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { Box, Flex, Text, Button, HStack } from "@chakra-ui/react";
-
+import { Box, Flex, Text, Button, HStack, Tooltip } from "@chakra-ui/react";
 import { useTokenInfo } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
-
 import Card from "components/Card";
+import InfoIcon from "components/icons/InfoIcon";
+import { DOUBLESIDED_TOOLTIP } from "constants/constants";
 
 type Props = {
   pool: any;
@@ -37,6 +37,15 @@ const PoolHeader: FC<Props> = ({ pool, mode, type, onModeClick }) => {
               >
                 Doublesided
               </Button>
+              <Tooltip
+                label={DOUBLESIDED_TOOLTIP}
+                placement="top"
+                aria-label="More info"
+              >
+                <Box ml="1" cursor="pointer" textColor="whiteAlpha.500">
+                  <InfoIcon width="1rem" height="1rem" />
+                </Box>
+              </Tooltip>
               {/* <Button
                 variant="mini"
                 isActive={mode === ProvideFormMode.Single}

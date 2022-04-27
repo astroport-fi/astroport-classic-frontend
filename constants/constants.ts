@@ -38,9 +38,6 @@ export const QUERY_STALE_TIME = 30000; // 30 sec
 export const SHARE_TOKEN = "terra1l5nrdu9550yjpt2gltv5szm9qzltztmtlld445";
 export const COMMON_TOKENS = ["uusd", "uluna"];
 
-export const REWARDS_NOTICE =
-  "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
-
 export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
 export const ASTRO_DISCORD_LINK = "https://discord.gg/astroport";
 
@@ -60,3 +57,15 @@ export const ENV_COLUMBUS_API_ENDPOINT =
 
 export const ENV_BOMBAY_API_ENDPOINT =
   process.env.NEXT_PUBLIC_BOMBAY_API_ENDPOINT;
+
+export const APR_TOOLTIP =
+  "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
+
+export const EXPERT_MODE_TOOLTIP =
+  "Expert Mode hides the confirmation screen for swaps and allows someone to swiftly execute swaps without reviewing details for the transaction";
+
+export const DOUBLESIDED_TOOLTIP =
+  "Double Sided liquidity provision consists in adding liquidity to a pool using both tokens at the current pool ratio";
+
+export const TOTAL_REWARDS_TOOLTIP =
+  "This is the total value of all rewards you accrued and can claim at the moment from all generators you staked LP tokens in";

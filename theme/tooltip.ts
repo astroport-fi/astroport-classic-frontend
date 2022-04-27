@@ -7,6 +7,7 @@ const styles = {
     borderRadius: "sm",
     color: "white",
     fontSize: "xs",
+    zIndex: 9999,
   },
 };
 

@@ -23,7 +23,7 @@ const styles = {
       p: 0,
     },
     popper: {
-      zIndex: 9999,
+      zIndex: 9998,
     },
   },
   sizes: {

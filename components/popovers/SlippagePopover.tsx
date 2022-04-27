@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useState } from "react";
 import {
+  Flex,
   Box,
   InputGroup,
   InputRightElement,
@@ -12,10 +13,13 @@ import {
   Text,
   useBreakpointValue,
   PlacementWithLogical,
+  Tooltip,
 } from "@chakra-ui/react";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import GearIcon from "components/icons/GearIcon";
+import InfoIcon from "components/icons/InfoIcon";
 import { clampValue } from "@chakra-ui/utils";
+import { EXPERT_MODE_TOOLTIP } from "constants/constants";
 
 type Props = {
   value: number;
@@ -103,7 +107,18 @@ const SlippagePopover: FC<Props> = ({
     >
       <VStack mt="2" spacing="6" align="flex-start" w={["56", null, "96"]}>
         <Box>
-          <Text textStyle="minibutton">Expert mode</Text>
+          <Flex alignItems="center">
+            <Text textStyle="minibutton">Expert mode</Text>
+            <Tooltip
+              label={EXPERT_MODE_TOOLTIP}
+              placement="top"
+              aria-label="More info"
+            >
+              <Box ml="1" cursor="pointer" opacity={0.6}>
+                <InfoIcon width="1rem" height="1rem" />
+              </Box>
+            </Tooltip>
+          </Flex>
           <HStack mt={3}>
             <Button
               variant="filter"

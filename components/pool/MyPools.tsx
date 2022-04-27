@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from "react";
 import useLocalStorage from "hooks/useLocalStorage";
-import { REWARDS_NOTICE } from "constants/constants";
+import { APR_TOOLTIP } from "constants/constants";
 import { useAllPools } from "modules/pool";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
@@ -44,7 +44,7 @@ const MyPools: FC = () => {
       },
       {
         Header: "Combined APR",
-        Tooltip: REWARDS_NOTICE,
+        Tooltip: APR_TOOLTIP,
         Cell: ({ row }: any) => <AprTd row={row} />,
         accessor: "rewards.total",
         width: 140,

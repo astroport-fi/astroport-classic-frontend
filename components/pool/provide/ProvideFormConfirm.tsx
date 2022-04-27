@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Fee } from "@terra-money/terra.js";
 import { Box, Text } from "@chakra-ui/react";
 import numeral from "numeral";
-import { REWARDS_NOTICE } from "constants/constants";
+import { APR_TOOLTIP } from "constants/constants";
 import {
   useTokenInfo,
   handleTinyAmount,
@@ -61,7 +61,7 @@ const ProvideForm: FC<Props> = ({
     {
       label: "APR",
       value: `${handleTinyAmount(formattedApr, "0.00") || 0}%`,
-      tooltip: REWARDS_NOTICE,
+      tooltip: APR_TOOLTIP,
     },
     {
       label: "Share of Pool",

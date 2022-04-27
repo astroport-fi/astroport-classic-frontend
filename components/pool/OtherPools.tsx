@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import { defaultOrderByFn, Row, SortByFn } from "react-table";
 
 import useLocalStorage from "hooks/useLocalStorage";
-import { REWARDS_NOTICE } from "constants/constants";
+import { APR_TOOLTIP } from "constants/constants";
 import { useAllPools, AllPoolsPool, usePoolTable } from "modules/pool";
 import { useBalances } from "modules/common";
 
@@ -84,7 +84,7 @@ const OtherPools: FC = () => {
       },
       {
         Header: "Combined APR",
-        Tooltip: REWARDS_NOTICE,
+        Tooltip: APR_TOOLTIP,
         Cell: ({ row }: any) => <AprTd row={row} />,
         accessor: "rewards.total",
         width: 140,
