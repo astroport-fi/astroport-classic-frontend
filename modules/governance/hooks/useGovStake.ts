@@ -18,7 +18,7 @@ export type StakeState = {
 };
 
 type Params = {
-  amount: string;
+  amount: number;
   type: AstroFormType;
 };
 
@@ -27,16 +27,26 @@ export const useGovStake = ({ amount, type }: Params): StakeState => {
   const address = useAddress();
 
   const msgs = useMemo(() => {
-    if (num(amount).eq(0) || amount == "") {
+    if (num(amount).eq(0) || !amount) {
       return null;
     }
 
     let token = astroToken;
-    let msg = createAstroStakeMsgs(address, staking, amount, astroToken);
+    let msg = createAstroStakeMsgs(
+      address,
+      staking,
+      String(amount),
+      astroToken
+    );
 
     if (type == AstroFormType.Unstake) {
       token = xAstroToken;
-      msg = createAstroUnstakeMsg(address, staking, amount, xAstroToken);
+      msg = createAstroUnstakeMsg(
+        address,
+        staking,
+        String(amount),
+        xAstroToken
+      );
     }
 
     return [msg];

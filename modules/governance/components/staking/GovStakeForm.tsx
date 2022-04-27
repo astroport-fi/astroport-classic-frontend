@@ -56,7 +56,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
 
   const { msgs } = useGovStake({
     type,
-    amount,
+    amount: Number(amount),
   });
 
   const { submit } = useTx({
