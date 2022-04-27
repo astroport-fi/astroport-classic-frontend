@@ -408,6 +408,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/bATOM.svg",
       decimals: 6,
     },
+    terra1ustvnmngueq0p4jd7gfnutgvdc6ujpsjhsjd02: {
+      protocol: "Wormhole:Stader",
+      symbol: "whSD",
+      token: "terra1ustvnmngueq0p4jd7gfnutgvdc6ujpsjhsjd02",
+      icon: "/tokens/whSD.png",
+      decimals: 8,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
