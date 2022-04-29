@@ -173,10 +173,10 @@ describe("MyLockedPools", () => {
       const headers = within(rows[0]).getAllByRole("columnheader");
 
       expect(within(headers[0]).getByText("Pool Name")).toBeInTheDocument();
-      expect(within(headers[1]).getByText("My Liquidity")).toBeInTheDocument();
       expect(
-        within(headers[2]).getByText("Total Liquidity")
+        within(headers[1]).getByText("Total Liquidity")
       ).toBeInTheDocument();
+      expect(within(headers[2]).getByText("My Liquidity")).toBeInTheDocument();
       expect(
         within(headers[3]).getByText("Claimable Rewards")
       ).toBeInTheDocument();
@@ -187,16 +187,16 @@ describe("MyLockedPools", () => {
       const row1 = within(rows[1]).getAllByRole("cell");
       expect(within(row1[0]).getByText("ASTRO - UST")).toBeInTheDocument();
       expect(within(row1[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row1[1]).getByText("$ 10,000.00")).toBeInTheDocument();
-      expect(within(row1[2]).getByText("$ 100.00M")).toBeInTheDocument();
+      expect(within(row1[1]).getByText("$ 100.00M")).toBeInTheDocument();
+      expect(within(row1[2]).getByText("$ 10,000.00")).toBeInTheDocument();
       expect(within(row1[3]).getByText("$ 46.20")).toBeInTheDocument();
       expect(within(row1[4]).getByText("Sep/01/22")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
       expect(within(row2[0]).getByText("FOO - UST")).toBeInTheDocument();
       expect(within(row2[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row2[1]).getByText("$ 1,000.00")).toBeInTheDocument();
-      expect(within(row2[2]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row2[2]).getByText("$ 1,000.00")).toBeInTheDocument();
       expect(within(row2[3]).getByText("$ 110.00")).toBeInTheDocument();
       expect(within(row2[4]).getByText("Jan/17/22")).toBeInTheDocument();
     });
