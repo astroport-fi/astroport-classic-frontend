@@ -415,6 +415,14 @@ const tokenCache: TokenCache = {
       icon: "/tokens/whSD.png",
       decimals: 8,
     },
+
+    terra17n223dxpkypc5c48la7aqjvverczg82ga3cr93: {
+      protocol: "Reactor Token",
+      symbol: "RCT",
+      token: "terra17n223dxpkypc5c48la7aqjvverczg82ga3cr93",
+      icon: "/tokens/rct.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
