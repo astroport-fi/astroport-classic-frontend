@@ -73,7 +73,11 @@ const Input: FC<Props> = ({
         clampValueOnBlur={clampValueOnBlur}
         isDisabled={isDisabled}
       >
-        <NumberInputField placeholder="0.0" pt={hidePrice ? 4 : 0} />
+        <NumberInputField
+          data-lpignore="true"
+          placeholder="0.0"
+          pt={hidePrice ? 4 : 0}
+        />
         {renderPrice()}
         {isLoading && (
           <InputLeftElement>
