@@ -102,7 +102,6 @@ const OtherPools: FC = () => {
               totalLiquidity: row.original.totalLiquidity,
             }}
             value={row.original.totalLiquidityInUst}
-            format="0,0"
           />
         ),
         accessor: "totalLiquidityInUst",
