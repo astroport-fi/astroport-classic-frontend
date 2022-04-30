@@ -81,7 +81,7 @@ const ForumSummary: FC<Props> = ({
         {FormTextHeader("Additional Info")}
         <FormBlock>
           <Flex justify="space-between" fontSize="sm" mb="1">
-            <Text fontSize="xs">Link to Discord:</Text>
+            <Text fontSize="xs">Link:</Text>
             <Link href={link} isExternal>
               <Text color="white.600" fontSize="2xs">
                 {truncateStr(link, 35)}
