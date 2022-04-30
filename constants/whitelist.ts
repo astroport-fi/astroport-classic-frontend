@@ -1199,6 +1199,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // STEAK-LUNA
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1rl4zyexjphwgx6v3ytyljkkc4mrje2pyznaclv",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra14q0cgunptuym048a4y2awt8a7fl9acudmfzk5e",
+        liquidity_token: "terra1pwc77c6a588cualln2uypyyvg5r76tfaazgk62",
+        pair_type: {
+          stable: {},
+        },
+      },
     ],
   },
   testnet: {
@@ -1741,6 +1761,26 @@ const whitelist: Whitelist = {
         liquidity_token: "terra1q5q8pg5e20l0pqzcjhj2qh92x3vcufje9lnltv",
         pair_type: {
           xyk: {},
+        },
+      },
+      // STEAK-LUNA
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1awhvtkm553rszxtvnuda4fe2r6rjjj7hjwzv0w",
+            },
+          },
+          {
+            native_token: {
+              denom: "uluna",
+            },
+          },
+        ],
+        contract_addr: "terra1x3tyfme7y84mv3y6ftugllrln5y7ewhf36davz",
+        liquidity_token: "terra1exla7lyc8g85szpntmcs5f2rvvg5gwwn7jekje",
+        pair_type: {
+          stable: {},
         },
       },
     ],

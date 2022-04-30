@@ -415,12 +415,18 @@ const tokenCache: TokenCache = {
       icon: "/tokens/whSD.png",
       decimals: 8,
     },
-
     terra17n223dxpkypc5c48la7aqjvverczg82ga3cr93: {
       protocol: "Reactor Token",
       symbol: "RCT",
       token: "terra17n223dxpkypc5c48la7aqjvverczg82ga3cr93",
       icon: "/tokens/rct.png",
+      decimals: 6,
+    },
+    terra1rl4zyexjphwgx6v3ytyljkkc4mrje2pyznaclv: {
+      protocol: "Steak Token",
+      symbol: "STEAK",
+      token: "terra1rl4zyexjphwgx6v3ytyljkkc4mrje2pyznaclv",
+      icon: "/tokens/steak.png",
       decimals: 6,
     },
   },
@@ -624,6 +630,13 @@ const tokenCache: TokenCache = {
       symbol: "bATOM",
       token: "terra1pw8kuxf3d7xnlsrqr39p29emwvufyr0yyjk3fg",
       icon: "/tokens/bATOM.svg",
+      decimals: 6,
+    },
+    terra1awhvtkm553rszxtvnuda4fe2r6rjjj7hjwzv0w: {
+      protocol: "Steak Token",
+      symbol: "STEAK",
+      token: "terra1awhvtkm553rszxtvnuda4fe2r6rjjj7hjwzv0w",
+      icon: "/tokens/steak.png",
       decimals: 6,
     },
   },
