@@ -62,7 +62,7 @@ export const APR_TOOLTIP =
   "The APR is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
 
 export const EXPERT_MODE_TOOLTIP =
-  "Expert Mode hides the confirmation screen for swaps and allows someone to swiftly execute swaps without reviewing details for the transaction";
+  "Expert Mode hides the confirmation screen and allows someone to swiftly execute swaps without reviewing details for the transaction";
 
 export const DOUBLESIDED_TOOLTIP =
   "Double Sided liquidity provision consists in adding liquidity to a pool using both tokens at the current pool ratio";
