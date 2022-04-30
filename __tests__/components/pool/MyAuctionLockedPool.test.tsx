@@ -161,7 +161,7 @@ describe("MyAuctionLockedPool", () => {
       const row1 = within(rows[1]).getAllByRole("cell");
       expect(within(row1[0]).getByText("FOO - UST")).toBeInTheDocument();
       expect(within(row1[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row1[1]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row1[1]).getByText("$ 1,000,000.00")).toBeInTheDocument();
       expect(within(row1[2]).getByText("$ 1,000.00")).toBeInTheDocument();
       expect(within(row1[3]).getByText("$ 1,000.00")).toBeInTheDocument();
       expect(within(row1[4]).getByText("$ 42.42")).toBeInTheDocument();

@@ -195,7 +195,7 @@ describe("MyLockedPools", () => {
       const row2 = within(rows[2]).getAllByRole("cell");
       expect(within(row2[0]).getByText("FOO - UST")).toBeInTheDocument();
       expect(within(row2[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row2[1]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("$ 1,000,000.00")).toBeInTheDocument();
       expect(within(row2[2]).getByText("$ 1,000.00")).toBeInTheDocument();
       expect(within(row2[3]).getByText("$ 110.00")).toBeInTheDocument();
       expect(within(row2[4]).getByText("Jan/17/22")).toBeInTheDocument();

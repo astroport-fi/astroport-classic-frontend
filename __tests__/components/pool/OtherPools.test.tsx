@@ -163,7 +163,7 @@ describe("OtherPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row3[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("24.09%");
-      expect(within(row3[3]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row3[3]).getByText("$ 1,000,000.00")).toBeInTheDocument();
 
       expect(
         screen.queryByText("Assets not in my wallet")
@@ -469,7 +469,7 @@ describe("OtherPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row2[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("10.10%");
-      expect(within(row2[3]).getByText("$ 500,000")).toBeInTheDocument();
+      expect(within(row2[3]).getByText("$ 500,000.00")).toBeInTheDocument();
 
       const row3 = within(rows[3]).getAllByRole("cell");
       expect(
@@ -484,7 +484,7 @@ describe("OtherPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row4[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("0.00%");
-      expect(within(row4[3]).getByText("$ 0")).toBeInTheDocument();
+      expect(within(row4[3]).getByText("$ 0.00")).toBeInTheDocument();
 
       const row5 = within(rows[5]).getAllByRole("cell");
       expect(within(row5[1]).getByText("FOO - LUNA")).toBeInTheDocument();
@@ -502,7 +502,7 @@ describe("OtherPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row6[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("24.09%");
-      expect(within(row6[3]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row6[3]).getByText("$ 1,000,000.00")).toBeInTheDocument();
     });
 
     it("sorts pools user can provide liquidity to separately", async () => {

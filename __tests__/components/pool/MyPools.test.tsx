@@ -157,7 +157,7 @@ describe("MyPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row2[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("50.00%");
-      expect(within(row2[3]).getByText("$ 1,000,000")).toBeInTheDocument();
+      expect(within(row2[3]).getByText("$ 1,000,000.00")).toBeInTheDocument();
       expect(within(row2[5]).getByText("$ 1,000.00")).toBeInTheDocument();
 
       const row3 = within(rows[3]).getAllByRole("cell");
