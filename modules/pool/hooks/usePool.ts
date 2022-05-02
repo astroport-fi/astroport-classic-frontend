@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import num from "libs/num";
-
+import { num } from "@arthuryeti/terra";
 import {
   useGetPool,
   useShareOfPool,
@@ -22,12 +21,12 @@ export type Rewards = {
 };
 
 export type Pool = {
-  assets: [Asset, Asset];
+  assets?: [Asset, Asset] | undefined;
   pairContract: string;
   lpTokenContract: string;
   poolType: string | null;
   total: {
-    share: string;
+    share?: string | undefined;
     shareInUst: string | number | null;
   };
   mine: {
@@ -37,14 +36,15 @@ export type Pool = {
   };
   token1: {
     asset: string;
-    share: string;
+    share?: string | undefined;
     amount: string | undefined;
   };
   token2: {
     asset: string;
-    share: string;
+    share?: string | undefined;
     amount: string | undefined;
   };
+  _24hr_volume: string | number | null;
   rewards: Rewards;
 };
 
@@ -64,14 +64,20 @@ export const usePool = ({
   const stakedAmount = useStakedLpAmount(lpTokenContract);
   const tokenAmounts = useLpToTokens({ pool, amount: lpBalance });
   const myShare = num(stakedAmount).plus(lpBalance).toString();
-  const { getDecimals, getSymbol } = useTokenInfo();
+  const { getSymbol } = useTokenInfo();
 
   const token1 = useMemo(() => {
     if (pool == null) {
       return null;
     }
 
-    return getTokenDenom(pool.assets[0].info);
+    const firstToken = pool.assets ? pool.assets[0] : null;
+
+    if (firstToken == null) {
+      return null;
+    }
+
+    return getTokenDenom(firstToken.info);
   }, [pool]);
 
   const token2 = useMemo(() => {
@@ -79,11 +85,14 @@ export const usePool = ({
       return null;
     }
 
-    return getTokenDenom(pool.assets[1].info);
-  }, [pool]);
+    const secondToken = pool.assets ? pool.assets[1] : null;
 
-  const token1Decimals = getDecimals(token1);
-  const token2Decimals = getDecimals(token2);
+    if (secondToken == null) {
+      return null;
+    }
+
+    return getTokenDenom(secondToken.info);
+  }, [pool]);
 
   const myShareInUst = useShareInUst({
     pool,
@@ -99,6 +108,9 @@ export const usePool = ({
     if (pool == null || token1 == null || token2 == null) {
       return null;
     }
+
+    const firstToken = pool.assets ? pool.assets[0] : null;
+    const secondToken = pool.assets ? pool.assets[1] : null;
 
     const data = {
       assets: pool.assets,
@@ -116,12 +128,12 @@ export const usePool = ({
       },
       token1: {
         asset: token1,
-        share: pool.assets[0].amount,
+        share: firstToken?.amount,
         amount: tokenAmounts?.[token1],
       },
       token2: {
         asset: token2,
-        share: pool.assets[1].amount,
+        share: secondToken?.amount,
         amount: tokenAmounts?.[token2],
       },
       _24hr_volume: poolInfo?._24hr_volume,

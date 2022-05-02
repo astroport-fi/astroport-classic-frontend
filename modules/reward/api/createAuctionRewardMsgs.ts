@@ -12,7 +12,7 @@ export const createAuctionRewardMsgs = (
   const { contract, amount } = options;
 
   if (contract == null || amount == null) {
-    return null;
+    return [];
   }
 
   const msg = new MsgExecuteContract(sender, contract, {

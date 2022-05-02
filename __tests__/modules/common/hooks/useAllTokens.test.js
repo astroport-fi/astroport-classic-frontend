@@ -1,7 +1,11 @@
 import { useAllTokens } from "modules/common/hooks/useAllTokens";
 import { requestInChunks } from "modules/common";
 import { renderHook } from "@testing-library/react-hooks";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider, setLogger } from "react-query";
+
+setLogger({
+  error: () => {},
+});
 
 jest.mock("graphql-request", () => {
   const original = jest.requireActual("graphql-request");

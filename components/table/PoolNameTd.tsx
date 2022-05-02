@@ -53,10 +53,10 @@ const PoolNameTd: FC<Props> = ({ assets, pairType, contract }) => {
 
   const Token = (
     <TokenComponent
-      token1Icon={getIcon(token1)}
-      token1Symbol={getSymbol(token1)}
-      token2Icon={getIcon(token2)}
-      token2Symbol={getSymbol(token2)}
+      token1Icon={getIcon(token1 || "")}
+      token1Symbol={getSymbol(token1 || "")}
+      token2Icon={getIcon(token2 || "")}
+      token2Symbol={getSymbol(token2 || "")}
       formattedFee={formattedFee}
     />
   );

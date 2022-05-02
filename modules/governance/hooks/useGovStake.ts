@@ -1,7 +1,5 @@
 import { useMemo } from "react";
-import useAddress from "hooks/useAddress";
-import num from "libs/num";
-
+import { num, useAddress } from "@arthuryeti/terra";
 import { useContracts } from "modules/common";
 import {
   createAstroStakeMsgs,
@@ -9,12 +7,7 @@ import {
 } from "modules/governance";
 import { AstroFormType } from "types/common";
 
-export type Token = {
-  amount: string;
-  asset: string;
-};
-
-export type StakeState = {
+type StakeState = {
   msgs: any;
 };
 
@@ -32,7 +25,6 @@ export const useGovStake = ({ amount, type }: Params): StakeState => {
       return null;
     }
 
-    let token = astroToken;
     let msg = createAstroStakeMsgs(
       address,
       staking,
@@ -41,7 +33,6 @@ export const useGovStake = ({ amount, type }: Params): StakeState => {
     );
 
     if (type == AstroFormType.Unstake) {
-      token = xAstroToken;
       msg = createAstroUnstakeMsg(
         address,
         staking,

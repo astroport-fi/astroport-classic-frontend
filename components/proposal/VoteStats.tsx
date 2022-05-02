@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { Flex, Box, Center, Text } from "@chakra-ui/react";
 import { Proposal } from "types/common";
 import { handleAmountWithoutTrailingZeros } from "modules/common/helpers";
-
 import UnderlineButton from "components/UnderlineButton";
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
@@ -10,7 +9,6 @@ import {
   calcVotingPower,
   calcVotingDistribution,
 } from "modules/governance/helpers";
-
 import VoteArray from "./VoteArray";
 
 type Props = {
@@ -81,7 +79,7 @@ const VoteStats: FC<Props> = ({
           </Box>
         </Flex>
       </Flex>
-      {(proposal.votes_for > 0 || proposal.votes_against > 0) && (
+      {((proposal.votes_for || 0) > 0 || (proposal.votes_against || 0) > 0) && (
         <Center borderTop="1px" borderColor="white.100" flexDirection="column">
           {addressOpen && (
             <Flex width="100%" p="5">
@@ -98,7 +96,7 @@ const VoteStats: FC<Props> = ({
                 <VoteArray
                   proposalId={proposal.proposal_id.toString()}
                   choice="for"
-                  totalVotingPower={proposal.votes_for_power}
+                  totalVotingPower={proposal.votes_for_power || 0}
                 />
               </Box>
               <Box
@@ -114,7 +112,7 @@ const VoteStats: FC<Props> = ({
                 <VoteArray
                   proposalId={proposal.proposal_id.toString()}
                   choice="against"
-                  totalVotingPower={proposal.votes_against_power}
+                  totalVotingPower={proposal.votes_against_power || 0}
                 />
               </Box>
             </Flex>

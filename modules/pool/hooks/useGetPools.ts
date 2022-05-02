@@ -4,10 +4,10 @@ import { PoolResponse, useHiveEndpoint } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
 import { useMemo } from "react";
 
-const createQuery = (contracts) => {
+const createQuery = (contracts: any) => {
   return gql`
       {
-        ${contracts.map((contract_addr) => {
+        ${contracts.map((contract_addr: string) => {
           return `
             ${contract_addr}: wasm {
               contractQuery(
@@ -49,7 +49,7 @@ const useGetPools = (contracts: (string | null)[]): PoolResponse[] => {
     }
 
     return contracts.map(
-      (contract_addr): PoolResponse => data[contract_addr].contractQuery
+      (contract_addr): PoolResponse => data[contract_addr || ""].contractQuery
     );
   }, [contracts, data]);
 };

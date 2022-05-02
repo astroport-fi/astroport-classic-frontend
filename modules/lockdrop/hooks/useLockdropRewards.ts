@@ -5,14 +5,14 @@ import { gql } from "graphql-request";
 import { useContracts, useHive, useTokenInfo } from "modules/common";
 import { useUserInfo } from "modules/lockdrop";
 
-const createQuery = (lps, generator) => {
+const createQuery = (lps: any, generator: string) => {
   if (lps.length === 0) {
     return;
   }
 
   return gql`
     {
-      ${lps.map((lp) => {
+      ${lps.map((lp: string) => {
         return `
           ${lp}: wasm {
             contractQuery(
@@ -54,8 +54,8 @@ export const useLockdropRewards = () => {
       return { ...result[key].contractQuery, lp: key };
     });
 
-    const list = [];
-    const data = [];
+    const list: any = [];
+    const data: any = [];
 
     userInfo.lockup_infos.forEach((info) => {
       if (num(info.claimable_generator_astro_debt).gt(0)) {

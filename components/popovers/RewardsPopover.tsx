@@ -50,7 +50,7 @@ const RewardsPopover: FC<Props> = ({ rewards, children }) => {
         boxShadow="4px 4px 10px rgba(0, 13, 55, 0.5)"
       >
         <PopoverBody border={2}>
-          {rows.map((row) => (
+          {rows.map((row: any) => (
             <Flex key={row.label}>
               <Text flex={1} fontSize="xs" color="#fff">
                 {row.label}

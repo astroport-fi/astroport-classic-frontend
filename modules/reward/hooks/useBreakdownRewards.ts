@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import { groupBy, mapValues, assignIn } from "lodash";
+import { groupBy, mapValues } from "lodash";
 import merge from "deepmerge";
-import num from "libs/num";
-
+import { num } from "@arthuryeti/terra";
 import { useLockdropRewards } from "modules/lockdrop";
 import { useLpRewards } from "modules/reward";
 import { useContracts } from "modules/common";
@@ -23,13 +22,11 @@ export const useBreakdownRewards = () => {
     });
 
     return Object.keys(rewards).map((token) => {
-      const lpPositions = lpRewardsGroups[token]
-        ? lpRewardsGroups[token]?.map((a) => ({ ...a, type: "lp" }))
-        : [];
-
-      const lockdropPositions = lockRewardsGroups[token]
-        ? lockRewardsGroups[token]?.map((a) => ({ ...a, type: "lockdrop" }))
-        : [];
+      const lpPositions =
+        lpRewardsGroups[token]?.map((a) => ({ ...a, type: "lp" })) || [];
+      const lockdropPositions =
+        lockRewardsGroups[token]?.map((a) => ({ ...a, type: "lockdrop" })) ||
+        [];
 
       return {
         token,

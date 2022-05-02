@@ -15,7 +15,7 @@ const TerraWallet: FC = () => {
 
   if (
     !["chrome", "opera", "edge", "edge-chromium", "ios", "android"].includes(
-      browser?.name
+      browser?.name || ""
     )
   ) {
     return (

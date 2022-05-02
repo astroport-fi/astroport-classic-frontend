@@ -32,7 +32,7 @@ const query = gql`
 export const useProposalApi = (
   proposalId: string
 ): { proposal?: Proposal; proposalExists?: boolean } => {
-  const { data, isLoading, error } = useApi({
+  const { data, isLoading } = useApi({
     name: ["proposal", proposalId],
     query,
     variables: {
@@ -45,7 +45,7 @@ export const useProposalApi = (
 
   return useMemo(() => {
     if (isLoading || data == null) {
-      return { proposal: null };
+      return {};
     }
 
     // proposal doesn't exist

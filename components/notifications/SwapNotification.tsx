@@ -3,7 +3,11 @@ import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
 import num from "libs/num";
 import { useQueryClient } from "react-query";
-import { useTokenInfo, handleTinyAmount } from "modules/common";
+import {
+  useTokenInfo,
+  handleTinyAmount,
+  getEventsByType,
+} from "modules/common";
 
 type Props = {
   txInfo: TxInfo;
@@ -13,12 +17,13 @@ type Props = {
 const SwapNotification: FC<Props> = ({ txInfo, data }) => {
   const queryClient = useQueryClient();
   const { getSymbol, getDecimals } = useTokenInfo();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[0];
+  const eventsByType = getEventsByType(txInfo);
   const { token1, token2 } = data;
-  const amount1 = eventsByType.wasm.offer_amount[0];
+  const amount1 = eventsByType?.wasm.offer_amount[0];
   const amount2 =
-    eventsByType.wasm.return_amount[eventsByType.wasm.return_amount.length - 1];
+    eventsByType?.wasm.return_amount[
+      eventsByType?.wasm.return_amount.length - 1
+    ];
   const token1Decimals = getDecimals(token1);
   const token2Decimals = getDecimals(token2);
   const displayAmount1 = handleTinyAmount(

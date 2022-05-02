@@ -3,7 +3,13 @@ import { InputGroup, InputLeftElement, Input, Flex } from "@chakra-ui/react";
 
 import SearchIcon from "components/icons/SearchIcon";
 
-const PoolFilters = ({ filter, setFilter }) => {
+const PoolFilters = ({
+  filter,
+  setFilter,
+}: {
+  filter?: string;
+  setFilter: Function;
+}) => {
   return (
     <Flex justify="flex-end">
       <InputGroup w="240px">

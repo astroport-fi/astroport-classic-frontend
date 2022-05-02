@@ -16,11 +16,13 @@ export const createProposalMsg = (
       amount,
       msg: toBase64({
         submit_proposal: {
-          title: proposal?.title,
-          description: proposal?.description,
-          link: proposal?.link?.length > 0 ? proposal.link : null,
+          title: proposal.title,
+          description: proposal.description,
+          link:
+            proposal.link && proposal.link.length > 0 ? proposal.link : null,
           messages:
-            proposal?.messages?.length > 0 &&
+            proposal.messages &&
+            proposal.messages.length > 0 &&
             validateJsonInput(proposal.messages)
               ? JSON.parse(proposal.messages)
               : null,

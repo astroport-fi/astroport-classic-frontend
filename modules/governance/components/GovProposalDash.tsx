@@ -1,12 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
-import { Grid, Box, Flex, Text, Select, Input } from "@chakra-ui/react";
+import { Grid, Box, Flex, Text, Input } from "@chakra-ui/react";
 import ReactPaginate from "react-paginate";
-
 import ArrowLeft from "components/icons/ArrowLeft";
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
 import { Proposal } from "types/common";
-import { useConfig } from "modules/governance/hooks";
+import { useConfig } from "modules/governance";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const GovProposalDash: FC<Props> = ({ proposals }) => {
-  const [currentItems, setCurrentItems] = useState(null);
+  const [currentItems, setCurrentItems] = useState<Proposal[]>([]);
   const [pageCount, setPageCount] = useState(1);
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
@@ -81,10 +80,9 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
         templateColumns={["auto", "auto", "auto", "repeat(2, 1fr)"]}
         gap={8}
       >
-        {currentItems &&
-          currentItems.map((item: Proposal, i: React.Key) => (
-            <Card key={i} proposal={item} quorum={quorum} />
-          ))}
+        {currentItems.map((item: Proposal, i: React.Key) => (
+          <Card key={i} proposal={item} quorum={quorum} />
+        ))}
       </Grid>
       <Flex
         alignItems="center"
@@ -111,7 +109,7 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
           }
           onPageChange={handlePageClick}
           pageCount={pageCount}
-          renderOnZeroPageCount={null}
+          renderOnZeroPageCount={() => null}
           containerClassName="pagination"
           activeClassName="pagination-active"
           forcePage={pageNum - 1}

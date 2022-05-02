@@ -20,7 +20,7 @@ const PoolTable: FC<Props> = ({
   data,
   sortBy,
   emptyMsg = "No pools.",
-  minW,
+  minW = "auto",
   renderFilters = true,
 }) => {
   const _columns = useMemo(() => columns, [columns]);

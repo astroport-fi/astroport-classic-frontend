@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
-import { Box, Link, Text } from "@chakra-ui/react";
-
+import { Box, Text } from "@chakra-ui/react";
 import { useAstroPools } from "modules/lockdrop";
 import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
-
 import CardHeader from "components/CardHeader";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";

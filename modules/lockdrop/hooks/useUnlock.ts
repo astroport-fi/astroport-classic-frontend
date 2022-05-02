@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-
+import { useAddress } from "@arthuryeti/terra";
 import { createUnlockMsgs } from "modules/lockdrop";
 import {
   useContracts,
@@ -12,7 +12,7 @@ import useAddress from "hooks/useAddress";
 export type UnlockState = {
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   submit: () => void;
@@ -31,15 +31,15 @@ export const useUnlock = ({
   token,
   astroLpToken,
   duration,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): UnlockState => {
   const address = useAddress();
   const { lockdrop } = useContracts();
 
   const msgs = useMemo(() => {
     if (token == null || duration == null) {
-      return null;
+      return [];
     }
 
     return createUnlockMsgs(

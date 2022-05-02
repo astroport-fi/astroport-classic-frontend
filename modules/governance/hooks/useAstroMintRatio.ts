@@ -9,7 +9,7 @@ export const useAstroMintRatio = (): number | null => {
   const { client } = useTerraWebapp();
   const { staking } = useContracts();
 
-  const { data: totalShares } = useQuery(
+  const { data: totalShares } = useQuery<number>(
     ["total_shares", staking],
     () => {
       return client.wasm.contractQuery(staking, {
@@ -21,7 +21,7 @@ export const useAstroMintRatio = (): number | null => {
     }
   );
 
-  const { data: totalDeposit } = useQuery(
+  const { data: totalDeposit } = useQuery<number>(
     ["total_deposit", staking],
     () => {
       return client.wasm.contractQuery(staking, {

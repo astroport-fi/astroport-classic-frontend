@@ -1,14 +1,12 @@
 import { useMemo } from "react";
-import num from "libs/num";
-
+import { num } from "@arthuryeti/terra";
 import { getTokenDenom, PoolResponse, useTokenInfo } from "modules/common";
 import { useLpToTokens } from "modules/pool";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { ONE_TOKEN } from "constants/constants";
 
 type Params = {
-  pool: PoolResponse | undefined | null;
-  amount: string | undefined | null;
+  pool?: PoolResponse | undefined;
+  amount?: string | undefined;
 };
 
 export const useShareInUst = ({ pool, amount }: Params) => {
@@ -18,7 +16,7 @@ export const useShareInUst = ({ pool, amount }: Params) => {
       return null;
     }
 
-    return getTokenDenom(pool.assets[0].info);
+    return getTokenDenom(pool.assets ? pool.assets[0].info : undefined);
   }, [pool]);
 
   const token2 = useMemo(() => {
@@ -26,11 +24,11 @@ export const useShareInUst = ({ pool, amount }: Params) => {
       return null;
     }
 
-    return getTokenDenom(pool.assets[1].info);
+    return getTokenDenom(pool.assets ? pool.assets[1].info : undefined);
   }, [pool]);
 
-  const token1Price = useTokenPriceInUstWithSimulate(token1);
-  const token2Price = useTokenPriceInUstWithSimulate(token2);
+  const token1Price = useTokenPriceInUstWithSimulate(token1 || "");
+  const token2Price = useTokenPriceInUstWithSimulate(token2 || "");
 
   const tokenAmounts = useLpToTokens({
     pool,

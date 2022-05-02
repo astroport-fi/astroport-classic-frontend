@@ -10,18 +10,18 @@ type Props = {
 const SingleLP: FC<Props> = ({ asset }) => {
   const { pairs } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.liquidity_token == asset);
-  const assets = getTokenDenoms(pair?.asset_infos);
+  const pair = (pairs || []).find((v) => v.liquidity_token == asset);
+  const assets = getTokenDenoms(pair?.asset_infos || []);
   const [token1, token2] = orderPoolTokens(
-    { asset: assets[0], symbol: getSymbol(assets[0]) },
-    { asset: assets[1], symbol: getSymbol(assets[1]) }
+    { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
+    { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
   );
-  const protocol1 = getProtocol(token1);
-  const icon1 = getIcon(token1);
-  const symbol1 = getSymbol(token1);
-  const protocol2 = getProtocol(token2);
-  const icon2 = getIcon(token2);
-  const symbol2 = getSymbol(token2);
+  const protocol1 = getProtocol(token1 || "");
+  const icon1 = getIcon(token1 || "");
+  const symbol1 = getSymbol(token1 || "");
+  const protocol2 = getProtocol(token2 || "");
+  const icon2 = getIcon(token2 || "");
+  const symbol2 = getSymbol(token2 || "");
 
   return (
     <Box

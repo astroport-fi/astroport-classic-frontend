@@ -17,7 +17,7 @@ export const usePrice = () => {
   const { getDecimals } = useTokenInfo();
   const ldoPrice = usePriceApi("terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z"); // Use external api for LDO price
 
-  const getPriceInUst = async (token) => {
+  const getPriceInUst = async (token: string) => {
     if (token === "terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z") {
       // hardcode for LDO
       return ldoPrice;

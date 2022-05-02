@@ -32,7 +32,7 @@ type Props = {
   id: string;
   title?: string;
   value?: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   _placeholder?: CSSObject;
   fontSize?: string;
   fontFamily?: string | null;
@@ -50,7 +50,7 @@ const InputStyles = (hasErrors?: any) => {
   };
 };
 
-const formErrorMsg = (id, error) => {
+const formErrorMsg = (id: string, error: any) => {
   switch (id) {
     case "title":
     case "description": {
@@ -98,7 +98,7 @@ const formErrorMsg = (id, error) => {
   return "This input is required";
 };
 
-const formValidationRule = (id) => {
+const formValidationRule = (id: string) => {
   switch (id) {
     case "title":
       return {
@@ -106,6 +106,7 @@ const formValidationRule = (id) => {
         minLength: MIN_TITLE_LENGTH,
         maxLength: MAX_TITLE_LENGTH,
         validate: (value: string | null) =>
+          value &&
           value.length > 0 &&
           value.length >= MIN_TITLE_LENGTH &&
           value.length <= MAX_TITLE_LENGTH &&
@@ -117,6 +118,7 @@ const formValidationRule = (id) => {
         minLength: MIN_DESCRIPTION_LENGTH,
         maxLength: MAX_DESCRIPTION_LENGTH,
         validate: (value: string | null) =>
+          value &&
           value.length > 0 &&
           value.length >= MIN_DESCRIPTION_LENGTH &&
           value.length <= MAX_DESCRIPTION_LENGTH &&
@@ -164,7 +166,7 @@ const FormTextItem: FC<Props> = ({
   onChange,
 }) => {
   const [showExamples, setShowExamples] = useState(false);
-  const msgRef = useRef(null);
+  const msgRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <Box

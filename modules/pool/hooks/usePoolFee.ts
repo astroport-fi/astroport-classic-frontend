@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { useTerraWebapp } from "context/TerraWebappContext";
 
@@ -30,13 +30,11 @@ export const usePoolFee = (pairType: string) => {
   );
 
   return useMemo(() => {
-    if (isLoading || data == null) {
+    if (isLoading || !data) {
       return 0;
     }
 
-    if (data != null) {
-      return data.total_fee_bps;
-    }
+    return data.total_fee_bps;
   }, [data, isLoading]);
 };
 

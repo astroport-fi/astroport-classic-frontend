@@ -30,10 +30,8 @@ type Props = {
   amount1: string;
   token2: string;
   amount2: string;
-  isChartOpen: boolean;
   canStake: boolean;
   txFeeNotEnough?: boolean;
-  onChartClick: () => void;
   state: ProvideState;
   error: any;
   onClick: () => void;
@@ -45,8 +43,6 @@ const ProvideFormInitial: FC<Props> = ({
   type,
   onModeClick,
   onTypeClick,
-  isChartOpen,
-  onChartClick,
   token1,
   amount1,
   token2,
@@ -95,10 +91,10 @@ const ProvideFormInitial: FC<Props> = ({
     maxAmounts = balances;
   }
 
-  const getInputProps = (field) => {
+  const getInputProps = (field: any) => {
     return {
       ...field,
-      onChange: (value) => {
+      onChange: (value: string) => {
         if (num(ratio).gt(0)) {
           let newAmount = num(value).times(ratio).dp(6).toString();
           let fieldToUpdate = "amount2";
@@ -247,7 +243,7 @@ const ProvideFormInitial: FC<Props> = ({
         amount1={amount1}
         amount2={amount2}
         data={state}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
         onConfirmClick={onClick}
       />
 

@@ -1,4 +1,3 @@
-import { useTx, TxPostError } from "modules/common/hooks/useTx";
 import { renderHook } from "@testing-library/react-hooks";
 import {
   UserDenied,
@@ -7,6 +6,7 @@ import {
   Timeout,
   TxUnspecifiedError,
 } from "@terra-money/wallet-types";
+import { useTx, TxPostError } from "modules/common/hooks/useTx";
 
 const mockPost = jest.fn();
 const mockAddNotification = jest.fn();
@@ -268,6 +268,7 @@ describe("useTx submit", () => {
         notification: {
           type: "error",
           title: "Swap from UST to LUNA failed",
+          description: "There was an unexpected error.",
         },
       });
 
@@ -369,6 +370,7 @@ describe("useTx submit", () => {
         notification: {
           type: "error",
           title: "Swap from UST to LUNA failed",
+          description: "There was an unexpected error.",
         },
       });
     });
@@ -399,6 +401,7 @@ describe("useTx submit", () => {
         notification: {
           type: "error",
           title: "Swap from UST to LUNA failed",
+          description: "There was an unexpected error.",
         },
       });
     });
@@ -419,14 +422,13 @@ describe("useTx submit", () => {
         notification: {
           type: "error",
           title: "Swap from UST to LUNA failed",
+          description: "There was an unexpected error.",
         },
       });
     });
 
     describe("error notification titles", () => {
-      // Default submitWithError maps to an unknown error,
-      // which does not currently have a description
-      const description = undefined;
+      const description = "There was an unexpected error.";
 
       it("uses correct title for swap error notifications", async () => {
         await submitWithError({

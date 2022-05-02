@@ -18,7 +18,7 @@ const Navbar: FC = () => {
   );
 
   const renderRight = () => {
-    if (pending?.length > 0) {
+    if (pending && pending.length > 0) {
       return <PendingNotifications items={pending} />;
     }
 

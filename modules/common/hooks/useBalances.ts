@@ -86,7 +86,7 @@ export const useBalances = (tokens: string[]): Balances => {
       return {};
     }
 
-    let data = {};
+    let data: any = {};
     tokens.forEach((t) => (data[t] = 0));
 
     // CONTRACT TOKENS
@@ -103,7 +103,7 @@ export const useBalances = (tokens: string[]): Balances => {
 
     // NATIVE TOKENS
     if (resultNativeTokens && resultNativeTokens?.bank?.balance?.length > 0) {
-      resultNativeTokens.bank.balance.forEach((item) => {
+      resultNativeTokens.bank.balance.forEach((item: any) => {
         if (nativeTokens.includes(item.denom)) {
           data[item.denom] = num(item.amount).div(ONE_TOKEN).toNumber() || 0;
         }

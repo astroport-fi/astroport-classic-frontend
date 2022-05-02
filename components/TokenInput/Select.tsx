@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import {
   Box,
   Text,
@@ -21,7 +21,7 @@ type Props = {
   hidePrice?: boolean;
   value: string;
   onClick: (token: string) => void;
-  tokens: string[];
+  tokens?: string[] | undefined;
 };
 
 const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
@@ -38,7 +38,9 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
       token === filter
     );
   };
-  const allowedTokens = tokens.filter((token: string) => !isHidden(token));
+  const allowedTokens = (tokens || []).filter(
+    (token: string) => !isHidden(token)
+  );
   const filteredTokens = allowedTokens.filter(matchTokenOrExactAddress);
 
   const noTokensFound = filteredTokens.length === 0;
@@ -115,7 +117,6 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
       isOpen={isOpen}
       onOpen={handleOpen}
       onClose={handleClose}
-      initialFocusRef={initialFocusRef}
       triggerElement={() => (
         <Button
           bg="white.100"
@@ -154,6 +155,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
           placeholder="Search token"
           onChange={(e) => setFilter(e.target.value)}
           variant="search"
+          // @ts-ignore
           ref={initialFocusRef}
         />
         <TagList tokens={COMMON_TOKENS} onClick={handleClick} />

@@ -12,10 +12,6 @@ export { default as GovProposalFormFooter } from "./form/GovProposalFormFooter";
 
 // Staking
 export { default as GovStakeForm } from "./staking/GovStakeForm";
-export { default as GovStakeFormInitial } from "./staking/GovStakeFormInitial";
-export { default as GovStakeHeader } from "./staking/GovStakeHeader";
-export { default as GovStakeFooter } from "./staking/GovStakeFooter";
-export { default as GovUnstakeFooter } from "./staking/GovUnstakeFooter";
 
 // Voting
 export { default as GovVoteForm } from "./vote/GovVoteForm";

@@ -14,11 +14,11 @@ type Props = {
 
 const PriceLP: FC<Props> = ({ token, amount }) => {
   const { pairs } = useAstroswap();
-  const pair = pairs.find((v) => v.liquidity_token == token);
-  const [token1, token2] = getTokenDenoms(pair?.asset_infos);
-  const { data: pool } = useGetPool(pair?.contract_addr);
-  const price1 = useTokenPriceInUstWithSimulate(token1);
-  const price2 = useTokenPriceInUstWithSimulate(token2);
+  const pair = (pairs || []).find((v) => v.liquidity_token == token);
+  const [token1, token2] = getTokenDenoms(pair?.asset_infos || []);
+  const { data: pool } = useGetPool(pair?.contract_addr || "");
+  const price1 = useTokenPriceInUstWithSimulate(token1 || "");
+  const price2 = useTokenPriceInUstWithSimulate(token2 || "");
   const tokenAmounts = useLpToTokens({ pool, amount });
 
   const totalInUst = useMemo(() => {
@@ -26,8 +26,8 @@ const PriceLP: FC<Props> = ({ token, amount }) => {
       return 0;
     }
 
-    const totalPrice1 = num(tokenAmounts[token1]).times(price1);
-    const totalPrice2 = num(tokenAmounts[token2]).times(price2);
+    const totalPrice1 = num(tokenAmounts[token1 || ""]).times(price1);
+    const totalPrice2 = num(tokenAmounts[token2 || ""]).times(price2);
 
     return totalPrice1.plus(totalPrice2).toString();
   }, [pool, tokenAmounts]);

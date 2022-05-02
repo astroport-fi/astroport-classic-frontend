@@ -12,7 +12,7 @@ const Swap: FC<Props> = ({ token1, token2 }) => {
   return (
     <Flex h="100%" justify="center">
       <Box maxW="650px" w="full">
-        <SwapForm defaultToken1={token1} defaultToken2={token2} />
+        <SwapForm defaultToken1={token1 || ""} defaultToken2={token2 || ""} />
       </Box>
     </Flex>
   );

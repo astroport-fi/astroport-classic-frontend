@@ -29,10 +29,12 @@ const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
   });
 
   const handleClick = () => {
-    submit({
-      msgs,
-      fee,
-    });
+    if (msgs && fee) {
+      submit({
+        msgs,
+        fee,
+      });
+    }
   };
 
   return (
@@ -41,7 +43,7 @@ const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
       variant="primary"
       flex="1"
       onClick={handleClick}
-      isDisabled={fee == null || txFeeNotEnough}
+      isDisabled={fee == null || !!txFeeNotEnough}
     >
       Claim Rewards
     </Button>

@@ -1,5 +1,6 @@
+import { TxInfo } from "@terra-money/terra.js";
+import { num } from "@arthuryeti/terra";
 import numeral from "numeral";
-import num from "libs/num";
 import { request } from "graphql-request";
 
 export const handleBigPercentage = (
@@ -77,10 +78,6 @@ export const handleAmountWithoutTrailingZeros = (
   return parseFloat(value.toFixed(significantDigits));
 };
 
-export const isObject = (value: any) => {
-  return typeof value === "object";
-};
-
 export const requestInChunks = async <Item = any, Response = any>(
   chunkSize: number,
   url: string,
@@ -116,4 +113,20 @@ export const validateJsonInput = (json: string): Boolean => {
   }
 
   return true;
+};
+
+export const getEventsByType = (txInfo: TxInfo, index: number = 0): any => {
+  if (!txInfo) {
+    return null;
+  }
+
+  if (txInfo.logs && index < 0) {
+    index = txInfo.logs.length - index * -1;
+  }
+
+  if (!txInfo.logs || txInfo.logs.length <= index || !txInfo.logs[index]) {
+    return null;
+  }
+
+  return txInfo.logs[index]?.eventsByType;
 };

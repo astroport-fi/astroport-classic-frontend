@@ -8,9 +8,9 @@ import Unlock from "components/pages/Unlock";
 
 const UnlockPage: NextPage = () => {
   const { query } = useRouter();
-  const lpToken = query?.lpToken as string;
-  const duration = query?.duration as string;
-  const astroLpToken = query?.astroLpToken as string;
+  const lpToken = query["lpToken"] as string;
+  const duration = query["duration"] as string;
+  const astroLpToken = query["astroLpToken"] as string;
 
   if (lpToken == null || duration == null) {
     return null;

@@ -9,7 +9,7 @@ import {
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 type Props = {
-  token: TokenInWallet;
+  token?: TokenInWallet | undefined;
   onClick: (token: string) => void;
   style: React.CSSProperties;
 };
@@ -19,8 +19,8 @@ type Props = {
 
 const ListItem = ({ token, onClick, style }: Props) => {
   const { getIcon, getSymbol, getProtocol } = useTokenInfo();
-  const balanceFormmated = handleBigAndTinyAmount(token.balance);
-  const tokenPrice = useTokenPriceInUstWithSimulate(token.address);
+  const balanceFormmated = handleBigAndTinyAmount(token?.balance || 0);
+  const tokenPrice = useTokenPriceInUstWithSimulate(token?.address || "");
 
   return (
     <chakra.button
@@ -36,23 +36,23 @@ const ListItem = ({ token, onClick, style }: Props) => {
       _hover={{
         color: "brand.purple",
       }}
-      onClick={() => onClick(token.address)}
+      onClick={() => onClick(token?.address || "")}
       style={style}
     >
       <Flex align="center" justify="space-between" py="2.5" w="full">
         <Box mr="3">
           <Image
-            src={getIcon(token.address)}
-            alt={getSymbol(token.address)}
+            src={getIcon(token?.address || "")}
+            alt={getSymbol(token?.address || "")}
             boxSize="8"
           />
         </Box>
         <Box flex="1">
           <Text fontSize="xl" fontWeight="500" lineHeight="normal">
-            {getSymbol(token.address)}
+            {getSymbol(token?.address || "")}
           </Text>
           <Text mt="-1" fontSize="sm" opacity="0.4">
-            {getProtocol(token.address)}
+            {getProtocol(token?.address || "")}
           </Text>
         </Box>
         <Box>

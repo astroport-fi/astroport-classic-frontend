@@ -1,7 +1,4 @@
-import { useMemo } from "react";
 import { useQuery } from "react-query";
-import num from "libs/num";
-
 import { useBreakdownRewards } from "modules/reward";
 import { usePrice } from "modules/swap";
 import { QUERY_STALE_TIME } from "constants/constants";

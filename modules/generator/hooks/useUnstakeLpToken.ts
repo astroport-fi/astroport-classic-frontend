@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-
+import { useAddress, num, toTerraAmount } from "@arthuryeti/terra";
 import {
   useContracts,
   useTransaction,
@@ -14,15 +14,15 @@ import { toTerraAmount } from "libs/terra";
 export type UnstakeLpTokenState = {
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   submit: () => void;
 };
 
 type Params = {
-  amount: string | null;
-  token: string | null;
+  amount?: string;
+  token?: string;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
 };
@@ -30,15 +30,20 @@ type Params = {
 export const useUnstakeLpToken = ({
   amount,
   token,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): UnstakeLpTokenState => {
   const { generator } = useContracts();
   const address = useAddress();
 
   const msgs = useMemo(() => {
-    if (amount == "" || num(amount).eq(0) || address == null || token == null) {
-      return null;
+    if (
+      amount == "" ||
+      num(amount || "0").eq(0) ||
+      address == null ||
+      token == null
+    ) {
+      return [];
     }
 
     return createUnstakeLpMsgs(
@@ -51,7 +56,7 @@ export const useUnstakeLpToken = ({
     notification: {
       type: "unstakeLp",
       data: {
-        token,
+        token: token || "",
       },
     },
     msgs,

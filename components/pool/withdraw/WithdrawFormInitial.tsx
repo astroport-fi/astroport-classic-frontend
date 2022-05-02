@@ -1,10 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount } from "libs/terra";
 import { WithdrawState } from "modules/pool";
 import { useBalance, FormActions, FormActionItem } from "modules/common";
-import { PoolFormType, ProvideFormMode } from "types/common";
+import { PoolFormType } from "types/common";
 import Card from "components/Card";
 import WarningMessage from "components/common/WarningMessage";
 import NewAmountInput from "components/NewAmountInput";
@@ -18,9 +18,7 @@ type Props = {
   token: string;
   amount: string;
   error: any;
-  mode: ProvideFormMode;
   type: PoolFormType;
-  onModeClick: (v: ProvideFormMode) => void;
   onTypeClick: (v: PoolFormType) => void;
   state: WithdrawState;
   txFeeNotEnough?: boolean;
@@ -29,19 +27,16 @@ type Props = {
 
 const WithdrawFormInitial: FC<Props> = ({
   pool,
-  mode,
   type,
   token,
   amount,
   error,
-  onModeClick,
   onTypeClick,
   state,
   txFeeNotEnough,
   onClick,
 }) => {
   const { control, setValue } = useFormContext();
-  const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
 
   const balance = useBalance(token);
   const formattedBalance = fromTerraAmount(balance, "0.000000");
@@ -147,7 +142,7 @@ const WithdrawFormInitial: FC<Props> = ({
         pool={pool}
         amount={amount}
         data={state}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
         onConfirmClick={onClick}
       />
 

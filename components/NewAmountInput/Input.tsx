@@ -14,13 +14,13 @@ type Props = {
   onBlur: any;
   asset: string;
   value: string;
-  max?: number;
+  max?: number | undefined;
   isDisabled?: boolean;
   isLoading?: boolean;
-  clampValueOnBlur?: boolean;
+  clampValueOnBlur?: boolean | undefined;
   hidePrice?: boolean;
   isLpToken?: boolean;
-  price?: number;
+  price?: number | undefined;
 };
 
 const Input: FC<Props> = ({
@@ -48,7 +48,7 @@ const Input: FC<Props> = ({
     return <Price token={asset} amount={value} priceToken={price} />;
   };
 
-  const sanitizeAmount = (e) => {
+  const sanitizeAmount = (e: any) => {
     const valueSplitted = String(value).split("");
     if (
       ["e", "E", "+", "-"].includes(e.key) ||
@@ -65,13 +65,13 @@ const Input: FC<Props> = ({
         size="lg"
         value={value}
         min={0}
-        max={max}
+        max={max || Infinity}
         precision={6}
         onChange={onChange}
         onBlur={onBlur}
         onKeyPress={sanitizeAmount}
         clampValueOnBlur={clampValueOnBlur}
-        isDisabled={isDisabled}
+        isDisabled={!!isDisabled}
       >
         <NumberInputField
           data-lpignore="true"

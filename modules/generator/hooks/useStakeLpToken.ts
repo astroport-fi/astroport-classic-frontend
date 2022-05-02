@@ -13,15 +13,15 @@ import { toTerraAmount } from "libs/terra";
 export type StakeLpTokenState = {
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   submit: () => void;
 };
 
 type Params = {
-  amount: string | null;
-  token: string | null;
+  amount?: string;
+  token?: string;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
 };
@@ -29,15 +29,20 @@ type Params = {
 export const useStakeLpToken = ({
   amount,
   token,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): StakeLpTokenState => {
   const address = useAddress();
   const { generator } = useContracts();
 
   const msgs = useMemo(() => {
-    if (amount == "" || num(amount).eq(0) || address == null || token == null) {
-      return null;
+    if (
+      amount == "" ||
+      num(amount || "0").eq(0) ||
+      address == null ||
+      token == null
+    ) {
+      return [];
     }
 
     return createStakeLpMsgs(

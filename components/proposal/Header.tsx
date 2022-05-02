@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Flex, HStack, Text, IconButton, Box } from "@chakra-ui/react";
-
+import { Flex, HStack, Text, IconButton } from "@chakra-ui/react";
 import BackIcon from "components/icons/BackIcon";
 import TwitterIcon from "components/icons/TwitterIcon";
 import { Proposal_Status } from "types/common";

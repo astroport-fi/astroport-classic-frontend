@@ -19,12 +19,12 @@ import {
 } from "constants/proposals";
 
 type Props = {
-  fee: Fee;
+  fee?: Fee | undefined;
   txFeeNotEnough?: boolean;
   feeIsLoading?: boolean;
-  xAstroPrice?: number;
-  xAstroRequired?: string;
-  xAstroBalance?: string;
+  xAstroPrice?: number | undefined;
+  xAstroRequired?: string | undefined;
+  xAstroBalance?: string | undefined;
   inputErrors: any;
   methods: UseFormReturn<Proposal, object>;
 };
@@ -56,9 +56,10 @@ const GovProposalFormInitial: FC<Props> = ({
     watch("link"),
   ];
 
-  const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || null;
-  const xAstroBalanceTokens = Number(xAstroBalance) / ONE_TOKEN || null;
-  const balanceError = xAstroRequiredTokens > xAstroBalanceTokens || false;
+  const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || undefined;
+  const xAstroBalanceTokens = Number(xAstroBalance) / ONE_TOKEN || undefined;
+  const balanceError =
+    (xAstroRequiredTokens || 0) > (xAstroBalanceTokens || 0) || false;
 
   return (
     <>
@@ -81,7 +82,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.title || null}
         onChange={(text) => {
-          methods.setValue("title", DOMPurify.sanitize(text));
+          methods.setValue("title", DOMPurify.sanitize(text || ""));
           methods.clearErrors("title");
         }}
       />
@@ -96,7 +97,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.description || null}
         onChange={(text) => {
-          methods.setValue("description", DOMPurify.sanitize(text));
+          methods.setValue("description", DOMPurify.sanitize(text || ""));
           methods.clearErrors("description");
         }}
       />
@@ -124,7 +125,7 @@ const GovProposalFormInitial: FC<Props> = ({
         formRegister={methods.register}
         error={inputErrors?.link || null}
         onChange={(text) => {
-          methods.setValue("link", text.toLowerCase());
+          methods.setValue("link", (text || "").toLowerCase());
           methods.clearErrors("link");
         }}
       />
@@ -138,8 +139,8 @@ const GovProposalFormInitial: FC<Props> = ({
 
       <GovProposalFormFooter
         fee={fee}
-        txFeeNotEnough={txFeeNotEnough}
-        feeIsLoading={feeIsLoading}
+        txFeeNotEnough={!!txFeeNotEnough}
+        feeIsLoading={!!feeIsLoading}
         balanceError={balanceError}
       />
     </>

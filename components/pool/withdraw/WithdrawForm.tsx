@@ -4,12 +4,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import {
-  PairResponse,
-  TxStep,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
-import { PoolFormType, ProvideFormMode } from "types/common";
+import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import { PoolFormType } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
 
 import FormLoading from "components/common/FormLoading";
@@ -24,21 +20,12 @@ type FormValues = {
 
 type Props = {
   pair: PairResponse;
-  pool: Pool;
-  mode: ProvideFormMode;
+  pool?: Pool;
   type: PoolFormType;
-  onModeClick: (v: ProvideFormMode) => void;
   onTypeClick: (v: PoolFormType) => void;
 };
 
-const WithdrawForm: FC<Props> = ({
-  pair,
-  pool,
-  mode,
-  type,
-  onModeClick,
-  onTypeClick,
-}) => {
+const WithdrawForm: FC<Props> = ({ pair, pool, type, onTypeClick }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
   const methods = useForm<FormValues>({
@@ -99,8 +86,15 @@ const WithdrawForm: FC<Props> = ({
     }
   }, [txStep]);
 
-  if (txStep == TxStep.Broadcasting || txStep == TxStep.Posting) {
+  if (
+    state.txHash &&
+    (txStep == TxStep.Broadcasting || txStep == TxStep.Posting)
+  ) {
     return <FormLoading txHash={state.txHash} />;
+  }
+
+  if (!pool) {
+    return null;
   }
 
   return (
@@ -109,9 +103,7 @@ const WithdrawForm: FC<Props> = ({
         {!showConfirm && (
           <WithdrawFormInitial
             pool={pool}
-            mode={mode}
             type={type}
-            onModeClick={onModeClick}
             onTypeClick={onTypeClick}
             token={token}
             error={error}

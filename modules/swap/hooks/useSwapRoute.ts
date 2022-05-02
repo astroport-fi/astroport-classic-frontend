@@ -8,11 +8,7 @@ type Params = {
   to: string | null;
 };
 
-export const useSwapRoute = ({
-  tokenGraph,
-  from,
-  to,
-}: Params): Route[] | null => {
+export const useSwapRoute = ({ tokenGraph, from, to }: Params): Route[] => {
   return useMemo(() => {
     return getSwapRoute({ tokenGraph, from, to });
   }, [tokenGraph, from, to]);

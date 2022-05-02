@@ -250,34 +250,34 @@ describe("routing", () => {
       ]);
     });
 
-    it("returns null when pairs are null", () => {
+    it("returns empty array when pairs are null", () => {
       const route = getSwapRoute({
         tokenGraph: null,
         from: "uusd",
         to: "uluna",
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
 
-    it("returns null when from token is null", () => {
+    it("returns empty array when from token is null", () => {
       const route = getSwapRoute({
         tokenGraph: pairsToGraph(pairs),
         from: null,
         to: "uluna",
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
 
-    it("returns null when to token is null", () => {
+    it("returns empty array when to token is null", () => {
       const route = getSwapRoute({
         tokenGraph: pairsToGraph(pairs),
         from: "uusd",
         to: null,
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
 
     it("returns empty array when from and to token are the same", () => {
@@ -290,34 +290,34 @@ describe("routing", () => {
       expect(route).toEqual([]);
     });
 
-    it("returns null when from token is not in graph", () => {
+    it("returns empty array when from token is not in graph", () => {
       const route = getSwapRoute({
         tokenGraph: pairsToGraph(pairs),
         from: "foo",
         to: "uluna",
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
 
-    it("returns null when to token is not in graph", () => {
+    it("returns empty array when to token is not in graph", () => {
       const route = getSwapRoute({
         tokenGraph: pairsToGraph(pairs),
         from: "uluna",
         to: "foo",
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
 
-    it("returns null when a route does not exist", () => {
+    it("returns empty array when a route does not exist", () => {
       const route = getSwapRoute({
         tokenGraph: pairsToGraph([terrapair1, terrapair9]),
         from: "uluna",
         to: "terratoken2",
       });
 
-      expect(route).toEqual(null);
+      expect(route).toEqual([]);
     });
   });
 });

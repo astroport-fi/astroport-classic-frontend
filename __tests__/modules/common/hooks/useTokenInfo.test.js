@@ -119,10 +119,10 @@ describe("useTokenInfo", () => {
       expect(result.current.getDecimals("terratoken1")).toEqual(7);
     });
 
-    it("returns null if tokens state is nullish", () => {
+    it("returns 6 if tokens state is nullish", () => {
       const { result } = renderHook(useTokenInfo);
 
-      expect(result.current.getDecimals("terratoken1")).toEqual(null);
+      expect(result.current.getDecimals("terratoken1")).toEqual(6);
     });
 
     it("returns 6 if decimals are not present on token", () => {

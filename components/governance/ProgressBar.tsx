@@ -58,11 +58,7 @@ const RightFixedTip = () => {
   );
 };
 
-const QuorumFixedTip: FC<QuorumTipProps> = ({
-  quorum,
-  quorumReached,
-  height,
-}) => {
+const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
   const leftPosition = `${quorum}%`;
 
   return (
@@ -94,6 +90,7 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({
 
 const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
   const leftPosition = `calc(${quorum}% - 4px)`;
+  const bg = quorum >= QuorumMinPosition ? "blackAlpha.900" : undefined;
 
   return (
     <Box
@@ -102,7 +99,7 @@ const QuorumSplit: FC<QuorumTipProps> = ({ quorum, height }) => {
       w="8px"
       h={height}
       left={leftPosition}
-      bg={quorum < QuorumMinPosition ? null : "blackAlpha.900"}
+      bg={bg || ""}
       zIndex="2"
     >
       <Box
@@ -163,7 +160,7 @@ const ProgressBar: FC<ProgressElements> = ({
 
   return (
     <Box pos="relative" width="100%" height={`${height}px`}>
-      {(quorum > QuorumHideLeftToolTip || !quorum) && <LeftFixedTip />}
+      {(!quorum || quorum > QuorumHideLeftToolTip) && <LeftFixedTip />}
       <RightFixedTip />
       {quorum && (
         <>

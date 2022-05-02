@@ -21,7 +21,10 @@ export const useShareOfPool = ({ pool, lpAmount }: Params): Response => {
       return null;
     }
 
-    return num(lpAmount).times("100").div(pool.total_share).toNumber();
+    return num(lpAmount)
+      .times("100")
+      .div(pool.total_share || "")
+      .toNumber();
   }, [pool, lpAmount]);
 };
 

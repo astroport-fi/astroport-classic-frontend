@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import num from "libs/num";
 import { getPoolTokenDenoms, useTokenInfo, Asset } from "modules/common";
-import { ONE_TOKEN } from "constants/constants";
 
 type Response = { label: string; value: number }[] | null;
 
@@ -25,15 +24,18 @@ export const useTokenTooltip = (
 
     const denoms = getPoolTokenDenoms(assets);
     const [token1, token2] = denoms;
-    const [token1Symbol, token2Symbol] = [getSymbol(token1), getSymbol(token2)];
+    const [token1Symbol, token2Symbol] = [
+      getSymbol(token1 || ""),
+      getSymbol(token2 || ""),
+    ];
     const [token1Decimals, token2Decimals] = [
-      getDecimals(token1),
-      getDecimals(token2),
+      getDecimals(token1 || ""),
+      getDecimals(token2 || ""),
     ];
     let fraction = 1;
 
     if (type == "myLiquidity") {
-      fraction = myLiqudity / totalLiquidity;
+      fraction = (myLiqudity || 0) / (totalLiquidity || 0);
     }
 
     return [

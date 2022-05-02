@@ -87,7 +87,7 @@ const ExecMsgExamples: FC<Props> = ({ focusTextArea }) => {
           _active={{ bg: "white.100" }}
           _focus={{ bg: "white.100" }}
           onClick={() => {
-            navigator.clipboard.writeText(proposals[exampleItem].code);
+            navigator.clipboard.writeText(proposals[exampleItem]?.code || "");
             focusTextArea();
           }}
         >
@@ -98,7 +98,7 @@ const ExecMsgExamples: FC<Props> = ({ focusTextArea }) => {
         </Button>
       </Flex>
       <Box p="4" overflowY="auto" maxHeight="260px" color="lightgreen">
-        {proposals[exampleItem] && <pre>{proposals[exampleItem].code}</pre>}
+        {proposals[exampleItem] && <pre>{proposals[exampleItem]?.code}</pre>}
       </Box>
     </Box>
   );

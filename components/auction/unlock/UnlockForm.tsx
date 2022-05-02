@@ -1,16 +1,10 @@
 import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { toTerraAmount } from "libs/terra";
+import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
-
 import { useAuctionUnlock } from "modules/auction";
-import {
-  TxStep,
-  useContracts,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
-
+import { useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -66,7 +60,7 @@ const UnlockForm: FC = () => {
   }, [state, methods]);
 
   if (state.txStep == TxStep.Posting) {
-    return <FormLoading txHash={state.txHash} />;
+    return <FormLoading txHash={state.txHash || ""} />;
   }
 
   return (

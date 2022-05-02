@@ -25,7 +25,7 @@ type GetSwapRouteOpts = {
 export const pairsToGraph = (
   pairs: PairResponse[]
 ): TokenGraphAdjacencyList => {
-  const adjacencyList = {};
+  const adjacencyList: any = {};
 
   for (const pair of pairs) {
     for (const asset of pair.asset_infos) {
@@ -33,6 +33,7 @@ export const pairsToGraph = (
       adjacencyList[token] ||= new Set<TokenGraphEdge>();
 
       const otherToken = getTokenDenom(
+        // @ts-ignore
         pair.asset_infos.find((otherAsset) => otherAsset != asset)
       );
 
@@ -52,7 +53,7 @@ export const pairsToGraph = (
 // token of the next Route.
 // e.g. FOO/UST, BAR/UST becomes FOO/UST -> UST/BAR
 const pairsToRoute = (pairs: PairResponse[], from: string) => {
-  return pairs.reduce<Route[]>((routes, pair, i) => {
+  return pairs.reduce<Route[]>((routes: any, pair, i) => {
     const tokens = getTokenDenoms(pair.asset_infos);
 
     const previousTo = i == 0 ? from : routes[i - 1].to;
@@ -85,7 +86,7 @@ export const getSwapRoute = ({
   tokenGraph,
   from,
   to,
-}: GetSwapRouteOpts): Route[] | null => {
+}: GetSwapRouteOpts): Route[] => {
   if (
     tokenGraph == null ||
     from == null ||
@@ -93,7 +94,7 @@ export const getSwapRoute = ({
     !tokenGraph.hasOwnProperty(from) ||
     !tokenGraph.hasOwnProperty(to)
   ) {
-    return null;
+    return [];
   }
 
   if (from == to) {
@@ -104,8 +105,9 @@ export const getSwapRoute = ({
   const visited = new Set<string>(from);
 
   while (queue.length > 0) {
-    const node = queue.shift();
+    const node: any = queue.shift();
 
+    // @ts-expect-error
     for (const neighbor of Array.from(tokenGraph[node.token])) {
       const pairs = [...node.pairs, neighbor.pair];
 
@@ -120,5 +122,5 @@ export const getSwapRoute = ({
     }
   }
 
-  return null;
+  return [];
 };

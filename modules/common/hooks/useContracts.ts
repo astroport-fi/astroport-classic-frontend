@@ -1,11 +1,6 @@
 import { useMemo } from "react";
 import { useWallet } from "@terra-money/wallet-provider";
 
-type Pair = {
-  lp: string;
-  contract: string;
-};
-
 type Contracts = {
   astroToken: string;
   xAstroToken: string;

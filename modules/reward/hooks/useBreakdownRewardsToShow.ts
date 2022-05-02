@@ -2,7 +2,7 @@ import { useBreakdownRewardsInUst } from "modules/reward";
 import useLocalStorage from "hooks/useLocalStorage";
 import { useMemo } from "react";
 
-export const useBreakdownRewardsToShow = () => {
+const useBreakdownRewardsToShow = () => {
   const rewards = useBreakdownRewardsInUst();
   const [renderRewardsWithPrice] = useLocalStorage(
     "renderRewardsWithPrice",

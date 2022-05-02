@@ -163,11 +163,15 @@ export const calcVotingDistribution = (
   proposal: Proposal
 ): Proposal_Vote_Dist => {
   const voteForDist =
-    (proposal.votes_for_power * 100) /
-      (proposal.votes_for_power + proposal.votes_against_power) || 0;
+    proposal.votes_for_power && proposal.votes_against_power
+      ? (proposal.votes_for_power * 100) /
+        (proposal.votes_for_power + proposal.votes_against_power)
+      : 0;
   const voteAgainstDist =
-    (proposal.votes_against_power * 100) /
-      (proposal.votes_for_power + proposal.votes_against_power) || 0;
+    proposal.votes_for_power && proposal.votes_against_power
+      ? (proposal.votes_against_power * 100) /
+        (proposal.votes_for_power + proposal.votes_against_power)
+      : 0;
 
   return {
     voteForDist,
@@ -177,17 +181,18 @@ export const calcVotingDistribution = (
 
 export const composeTwitterLink = (
   network: string,
-  title: string,
+  title: string = "",
   id: string
 ) => {
   return (
     `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
+    // @ts-ignore
     `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
   );
 };
 
 export const composeAstroRatioDisplay = (
-  astroMintRatio: number | null,
+  astroMintRatio: number | null | undefined,
   minDisplayValue: number = 0.01
 ): string => {
   if (!astroMintRatio) {
@@ -203,19 +208,11 @@ export const composeAstroRatioDisplay = (
   return `1:${handleAmountWithoutTrailingZeros(ratio)}`;
 };
 
-export const appendHttps = (url: string) => {
-  if (!/^(f|ht)tps?:\/\//i.test(url)) {
-    url = "https://" + url;
-  }
-
-  return url;
-};
-
 export const composeProtocolRatioDisplay = (
-  stakedAstroBalance: string | null,
-  xAstroSupply: string | null,
-  astroCircSupply: number | null,
-  stakingRatio: number | null
+  stakedAstroBalance?: string,
+  xAstroSupply?: string,
+  astroCircSupply?: number,
+  stakingRatio?: number
 ): string => {
   if (
     stakedAstroBalance === undefined ||

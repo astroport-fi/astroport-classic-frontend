@@ -2,14 +2,8 @@ import React, { FC, useState, useCallback, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
-import {
-  TxStep,
-  useAstroswap,
-  useNotEnoughUSTBalanceToPayFees,
-} from "modules/common";
+import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useUnlock, useLockedLpAmount } from "modules/lockdrop";
-
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -29,7 +23,6 @@ type Props = {
 
 const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const { addNotification } = useAstroswap();
   const router = useRouter();
 
   const methods = useForm<FormValues>({
@@ -81,7 +74,7 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
     methods.reset();
   }, [state, methods]);
 
-  if (state.txStep == TxStep.Posting) {
+  if (state.txStep == TxStep.Posting && state.txHash) {
     return <FormLoading txHash={state.txHash} />;
   }
 

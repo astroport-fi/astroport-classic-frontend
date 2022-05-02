@@ -1,13 +1,10 @@
 import React, { FC, useState } from "react";
+import { withRouter, NextRouter } from "next/router";
 import { Box, Flex } from "@chakra-ui/react";
-
+import { PoolFormTypeFactory, PoolFormType } from "types/common";
 import { usePool } from "modules/pool";
 import { PairResponse } from "modules/common";
-import { PoolFormTypeFactory, PoolFormType } from "types/common";
-
-import { withRouter, NextRouter } from "next/router";
 import { StakeLpForm, UnstakeLpForm } from "modules/generator";
-import PoolGraph from "components/pool/PoolGraph";
 
 type Props = {
   pair: PairResponse;
@@ -16,9 +13,8 @@ type Props = {
 
 const Stake: FC<Props> = ({ pair, router }) => {
   const [type, setType] = useState<PoolFormType>(
-    PoolFormTypeFactory(router.query.type) || PoolFormType.Stake
+    PoolFormTypeFactory(String(router.query["type"])) || PoolFormType.Stake
   );
-  const [isChartOpen, setIsChartOpen] = useState(false);
 
   const pool = usePool({
     pairContract: pair.contract_addr,
@@ -31,14 +27,7 @@ const Stake: FC<Props> = ({ pair, router }) => {
     }
 
     return (
-      <StakeLpForm
-        pair={pair}
-        pool={pool}
-        type={type}
-        onTypeClick={setType}
-        isChartOpen={isChartOpen}
-        onChartClick={() => setIsChartOpen(!isChartOpen)}
-      />
+      <StakeLpForm pair={pair} pool={pool} type={type} onTypeClick={setType} />
     );
   };
 
@@ -49,8 +38,6 @@ const Stake: FC<Props> = ({ pair, router }) => {
         pool={pool}
         type={type}
         onTypeClick={setType}
-        isChartOpen={isChartOpen}
-        onChartClick={() => setIsChartOpen(!isChartOpen)}
       />
     );
   };
@@ -62,9 +49,6 @@ const Stake: FC<Props> = ({ pair, router }) => {
           {type === PoolFormType.Stake && renderStakeLpForm()}
           {type === PoolFormType.Unstake && renderUnstakeLpForm()}
         </Box>
-
-        {/* @ts-expect-error */}
-        {isChartOpen && <PoolGraph tokens={tokens} />}
       </Flex>
     </Box>
   );

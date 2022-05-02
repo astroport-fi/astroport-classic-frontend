@@ -57,8 +57,8 @@ export const findAsset = (infos: AssetInfo[], token: string) => {
 };
 
 export const createAsset = (amount: string, route: Route[]) => {
-  const [{ from }] = route;
-  const info = toAssetInfo(from);
+  const firstRoute = route[0];
+  const info = toAssetInfo(firstRoute?.from || "");
 
   return {
     info,
@@ -66,7 +66,11 @@ export const createAsset = (amount: string, route: Route[]) => {
   };
 };
 
-export const getTokenDenom = (info: AssetInfo): string => {
+export const getTokenDenom = (info?: AssetInfo): string => {
+  if (!info) {
+    return "";
+  }
+
   if (isNativeAssetInfo(info)) {
     return info.native_token.denom;
   }

@@ -65,16 +65,15 @@ const ProvideForm: FC<Props> = ({
     },
     {
       label: "Share of Pool",
-      value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+      value: `${handleTinyAmount(Number(shareOfPool), "0.00") || 0}%`,
     },
   ];
 
-  // autoStake = canStake
   if (autoStake) {
     details.push({
       label: "Staked LP Tokens",
       value: `${handleTinyAmount(
-        estLpBalance,
+        Number(estLpBalance),
         "0.00",
         true
       )} ${symbol1}-${symbol2}-LP`,
@@ -84,7 +83,7 @@ const ProvideForm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
-      txFeeNotEnough={txFeeNotEnough}
+      txFeeNotEnough={!!txFeeNotEnough}
       title="Confirm Adding Liquidity"
       actionLabel="Confirm Add"
       contentComponent={

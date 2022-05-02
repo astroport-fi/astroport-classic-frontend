@@ -22,6 +22,12 @@ const createFirstQuery = ({
   generator,
   stakableLps,
   address,
+}: {
+  infos: any;
+  lockdrop: string;
+  generator: string;
+  stakableLps: any;
+  address: string;
 }) => {
   if (infos == null || infos.length === 0) {
     return;
@@ -29,8 +35,15 @@ const createFirstQuery = ({
 
   return gql`
     {
-      ${infos.map(({ pool_address, duration }) => {
-        return `
+      ${infos.map(
+        ({
+          pool_address,
+          duration,
+        }: {
+          pool_address: string;
+          duration: string;
+        }) => {
+          return `
           ${pool_address}${duration}: wasm {
             contractQuery(
               contractAddress: "${lockdrop}"
@@ -44,9 +57,10 @@ const createFirstQuery = ({
             )
           }
         `;
-      })}
+        }
+      )}
 
-      ${stakableLps.map((lp) => {
+      ${stakableLps.map((lp: string) => {
         return `
           ${lp}: wasm {
             contractQuery(
@@ -64,15 +78,22 @@ const createFirstQuery = ({
 `;
 };
 
-const createSecondQuery = (pairs, address) => {
+const createSecondQuery = (pairs: any) => {
   if (pairs == null || pairs.length === 0) {
     return;
   }
 
   return gql`
     {
-      ${pairs.map(({ contract_addr, liquidity_token }) => {
-        return `
+      ${pairs.map(
+        ({
+          contract_addr,
+          liquidity_token,
+        }: {
+          contract_addr: string;
+          liquidity_token: string;
+        }) => {
+          return `
           pool${liquidity_token}: wasm {
             contractQuery(
               contractAddress: "${contract_addr}"
@@ -82,7 +103,8 @@ const createSecondQuery = (pairs, address) => {
             )
           }
         `;
-      })}
+        }
+      )}
     }
 `;
 };
@@ -114,7 +136,7 @@ export const useAstroPools = () => {
     },
   });
 
-  const secondQuery = createSecondQuery(pairs, lockdrop);
+  const secondQuery = createSecondQuery(pairs);
 
   const secondResult = useHive({
     name: "astro-pools-second",
@@ -153,7 +175,7 @@ export const useAstroPools = () => {
     const items = filteredItems.map((info) => {
       const { assets, total_share } =
         secondResult[`pool${info.astroport_lp_token}`]?.contractQuery;
-      const pair = pairs.find(
+      const pair = (pairs || []).find(
         (pair) => pair.liquidity_token == info.astroport_lp_token
       );
       const { token1: token1Amount } = getAssetAmountsInPool(assets, "uusd");
@@ -163,8 +185,8 @@ export const useAstroPools = () => {
         .dp(6)
         .toNumber();
       const [token1, token2] = getPoolTokenDenoms(assets);
-      const token1Symbol = getSymbol(token1);
-      const token2Symbol = getSymbol(token2);
+      const token1Symbol = getSymbol(token1 || "");
+      const token2Symbol = getSymbol(token2 || "");
 
       if (token1Amount == null) {
         const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(

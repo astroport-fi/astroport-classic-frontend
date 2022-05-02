@@ -5,7 +5,7 @@ import {
   StaticWalletProvider,
   WalletProvider,
 } from "@terra-money/wallet-provider";
-import App, { AppProps } from "next/app";
+import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Hydrate } from "react-query/hydration";
@@ -63,7 +63,6 @@ const MyApp = ({
             <Layout>
               {showingDisclaimer ? (
                 <AstroportDisclaimer
-                  onCloseClick={() => setShowingDisclaimer(false)}
                   onConfirmClick={() => {
                     setTermsAgreed(true);
                     setShowingDisclaimer(false);
@@ -93,7 +92,7 @@ const MyApp = ({
   );
 };
 
-MyApp.getInitialProps = async (appContext) => {
+MyApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
   const chainOptions = await getChainOptions();
   return { ...appProps, ...chainOptions };

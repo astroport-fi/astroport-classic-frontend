@@ -10,7 +10,7 @@ import {
   useHive,
 } from "modules/common";
 
-const createQuery = (pairs, address, generator) => {
+const createQuery = (pairs: any[], address: string, generator: string) => {
   if (pairs.length === 0 || !address) {
     return;
   }
@@ -67,7 +67,7 @@ export const useLpRewards = () => {
       return [];
     }
 
-    const data = [];
+    const data: any[] = [];
 
     stakableLp.forEach((lp) => {
       const tokens = result[`info${lp}`]?.contractQuery;

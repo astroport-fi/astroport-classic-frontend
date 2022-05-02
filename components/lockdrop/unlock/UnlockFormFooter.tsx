@@ -19,7 +19,7 @@ const UnlockFormFooter: FC<Props> = ({
   const confirmButton: ConfirmButton = {
     title: "Unlock LP token",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
+    isDisabled: data.txStep != TxStep.Ready || !!txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

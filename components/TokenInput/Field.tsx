@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Box, forwardRef } from "@chakra-ui/react";
-
 import { Select, Single, SingleLP, SelectLP } from "components/TokenInput";
 import { useAstroswap } from "modules/common";
 
@@ -20,7 +19,7 @@ const Field: FC<Props> = forwardRef(
     ref
   ) => {
     const { tokens: allTokens } = useAstroswap();
-    const currentTokens = tokens ?? Object.keys(allTokens);
+    const currentTokens = tokens ?? (allTokens && Object.keys(allTokens));
 
     const handleClick = (asset: string) => {
       onChange(asset);
@@ -32,7 +31,11 @@ const Field: FC<Props> = forwardRef(
       }
 
       return (
-        <Single asset={value} hidePrice={hidePrice} priceSource={priceSource} />
+        <Single
+          asset={value}
+          hidePrice={!!hidePrice}
+          priceSource={priceSource}
+        />
       );
     };
 
@@ -45,13 +48,13 @@ const Field: FC<Props> = forwardRef(
         <Select
           value={value}
           tokens={currentTokens}
-          hidePrice={hidePrice}
+          hidePrice={!!hidePrice}
           onClick={handleClick}
         />
       );
     };
 
-    return <Box>{isSingle ? renderSingle() : renderSelect()}</Box>;
+    return <Box ref={ref}>{isSingle ? renderSingle() : renderSelect()}</Box>;
   }
 );
 

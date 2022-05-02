@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
+import { useEstimateFee } from "@arthuryeti/terra";
 import {
   useContracts,
   useNotEnoughUSTBalanceToPayFees,
@@ -11,13 +11,11 @@ import {
 import {
   GovProposalFormInitial,
   GovProposalFormConfirm,
-} from "modules/governance";
-import {
   useAstroMintRatio,
   useConfig,
   useCreateProposal,
   useGovStakingBalances,
-} from "modules/governance/hooks";
+} from "modules/governance";
 import { Proposal } from "types/common";
 import FormLoading from "components/common/FormLoading";
 import useDebounceValue from "hooks/useDebounceValue";
@@ -37,10 +35,10 @@ const GovProposalForm = () => {
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
   const formProposal = methods.watch();
   const { msgs } = useCreateProposal({
-    amount: proposalConfig?.proposal_required_deposit,
+    amount: proposalConfig?.proposal_required_deposit || "",
     proposal: formProposal,
   });
-  const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : null;
+  const xAstroPrice = astroMintRatio ? astroPrice * astroMintRatio : undefined;
 
   // Limit fee calculations to once every 1000ms
   const debouncedMsg = useDebounceValue(msgs, 1000);
@@ -56,7 +54,7 @@ const GovProposalForm = () => {
     onPosting: () => {
       setIsPosting(true);
     },
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/governance");
     },
     onError: () => {

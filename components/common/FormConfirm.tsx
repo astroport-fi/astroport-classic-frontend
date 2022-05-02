@@ -26,7 +26,7 @@ type Props = {
     tooltip?: string;
     color?: string;
   }[];
-  fee?: Fee | null;
+  fee?: Fee | null | undefined;
   txFeeNotEnough?: boolean;
   actionLabel?: string;
   buttonVariant?: string;
@@ -47,7 +47,7 @@ const FormConfirm: FC<Props> = ({
   buttonSize = "sm",
   maxW = "470px",
   fee,
-  txFeeNotEnough,
+  txFeeNotEnough = false,
   contentComponent,
   details,
   onCloseClick,
@@ -64,12 +64,8 @@ const FormConfirm: FC<Props> = ({
     >
       <Card>
         <Flex justify="space-between" align="center" mb="6">
-          <Text
-            fontSize={titleLarge ? "lg" : null}
-            textStyle={titleLarge ? null : ["small", "normal"]}
-          >
-            {title}
-          </Text>
+          {titleLarge && <Text fontSize="lg">{title}</Text>}
+          {!titleLarge && <Text textStyle={["small", "normal"]}>{title}</Text>}
           <IconButton
             aria-label="Close"
             variant="simple"
@@ -122,7 +118,11 @@ const FormConfirm: FC<Props> = ({
                         placement="top"
                         aria-label="Complete Swap Route"
                       >
-                        <Box ml="1.5" color={detail.color} cursor="pointer">
+                        <Box
+                          ml="1.5"
+                          color={detail.color || ""}
+                          cursor="pointer"
+                        >
                           <Text variant="secondary">
                             <InfoIcon width="1rem" height="1rem" />
                           </Text>
@@ -144,7 +144,7 @@ const FormConfirm: FC<Props> = ({
         <Flex flexDir="column" align="center" mt="8">
           <Button
             variant={buttonVariant}
-            borderRadius={buttonRadius}
+            borderRadius={buttonRadius || "full"}
             minW={["32", "64"]}
             size={buttonSize}
             type="submit"

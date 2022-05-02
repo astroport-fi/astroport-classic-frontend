@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Text, Box, Flex, Spinner, HStack } from "@chakra-ui/react";
+import { Text, Box, Spinner, HStack } from "@chakra-ui/react";
 
 import { Notification } from "modules/common";
 

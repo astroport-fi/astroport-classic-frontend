@@ -100,7 +100,7 @@ const UnlockFormInitial = ({
         lpToken={token}
         duration={duration}
         data={state}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
         onConfirmClick={onClick}
       />
       {error && <WarningMessage mb="8" content={error} />}

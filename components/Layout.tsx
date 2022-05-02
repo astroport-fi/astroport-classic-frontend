@@ -92,12 +92,7 @@ const Layout: FC = ({ children }) => {
     <Flex height="100vh" direction="column">
       <Global styles={GlobalStyles} />
       {!isInitializing && (
-        <TerraWebappProvider
-        // config={{
-        //   lcdClientUrl:
-        //     "https://terra-testnet-lcd.everstake.one/3WwtQlaFdSV3XHqGqkGFUX7terraTest",
-        // }}
-        >
+        <TerraWebappProvider>
           <AstroswapProvider>
             <Navbar />
             <AstroswapConsumer>

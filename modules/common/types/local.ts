@@ -1,6 +1,6 @@
 import { Asset } from "./astroswap";
 
-export type Token = {
+type Token = {
   protocol: string;
   symbol: string;
   token: string;

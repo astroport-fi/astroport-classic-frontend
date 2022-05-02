@@ -1,6 +1,5 @@
 export * from "./createProvideMsgs";
 export * from "./createWithdrawMsgs";
-export * from "./hooks/useLpBalances";
 export * from "./hooks/usePool";
 export * from "./hooks/useShareOfPool";
 export * from "./hooks/useEstShareOfPool";

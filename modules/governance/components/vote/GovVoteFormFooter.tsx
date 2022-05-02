@@ -6,7 +6,7 @@ import FormFee from "components/common/FormFee";
 
 type Props = {
   action: string;
-  fee?: Fee;
+  fee?: Fee | undefined;
   isLoading?: boolean;
   txFeeNotEnough?: boolean;
   error?: any;
@@ -32,7 +32,7 @@ const GovVoteFormFooter: FC<Props> = ({
         mb="2"
         size="md"
         type="submit"
-        isLoading={isLoading}
+        isLoading={!!isLoading}
         isDisabled={
           status === WalletStatus.WALLET_NOT_CONNECTED ||
           error ||

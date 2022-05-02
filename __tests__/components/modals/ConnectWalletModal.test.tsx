@@ -12,7 +12,7 @@ jest.mock("@terra-money/wallet-provider", () => {
   };
 });
 
-const useWalletMock = (overrides) => {
+const useWalletMock = (overrides: any) => {
   return (): Wallet => ({
     ...jest.requireActual("@terra-money/wallet-provider").useWallet,
     availableConnections: [],

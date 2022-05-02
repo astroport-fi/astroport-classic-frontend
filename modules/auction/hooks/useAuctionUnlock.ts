@@ -12,7 +12,7 @@ import {
 export type AuctionUnlockState = {
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   submit: () => void;
@@ -26,8 +26,8 @@ type Params = {
 
 export const useAuctionUnlock = ({
   amount,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): AuctionUnlockState => {
   const address = useAddress() || "";
   const { auction } = useContracts();
@@ -39,7 +39,7 @@ export const useAuctionUnlock = ({
       num(amount).eq(0) ||
       num(amount).isNaN()
     ) {
-      return null;
+      return [];
     }
 
     return createAuctionUnlockMsgs(

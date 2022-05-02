@@ -30,8 +30,8 @@ export type UseTxNotificationDetails =
   | {
       type: "swap" | "provide" | "withdraw";
       data: {
-        token1: string;
-        token2: string;
+        token1: string | null;
+        token2: string | null;
       };
     }
   | {
@@ -109,7 +109,9 @@ export const useTx = ({
       case "swap": {
         const { token1, token2 } = notification.data;
 
-        return `Swap from ${getSymbol(token1)} to ${getSymbol(token2)} failed`;
+        return `Swap from ${getSymbol(token1 || "")} to ${getSymbol(
+          token2 || ""
+        )} failed`;
       }
       case "claimRewards":
         return "Failed to claim rewards";
@@ -122,16 +124,16 @@ export const useTx = ({
       case "provide": {
         const { token1, token2 } = notification.data;
 
-        return `Provide liquidity for ${getSymbol(token1)} and ${getSymbol(
-          token2
-        )} failed`;
+        return `Provide liquidity for ${getSymbol(
+          token1 || ""
+        )} and ${getSymbol(token2 || "")} failed`;
       }
       case "withdraw": {
         const { token1, token2 } = notification.data;
 
-        return `Withdraw liquidity for ${getSymbol(token1)} and ${getSymbol(
-          token2
-        )} failed`;
+        return `Withdraw liquidity for ${getSymbol(
+          token1 || ""
+        )} and ${getSymbol(token2 || "")} failed`;
       }
       case "createProposal":
         return "Failed to submit an Assembly proposal";
@@ -158,6 +160,8 @@ export const useTx = ({
         return "Sorry, the specified fee was not enough to cover the cost of this transaction. Please try again.";
       case TxPostError.CreateTxFailed:
         return originalError.message;
+      default:
+        return "There was an unexpected error.";
     }
   };
 
@@ -178,7 +182,13 @@ export const useTx = ({
   };
 
   const submit = useCallback(
-    async ({ msgs, fee }: { msgs: MsgExecuteContract[]; fee: Fee }) => {
+    async ({
+      msgs,
+      fee,
+    }: {
+      msgs: MsgExecuteContract[];
+      fee?: Fee | undefined;
+    }) => {
       if (fee == null || msgs == null || msgs.length < 1) {
         return;
       }
@@ -203,7 +213,7 @@ export const useTx = ({
             data: notification.data,
           },
         });
-      } catch (e) {
+      } catch (e: any) {
         const errorEnum = enumForTxPostError(e);
 
         addErrorNotification(errorEnum, e);

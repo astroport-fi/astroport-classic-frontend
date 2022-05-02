@@ -49,11 +49,18 @@ export type AllPoolsPool = {
   isStakable: boolean;
 };
 
-const createQuery = (pairs, address, generator) => {
+const createQuery = (pairs: any, address: string, generator: string) => {
   return gql`
     {
-      ${pairs.map(({ liquidity_token, contract_addr }) => {
-        return `
+      ${pairs.map(
+        ({
+          liquidity_token,
+          contract_addr,
+        }: {
+          liquidity_token: string;
+          contract_addr: string;
+        }) => {
+          return `
           ${contract_addr}: wasm {
             contractQuery(
               contractAddress: "${contract_addr}"
@@ -84,15 +91,16 @@ const createQuery = (pairs, address, generator) => {
             )
           }
         `;
-      })}
+        }
+      )}
     }
 `;
 };
 
-const createQueryNotConnected = (pairs) => {
+const createQueryNotConnected = (pairs: any) => {
   return gql`
     {
-      ${pairs.map(({ contract_addr }) => {
+      ${pairs.map(({ contract_addr }: { contract_addr: string }) => {
         return `
           ${contract_addr}: wasm {
             contractQuery(
@@ -117,13 +125,13 @@ export const useAllPools = () => {
   const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");
   const poolsInfo = usePoolsInfo();
   const { getSymbol, getDecimals } = useTokenInfo();
-  const [favoritesPools] = useLocalStorage("favoritesPools", []);
+  const [favoritesPools] = useLocalStorage<string[]>("favoritesPools", []);
   const tokensInUst = useTokenPrices();
   const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
 
   const queryBuilder = address
-    ? (chunk) => createQuery(chunk, address, generator)
-    : (chunk) => createQueryNotConnected(chunk);
+    ? (chunk: any) => createQuery(chunk, address, generator)
+    : (chunk: any) => createQueryNotConnected(chunk);
 
   let firstAttempt = true;
   const { data: result } = useQuery(
@@ -132,32 +140,33 @@ export const useAllPools = () => {
       const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
       // Chunk pairs into multiple queries to stay below GraphQL query size limitations
-      return requestInChunks<PairResponse>(50, url, pairs, queryBuilder);
+      return requestInChunks<PairResponse>(50, url, pairs || [], queryBuilder);
     },
     {
-      enabled: pairs.length > 0,
+      enabled: (pairs || []).length > 0,
       staleTime: QUERY_STALE_TIME,
       retry: 1,
     }
   );
 
-  const getPoolInfo = (addr) => {
-    return poolsInfo.find((poolInfo) => poolInfo.pool_address === addr);
+  const getPoolInfo = (addr: string) => {
+    return poolsInfo.find((poolInfo: any) => poolInfo.pool_address === addr);
   };
 
   return useMemo((): AllPoolsPool[] => {
-    if (result == null) {
+    if (result == null || !pairs) {
       return [];
     }
 
-    return pairs.map(
-      ({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
+    return pairs
+      .map(({ contract_addr, liquidity_token, pair_type }): AllPoolsPool => {
         const poolInfo = getPoolInfo(contract_addr);
         const providedBalance = result[liquidity_token]?.contractQuery.balance;
 
         // in the event of switching networks, pair and price queries are still being refetched
         // and pool info may not be in the result yet.
-        if (!result[contract_addr]) return;
+        // @ts-ignore
+        if (!result[contract_addr]) return null;
 
         const { total_share, assets } = result[contract_addr].contractQuery;
         const stakedBalance = result[`staked${liquidity_token}`]?.contractQuery;
@@ -177,6 +186,7 @@ export const useAllPools = () => {
         }
 
         // bluna-luna pool
+        // @ts-ignore
         if (contract_addr === BLUNA_LUNA_PAIR_ADDR[network.name]) {
           const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
             assets,
@@ -192,8 +202,8 @@ export const useAllPools = () => {
 
         // non-ust pool, bluna-luna pool
         if (!totalLiquidityInUst) {
-          const token2UstValue = tokensInUst[token2];
-          const token2Decimals = getDecimals(token2);
+          const token2UstValue = tokensInUst[token2 || ""];
+          const token2Decimals = getDecimals(token2 || "");
 
           totalLiquidityInUst = num(token2UstValue)
             .times(assets[1].amount)
@@ -221,13 +231,13 @@ export const useAllPools = () => {
           assets: denoms,
           poolAssets: assets,
           sortingAssets: [
-            getSymbol(token1).toLowerCase(),
-            getSymbol(token2).toLowerCase(),
-            token1,
-            token2,
+            getSymbol(token1 || "").toLowerCase(),
+            getSymbol(token2 || "").toLowerCase(),
+            token1 || "",
+            token2 || "",
             contract_addr,
           ],
-          pairType: Object.keys(pair_type)[0],
+          pairType: Object.keys(pair_type)[0] || "",
           totalLiquidity,
           totalLiquidityInUst,
           myLiquidity,
@@ -245,8 +255,8 @@ export const useAllPools = () => {
           canStake: num(providedBalance).gt(0),
           isStakable,
         };
-      }
-    );
+      })
+      .filter(Boolean);
   }, [lunaPrice, pairs, result, poolsInfo, favoritesPools]);
 };
 

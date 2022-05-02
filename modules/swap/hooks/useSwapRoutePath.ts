@@ -3,7 +3,7 @@ import { Route, useTokenInfo } from "modules/common";
 export const useSwapRoutePath = (routes: Route[], separator = "→"): any => {
   const { getSymbol } = useTokenInfo();
 
-  if (routes == null || routes.length == 0) {
+  if (routes == null || routes.length == 0 || !routes[0]) {
     return null;
   }
 
@@ -14,15 +14,20 @@ export const useSwapRoutePath = (routes: Route[], separator = "→"): any => {
   let text = completePath;
   let tooltip = null;
 
-  if(tokensLength > 2) {
-    text = getSymbol(tokens[0]) + separator + "..." + separator + getSymbol(tokens[tokensLength - 1]);
+  if (tokensLength > 2 && tokens[0] && tokens[tokensLength - 1]) {
+    text =
+      getSymbol(tokens[0]) +
+      separator +
+      "..." +
+      separator +
+      getSymbol(tokens[tokensLength - 1] || "");
     tooltip = completePath;
   }
 
   return {
     text,
     tooltip,
-  }
+  };
 };
 
 export default useSwapRoutePath;

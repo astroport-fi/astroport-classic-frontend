@@ -3,7 +3,7 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { WalletStatus } from "@terra-money/wallet-provider";
 import { PROPOSAL_VOTE_POWER } from "constants/constants";
 import { handleTinyAmount, NextLink } from "modules/common";
-import { useVotingPower } from "modules/governance/hooks";
+import { useVotingPower } from "modules/governance";
 import React, { FC } from "react";
 
 type Props = {

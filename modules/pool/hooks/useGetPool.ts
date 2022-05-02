@@ -4,13 +4,13 @@ import { useQuery } from "react-query";
 import { PoolResponse } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
 
-export const useGetPool = (contract: string | null) => {
+export const useGetPool = (contract?: string) => {
   const { client } = useTerraWebapp();
 
   return useQuery(
     ["pool", contract],
     () => {
-      return client.wasm.contractQuery<PoolResponse>(contract, {
+      return client.wasm.contractQuery<PoolResponse>(contract || "", {
         pool: {},
       });
     },

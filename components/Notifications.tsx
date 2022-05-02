@@ -9,7 +9,7 @@ import {
 } from "modules/common";
 
 import TransactionNotification from "components/notifications/Transaction";
-import TransactionStartedNotification from "components/notifications/TransactionStarted";
+import TransactionStarted from "components/notifications/TransactionStarted";
 import FailedNotification from "components/notifications/FailedNotification";
 import SwapNotification from "components/notifications/SwapNotification";
 import AuctionUnlockLpNotification from "components/notifications/AuctionUnlockLpNotification";
@@ -31,16 +31,16 @@ const Notifications: FC = () => {
   const renderSuccessfulTxContent = ({ txInfo, txType, data }: any) => {
     const props = { txInfo, data };
 
-    const mapTxType = {
+    const mapTxType: any = {
       swap: <SwapNotification {...props} />,
       provide: <ProvideNotification {...props} />,
       withdraw: <WithdrawNotification {...props} />,
-      stakeLp: <StakeLpNotification {...props} />,
+      stakeLp: <StakeLpNotification txInfo={txInfo} />,
       unstakeLp: <UnstakeLpNotification {...props} />,
       lockdropUnlockLp: <LockdropUnlockLpNotification {...props} />,
       govStake: <GovStakeNotification txInfo={txInfo} />,
       govUnstake: <GovUnstakeNotification txInfo={txInfo} />,
-      claimRewards: <ClaimRewardsNotification txInfo={txInfo} />,
+      claimRewards: <ClaimRewardsNotification />,
       auctionUnlockLp: <AuctionUnlockLpNotification txInfo={txInfo} />,
       createProposal: <CreateProposalNotification {...props} />,
       govVote: <GovVoteNotification {...props} />,
@@ -62,10 +62,10 @@ const Notifications: FC = () => {
               const { txHash, txType, data } = payload as TxNotificationPayload;
 
               return (
-                <TransactionStartedNotification
+                <TransactionStarted
                   key={id}
                   txHash={txHash}
-                  txType={txType}
+                  txType={txType || ""}
                   data={data}
                   onClose={onClose}
                 />
@@ -88,6 +88,8 @@ const Notifications: FC = () => {
             case "failed": {
               const { txHash, txInfo } = payload as TxNotificationPayload;
 
+              if (!txInfo) return null;
+
               return (
                 <TransactionNotification
                   key={id}
@@ -108,7 +110,7 @@ const Notifications: FC = () => {
                   key={id}
                   toastType={type}
                   title={title}
-                  description={description}
+                  description={description || ""}
                   onClose={onClose}
                 />
               );

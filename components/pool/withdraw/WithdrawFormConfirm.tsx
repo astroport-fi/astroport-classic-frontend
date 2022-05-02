@@ -8,10 +8,10 @@ import FormConfirm from "components/common/FormConfirm";
 
 type Props = {
   pool: Pool;
-  token1: string;
-  amount1: string;
-  token2: string;
-  amount2: string;
+  token1?: string | undefined;
+  amount1?: string | undefined;
+  token2?: string | undefined;
+  amount2?: string | undefined;
   fee: Fee;
   txFeeNotEnough?: boolean;
   onCloseClick: () => void;
@@ -33,7 +33,7 @@ const WithdrawFormConfirm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
-      txFeeNotEnough={txFeeNotEnough}
+      txFeeNotEnough={!!txFeeNotEnough}
       title="Confirm Withdraw Liquidity"
       actionLabel="Confirm Withdraw"
       contentComponent={
@@ -52,7 +52,7 @@ const WithdrawFormConfirm: FC<Props> = ({
         },
         {
           label: "Share of Pool",
-          value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+          value: `${handleTinyAmount(Number(shareOfPool), "0.00") || 0}%`,
         },
       ]}
       onCloseClick={onCloseClick}

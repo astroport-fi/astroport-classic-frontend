@@ -16,16 +16,6 @@ const baseStyle = {
 const variantSubtle = (props: any) => {
   const { theme, colorScheme: c } = props;
 
-  // if (c == "blue") {
-  //   return {
-  //     container: {
-  //       bg: transparentize("brand.lightPurple", 0.3)(theme),
-  //       borderColor: "#909FBB",
-  //       "* a": { color: "#22BAE1" },
-  //     },
-  //   };
-  // }
-
   if (c == "red") {
     return {
       container: {

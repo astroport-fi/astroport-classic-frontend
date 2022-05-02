@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import num from "libs/num";
 import { Fee } from "@terra-money/terra.js";
-
 import { useBalance, useTokenInfo } from "modules/common";
 
 export const useNotEnoughUSTBalanceToPayFees = (fee?: Fee) => {
@@ -14,7 +13,8 @@ export const useNotEnoughUSTBalanceToPayFees = (fee?: Fee) => {
     .toNumber();
 
   // todo: requires to pass fee in any useNotEnoughUSTBalanceToPayFees calls, now it has fallback to 0
-  const feeInt = fee?.amount.get(token).amount.toString() ?? "0";
+  const feeToken = fee?.amount.get(token);
+  const feeInt = feeToken ? feeToken.amount.toString() : "0";
   const formatedFee = num(feeInt)
     .div(10 ** getDecimals(token))
     .dp(5)

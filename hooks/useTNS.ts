@@ -11,14 +11,16 @@ const useTNS = (address?: string) => {
   const [name, setName] = useState(null);
 
   useEffect(() => {
-    async function fetchTNSName() {
+    if (!address) {
+      return;
+    }
+
+    async function fetchTNSName(address: string) {
       const name = await tns.getName(address);
       setName(name);
     }
 
-    if (address != null) {
-      fetchTNSName();
-    }
+    fetchTNSName(address);
   }, [address]);
 
   return name;

@@ -3,22 +3,17 @@ export type NativeAssetInfo = { native_token: { denom: string } };
 
 export type AssetInfo = CW20AssetInfo | NativeAssetInfo;
 
-export type CW20Asset = {
+type CW20Asset = {
   amount: string;
   info: CW20AssetInfo;
 };
-export type NativeAsset = {
+
+type NativeAsset = {
   amount: string;
   info: NativeAssetInfo;
 };
 
 export type Asset = CW20Asset | NativeAsset;
-
-export type Pair = {
-  pair: {
-    asset_infos: [AssetInfo, AssetInfo];
-  };
-};
 
 export type PairResponse = {
   asset_infos: [AssetInfo, AssetInfo];
@@ -44,56 +39,9 @@ export type FeeResponse = {
   maker_fee_bps: number;
 };
 
-// ---------------------------------------------
-// HandleMsg
-// ---------------------------------------------
-export type ProvideLiquidity = {
-  provide_liquidity: {
-    assets: [Asset, Asset];
-    slippage_tolerance?: string;
-    receiver?: string;
-  };
-};
-
-export type Swap = {
-  swap: {
-    offer_asset: Asset;
-    belief_price?: string;
-    max_spread?: string;
-    to?: string;
-  };
-};
-
-// ---------------------------------------------
-// CW20HookMsg
-// ---------------------------------------------
-export type SwapHook = {
-  swap: {
-    belief_price?: string;
-    max_spread?: string;
-    to?: string;
-  };
-};
-
-// ---------------------------------------------
-// QueryMsg
-// ---------------------------------------------
-export type Pool = {
-  pool: {};
-};
-
 export type PoolResponse = {
-  total_share: string;
-  assets: [Asset, Asset];
-};
-
-export type Simulation = {
-  simulation: {
-    offer_asset: {
-      info: AssetInfo;
-      amount: string;
-    };
-  };
+  total_share?: string | undefined;
+  assets?: [Asset, Asset] | undefined;
 };
 
 export type SimulationResponse = {
@@ -106,29 +54,20 @@ export type MultiSimulationResponse = {
   amount: string;
 };
 
-export type ReverseSimulation = {
-  reverse_simulation: {
-    ask_asset: {
-      info: AssetInfo;
-      amount: string;
-    };
-  };
-};
-
 export type ReverseSimulationResponse = {
   commission_amount: string;
   offer_amount: string;
   spread_amount: string;
 };
 
-export type NativeSwapOperation = {
+type NativeSwapOperation = {
   native_swap: {
     offer_denom: string;
     ask_denom: string;
   };
 };
 
-export type CW20SwapOperation = {
+type CW20SwapOperation = {
   astro_swap: {
     offer_asset_info: AssetInfo;
     ask_asset_info: AssetInfo;

@@ -8,7 +8,7 @@ import { handleTinyAmount } from "modules/common";
 type Props = {
   token: string;
   amount: string;
-  priceToken?: number;
+  priceToken?: number | undefined;
 };
 
 const Price: FC<Props> = ({ token, amount, priceToken }) => {

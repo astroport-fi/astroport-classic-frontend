@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { render, screen, within } from "@testing-library/react";
 import MyPools from "components/pool/MyPools";
 import { useAllPools } from "modules/pool";
@@ -44,13 +46,13 @@ jest.mock("modules/pool", () => {
 });
 
 const mockPool = (
-  contract,
-  assets,
-  apr,
-  myLiquidityInUst,
-  totalLiquidityInUst,
-  pairType,
-  myPool = true
+  contract: string,
+  assets: string[],
+  apr: number,
+  myLiquidityInUst: number,
+  totalLiquidityInUst: number,
+  pairType: string,
+  myPool: boolean = true
 ) => ({
   inUse: myPool,
   contract,
@@ -64,8 +66,8 @@ const mockPool = (
 describe("MyPools", () => {
   describe("when there are pools", () => {
     beforeEach(() => {
-      const getSymbol = (token) => {
-        const tokens = {
+      const getSymbol = (token: string) => {
+        const tokens: any = {
           uusd: {
             symbol: "UST",
           },

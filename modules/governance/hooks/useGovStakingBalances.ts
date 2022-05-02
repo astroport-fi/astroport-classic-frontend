@@ -30,10 +30,10 @@ type ResponseSupply = {
 };
 
 type BalanceReturns = {
-  astroBalance: string | null;
-  xAstroBalance: string | null;
-  stakedAstroBalance: string | null;
-  xAstroSupply: string | null;
+  astroBalance?: string | undefined;
+  xAstroBalance?: string | undefined;
+  stakedAstroBalance?: string | undefined;
+  xAstroSupply?: string | undefined;
   astroCircSupply: any;
 };
 

@@ -1,0 +1,18 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@testing-library/jest-dom",
+    "next",
+    "react",
+    "react-dom"
+  ],
+  "ignoreUnimported": [
+    "__mocks__/dayjs.js",
+    "__mocks__/hooks/useDebounceValue.js",
+    "__mocks__/hooks/useFinder.js",
+    "__mocks__/react-lottie.js",
+    "jest.config.js",
+    "jest.setup.js",
+    "next.config.js"
+  ]
+}

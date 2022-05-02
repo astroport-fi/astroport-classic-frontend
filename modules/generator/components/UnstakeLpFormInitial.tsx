@@ -4,7 +4,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import num from "libs/num";
 
 import {
-  StakeLpTokenState,
+  UnstakeLpTokenState,
   useStakedLpAmount,
   UnstakeLpFormFooter,
 } from "modules/generator";
@@ -19,13 +19,11 @@ import AstroSlider from "components/AstroSlider";
 import WarningMessage from "components/common/WarningMessage";
 
 type Params = {
-  state: StakeLpTokenState;
+  state: UnstakeLpTokenState;
   error: any;
   txFeeNotEnough?: boolean;
   type: PoolFormType;
   onTypeClick: any;
-  isChartOpen: boolean;
-  onChartClick: () => void;
   onClick: () => void;
 };
 
@@ -125,7 +123,7 @@ const UnstakeLpFormInitial = ({
 
       <UnstakeLpFormFooter
         data={state}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
         onConfirmClick={onClick}
       />
       {error && <WarningMessage mb="8" content={error} />}

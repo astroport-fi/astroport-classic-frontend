@@ -8,9 +8,9 @@ import { Proposal } from "types/common";
 import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
-  fee: Fee;
-  xAstroPrice?: number;
-  xAstroRequired?: string;
+  fee?: Fee | undefined;
+  xAstroPrice?: number | undefined;
+  xAstroRequired?: string | undefined;
   proposal: Proposal;
   onCloseClick: () => void;
 };
@@ -22,7 +22,7 @@ const GovProposalFormConfirm: FC<Props> = ({
   proposal,
   onCloseClick,
 }) => {
-  const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || null;
+  const xAstroRequiredTokens = Number(xAstroRequired) / ONE_TOKEN || undefined;
 
   return (
     <FormConfirm
@@ -41,7 +41,6 @@ const GovProposalFormConfirm: FC<Props> = ({
           xAstroPrice={xAstroPrice}
         />
       }
-      details={null}
       onCloseClick={onCloseClick}
     />
   );

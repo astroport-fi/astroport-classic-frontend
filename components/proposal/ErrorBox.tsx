@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Box, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button } from "@chakra-ui/react";
 import ErrorBubble from "components/common/ErrorBubble";
 import { NextLink } from "modules/common";
 

@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 const GovStake = () => {
   const { query } = useRouter();
   const queryAction =
-    query?.action == "stake" ? AstroFormType.Stake : AstroFormType.Unstake;
+    query["action"] == "stake" ? AstroFormType.Stake : AstroFormType.Unstake;
   const [type, setType] = useState(queryAction);
 
   return (

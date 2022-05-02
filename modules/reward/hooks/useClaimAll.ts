@@ -1,28 +1,26 @@
 import { useMemo } from "react";
-import useAddress from "hooks/useAddress";
-import num from "libs/num";
-
+import { useAddress, num } from "@arthuryeti/terra";
 import { useContracts, useTransaction, TxErrorHandler } from "modules/common";
 import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
 import {
   useLpRewards,
-  useBreakdownRewardsInUst,
   createPhase1ClaimAllMsgs,
   createPhase2ClaimAllMsgs,
-  createLpRewardsMsgs,
-  createLockdropRewardsMsgs,
   createLpRewardMsgs,
   createLockdropRewardMsgs,
 } from "modules/reward";
-import { useBreakdownRewardsToShow } from "modules/reward/hooks/useBreakdownRewardsToShow";
+import useBreakdownRewardsToShow from "modules/reward/hooks/useBreakdownRewardsToShow";
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
 };
 
-export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
+export const useClaimAll = ({
+  onBroadcasting = () => null,
+  onError = () => null,
+}: Params) => {
   const { lockdrop, auction, generator } = useContracts();
   const address = useAddress();
   const userInfoWithList = useUserInfoWithList();
@@ -38,7 +36,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
 
     return userInfoWithList.lockup_infos.map((info) => {
       return {
-        contract: info.pool_address,
+        contract: info.pool_address || "",
         duration: info.duration,
       };
     });
@@ -46,8 +44,8 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
 
   const msgs = useMemo(() => {
     let data = [];
-    let claimedLps = [];
-    let claimedLockdrops = [];
+    let claimedLps: any = [];
+    let claimedLockdrops: any = [];
 
     if (
       userInfoWithList != null &&
@@ -58,7 +56,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
       // add this to claimedLockdrops to prevent duplicate from
       // positions in lpAndLockdropRewards
       if (items.length > 0) {
-        claimedLockdrops.push(items[0].contract);
+        claimedLockdrops.push(items[0]?.contract);
       }
 
       const phase1Msgs = createPhase1ClaimAllMsgs(
@@ -137,34 +135,8 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
       });
     }
 
-    /*
-      if (lockdropRewards?.length > 0) {
-        const lockdropMsgs = createLockdropRewardsMsgs(
-          {
-            contract: lockdrop,
-            items: lockdropRewards,
-          },
-          address
-        );
-
-        data.push(...lockdropMsgs);
-      }
-
-      if (lpRewards?.length > 0) {
-        const lpMsgs = createLpRewardsMsgs(
-          {
-            contract: generator,
-            items: lpRewards,
-          },
-          address
-        );
-
-        data.push(...lpMsgs);
-      }
-    */
-
     if (data.length == 0) {
-      return null;
+      return [];
     }
 
     // Warning: Due to a Ledger limitation we are reducing the reward claims to

@@ -23,7 +23,7 @@ export const createProvideMsgs = (
 ): MsgExecuteContract[] => {
   const { contract, pool, coin1, coin2, slippage, autoStake } = options;
 
-  const assets = pool.assets.map((asset) => ({
+  const assets = (pool.assets || []).map((asset) => ({
     info: asset.info,
     amount:
       getTokenDenom(asset.info) === coin1.denom

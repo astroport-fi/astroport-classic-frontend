@@ -23,11 +23,11 @@ type Props = {
   token2: string;
   amount2: string;
   slippage: number;
-  fee: Fee;
-  price: string;
-  exchangeRate: string;
-  commission: string;
-  minReceive: string | number;
+  fee?: Fee | undefined;
+  price: string | null;
+  exchangeRate: string | null;
+  commission: string | null;
+  minReceive: string | number | null;
   onCloseClick: () => void;
 };
 
@@ -58,10 +58,14 @@ const SwapFormConfirm: FC<Props> = ({
     amountInitial: amount1,
   });
   const priceImpactValue =
-    swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;
+    swapRoute.length > 1 ? Number(priceImpactMultiSwap) : Number(priceImpact);
   const priceImpactColor = usePriceImpactColor(priceImpactValue);
 
-  const liquidityProviderFee = num(commission).div(ONE_TOKEN).dp(6).toNumber();
+  const liquidityProviderFee = num(commission || "")
+    .div(ONE_TOKEN)
+    .dp(6)
+    .toNumber();
+  // @ts-ignore
   const rulesForToken = tokenRules[name];
 
   let details = [
@@ -92,7 +96,7 @@ const SwapFormConfirm: FC<Props> = ({
     },
     {
       label: "Minimum Received",
-      value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
+      value: `${fromTerraAmount(minReceive || "", "0.000[000]")} ${getSymbol(
         token2
       )}`,
       tooltip:
@@ -117,7 +121,7 @@ const SwapFormConfirm: FC<Props> = ({
       },
       {
         label: "Minimum Received",
-        value: `${fromTerraAmount(minReceive, "0.000[000]")} ${getSymbol(
+        value: `${fromTerraAmount(minReceive || "", "0.000[000]")} ${getSymbol(
           token2
         )}`,
         tooltip:
@@ -129,7 +133,7 @@ const SwapFormConfirm: FC<Props> = ({
   if (rulesForToken[token1] || rulesForToken[token2]) {
     details.push({
       label: "Token Behaviour",
-      value: null,
+      value: "",
       tooltip: rulesForToken[token1]
         ? rulesForToken[token1]
         : rulesForToken[token2],

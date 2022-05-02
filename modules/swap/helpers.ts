@@ -14,18 +14,3 @@ export const minAmountReceive = ({
 
   return num(amount).times(rate).times(ONE_TOKEN).dp(0).toNumber();
 };
-
-type PriceImpactParams = {
-  offerAmount: string;
-  maxSpread: string;
-};
-
-export const priceImpact = ({
-  offerAmount,
-  maxSpread,
-}: PriceImpactParams): string => {
-  const amount = num(offerAmount);
-  const spread = num(maxSpread);
-
-  return spread.div(amount.plus(spread)).times("100").toString();
-};

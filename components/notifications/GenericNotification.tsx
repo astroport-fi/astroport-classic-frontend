@@ -5,7 +5,7 @@ import Toast from "components/notifications/Toast";
 
 type Props = {
   title: string;
-  description: string;
+  description?: string;
   toastType: string;
   onClose: () => void;
 };

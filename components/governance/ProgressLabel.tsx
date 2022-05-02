@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import { HStack, Flex, Box, Text } from "@chakra-ui/react";
-import {
-  handleAmountWithoutTrailingZeros,
-  handleTinyAmount,
-} from "modules/common";
+import { handleAmountWithoutTrailingZeros } from "modules/common";
 import { calcVotingDistribution } from "modules/governance/helpers";
 import { Proposal } from "types/common";
 

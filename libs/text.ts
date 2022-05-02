@@ -1,7 +1,7 @@
 export const truncate = (text: string = "", [h, t]: number[] = [6, 6]) => {
   const head = text.slice(0, h);
-  const tail = text.slice(-1 * t, text.length);
-  return text.length > h + t ? [head, tail].join("...") : text;
+  const tail = text.slice(-1 * (t || 0), text.length);
+  return text.length > (h || 0) + (t || 0) ? [head, tail].join("...") : text;
 };
 
 export const displayTNS = (tnsName: string) => {

@@ -11,18 +11,15 @@ import {
 import {
   useTokenTooltip,
   handleBigAndTinyAmount,
-  handleBigPercentage,
   TokenTooltip,
 } from "modules/common";
-import { Rewards } from "modules/pool";
 
 type Props = {
-  type?: string | null;
-  format?: string;
-  tokenTooltip?: TokenTooltip;
+  type?: "totalLiquidity" | "myLiquidity" | null | undefined;
+  tokenTooltip?: TokenTooltip | undefined;
 };
 
-const TokensPopover: FC<Props> = ({ type, format, tokenTooltip, children }) => {
+const TokensPopover: FC<Props> = ({ type, tokenTooltip, children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const data = useTokenTooltip(
     type,

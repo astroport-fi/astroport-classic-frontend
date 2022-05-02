@@ -46,7 +46,7 @@ const ProvideFormFooter: FC<Props> = ({
     },
     {
       title: "Share of Pool",
-      value: `${handleTinyAmount(shareOfPool, "0.00") || 0}%`,
+      value: `${handleTinyAmount(Number(shareOfPool), "0.00") || 0}%`,
     },
     {
       title: "APR",
@@ -58,7 +58,7 @@ const ProvideFormFooter: FC<Props> = ({
   const confirmButton: ConfirmButton = {
     title: "Add Liquidity",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
+    isDisabled: data.txStep != TxStep.Ready || !!txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

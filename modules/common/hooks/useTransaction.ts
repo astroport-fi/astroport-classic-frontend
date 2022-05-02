@@ -38,7 +38,7 @@ export enum TxStep {
 }
 
 type Params = {
-  msgs: MsgExecuteContract[] | null;
+  msgs: MsgExecuteContract[];
   gasAdjustment?: number;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
@@ -60,7 +60,7 @@ export const useTransaction = ({
   const [txHash, setTxHash] = useState<string | undefined>(undefined);
   const [error, setError] = useState<unknown | null>(null);
 
-  const { data: fee } = useQuery<unknown, unknown, Fee | null>(
+  const { data: fee } = useQuery<unknown, unknown, Fee>(
     ["fee", debouncedMsgs, error],
     async () => {
       if (debouncedMsgs == null || txStep != TxStep.Idle || error != null) {
@@ -90,7 +90,11 @@ export const useTransaction = ({
       );
     },
     {
-      enabled: debouncedMsgs != null && txStep == TxStep.Idle && error == null,
+      enabled:
+        debouncedMsgs != null &&
+        debouncedMsgs.length > 0 &&
+        txStep == TxStep.Idle &&
+        error == null,
       refetchOnWindowFocus: false,
       retry: false,
       onSuccess: () => {

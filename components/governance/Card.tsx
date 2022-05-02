@@ -9,24 +9,30 @@ import {
   Link,
 } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
-import { NextLink } from "modules/common";
-import { truncateStr } from "modules/common/helpers";
+import { NextLink, truncateStr } from "modules/common";
 import {
   getProposalEndDateString,
   calcVotingPower,
 } from "modules/governance/helpers";
-import { Proposal } from "types/common";
-
+import { Proposal, Proposal_Status } from "types/common";
 import ProgressBar from "components/governance/ProgressBar";
 import ProgressLabel from "components/governance/ProgressLabel";
 import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
   proposal: Proposal;
-  quorum: string | null;
+  quorum?: string | undefined;
 };
 
-const CardHeader = ({ state, title, endTimestamp }) => {
+const CardHeader = ({
+  state,
+  title,
+  endTimestamp,
+}: {
+  state: Proposal_Status;
+  title: string;
+  endTimestamp: string;
+}) => {
   const voteTimeLabel = getProposalEndDateString(endTimestamp);
 
   return (
@@ -50,7 +56,7 @@ const CardHeader = ({ state, title, endTimestamp }) => {
   );
 };
 
-const CardBody = ({ proposal, quorum }) => {
+const CardBody = ({ proposal, quorum }: Props) => {
   const { voteForPower, voteAgainstPower } = calcVotingPower(proposal);
 
   return (
@@ -67,7 +73,7 @@ const CardBody = ({ proposal, quorum }) => {
           <ProgressBar
             voteFor={voteForPower}
             voteAgainst={voteAgainstPower}
-            quorum={quorum * 100 || null}
+            quorum={Number(quorum) * 100 || null}
           />
         </Flex>
         <ProgressLabel proposal={proposal} />
@@ -76,7 +82,15 @@ const CardBody = ({ proposal, quorum }) => {
   );
 };
 
-const CardFooter = ({ description, address, id }) => {
+const CardFooter = ({
+  description,
+  address,
+  id,
+}: {
+  description: string;
+  address: string;
+  id: string;
+}) => {
   const finder = useFinder();
 
   return (
@@ -130,7 +144,7 @@ const Card: FC<Props> = ({ proposal, quorum }) => {
           title={proposal.title}
           endTimestamp={proposal.end_timestamp}
         />
-        <CardBody proposal={proposal} quorum={quorum} />
+        <CardBody proposal={proposal} quorum={quorum || ""} />
         <CardFooter
           description={proposal.description}
           address={proposal.submitter}

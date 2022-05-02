@@ -17,7 +17,7 @@ type Props = {
   amount: string;
   isLoading: boolean;
   txFeeNotEnough?: boolean;
-  fee: Fee;
+  fee?: Fee | undefined;
   price?: number;
   astroMintRatio?: number | null;
   error: any;
@@ -42,7 +42,7 @@ const GovStakeFormInitial: FC<Props> = ({
     .toNumber();
   const adjPrice =
     type === AstroFormType.Unstake && astroMintRatio
-      ? price * (1 / astroMintRatio)
+      ? (price || 0) * (1 / astroMintRatio)
       : price;
   const adjAmount =
     type === AstroFormType.Stake && astroMintRatio
@@ -109,7 +109,7 @@ const GovStakeFormInitial: FC<Props> = ({
           fee={fee}
           type={type}
           isLoading={isLoading}
-          isDisabled={!amount || fee == null || txFeeNotEnough}
+          isDisabled={!!(!amount || fee == null || txFeeNotEnough)}
           amount={adjAmount.toNumber()}
           astroMintRatio={astroMintRatio}
         />

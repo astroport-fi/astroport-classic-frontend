@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
-
 import {
   useContracts,
   Route,
@@ -32,9 +31,9 @@ function isReverseSimulation(
 
 type Params = {
   swapRoute: Route[] | null;
-  token: string | null;
-  token2: string | null;
-  amount: string | null;
+  token: string;
+  token2: string;
+  amount: string;
   reverse: boolean;
   onSuccess?: (item: any) => void;
   onError?: (item: any) => void;
@@ -47,7 +46,7 @@ export const useSwapSimulate = ({
   amount,
   reverse,
   onSuccess,
-  onError,
+  onError = () => null,
 }: Params) => {
   const { client } = useTerraWebapp();
   const { router } = useContracts();

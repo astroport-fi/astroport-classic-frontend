@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import SwapForm from "components/swap/SwapForm";
 import {
   render,
@@ -6,7 +8,8 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useTx, useBalance } from "modules/common";
+import { useEstimateFee } from "@arthuryeti/terra";
+import { useTx } from "modules/common";
 import { useSwap } from "modules/swap";
 import { Coin, Coins } from "@terra-money/terra.js";
 
@@ -46,7 +49,7 @@ jest.mock("modules/common", () => {
     ...original,
     useTokenInfo: () => ({
       getDecimals: () => 6,
-      getSymbol: (token) => {
+      getSymbol: (token: string) => {
         return {
           terra123: "FOO",
           uusd: "UST",
@@ -55,7 +58,7 @@ jest.mock("modules/common", () => {
       getIcon: () => {},
       isHidden: () => false,
     }),
-    useBalance: (token) => 100_000_000,
+    useBalance: () => 100_000_000,
     useTx: jest.fn(),
   };
 });
@@ -74,7 +77,7 @@ jest.mock("modules/swap", () => {
         type: "xyk",
       },
     ],
-    useTokenPriceInUstWithSimulate: (token) => {
+    useTokenPriceInUstWithSimulate: (token: string) => {
       return {
         uusd: 1,
         terra123: 42,
@@ -91,7 +94,7 @@ jest.mock("modules/swap", () => {
 
 describe("SwapForm", () => {
   const renderAndSwap = async () => {
-    let successCallback;
+    let successCallback: Function;
 
     (useSwap as jest.Mock).mockImplementation(({ onSimulateSuccess }) => {
       successCallback = onSimulateSuccess;
@@ -135,7 +138,7 @@ describe("SwapForm", () => {
     // onPosting callback, mocking a tx that's waiting on the extension,
     // then invoke a mock fn so we can assert on it
     (useTx as jest.Mock).mockImplementation(({ onPosting }) => ({
-      submit: (...args) => {
+      submit: (...args: any) => {
         onPosting();
         mockSubmit(...args);
       },

@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-
-import { useAstroswap, useLunaPriceInUst, useTokenInfo } from "modules/common";
+import { num } from "@arthuryeti/terra";
+import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute, useSwapSimulate } from "modules/swap";
 import num from "libs/num";
 
-export const useTokenPriceInUstWithSimulate = (token: string | null) => {
+export const useTokenPriceInUstWithSimulate = (token: string) => {
   const { tokenGraph } = useAstroswap();
   const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({ tokenGraph, from: token, to: "uusd" });

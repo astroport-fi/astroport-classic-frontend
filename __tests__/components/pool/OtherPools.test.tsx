@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { render, screen, within } from "@testing-library/react";
 import OtherPools from "components/pool/OtherPools";
 import { useAllPools } from "modules/pool";
@@ -36,12 +38,12 @@ jest.mock("modules/pool", () => {
 });
 
 const mockPool = (
-  contract,
-  assets,
-  apy,
-  totalLiquidityInUst,
-  pairType,
-  favorite = false
+  contract: string,
+  assets: string[],
+  apy: number,
+  totalLiquidityInUst: number,
+  pairType: string,
+  favorite: boolean = false
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { getSymbol } = useTokenInfo();
@@ -53,8 +55,8 @@ const mockPool = (
     totalLiquidityInUst,
     pairType,
     sortingAssets: [
-      getSymbol(assets[0]).toLowerCase(),
-      getSymbol(assets[1]).toLowerCase(),
+      getSymbol(assets[0] || "").toLowerCase(),
+      getSymbol(assets[1] || "").toLowerCase(),
       ...assets,
       contract,
     ],
@@ -62,9 +64,9 @@ const mockPool = (
   };
 };
 
-const mockSymbols = (symbolMap) => {
+const mockSymbols = (symbolMap: any) => {
   (useTokenInfo as jest.Mock).mockReturnValue({
-    getSymbol: (token) => symbolMap[token],
+    getSymbol: (token: string) => symbolMap[token],
     getIcon: () => {},
   });
 };
@@ -72,8 +74,8 @@ const mockSymbols = (symbolMap) => {
 describe("OtherPools", () => {
   describe("user cannot provide any liquidity (does not have both sides of any pool in wallet)", () => {
     beforeEach(() => {
-      const getSymbol = (token) => {
-        const tokens = {
+      const getSymbol = (token: string) => {
+        const tokens: any = {
           uusd: {
             symbol: "UST",
           },

@@ -8,6 +8,7 @@ import {
   useAstroswap,
   getTokenDenoms,
   handleTinyAmount,
+  getEventsByType,
 } from "modules/common";
 import { orderPoolTokens } from "modules/pool";
 import { ONE_TOKEN } from "constants/constants";
@@ -21,19 +22,18 @@ const UnstakeLpNotification: FC<Props> = ({ txInfo, data }) => {
   const queryClient = useQueryClient();
   const { pairs } = useAstroswap();
   const { getSymbol } = useTokenInfo();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[0];
-  const amount = eventsByType.wasm.amount[2];
+  const eventsByType = getEventsByType(txInfo);
+  const amount = eventsByType?.wasm.amount[2];
   const lpToken = data.token;
 
-  const pair = pairs.find((v) => v.liquidity_token == lpToken);
-  const assets = getTokenDenoms(pair?.asset_infos);
+  const pair = (pairs || []).find((v) => v.liquidity_token == lpToken);
+  const assets = getTokenDenoms(pair?.asset_infos || []);
   const [token1, token2] = orderPoolTokens(
-    { asset: assets[0], symbol: getSymbol(assets[0]) },
-    { asset: assets[1], symbol: getSymbol(assets[1]) }
+    { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
+    { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
   );
-  const symbol1 = getSymbol(token1);
-  const symbol2 = getSymbol(token2);
+  const symbol1 = getSymbol(token1 || "");
+  const symbol2 = getSymbol(token2 || "");
   const displayAmount = handleTinyAmount(
     num(amount).div(ONE_TOKEN).dp(6).toNumber(),
     undefined,

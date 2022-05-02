@@ -7,12 +7,7 @@ import {
   TxStep,
   TxErrorHandler,
 } from "modules/common";
-import {
-  createWithdrawMsgs,
-  useGetPool,
-  shouldReverseTokenOrder,
-} from "modules/pool";
-import num from "libs/num";
+import { createWithdrawMsgs, useGetPool } from "modules/pool";
 
 export type WithdrawState = {
   token1?: string;
@@ -21,7 +16,7 @@ export type WithdrawState = {
   token2Amount?: string;
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   withdraw: () => void;
@@ -46,11 +41,11 @@ export const useWithdraw = ({
   contract,
   lpToken,
   amount,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): WithdrawState => {
   const { data: pool } = useGetPool(contract);
-  const { getDecimals, getSymbol } = useTokenInfo();
+  const { getDecimals } = useTokenInfo();
   const address = useAddress();
 
   const ratio: any = useMemo(() => {
@@ -58,7 +53,8 @@ export const useWithdraw = ({
       return {};
     }
 
-    return pool.assets.reduce((prev, a) => {
+    // @ts-expect-error
+    return (pool?.assets || []).reduce((prev, a) => {
       return {
         ...prev,
         [getTokenDenom(a.info)]: Number(a.amount) / Number(pool.total_share),
@@ -71,8 +67,10 @@ export const useWithdraw = ({
       return {};
     }
 
-    const token1 = getTokenDenom(pool.assets[0].info);
-    const token2 = getTokenDenom(pool.assets[1].info);
+    const firstToken = pool.assets ? pool.assets[0].info : undefined;
+    const secondToken = pool.assets ? pool.assets[1].info : undefined;
+    const token1 = getTokenDenom(firstToken);
+    const token2 = getTokenDenom(secondToken);
 
     const data = {
       token1,
@@ -109,8 +107,8 @@ export const useWithdraw = ({
     notification: {
       type: "withdraw",
       data: {
-        token1: tokens.token1,
-        token2: tokens.token2,
+        token1: tokens.token1 || null,
+        token2: tokens.token2 || null,
       },
     },
     msgs,

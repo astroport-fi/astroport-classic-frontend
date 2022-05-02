@@ -27,7 +27,7 @@ const MyLockActionsTd: FC<Props> = ({
         <ClaimLockdropRewardBtn
           contract={name}
           duration={duration}
-          txFeeNotEnough={txFeeNotEnough}
+          txFeeNotEnough={!!txFeeNotEnough}
         />
         <Button as="div" variant="silent" size="sm" isDisabled flex="1">
           Locked
@@ -51,7 +51,7 @@ const MyLockActionsTd: FC<Props> = ({
       <ClaimLockdropRewardBtn
         contract={name}
         duration={duration}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
       />
       <Link href={`/unlock/${name}/${duration}/${astroLpToken}`} passHref>
         <Button as="a" variant="primary" size="sm" flex="1">

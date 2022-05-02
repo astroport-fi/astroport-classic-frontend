@@ -21,7 +21,7 @@ export interface ConfirmButton {
 }
 
 interface Props {
-  fee: Fee;
+  fee?: Fee | undefined;
   cells?: Cell[];
   confirmButton: ConfirmButton;
 }
@@ -29,7 +29,7 @@ interface Props {
 const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
   return (
     <Box mb="8">
-      {cells?.length > 0 && (
+      {cells && cells.length > 0 && (
         <Flex justify="space-between" mt="8">
           {cells.map((cell) =>
             cell.render ? (
@@ -61,15 +61,15 @@ const CommonFooter: FC<Props> = ({ fee, cells, confirmButton }) => {
         <Button
           variant={confirmButton.variant || "primary"}
           type={confirmButton.type || "button"}
-          borderRadius={confirmButton.borderRadius}
-          isDisabled={confirmButton.isDisabled}
-          isLoading={confirmButton.isLoading}
+          borderRadius={confirmButton.borderRadius || "full"}
+          isDisabled={!!confirmButton.isDisabled}
+          isLoading={!!confirmButton.isLoading}
           onClick={confirmButton.onClick}
         >
           {confirmButton.title}
         </Button>
         <Box color="white">
-          {!confirmButton.isDisabled && <FormFee fee={fee} />}
+          {!confirmButton.isDisabled && fee && <FormFee fee={fee} />}
         </Box>
       </Flex>
     </Box>

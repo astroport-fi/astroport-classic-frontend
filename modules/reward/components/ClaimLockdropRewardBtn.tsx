@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
 import { useTx } from "modules/common";
@@ -32,10 +33,12 @@ const ClaimLockdropRewardBtn: FC<Props> = ({
   });
 
   const handleClick = () => {
-    submit({
-      msgs,
-      fee,
-    });
+    if (msgs && fee) {
+      submit({
+        msgs,
+        fee,
+      });
+    }
   };
 
   return (
@@ -44,7 +47,7 @@ const ClaimLockdropRewardBtn: FC<Props> = ({
       variant="primary"
       flex="1"
       onClick={handleClick}
-      isDisabled={fee == null || txFeeNotEnough}
+      isDisabled={fee == null || !!txFeeNotEnough}
     >
       Claim Rewards
     </Button>

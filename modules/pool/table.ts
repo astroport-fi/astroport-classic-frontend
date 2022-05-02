@@ -10,8 +10,8 @@ import {
 import { useCallback } from "react";
 
 // Filter only displayed assets from column:sortingAssets
-const filterPoolAssets = (rows: any, columns: any, filterValue: string) => {
-  return rows.filter((row) => {
+const filterPoolAssets = (rows: any, _columns: any, filterValue: string) => {
+  return rows.filter((row: any) => {
     const query = filterValue.toLowerCase();
     const assets = row.original.sortingAssets;
 

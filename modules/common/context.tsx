@@ -10,22 +10,18 @@ import {
   useCallback,
 } from "react";
 import { nanoid } from "nanoid";
-
 import {
   pairsToGraph,
   PairResponse,
   TokenGraphAdjacencyList,
   Tokens,
   useAllTokens,
-} from "modules/common";
-
-import { notificationReducer } from "modules/common/notifications/reducer";
-import {
   Notifications,
   DEFAULT_NOTIFICATIONS,
   AddNotificationPayload,
   RemoveNotificationPayload,
-} from "modules/common/notifications/model";
+  notificationReducer,
+} from "modules/common";
 import whitelist from "constants/whitelist";
 import { useTerraWebapp } from "context/TerraWebappContext";
 
@@ -34,18 +30,18 @@ type Astroswap = {
   isErrorLoadingData: boolean;
   pairs: PairResponse[] | null;
   tokenGraph: TokenGraphAdjacencyList | null;
-  tokens: Tokens | null;
+  tokens?: Tokens | undefined;
   notifications: Notifications;
   addNotification: (payload: AddNotificationPayload) => void;
   removeNotification: (payload: RemoveNotificationPayload) => void;
 };
 
-export const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
+const AstroswapContext: Context<Astroswap> = createContext<Astroswap>({
   isLoading: true,
   isErrorLoadingData: false,
   pairs: [],
   tokenGraph: null,
-  tokens: null,
+  tokens: undefined,
   notifications: {},
   addNotification: () => undefined,
   removeNotification: () => undefined,
@@ -66,6 +62,7 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
   } = useTerraWebapp();
 
   const pairs = useMemo(() => {
+    // @ts-ignore
     return whitelist[name].pairs;
   }, [whitelist, name]);
 

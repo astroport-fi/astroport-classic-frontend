@@ -8,9 +8,9 @@ import { ONE_TOKEN } from "constants/constants";
 type Response = number | null;
 
 type Params = {
-  pool: Pool | null | undefined;
-  amount1: string | null;
-  amount2: string | null;
+  pool?: Pool | undefined;
+  amount1?: string | undefined;
+  amount2?: string | undefined;
 };
 
 export const useEstShareOfPool = ({
@@ -19,9 +19,9 @@ export const useEstShareOfPool = ({
   amount2,
 }: Params): Response => {
   const estLpBalance = useTokensToLp({ pool, amount1, amount2 });
-  const lpBalance = useBalance(pool.lpTokenContract);
-  const totalShare = num(pool.total.share).plus(
-    num(estLpBalance).times(ONE_TOKEN)
+  const lpBalance = useBalance(pool?.lpTokenContract || "");
+  const totalShare = num(pool?.total.share).plus(
+    num(Number(estLpBalance)).times(ONE_TOKEN)
   );
 
   return useMemo(() => {
@@ -31,16 +31,18 @@ export const useEstShareOfPool = ({
 
     if (
       num(pool.total.share).eq(0) &&
-      (num(estLpBalance).gt(0) || num(amount1).gt(0) || num(amount2).gt(0))
+      (num(Number(estLpBalance)).gt(0) ||
+        num(amount1).gt(0) ||
+        num(amount2).gt(0))
     ) {
       return 100;
     }
 
-    if (num(estLpBalance).isNaN()) {
-      return num(pool.mine.shareOfPool).toNumber();
+    if (num(Number(estLpBalance)).isNaN()) {
+      return num(Number(pool?.mine.shareOfPool)).toNumber();
     }
 
-    return num(estLpBalance)
+    return num(Number(estLpBalance))
       .times(ONE_TOKEN)
       .plus(lpBalance)
       .times("100")

@@ -13,7 +13,7 @@ import { createProvideMsgs, Pool } from "modules/pool";
 export type ProvideState = {
   error: any;
   fee: any;
-  txHash?: string;
+  txHash?: string | undefined;
   txStep: TxStep;
   reset: () => void;
   submit: () => void;
@@ -23,9 +23,9 @@ type Params = {
   pool: Pool;
   contract: string;
   token1: string;
-  amount1: string | null;
+  amount1?: string;
   token2: string;
-  amount2: string | null;
+  amount2?: string;
   autoStake: boolean;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
@@ -39,8 +39,8 @@ export const useProvide = ({
   amount1,
   amount2,
   autoStake,
-  onBroadcasting,
-  onError,
+  onBroadcasting = () => null,
+  onError = () => null,
 }: Params): ProvideState => {
   const address = useAddress();
   const { getDecimals } = useTokenInfo();
@@ -61,7 +61,7 @@ export const useProvide = ({
       num(terraAmount1).eq(0) ||
       num(terraAmount2).eq(0)
     ) {
-      return null;
+      return [];
     }
 
     return createProvideMsgs(

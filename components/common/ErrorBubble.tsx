@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { BoxProps, Circle } from "@chakra-ui/react";
-import { CSSProperties } from "@emotion/serialize";
 
 type Props = {
   text: string;

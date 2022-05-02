@@ -7,7 +7,7 @@ type Props = {
   blocks: Proposal_History;
 };
 
-const StatusBox = ({ block }) => {
+const StatusBox = ({ block }: { block: any }) => {
   const redGreenDot =
     block.dotColor === "red.500" || block.dotColor === "green.500";
 

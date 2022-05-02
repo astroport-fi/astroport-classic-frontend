@@ -13,7 +13,7 @@ const GovernanceVote: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <GovVote id={String(query.id)} action={String(query.action)} />
+      <GovVote id={String(query["id"])} action={String(query["action"])} />
     </>
   );
 };

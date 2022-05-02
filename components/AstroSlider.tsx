@@ -40,40 +40,40 @@ const AstroSlider: FC<Props> = ({
   ...props
 }) => {
   const renderMaxUnlockableLiquidity = () => {
-    if (max != maxAllowed && hasMaxSystem) {
-      const ratio = maxAllowed / max;
+    if (!hasMaxSystem || !maxAllowed || max === maxAllowed) return;
 
-      return (
-        <Box w={(1 - ratio) * 100 + "%"} pb="1">
-          <Text color="red.500" mb="2" whiteSpace="nowrap" fontSize="12px">
-            Max unlockable liquidity
-          </Text>
-          <Box position="relative" h="1" mb="3">
-            <Box
-              position="absolute"
-              inset="0"
-              w="100%"
-              height="100%"
-              bg="red.500"
-              zIndex={1}
-              opacity="0.4"
-              borderRadius="lg"
-            />
-            <Box
-              bg="red.500"
-              w="4px"
-              h="4px"
-              borderRadius="4"
-              position="absolute"
-              left="0"
-              top="0"
-              zIndex={2}
-              transform="translateX(-50%)"
-            />
-          </Box>
+    const ratio = maxAllowed / max;
+
+    return (
+      <Box w={(1 - ratio) * 100 + "%"} pb="1">
+        <Text color="red.500" mb="2" whiteSpace="nowrap" fontSize="12px">
+          Max unlockable liquidity
+        </Text>
+        <Box position="relative" h="1" mb="3">
+          <Box
+            position="absolute"
+            inset="0"
+            w="100%"
+            height="100%"
+            bg="red.500"
+            zIndex={1}
+            opacity="0.4"
+            borderRadius="lg"
+          />
+          <Box
+            bg="red.500"
+            w="4px"
+            h="4px"
+            borderRadius="4"
+            position="absolute"
+            left="0"
+            top="0"
+            zIndex={2}
+            transform="translateX(-50%)"
+          />
         </Box>
-      );
-    }
+      </Box>
+    );
   };
 
   const renderButtons = () => {
@@ -87,13 +87,19 @@ const AstroSlider: FC<Props> = ({
     return (
       <Box width="100%" position="relative" mt="2" h={h}>
         {[0, 1, 2, 3, 4].map((value) => {
+          let label: string = value * 25 + "%";
+          if (value == 0) {
+            label = minLabel || "";
+          }
+          if (value == 4) {
+            label = maxLabel || "";
+          }
+
           return (
             <AstroSliderButton
               key={value}
               value={value}
-              label={
-                value == 0 ? minLabel : value == 4 ? maxLabel : value * 25 + "%"
-              }
+              label={label}
               min={min}
               max={max}
               onClick={onChange}

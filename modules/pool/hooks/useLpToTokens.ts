@@ -8,8 +8,8 @@ type Response = {
 } | null;
 
 type Params = {
-  pool: PoolResponse | null | undefined;
-  amount: string | null | undefined;
+  pool?: PoolResponse | undefined;
+  amount?: string | undefined;
 };
 
 export const useLpToTokens = ({ pool, amount }: Params): Response => {
@@ -22,7 +22,8 @@ export const useLpToTokens = ({ pool, amount }: Params): Response => {
 
     const { assets, total_share } = pool;
 
-    return assets.reduce((acc, asset) => {
+    // @ts-expect-error
+    return (assets || []).reduce((acc, asset) => {
       return {
         ...acc,
         [getTokenDenom(asset.info)]: num(amount)

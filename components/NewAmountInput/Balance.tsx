@@ -9,9 +9,9 @@ import numeral from "numeral";
 
 type Props = {
   asset: string;
-  label?: string;
-  max?: string | number;
-  initial?: string;
+  label?: string | undefined;
+  max?: string | number | undefined;
+  initial?: string | undefined;
   hideLabel?: boolean;
   hideButton?: boolean;
   isDisabled?: boolean;
@@ -40,24 +40,18 @@ const Balance: FC<Props> = ({
     .toNumber();
 
   const renderButton = () => {
-    if (!hideButton) {
-      return (
-        <MaxButton
-          asset={asset}
-          max={max ?? amount}
-          onChange={onChange}
-          isDisabled={isDisabled}
-        />
-        // <Button
-        //   variant="mini"
-        //   type="button"
-        //   onClick={() => onChange(max ?? amount)}
-        //   isDisabled={isDisabled}
-        // >
-        //   Max
-        // </Button>
-      );
+    if (hideButton) {
+      return;
     }
+
+    return (
+      <MaxButton
+        asset={asset}
+        max={max ?? amount}
+        onChange={onChange}
+        isDisabled={isDisabled}
+      />
+    );
   };
 
   return (

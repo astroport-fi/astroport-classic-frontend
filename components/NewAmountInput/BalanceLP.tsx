@@ -1,16 +1,15 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Button, HStack } from "@chakra-ui/react";
-import num from "libs/num";
-
+import { num } from "@arthuryeti/terra";
 import { useBalance } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 import numeral from "numeral";
 
 type Props = {
   asset: string;
-  initial?: string;
-  max?: string | number;
-  label?: string;
+  initial?: string | undefined;
+  max?: string | number | undefined;
+  label?: string | undefined;
   hideLabel?: boolean;
   hideButton?: boolean;
   isDisabled?: boolean;
@@ -34,18 +33,20 @@ const BalanceLP: FC<Props> = ({
     .toNumber();
 
   const renderButton = () => {
-    if (!hideButton) {
-      return (
-        <Button
-          variant="mini"
-          type="button"
-          onClick={() => onChange(max ?? amount)}
-          isDisabled={isDisabled}
-        >
-          Max
-        </Button>
-      );
+    if (hideButton) {
+      return;
     }
+
+    return (
+      <Button
+        variant="mini"
+        type="button"
+        onClick={() => onChange(max ?? amount)}
+        isDisabled={isDisabled}
+      >
+        Max
+      </Button>
+    );
   };
 
   return (

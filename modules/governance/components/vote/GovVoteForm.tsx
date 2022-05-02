@@ -30,7 +30,7 @@ type Props = {
   action: string;
 };
 
-const TitleBox = ({ title }) => {
+const TitleBox = ({ title }: { title: string }) => {
   return (
     <Box mb="5">
       <Text fontSize="sm" mb="3">
@@ -43,7 +43,15 @@ const TitleBox = ({ title }) => {
   );
 };
 
-const ActionBox = ({ action, amount, percentage }) => {
+const ActionBox = ({
+  action,
+  amount,
+  percentage,
+}: {
+  action: string;
+  amount: string;
+  percentage: string;
+}) => {
   const actionColor = action === "for" ? "green.500" : "red.500";
 
   return (
@@ -94,7 +102,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
   const proposalContract = useProposalClient(id);
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
-    userVotingPower && proposal.total_voting_power
+    userVotingPower && proposal && proposal.total_voting_power
       ? (userVotingPower /
           num(proposal.total_voting_power)
             .div(PROPOSAL_VOTE_POWER)
@@ -156,7 +164,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
     onPosting: () => {
       setIsPosting(true);
     },
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/governance");
     },
     onError: () => {

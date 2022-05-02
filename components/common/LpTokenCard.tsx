@@ -14,25 +14,25 @@ type Props = {
 const LpTokenCard: FC<Props> = ({ token }) => {
   const { pairs } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.liquidity_token == token.asset);
-  const assets = getTokenDenoms(pair?.asset_infos);
+  const pair = (pairs || []).find((v) => v.liquidity_token == token.asset);
+  const assets = pair ? getTokenDenoms(pair.asset_infos) : [];
   const [token1, token2] = orderPoolTokens(
-    { asset: assets[0], symbol: getSymbol(assets[0]) },
-    { asset: assets[1], symbol: getSymbol(assets[1]) }
+    { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
+    { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
   );
-  const { data: pool } = useGetPool(pair?.contract_addr);
-  const protocol1 = getProtocol(token1);
-  const icon1 = getIcon(token1);
-  const symbol1 = getSymbol(token1);
-  const protocol2 = getProtocol(token2);
-  const icon2 = getIcon(token2);
-  const symbol2 = getSymbol(token2);
-  const price1 = useTokenPriceInUstWithSimulate(token1);
-  const price2 = useTokenPriceInUstWithSimulate(token2);
+  const { data: pool } = useGetPool(pair ? pair.contract_addr : "");
+  const protocol1 = getProtocol(token1 || "");
+  const icon1 = getIcon(token1 || "");
+  const symbol1 = getSymbol(token1 || "");
+  const protocol2 = getProtocol(token2 || "");
+  const icon2 = getIcon(token2 || "");
+  const symbol2 = getSymbol(token2 || "");
+  const price1 = useTokenPriceInUstWithSimulate(token1 || "");
+  const price2 = useTokenPriceInUstWithSimulate(token2 || "");
   const tokenAmounts = useLpToTokens({ pool, amount: token.amount });
 
   const totalInUst = useMemo(() => {
-    if (pool == null || tokenAmounts == null) {
+    if (pool == null || tokenAmounts == null || !token1 || !token2) {
       return 0;
     }
 

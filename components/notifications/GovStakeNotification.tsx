@@ -4,7 +4,12 @@ import { Text } from "@chakra-ui/react";
 import num from "libs/num";
 import { useQueryClient } from "react-query";
 
-import { useContracts, useTokenInfo, handleTinyAmount } from "modules/common";
+import {
+  useContracts,
+  useTokenInfo,
+  handleTinyAmount,
+  getEventsByType,
+} from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
@@ -15,9 +20,8 @@ const GovStakeNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
   const { astroToken, xAstroToken } = useContracts();
   const { getSymbol } = useTokenInfo();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[0];
-  const amount = eventsByType.wasm.amount[0];
+  const eventsByType = getEventsByType(txInfo);
+  const amount = eventsByType?.wasm.amount[0];
   const displayAmount = handleTinyAmount(
     num(amount).div(ONE_TOKEN).dp(6).toNumber()
   );

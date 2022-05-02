@@ -1,9 +1,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { Button, HStack } from "@chakra-ui/react";
-import num from "libs/num";
-import TOKEN_DENYLIST from "constants/tokenDenylist";
-import POOL_DENYLIST from "constants/poolDenylist";
+import { num } from "@arthuryeti/terra";
 
 type Props = {
   row: any;

@@ -53,7 +53,7 @@ const MaxButton: FC<Props> = ({ onChange, max, asset, isDisabled }) => {
       type="button"
       variant="mini"
       onClick={() => onChange(amount)}
-      isDisabled={isDisabled}
+      isDisabled={!!isDisabled}
     >
       Max
     </Button>

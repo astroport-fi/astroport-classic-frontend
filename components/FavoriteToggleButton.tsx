@@ -11,7 +11,7 @@ type Props = {
 };
 
 const FavoriteToggleButton: FC<Props> = ({ pair }) => {
-  const [favoritesPools, setFavoritesPools] = useLocalStorage(
+  const [favoritesPools, setFavoritesPools] = useLocalStorage<string[]>(
     "favoritesPools",
     []
   );

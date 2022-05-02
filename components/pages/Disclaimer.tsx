@@ -10,19 +10,19 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-
 import Card from "components/Card";
-import CloseIcon from "components/icons/CloseIcon";
 
 type Props = {
-  onCloseClick: () => void;
   onConfirmClick: () => void;
 };
 
 const MotionBox = motion(Box);
 
-const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
-  const [checkedItems, setCheckedItems] = useState([false, false]);
+const AstroportDisclaimer: FC<Props> = ({ onConfirmClick }) => {
+  const [checkedItems, setCheckedItems] = useState<[boolean, boolean]>([
+    false,
+    false,
+  ]);
   const allChecked = checkedItems.every(Boolean);
 
   return (
@@ -64,7 +64,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
               setCheckedItems([e.target.checked, checkedItems[1]])
             }
           >
-            <Text fontSize={["xs", "sm"]} ml={[3,4]} fontWeight="medium">
+            <Text fontSize={["xs", "sm"]} ml={[3, 4]} fontWeight="medium">
               I have read and understood, and do hereby agree to be legally
               bound as a ‘User’ under, the Terms, including all future
               amendments thereto. Such agreement is irrevocable and will apply
@@ -81,7 +81,7 @@ const AstroportDisclaimer: FC<Props> = ({ onCloseClick, onConfirmClick }) => {
               setCheckedItems([checkedItems[0], e.target.checked])
             }
           >
-            <Text fontSize={["xs", "sm"]} ml={[3,4]} fontWeight="medium">
+            <Text fontSize={["xs", "sm"]} ml={[3, 4]} fontWeight="medium">
               I acknowledge and agree that the Site solely provides information
               about data on the Terra blockchain. I accept that the Site
               operators have no custody over my funds, ability or duty to

@@ -40,7 +40,7 @@ export const useTokenInfo = () => {
   const getDecimals = useCallback(
     (token: string): number => {
       if (tokens == null) {
-        return null;
+        return 6;
       }
 
       return tokens[token]?.decimals ?? 6;
@@ -74,6 +74,7 @@ export const useTokenInfo = () => {
       return (
         pairs.filter((pair) => {
           return (
+            // @ts-ignore
             pair.asset_infos.filter((asset: AssetInfo) => {
               return (
                 (asset?.token?.contract_addr == token ||

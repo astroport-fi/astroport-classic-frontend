@@ -5,7 +5,7 @@ import { Fee } from "@terra-money/terra.js";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 
 type Props = {
-  fee: Fee;
+  fee?: Fee | undefined;
   feeIsLoading?: boolean;
   balanceError?: boolean;
   txFeeNotEnough?: boolean;
@@ -21,10 +21,9 @@ const GovProposalFormFooter: FC<Props> = ({
     title: "Submit Proposal",
     borderRadius: "md",
     variant: "primarywhite",
-    isLoading: feeIsLoading,
-    isDisabled: balanceError || feeIsLoading || txFeeNotEnough,
+    isLoading: !!feeIsLoading,
+    isDisabled: !!(balanceError || feeIsLoading || txFeeNotEnough),
     type: "submit",
-    onClick: null,
   };
 
   return (

@@ -10,7 +10,7 @@ type Props = {
 const PoolTr: FC<Props> = ({ row }) => {
   return (
     <Tr {...row.getRowProps()}>
-      {row.cells.map((cell) => {
+      {row.cells.map((cell: any) => {
         return (
           <Td
             key={cell}

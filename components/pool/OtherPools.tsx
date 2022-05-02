@@ -2,12 +2,10 @@ import React, { FC, ReactNode, useCallback, useMemo } from "react";
 import num from "libs/num";
 import { Box } from "@chakra-ui/react";
 import { defaultOrderByFn, Row, SortByFn } from "react-table";
-
 import useLocalStorage from "hooks/useLocalStorage";
 import { APR_TOOLTIP } from "constants/constants";
 import { useAllPools, AllPoolsPool, usePoolTable } from "modules/pool";
 import { useBalances } from "modules/common";
-
 import Card from "components/Card";
 import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
@@ -23,7 +21,7 @@ type PoolWithUserState = AllPoolsPool & {
   userCanProvideLiquidity: boolean;
 };
 
-const uniqueTokens = (pools) => {
+const uniqueTokens = (pools: any) => {
   const tokens = new Set<string>();
 
   for (const { assets } of pools) {
@@ -52,7 +50,8 @@ const OtherPools: FC = () => {
       return {
         ...pool,
         userCanProvideLiquidity:
-          num(balances[token1]).gt(0) && num(balances[token2]).gt(0),
+          num(balances[token1 || ""]).gt(0) &&
+          num(balances[token2 || ""]).gt(0),
       };
     });
   }, [notInUsePools, balances]);
@@ -89,7 +88,8 @@ const OtherPools: FC = () => {
         accessor: "rewards.total",
         width: 140,
         disableGlobalFilter: true,
-        sortType: (a, b) => a.original.rewards.total - b.original.rewards.total,
+        sortType: (a: any, b: any) =>
+          a.original.rewards.total - b.original.rewards.total,
       },
       {
         Header: "Total Liquidity",
@@ -154,7 +154,7 @@ const OtherPools: FC = () => {
           directions: boolean[]
         ) => {
           // userCanProvideLiquidity sort function, sorts false -> true
-          const canProvideLiquiditySort = (a, b) =>
+          const canProvideLiquiditySort = (a: any, b: any) =>
             a.original.userCanProvideLiquidity ===
             b.original.userCanProvideLiquidity
               ? 0
@@ -171,7 +171,7 @@ const OtherPools: FC = () => {
         },
         []
       ),
-      stateReducer: (newState, action) => {
+      stateReducer: (newState) => {
         if (newState.sortBy.length > 0) {
           return newState;
         } else {
@@ -202,13 +202,15 @@ const OtherPools: FC = () => {
     for (let i = 0; i < page.length; i++) {
       const row = page[i];
 
+      if (!row) continue;
+
       prepareRow(row);
 
       rows.push(<PoolTr row={row} key={i} />);
 
       if (page[i + 1]) {
         const currentPool = row.original as PoolWithUserState;
-        const nextPool = page[i + 1].original as PoolWithUserState;
+        const nextPool = page[i + 1]?.original as PoolWithUserState;
 
         // Add divider row between last pool user can provide liquidity into
         // and first pool that they cannot

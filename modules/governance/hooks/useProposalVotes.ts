@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { gql } from "graphql-request";
 import { useApi } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
@@ -36,7 +36,7 @@ export const useProposalVotes = (
   pageNum: number
 ): Response => {
   const [hasMore, setHasMore] = useState(false);
-  const [votes, setVotes] = useState([]);
+  const [votes, setVotes] = useState<any>([]);
 
   const { data, isLoading } = useApi({
     name: ["proposal", "votes", proposalId, choice, pageNum.toString()],
@@ -55,7 +55,7 @@ export const useProposalVotes = (
 
   useEffect(() => {
     if (data?.votes && data?.votes.length > 0) {
-      setVotes((votes) => [...votes, ...data.votes]);
+      setVotes((votes: any) => [...votes, ...data.votes]);
       setHasMore(true);
     } else {
       setHasMore(false);

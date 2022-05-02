@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { Box, Flex, forwardRef } from "@chakra-ui/react";
-
+import { Box, forwardRef } from "@chakra-ui/react";
 import { Balance, Input, BalanceLP } from "components/NewAmountInput";
 
 type Props = {
@@ -20,7 +19,7 @@ type Props = {
   isLoading?: boolean;
   hideMaxButton?: boolean;
   max?: number;
-  price?: number;
+  price?: number | undefined;
 };
 
 const Field: FC<Props> = forwardRef(
@@ -55,7 +54,7 @@ const Field: FC<Props> = forwardRef(
             hideLabel={hideBalanceLabel}
             hideButton={hideMaxButton}
             isDisabled={isDisabled}
-            onChange={(v: string) => onChange(v)}
+            onChange={(v: string | number) => onChange(v)}
           />
         );
       }
@@ -69,7 +68,7 @@ const Field: FC<Props> = forwardRef(
           hideLabel={hideBalanceLabel}
           hideButton={hideMaxButton}
           isDisabled={isDisabled}
-          onChange={(v: string) => onChange(v)}
+          onChange={(v: string | number) => onChange(v)}
         />
       );
     };
@@ -86,7 +85,7 @@ const Field: FC<Props> = forwardRef(
           isDisabled={isDisabled}
           isLoading={isLoading}
           hidePrice={hidePrice}
-          isLpToken={isLpToken}
+          isLpToken={!!isLpToken}
           price={price}
         />
         {renderBalance()}

@@ -8,9 +8,9 @@ import { useBalance, useTokenInfo } from "modules/common";
 type Response = number | null;
 
 type Params = {
-  pool: Pool | null | undefined;
-  amount1: string | null;
-  amount2: string | null;
+  pool?: Pool;
+  amount1?: string;
+  amount2?: string;
 };
 
 export const useEstShareInUst = ({
@@ -19,16 +19,16 @@ export const useEstShareInUst = ({
   amount2,
 }: Params): Response => {
   const { getDecimals } = useTokenInfo();
-  const lpBalance = useBalance(pool.lpTokenContract);
-  const token1Price = useTokenPriceInUstWithSimulate(pool.token1.asset);
-  const token2Price = useTokenPriceInUstWithSimulate(pool.token2.asset);
+  const lpBalance = useBalance(pool?.lpTokenContract || "");
+  const token1Price = useTokenPriceInUstWithSimulate(pool?.token1.asset || "");
+  const token2Price = useTokenPriceInUstWithSimulate(pool?.token2.asset || "");
   const safeAmount1 = amount1 || "0";
   const safeAmount2 = amount2 || "0";
 
   const tokenAmounts = useLpToTokens({
     pool: {
       ...pool,
-      total_share: pool.total.share,
+      total_share: pool?.total.share || "",
     },
     amount: lpBalance,
   });

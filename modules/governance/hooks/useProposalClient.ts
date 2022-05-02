@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
@@ -18,7 +19,6 @@ type ProposalResponse = {
 
 export const useProposalClient = (proposalId: string): any => {
   const { client } = useTerraWebapp();
-  const address = useAddress();
   const { assembly } = useContracts();
 
   const { data, isLoading, error } = useQuery(["proposal", "assembly"], () => {

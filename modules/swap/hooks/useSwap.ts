@@ -9,10 +9,10 @@ import useExchangeRate from "./useExchangeRate";
 
 type Params = {
   swapRoute: Route[] | null;
-  token1: string | null;
-  token2: string | null;
-  amount1: string | null;
-  amount2: string | null;
+  token1: string;
+  token2: string;
+  amount1: string;
+  amount2: string;
   slippage: string;
   reverse: boolean;
   onSimulateSuccess?: (item: any) => void;
@@ -27,8 +27,8 @@ export const useSwap = ({
   amount2,
   slippage,
   reverse = false,
-  onSimulateError,
-  onSimulateSuccess,
+  onSimulateError = () => null,
+  onSimulateSuccess = () => null,
 }: Params) => {
   const address = useAddress();
   const { getDecimals } = useTokenInfo();
@@ -73,7 +73,7 @@ export const useSwap = ({
       simulated.isLoading ||
       simulated.amount == null
     ) {
-      return null;
+      return [];
     }
 
     if (swapRoute.length > 1) {

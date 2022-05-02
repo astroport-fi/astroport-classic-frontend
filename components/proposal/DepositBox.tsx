@@ -4,9 +4,9 @@ import { handleBigAndTinyAmount } from "modules/common";
 import ErrorBubble from "components/common/ErrorBubble";
 
 type Props = {
-  xAstroRequiredTokens?: number;
-  xAstroBalanceTokens?: number;
-  xAstroPrice?: number;
+  xAstroRequiredTokens?: number | undefined;
+  xAstroBalanceTokens?: number | undefined;
+  xAstroPrice?: number | undefined;
   balanceError: boolean;
 };
 
@@ -32,7 +32,8 @@ const DepositBox: FC<Props> = ({
         <Flex>
           <Text color="white.500">In Wallet:</Text>
           <Text ml="2">
-            {handleBigAndTinyAmount(xAstroBalanceTokens)} xASTRO
+            {xAstroBalanceTokens && handleBigAndTinyAmount(xAstroBalanceTokens)}{" "}
+            xASTRO
           </Text>
         </Flex>
       </Flex>

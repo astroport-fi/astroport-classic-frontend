@@ -1,5 +1,8 @@
+// @ts-nocheck
+
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import dayjs from "dayjs";
 import { useAuctionPools } from "modules/auction";
 import { useTokenInfo } from "modules/common";
 import MyAuctionLockedPool from "components/MyAuctionLockedPool";
@@ -60,13 +63,13 @@ jest.mock("components/table/RewardsTd", () => ({
 }));
 
 const mockPool = (
-  contract,
-  astroToken,
-  totalLiquidityInUst,
-  myLiquidityInUst,
-  myUnlockableLiquidityInUst,
-  lockEnd,
-  isClaimable = false
+  contract: string,
+  astroToken: string,
+  totalLiquidityInUst: number,
+  myLiquidityInUst: number,
+  myUnlockableLiquidityInUst: number,
+  lockEnd: number,
+  isClaimable: boolean = false
 ) => ({
   name: contract,
   contract,
@@ -92,7 +95,7 @@ describe("MyAuctionLockedPool", () => {
           100_000_000,
           10_000,
           0,
-          new Date(2022, 8, 1).getTime() / 1000
+          dayjs("2022-09-01T23:00:00.000Z").unix()
         ),
         mockPool(
           "terraPool456",
@@ -100,12 +103,12 @@ describe("MyAuctionLockedPool", () => {
           1_000_000,
           1_000,
           1_000,
-          new Date(2022, 0, 17).getTime() / 1000
+          dayjs("2022-01-17T00:00:00.000Z").unix()
         ),
       ]);
 
-      const getSymbol = (token) => {
-        const tokens = {
+      const getSymbol = (token: string) => {
+        const tokens: any = {
           uusd: {
             symbol: "UST",
           },

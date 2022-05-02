@@ -1,5 +1,8 @@
+// @ts-nocheck
+
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import dayjs from "dayjs";
 import { handleDollarTinyAmount, useTokenInfo } from "modules/common";
 import { useAstroPools } from "modules/lockdrop";
 import MyLockedPools from "components/MyLockedPools";
@@ -18,7 +21,7 @@ jest.mock("hooks/useAddress", () => jest.fn(() => "terra123"));
 
 jest.mock("react-query", () => ({
   // Very basic mock that just immediately invokes the query function
-  useQuery: (_, fn) => ({ data: fn() }),
+  useQuery: (_: any, fn: Function) => ({ data: fn() }),
 }));
 
 jest.mock("modules/lockdrop", () => ({
@@ -70,13 +73,13 @@ jest.mock("components/table/RewardsTd", () => ({
 }));
 
 const mockPool = (
-  astroLpToken,
-  assets,
-  pairType,
-  myLiquidityInUst,
-  totalLiquidityInUst,
-  rewards,
-  lockEnd
+  astroLpToken: string,
+  assets: string[],
+  pairType: string,
+  myLiquidityInUst: number,
+  totalLiquidityInUst: number,
+  rewards: number,
+  lockEnd: number
 ) => ({
   name: astroLpToken,
   astroLpToken: astroLpToken,
@@ -101,13 +104,15 @@ const mockPool = (
 beforeEach(() => {
   // The RewardsTd component is too complex to test here,
   // so we instead mock it with a fixed reward exchange rate of 1.1.
-  (rewardsTd as jest.Mock).mockImplementation(({ rewards }) => (
-    <div>
-      {handleDollarTinyAmount(
-        rewards.reduce((total, r) => total + r.amount * 1.1, 0)
-      )}
-    </div>
-  ));
+  (rewardsTd as jest.Mock).mockImplementation(
+    ({ rewards }: { rewards: { amount: number }[] }) => (
+      <div>
+        {handleDollarTinyAmount(
+          rewards.reduce((total, r) => total + r.amount * 1.1, 0)
+        )}
+      </div>
+    )
+  );
 });
 
 describe("MyLockedPools", () => {
@@ -121,7 +126,7 @@ describe("MyLockedPools", () => {
           10_000,
           100_000_000,
           42,
-          new Date(2022, 8, 1).getTime() / 1000
+          dayjs("2022-09-01T23:00:00.000Z").unix()
         ),
         mockPool(
           "terraLpToken456",
@@ -130,12 +135,12 @@ describe("MyLockedPools", () => {
           1_000,
           1_000_000,
           100,
-          new Date(2022, 0, 17).getTime() / 1000
+          dayjs("2022-01-17T00:00:00.000Z").unix()
         ),
       ]);
 
-      const getSymbol = (token) => {
-        const tokens = {
+      const getSymbol = (token: string) => {
+        const tokens: any = {
           uusd: {
             symbol: "UST",
           },

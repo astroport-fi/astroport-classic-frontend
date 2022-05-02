@@ -20,16 +20,12 @@ type Params = {
   txFeeNotEnough?: boolean;
   type: PoolFormType;
   onTypeClick: any;
-  isChartOpen: boolean;
-  onChartClick: () => void;
   onClick: () => void;
 };
 
 const StakeLpFormInitial = ({
   type,
   onTypeClick,
-  isChartOpen,
-  onChartClick,
   state,
   error,
   txFeeNotEnough,
@@ -118,7 +114,7 @@ const StakeLpFormInitial = ({
 
       <StakeLpFormFooter
         data={state}
-        txFeeNotEnough={txFeeNotEnough}
+        txFeeNotEnough={!!txFeeNotEnough}
         onConfirmClick={onClick}
       />
       {error && <WarningMessage mb="8" content={error} />}

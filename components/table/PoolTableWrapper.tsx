@@ -27,7 +27,7 @@ const PoolTableWrapper: FC<Props> = ({
   tableInstance,
   emptyMsg,
   children,
-  minW,
+  minW = "auto",
   renderFilters,
 }) => {
   const address = useAddress();
@@ -44,7 +44,7 @@ const PoolTableWrapper: FC<Props> = ({
     setGlobalFilter,
   } = tableInstance;
 
-  const renderHeadTdContents = (column) => {
+  const renderHeadTdContents = (column: any) => {
     return (
       <HStack
         display="flex"
@@ -67,7 +67,7 @@ const PoolTableWrapper: FC<Props> = ({
     );
   };
 
-  const renderHeadTd = (column) => {
+  const renderHeadTd = (column: any) => {
     if (column.Tooltip) {
       return (
         <Tooltip label={column.Tooltip} placement="top" aria-label="More info">
@@ -95,7 +95,7 @@ const PoolTableWrapper: FC<Props> = ({
     <>
       <Table minW={minW} {...getTableProps()}>
         {headerGroups.map((headerGroup, i) => (
-          <Tr key={i} isHead {...headerGroup.getHeaderGroupProps()}>
+          <Tr {...headerGroup.getHeaderGroupProps()} key={i} isHead>
             {headerGroup.headers.map((column: any, i) => (
               <Td
                 key={i}

@@ -6,11 +6,11 @@ import Warning from "components/icons/Warning";
 
 type Props = {
   proposal: Proposal;
-  xAstroRequiredTokens?: number;
-  xAstroPrice?: number;
+  xAstroRequiredTokens?: number | undefined;
+  xAstroPrice?: number | undefined;
 };
 
-const FormTextHeader = (text) => {
+const FormTextHeader = (text: string) => {
   return (
     <Heading mb="4" ml="1" fontSize="xs">
       {text}:
@@ -20,9 +20,14 @@ const FormTextHeader = (text) => {
 
 const FormBlock = ({
   children,
-  maxH = null,
-  overflowY = null,
   overflow = "hidden",
+  maxH = undefined,
+  overflowY = undefined,
+}: {
+  children: any;
+  maxH?: any;
+  overflowY?: any;
+  overflow?: any;
 }) => {
   return (
     <Box
@@ -58,13 +63,13 @@ const ForumSummary: FC<Props> = ({
       </Box>
       <Box mb="8">
         {FormTextHeader("Proposal Description")}
-        <FormBlock maxH="40" overflowY="auto" overflow={null}>
+        <FormBlock maxH="40" overflowY="auto" overflow="">
           <Text>{description}</Text>
         </FormBlock>
       </Box>
       <Box mb="8">
         {FormTextHeader("Executable Messages")}
-        <FormBlock maxH="40" overflowY="auto" overflow={null}>
+        <FormBlock maxH="40" overflowY="auto" overflow="">
           {hasExecMsg && (
             <Code bg="none" color="inherit">
               {messages}
@@ -84,7 +89,7 @@ const ForumSummary: FC<Props> = ({
             <Text fontSize="xs">Link:</Text>
             <Link href={link} isExternal>
               <Text color="white.600" fontSize="2xs">
-                {truncateStr(link, 35)}
+                {link && truncateStr(link, 35)}
               </Text>
             </Link>
           </Flex>
@@ -92,7 +97,10 @@ const ForumSummary: FC<Props> = ({
             <Text fontSize="xs">Deposit:</Text>
             <Text color="white.600" fontSize="2xs">
               {xAstroRequiredTokens} xASTRO ($
-              {handleBigAndTinyAmount(xAstroPrice * xAstroRequiredTokens)})
+              {!!xAstroPrice &&
+                !!xAstroRequiredTokens &&
+                handleBigAndTinyAmount(xAstroPrice * xAstroRequiredTokens)}
+              )
             </Text>
           </Flex>
         </FormBlock>

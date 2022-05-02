@@ -15,7 +15,7 @@ import BigNumber from "bignumber.js";
 type Params = {
   from: string;
   to: string;
-  price: string;
+  price?: string | null;
 };
 
 export function usePriceImpact({ from, to, price }: Params): number | null {
@@ -27,7 +27,9 @@ export function usePriceImpact({ from, to, price }: Params): number | null {
   const fromDecimals = getDecimals(from);
   const toDecimals = getDecimals(to);
 
-  const pools = useGetPools(swapRoute?.map((sri) => sri?.contract_addr));
+  const pools = useGetPools(
+    swapRoute ? swapRoute.map((sri) => sri?.contract_addr) : []
+  );
 
   return useMemo(() => {
     if (
@@ -41,7 +43,7 @@ export function usePriceImpact({ from, to, price }: Params): number | null {
     }
 
     // stable pool
-    if (swapRoute[0].type == "stable" && stableTokenPrice != 0) {
+    if (swapRoute[0]?.type == "stable" && stableTokenPrice != 0) {
       return num(1)
         .minus(num(stableTokenPrice).div(price))
         .times(100)
@@ -51,8 +53,8 @@ export function usePriceImpact({ from, to, price }: Params): number | null {
     }
 
     // xyk pool
-    if (swapRoute[0].type == "xyk") {
-      const { token1, token2 } = getAssetAmountsInPool(pools[0].assets, to);
+    if (swapRoute[0]?.type == "xyk") {
+      const { token1, token2 } = getAssetAmountsInPool(pools[0]?.assets, to);
       const poolPrice = num(token2)
         .div(10 ** fromDecimals)
         .div(num(token1).div(10 ** toDecimals))

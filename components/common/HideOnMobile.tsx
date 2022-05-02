@@ -3,7 +3,7 @@ import { BrowserView, isMobile } from "react-device-detect";
 
 import { useRouter } from "next/router";
 
-const HideOnMobile = (props) => {
+const HideOnMobile = (props: any) => {
   const router = useRouter();
 
   if (isMobile) {

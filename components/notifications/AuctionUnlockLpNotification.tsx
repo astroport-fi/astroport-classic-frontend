@@ -3,8 +3,7 @@ import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
 import num from "libs/num";
 import { useQueryClient } from "react-query";
-
-import { useTokenInfo, handleTinyAmount } from "modules/common";
+import { getEventsByType, handleTinyAmount } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 
 type Props = {
@@ -13,10 +12,8 @@ type Props = {
 
 const AuctionUnlockLpNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
-  const { getSymbol } = useTokenInfo();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[0];
-  const amount = eventsByType.wasm.lp_withdrawn[0];
+  const eventsByType = getEventsByType(txInfo);
+  const amount = eventsByType?.wasm.lp_withdrawn[0];
   const displayAmount = handleTinyAmount(
     num(amount).div(ONE_TOKEN).dp(6).toNumber()
   );

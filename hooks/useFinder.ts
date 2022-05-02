@@ -10,6 +10,7 @@ const useFinder = () => {
 
   return useCallback(
     (address: string, path: string = "account") => {
+      // @ts-ignore
       return `${FINDER}/${CHAIN_TO_FINDER_INFO[chainID]}/${path}/${address}`;
     },
     [chainID]

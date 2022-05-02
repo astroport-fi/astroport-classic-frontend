@@ -13,29 +13,10 @@ const UnstakeLpFormFooter: FC<Props> = ({
   txFeeNotEnough,
   onConfirmClick,
 }) => {
-  // const cells = [
-  //   {
-  //     title: "Astro Generator APY",
-  //     value: "0",
-  //   },
-  //   {
-  //     title: "[Asset] Reward APY",
-  //     value: "0",
-  //   },
-  //   {
-  //     title: "Pool APY",
-  //     value: "0",
-  //   },
-  //   {
-  //     title: "Total APY",
-  //     value: "0",
-  //   },
-  // ];
-
   const confirmButton: ConfirmButton = {
     title: "Unstake LP Tokens",
     isLoading: data.txStep == TxStep.Estimating,
-    isDisabled: data.txStep != TxStep.Ready || txFeeNotEnough,
+    isDisabled: data.txStep != TxStep.Ready || !!txFeeNotEnough,
     type: "submit",
     onClick: onConfirmClick,
   };

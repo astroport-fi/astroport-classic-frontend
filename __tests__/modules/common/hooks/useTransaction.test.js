@@ -1,8 +1,8 @@
-import useTransaction, { TxStep } from "modules/common/hooks/useTransaction";
 import { renderHook } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useTerraWebapp } from "context/TerraWebappContext";
 import { Coin, Coins } from "@terra-money/terra.js";
+import { useTransaction, TxStep } from "modules/common/hooks/useTransaction";
 import { useTx, TxPostError } from "modules/common";
 import { Timeout } from "@terra-money/wallet-types";
 

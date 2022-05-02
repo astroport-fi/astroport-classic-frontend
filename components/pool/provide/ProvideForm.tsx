@@ -31,8 +31,6 @@ type Props = {
   type: PoolFormType;
   onModeClick: (v: ProvideFormMode) => void;
   onTypeClick: (v: PoolFormType) => void;
-  isChartOpen: boolean;
-  onChartClick: () => void;
 };
 
 const ProvideForm: FC<Props> = ({
@@ -42,8 +40,6 @@ const ProvideForm: FC<Props> = ({
   onModeClick,
   type,
   onTypeClick,
-  isChartOpen,
-  onChartClick,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
@@ -99,7 +95,7 @@ const ProvideForm: FC<Props> = ({
     methods.reset();
   }, [state, methods]);
 
-  if (state.txStep == TxStep.Posting) {
+  if (state.txHash && state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
   }
 
@@ -118,8 +114,6 @@ const ProvideForm: FC<Props> = ({
             onModeClick={onModeClick}
             type={type}
             onTypeClick={onTypeClick}
-            isChartOpen={isChartOpen}
-            onChartClick={onChartClick}
             state={state}
             canStake={canStake}
             txFeeNotEnough={notEnoughUSTToPayFees}

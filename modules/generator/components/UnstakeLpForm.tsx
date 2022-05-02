@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
+import { TxStep } from "@arthuryeti/terra";
 import { useUnstakeLpToken, UnstakeLpFormInitial } from "modules/generator";
 import {
   PairResponse,
@@ -10,7 +10,6 @@ import {
   useNotEnoughUSTBalanceToPayFees,
 } from "modules/common";
 import { PoolFormType } from "types/common";
-
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
@@ -25,17 +24,9 @@ type Props = {
   pool: any;
   type: PoolFormType;
   onTypeClick: (v: PoolFormType) => void;
-  isChartOpen: boolean;
-  onChartClick: () => void;
 };
 
-const UnstakeLpForm: FC<Props> = ({
-  pair,
-  type,
-  onTypeClick,
-  isChartOpen,
-  onChartClick,
-}) => {
+const UnstakeLpForm: FC<Props> = ({ pair, type, onTypeClick }) => {
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -78,7 +69,10 @@ const UnstakeLpForm: FC<Props> = ({
     reset();
   }, [reset, methods]);
 
-  if (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting) {
+  if (
+    state.txHash &&
+    (state.txStep == TxStep.Broadcasting || state.txStep == TxStep.Posting)
+  ) {
     return <FormLoading txHash={state.txHash} />;
   }
 
@@ -90,8 +84,6 @@ const UnstakeLpForm: FC<Props> = ({
             state={state}
             type={type}
             onTypeClick={onTypeClick}
-            isChartOpen={isChartOpen}
-            onChartClick={onChartClick}
             error={error}
             txFeeNotEnough={notEnoughUSTToPayFees}
             onClick={() => setShowConfirm(true)}

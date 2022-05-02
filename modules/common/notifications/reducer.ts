@@ -43,7 +43,7 @@ export function notificationReducer(
     case "REMOVE_NOTIFICATION": {
       return {
         ...state,
-        items: state.items.filter(
+        items: (state?.items || []).filter(
           (notification) => notification.id !== action.notificationId
         ),
       };

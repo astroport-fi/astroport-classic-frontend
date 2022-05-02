@@ -17,7 +17,7 @@ const AstroSliderButton: FC<Props> = ({
   max,
   onClick,
   label,
-  isDisabled,
+  isDisabled = false,
 }) => {
   const ratio = 1 / 4;
   const ratioFixed = parseFloat(ratio.toFixed(2));
@@ -30,7 +30,10 @@ const AstroSliderButton: FC<Props> = ({
     }
   };
 
-  let alignment, left, right, transform;
+  let alignment = "",
+    left = "",
+    right = "",
+    transform = "";
 
   switch (value) {
     case 0:

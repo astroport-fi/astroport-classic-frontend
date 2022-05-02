@@ -4,7 +4,11 @@ import { Text } from "@chakra-ui/react";
 import num from "libs/num";
 import { useQueryClient } from "react-query";
 
-import { useTokenInfo, handleTinyAmount } from "modules/common";
+import {
+  useTokenInfo,
+  handleTinyAmount,
+  getEventsByType,
+} from "modules/common";
 
 type Props = {
   txInfo: TxInfo;
@@ -13,20 +17,19 @@ type Props = {
 const ProvideNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
   const { getSymbol, getDecimals } = useTokenInfo();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[logs.length - 1];
+  const eventsByType = getEventsByType(txInfo, -1);
   const regex = /([0-9]+)(.*)/g;
   // TODO: remove the duplication
   const regex2 = /([0-9]+)(.*)/g;
-  const assets = eventsByType.wasm.assets[0].split(",");
+  const assets = eventsByType?.wasm.assets[0].split(",") || ["", ""];
   const token1Result = regex.exec(assets[0].trim());
   const token2Result = regex2.exec(assets[1].trim());
-  const token1 = token1Result?.[2];
+  const token1 = token1Result?.[2] || "";
   const amount1 = token1Result?.[1];
-  const token2 = token2Result?.[2];
+  const token2 = token2Result?.[2] || "";
   const amount2 = token2Result?.[1];
-  const token1Decimals = getDecimals(token1);
-  const token2Decimals = getDecimals(token2);
+  const token1Decimals = getDecimals(token1 || "");
+  const token2Decimals = getDecimals(token2 || "");
   const displayAmount1 = handleTinyAmount(
     num(amount1)
       .div(10 ** token1Decimals)

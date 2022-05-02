@@ -20,8 +20,8 @@ const SwapPage: NextPage = () => {
 
   const [token1, token2] = useMemo(() => {
     return [
-      getTokenFromUrlParam(query.from?.toString(), "uusd"),
-      getTokenFromUrlParam(query.to?.toString(), "uluna"),
+      getTokenFromUrlParam(query["from"]?.toString(), "uusd"),
+      getTokenFromUrlParam(query["to"]?.toString(), "uluna"),
     ];
   }, [query]);
 

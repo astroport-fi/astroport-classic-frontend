@@ -13,7 +13,7 @@ export const createLockdropRewardMsgs = (
   const { lockdrop, contract, duration } = options;
 
   if (lockdrop == null || contract == null || duration == null) {
-    return null;
+    return [];
   }
 
   const msg = new MsgExecuteContract(sender, lockdrop, {

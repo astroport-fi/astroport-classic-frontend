@@ -13,8 +13,8 @@ import { ListItem } from "components/TokenInput";
 
 const mapTokenAddressesToWalletInfo = (
   tokens: string[],
-  tokensInWallet,
-  tokensInUst
+  tokensInWallet: any,
+  tokensInUst: any
 ): TokenInWallet[] => {
   return tokens.map((address: string) => {
     const balance = tokensInWallet[address] || 0;
@@ -52,7 +52,7 @@ const List: FC<Props> = ({
     key: string,
     filteredTerm: string
   ) {
-    return data.sort(function (a, b) {
+    return data.sort(function (a: any, b: any) {
       const aIndex = getSymbol(a[key]).toLowerCase().indexOf(filteredTerm);
       const bIndex = getSymbol(b[key]).toLowerCase().indexOf(filteredTerm);
       return aIndex < bIndex ? -1 : 1;
@@ -68,7 +68,10 @@ const List: FC<Props> = ({
       (tokenA, tokenB) =>
         parseFloat(tokenB.balance) - parseFloat(tokenA.balance)
     )
-    .sort((tokenA, tokenB) => tokenB.balanceInUst - tokenA.balanceInUst);
+    .sort(
+      (tokenA, tokenB) =>
+        (tokenB.balanceInUst || 0) - (tokenA.balanceInUst || 0)
+    );
   const sortedTokensByFilterTerm = sortByFilterTerm(
     sortedTokens,
     "address",
@@ -97,11 +100,11 @@ const List: FC<Props> = ({
               itemCount={sortedTokensByFilterTerm.length}
               itemSize={64.5} // Pixel height of each ListItem
               itemData={sortedTokensByFilterTerm}
-              itemKey={(index, tokens) => tokens[index].address}
+              itemKey={(index, tokens) => tokens[index]?.address || index}
             >
               {({ index, style, data: tokens }) => (
                 <ListItem
-                  key={tokens[index].address}
+                  key={tokens[index]?.address}
                   token={tokens[index]}
                   onClick={onClick}
                   style={style}

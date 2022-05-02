@@ -23,13 +23,16 @@ type Props = {
 const SelectLP: FC<Props> = ({ value, onClick }) => {
   const { pairs } = useAstroswap();
   const { getIcon, getSymbol } = useTokenInfo();
-  const pair = pairs.find((v) => v.liquidity_token == value);
-  const assets = getTokenDenoms(pair.asset_infos);
-  const [token1, token2] = orderPoolTokens({asset: assets[0], symbol: getSymbol(assets[0])}, {asset: assets[1], symbol: getSymbol(assets[1])});
-  const icon1 = getIcon(token1);
-  const symbol1 = getSymbol(token1);
-  const icon2 = getIcon(token2);
-  const symbol2 = getSymbol(token2);
+  const pair = (pairs || []).find((v) => v.liquidity_token == value);
+  const assets = getTokenDenoms(pair?.asset_infos || []);
+  const [token1, token2] = orderPoolTokens(
+    { asset: assets[0] || "", symbol: getSymbol(assets[0] || "") },
+    { asset: assets[1] || "", symbol: getSymbol(assets[1] || "") }
+  );
+  const icon1 = getIcon(token1 || "");
+  const symbol1 = getSymbol(token1 || "");
+  const icon2 = getIcon(token2 || "");
+  const symbol2 = getSymbol(token2 || "");
 
   const renderButton = () => {
     if (pair) {

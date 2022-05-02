@@ -8,15 +8,14 @@ import {
   useDisclosure,
   Spinner,
 } from "@chakra-ui/react";
-import useAddress from "hooks/useAddress";
-import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
+import { useAddress } from "@arthuryeti/terra";
+import { handleTinyAmount, Route } from "modules/common";
 import {
   usePriceImpact,
   usePriceImpactColor,
   usePriceImpactMultiSwap,
   useSwapRoutePath,
 } from "modules/swap";
-
 import FormFee from "components/common/FormFee";
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 
@@ -24,9 +23,8 @@ type Props = {
   from: string;
   amount1: string;
   to: string;
-  amount2: string;
   fee: any;
-  price: string;
+  price: string | null;
   exchangeRate: string | null;
   isLoading: boolean;
   swapRoute: Route[];
@@ -40,7 +38,6 @@ const SwapFormFooter: FC<Props> = ({
   from,
   amount1,
   to,
-  amount2,
   price,
   exchangeRate,
   isLoading,
@@ -62,7 +59,7 @@ const SwapFormFooter: FC<Props> = ({
     amountInitial: amount1,
   });
   const priceImpactValue =
-    swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;
+    swapRoute.length > 1 ? Number(priceImpactMultiSwap) : Number(priceImpact);
   const priceImpactColor = usePriceImpactColor(priceImpactValue);
 
   const renderRightMetric = () => {
@@ -139,7 +136,7 @@ const SwapFormFooter: FC<Props> = ({
             onClick={onConfirmClick}
             isLoading={isLoading}
             isDisabled={
-              !isFormValid || !!error || fee == null || txFeeNotEnough
+              !isFormValid || !!error || fee == null || !!txFeeNotEnough
             }
             width={["125px", "auto"]}
           >

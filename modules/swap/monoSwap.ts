@@ -59,7 +59,7 @@ export const createSwapMsgs = (
   sender: string
 ): MsgExecuteContract[] => {
   if (swapRoute[0] == null) {
-    return null;
+    return [];
   }
 
   const [{ contract_addr }] = swapRoute;

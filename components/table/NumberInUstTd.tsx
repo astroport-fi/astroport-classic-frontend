@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { HStack, Text } from "@chakra-ui/react";
-
 import { handleBigAndTinyAmount, TokenTooltip } from "modules/common";
 import TokensPopover from "components/popovers/TokensPopover";
 
@@ -20,7 +19,7 @@ const NumberInUstTd: FC<Props> = ({
   includeDollarSign = true,
 }) => {
   return (
-    <TokensPopover type={type} format={format} tokenTooltip={tokenTooltip}>
+    <TokensPopover type={type} tokenTooltip={tokenTooltip}>
       <HStack>
         <Text cursor={type && tokenTooltip ? "pointer" : "auto"} fontSize="sm">
           {handleBigAndTinyAmount(value, format, includeDollarSign)}

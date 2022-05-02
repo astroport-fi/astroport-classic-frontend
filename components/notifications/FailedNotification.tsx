@@ -110,7 +110,9 @@ const FailedNotification: FC<Props> = ({ txInfo }) => {
   let message;
 
   if (codespace && code) {
+    // @ts-ignore
     const terraError = TERRA_ERROR_MAP[codespace]?.[code];
+    // @ts-ignore
     message = friendlyMessages[terraError];
 
     // Replace generic WasmError.ExecuteFailed message

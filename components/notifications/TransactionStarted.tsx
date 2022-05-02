@@ -5,7 +5,7 @@ import useTxInfo from "hooks/useTxInfo";
 type Props = {
   onClose: () => void;
   txHash: string;
-  txType: string;
+  txType?: string;
   data?: any;
 };
 

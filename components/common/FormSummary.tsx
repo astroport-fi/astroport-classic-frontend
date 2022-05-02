@@ -7,10 +7,10 @@ import TokenCard from "components/common/TokenCard";
 type Props = {
   label: string;
   tokens: {
-    asset: string;
-    amount: string | number;
-    isLp?: boolean;
-    label?: string;
+    asset?: string | undefined;
+    amount?: string | number | undefined;
+    isLp?: boolean | undefined;
+    label?: string | undefined;
   }[];
 };
 

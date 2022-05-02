@@ -1,10 +1,9 @@
 import { Text, TextProps } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
-
-import { useFeeToString } from "hooks/useFeeToString";
+import useFeeToString from "hooks/useFeeToString";
 
 type Props = {
-  fee: Fee;
+  fee?: Fee | undefined;
 } & TextProps;
 
 const FormFee = ({ fee, ...props }: Props) => {

@@ -9,11 +9,9 @@ import {
   useProposalClient,
 } from "modules/governance";
 import {
-  appendHttps,
   composeTwitterLink,
   createHistoryBlocks,
 } from "modules/governance/helpers";
-
 import ProposalHeader from "components/proposal/Header";
 import ProposalTime from "components/proposal/Time";
 import ProposalVoteStats from "components/proposal/VoteStats";
@@ -21,9 +19,6 @@ import TimelineBar from "components/governance/TimelineBar";
 import { Proposal, Proposal_History } from "types/common";
 import VotePower from "components/proposal/VotePower";
 import { ASTRO_FORUM_LINK } from "constants/constants";
-import { truncateStr } from "modules/common";
-import useAddress from "hooks/useAddress";
-import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Props = {
   id: string;
@@ -32,7 +27,7 @@ type Props = {
 type LeftColumnProps = {
   proposal: Proposal;
   addressOpen: boolean;
-  quorum: string | null;
+  quorum?: string | undefined;
   setAddressOpen: (value: boolean) => void;
 };
 
@@ -85,7 +80,7 @@ const DescriptionBox: FC<{ address: string; description: string }> = ({
   );
 };
 
-const MsgBox: FC<{ messages: string | null }> = ({ messages }) => {
+const MsgBox: FC<{ messages?: string | undefined }> = ({ messages }) => {
   const hasExecMsg = messages && messages.length > 0;
 
   return (

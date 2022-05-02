@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-
+import { useEstimateFee } from "@arthuryeti/terra";
 import { AstroFormType } from "types/common";
 import {
   useContracts,
@@ -10,13 +10,9 @@ import {
   useTx,
 } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { useGovStake, useAstroMintRatio } from "modules/governance/hooks";
-
+import { useGovStake, useAstroMintRatio } from "modules/governance";
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
-import useEstimateFee from "hooks/useEstimateFee";
-// import FormSummary from "components/common/FormSummary";
-// import FormConfirm from "components/common/FormConfirm";
 
 type FormValue = {
   amount: string;
@@ -66,7 +62,7 @@ const GovStakeForm: FC<Props> = ({ type, setType }) => {
     onPosting: () => {
       setIsPosting(true);
     },
-    onBroadcasting: (txHash) => {
+    onBroadcasting: () => {
       router.push("/governance");
     },
     onError: () => {

@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
-import { Box, Link, Text } from "@chakra-ui/react";
-
+import { Box, Text } from "@chakra-ui/react";
 import { useAuctionPools } from "modules/auction";
 import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
-
 import CardHeader from "components/CardHeader";
 import Card from "components/Card";
 import PoolTable from "components/table/PoolTable";
@@ -121,7 +119,7 @@ const MyAuctionLockedPool = () => {
         <PoolTable
           columns={columns}
           data={auctionPools}
-          minW={address.length !== 0 ? "1380px" : undefined}
+          minW={address.length !== 0 ? "1380px" : ""}
           renderFilters={address.length !== 0}
           emptyMsg="You didn't lock any positions."
           sortBy="totalUnlockedLiquidity"

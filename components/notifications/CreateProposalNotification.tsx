@@ -2,6 +2,7 @@ import React, { FC, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
+import { getEventsByType } from "modules/common";
 
 type Props = {
   txInfo: TxInfo;
@@ -9,9 +10,8 @@ type Props = {
 
 const CreateProposalNotification: FC<Props> = ({ txInfo }) => {
   const queryClient = useQueryClient();
-  const { logs } = txInfo;
-  const { eventsByType } = logs[0];
-  const proposalId = eventsByType.wasm.proposal_id[0];
+  const eventsByType = getEventsByType(txInfo);
+  const proposalId = eventsByType?.wasm.proposal_id[0];
 
   useEffect(() => {
     queryClient.invalidateQueries("balance");

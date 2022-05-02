@@ -47,7 +47,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
       .filter(({ type }) => type !== ConnectType.READONLY)
       .map(({ type, icon, name, identifier }) => ({
         type,
-        identifier,
+        identifier: identifier || "",
         name,
         icon,
         isInstalled: true,
@@ -123,7 +123,8 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
             >
               <HStack justify="space-between">
                 <Text>{wallet.name}</Text>
-                {getIconImg(wallet.identifier, wallet.icon)}
+                {wallet.identifier &&
+                  getIconImg(wallet.identifier, wallet.icon)}
               </HStack>
             </chakra.button>
           );

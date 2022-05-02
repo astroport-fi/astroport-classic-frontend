@@ -12,7 +12,7 @@ export const createLpRewardMsgs = (
   const { lp, contract } = options;
 
   if (lp == null || contract == null) {
-    return null;
+    return [];
   }
 
   const msg = new MsgExecuteContract(sender, contract, {

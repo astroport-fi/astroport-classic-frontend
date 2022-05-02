@@ -1,20 +1,4 @@
-import {
-  Coin,
-  Coins,
-  CreateTxOptions,
-  LCDClient,
-  MsgExecuteContract,
-} from "@terra-money/terra.js";
-import BigNumber from "bignumber.js";
-import { ONE_TOKEN } from "constants/constants";
-import { getTokenDenom, PoolResponse } from "modules/common";
-import numeral from "numeral";
-
-export const findAssetInPool = (pool: PoolResponse, asset: string) => {
-  return pool.assets.find((a) => {
-    return getTokenDenom(a.info) === asset;
-  });
-};
+import { getTokenDenom } from "modules/common";
 
 export const getAssetAmountsInPool = (assets: any, token: string) => {
   return assets.reduce(

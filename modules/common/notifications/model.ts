@@ -2,8 +2,8 @@ import { TxInfo } from "@terra-money/terra.js";
 
 export type TxNotificationPayload = {
   txHash: string;
-  txInfo?: TxInfo;
-  txType?: string;
+  txInfo?: TxInfo | undefined;
+  txType?: string | undefined;
   data?: any;
 };
 

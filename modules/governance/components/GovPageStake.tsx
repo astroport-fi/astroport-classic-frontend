@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
@@ -7,19 +7,13 @@ import {
   Button,
   Flex,
   Divider,
-  Link,
   Heading,
 } from "@chakra-ui/react";
+import { fromTerraAmount, num } from "@arthuryeti/terra";
 import { ASTRO_DISCORD_LINK, ASTRO_FORUM_LINK } from "constants/constants";
-
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
-import {
-  NextLink,
-  handleTinyAmount,
-  handleBigPercentage,
-  handleBigAndTinyAmount,
-} from "modules/common";
+import { NextLink, handleBigPercentage } from "modules/common";
 import {
   composeAstroRatioDisplay,
   composeProtocolRatioDisplay,
@@ -29,9 +23,7 @@ import {
   useGovStakingAPY,
   useGovStakingBalances,
   useAstroMintRatio,
-} from "../hooks";
-import num from "libs/num";
-import { fromTerraAmount } from "libs/terra";
+} from "modules/governance";
 
 const GovPageStake = () => {
   const {

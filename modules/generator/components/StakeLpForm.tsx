@@ -25,17 +25,9 @@ type Props = {
   pool: any;
   type: PoolFormType;
   onTypeClick: (v: PoolFormType) => void;
-  isChartOpen: boolean;
-  onChartClick: () => void;
 };
 
-const StakeLpForm: FC<Props> = ({
-  pair,
-  type,
-  onTypeClick,
-  isChartOpen,
-  onChartClick,
-}) => {
+const StakeLpForm: FC<Props> = ({ pair, type, onTypeClick }) => {
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -78,7 +70,7 @@ const StakeLpForm: FC<Props> = ({
     reset();
   }, [reset, methods]);
 
-  if (state.txStep == TxStep.Posting) {
+  if (state.txHash && state.txStep == TxStep.Posting) {
     return <FormLoading txHash={state.txHash} />;
   }
 
@@ -90,8 +82,6 @@ const StakeLpForm: FC<Props> = ({
             state={state}
             type={type}
             onTypeClick={onTypeClick}
-            isChartOpen={isChartOpen}
-            onChartClick={onChartClick}
             error={error}
             txFeeNotEnough={notEnoughUSTToPayFees}
             onClick={() => setShowConfirm(true)}

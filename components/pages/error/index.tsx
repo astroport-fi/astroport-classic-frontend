@@ -13,6 +13,7 @@ const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
   const containerPadding: string = "1rem";
   const notFoundError = statusCode && statusCode == 404;
 
+  // eslint-disable-next-line no-console
   console.error("The following error code happened:", statusCode);
 
   return (
@@ -24,7 +25,7 @@ const IndexPageComponent: FC<IProps> = ({ statusCode }) => {
       >
         <Stack spacing={16} px={10} w="full" maxW="3xl" mx="auto">
           {notFoundError && <NotFoundIllustration width="100%" />}
-          {!notFoundError && <ErrorIllustration width="100%" />}
+          {!notFoundError && <ErrorIllustration />}
           <Box>
             <Stack isInline align="center" justifyContent="center">
               <Box>

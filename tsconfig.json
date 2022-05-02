@@ -4,7 +4,19 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    // Had to disable due to dependency typescript errors: @chakra-ui/descendant
+    // "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -27,6 +39,6 @@
     },
     "incremental": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules/*"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

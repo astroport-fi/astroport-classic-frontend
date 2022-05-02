@@ -1,9 +1,15 @@
+import React, { ReactElement } from "react";
+import ReactDOM from "react-dom";
 import Notifications from "components/Notifications";
-import { useAstroswap, useTokenInfo } from "modules/common";
+import { useAstroswap } from "modules/common";
 import { render, screen } from "@testing-library/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import React from "react";
-import renderToHTML from "test-utils/renderToHTML";
+
+const renderToHTML = (element: ReactElement) => {
+  const container = document.createElement("div");
+  ReactDOM.render(element, container);
+  return container.innerHTML;
+};
 
 jest.mock("react-query", () => ({
   useQueryClient: () => ({
@@ -19,7 +25,7 @@ jest.mock("modules/common", () => {
     useAstroswap: jest.fn(),
     useTokenInfo: jest.fn().mockReturnValue({
       getDecimals: () => 6,
-      getSymbol: (token) => {
+      getSymbol: (token: string) => {
         return {
           terra123: "FOO",
           uusd: "UST",
@@ -33,10 +39,10 @@ jest.mock("modules/common", () => {
 // is outside of the scope of this test
 jest.mock("components/notifications/TransactionStarted", () => ({
   __esModule: true,
-  default: ({ txHash }) => <div>Tx {txHash} started</div>,
+  default: ({ txHash }: { txHash: string }) => <div>Tx {txHash} started</div>,
 }));
 
-const mockNotifications = (notifications) => {
+const mockNotifications = (notifications: any[]) => {
   (useAstroswap as jest.Mock).mockReturnValue({
     notifications: {
       items: notifications,
@@ -44,7 +50,7 @@ const mockNotifications = (notifications) => {
   });
 };
 
-const expectIcon = (container, type) => {
+const expectIcon = (container: any, type: string) => {
   const component =
     type === "success" ? (
       <CheckIcon color="otherColours.green" w={3} />

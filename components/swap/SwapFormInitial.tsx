@@ -21,7 +21,6 @@ type Props = {
   error: any;
   expertMode: boolean;
   isSecondInputDisabled: boolean;
-  isFormValid?: boolean;
   isLoading?: boolean;
   isReverse?: boolean;
   onInputChange: (name: string) => void;
@@ -35,7 +34,6 @@ const SwapFormInitial: FC<Props> = ({
   expertMode,
   isSecondInputDisabled,
   isReverse = false,
-  isFormValid = false,
   isLoading = false,
   onInputChange,
   onExpertModeChange,
@@ -53,14 +51,13 @@ const SwapFormInitial: FC<Props> = ({
 
   const reverse = async () => {
     setValue("token1", token2);
-    // setValue("amount1", amount2);
     setValue("token2", token1);
   };
 
-  const getInputProps = (field) => {
+  const getInputProps = (field: any) => {
     return {
       ...field,
-      onChange: (value) => {
+      onChange: (value: string) => {
         onInputChange(field.name);
         const fieldToUpdate = field.name === "amount1" ? "amount2" : "amount1";
         if (num(value).eq(0) || value == "") {
@@ -135,7 +132,7 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => (
                 <TokenInput
                   {...field}
-                  onChange={(value) => {
+                  onChange={(value: string) => {
                     if (value === token2) {
                       reverse();
                     } else {
@@ -213,7 +210,7 @@ const SwapFormInitial: FC<Props> = ({
               render={({ field }) => (
                 <TokenInput
                   {...field}
-                  onChange={(value) => {
+                  onChange={(value: string) => {
                     if (value === token1) {
                       reverse();
                     } else {

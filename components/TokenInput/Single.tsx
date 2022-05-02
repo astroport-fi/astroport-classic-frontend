@@ -10,7 +10,7 @@ import { useTokenPriceInUstWithSimulate } from "modules/swap";
 type Props = {
   asset: string;
   hidePrice?: boolean;
-  priceSource?: "swap-simulation" | "pool-ratio";
+  priceSource?: "swap-simulation" | "pool-ratio" | undefined;
 };
 
 const Single: FC<Props> = ({

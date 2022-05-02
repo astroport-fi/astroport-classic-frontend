@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, Switch } from "@chakra-ui/react";
-
 import RewardLineItem from "components/reward/RewardLineItem";
 import useLocalStorage from "hooks/useLocalStorage";
-import { useBreakdownRewardsToShow } from "modules/reward/hooks/useBreakdownRewardsToShow";
+import useBreakdownRewardsToShow from "modules/reward/hooks/useBreakdownRewardsToShow";
 
 const RewardBreakdown: FC = () => {
   const [renderRewardsWithPrice, setRenderRewardsWithPrice] = useLocalStorage(
@@ -29,7 +28,7 @@ const RewardBreakdown: FC = () => {
             </Text>
             <Switch
               isChecked={renderRewardsWithPrice}
-              onChange={(e) =>
+              onChange={() =>
                 setRenderRewardsWithPrice(!renderRewardsWithPrice)
               }
               ml="2"

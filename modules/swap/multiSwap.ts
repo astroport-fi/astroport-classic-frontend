@@ -24,12 +24,11 @@ export const getSwapOperations = ({
     return operations;
   }
 
-  const [{ from, to }] = swapRoute;
-
+  const firstRoute = swapRoute[0];
   const operation: SwapOperation = {
     astro_swap: {
-      offer_asset_info: toAssetInfo(from),
-      ask_asset_info: toAssetInfo(to),
+      offer_asset_info: toAssetInfo(firstRoute?.from || ""),
+      ask_asset_info: toAssetInfo(firstRoute?.to || ""),
     },
   };
 
@@ -75,19 +74,22 @@ type CreateSwapMsgsOpts = {
 export const createSwapMsgs = (
   { swapRoute, token, router, amount, minReceive }: CreateSwapMsgsOpts,
   sender: string
-): MsgExecuteContract[] | null => {
-  if (minReceive == null) {
-    return null;
+): MsgExecuteContract[] => {
+  if (minReceive == null || swapRoute == null || swapRoute.length === 0) {
+    return [];
   }
 
-  const [{ to, from }] = swapRoute;
+  const firstRoute = swapRoute[0];
 
-  const assetInfos = [toAssetInfo(from), toAssetInfo(to)];
+  const assetInfos = [
+    toAssetInfo(firstRoute?.from || ""),
+    toAssetInfo(firstRoute?.to || ""),
+  ];
 
   const info = findAsset(assetInfos, token);
 
   if (info == null) {
-    return null;
+    return [];
   }
 
   const isNative = isNativeAsset(info);

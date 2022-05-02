@@ -15,21 +15,15 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
-
 import { truncate, displayTNS } from "libs/text";
 import { useBalance, useTokenInfo } from "modules/common";
 import useFinder from "hooks/useFinder";
 import useTNS from "hooks/useTNS";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import TerraIcon from "components/icons/TerraIcon";
 import CopyIcon from "components/icons/CopyIcon";
 import ViewIcon from "components/icons/ViewIcon";
-import { fromTerraAmount } from "libs/terra";
-import num from "libs/num";
-import useAddress from "hooks/useAddress";
-// import CloseIcon from "components/icons/CloseIcon";
 
 const WalletInfoPopover: FC = () => {
   const { getIcon, getSymbol } = useTokenInfo();
@@ -57,7 +51,7 @@ const WalletInfoPopover: FC = () => {
     });
   };
 
-  const offset: [number, number] = useBreakpointValue({
+  const offset: [number, number] | undefined = useBreakpointValue({
     base: [0, 0],
     sm: [-60, -40],
   });
@@ -65,7 +59,7 @@ const WalletInfoPopover: FC = () => {
   return (
     <PopoverWrapper
       title="My wallet"
-      offset={offset}
+      offset={offset || [0, 0]}
       triggerElement={() => (
         <chakra.button type="button">
           <Flex color="white" spacing="0.5" justify="center">

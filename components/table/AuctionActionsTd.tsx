@@ -23,7 +23,7 @@ const AuctionActionsTd: FC<Props> = ({
       <HStack justify="flex-end">
         <ClaimAuctionRewardBtn
           amount={amount}
-          txFeeNotEnough={txFeeNotEnough}
+          txFeeNotEnough={!!txFeeNotEnough}
         />
         <Button as="div" variant="silent" size="sm" isDisabled flex="1">
           Locked
@@ -44,7 +44,10 @@ const AuctionActionsTd: FC<Props> = ({
 
   return (
     <HStack justify="flex-end">
-      <ClaimAuctionRewardBtn amount={amount} txFeeNotEnough={txFeeNotEnough} />
+      <ClaimAuctionRewardBtn
+        amount={amount}
+        txFeeNotEnough={!!txFeeNotEnough}
+      />
       <Link href={`/unlock-phase-2`} passHref>
         <Button as="a" variant="primary" size="sm" flex="1">
           Manage

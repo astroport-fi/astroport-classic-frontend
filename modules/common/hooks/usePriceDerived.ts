@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTokenPrices } from "modules/common";
 
 export const usePriceDerived = (token: string) => {
-  const prices = useTokenPrices();
+  const prices: any = useTokenPrices();
 
   return useMemo(() => {
     if (token === "uusd") {

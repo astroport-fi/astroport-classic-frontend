@@ -5,7 +5,6 @@ import BigNumber from "bignumber.js";
 import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
-
 import useGetPools from "modules/pool/hooks/useGetPools";
 import num from "libs/num";
 
@@ -24,14 +23,16 @@ export function usePriceImpactMultiSwap({
   const { client } = useTerraWebapp();
   const { getDecimals } = useTokenInfo();
   const swapRoute = useSwapRoute({ tokenGraph, from, to });
-  const pools = useGetPools(swapRoute?.map((sri) => sri?.contract_addr));
-  const [priceImpacts, setPriceImpacts] = useState(null);
+  const pools = useGetPools(
+    swapRoute ? swapRoute.map((sri) => sri?.contract_addr) : []
+  );
+  const [priceImpacts, setPriceImpacts] = useState<number | null>(null);
 
   useEffect(() => {
     if (
       !from ||
       !to ||
-      !amountInitial ||
+      !amount1 ||
       !swapRoute ||
       swapRoute.length <= 1 ||
       swapRoute.length != pools.length
@@ -40,13 +41,9 @@ export function usePriceImpactMultiSwap({
     }
 
     async function getPriceImpacts() {
-      if (!swapRoute) return;
+      if (!swapRoute) return 0;
 
-      let priceImpacts = [];
-      let nextSwapInputAmount = Number(amountInitial);
-
-      for (let i = 0; i < swapRoute.length; i++) {
-        const sri = swapRoute[i];
+      let nextSwapInputAmount = Number(amount1);
 
         if (sri) {
           const fromDecimals = getDecimals(sri.from);
@@ -64,7 +61,7 @@ export function usePriceImpactMultiSwap({
             });
 
             const { token1, token2 } = getAssetAmountsInPool(
-              pools[i].assets,
+              pools[i]?.assets || [],
               sri.to
             );
 
@@ -138,7 +135,8 @@ export function usePriceImpactMultiSwap({
       }
 
       setPriceImpacts(priceImpacts.reduce((a, b) => a + b));
-      return;
+
+      return 0;
     }
 
     getPriceImpacts();

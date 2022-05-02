@@ -11,8 +11,8 @@ import tokenCache from "constants/tokenCache";
 import { useTerraWebapp } from "context/TerraWebappContext";
 import { QUERY_STALE_TIME } from "constants/constants";
 
-export type UseAllTokens = {
-  tokens: Tokens | null;
+type UseAllTokens = {
+  tokens?: Tokens | undefined;
   isLoading: boolean;
   isError: boolean;
 };
@@ -74,6 +74,7 @@ export const useAllTokens = ({ pairs }: Props): UseAllTokens => {
 
   const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
   let firstAttempt = true;
+  // @ts-ignore
   const cachedTokens = tokenCache[name];
 
   const {

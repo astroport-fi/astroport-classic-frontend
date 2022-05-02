@@ -15,7 +15,7 @@ const StakePage: NextPage = () => {
   const pair =
     pairs &&
     pairs.find(({ contract_addr }) => {
-      return query?.pair === contract_addr;
+      return query["pair"] === contract_addr;
     });
 
   return (

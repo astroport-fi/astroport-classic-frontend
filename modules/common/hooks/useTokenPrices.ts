@@ -5,14 +5,14 @@ import { useHive, useTokenInfo } from "modules/common";
 import { useAstroswap } from "../context";
 import { AssetInfo } from "types/common";
 
-const createQuery = (pools) => {
+const createQuery = (pools: any) => {
   if (pools.length === 0) {
     return;
   }
 
   return gql`
     {
-      ${pools.map((pool) => {
+      ${pools.map((pool: any) => {
         return `
         ${pool.contract_addr}: wasm {
           contractQuery(
@@ -31,14 +31,15 @@ const createQuery = (pools) => {
 export const useTokenPrices = () => {
   const { getDecimals } = useTokenInfo();
   const { pairs } = useAstroswap();
-  const xykPairsUst = pairs.filter((pair) => {
+  const xykPairsUst = (pairs || []).filter((pair) => {
     const xyk = Object.keys(pair.pair_type).includes("xyk");
     const ustPair = pair.asset_infos.find(
+      // @ts-ignore
       (asset: AssetInfo) => asset.native_token?.denom === "uusd"
     );
     return xyk && ustPair;
   });
-  const xykPairsNonUst = pairs.filter((pair) => {
+  const xykPairsNonUst = (pairs || []).filter((pair) => {
     const xyk = Object.keys(pair.pair_type).includes("xyk");
     return (
       xyk &&
@@ -61,7 +62,7 @@ export const useTokenPrices = () => {
       return {};
     }
 
-    let tokens = {};
+    let tokens: any = {};
 
     xykPairsUst.forEach(({ contract_addr }) => {
       const pool = result[contract_addr];
