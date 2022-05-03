@@ -1239,6 +1239,26 @@ const whitelist: Whitelist = {
           xyk: {},
         },
       },
+      // NEB-UST
+      {
+        asset_infos: [
+          {
+            token: {
+              contract_addr: "terra1mpq5zkkm39nmjrjg9raknpfrfmcfwv0nh0whvn",
+            },
+          },
+          {
+            native_token: {
+              denom: "uusd",
+            },
+          },
+        ],
+        contract_addr: "terra1d7028vhd9u26fqyreee38cj39fwqvcyjps8sjk",
+        liquidity_token: "terra1l40w4g5fea0qhlh304uzsyv03hanhpnsmrv0a9",
+        pair_type: {
+          xyk: {},
+        },
+      },
     ],
   },
   testnet: {

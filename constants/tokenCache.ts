@@ -436,6 +436,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/fanfury.svg",
       decimals: 6,
     },
+    terra1mpq5zkkm39nmjrjg9raknpfrfmcfwv0nh0whvn: {
+      protocol: "Nebula Token",
+      symbol: "NEB",
+      token: "terra1mpq5zkkm39nmjrjg9raknpfrfmcfwv0nh0whvn",
+      icon: "/tokens/neb.png",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
