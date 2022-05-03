@@ -429,6 +429,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/steak.png",
       decimals: 6,
     },
+    terra1cdc6nlsx0l6jmt3nnx7gxjggf902wge3n2z76k: {
+      protocol: "FanFury",
+      symbol: "FURY",
+      token: "terra1cdc6nlsx0l6jmt3nnx7gxjggf902wge3n2z76k",
+      icon: "/tokens/fanfury.svg",
+      decimals: 6,
+    },
   },
   testnet: {
     terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x: {
