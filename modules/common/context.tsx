@@ -92,10 +92,21 @@ export const AstroswapProvider: FC<Props> = ({ children }) => {
 
   const addNotification = useCallback(
     ({ notification }: AddNotificationPayload) => {
+      const notificationPayload = { ...notification, id: nanoid() };
       dispatch({
         type: "ADD_NOTIFICATION",
-        notification: { ...notification, id: nanoid() },
+        notification: notificationPayload,
       });
+
+      if (notificationPayload.type === "succeed") {
+        // Make notification disappear after 60s
+        setTimeout(() => {
+          dispatch({
+            type: "REMOVE_NOTIFICATION",
+            notificationId: notificationPayload.id,
+          });
+        }, 1000 * 60);
+      }
     },
     [dispatch]
   );
