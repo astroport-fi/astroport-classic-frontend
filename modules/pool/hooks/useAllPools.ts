@@ -15,7 +15,6 @@ import {
   requestInChunks,
   Pool,
 } from "modules/common";
-import { usePoolsInfo } from "modules/pool";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { BLUNA_LUNA_PAIR_ADDR } from "constants/contracts";
@@ -123,7 +122,6 @@ export const useAllPools = () => {
   const address = useAddress();
   const lunaPrice = useLunaPriceInUst();
   const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");
-  const poolsInfo = usePoolsInfo();
   const { getSymbol, getDecimals } = useTokenInfo();
   const [favoritesPools] = useLocalStorage<string[]>("favoritesPools", []);
   const tokensInUst = useTokenPrices();
@@ -149,115 +147,124 @@ export const useAllPools = () => {
     }
   );
 
-  const getPoolInfo = (addr: string) => {
-    return poolsInfo.find((poolInfo: any) => poolInfo.pool_address === addr);
-  };
-
   return useMemo((): AllPoolsPool[] => {
     if (result == null || !pools) {
       return [];
     }
 
     return pools
-      .map(({ pool_address, lp_address, pool_type }): AllPoolsPool => {
-        const poolInfo = getPoolInfo(pool_address);
-        const providedBalance = result[lp_address]?.contractQuery.balance;
+      .map(
+        ({
+          pool_address,
+          lp_address,
+          pool_type,
+          _24hr_volume,
+          trading_fees,
+          astro_rewards,
+          protocol_rewards,
+          total_rewards,
+          token_symbol,
+          pool_liquidity: totalLiquidityInUst,
+        }): AllPoolsPool => {
+          const providedBalance = result[lp_address]?.contractQuery.balance;
 
-        // in the event of switching networks, pair and price queries are still being refetched
-        // and pool info may not be in the result yet.
-        // @ts-ignore
-        if (!result[pool_address]) return null;
+          // in the event of switching networks, pair and price queries are still being refetched
+          // and pool info may not be in the result yet.
+          // @ts-ignore
+          if (!result[pool_address]) return null;
 
-        const { total_share, assets } = result[pool_address].contractQuery;
-        const stakedBalance = result[`staked${lp_address}`]?.contractQuery;
-        const denoms = getPoolTokenDenoms(assets);
-        const [token1, token2] = denoms;
-        const balance = num(providedBalance).plus(stakedBalance);
+          const { total_share, assets } = result[pool_address].contractQuery;
+          const stakedBalance = result[`staked${lp_address}`]?.contractQuery;
+          const denoms = getPoolTokenDenoms(assets);
+          const [token1, token2] = denoms;
+          const balance = num(providedBalance).plus(stakedBalance);
 
-        let totalLiquidityInUst = poolInfo?.pool_liquidity;
+          if (!totalLiquidityInUst) {
+            const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
+            totalLiquidityInUst = num(uusd)
+              .div(ONE_TOKEN)
+              .times(2)
+              .dp(6)
+              .toNumber();
+          }
 
-        if (!totalLiquidityInUst) {
-          const { token1: uusd } = getAssetAmountsInPool(assets, "uusd");
-          totalLiquidityInUst = num(uusd)
+          // bluna-luna pool
+          // @ts-ignore
+          if (pool_address === BLUNA_LUNA_PAIR_ADDR[network.name]) {
+            const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
+              assets,
+              "uluna"
+            );
+            totalLiquidityInUst = num(uluna)
+              .plus(num(uluna2).times(bLunaPrice))
+              .div(ONE_TOKEN)
+              .times(lunaPrice)
+              .dp(6)
+              .toNumber();
+          }
+
+          // non-ust pool, bluna-luna pool
+          if (!totalLiquidityInUst) {
+            const token2UstValue = tokensInUst[token2 || ""];
+            const token2Decimals = getDecimals(token2 || "");
+
+            totalLiquidityInUst = num(token2UstValue)
+              .times(assets[1].amount)
+              .div(10 ** token2Decimals)
+              .times(2)
+              .dp(6)
+              .toNumber();
+          }
+
+          const totalLiquidity = num(total_share)
             .div(ONE_TOKEN)
-            .times(2)
             .dp(6)
             .toNumber();
-        }
-
-        // bluna-luna pool
-        // @ts-ignore
-        if (pool_address === BLUNA_LUNA_PAIR_ADDR[network.name]) {
-          const { token1: uluna, token2: uluna2 } = getAssetAmountsInPool(
-            assets,
-            "uluna"
-          );
-          totalLiquidityInUst = num(uluna)
-            .plus(num(uluna2).times(bLunaPrice))
+          const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
+          const myLiquidityInUst = num(balance)
             .div(ONE_TOKEN)
-            .times(lunaPrice)
+            .times(totalLiquidityInUst)
+            .div(num(total_share).div(ONE_TOKEN))
             .dp(6)
             .toNumber();
+
+          const isStakable = stakableLp.includes(lp_address);
+
+          return {
+            inUse: balance.gt(0),
+            favorite: favoritesPools.indexOf(denoms.toString()) > -1,
+            contract: pool_address,
+            assets: denoms,
+            poolAssets: assets,
+            sortingAssets: [
+              getSymbol(token1 || "").toLowerCase(),
+              getSymbol(token2 || "").toLowerCase(),
+              token1 || "",
+              token2 || "",
+              pool_address,
+            ],
+            pairType: pool_type,
+            totalLiquidity,
+            totalLiquidityInUst,
+            myLiquidity,
+            myLiquidityInUst,
+            _24hr_volume,
+            rewards: {
+              pool: trading_fees?.apy || 0,
+              astro: astro_rewards?.apr || 0,
+              protocol: protocol_rewards?.apr || 0,
+              total: total_rewards?.apr || 0,
+              apy: total_rewards?.apy || 0,
+              token_symbol,
+            },
+            canManage: myLiquidity > 0,
+            canStake: num(providedBalance).gt(0),
+            isStakable,
+          };
         }
-
-        // non-ust pool, bluna-luna pool
-        if (!totalLiquidityInUst) {
-          const token2UstValue = tokensInUst[token2 || ""];
-          const token2Decimals = getDecimals(token2 || "");
-
-          totalLiquidityInUst = num(token2UstValue)
-            .times(assets[1].amount)
-            .div(10 ** token2Decimals)
-            .times(2)
-            .dp(6)
-            .toNumber();
-        }
-
-        const totalLiquidity = num(total_share).div(ONE_TOKEN).dp(6).toNumber();
-        const myLiquidity = num(balance).div(ONE_TOKEN).dp(6).toNumber();
-        const myLiquidityInUst = num(balance)
-          .div(ONE_TOKEN)
-          .times(totalLiquidityInUst)
-          .div(num(total_share).div(ONE_TOKEN))
-          .dp(6)
-          .toNumber();
-
-        const isStakable = stakableLp.includes(lp_address);
-
-        return {
-          inUse: balance.gt(0),
-          favorite: favoritesPools.indexOf(denoms.toString()) > -1,
-          contract: pool_address,
-          assets: denoms,
-          poolAssets: assets,
-          sortingAssets: [
-            getSymbol(token1 || "").toLowerCase(),
-            getSymbol(token2 || "").toLowerCase(),
-            token1 || "",
-            token2 || "",
-            pool_address,
-          ],
-          pairType: pool_type,
-          totalLiquidity,
-          totalLiquidityInUst,
-          myLiquidity,
-          myLiquidityInUst,
-          _24hr_volume: poolInfo?._24hr_volume,
-          rewards: {
-            pool: poolInfo?.trading_fees?.apy || 0,
-            astro: poolInfo?.astro_rewards?.apr || 0,
-            protocol: poolInfo?.protocol_rewards?.apr || 0,
-            total: poolInfo?.total_rewards?.apr || 0,
-            apy: poolInfo?.total_rewards?.apy || 0,
-            token_symbol: poolInfo?.token_symbol,
-          },
-          canManage: myLiquidity > 0,
-          canStake: num(providedBalance).gt(0),
-          isStakable,
-        };
-      })
+      )
       .filter(Boolean);
-  }, [lunaPrice, pools, result, poolsInfo, favoritesPools]);
+  }, [lunaPrice, pools, result, favoritesPools]);
 };
 
 export default useAllPools;

@@ -3,9 +3,12 @@ import { gql } from "graphql-request";
 import { useApi, isNativeToken } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
 
+const QUERY_LIMIT = 500;
+const QUERY_SORT_PARAM = "TVL";
+
 const query = gql`
-  query Pools {
-    pools {
+  query Query($limit: Int, $sortField: PoolSortFields) {
+    pools(limit: $limit, sortField: $sortField) {
       lp_address
       pool_address
       token_symbol
@@ -46,8 +49,9 @@ const query = gql`
 
 export const useAllPools = () => {
   const { data, isLoading, isError } = useApi({
-    name: "pools",
+    name: ["pools", "all"],
     query,
+    variables: { limit: QUERY_LIMIT, sortField: QUERY_SORT_PARAM },
     options: {
       enabled: !!query,
       staleTime: QUERY_STALE_TIME,
@@ -89,12 +93,9 @@ export const useAllPools = () => {
             };
           });
 
-          return {
-            lp_address: pool.lp_address,
-            pool_address: pool.pool_address,
-            pool_type: pool.pool_type,
-            assets,
-          };
+          let returnPool = pool;
+          returnPool.assets = assets;
+          return returnPool;
         })
         .filter(Boolean);
     }
