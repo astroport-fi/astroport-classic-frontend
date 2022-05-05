@@ -56,7 +56,11 @@ const SwapFormFooter: FC<Props> = ({
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const priceImpact = usePriceImpact({ from, to, price });
-  const priceImpactMultiSwap = usePriceImpactMultiSwap({ from, to, amount1 });
+  const priceImpactMultiSwap = usePriceImpactMultiSwap({
+    from,
+    to,
+    amountInitial: amount1,
+  });
   const priceImpactValue =
     swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;
   const priceImpactColor = usePriceImpactColor(priceImpactValue);

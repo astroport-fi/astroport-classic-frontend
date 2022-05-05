@@ -54,7 +54,7 @@ const SwapFormConfirm: FC<Props> = ({
   const priceImpactMultiSwap = usePriceImpactMultiSwap({
     from: token1,
     to: token2,
-    amount1,
+    amountInitial: amount1,
   });
   const priceImpactValue =
     swapRoute.length > 1 ? priceImpactMultiSwap : priceImpact;

@@ -11,14 +11,14 @@ import useGetPools from "modules/pool/hooks/useGetPools";
 
 type Params = {
   from: string;
-  amount1: string;
+  amountInitial: string;
   to: string;
 };
 
 export function usePriceImpactMultiSwap({
   from,
   to,
-  amount1,
+  amountInitial,
 }: Params): number | null {
   const { tokenGraph } = useAstroswap();
   const { client } = useTerraWebapp();
@@ -31,7 +31,8 @@ export function usePriceImpactMultiSwap({
     if (
       !from ||
       !to ||
-      !amount1 ||
+      !amountInitial ||
+      !swapRoute ||
       swapRoute.length <= 1 ||
       swapRoute.length != pools.length
     ) {
@@ -39,10 +40,15 @@ export function usePriceImpactMultiSwap({
     }
 
     async function getPriceImpacts() {
-      let nextSwapInputAmount = Number(amount1);
+      if (!swapRoute) return;
 
-      let priceImpacts = await Promise.all(
-        swapRoute.map(async (sri, i) => {
+      let priceImpacts = [];
+      let nextSwapInputAmount = Number(amountInitial);
+
+      for (let i = 0; i < swapRoute.length; i++) {
+        const sri = swapRoute[i];
+
+        if (sri) {
           const fromDecimals = getDecimals(sri.from);
           const toDecimals = getDecimals(sri.to);
           const amount = (nextSwapInputAmount * 10 ** fromDecimals).toString();
@@ -77,12 +83,14 @@ export function usePriceImpactMultiSwap({
               .div(10 ** toDecimals)
               .toNumber();
 
-            return num(swapPrice)
-              .minus(poolPrice)
-              .div(poolPrice)
-              .times(100)
-              .dp(2)
-              .toNumber();
+            priceImpacts.push(
+              num(swapPrice)
+                .minus(poolPrice)
+                .div(poolPrice)
+                .times(100)
+                .dp(2)
+                .toNumber()
+            );
           } else if (sri.type == "stable") {
             const [data, dataB]: any = await Promise.all([
               // swap simulation
@@ -117,23 +125,24 @@ export function usePriceImpactMultiSwap({
               .div(10 ** toDecimals)
               .toNumber();
 
-            return num(1)
-              .minus(num(price).div(swapPrice))
-              .times(100)
-              .dp(2, BigNumber.ROUND_HALF_UP)
-              .abs()
-              .toNumber();
+            priceImpacts.push(
+              num(1)
+                .minus(num(price).div(swapPrice))
+                .times(100)
+                .dp(2, BigNumber.ROUND_HALF_UP)
+                .abs()
+                .toNumber()
+            );
           }
-
-          return 0;
-        })
-      );
+        }
+      }
 
       setPriceImpacts(priceImpacts.reduce((a, b) => a + b));
+      return;
     }
 
     getPriceImpacts();
-  }, [from, to, amount1]);
+  }, [from, to, amountInitial]);
 
   return priceImpacts;
 }
