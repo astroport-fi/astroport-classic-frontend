@@ -32,7 +32,7 @@ export function usePriceImpactMultiSwap({
     if (
       !from ||
       !to ||
-      !amount1 ||
+      !amountInitial ||
       !swapRoute ||
       swapRoute.length <= 1 ||
       swapRoute.length != pools.length
@@ -41,9 +41,13 @@ export function usePriceImpactMultiSwap({
     }
 
     async function getPriceImpacts() {
-      if (!swapRoute) return 0;
+      if (!swapRoute) return;
 
-      let nextSwapInputAmount = Number(amount1);
+      let priceImpacts = [];
+      let nextSwapInputAmount = Number(amountInitial);
+
+      for (let i = 0; i < swapRoute.length; i++) {
+        const sri = swapRoute[i];
 
         if (sri) {
           const fromDecimals = getDecimals(sri.from);
@@ -135,8 +139,7 @@ export function usePriceImpactMultiSwap({
       }
 
       setPriceImpacts(priceImpacts.reduce((a, b) => a + b));
-
-      return 0;
+      return;
     }
 
     getPriceImpacts();
