@@ -58,11 +58,7 @@ const RightFixedTip = () => {
   );
 };
 
-const QuorumFixedTip: FC<QuorumTipProps> = ({
-  quorum,
-  quorumReached,
-  height,
-}) => {
+const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, quorumReached }) => {
   const leftPosition = `${quorum}%`;
 
   return (
@@ -160,7 +156,7 @@ const ProgressBar: FC<ProgressElements> = ({
     { value: voteFor, color: "green.500" },
     { value: voteAgainst, color: "red.500" },
   ];
-  const quorumReached = quorum < voteFor + voteAgainst;
+  const quorumReached = Number(quorum) < voteFor + voteAgainst;
 
   return (
     <Box pos="relative" width="100%" height={`${height}px`}>

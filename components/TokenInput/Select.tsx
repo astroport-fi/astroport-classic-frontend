@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import {
+  Flex,
   Box,
   Text,
   Button,
@@ -8,14 +9,20 @@ import {
   VStack,
   useBreakpointValue,
   PlacementWithLogical,
+  Switch,
 } from "@chakra-ui/react";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { TagList, List } from "components/TokenInput";
 import Search from "components/common/Search";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { handleTinyAmount, useTokenInfo } from "modules/common";
+import {
+  handleTinyAmount,
+  useTokenInfo,
+  toggleValueInArray,
+} from "modules/common";
 import { COMMON_TOKENS } from "constants/constants";
+import useLocalStorage from "hooks/useLocalStorage";
 
 type Props = {
   hidePrice?: boolean;
@@ -31,17 +38,24 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
   const formattedPrice = handleTinyAmount(price, "0,0.00", false, " UST");
   const [filter, setFilter] = useState("");
   const [isLazy, setIsLazy] = useState(true);
+  const [favoriteListToggle, setFavoriteListToggle] = useState(false);
+  const [favoritedTokens, setFavoritedTokens] = useLocalStorage<any>(
+    "favoritedTokens",
+    []
+  );
 
-  const matchTokenOrExactAddress = (token: string) => {
+  const allowedTokens = (tokens || [])
+    .filter((token: string) => !isHidden(token))
+    .filter((token: string) => {
+      if (favoriteListToggle) return favoritedTokens.includes(token);
+      return true;
+    });
+  const filteredTokens = allowedTokens.filter((token: string) => {
     return (
       getSymbol(token).toLowerCase().includes(filter.toLowerCase()) ||
       token === filter
     );
-  };
-  const allowedTokens = (tokens || []).filter(
-    (token: string) => !isHidden(token)
-  );
-  const filteredTokens = allowedTokens.filter(matchTokenOrExactAddress);
+  });
 
   const noTokensFound = filteredTokens.length === 0;
   const inputColor = noTokensFound ? "red.500" : "brand.deepBlue";
@@ -65,6 +79,14 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
     onClose();
     setFilter("");
     onClick(token);
+  };
+
+  const toggleFavoriteList = () => {
+    setFavoriteListToggle((value) => !value);
+  };
+
+  const handleFavorite = (token: string) => {
+    setFavoritedTokens(toggleValueInArray(token, favoritedTokens));
   };
 
   const renderButton = () => {
@@ -158,10 +180,25 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
           // @ts-ignore
           ref={initialFocusRef}
         />
-        <TagList tokens={COMMON_TOKENS} onClick={handleClick} />
+        <Flex>
+          <Box flex={1}>
+            <TagList tokens={COMMON_TOKENS} onClick={handleClick} />
+          </Box>
+          <Box textAlign="right">
+            <Text textStyle="minibutton">Only favorites</Text>
+            <Switch
+              isChecked={favoriteListToggle}
+              onChange={toggleFavoriteList}
+              mt="2"
+              height="22px"
+            />
+          </Box>
+        </Flex>
         <List
           onClick={handleClick}
+          onFavorite={handleFavorite}
           tokens={filteredTokens}
+          favoritedTokens={favoritedTokens}
           filtered={filteredTokens.length !== allowedTokens.length}
           filteredTerm={filter}
         />

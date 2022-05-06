@@ -32,14 +32,18 @@ const mapTokenAddressesToWalletInfo = (
 
 type Props = {
   onClick: (token: string) => void;
+  onFavorite: (token: string) => void;
   tokens: string[];
+  favoritedTokens?: string[];
   filtered?: boolean;
   filteredTerm?: string;
 };
 
 const List: FC<Props> = ({
   tokens,
+  favoritedTokens = [],
   onClick,
+  onFavorite,
   filtered = false,
   filteredTerm = "",
 }) => {
@@ -107,6 +111,10 @@ const List: FC<Props> = ({
                   key={tokens[index]?.address}
                   token={tokens[index]}
                   onClick={onClick}
+                  isFavorite={favoritedTokens.includes(
+                    tokens[index]?.address || ""
+                  )}
+                  onFavorite={onFavorite}
                   style={style}
                 />
               )}

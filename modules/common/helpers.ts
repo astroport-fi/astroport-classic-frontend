@@ -130,3 +130,14 @@ export const getEventsByType = (txInfo: TxInfo, index: number = 0): any => {
 
   return txInfo.logs[index]?.eventsByType;
 };
+
+export const toggleValueInArray = (value: any, array: any[]) => {
+  const newArray = [...array];
+  const valueIndex = array.indexOf(value);
+  if (valueIndex > -1) {
+    newArray.splice(valueIndex, 1);
+  } else {
+    newArray.push(value);
+  }
+  return newArray;
+};
