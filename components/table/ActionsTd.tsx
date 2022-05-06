@@ -12,8 +12,9 @@ type Props = {
 const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
   const { contract, assets, myLiquidity } = row.original;
   const [token1, token2] = assets;
-
   const canManageLiquidity = num(myLiquidity).gt(0);
+  const canSwapTokens =
+    !TOKEN_DENYLIST.includes(token1) && !TOKEN_DENYLIST.includes(token2);
 
   const renderButton = () => {
     if (canProvideLiquidity) {
@@ -37,7 +38,7 @@ const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
     }
 
     const renderURL = () => {
-      if (TOKEN_DENYLIST.includes(token1) || TOKEN_DENYLIST.includes(token2)) {
+      if (!canSwapTokens) {
         return "javascript:;";
       }
 
@@ -50,7 +51,13 @@ const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
 
     return (
       <Link href={renderURL()} passHref>
-        <Button as="a" size="sm" variant="silent" minW="40">
+        <Button
+          as="a"
+          size="sm"
+          variant="silent"
+          minW="40"
+          opacity={canSwapTokens ? 1 : 0.6}
+        >
           Get Token
         </Button>
       </Link>
