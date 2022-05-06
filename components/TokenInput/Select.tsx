@@ -9,7 +9,6 @@ import {
   useBreakpointValue,
   PlacementWithLogical,
 } from "@chakra-ui/react";
-
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { TagList, List } from "components/TokenInput";

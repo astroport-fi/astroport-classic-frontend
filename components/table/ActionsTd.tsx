@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Button, HStack, ButtonGroup } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
+import TOKEN_DENYLIST from "constants/tokenDenylist";
 
 type Props = {
   row: any;
@@ -25,14 +26,6 @@ const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
       );
     }
 
-    const renderURL = () => {
-      if (token2 == "uusd" || token2 == "uluna") {
-        return `/swap?from=${token2}&to=${token1}`;
-      } else {
-        return `/swap?from=${token1}&to=${token2}`;
-      }
-    };
-
     if (canManageLiquidity) {
       return (
         <Link href={`/pools/${contract}`} passHref>
@@ -42,6 +35,18 @@ const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
         </Link>
       );
     }
+
+    const renderURL = () => {
+      if (TOKEN_DENYLIST.includes(token1) || TOKEN_DENYLIST.includes(token2)) {
+        return "javascript:;";
+      }
+
+      if (token2 == "uusd" || token2 == "uluna") {
+        return `/swap?from=${token2}&to=${token1}`;
+      }
+
+      return `/swap?from=${token1}&to=${token2}`;
+    };
 
     return (
       <Link href={renderURL()} passHref>

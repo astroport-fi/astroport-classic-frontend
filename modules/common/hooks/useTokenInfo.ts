@@ -3,6 +3,7 @@ import { truncate } from "libs/text";
 import { AssetInfo } from "types/common";
 import { useAstroswap } from "../context";
 import { COMMON_TOKENS } from "constants/constants";
+import TOKEN_DENYLIST from "constants/tokenDenylist";
 
 export type TokenInWallet = {
   address: string;
@@ -66,7 +67,7 @@ export const useTokenInfo = () => {
 
   const isHidden = useCallback(
     (token: string) => {
-      if (tokens == null || pairs == null) {
+      if (tokens == null || pairs == null || TOKEN_DENYLIST.includes(token)) {
         return true;
       }
 
