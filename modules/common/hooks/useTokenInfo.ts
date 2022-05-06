@@ -67,7 +67,7 @@ export const useTokenInfo = () => {
 
   const isHidden = useCallback(
     (token: string) => {
-      if (tokens == null || pools == null) {
+      if (tokens == null || pools == null || TOKEN_DENYLIST.includes(token)) {
         return true;
       }
 

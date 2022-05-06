@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { Button, HStack } from "@chakra-ui/react";
 import { num } from "@arthuryeti/terra";
+import TOKEN_DENYLIST from "constants/tokenDenylist";
 
 type Props = {
   row: any;
@@ -56,7 +57,7 @@ const ActionsTd: FC<Props> = ({ row, canProvideLiquidity }) => {
     }
 
     const renderURL = () => {
-      if (!isTokenAllowed) {
+      if (TOKEN_DENYLIST.includes(token1) || TOKEN_DENYLIST.includes(token2)) {
         return "javascript:;";
       }
 
