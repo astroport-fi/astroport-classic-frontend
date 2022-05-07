@@ -1,9 +1,8 @@
 import React, { FC } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { ASTRO_TOKEN } from "constants/constants";
 import { useAllPools } from "modules/pool";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
-import { handleTinyAmount } from "modules/common";
+import { handleTinyAmount, useContracts } from "modules/common";
 import Card from "components/Card";
 
 const PoolsOverview: FC = () => {
@@ -16,7 +15,8 @@ const PoolsOverview: FC = () => {
     (total, pool) => total + (pool._24hr_volume || 0),
     0
   );
-  const price = useTokenPriceInUstWithSimulate(ASTRO_TOKEN);
+  const { astroToken } = useContracts();
+  const price = useTokenPriceInUstWithSimulate(astroToken);
 
   return (
     <Card>

@@ -12,7 +12,6 @@ export const ASTROPORT_URLS = {
 };
 
 /* astroport:configs */
-export const ASTRO_TOKEN = "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3";
 export const DEFAULT_SLIPPAGE = 0.5;
 export const MULTI_SWAP_MAX_SPREAD = "0.15";
 
