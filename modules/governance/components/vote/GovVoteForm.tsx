@@ -216,7 +216,7 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
           </NextLink>
         </Flex>
         <TitleBox title={proposal.title} />
-        {userVotingPower && (
+        {!!userVotingPower && (
           <ActionBox
             action={action}
             amount={userVotingPower.toLocaleString()}

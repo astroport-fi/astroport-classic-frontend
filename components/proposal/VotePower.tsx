@@ -26,7 +26,6 @@ const VotePower: FC<Props> = ({
   const isVotedFor = proposalContract?.for_voters.includes(address);
   const isVotedAgainst = proposalContract?.against_voters.includes(address);
 
-  const showVotingOptions = !isVotingOver && !isVotedFor && !isVotedAgainst;
   const userVotingPower = useVotingPower({ proposal_id: Number(id) });
   const userVotingPowerPerc =
     userVotingPower && totalVotePower
@@ -34,6 +33,8 @@ const VotePower: FC<Props> = ({
           num(totalVotePower).div(PROPOSAL_VOTE_POWER).toNumber()) *
         100
       : `-`;
+  const showVotingOptions =
+    !isVotingOver && !isVotedFor && !isVotedAgainst && !!userVotingPower;
 
   return (
     <Box h="200px" bg="white.50" mb="3" p="5" borderRadius="xl">
