@@ -22,6 +22,7 @@ type BarValues = {
 
 type QuorumTipProps = {
   quorum: number;
+  quorumReached?: boolean;
   height: string;
 };
 
@@ -57,7 +58,11 @@ const RightFixedTip = () => {
   );
 };
 
-const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, height }) => {
+const QuorumFixedTip: FC<QuorumTipProps> = ({
+  quorum,
+  quorumReached,
+  height,
+}) => {
   const leftPosition = `${quorum}%`;
 
   return (
@@ -77,6 +82,11 @@ const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum, height }) => {
         <Text pl="1" color="white">
           {handleTinyAmount(quorum)}%
         </Text>
+        {quorumReached && (
+          <Text pl="1" color="green.500">
+            reached
+          </Text>
+        )}
       </Flex>
     </>
   );
@@ -149,6 +159,7 @@ const ProgressBar: FC<ProgressElements> = ({
     { value: voteFor, color: "green.500" },
     { value: voteAgainst, color: "red.500" },
   ];
+  const quorumReached = quorum < voteFor + voteAgainst;
 
   return (
     <Box pos="relative" width="100%" height={`${height}px`}>
@@ -156,7 +167,11 @@ const ProgressBar: FC<ProgressElements> = ({
       <RightFixedTip />
       {quorum && (
         <>
-          <QuorumFixedTip quorum={quorum} height={`${height - 20}px`} />
+          <QuorumFixedTip
+            quorum={quorum}
+            quorumReached={quorumReached}
+            height={`${height - 20}px`}
+          />
           <QuorumSplit quorum={quorum} height={`${height - 20}px`} />
         </>
       )}
