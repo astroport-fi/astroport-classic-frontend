@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 
 type Props = {
   children: ReactNode;
-  minW?: string;
+  minW?: string | undefined;
 };
 
 const Table: FC<Props> = ({ children, minW = "1180px" }) => {

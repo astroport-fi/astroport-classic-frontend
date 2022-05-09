@@ -18,7 +18,7 @@ type Props = {
   tableInstance: TableInstance;
   emptyMsg: string;
   children: ReactNode;
-  minW?: string;
+  minW?: string | undefined;
   renderFilters: boolean;
 };
 
@@ -27,7 +27,7 @@ const PoolTableWrapper: FC<Props> = ({
   tableInstance,
   emptyMsg,
   children,
-  minW = "auto",
+  minW,
   renderFilters,
 }) => {
   const address = useAddress();

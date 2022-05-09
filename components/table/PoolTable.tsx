@@ -11,7 +11,7 @@ type Props = {
   data: any;
   sortBy: string;
   emptyMsg?: string;
-  minW?: string;
+  minW?: string | undefined;
   renderFilters?: boolean;
 };
 
@@ -20,7 +20,7 @@ const PoolTable: FC<Props> = ({
   data,
   sortBy,
   emptyMsg = "No pools.",
-  minW = "auto",
+  minW,
   renderFilters = true,
 }) => {
   const _columns = useMemo(() => columns, [columns]);
