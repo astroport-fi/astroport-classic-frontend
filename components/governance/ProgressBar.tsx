@@ -58,7 +58,11 @@ const RightFixedTip = () => {
   );
 };
 
-const QuorumFixedTip: FC<QuorumTipProps> = ({ quorum }) => {
+const QuorumFixedTip: FC<QuorumTipProps> = ({
+  quorum,
+  quorumReached,
+  height,
+}) => {
   const leftPosition = `${quorum}%`;
 
   return (
