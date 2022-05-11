@@ -25,8 +25,8 @@ const Single: FC<Props> = ({
     priceSource === "swap-simulation" ? swapSimulationPrice : poolRatioPrice;
   const formattedPrice =
     price === 0
-      ? "UST --.--"
-      : handleTinyAmount(price.toFixed(2), "0,0.00", false, "UST ");
+      ? "--.-- UST"
+      : handleTinyAmount(price.toFixed(2), "0,0.00", false, " UST");
   const icon = getIcon(asset);
 
   return (

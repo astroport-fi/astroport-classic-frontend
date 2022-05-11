@@ -28,7 +28,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
   const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value);
-  const formattedPrice = handleTinyAmount(price, "0,0.00", false, "UST ");
+  const formattedPrice = handleTinyAmount(price, "0,0.00", false, " UST");
   const [filter, setFilter] = useState("");
   const [isLazy, setIsLazy] = useState(true);
 
@@ -67,6 +67,8 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
 
   const renderButton = () => {
     const icon = getIcon(value);
+    // temporary hide if token is UST
+    const isUST = value == "uusd" ? true : false;
 
     if (value) {
       return (
@@ -81,7 +83,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
           </Box>
           <Box ml="3" fontWeight="500" flex="1">
             <Text textStyle={["medium", "h3"]}>{getSymbol(value)}</Text>
-            {!hidePrice && (
+            {!hidePrice && !isUST && (
               <Text textStyle={["small", "medium"]} color="white.400">
                 Price: {formattedPrice}
               </Text>

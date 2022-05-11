@@ -24,22 +24,22 @@ export const handleBigAndTinyAmount = (
   numberPrefix: string = ""
 ) => {
   if (includeZero && num(value).eq(0)) {
-    return `< ${includeDollarSign ? "UST " : ""}${numberPrefix}0.01`;
+    return `< ${numberPrefix}0.01${includeDollarSign ? " UST" : ""}`;
   }
 
   if (num(value).lt(0.01) && num(value).gt(0)) {
-    return `< ${includeDollarSign ? "UST " : ""}${numberPrefix}0.01`;
+    return `< ${numberPrefix}0.01${includeDollarSign ? " UST" : ""}`;
   }
 
   if (num(value).gt(1000000)) {
-    return `${includeDollarSign ? "UST " : ""}${numberPrefix}${numeral(value)
+    return `${numberPrefix}${numeral(value)
       .format("0.00a", Math.floor)
-      .toUpperCase()}`;
+      .toUpperCase()}${includeDollarSign ? " UST" : ""}`;
   }
 
-  return `${includeDollarSign ? "UST " : ""}${numberPrefix}${numeral(
-    value
-  ).format(format)}`;
+  return `${numberPrefix}${numeral(value).format(format)}${
+    includeDollarSign ? " UST " : ""
+  }`;
 };
 
 export const handleTinyAmount = (
@@ -51,15 +51,15 @@ export const handleTinyAmount = (
   const bigNumValue = num(value);
 
   if (includeZero && bigNumValue.eq(0)) {
-    return `< ${numberPrefix}0.01`;
+    return `< 0.01${numberPrefix}`;
   }
 
   // not so necessary but also can check if it's positive number -bignumValue.gt()
   if (bigNumValue.lt(0.01)) {
-    return `< ${numberPrefix}0.01`;
+    return `< 0.01${numberPrefix}`;
   }
 
-  return `${numberPrefix}${numeral(value).format(format)}`;
+  return `${numeral(value).format(format)}${numberPrefix}`;
 };
 
 export const handleDollarTinyAmount = (
@@ -67,7 +67,7 @@ export const handleDollarTinyAmount = (
   format: string = "0,0.00",
   includeZero: boolean = false
 ) => {
-  return handleTinyAmount(value, format, includeZero, "UST ");
+  return handleTinyAmount(value, format, includeZero, " UST");
 };
 
 export const handleAmountWithoutTrailingZeros = (

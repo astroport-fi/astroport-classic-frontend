@@ -23,7 +23,7 @@ const PoolsOverview: FC = () => {
       <Flex justify="space-between">
         <Box>
           <Text textStyle="h3">
-            {handleTinyAmount(totalLiquidity, "0,0", undefined, "UST ")}
+            {handleTinyAmount(totalLiquidity, "0,0", undefined, " UST")}
           </Text>
           <Text textStyle="small" variant="dimmed">
             Total Liquidity
@@ -31,7 +31,7 @@ const PoolsOverview: FC = () => {
         </Box>
         <Box>
           <Text textStyle="h3">
-            {handleTinyAmount(dailyVolume, "0,0", undefined, "UST ")}
+            {handleTinyAmount(dailyVolume, "0,0", undefined, " UST")}
           </Text>
           <Text textStyle="small" variant="dimmed">
             24h Volume
@@ -39,7 +39,7 @@ const PoolsOverview: FC = () => {
         </Box>
         <Box>
           <Text textStyle="h3">
-            {handleTinyAmount(price, undefined, undefined, "UST ")}
+            {handleTinyAmount(price, undefined, undefined, " UST")}
           </Text>
           <Text textStyle="small" variant="dimmed">
             ASTRO price
