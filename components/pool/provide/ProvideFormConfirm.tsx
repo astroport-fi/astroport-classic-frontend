@@ -56,7 +56,7 @@ const ProvideForm: FC<Props> = ({
   let details = [
     {
       label: "My Provided Liquidity",
-      value: handleTinyAmount(formattedShareInUst, "0.00", false, " UST"),
+      value: handleTinyAmount(formattedShareInUst, "0.00", false, "UST "),
     },
     {
       label: "APR",

@@ -35,7 +35,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
   const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value);
-  const formattedPrice = handleTinyAmount(price, "0,0.00", false, " UST");
+  const formattedPrice = handleTinyAmount(price, "0,0.00", false, "UST ");
   const [filter, setFilter] = useState("");
   const [isLazy, setIsLazy] = useState(true);
   const [favoriteListToggle, setFavoriteListToggle] = useState(false);

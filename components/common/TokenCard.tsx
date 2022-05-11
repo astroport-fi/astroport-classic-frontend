@@ -15,7 +15,7 @@ const TokenCard: FC<Props> = ({ token }) => {
   const price = useTokenPriceInUstWithSimulate(token.asset).toFixed(6);
   const totalInUst = num(token.amount).times(price).toFixed(6);
   const tokenAmount = numeral(token.amount).format("0,0.[000000]");
-  const totalAmount = handleTinyAmount(totalInUst, "0,0.00", false, " UST");
+  const totalAmount = handleTinyAmount(totalInUst, "0,0.00", false, "UST ");
 
   return (
     <Box

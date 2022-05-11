@@ -36,7 +36,7 @@ const PriceLP: FC<Props> = ({ token, amount }) => {
   return (
     <Box position="absolute" bottom="2" right="4" color="white">
       <Text textStyle="small" variant="dimmed">
-        {totalAmount} UST
+        UST {totalAmount}
       </Text>
     </Box>
   );
