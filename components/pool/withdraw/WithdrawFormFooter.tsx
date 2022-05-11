@@ -50,7 +50,7 @@ const WithdrawFormFooter: FC<Props> = ({
   const cells = [
     {
       title: "My Liquidity",
-      value: `$ ${formattedShareInUst}`,
+      value: `UST ${formattedShareInUst}`,
     },
     {
       title: "Share of Pool",

@@ -43,10 +43,10 @@ const WithdrawFormItem: FC<Props> = ({ token, amount, poolType, ...props }) => {
 
       <Flex mt={2} justify="space-between">
         <Text textStyle="small" variant="dimmed">
-          Price: ${formattedPrice}
+          Price: UST {formattedPrice}
         </Text>
         <Text textStyle="small" variant="dimmed">
-          ${formattedTotal}
+          UST {formattedTotal}
         </Text>
       </Flex>
     </Box>

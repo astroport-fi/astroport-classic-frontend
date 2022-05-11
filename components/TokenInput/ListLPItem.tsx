@@ -70,7 +70,7 @@ const ListLPItem: FC<Props> = ({ pair, onClick }) => {
                 {fromTerraAmount(balance, "0,0.000")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                ${fromTerraAmount("0", "0,0.000")}
+                UST {fromTerraAmount("0", "0,0.000")}
               </Text>
             </Box>
           </HStack>

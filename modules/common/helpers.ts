@@ -24,20 +24,20 @@ export const handleBigAndTinyAmount = (
   numberPrefix: string = ""
 ) => {
   if (includeZero && num(value).eq(0)) {
-    return `< ${includeDollarSign ? "$" : ""}${numberPrefix}0.01`;
+    return `< ${includeDollarSign ? "UST " : ""}${numberPrefix}0.01`;
   }
 
   if (num(value).lt(0.01) && num(value).gt(0)) {
-    return `< ${includeDollarSign ? "$" : ""}${numberPrefix}0.01`;
+    return `< ${includeDollarSign ? "UST " : ""}${numberPrefix}0.01`;
   }
 
   if (num(value).gt(1000000)) {
-    return `${includeDollarSign ? "$ " : ""}${numberPrefix}${numeral(value)
+    return `${includeDollarSign ? "UST " : ""}${numberPrefix}${numeral(value)
       .format("0.00a", Math.floor)
       .toUpperCase()}`;
   }
 
-  return `${includeDollarSign ? "$ " : ""}${numberPrefix}${numeral(
+  return `${includeDollarSign ? "UST " : ""}${numberPrefix}${numeral(
     value
   ).format(format)}`;
 };
@@ -67,7 +67,7 @@ export const handleDollarTinyAmount = (
   format: string = "0,0.00",
   includeZero: boolean = false
 ) => {
-  return handleTinyAmount(value, format, includeZero, "$ ");
+  return handleTinyAmount(value, format, includeZero, "UST ");
 };
 
 export const handleAmountWithoutTrailingZeros = (

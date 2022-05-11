@@ -130,7 +130,7 @@ const WalletInfoPopover: FC = () => {
                 Price:{" "}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                $ {num(price).toFixed(2)}
+                UST {num(price).toFixed(2)}
               </Text>
             </HStack>
           </Flex>
