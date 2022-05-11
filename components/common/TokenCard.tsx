@@ -41,7 +41,7 @@ const TokenCard: FC<Props> = ({ token }) => {
             <Box>
               <Text textStyle={["medium", "h3"]}>{getSymbol(token.asset)}</Text>
               <Text textStyle="small" variant="dimmed">
-                Price: ${price}
+                Price: UST {price}
               </Text>
             </Box>
           </HStack>
