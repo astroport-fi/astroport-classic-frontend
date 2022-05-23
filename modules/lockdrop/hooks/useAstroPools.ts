@@ -231,7 +231,9 @@ export const useAstroPools = () => {
         myLiquidity,
         myLiquidityInUst,
         lockEnd: info.unlock_timestamp,
-        isClaimable: currentTimestamp > info.unlock_timestamp,
+        // Proposal #10 has passed to unlock all lockdrop liquidity regardless of unlock_timestamp
+        // isClaimable: currentTimestamp > info.unlock_timestamp,
+        isClaimable: true,
         isClaimed: num(info.astroport_lp_transferred).gt(0),
         duration: info.duration,
         rewards,
