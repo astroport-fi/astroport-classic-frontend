@@ -10,7 +10,8 @@ import {
   Heading,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
+import num from "libs/num";
 import {
   ASTRO_DISCORD_LINK,
   ASTRO_FORUM_LINK,

@@ -3,12 +3,10 @@ import { Box, Center, Flex, Spinner, useMediaQuery } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { MOBILE_MAX_WIDTH, MOBILE_NAV_HEIGHT } from "constants/constants";
-
 import Navbar from "components/Navbar";
 import MobileNavbar from "components/MobileNavbar";
 import MobileScrollToTop from "components/MobileScrollToTop";
 import MobileFooter from "components/MobileFooter";
-
 import { AstroswapConsumer, AstroswapProvider } from "modules/common";
 import { TerraWebappProvider } from "context/TerraWebappContext";
 

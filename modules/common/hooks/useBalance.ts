@@ -1,10 +1,9 @@
 import { useMemo } from "react";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 import { isNativeToken } from "../asset";
 import { QUERY_STALE_TIME } from "constants/constants";
 import useAddress from "hooks/useAddress";
-import { useTerraWebapp } from "context/TerraWebappContext";
 
 function isBalanceResponse(value: any) {
   return value.hasOwnProperty("balance");

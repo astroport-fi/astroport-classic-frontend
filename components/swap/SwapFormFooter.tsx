@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   Spinner,
 } from "@chakra-ui/react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { handleTinyAmount, Route } from "modules/common";
 import {

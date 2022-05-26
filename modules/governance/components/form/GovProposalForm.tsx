@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEstimateFee } from "@arthuryeti/terra";
 import {
   useContracts,
   useNotEnoughUSTBalanceToPayFees,

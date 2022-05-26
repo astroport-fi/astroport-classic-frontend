@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
 import { useTx } from "modules/common";

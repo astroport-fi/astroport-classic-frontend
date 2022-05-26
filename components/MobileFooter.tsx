@@ -8,7 +8,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
-import { fromTerraAmount, useAddress } from "@arthuryeti/terra";
 import {
   ConnectedWallet,
   useConnectedWallet,
@@ -23,13 +22,14 @@ import {
 } from "modules/common";
 import { useTotalRewardValueInUst } from "modules/reward";
 import useTNS from "hooks/useTNS";
-
+import useAddress from "hooks/useAddress";
 import MoneyStackIcon from "components/icons/MoneyStackIcon";
 import TerraIcon from "components/icons/TerraIcon";
 
 import ConnectWalletModal from "components/modals/ConnectWalletModal";
 import WalletInfoModal from "components/modals//WalletInfoModal";
 import RewardCentreModal from "components/modals//RewardCentreModal";
+import { fromTerraAmount } from "libs/terra";
 
 const FOOTER_HEIGHT = "60px";
 const ICON_SIZE = "1.5rem";
@@ -137,7 +137,7 @@ const MobileFooter: FC = () => {
   const { status } = useWallet();
   const wallet = useConnectedWallet();
   const terraAddress = useAddress();
-  const tnsName = useTNS(terraAddress);
+  const tnsName = useTNS(terraAddress || "");
 
   const iconUST = getIcon("uusd");
   const balance = useBalance("uusd");

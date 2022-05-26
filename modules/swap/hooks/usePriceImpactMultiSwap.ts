@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTerraWebapp } from "context/TerraWebappContext";
 import { getAssetAmountsInPool } from "libs/terra";
 import BigNumber from "bignumber.js";
+import num from "libs/num";
 import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";

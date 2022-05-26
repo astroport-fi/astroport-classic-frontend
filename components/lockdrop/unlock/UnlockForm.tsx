@@ -2,7 +2,7 @@ import React, { FC, useState, useCallback, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import { TxStep, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useUnlock, useLockedLpAmount } from "modules/lockdrop";
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";

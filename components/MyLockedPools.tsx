@@ -19,9 +19,9 @@ import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import RewardsTd from "components/table/RewardsTd";
 import MyLockActionsTd from "components/table/MyLockActionsTd";
-import useAddress from "hooks/useAddress";
 
 import { PoolFeed } from "components/feed";
+import useAddress from "hooks/useAddress";
 
 const PHASE_1_DESC =
   "Your lockdrop positions will unlock on the dates you specified when you made your deposit.";
@@ -200,7 +200,7 @@ const Component: FC<{
 
 const MyLockedPools = () => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
-  const address = useAddress();
+  const address = useAddress() || "";
   const pools = useAstroPools();
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
 

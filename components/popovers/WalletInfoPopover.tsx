@@ -8,7 +8,8 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { fromTerraAmount, useAddress } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
+import useAddress from "hooks/useAddress";
 import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { truncate, displayTNS } from "libs/text";
 import { useBalance } from "modules/common";
@@ -21,7 +22,7 @@ import WalletOverlay from "components/pages/overlays/wallet";
 const WalletInfoPopover: FC = () => {
   const wallet = useConnectedWallet();
   const balance = useBalance("uusd");
-  const terraAddress = useAddress();
+  const terraAddress = useAddress() || "";
   const tnsName = useTNS(terraAddress);
 
   const offset: [number, number] | undefined = useBreakpointValue({

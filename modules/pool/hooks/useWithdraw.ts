@@ -8,6 +8,7 @@ import {
   TxErrorHandler,
 } from "modules/common";
 import { createWithdrawMsgs, useGetPool } from "modules/pool";
+import num from "libs/num";
 
 export type WithdrawState = {
   token1?: string;

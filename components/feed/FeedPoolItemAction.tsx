@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { chakra, Flex, HStack } from "@chakra-ui/react";
 import Link from "next/link";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { FeedPoolTypes, PoolFormType } from "types/common";
 
 import { ClaimAuctionRewardBtn, ClaimLockdropRewardBtn } from "modules/reward";

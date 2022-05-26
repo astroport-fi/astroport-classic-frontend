@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, num } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useContracts, useTransaction, TxErrorHandler } from "modules/common";
 import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
 import { useUserInfo as useAuctionUserInfo } from "modules/auction";
@@ -11,6 +11,7 @@ import {
   createLockdropRewardMsgs,
 } from "modules/reward";
 import useBreakdownRewardsToShow from "modules/reward/hooks/useBreakdownRewardsToShow";
+import num from "libs/num";
 
 type Params = {
   onBroadcasting?: (txHash: string) => void;

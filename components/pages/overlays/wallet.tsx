@@ -12,7 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import copy from "copy-to-clipboard";
-import { fromTerraAmount, num, useAddress } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 import { useWallet } from "@terra-money/wallet-provider";
 import { truncate } from "libs/text";
 import { useBalance, useTokenInfo } from "modules/common";
@@ -21,6 +21,8 @@ import useTNS from "hooks/useTNS";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import CopyIcon from "components/icons/CopyIcon";
 import ViewIcon from "components/icons/ViewIcon";
+import num from "libs/num";
+import useAddress from "hooks/useAddress";
 
 type Props = {
   onClose?: () => void;
@@ -31,7 +33,7 @@ const Wallet: FC<Props> = ({ onClose, type = "popover" }) => {
   const { getIcon, getSymbol } = useTokenInfo();
   const { disconnect } = useWallet();
   const toast = useToast();
-  const terraAddress = useAddress();
+  const terraAddress = useAddress() || "";
   const icon = getIcon("uusd");
   const symbol = getSymbol("uusd");
   const balance = useBalance("uusd");

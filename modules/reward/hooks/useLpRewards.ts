@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useContracts, useTokenInfo, useHive } from "modules/common";
+import num from "libs/num";
 
 const createQuery = (lps: any[], address: string, generator: string) => {
   if (lps.length === 0 || !address) {

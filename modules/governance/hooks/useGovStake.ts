@@ -1,11 +1,12 @@
 import { useMemo } from "react";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useContracts } from "modules/common";
 import {
   createAstroStakeMsgs,
   createAstroUnstakeMsg,
 } from "modules/governance";
 import { AstroFormType } from "types/common";
+import num from "libs/num";
 
 type StakeState = {
   msgs: any;

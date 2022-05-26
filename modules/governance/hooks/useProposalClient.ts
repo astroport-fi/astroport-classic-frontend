@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";

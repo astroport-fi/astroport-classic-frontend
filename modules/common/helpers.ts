@@ -1,5 +1,5 @@
 import { TxInfo } from "@terra-money/terra.js";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import numeral from "numeral";
 import { request } from "graphql-request";
 

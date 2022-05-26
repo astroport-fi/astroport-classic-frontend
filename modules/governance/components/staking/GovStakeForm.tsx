@@ -2,7 +2,6 @@ import React, { FC, useCallback, useEffect, useState, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEstimateFee } from "@arthuryeti/terra";
 import { AstroFormType } from "types/common";
 import {
   useContracts,
@@ -13,6 +12,7 @@ import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { useGovStake, useAstroMintRatio } from "modules/governance";
 import GovStakeFormInitial from "./GovStakeFormInitial";
 import FormLoading from "components/common/FormLoading";
+import useEstimateFee from "hooks/useEstimateFee";
 
 type FormValue = {
   amount: string;

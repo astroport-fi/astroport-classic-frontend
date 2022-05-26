@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute, useSwapSimulate } from "modules/swap";
 import num from "libs/num";

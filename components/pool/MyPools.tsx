@@ -1,6 +1,6 @@
 import React, { FC, useState, useMemo } from "react";
 import { Flex, Text, useMediaQuery } from "@chakra-ui/react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import useLocalStorage from "hooks/useLocalStorage";
 import { APR_TOOLTIP, MOBILE_MAX_WIDTH } from "constants/constants";
@@ -207,7 +207,7 @@ const Component: FC<{
 
 const MyPools: FC = () => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
-  const address = useAddress();
+  const address = useAddress() || "";
   const myPools = useAllPools().filter((pool) => pool.inUse);
   const [favoritesPools] = useLocalStorage("favoritesPools", []);
 

@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from "react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import { MOBILE_MAX_WIDTH } from "constants/constants";
@@ -198,7 +198,7 @@ const MyAuctionLockedPool = () => {
             </Text>
           </Card>
           <Component
-            address={address}
+            address={address || ""}
             pools={pools}
             txFeeNotEnough={notEnoughUSTToPayFees}
           />

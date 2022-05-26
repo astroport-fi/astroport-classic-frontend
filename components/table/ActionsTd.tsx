@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { Button, HStack } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import TOKEN_DENYLIST from "constants/tokenDenylist";
 
 type Props = {

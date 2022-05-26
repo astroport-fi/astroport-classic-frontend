@@ -15,10 +15,12 @@ import {
   requestInChunks,
   Pool,
 } from "modules/common";
+import useAddress from "hooks/useAddress";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { BLUNA_LUNA_PAIR_ADDR } from "constants/contracts";
 import { AllPoolsPool } from "types/common";
+import num from "libs/num";
 
 const createQuery = (pools: any, address: string, generator: string) => {
   return gql`

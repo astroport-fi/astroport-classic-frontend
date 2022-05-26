@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useWallet } from "@terra-money/wallet-provider";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { ASTRO_FORUM_LINK, MOBILE_MAX_WIDTH } from "constants/constants";
 import { useRouter } from "next/router";
 import useFinder from "hooks/useFinder";
@@ -28,6 +28,7 @@ import ProposalVoteStats from "components/proposal/VoteStats";
 import TimelineBar from "components/governance/TimelineBar";
 import { Proposal_History } from "types/common";
 import VotePower from "components/proposal/VotePower";
+import useAddress from "hooks/useAddress";
 
 const HistoryBox: FC<{ blocks: Proposal_History }> = ({ blocks }) => {
   return (
@@ -126,7 +127,7 @@ const DiscussionBox: FC<{ link: string }> = ({ link }) => {
 const GovProposalPage: FC<{ id: string }> = ({ id }) => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { status } = useWallet();
-  const address = useAddress();
+  const address = useAddress() || "";
   const router = useRouter();
   const { proposal, proposalExists } = useProposalApi(id);
   const proposalContract = useProposalClient(id);

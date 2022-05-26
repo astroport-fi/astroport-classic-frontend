@@ -2,8 +2,11 @@ import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-
-import { useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  TxStep,
+  useContracts,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";

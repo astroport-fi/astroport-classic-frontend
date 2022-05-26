@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { createUnlockMsgs } from "modules/lockdrop";
 import {
   useContracts,

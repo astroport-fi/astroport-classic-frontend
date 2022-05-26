@@ -8,7 +8,6 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useEstimateFee } from "@arthuryeti/terra";
 import { useTx } from "modules/common";
 import { useSwap } from "modules/swap";
 import { Coin, Coins } from "@terra-money/terra.js";
