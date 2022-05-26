@@ -147,8 +147,8 @@ describe("MyPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row1[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("42.00%");
-      expect(within(row1[3]).getByText("$ 200.00M")).toBeInTheDocument();
-      expect(within(row1[5]).getByText("$ 100,000.00")).toBeInTheDocument();
+      expect(within(row1[3]).getByText("200.00M UST")).toBeInTheDocument();
+      expect(within(row1[5]).getByText("100,000.00 UST")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
       expect(within(row2[1]).getByText("FOO - UST")).toBeInTheDocument();
@@ -157,8 +157,8 @@ describe("MyPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row2[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("50.00%");
-      expect(within(row2[3]).getByText("$ 1,000,000.00")).toBeInTheDocument();
-      expect(within(row2[5]).getByText("$ 1,000.00")).toBeInTheDocument();
+      expect(within(row2[3]).getByText("1,000,000.00 UST")).toBeInTheDocument();
+      expect(within(row2[5]).getByText("1,000.00 UST")).toBeInTheDocument();
 
       const row3 = within(rows[3]).getAllByRole("cell");
       expect(within(row3[1]).getByText("FOO - LUNA")).toBeInTheDocument();
@@ -167,8 +167,8 @@ describe("MyPools", () => {
         // eslint-disable-next-line testing-library/no-node-access
         row3[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("12.30%");
-      expect(within(row3[3]).getByText("$ 100.00M")).toBeInTheDocument();
-      expect(within(row3[5]).getByText("$ 42.00")).toBeInTheDocument();
+      expect(within(row3[3]).getByText("100.00M UST")).toBeInTheDocument();
+      expect(within(row3[5]).getByText("42.00 UST")).toBeInTheDocument();
 
       // Pools user is not participating in should not be displayed
       expect(screen.queryByText("BAR")).not.toBeInTheDocument();

@@ -63,7 +63,7 @@ jest.mock("modules/reward", () => ({
 // Stub entire RewardsTd component to render static rewards amount for all pools
 jest.mock("components/table/RewardsTd", () => ({
   __esModule: true,
-  default: () => <div>$ 42.42</div>,
+  default: () => <div>42.42 UST</div>,
 }));
 
 const mockPool = (
@@ -161,19 +161,19 @@ describe("MyAuctionLockedPool", () => {
       const row1 = within(rows[1]).getAllByRole("cell");
       expect(within(row1[0]).getByText("FOO - UST")).toBeInTheDocument();
       expect(within(row1[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row1[1]).getByText("$ 1,000,000.00")).toBeInTheDocument();
-      expect(within(row1[2]).getByText("$ 1,000.00")).toBeInTheDocument();
-      expect(within(row1[3]).getByText("$ 1,000.00")).toBeInTheDocument();
-      expect(within(row1[4]).getByText("$ 42.42")).toBeInTheDocument();
+      expect(within(row1[1]).getByText("1,000,000.00 UST")).toBeInTheDocument();
+      expect(within(row1[2]).getByText("1,000.00 UST")).toBeInTheDocument();
+      expect(within(row1[3]).getByText("1,000.00 UST")).toBeInTheDocument();
+      expect(within(row1[4]).getByText("42.42 UST")).toBeInTheDocument();
       expect(within(row1[5]).getByText("Jan/17/22")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
       expect(within(row2[0]).getByText("ASTRO - UST")).toBeInTheDocument();
       expect(within(row2[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row2[1]).getByText("$ 100.00M")).toBeInTheDocument();
-      expect(within(row2[2]).getByText("$ 10,000.00")).toBeInTheDocument();
-      expect(within(row2[3]).getByText("$ 0.00")).toBeInTheDocument();
-      expect(within(row2[4]).getByText("$ 42.42")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("100.00M UST")).toBeInTheDocument();
+      expect(within(row2[2]).getByText("10,000.00 UST")).toBeInTheDocument();
+      expect(within(row2[3]).getByText("0.00 UST")).toBeInTheDocument();
+      expect(within(row2[4]).getByText("42.42 UST")).toBeInTheDocument();
       expect(within(row2[5]).getByText("Sep/01/22")).toBeInTheDocument();
     });
 
