@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { num, useAddress } from "@arthuryeti/terra";
 import { gql } from "graphql-request";
 import { sortBy } from "lodash";
-import dayjs from "dayjs";
 
 import { ONE_TOKEN } from "constants/constants";
 import {
@@ -97,7 +96,6 @@ export const useAstroPools = () => {
   const lunaPrice = useLunaPriceInUst();
   const userInfo = useUserInfoWithList();
   const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");
-  const currentTimestamp = dayjs().unix();
   const { getSymbol } = useTokenInfo();
 
   const firstQuery = createFirstQuery({
