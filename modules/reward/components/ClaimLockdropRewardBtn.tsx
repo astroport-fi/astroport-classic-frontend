@@ -10,12 +10,32 @@ type Props = {
   contract: string;
   duration: number;
   txFeeNotEnough?: boolean;
+  style?: "mobile" | "desktop";
+};
+
+const StyleProps = (style: "mobile" | "desktop") => {
+  if (style === "desktop") {
+    return { variant: "primary", size: "sm", flex: "1" };
+  } else {
+    return {
+      variant: "simple",
+      fontWeight: "500",
+      fontSize: ".875rem",
+      color: "brand.purpleAlt",
+      textDecoration: "underline",
+      flex: "1",
+      _hover: { color: "brand.purpleAlt" },
+      _focus: { color: "brand.purpleAlt" },
+      _active: { color: "brand.purpleAlt" },
+    };
+  }
 };
 
 const ClaimLockdropRewardBtn: FC<Props> = ({
   contract,
   duration,
   txFeeNotEnough,
+  style = "desktop",
 }) => {
   const { msgs } = useClaimLockdropReward({
     contract,
@@ -43,9 +63,7 @@ const ClaimLockdropRewardBtn: FC<Props> = ({
 
   return (
     <Button
-      size="sm"
-      variant="primary"
-      flex="1"
+      {...StyleProps(style)}
       onClick={handleClick}
       isDisabled={fee == null || !!txFeeNotEnough}
     >

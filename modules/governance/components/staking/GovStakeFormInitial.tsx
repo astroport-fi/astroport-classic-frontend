@@ -67,7 +67,7 @@ const GovStakeFormInitial: FC<Props> = ({
       </FormActions>
 
       <Stack direction="column" space={2}>
-        <Card py={5} px={12}>
+        <Card py={5} px={[8, 8, 12]}>
           <Text textStyle="small" variant="secondary">
             {type == AstroFormType.Stake && "Stake ASTRO to receive xASTRO."}
             {type == AstroFormType.Unstake &&

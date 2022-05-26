@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Flex, Box } from "@chakra-ui/react";
+import { Text, Flex, Box, useMediaQuery } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import num from "libs/num";
 
@@ -10,7 +10,7 @@ import {
 } from "modules/generator";
 import { FormActions, FormActionItem } from "modules/common";
 import { PoolFormType } from "types/common";
-import { ONE_TOKEN } from "constants/constants";
+import { ONE_TOKEN, MOBILE_MAX_WIDTH } from "constants/constants";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
@@ -35,6 +35,7 @@ const UnstakeLpFormInitial = ({
   txFeeNotEnough,
   onClick,
 }: Params) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { control, watch, setValue } = useFormContext();
 
   const token = watch("token");
@@ -63,27 +64,28 @@ const UnstakeLpFormInitial = ({
         />
       </FormActions>
 
-      <Card mb="2">
-        <Text textStyle="small" variant="secondary">
-          Unstake your LP tokens below. Any ASTRO rewards accrued can be claimed
-          in your rewards center. If you unstake all of your LP tokens, you stop
-          receiving ASTRO and potential third party rewards.
-        </Text>
-      </Card>
-
-      <Card>
-        <Flex>
-          <Box flex="1">
+      <Card {...(isMobile && { px: "4", py: "4" })}>
+        <Flex {...(isMobile && { borderRadius: "2xl", overflow: "hidden" })}>
+          <Box
+            flex="1"
+            {...(isMobile && { width: "50%", overflow: "hidden" })}
+            {...(!isMobile && { pr: "8" })}
+          >
             <Controller
               name="token"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TokenInput {...field} isLpToken isSingle />
+                <TokenInput
+                  isSingle
+                  isMobile={!!isMobile}
+                  isLpToken
+                  {...field}
+                />
               )}
             />
           </Box>
-          <Box flex="1" pl="8">
+          <Box flex="1" {...(isMobile && { width: "50%", overflow: "hidden" })}>
             <Controller
               name="amount"
               control={control}
@@ -93,6 +95,7 @@ const UnstakeLpFormInitial = ({
                   asset={token}
                   balance={stakedAmount}
                   isLpToken
+                  isMobile={!!isMobile}
                   {...field}
                 />
               )}

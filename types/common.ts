@@ -1,3 +1,5 @@
+import { Asset } from "modules/common";
+
 export type CW20Addr = string;
 
 export type StableDenom = string;
@@ -51,6 +53,81 @@ export enum ProvideFormMode {
   Single = 0,
   Double = 1,
 }
+
+// Pools
+export type FeedPoolTypes =
+  | "mypools"
+  | "otherpools"
+  | "lockedpools"
+  | "auctionpools";
+
+export type AllPoolsPool = {
+  inUse: boolean;
+  favorite: boolean;
+  contract: string;
+  assets: (string | undefined)[];
+  poolAssets: Asset[];
+  sortingAssets: string[];
+  pairType: any;
+  totalLiquidity: number;
+  totalLiquidityInUst: number;
+  myLiquidity: number;
+  myLiquidityInUst: number;
+  _24hr_volume: number;
+  rewards: {
+    pool: number;
+    astro: number;
+    protocol: number;
+    total: number;
+    apy: number;
+    token_symbol: string;
+  };
+  canManage: boolean;
+  canStake: boolean;
+  isStakable: boolean;
+};
+
+export type AuctionPoolsPool = {
+  name: string;
+  contract: string;
+  assets: (string | undefined)[];
+  poolAssets: any;
+  sortingAssets: string[];
+  pairType: any;
+  totalLiquidity: number;
+  totalLiquidityInUst: number;
+  myLiquidity: number;
+  myLiquidityInUst: number;
+  myUnlockableLiquidity: number;
+  myUnlockableLiquidityInUst: number;
+  isClaimable: boolean;
+  isClaimed: boolean;
+  amount: string;
+  lockEnd: any;
+  rewards: { token: string; amount: number }[];
+};
+
+export type AstroPoolsPool = {
+  name: string;
+  astroLpToken: string;
+  assets: (string | undefined)[];
+  poolAssets: Asset[];
+  sortingAssets: string[];
+  pairType: any;
+  totalLiquidity: number;
+  totalLiquidityInUst: number;
+  myLiquidity: number;
+  myLiquidityInUst: number;
+  lockEnd: any;
+  isClaimable: boolean;
+  isClaimed: boolean;
+  duration: any;
+  rewards: { token: string; amount: number }[];
+};
+
+export type PoolWithUserState = AllPoolsPool & {
+  userCanProvideLiquidity: boolean;
+};
 
 // Governance interface and types
 export interface Proposal {

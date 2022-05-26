@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
-import { Grid, Box, Flex, Text, Input } from "@chakra-ui/react";
+import { Grid, Box, Flex, Text, Input, useMediaQuery } from "@chakra-ui/react";
 import ReactPaginate from "react-paginate";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import ArrowLeft from "components/icons/ArrowLeft";
 import ArrowRight from "components/icons/ArrowRight";
 import Card from "components/governance/Card";
 import { Proposal } from "types/common";
 import { useConfig } from "modules/governance";
+
+import FeedProposal from "components/feed/FeedProposal";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -13,13 +16,22 @@ type Props = {
   proposals: Proposal[];
 };
 
-const GovProposalDash: FC<Props> = ({ proposals }) => {
+const MobileComponent: FC<{
+  proposals: Proposal[];
+  quorum: string | undefined;
+}> = ({ proposals, quorum }) => {
+  return <FeedProposal proposals={proposals} quorum={quorum} />;
+};
+
+const Component: FC<{ proposals: Proposal[]; quorum: string | undefined }> = ({
+  proposals,
+  quorum,
+}) => {
   const [currentItems, setCurrentItems] = useState<Proposal[]>([]);
   const [pageCount, setPageCount] = useState(1);
   const [itemOffset, setItemOffset] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [inputPageNum, setInputPageNum] = useState<number | string>("");
-  const quorum = useConfig()?.proposal_required_quorum;
 
   useEffect(() => {
     const endOffset = itemOffset + ITEMS_PER_PAGE;
@@ -135,6 +147,17 @@ const GovProposalDash: FC<Props> = ({ proposals }) => {
         </Flex>
       </Flex>
     </>
+  );
+};
+
+const GovProposalDash: FC<Props> = ({ proposals }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
+  const quorum = useConfig()?.proposal_required_quorum;
+
+  return isMobile ? (
+    <MobileComponent proposals={proposals} quorum={quorum} />
+  ) : (
+    <Component proposals={proposals} quorum={quorum} />
   );
 };
 

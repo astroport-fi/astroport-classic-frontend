@@ -5,11 +5,10 @@ import { Container, Box } from "@chakra-ui/react";
 
 import MyLockedPools from "components/MyLockedPools";
 import MyAuctionLockedPool from "components/MyAuctionLockedPool";
-import HideOnMobile from "components/common/HideOnMobile";
 
 const LockedLiquidityPage: NextPage = () => {
   return (
-    <HideOnMobile>
+    <>
       <Head>
         <title>Astroport</title>
       </Head>
@@ -22,7 +21,7 @@ const LockedLiquidityPage: NextPage = () => {
           <MyAuctionLockedPool />
         </Box>
       </Container>
-    </HideOnMobile>
+    </>
   );
 };
 

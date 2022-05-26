@@ -1,3 +1,5 @@
+const MOBILE_BUTTON_PROPS = { _hover: false, _focus: false, _active: false };
+
 const button = {
   sizes: {
     md: {
@@ -9,45 +11,61 @@ const button = {
     },
   },
   variants: {
-    primary: {
-      outline: "none",
-      borderRadius: "full",
-      fontWeight: "500",
-      bg: "brand.purple",
-      color: "white",
-      px: "10",
-      py: "2",
-      _hover: {
-        bg: "white",
-        color: "brand.purple",
-        _disabled: {
-          bg: "brand.purple",
-          color: "white",
-        },
-      },
-      _focus: {
-        boxShadow: "none",
-      },
-    },
-    primarywhite: {
-      outline: "none",
-      borderRadius: "full",
-      fontWeight: "500",
-      bg: "white",
-      color: "brand.purple",
-      px: "10",
-      py: "2",
-      _hover: {
+    primary: ({ isMobile = false }: { isMobile?: boolean }) => {
+      const extendedProps = isMobile
+        ? MOBILE_BUTTON_PROPS
+        : {
+            _hover: {
+              bg: "white",
+              color: "brand.purple",
+              _disabled: {
+                bg: "brand.purple",
+                color: "white",
+              },
+            },
+            _focus: {
+              boxShadow: "none",
+            },
+          };
+
+      return {
+        outline: "none",
+        borderRadius: "full",
+        fontWeight: "500",
         bg: "brand.purple",
         color: "white",
-        _disabled: {
-          bg: "white",
-          color: "brand.purple",
-        },
-      },
-      _focus: {
-        boxShadow: "none",
-      },
+        px: "10",
+        py: "2",
+        ...extendedProps,
+      };
+    },
+    primarywhite: ({ isMobile = false }: { isMobile?: boolean }) => {
+      const extendedProps = isMobile
+        ? MOBILE_BUTTON_PROPS
+        : {
+            _hover: {
+              bg: "brand.purple",
+              color: "white",
+              _disabled: {
+                bg: "white",
+                color: "brand.purple",
+              },
+            },
+            _focus: {
+              boxShadow: "none",
+            },
+          };
+
+      return {
+        outline: "none",
+        borderRadius: "full",
+        fontWeight: "500",
+        bg: "white",
+        color: "brand.purple",
+        px: "10",
+        py: "2",
+        ...extendedProps,
+      };
     },
     votegreen: {
       outline: "none",
@@ -140,7 +158,7 @@ const button = {
       bg: "white.100",
       fontSize: "0.65rem",
       borderRadius: "4px",
-      minWidht: "16",
+      minWidth: "16",
       py: "1.5",
       h: "7",
       px: "2.5",
@@ -148,6 +166,29 @@ const button = {
       letterSpacing: "0.15rem",
       textTransform: "uppercase",
       fontWeight: "bold",
+      _hover: {
+        bg: "brand.purple",
+        color: "white",
+      },
+      _focus: {
+        boxShadow: "none",
+      },
+      _active: {
+        bg: "brand.purple",
+        color: "white",
+      },
+    },
+    filtermobile: {
+      outline: "none",
+      color: "white.600",
+      bg: "white.100",
+      fontSize: "1rem",
+      borderRadius: "4px",
+      minWidth: "16",
+      py: "1.5",
+      h: "10",
+      px: "2.5",
+      fontWeight: "400",
       _hover: {
         bg: "brand.purple",
         color: "white",

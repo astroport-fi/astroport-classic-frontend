@@ -29,14 +29,23 @@ const ButtonStyle = {
   mb: "4",
 };
 
-const getIconImg = (identifier: string, icon: string) => {
+const getIconImg = (identifier: string | undefined, icon: string) => {
   if (identifier === "station") {
     return <TerraExtensionIcon />;
   } else if (identifier == "xdefi-wallet") {
     return <XDefiIcon />;
   }
 
-  return <Image src={icon} htmlWidth="24" alt="" />;
+  return (
+    <Image
+      bg="white"
+      borderRadius="full"
+      p="1"
+      src={icon}
+      htmlWidth="24"
+      alt=""
+    />
+  );
 };
 
 const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
@@ -123,8 +132,7 @@ const ConnectWalletModal: FC<Props> = ({ isOpen, onClose }) => {
             >
               <HStack justify="space-between">
                 <Text>{wallet.name}</Text>
-                {wallet.identifier &&
-                  getIconImg(wallet.identifier, wallet.icon)}
+                {getIconImg(wallet.identifier, wallet.icon)}
               </HStack>
             </chakra.button>
           );

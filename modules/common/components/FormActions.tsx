@@ -1,5 +1,12 @@
 import React, { FC, ReactNode } from "react";
-import { Box, Flex, StackDivider, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  StackDivider,
+  HStack,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 
 import BackButton from "components/BackButton";
 
@@ -8,7 +15,13 @@ type Props = {
 };
 
 const FormActions: FC<Props> = ({ children }) => {
-  return (
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
+
+  return isMobile ? (
+    <HStack spacing={4} mb={4}>
+      {children}
+    </HStack>
+  ) : (
     <Flex justify="space-between" color="white" mb="6" px="6">
       <Box flex="1">
         <HStack spacing={4}>

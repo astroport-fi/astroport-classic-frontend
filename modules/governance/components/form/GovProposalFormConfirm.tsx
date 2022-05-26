@@ -26,7 +26,7 @@ const GovProposalFormConfirm: FC<Props> = ({
 
   return (
     <FormConfirm
-      maxW="540px"
+      //maxW="540px"
       fee={fee}
       title="Submit Proposal"
       titleLarge={true}

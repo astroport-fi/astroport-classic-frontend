@@ -1,12 +1,15 @@
-import React, { FC, ReactNode, useCallback, useMemo } from "react";
-import num from "libs/num";
-import { Box } from "@chakra-ui/react";
+import React, { FC, ReactNode, useCallback, useMemo, useState } from "react";
+import { num } from "@arthuryeti/terra";
+import { useMediaQuery, Box, Text, Flex } from "@chakra-ui/react";
 import { defaultOrderByFn, Row, SortByFn } from "react-table";
 import useLocalStorage from "hooks/useLocalStorage";
-import { APR_TOOLTIP } from "constants/constants";
-import { useAllPools, AllPoolsPool, usePoolTable } from "modules/pool";
-import { useBalances } from "modules/common";
+import { APR_TOOLTIP, MOBILE_MAX_WIDTH } from "constants/constants";
+import { PoolWithUserState } from "types/common";
+import { useAllPools, usePoolTable } from "modules/pool";
+import { partition, useBalances, searchTokenAdddres } from "modules/common";
 import Card from "components/Card";
+import CardMobile from "components/CardMobile";
+import Search from "components/common/Search";
 import PoolNameTd from "components/table/PoolNameTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import ActionsTd from "components/table/ActionsTd";
@@ -17,9 +20,7 @@ import PoolTr from "components/table/PoolTr";
 import Tr from "components/Tr";
 import Td from "components/Td";
 
-type PoolWithUserState = AllPoolsPool & {
-  userCanProvideLiquidity: boolean;
-};
+import { PoolFeed } from "components/feed";
 
 const uniqueTokens = (pools: any) => {
   const tokens = new Set<string>();
@@ -32,30 +33,95 @@ const uniqueTokens = (pools: any) => {
   return Array.from(tokens);
 };
 
-const OtherPools: FC = () => {
-  const allPools = useAllPools();
-  const notInUsePools = useMemo(
-    () => allPools.filter((pool) => !pool.inUse),
-    [allPools]
+const sortByFavTotalLiqudityFn = (a: any, b: any): any => {
+  if (a.favorite == b.favorite) {
+    return b.totalLiquidityInUst - a.totalLiquidityInUst;
+  } else {
+    if (a.favorite) {
+      return -1;
+    } else if (b.favorite) {
+      return 1;
+    }
+  }
+};
+
+const MobileComponent: FC<{ pools: PoolWithUserState[] }> = ({ pools }) => {
+  const [poolLiquid, poolNoLiquid] = partition(
+    pools,
+    (pool: any) => pool.userCanProvideLiquidity
   );
-  const [favoritesPools] = useLocalStorage("favoritesPools", []);
+  const poolLiquidSorted = poolLiquid.sort(sortByFavTotalLiqudityFn);
+  const poolNoLiquidSorted = poolNoLiquid.sort(sortByFavTotalLiqudityFn);
+  const [filter, setFilter] = useState("");
+  const [filteredLiquidPools, setFilteredLiquidPools] = useState<
+    PoolWithUserState[]
+  >([]);
+  const [filteredNoLiquidPools, setFilteredNoLiquidPools] = useState<
+    PoolWithUserState[]
+  >([]);
+  const initialFocusRef = React.useRef();
 
-  const tokens = uniqueTokens(allPools);
-  const balances = useBalances(tokens);
+  // if both pools have results, show asset msg
+  const showAssetMsg =
+    (filter.length == 0 &&
+      poolLiquidSorted.length > 0 &&
+      poolNoLiquidSorted.length > 0) ||
+    (filter.length > 0 &&
+      filteredLiquidPools.length > 0 &&
+      filteredNoLiquidPools.length > 0);
 
-  const poolsWithUserState: PoolWithUserState[] = useMemo(() => {
-    return notInUsePools.map((pool) => {
-      const [token1, token2] = pool.assets;
+  const searchPools = (searchTerm: string) => {
+    setFilteredLiquidPools(searchTokenAdddres(searchTerm, poolLiquidSorted));
+    setFilteredNoLiquidPools(
+      searchTokenAdddres(searchTerm, poolNoLiquidSorted)
+    );
+    setFilter(searchTerm);
+  };
 
-      return {
-        ...pool,
-        userCanProvideLiquidity:
-          num(balances[token1 || ""]).gt(0) &&
-          num(balances[token2 || ""]).gt(0),
-      };
-    });
-  }, [notInUsePools, balances]);
+  return (
+    <>
+      <Flex mb="4">
+        <Search
+          color="white"
+          iconStyle={{ color: "white" }}
+          borderColor="brand.deepBlue"
+          placeholder="Search Token"
+          onChange={(e) => searchPools(e.target.value)}
+          variant="search"
+          // @ts-ignore
+          ref={initialFocusRef}
+        />
+      </Flex>
+      {filter.length > 0 &&
+        filteredLiquidPools.length == 0 &&
+        filteredNoLiquidPools.length == 0 && (
+          <CardMobile>
+            <Text color="white.500" fontSize="sm">
+              No search results.
+            </Text>
+          </CardMobile>
+        )}
+      <PoolFeed
+        type="otherpools"
+        pools={filter.length > 0 ? filteredLiquidPools : poolLiquidSorted}
+      />
+      {showAssetMsg && (
+        <Text textAlign="center" pt="25px" pb="45px" color="white.600">
+          Assets not in my wallet
+        </Text>
+      )}
+      <PoolFeed
+        type="otherpools"
+        pools={filter.length > 0 ? filteredNoLiquidPools : poolNoLiquidSorted}
+      />
+    </>
+  );
+};
 
+const Component: FC<{ pools: PoolWithUserState[]; favoritesPools: any[] }> = ({
+  pools,
+  favoritesPools,
+}) => {
   const columns = useMemo(
     () => [
       {
@@ -139,60 +205,55 @@ const OtherPools: FC = () => {
     [favoritesPools]
   );
 
-  const tableInstance = usePoolTable(
-    columns,
-    poolsWithUserState,
-    "totalLiquidityInUst",
-    {
-      initialState: {
-        hiddenColumns: ["userCanProvideLiquidity"],
-      },
-      orderByFn: useCallback(
-        (
-          rows: Row<object>[],
-          sortFns: SortByFn<object>[],
-          directions: boolean[]
-        ) => {
-          // userCanProvideLiquidity sort function, sorts false -> true
-          const canProvideLiquiditySort = (a: any, b: any) =>
-            a.original.userCanProvideLiquidity ===
-            b.original.userCanProvideLiquidity
-              ? 0
-              : a.original.userCanProvideLiquidity
-              ? -1
-              : 1;
+  const tableInstance = usePoolTable(columns, pools, "totalLiquidityInUst", {
+    initialState: {
+      hiddenColumns: ["userCanProvideLiquidity"],
+    },
+    orderByFn: useCallback(
+      (
+        rows: Row<object>[],
+        sortFns: SortByFn<object>[],
+        directions: boolean[]
+      ) => {
+        // userCanProvideLiquidity sort function, sorts false -> true
+        const canProvideLiquiditySort = (a: any, b: any) =>
+          a.original.userCanProvideLiquidity ===
+          b.original.userCanProvideLiquidity
+            ? 0
+            : a.original.userCanProvideLiquidity
+            ? -1
+            : 1;
 
-          // Always sort by userCanProvideLiquidity first (true -> false)
-          return defaultOrderByFn(
-            rows,
-            [canProvideLiquiditySort, ...sortFns],
-            [true, ...directions]
-          );
-        },
-        []
-      ),
-      stateReducer: (newState) => {
-        if (newState.sortBy.length > 0) {
-          return newState;
-        } else {
-          // Sort by favorite when all sort options are removed.
-          // It's important that we have at least one sortBy
-          // at all times, otherwise the rows are not ordered with the orderByFn
-          // (https://github.com/TanStack/react-table/blob/v7/src/plugin-hooks/useSortBy.js#L273)
-          // and pools the user can provide liquidity into will not be sorted to the top.
-          return {
-            ...newState,
-            sortBy: [
-              {
-                id: "favorite",
-                desc: true,
-              },
-            ],
-          };
-        }
+        // Always sort by userCanProvideLiquidity first (true -> false)
+        return defaultOrderByFn(
+          rows,
+          [canProvideLiquiditySort, ...sortFns],
+          [true, ...directions]
+        );
       },
-    }
-  );
+      []
+    ),
+    stateReducer: (newState) => {
+      if (newState.sortBy.length > 0) {
+        return newState;
+      } else {
+        // Sort by favorite when all sort options are removed.
+        // It's important that we have at least one sortBy
+        // at all times, otherwise the rows are not ordered with the orderByFn
+        // (https://github.com/TanStack/react-table/blob/v7/src/plugin-hooks/useSortBy.js#L273)
+        // and pools the user can provide liquidity into will not be sorted to the top.
+        return {
+          ...newState,
+          sortBy: [
+            {
+              id: "favorite",
+              desc: true,
+            },
+          ],
+        };
+      }
+    },
+  });
 
   const { getTableBodyProps, rows, page, prepareRow } = tableInstance;
 
@@ -246,6 +307,38 @@ const OtherPools: FC = () => {
         </Box>
       </PoolTableWrapper>
     </Card>
+  );
+};
+
+const OtherPools: FC = () => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
+  const allPools = useAllPools();
+  const notInUsePools = useMemo(
+    () => allPools.filter((pool) => !pool.inUse),
+    [allPools]
+  );
+  const [favoritesPools] = useLocalStorage("favoritesPools", []);
+
+  const tokens = uniqueTokens(allPools);
+  const balances = useBalances(tokens);
+
+  const poolsWithUserState: PoolWithUserState[] = useMemo(() => {
+    return notInUsePools.map((pool) => {
+      const [token1, token2] = pool.assets;
+
+      return {
+        ...pool,
+        userCanProvideLiquidity:
+          num(balances[token1 || ""]).gt(0) &&
+          num(balances[token2 || ""]).gt(0),
+      };
+    });
+  }, [notInUsePools, balances]);
+
+  return isMobile ? (
+    <MobileComponent pools={poolsWithUserState} />
+  ) : (
+    <Component pools={poolsWithUserState} favoritesPools={favoritesPools} />
   );
 };
 

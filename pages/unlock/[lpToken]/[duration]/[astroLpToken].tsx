@@ -2,7 +2,6 @@ import React from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Flex } from "@chakra-ui/react";
 
 import Unlock from "components/pages/Unlock";
 
@@ -21,13 +20,11 @@ const UnlockPage: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <Flex>
-        <Unlock
-          lpToken={lpToken}
-          duration={parseFloat(duration)}
-          astroLpToken={astroLpToken}
-        />
-      </Flex>
+      <Unlock
+        lpToken={lpToken}
+        duration={parseFloat(duration)}
+        astroLpToken={astroLpToken}
+      />
     </>
   );
 };

@@ -1,12 +1,20 @@
 import React from "react";
-import { Text, Flex, Box, ListItem, UnorderedList } from "@chakra-ui/react";
+import {
+  Text,
+  Flex,
+  Box,
+  ListItem,
+  UnorderedList,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { useFormContext, Controller } from "react-hook-form";
 
 import { UnlockState } from "modules/lockdrop";
 
 import Card from "components/Card";
 import TokenInput from "components/TokenInput";
-import NewAmountInput from "components/NewAmountInput";
+import NewAmountInput, { Balance } from "components/NewAmountInput";
 import UnlockFormFooter from "components/lockdrop/unlock/UnlockFormFooter";
 import WarningMessage from "components/common/WarningMessage";
 
@@ -25,19 +33,21 @@ const UnlockFormInitial = ({
   duration,
   onClick,
 }: Params) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { control, watch } = useFormContext();
-
   const { token, amount } = watch();
 
   return (
     <>
-      <Flex justify="space-between" color="white" mb="4" px="6">
-        <Box flex="1">
-          <Text fontSize="xl" color="white">
-            Unlock LP Tokens
-          </Text>
-        </Box>
-      </Flex>
+      {!isMobile && (
+        <Flex justify="space-between" color="white" mb="4" px="6">
+          <Box flex="1">
+            <Text fontSize="xl" color="white">
+              Unlock LP Tokens
+            </Text>
+          </Box>
+        </Flex>
+      )}
 
       <Card mb="2">
         <Text fontSize="xs" color="white.500">
@@ -54,19 +64,28 @@ const UnlockFormInitial = ({
         </Text>
       </Card>
 
-      <Card>
-        <Flex>
-          <Box flex="1" pr="8">
+      <Card {...(isMobile && { px: "4", py: "4" })}>
+        <Flex {...(isMobile && { borderRadius: "2xl", overflow: "hidden" })}>
+          <Box
+            flex="1"
+            {...(isMobile && { width: "50%", overflow: "hidden" })}
+            {...(!isMobile && { pr: "8" })}
+          >
             <Controller
               name="token"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TokenInput isSingle isLpToken {...field} />
+                <TokenInput
+                  isSingle
+                  isLpToken
+                  isMobile={!!isMobile}
+                  {...field}
+                />
               )}
             />
           </Box>
-          <Box flex="1">
+          <Box flex="1" {...(isMobile && { width: "50%", overflow: "hidden" })}>
             <Controller
               name="amount"
               control={control}
@@ -80,11 +99,22 @@ const UnlockFormInitial = ({
                   hideMaxButton
                   hideBalanceLabel
                   isDisabled
+                  isMobile={!!isMobile}
                 />
               )}
             />
           </Box>
         </Flex>
+        {isMobile && (
+          <Controller
+            name="amount"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Balance asset={token} isMobile={isMobile} {...field} />
+            )}
+          />
+        )}
       </Card>
 
       {state.error && (

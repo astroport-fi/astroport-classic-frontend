@@ -2,15 +2,20 @@ import React from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 import {
   Box,
-  HStack,
+  Grid,
   Text,
   Button,
   Flex,
   Divider,
   Heading,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { fromTerraAmount, num } from "@arthuryeti/terra";
-import { ASTRO_DISCORD_LINK, ASTRO_FORUM_LINK } from "constants/constants";
+import {
+  ASTRO_DISCORD_LINK,
+  ASTRO_FORUM_LINK,
+  MOBILE_MAX_WIDTH,
+} from "constants/constants";
 import SummaryCard from "components/SummaryCard";
 import Card from "components/Card";
 import { NextLink, handleBigPercentage } from "modules/common";
@@ -26,6 +31,7 @@ import {
 } from "modules/governance";
 
 const GovPageStake = () => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const {
     astroBalance,
     xAstroBalance,
@@ -78,30 +84,39 @@ const GovPageStake = () => {
   ];
 
   return (
-    <Box mt="24" color="white">
-      <Heading px="2" mb="6" fontSize="xl">
-        My ASTRO
-      </Heading>
+    <>
+      <Box px={["1", null, "6"]} mb="4" mt={["4", null, "12"]}>
+        <Heading fontSize="xl">My ASTRO</Heading>
+      </Box>
 
       <SummaryCard data={data} />
 
-      <HStack spacing={8} mt="12" align="stretch">
+      <Grid
+        mt="12"
+        templateColumns={["auto", "auto", "auto", "repeat(2, 1fr)"]}
+        gap={8}
+      >
         <Card
+          order={["2", "2", "2", "1"]}
           flex={1}
           display="flex"
           flexDir="column"
           justifyContent="center"
-          alignItems="start"
         >
-          <Text textStyle="h3">Get Involved</Text>
+          <Text textStyle={["lg", "lg", "h3"]}>Get Involved</Text>
           <Text textStyle="small" variant="secondary" mt="4" mb="6">
             Stake ASTRO for xASTRO in order to receive a % of Astroport smart
             contract fees.
             <br />
+            {isMobile && <br />}
             To learn more about Astroport, join the community on Discord or on
             the Forum.
           </Text>
-          <Flex>
+          <Flex
+            flexDirection={isMobile ? "column" : "row"}
+            gap={isMobile ? "6" : "0"}
+            justify="space-between"
+          >
             <Button
               as="a"
               variant="primary"
@@ -112,7 +127,6 @@ const GovPageStake = () => {
               Join Discord
             </Button>
             <Button
-              ml="5"
               as="a"
               variant="primary"
               href={ASTRO_FORUM_LINK}
@@ -123,7 +137,13 @@ const GovPageStake = () => {
             </Button>
           </Flex>
         </Card>
-        <Card flex={1} display="flex" flexDir="column" justifyContent="center">
+        <Card
+          order={["1", "1", "1", "2"]}
+          flex={1}
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+        >
           <Flex justify="space-between">
             <Box>
               <Text textStyle="h3">
@@ -145,7 +165,11 @@ const GovPageStake = () => {
 
           <Divider bg="white.200" my="8" />
 
-          <Flex justify="space-between">
+          <Flex
+            flexDirection={isMobile ? "column" : "row"}
+            gap={isMobile ? "6" : "0"}
+            justify="space-between"
+          >
             <NextLink
               href="/governance/stake"
               passHref
@@ -184,8 +208,8 @@ const GovPageStake = () => {
             </NextLink>
           </Flex>
         </Card>
-      </HStack>
-    </Box>
+      </Grid>
+    </>
   );
 };
 

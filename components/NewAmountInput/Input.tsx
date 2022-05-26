@@ -20,6 +20,7 @@ type Props = {
   clampValueOnBlur?: boolean | undefined;
   hidePrice?: boolean;
   isLpToken?: boolean;
+  isMobile?: boolean;
   price?: number | undefined;
 };
 
@@ -34,6 +35,7 @@ const Input: FC<Props> = ({
   isDisabled,
   hidePrice = false,
   isLpToken = false,
+  isMobile = false,
   price,
 }) => {
   const renderPrice = () => {
@@ -77,6 +79,11 @@ const Input: FC<Props> = ({
           data-lpignore="true"
           placeholder="0.0"
           pt={hidePrice ? 4 : 0}
+          {...(isMobile && {
+            borderRadius: "none",
+            border: "none",
+            fontSize: "md",
+          })}
         />
         {renderPrice()}
         {isLoading && (

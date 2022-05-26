@@ -7,6 +7,7 @@ type Props = {
   tokens?: string[];
   isLpToken?: boolean;
   isSingle?: boolean;
+  isMobile?: boolean;
   hidePrice?: boolean;
   onChange: any;
   value: string;
@@ -15,7 +16,16 @@ type Props = {
 
 const Field: FC<Props> = forwardRef(
   (
-    { value, onChange, isSingle, hidePrice, isLpToken, tokens, priceSource },
+    {
+      value,
+      onChange,
+      isSingle,
+      isMobile = false,
+      hidePrice,
+      isLpToken,
+      tokens,
+      priceSource,
+    },
     ref
   ) => {
     const { tokens: allTokens } = useAstroswap();
@@ -27,11 +37,12 @@ const Field: FC<Props> = forwardRef(
 
     const renderSingle = () => {
       if (isLpToken) {
-        return <SingleLP asset={value} />;
+        return <SingleLP isMobile={isMobile} asset={value} />;
       }
 
       return (
         <Single
+          isMobile={isMobile}
           asset={value}
           hidePrice={!!hidePrice}
           priceSource={priceSource}

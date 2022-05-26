@@ -15,6 +15,7 @@ type Props = {
   hideLabel?: boolean;
   hideButton?: boolean;
   isDisabled?: boolean;
+  isMobile?: boolean;
   onChange: (value: string | number) => void;
 };
 
@@ -26,6 +27,7 @@ const Balance: FC<Props> = ({
   hideLabel = false,
   hideButton = false,
   isDisabled = false,
+  isMobile = false,
   onChange,
 }) => {
   const { getDecimals } = useTokenInfo();
@@ -55,9 +57,14 @@ const Balance: FC<Props> = ({
   };
 
   return (
-    <Flex align="center" justify="space-between" mt="1">
+    <Flex
+      align="center"
+      justify="space-between"
+      mt={isMobile ? "4" : "1"}
+      {...(isMobile && { px: "2" })}
+    >
       <Box>
-        <HStack spacing="4">
+        <HStack {...(!isMobile && { spacing: "4" })}>
           {!hideLabel && (
             <Text fontSize="sm" fontWeight="500" color="white.400">
               {label}:

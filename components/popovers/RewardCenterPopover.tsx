@@ -1,11 +1,8 @@
 import React, { FC } from "react";
-import { useDisclosure, Box } from "@chakra-ui/react";
-
-import RewardLockdrop from "components/reward/RewardLockdrop";
-import { RewardBreakdown, RewardTotal } from "modules/reward";
-import PopoverWrapper from "components/popovers/PopoverWrapper";
-import ClaimAllRewardsBtn from "components/reward/ClaimAllRewardsBtn";
+import { useDisclosure } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
+import PopoverWrapper from "components/popovers/PopoverWrapper";
+import RewardOverlay from "components/pages/overlays/reward";
 
 type Props = {
   triggerElement: () => React.ReactElement;
@@ -30,12 +27,7 @@ const RewardCenterPopover: FC<Props> = ({ triggerElement }) => {
       onOpen={handleOpen}
       triggerElement={triggerElement}
     >
-      <Box minW="96">
-        <RewardTotal />
-        <RewardLockdrop />
-        <RewardBreakdown />
-        <ClaimAllRewardsBtn onSuccess={onClose} />
-      </Box>
+      <RewardOverlay onClose={onClose} />
     </PopoverWrapper>
   );
 };

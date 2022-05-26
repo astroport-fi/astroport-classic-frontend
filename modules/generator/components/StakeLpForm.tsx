@@ -86,6 +86,7 @@ const StakeLpForm: FC<Props> = ({ pool, type, onTypeClick }) => {
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             title="Confirm Staking LP Token"
             actionLabel="Confirm Staking LP Token"
             contentComponent={

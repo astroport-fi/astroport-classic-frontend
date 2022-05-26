@@ -21,7 +21,7 @@ const DepositBox: FC<Props> = ({
       bg="brand.defaultTable"
       py={["2", "5"]}
       px={["4", "8"]}
-      mb="5"
+      m="5"
       borderWidth="none"
       borderRadius="xl"
       position="relative"
@@ -33,6 +33,7 @@ const DepositBox: FC<Props> = ({
           <Text color="white.500">In Wallet:</Text>
           <Text ml="2">
             {xAstroBalanceTokens && handleBigAndTinyAmount(xAstroBalanceTokens)}{" "}
+            {!xAstroBalanceTokens && "0 "}
             xASTRO
           </Text>
         </Flex>
@@ -57,7 +58,14 @@ const DepositBox: FC<Props> = ({
         </Box>
       )}
       {balanceError && (
-        <ErrorBubble text="!" position="absolute" top="60px" right="48px" />
+        <ErrorBubble
+          text="!"
+          position="absolute"
+          size="24px"
+          mt="-12px"
+          top="50%"
+          right="12"
+        />
       )}
       {balanceError && (
         <Text mt="2" color="errors.main" fontSize="sm">

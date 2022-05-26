@@ -20,7 +20,13 @@ const ProgressLabel: FC<LabelElements> = ({
   return (
     <HStack mt="5" spacing="5" fontSize={fontSize}>
       <Flex align="center">
-        <Box w={bubbleSize} h={bubbleSize} borderRadius="50%" bg="green.500" />
+        <Box
+          flexShrink="0"
+          w={bubbleSize}
+          h={bubbleSize}
+          borderRadius="50%"
+          bg="green.500"
+        />
         <Text pl="2">
           {voteForDist > 0
             ? handleAmountWithoutTrailingZeros(voteForDist)
@@ -32,7 +38,13 @@ const ProgressLabel: FC<LabelElements> = ({
         </Text>
       </Flex>
       <Flex align="center">
-        <Box w={bubbleSize} h={bubbleSize} borderRadius="50%" bg="red.500" />
+        <Box
+          flexShrink="0"
+          w={bubbleSize}
+          h={bubbleSize}
+          borderRadius="50%"
+          bg="red.500"
+        />
         <Text pl="2">
           {voteAgainstDist > 0
             ? handleAmountWithoutTrailingZeros(voteAgainstDist)

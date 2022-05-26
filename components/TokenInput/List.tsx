@@ -95,7 +95,7 @@ const List: FC<Props> = ({
           found
         </Text>
       )}
-      <Box h={["28", "3xs"]} overflowY="auto" mt="2">
+      <Box h={["xs", "xs", "3xs"]} overflowY="auto" mt="2">
         <AutoSizer>
           {({ height, width }) => (
             <FixedSizeList

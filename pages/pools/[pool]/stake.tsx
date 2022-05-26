@@ -2,11 +2,9 @@ import React from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Flex } from "@chakra-ui/react";
 
 import Stake from "components/pages/Stake";
 import { useAstroswap } from "modules/common";
-import HideOnMobile from "components/common/HideOnMobile";
 
 const StakePage: NextPage = () => {
   const { query } = useRouter();
@@ -19,12 +17,12 @@ const StakePage: NextPage = () => {
     });
 
   return (
-    <HideOnMobile>
+    <>
       <Head>
         <title>Astroport</title>
       </Head>
-      <Flex>{pool != null && <Stake pool={pool} />}</Flex>
-    </HideOnMobile>
+      {pool != null && <Stake pool={pool} />}
+    </>
   );
 };
 

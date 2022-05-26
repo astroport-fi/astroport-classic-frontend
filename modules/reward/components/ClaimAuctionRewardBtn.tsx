@@ -8,9 +8,32 @@ import useEstimateFee from "hooks/useEstimateFee";
 type Props = {
   amount: string;
   txFeeNotEnough?: boolean;
+  style?: "mobile" | "desktop";
 };
 
-const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
+const StyleProps = (style: "mobile" | "desktop") => {
+  if (style === "desktop") {
+    return { variant: "primary", size: "sm", flex: "1" };
+  } else {
+    return {
+      variant: "simple",
+      fontWeight: "500",
+      fontSize: ".875rem",
+      color: "brand.purpleAlt",
+      textDecoration: "underline",
+      flex: "1",
+      _hover: { color: "brand.purpleAlt" },
+      _focus: { color: "brand.purpleAlt" },
+      _active: { color: "brand.purpleAlt" },
+    };
+  }
+};
+
+const ClaimAuctionRewardBtn: FC<Props> = ({
+  amount,
+  txFeeNotEnough,
+  style = "desktop",
+}) => {
   const { msgs } = useClaimAuctionReward({ amount });
 
   const { submit } = useTx({
@@ -39,9 +62,7 @@ const ClaimAuctionRewardBtn: FC<Props> = ({ amount, txFeeNotEnough }) => {
 
   return (
     <Button
-      size="sm"
-      variant="primary"
-      flex="1"
+      {...StyleProps(style)}
       onClick={handleClick}
       isDisabled={fee == null || !!txFeeNotEnough}
     >

@@ -7,7 +7,9 @@ import {
   Text,
   Button,
   Link,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import useFinder from "hooks/useFinder";
 import { NextLink, truncateStr } from "modules/common";
 import {
@@ -91,6 +93,7 @@ const CardFooter = ({
   address: string;
   id: string;
 }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const finder = useFinder();
 
   return (
@@ -118,6 +121,7 @@ const CardFooter = ({
               type="button"
               borderRadius="md"
               w="250px"
+              isMobile={isMobile}
             >
               View Proposal
             </Button>
@@ -130,7 +134,7 @@ const CardFooter = ({
 
 const Card: FC<Props> = ({ proposal, quorum }) => {
   return (
-    <GridItem h="485px" overflow="hidden">
+    <GridItem h="485px" w="100%" overflow="hidden">
       <Center
         h="100%"
         flexDirection="column"

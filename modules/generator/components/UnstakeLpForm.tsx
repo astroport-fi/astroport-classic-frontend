@@ -89,6 +89,7 @@ const UnstakeLpForm: FC<Props> = ({ pool, type, onTypeClick }) => {
         {showConfirm && (
           <FormConfirm
             fee={state.fee}
+            txFeeNotEnough={notEnoughUSTToPayFees}
             title="Confirm Unstaking LP Token"
             actionLabel="Confirm Unstaking LP Token"
             contentComponent={

@@ -6,9 +6,11 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  useMediaQuery,
   Spinner,
 } from "@chakra-ui/react";
 import { useAddress } from "@arthuryeti/terra";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { handleTinyAmount, Route } from "modules/common";
 import {
   usePriceImpact,
@@ -48,6 +50,7 @@ const SwapFormFooter: FC<Props> = ({
   fee,
   onConfirmClick,
 }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const address = useAddress();
   const swapRoutePath = useSwapRoutePath(swapRoute);
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -122,7 +125,7 @@ const SwapFormFooter: FC<Props> = ({
       </Box>
       <Box flex="15px 0" />
       <Flex flex={1} align="center" flexDirection="column">
-        {!address ? (
+        {!address && !isMobile ? (
           <Flex justify="center">
             <Button variant="primary" type="button" onClick={onOpen}>
               Connect your wallet

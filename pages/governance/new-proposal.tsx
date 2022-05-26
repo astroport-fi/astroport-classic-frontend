@@ -11,15 +11,13 @@ const GovNewProposalPage: NextPage = () => {
       <Head>
         <title>Astroport</title>
       </Head>
-      <Flex>
-        <Box m="0 auto" py="12">
-          <Flex gridGap="8">
-            <Box w="container.sm">
-              <GovProposalForm />
-            </Box>
-          </Flex>
-        </Box>
-      </Flex>
+      <Box m="0 auto" pt="6">
+        <Flex justify="center">
+          <Box maxW="650px" mt={[15, 15, 10]} mb={[100, 100, 25]} w="full">
+            <GovProposalForm />
+          </Box>
+        </Flex>
+      </Box>
     </>
   );
 };

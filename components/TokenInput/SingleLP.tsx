@@ -5,9 +5,10 @@ import { orderPoolTokens } from "modules/pool";
 
 type Props = {
   asset: string;
+  isMobile?: boolean;
 };
 
-const SingleLP: FC<Props> = ({ asset }) => {
+const SingleLP: FC<Props> = ({ asset, isMobile = false }) => {
   const { pools } = useAstroswap();
   const { getProtocol, getIcon, getSymbol } = useTokenInfo();
   const pool = (pools || []).find((p) => p.lp_address == asset);
@@ -30,13 +31,15 @@ const SingleLP: FC<Props> = ({ asset }) => {
       display="flex"
       justify="center"
       align="center"
-      borderRadius="full"
-      borderWidth="1px"
-      borderColor="white.200"
       textAlign="left"
       px="4"
       h="16"
       lineHeight="1.2"
+      {...(!isMobile && {
+        borderRadius: "full",
+        borderWidth: "1px",
+        borderColor: "white.200",
+      })}
     >
       <Flex align="center">
         <HStack spacing="-2">
@@ -44,11 +47,11 @@ const SingleLP: FC<Props> = ({ asset }) => {
           <Image src={icon2} width="1.5rem" height="1.5rem" alt="Logo" />
         </HStack>
 
-        <Box ml="3" fontWeight="500" flex="1">
-          <Text fontSize="lg" color="white">
+        <Box ml="3" fontWeight="500" flex="1" overflow="hidden">
+          <Text fontSize={["0.8rem", "0.8rem", "lg"]} color="white">
             {symbol1}-{symbol2}-LP
           </Text>
-          <Text fontSize="xs" color="white.400">
+          <Text fontSize="xs" color="white.400" isTruncated>
             {protocol1} - {protocol2}
           </Text>
         </Box>

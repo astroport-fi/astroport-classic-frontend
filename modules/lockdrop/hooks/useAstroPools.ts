@@ -4,6 +4,7 @@ import { gql } from "graphql-request";
 import { sortBy } from "lodash";
 import num from "libs/num";
 import { ONE_TOKEN } from "constants/constants";
+import { AstroPoolsPool } from "types/common";
 import {
   getPoolTokenDenoms,
   useAstroswap,
@@ -156,7 +157,7 @@ export const useAstroPools = () => {
     });
   }, [firstResult]);
 
-  return useMemo(() => {
+  return useMemo((): AstroPoolsPool[] => {
     if (infos == null || secondResult == null || firstResult == null) {
       return [];
     }

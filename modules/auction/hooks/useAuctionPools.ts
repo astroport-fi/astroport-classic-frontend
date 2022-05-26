@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { num } from "@arthuryeti/terra";
 import { ONE_TOKEN } from "constants/constants";
+import { AuctionPoolsPool } from "types/common";
 import { getTokenDenom, useContracts, useTokenInfo } from "modules/common";
 import { useUserInfo, useConfig, useAuctionState } from "modules/auction";
 import { useGetPool } from "modules/pool";
@@ -27,7 +28,7 @@ export const useAuctionPools = () => {
     );
   }, [config]);
 
-  return useMemo(() => {
+  return useMemo((): AuctionPoolsPool[] => {
     if (userInfo == null || config == null || state == null || pool == null) {
       return [];
     }

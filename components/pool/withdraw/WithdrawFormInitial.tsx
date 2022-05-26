@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, useMediaQuery } from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { useFormContext, Controller } from "react-hook-form";
 import { fromTerraAmount } from "libs/terra";
 import { WithdrawState } from "modules/pool";
@@ -7,7 +8,7 @@ import { useBalance, FormActions, FormActionItem } from "modules/common";
 import { PoolFormType } from "types/common";
 import Card from "components/Card";
 import WarningMessage from "components/common/WarningMessage";
-import NewAmountInput from "components/NewAmountInput";
+import NewAmountInput, { Balance } from "components/NewAmountInput";
 import WithdrawFormFooter from "components/pool/withdraw/WithdrawFormFooter";
 import WithdrawFormItem from "components/pool/withdraw/WithdrawFormItem";
 import AstroSlider from "components/AstroSlider";
@@ -36,6 +37,7 @@ const WithdrawFormInitial: FC<Props> = ({
   txFeeNotEnough,
   onClick,
 }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { control, setValue } = useFormContext();
 
   const balance = useBalance(token);
@@ -77,19 +79,28 @@ const WithdrawFormInitial: FC<Props> = ({
         />
       </FormActions>
 
-      <Card>
-        <Flex>
-          <Box flex="1">
+      <Card {...(isMobile && { px: "4", py: "4" })}>
+        <Flex {...(isMobile && { borderRadius: "2xl", overflow: "hidden" })}>
+          <Box
+            flex="1"
+            {...(isMobile && { width: "50%", overflow: "hidden" })}
+            {...(!isMobile && { pr: "8" })}
+          >
             <Controller
               name="token"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <TokenInput isLpToken isSingle {...field} />
+                <TokenInput
+                  isLpToken
+                  isSingle
+                  isMobile={!!isMobile}
+                  {...field}
+                />
               )}
             />
           </Box>
-          <Box flex="1" pl="8">
+          <Box flex="1" {...(isMobile && { width: "50%", overflow: "hidden" })}>
             <Controller
               name="amount"
               control={control}
@@ -98,6 +109,7 @@ const WithdrawFormInitial: FC<Props> = ({
                 <NewAmountInput
                   asset={token}
                   hidePrice
+                  isMobile={!!isMobile}
                   balanceLabel="Provided"
                   {...field}
                 />
@@ -105,6 +117,16 @@ const WithdrawFormInitial: FC<Props> = ({
             />
           </Box>
         </Flex>
+        {isMobile && (
+          <Controller
+            name="amount"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Balance asset={token} isMobile={isMobile} {...field} />
+            )}
+          />
+        )}
       </Card>
 
       <Card mt="2">

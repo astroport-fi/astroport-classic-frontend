@@ -58,14 +58,14 @@ const FormConfirm: FC<Props> = ({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       maxW={maxW}
-      m="0 auto"
-      mt="10"
-      px={[6, 0]}
+      mx="auto"
+      mt={[25, 25, 0]}
+      mb={[75, 75, 0]}
     >
-      <Card>
+      <Card mx="0">
         <Flex justify="space-between" align="center" mb="6">
           {titleLarge && <Text fontSize="lg">{title}</Text>}
-          {!titleLarge && <Text textStyle={["small", "normal"]}>{title}</Text>}
+          {!titleLarge && <Text textStyle="normal">{title}</Text>}
           <IconButton
             aria-label="Close"
             variant="simple"
@@ -73,14 +73,7 @@ const FormConfirm: FC<Props> = ({
             _hover={{
               bg: "rgba(255,255,255,0.1)",
             }}
-            icon={
-              <CloseIcon
-                w={["4", "6"]}
-                h={["4", "6"]}
-                color="white"
-                BackgroundOpacity="0"
-              />
-            }
+            icon={<CloseIcon w="6" h="6" color="white" BackgroundOpacity="0" />}
             onClick={onCloseClick}
           />
         </Flex>

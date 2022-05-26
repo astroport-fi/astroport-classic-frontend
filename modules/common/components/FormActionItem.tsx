@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Text } from "@chakra-ui/react";
+import { Text, Button, useMediaQuery } from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 
 type Props = {
   label: string;
@@ -9,9 +10,19 @@ type Props = {
 };
 
 const FormActionItem: FC<Props> = ({ label, value, type, onClick }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const isActive = value === type;
 
-  return (
+  return isMobile ? (
+    <Button
+      w="100%"
+      variant="filtermobile"
+      isActive={isActive}
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  ) : (
     <Text
       as="button"
       fontSize="1.125rem"

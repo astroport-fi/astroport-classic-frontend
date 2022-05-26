@@ -17,7 +17,6 @@ const styles = {
     closeButton: {
       position: "static",
       color: "brand.deepBlue",
-      p: "3",
       borderWidth: "1px",
       borderColor: "#000D37",
       borderRadius: "full",

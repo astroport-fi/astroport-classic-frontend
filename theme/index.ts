@@ -79,9 +79,11 @@ export default extendTheme({
     brand: {
       purple: "#5643F2",
       lightPurple: "#83B3FD",
+      purpleAlt: "#ADA3FF",
       teal: "#A1F4EF",
       dark: "#000D37",
       turquoise: "#59B7DD",
+      green: "#3EDD61",
       blue: "#1121B8",
       lightBlue: "rgba(131,179,253,0.3)",
       deepBlue: "#000D37",
@@ -140,5 +142,12 @@ export default extendTheme({
       fontSize: "xs",
       lineHeight: "shorter",
     },
+  },
+  breakpoints: {
+    sm: "30em",
+    md: "48em",
+    lg: "62em",
+    xl: "80em",
+    "2xl": "96em",
   },
 });

@@ -7,7 +7,7 @@ const tns = new TNS();
  * Get TNS name for a given wallet address
  * @param address TNS address
  */
-const useTNS = (address?: string) => {
+const useTNS = (address?: string): string | null => {
   const [name, setName] = useState(null);
 
   useEffect(() => {

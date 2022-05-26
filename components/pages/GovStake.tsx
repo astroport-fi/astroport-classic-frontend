@@ -14,7 +14,7 @@ const GovStake = () => {
 
   return (
     <Flex h="100%" justify="center">
-      <Box w="650px">
+      <Box maxW="650px" mb={[75, 75, 0]} mx={[25, 25, 0]}>
         <GovStakeForm type={type} setType={setType} />
       </Box>
     </Flex>

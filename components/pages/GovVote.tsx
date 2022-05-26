@@ -11,7 +11,14 @@ type Props = {
 const GovVote: FC<Props> = ({ id, action }) => {
   return (
     <Flex h="100%" justify="center">
-      <Box maxW="470px" w="full" m="0 auto" mt="10">
+      <Box
+        maxW="470px"
+        w="full"
+        pt="6"
+        mx="6"
+        mt={[25, 25, 10]}
+        mb={[75, 75, 10]}
+      >
         <GovVoteForm id={id} action={action} />
       </Box>
     </Flex>

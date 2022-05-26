@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
+import { Flex, Box, Checkbox, Text, useMediaQuery } from "@chakra-ui/react";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { useFormContext, Controller } from "react-hook-form";
 import num from "libs/num";
 import { PoolFormType, ProvideFormMode } from "types/common";
@@ -14,7 +15,7 @@ import Card from "components/Card";
 import CircularIcon from "components/common/CircularIcon";
 import WarningMessage from "components/common/WarningMessage";
 import PlusIcon from "components/icons/PlusIcon";
-import NewAmountInput from "components/NewAmountInput";
+import NewAmountInput, { Balance } from "components/NewAmountInput";
 import TokenInput from "components/TokenInput";
 import PoolHeader from "components/pool/PoolHeader";
 import ProvideFormFooter from "components/pool/provide/ProvideFormFooter";
@@ -53,6 +54,7 @@ const ProvideFormInitial: FC<Props> = ({
   txFeeNotEnough,
   onClick,
 }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { getDecimals } = useTokenInfo();
   const token1Balance = useBalance(token1) ?? 0;
   const token2Balance = useBalance(token2) ?? 0;
@@ -148,19 +150,31 @@ const ProvideFormInitial: FC<Props> = ({
         onModeClick={onModeClick}
       />
       <Box position="relative">
-        <Card>
-          <Flex>
-            <Box flex="1" pr="8">
+        <Card {...(isMobile && { px: "4", py: "4" })}>
+          <Flex {...(isMobile && { borderRadius: "2xl", overflow: "hidden" })}>
+            <Box
+              flex="1"
+              {...(isMobile && { width: "50%", overflow: "hidden" })}
+              {...(!isMobile && { pr: "8" })}
+            >
               <Controller
                 name="token1"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <TokenInput isSingle {...field} priceSource={priceSource} />
+                  <TokenInput
+                    isSingle
+                    isMobile={!!isMobile}
+                    priceSource={priceSource}
+                    {...field}
+                  />
                 )}
               />
             </Box>
-            <Box flex="1">
+            <Box
+              flex="1"
+              {...(isMobile && { width: "50%", overflow: "hidden" })}
+            >
               <Controller
                 name="amount1"
                 control={control}
@@ -169,12 +183,28 @@ const ProvideFormInitial: FC<Props> = ({
                   <NewAmountInput
                     asset={token1}
                     max={maxAmounts.token1}
+                    isMobile={!!isMobile}
                     {...getInputProps(field)}
                   />
                 )}
               />
             </Box>
           </Flex>
+          {isMobile && (
+            <Controller
+              name="amount1"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Balance
+                  asset={token1}
+                  max={maxAmounts.token1}
+                  isMobile={isMobile}
+                  {...getInputProps(field)}
+                />
+              )}
+            />
+          )}
         </Card>
 
         {mode == ProvideFormMode.Double && (
@@ -190,9 +220,15 @@ const ProvideFormInitial: FC<Props> = ({
                 <PlusIcon />
               </CircularIcon>
             </Box>
-            <Card mt="2">
-              <Flex>
-                <Box flex="1" pr="8">
+            <Card mt="2" {...(isMobile && { px: "4", py: "4" })}>
+              <Flex
+                {...(isMobile && { borderRadius: "2xl", overflow: "hidden" })}
+              >
+                <Box
+                  flex="1"
+                  {...(isMobile && { width: "50%", overflow: "hidden" })}
+                  {...(!isMobile && { pr: "8" })}
+                >
                   <Controller
                     name="token2"
                     control={control}
@@ -200,13 +236,17 @@ const ProvideFormInitial: FC<Props> = ({
                     render={({ field }) => (
                       <TokenInput
                         isSingle
-                        {...field}
+                        isMobile={!!isMobile}
                         priceSource={priceSource}
+                        {...field}
                       />
                     )}
                   />
                 </Box>
-                <Box flex="1">
+                <Box
+                  flex="1"
+                  {...(isMobile && { width: "50%", overflow: "hidden" })}
+                >
                   <Controller
                     name="amount2"
                     control={control}
@@ -215,12 +255,28 @@ const ProvideFormInitial: FC<Props> = ({
                       <NewAmountInput
                         asset={token2}
                         max={maxAmounts.token2}
+                        isMobile={isMobile}
                         {...getInputProps(field)}
                       />
                     )}
                   />
                 </Box>
               </Flex>
+              {isMobile && (
+                <Controller
+                  name="amount2"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Balance
+                      asset={token2}
+                      max={maxAmounts.token2}
+                      isMobile={isMobile}
+                      {...getInputProps(field)}
+                    />
+                  )}
+                />
+              )}
             </Card>
           </>
         )}

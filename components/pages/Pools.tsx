@@ -8,23 +8,23 @@ import OtherPools from "components/pool/OtherPools";
 const Pools: FC = () => {
   return (
     <Container
-      px={["6", null, "12"]}
+      px={["3", null, "12"]}
+      pt={["8", null, "24"]}
+      pb={["16", null, "64"]}
       maxWidth="container.xl"
-      pt="12"
-      pb="64"
       color="white"
     >
-      <Box px="6" mb="4" mt="12">
+      <Box px={["1", null, "6"]} mb="4" mt={["4", null, "12"]}>
         <Heading fontSize="xl">Overview</Heading>
       </Box>
       <PoolsOverview />
 
-      <Box px="6" mb="4" mt="12">
+      <Box px={["1", null, "6"]} mb="4" mt={["8", null, "12"]}>
         <Heading fontSize="xl">My Pools</Heading>
       </Box>
       <MyPools />
 
-      <Box px="6" mb="4" mt="12">
+      <Box px={["1", null, "6"]} mb="4" mt={["8", null, "12"]}>
         <Heading fontSize="xl">Other Pools</Heading>
       </Box>
       <OtherPools />

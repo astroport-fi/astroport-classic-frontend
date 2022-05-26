@@ -1,14 +1,17 @@
 import React, { FC } from "react";
 import useLocalStorage from "hooks/useLocalStorage";
-import { IconButton, Box } from "@chakra-ui/react";
+import { IconButton, FlexProps, Flex } from "@chakra-ui/react";
+
 import { useTogglePoolToFavorite } from "modules/common";
+
 import FavoriteIcon from "components/icons/FavoriteIcon";
 
 type Props = {
   pool: string;
-};
+  mr?: string;
+} & FlexProps;
 
-const FavoriteToggleButton: FC<Props> = ({ pool }) => {
+const FavoriteToggleButton: FC<Props> = ({ pool, mr = "8", ...props }) => {
   const [favoritesPools, setFavoritesPools] = useLocalStorage<string[]>(
     "favoritesPools",
     []
@@ -22,7 +25,7 @@ const FavoriteToggleButton: FC<Props> = ({ pool }) => {
   };
 
   return (
-    <Box>
+    <Flex {...props}>
       <IconButton
         aria-label="Mark as favorite"
         variant="simple"
@@ -31,13 +34,13 @@ const FavoriteToggleButton: FC<Props> = ({ pool }) => {
             color="#59B7DD"
             w="4"
             h="4"
-            mr="8"
+            mr={mr}
             isSelected={isSelected}
           />
         }
         onClick={handleClick}
       />
-    </Box>
+    </Flex>
   );
 };
 

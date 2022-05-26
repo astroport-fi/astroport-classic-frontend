@@ -7,8 +7,8 @@ type Props = {
 } & BoxProps;
 
 const Card: FC<Props> = ({ children, noPadding = false, ...props }) => {
-  const py = !noPadding ? ["3", "8"] : "0";
-  const px = !noPadding ? ["6", "12"] : "0";
+  const py = !noPadding ? ["6", "6", "8"] : "0";
+  const px = !noPadding ? ["6", "6", "12"] : "0";
 
   return (
     <Box

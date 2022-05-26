@@ -131,6 +131,44 @@ export const getEventsByType = (txInfo: TxInfo, index: number = 0): any => {
   return txInfo.logs[index]?.eventsByType;
 };
 
+export const partition = (array: any, isValid: any) => {
+  return array.reduce(
+    ([pass, fail]: [any, any], elem: any) => {
+      return isValid(elem) ? [[...pass, elem], fail] : [pass, [...fail, elem]];
+    },
+    [[], []]
+  );
+};
+
+export const searchTokenAdddres = (search: string, pools: any[]): any[] => {
+  return pools.filter((row: any) => {
+    const query = search.toLowerCase();
+    const assets = row.sortingAssets;
+
+    if (!assets) {
+      return true;
+    }
+
+    for (const asset of assets) {
+      const string = asset ? String(asset).toLowerCase() : "";
+
+      // If the sortingAsset string looks like an address (starts with "terra"),
+      // then the query must begin with "terra" and also match. If the sortingAsset string
+      // does not look like an address (e.g. a symbol), then any query can match.
+      // This allows the search to be useful when the query is short (e.g. 1 character),
+      // otherwise it'd match lots of pools by address.
+      if (
+        (!string.startsWith("terra") || query.startsWith("terra")) &&
+        string.includes(query)
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+};
+
 export const toggleValueInArray = (value: any, array: any[]) => {
   const newArray = [...array];
   const valueIndex = array.indexOf(value);

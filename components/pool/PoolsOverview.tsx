@@ -1,12 +1,56 @@
 import React, { FC } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { useMediaQuery, Box, Flex, Text } from "@chakra-ui/react";
+import Glider from "react-glider";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 import { useAllPools } from "modules/pool";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 import { handleTinyAmount, useContracts } from "modules/common";
+
 import Card from "components/Card";
+import BoxGradient from "components/BoxGradient";
+
+import "glider-js/glider.min.css";
+
+type Props = {
+  value: string;
+  desc: string;
+};
+
+const MobileComponent: FC<Props> = ({ value, desc }) => {
+  return (
+    <Box px="1">
+      <BoxGradient>
+        <Flex
+          flexDirection="column"
+          align="center"
+          justifyContent="center"
+          height="120px"
+        >
+          <Text textStyle="h3">{value}</Text>
+          <Text textStyle="small" mt="3" color="brand.purpleAlt">
+            {desc}
+          </Text>
+        </Flex>
+      </BoxGradient>
+    </Box>
+  );
+};
+
+const Component: FC<Props> = ({ value, desc }) => {
+  return (
+    <Box>
+      <Text textStyle="h3">{value}</Text>
+      <Text textStyle="small" variant="dimmed">
+        {desc}
+      </Text>
+    </Box>
+  );
+};
 
 const PoolsOverview: FC = () => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const allPools = useAllPools();
+
   const totalLiquidity = allPools.reduce(
     (total, pool) => total + (pool.totalLiquidityInUst || 0),
     0
@@ -18,33 +62,33 @@ const PoolsOverview: FC = () => {
   const { astroToken } = useContracts();
   const price = useTokenPriceInUstWithSimulate(astroToken);
 
-  return (
+  const totalLiquidityValue = handleTinyAmount(
+    totalLiquidity,
+    "0,0",
+    undefined,
+    "$"
+  );
+  const volumeValue = handleTinyAmount(dailyVolume, "0,0", undefined, "$");
+  const priceValue = handleTinyAmount(price, undefined, undefined, "$");
+
+  return isMobile ? (
+    <Glider
+      draggable
+      hasDots
+      slidesToShow={1}
+      slidesToScroll={1}
+      scrollLock={true}
+    >
+      <MobileComponent value={totalLiquidityValue} desc="Total Liquidity" />
+      <MobileComponent value={volumeValue} desc="24h Volume" />
+      <MobileComponent value={priceValue} desc="ASTRO price" />
+    </Glider>
+  ) : (
     <Card>
       <Flex justify="space-between">
-        <Box>
-          <Text textStyle="h3">
-            {handleTinyAmount(totalLiquidity, "0,0", undefined, " UST")}
-          </Text>
-          <Text textStyle="small" variant="dimmed">
-            Total Liquidity
-          </Text>
-        </Box>
-        <Box>
-          <Text textStyle="h3">
-            {handleTinyAmount(dailyVolume, "0,0", undefined, " UST")}
-          </Text>
-          <Text textStyle="small" variant="dimmed">
-            24h Volume
-          </Text>
-        </Box>
-        <Box>
-          <Text textStyle="h3">
-            {handleTinyAmount(price, undefined, undefined, " UST")}
-          </Text>
-          <Text textStyle="small" variant="dimmed">
-            ASTRO price
-          </Text>
-        </Box>
+        <Component value={totalLiquidityValue} desc="Total Liquidity" />
+        <Component value={volumeValue} desc="24h Volume" />
+        <Component value={priceValue} desc="ASTRO price" />
       </Flex>
     </Card>
   );

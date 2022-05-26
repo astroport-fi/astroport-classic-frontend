@@ -25,6 +25,30 @@ export const COMMON_TOKENS = ["uusd", "uluna"];
 export const ASTRO_FORUM_LINK = "https://forum.astroport.fi";
 export const ASTRO_DISCORD_LINK = "https://discord.gg/astroport";
 
+export const MOBILE_MAX_WIDTH = "768px";
+export const MOBILE_NAV_HEIGHT = "60px";
+export const MOBILE_SCROLL_Y_OFFSET = 420;
+
+/* mobile nav pages */
+
+// display hamburger menu on nav bar
+export const MOBILE_MAIN_PAGES = [
+  { name: "Swap", to: "/swap" },
+  { name: "Pool", to: "/pools" },
+  { name: "Locked Liquidity", to: "/locked-liquidity" },
+  { name: "Governance", to: "/governance" },
+];
+
+// display back button on nav bar
+export const MOBILE_SECONDARY_PAGES = [
+  { name: "Stake / Unstake LP Token", regex: "/pools/.*/stake" },
+  { name: "Liquidity", regex: "/pools/.*" },
+  { name: "Unlock LP Tokens", regex: "/unlock/.*" },
+  { name: "Unlock LP Tokens", regex: "/unlock-phase-2" },
+  { name: "Submit Proposal", regex: "/governance/new-proposal" },
+  { name: "Proposal Detail", regex: "/governance/proposal/.*" },
+];
+
 /* env variables */
 export const ENV_MAINNET_GRAPHQL = process.env["NEXT_PUBLIC_MAINNET_GRAPHQL"];
 
@@ -42,6 +66,7 @@ export const ENV_COLUMBUS_API_ENDPOINT =
 export const ENV_BOMBAY_API_ENDPOINT =
   process.env["NEXT_PUBLIC_BOMBAY_API_ENDPOINT"] || "";
 
+/* tooltip desc */
 export const APR_TOOLTIP =
   "The APR (UST denominated) is calculated using token prices denominated in UST. Prices are fetched either from Astroport pools or from Coingecko. Also, the APR is a 365 day projection based on each pool's performance over the last 24h. See Astroport Disclaimers & Disclosures for more details";
 

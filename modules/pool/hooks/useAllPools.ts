@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useQuery } from "react-query";
 import { gql } from "graphql-request";
 import { useTerraWebapp } from "context/TerraWebappContext";
 import useLocalStorage from "hooks/useLocalStorage";
@@ -11,42 +12,13 @@ import {
   useTokenPrices,
   useHiveEndpoint,
   useStableTokenPrice,
-  Asset,
   requestInChunks,
   Pool,
 } from "modules/common";
 import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { BLUNA_LUNA_PAIR_ADDR } from "constants/contracts";
-import { useQuery } from "react-query";
-import useAddress from "hooks/useAddress";
-import num from "libs/num";
-
-export type AllPoolsPool = {
-  inUse: boolean;
-  favorite: boolean;
-  contract: string;
-  assets: string[];
-  poolAssets: Asset[];
-  sortingAssets: string[];
-  pairType: string;
-  totalLiquidity: number;
-  totalLiquidityInUst: number;
-  myLiquidity: number;
-  myLiquidityInUst: number;
-  _24hr_volume: number;
-  rewards: {
-    pool: number;
-    astro: number;
-    protocol: number;
-    total: number;
-    apy: number;
-    token_symbol: string;
-  };
-  canManage: boolean;
-  canStake: boolean;
-  isStakable: boolean;
-};
+import { AllPoolsPool } from "types/common";
 
 const createQuery = (pools: any, address: string, generator: string) => {
   return gql`

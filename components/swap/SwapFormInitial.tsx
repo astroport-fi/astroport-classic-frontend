@@ -76,7 +76,7 @@ const SwapFormInitial: FC<Props> = ({
   }, []);
 
   return (
-    <Box mt={["8", null, "24"]} px={["4", null, "0"]}>
+    <Box>
       <Flex
         justify="space-between"
         align="center"

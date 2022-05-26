@@ -23,9 +23,9 @@ const Pool: FC<Props> = ({ pool: pair }) => {
   }
 
   return (
-    <Box m="0 auto" pt="12">
-      <Flex gridGap="8">
-        <Box w="container.sm">
+    <Box m="0 auto" pt="6">
+      <Flex justify="center">
+        <Box maxW="650px" mx="6" mt={[0, 0, 10]} mb={[75, 75, 10]} w="full">
           {type === PoolFormType.Provide && (
             <ProvideForm
               pool={pool}

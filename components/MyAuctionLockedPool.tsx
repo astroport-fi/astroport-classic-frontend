@@ -1,22 +1,74 @@
-import React, { useMemo } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import React, { FC, useMemo } from "react";
+import { useAddress } from "@arthuryeti/terra";
+import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
+import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
+import { AuctionPoolsPool } from "types/common";
 import { useAuctionPools } from "modules/auction";
 import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import TerraWallet from "components/TerraWallet";
 import CardHeader from "components/CardHeader";
 import Card from "components/Card";
+import CardMobile from "components/CardMobile";
 import PoolTable from "components/table/PoolTable";
 import PoolNameTd from "components/table/PoolNameTd";
 import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import RewardsTd from "components/table/RewardsTd";
 import AuctionActionsTd from "components/table/AuctionActionsTd";
-import useAddress from "hooks/useAddress";
 
-const MyAuctionLockedPool = () => {
-  const address = useAddress();
-  const auctionPools = useAuctionPools();
-  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+import { PoolFeed } from "components/feed";
 
+const PHASE_2_DESC =
+  "Your ASTRO-UST LP tokens unlock linearly over 3 months after the end of the phase 2 deposit window.";
+
+const sortByTotalLiqudityFn = (a: any, b: any): any => {
+  return b.totalLiquidityInUst - a.totalLiquidityInUst;
+};
+
+const MobileComponent: FC<{
+  pools: AuctionPoolsPool[];
+  txFeeNotEnough: boolean;
+}> = ({ pools, txFeeNotEnough }) => {
+  const poolsSorted = pools.sort(sortByTotalLiqudityFn);
+  const { status } = useWallet();
+
+  return (
+    <>
+      {(status === WalletStatus.WALLET_NOT_CONNECTED ||
+        poolsSorted.length === 0) && (
+        <CardMobile>
+          {status === WalletStatus.WALLET_NOT_CONNECTED && (
+            <>
+              <Flex mb="2" color="white.500" fontSize="sm">
+                Please connect your wallet.
+              </Flex>
+              <TerraWallet header={false} />
+            </>
+          )}
+          {status !== WalletStatus.WALLET_NOT_CONNECTED &&
+            poolsSorted.length === 0 && (
+              <Flex
+                color="white.500"
+                fontSize="sm"
+              >{`You didn't lock any positions.`}</Flex>
+            )}
+        </CardMobile>
+      )}
+      <PoolFeed
+        type="auctionpools"
+        pools={poolsSorted}
+        txFeeNotEnough={txFeeNotEnough}
+      />
+    </>
+  );
+};
+
+const Component: FC<{
+  address: string;
+  pools: AuctionPoolsPool[];
+  txFeeNotEnough: boolean;
+}> = ({ address, pools, txFeeNotEnough }) => {
   const columns = useMemo(
     () => [
       {
@@ -88,12 +140,11 @@ const MyAuctionLockedPool = () => {
         disableGlobalFilter: true,
       },
       {
-        id: "pool-actions",
         Cell: ({ row }: any) => (
           <AuctionActionsTd
             isClaimable={row.original.isClaimable}
             isClaimed={row.original.isClaimed}
-            txFeeNotEnough={notEnoughUSTToPayFees}
+            txFeeNotEnough={txFeeNotEnough}
             amount={row.original.amount}
           />
         ),
@@ -107,24 +158,52 @@ const MyAuctionLockedPool = () => {
   );
 
   return (
+    <Card overflow="auto" mt={6} noPadding>
+      <PoolTable
+        columns={columns}
+        data={pools}
+        minW={address.length !== 0 ? "1380px" : ""}
+        renderFilters={address.length !== 0}
+        emptyMsg="You didn't lock any positions."
+        sortBy="totalUnlockedLiquidity"
+      />
+    </Card>
+  );
+};
+
+const MyAuctionLockedPool = () => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
+  const address = useAddress();
+  const pools = useAuctionPools();
+  const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees();
+
+  return (
     <Box>
       <CardHeader label="My Locked LP Tokens from Phase 2: ASTRO-UST Bootstrapping pool" />
-      <Card>
-        <Text textStyle="small" variant="secondary">
-          Your ASTRO-UST LP tokens unlock linearly over 3 months after the end
-          of the phase 2 deposit window.
-        </Text>
-      </Card>
-      <Card overflow="auto" mt={6} noPadding>
-        <PoolTable
-          columns={columns}
-          data={auctionPools}
-          minW={address.length !== 0 ? "1380px" : ""}
-          renderFilters={address.length !== 0}
-          emptyMsg="You didn't lock any positions."
-          sortBy="totalUnlockedLiquidity"
-        />
-      </Card>
+      {isMobile ? (
+        <>
+          <Text textStyle="small" color="white.400" px="2" mb="5">
+            {PHASE_2_DESC}
+          </Text>
+          <MobileComponent
+            pools={pools}
+            txFeeNotEnough={notEnoughUSTToPayFees}
+          />
+        </>
+      ) : (
+        <>
+          <Card mb={isMobile ? "5" : "initial"}>
+            <Text textStyle="small" variant="secondary">
+              {PHASE_2_DESC}
+            </Text>
+          </Card>
+          <Component
+            address={address}
+            pools={pools}
+            txFeeNotEnough={notEnoughUSTToPayFees}
+          />
+        </>
+      )}
     </Box>
   );
 };

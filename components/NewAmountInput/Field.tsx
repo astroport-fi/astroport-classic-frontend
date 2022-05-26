@@ -16,6 +16,7 @@ type Props = {
   clampValueOnBlur?: boolean;
   isDisabled?: boolean;
   hidePrice?: boolean;
+  isMobile?: boolean;
   isLoading?: boolean;
   hideMaxButton?: boolean;
   max?: number;
@@ -38,6 +39,7 @@ const Field: FC<Props> = forwardRef(
       hideBalanceLabel = false,
       hideMaxButton = false,
       hidePrice = false,
+      isMobile = false,
       isDisabled = false,
       isLoading = false,
     },
@@ -68,6 +70,7 @@ const Field: FC<Props> = forwardRef(
           hideLabel={hideBalanceLabel}
           hideButton={hideMaxButton}
           isDisabled={isDisabled}
+          isMobile={isMobile}
           onChange={(v: string | number) => onChange(v)}
         />
       );
@@ -86,9 +89,10 @@ const Field: FC<Props> = forwardRef(
           isLoading={isLoading}
           hidePrice={hidePrice}
           isLpToken={!!isLpToken}
+          isMobile={isMobile}
           price={price}
         />
-        {renderBalance()}
+        {!isMobile && renderBalance()}
       </Box>
     );
   }

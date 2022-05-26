@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, useMediaQuery } from "@chakra-ui/react";
 import { convertTimestampToDate } from "modules/governance/helpers";
 import { Proposal_History } from "types/common";
+import { MOBILE_MAX_WIDTH } from "constants/constants";
 
 type Props = {
   blocks: Proposal_History;
@@ -45,13 +46,15 @@ const Split = () => {
 };
 
 const TimelineBar: FC<Props> = ({ blocks }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
+
   return (
-    <Flex fontSize="xs" overflowY="hidden" overflowX="auto">
+    <Flex fontSize="xs" pb="3" overflowY="hidden" overflowX="auto">
       {blocks.map((block, i) => {
         return (
-          <Flex key={i}>
+          <Flex key={i} {...(isMobile && { pr: "8" })}>
             <StatusBox block={block} />
-            {i !== blocks.length - 1 && <Split />}
+            {i !== blocks.length - 1 && !isMobile && <Split />}
           </Flex>
         );
       })}

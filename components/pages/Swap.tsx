@@ -10,11 +10,13 @@ type Props = {
 
 const Swap: FC<Props> = ({ token1, token2 }) => {
   return (
-    <Flex h="100%" justify="center">
-      <Box maxW="650px" w="full">
-        <SwapForm defaultToken1={token1 || ""} defaultToken2={token2 || ""} />
-      </Box>
-    </Flex>
+    <Box m="0 auto" pt="6">
+      <Flex justify="center">
+        <Box maxW="650px" mx="6" mt={[25, 25, 10]} mb={[100, 100, 25]} w="full">
+          <SwapForm defaultToken1={token1 || ""} defaultToken2={token2 || ""} />
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 

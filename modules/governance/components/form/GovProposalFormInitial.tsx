@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import { Fee } from "@terra-money/terra.js";
+import { ONE_TOKEN, MOBILE_MAX_WIDTH } from "constants/constants";
 import DOMPurify from "dompurify";
 import { useFormContext, UseFormReturn } from "react-hook-form";
 import { FormActions, FormTextItem } from "modules/common";
 import { GovProposalFormFooter } from "modules/governance";
 import { Proposal } from "types/common";
-import { ONE_TOKEN } from "constants/constants";
 import DepositBox from "components/proposal/DepositBox";
 import ErrorBox from "components/proposal/ErrorBox";
 import {
@@ -48,6 +48,7 @@ const GovProposalFormInitial: FC<Props> = ({
   inputErrors,
   methods,
 }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { watch } = useFormContext();
   const [title, description, messages, link] = [
     watch("title"),
@@ -63,11 +64,13 @@ const GovProposalFormInitial: FC<Props> = ({
 
   return (
     <>
-      <FormActions>
-        <Flex flexDirection="column">
-          <Heading fontSize="lg">Submit Proposal</Heading>
-        </Flex>
-      </FormActions>
+      {!isMobile && (
+        <FormActions>
+          <Flex flexDirection="column">
+            <Heading fontSize="lg">Submit Proposal</Heading>
+          </Flex>
+        </FormActions>
+      )}
 
       {balanceError && <ErrorBox />}
 

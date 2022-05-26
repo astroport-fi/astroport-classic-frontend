@@ -7,40 +7,64 @@ import { Proposal_Status } from "types/common";
 import StatusTitle from "components/proposal/StatusTitle";
 
 type Props = {
+  isMobile: boolean | undefined;
   title: string;
   state: Proposal_Status;
   twitterLink: string;
 };
 
-const Header: FC<Props> = ({ title, state, twitterLink }) => {
+const BackButton = () => {
   return (
-    <Flex mb="5" justify="space-between">
+    <Link href="/governance" passHref>
+      <IconButton
+        aria-label="Back"
+        size="xs"
+        variant="icon"
+        isRound
+        icon={<BackIcon />}
+      />
+    </Link>
+  );
+};
+
+const TweetButton = ({ twitterLink }: { twitterLink: string }) => {
+  return (
+    <IconButton
+      bg="brand.purple"
+      aria-label="Tweet"
+      size="xs"
+      variant="icon"
+      border="none"
+      p="1"
+      ml="2"
+      isRound
+      icon={<TwitterIcon />}
+      onClick={() => {
+        window.open(twitterLink, "_blank");
+      }}
+    />
+  );
+};
+
+const Header: FC<Props> = ({ isMobile, title, state, twitterLink }) => {
+  return isMobile ? (
+    <Flex mb="5" flexDirection="column" justify="space-between">
       <HStack spacing={4}>
-        <Link href="/governance" passHref>
-          <IconButton
-            aria-label="Back"
-            size="xs"
-            variant="icon"
-            isRound
-            icon={<BackIcon />}
-          />
-        </Link>
+        <Text fontSize="large">{title}</Text>
+      </HStack>
+      <Flex mt="4" justify="space-between">
+        <StatusTitle state={state} />
+        <TweetButton twitterLink={twitterLink} />
+      </Flex>
+    </Flex>
+  ) : (
+    <Flex mb="5" align="center" justify="space-between">
+      <HStack spacing={4}>
+        <BackButton />
         <Text fontSize="xl">{title}</Text>
         <StatusTitle state={state} />
       </HStack>
-      <IconButton
-        bg="brand.purple"
-        aria-label="Tweet"
-        size="xs"
-        variant="icon"
-        border="none"
-        p="1"
-        isRound
-        icon={<TwitterIcon />}
-        onClick={() => {
-          window.open(twitterLink, "_blank");
-        }}
-      />
+      <TweetButton twitterLink={twitterLink} />
     </Flex>
   );
 };

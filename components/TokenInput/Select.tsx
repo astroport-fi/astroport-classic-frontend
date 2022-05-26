@@ -9,8 +9,10 @@ import {
   VStack,
   useBreakpointValue,
   PlacementWithLogical,
+  useMediaQuery,
   Switch,
 } from "@chakra-ui/react";
+import Modal from "components/modals/Modal";
 import PopoverWrapper from "components/popovers/PopoverWrapper";
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import { TagList, List } from "components/TokenInput";
@@ -21,7 +23,7 @@ import {
   useTokenInfo,
   toggleValueInArray,
 } from "modules/common";
-import { COMMON_TOKENS } from "constants/constants";
+import { COMMON_TOKENS, MOBILE_MAX_WIDTH } from "constants/constants";
 import useLocalStorage from "hooks/useLocalStorage";
 
 type Props = {
@@ -31,7 +33,86 @@ type Props = {
   tokens?: string[] | undefined;
 };
 
+const ButtonStyle = (): any => {
+  return {
+    bg: "white.100",
+    color: "white",
+    borderRadius: "full",
+    borderWidth: "1px",
+    borderColor: "white.200",
+    textAlign: "left",
+    justifyContent: "space-between",
+    h: ["12", "16"],
+    pr: "6",
+    w: "full",
+    _active: { bg: "white.200" },
+    _focus: { outline: "none" },
+    _hover: { bg: "white.200" },
+  };
+};
+
+const SelectBody: FC<{
+  inputColor: string;
+  setFilter: (value: React.SetStateAction<string>) => void;
+  handleClick: (token: string) => void;
+  filteredTokens: string[];
+  allowedTokens: string[];
+  filter: string;
+  favoriteListToggle: boolean;
+  toggleFavoriteList: () => void;
+  handleFavorite: (token: string) => void;
+}> = ({
+  inputColor,
+  setFilter,
+  handleClick,
+  filteredTokens,
+  allowedTokens,
+  filter,
+  favoriteListToggle,
+  toggleFavoriteList,
+  handleFavorite,
+}) => {
+  const initialFocusRef = React.useRef();
+
+  return (
+    <VStack spacing={6} align="stretch" w={["calc(100vw - 80px)", null, "96"]}>
+      <Search
+        color={inputColor}
+        iconStyle={{ color: inputColor }}
+        borderColor={inputColor}
+        placeholder="Search token"
+        onChange={(e) => setFilter(e.target.value)}
+        variant="search"
+        // @ts-ignore
+        ref={initialFocusRef}
+      />
+      <Flex>
+        <Box flex={1}>
+          <TagList tokens={COMMON_TOKENS} onClick={handleClick} />
+        </Box>
+        <Box textAlign="right">
+          <Text textStyle="minibutton">Only favorites</Text>
+          <Switch
+            isChecked={favoriteListToggle}
+            onChange={toggleFavoriteList}
+            mt="2"
+            height="22px"
+          />
+        </Box>
+      </Flex>
+      <List
+        onClick={handleClick}
+        onFavorite={handleFavorite}
+        tokens={filteredTokens}
+        filtered={filteredTokens.length !== allowedTokens.length}
+        filteredTerm={filter}
+      />
+    </VStack>
+  );
+};
+
 const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const { getIcon, getSymbol, isHidden } = useTokenInfo();
   const { onOpen, onClose, isOpen } = useDisclosure();
   const price = useTokenPriceInUstWithSimulate(value);
@@ -128,9 +209,26 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
     md: "right",
   }) as PlacementWithLogical;
 
-  const initialFocusRef = React.useRef();
-
-  return (
+  return isMobile ? (
+    <>
+      <Button {...ButtonStyle()} onClick={handleOpen}>
+        {renderButton()}
+      </Button>
+      <Modal isOpen={isOpen} onClose={onClose} title="Select token">
+        <SelectBody
+          inputColor={inputColor}
+          setFilter={setFilter}
+          handleClick={handleClick}
+          filteredTokens={filteredTokens}
+          allowedTokens={allowedTokens}
+          filter={filter}
+          favoriteListToggle={favoriteListToggle}
+          toggleFavoriteList={toggleFavoriteList}
+          handleFavorite={handleFavorite}
+        />
+      </Modal>
+    </>
+  ) : (
     <PopoverWrapper
       title="Select token"
       placement={placement}
@@ -140,69 +238,20 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
       onOpen={handleOpen}
       onClose={handleClose}
       triggerElement={() => (
-        <Button
-          bg="white.100"
-          color="white"
-          borderRadius="full"
-          borderWidth="1px"
-          borderColor="white.200"
-          textAlign="left"
-          justifyContent="space-between"
-          h={["12", "16"]}
-          pr="6"
-          w="full"
-          _active={{
-            bg: "white.200",
-          }}
-          _focus={{
-            outline: "none",
-          }}
-          _hover={{
-            bg: "white.200",
-          }}
-        >
-          {renderButton()}
-        </Button>
+        <Button {...ButtonStyle()}>{renderButton()}</Button>
       )}
     >
-      <VStack
-        spacing={6}
-        align="stretch"
-        w={["calc(100vw - 80px)", null, "96"]}
-      >
-        <Search
-          color={inputColor}
-          iconStyle={{ color: inputColor }}
-          borderColor={inputColor}
-          placeholder="Search token"
-          onChange={(e) => setFilter(e.target.value)}
-          variant="search"
-          // @ts-ignore
-          ref={initialFocusRef}
-        />
-        <Flex>
-          <Box flex={1}>
-            <TagList tokens={COMMON_TOKENS} onClick={handleClick} />
-          </Box>
-          <Box textAlign="right">
-            <Text textStyle="minibutton">Only favorites</Text>
-            <Switch
-              isChecked={favoriteListToggle}
-              onChange={toggleFavoriteList}
-              mt="2"
-              height="22px"
-            />
-          </Box>
-        </Flex>
-        <List
-          onClick={handleClick}
-          onFavorite={handleFavorite}
-          tokens={filteredTokens}
-          favoritedTokens={favoritedTokens}
-          filtered={filteredTokens.length !== allowedTokens.length}
-          filteredTerm={filter}
-        />
-      </VStack>
+      <SelectBody
+        inputColor={inputColor}
+        setFilter={setFilter}
+        handleClick={handleClick}
+        filteredTokens={filteredTokens}
+        allowedTokens={allowedTokens}
+        filter={filter}
+        favoriteListToggle={favoriteListToggle}
+        toggleFavoriteList={toggleFavoriteList}
+        handleFavorite={handleFavorite}
+      />
     </PopoverWrapper>
   );
 };

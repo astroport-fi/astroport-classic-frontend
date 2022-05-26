@@ -1,9 +1,14 @@
 import React, { FC } from "react";
-import { Box, Center, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner, useMediaQuery } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import { MOBILE_MAX_WIDTH, MOBILE_NAV_HEIGHT } from "constants/constants";
 
 import Navbar from "components/Navbar";
+import MobileNavbar from "components/MobileNavbar";
+import MobileScrollToTop from "components/MobileScrollToTop";
+import MobileFooter from "components/MobileFooter";
+
 import { AstroswapConsumer, AstroswapProvider } from "modules/common";
 import { TerraWebappProvider } from "context/TerraWebappContext";
 
@@ -35,6 +40,15 @@ const GlobalStyles = css`
     top: 64px !important;
     right: "32px !important;
   }
+  nav.sidebar {
+    position: fixed;
+    background-color: #000D37;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+  }
   .pagination {
     display: flex;
     align-items: center;
@@ -49,6 +63,25 @@ const GlobalStyles = css`
     color: white;
     font-weight: 500;
   }
+  .glider::-webkit-scrollbar {
+    display: none;
+  }
+  .glider {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .glider-dots {
+    margin-top: 10px;
+  }
+  .glider-dot {
+    background: #ADA3FF;
+    opacity: 0.5;
+  }
+  .glider-dot.active {
+    width: 40px;
+    background: #ADA3FF;
+    opacity: 1;
+  }
   @font-face {
     font-family: WhyteInktrap;
     src: url('/WhyteInktrap-Regular.woff') format('woff');
@@ -60,6 +93,7 @@ const GlobalStyles = css`
 `;
 
 const Layout: FC = ({ children }) => {
+  const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const wallet = useWallet();
   const isInitializing = wallet.status == WalletStatus.INITIALIZING;
   const spinner = (
@@ -94,7 +128,7 @@ const Layout: FC = ({ children }) => {
       {!isInitializing && (
         <TerraWebappProvider>
           <AstroswapProvider>
-            <Navbar />
+            {isMobile ? <MobileNavbar /> : <Navbar />}
             <AstroswapConsumer>
               {({ isLoading, isErrorLoadingData }) =>
                 isLoading ? (
@@ -102,10 +136,18 @@ const Layout: FC = ({ children }) => {
                 ) : isErrorLoadingData ? (
                   errorLoadingData
                 ) : (
-                  <Box flex="1">{children}</Box>
+                  <Box flex="1" mt={isMobile ? MOBILE_NAV_HEIGHT : "0px"}>
+                    {children}
+                  </Box>
                 )
               }
             </AstroswapConsumer>
+            {isMobile && (
+              <>
+                <MobileScrollToTop />
+                <MobileFooter />
+              </>
+            )}
           </AstroswapProvider>
         </TerraWebappProvider>
       )}
