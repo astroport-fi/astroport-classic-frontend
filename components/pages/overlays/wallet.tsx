@@ -10,12 +10,18 @@ import {
   Text,
   VStack,
   useToast,
+  Stack,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
+import { DEFAULT_NETWORK } from "constants/constants";
+import { Networks } from "types/common";
 import copy from "copy-to-clipboard";
 import { fromTerraAmount } from "libs/terra";
 import { useWallet } from "@terra-money/wallet-provider";
 import { truncate } from "libs/text";
 import { useBalance, useTokenInfo } from "modules/common";
+import useLocalStorage from "hooks/useLocalStorage";
 import useFinder from "hooks/useFinder";
 import useTNS from "hooks/useTNS";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
@@ -42,6 +48,10 @@ const Wallet: FC<Props> = ({ onClose, type = "popover" }) => {
   const price = useTokenPriceInUstWithSimulate("uusd");
   const finder = useFinder();
   const tnsName = useTNS(terraAddress);
+  const [terraNetwork, setTerraNetwork] = useLocalStorage(
+    "network",
+    DEFAULT_NETWORK
+  );
 
   const copyAddress = () => {
     copy(terraAddress);
@@ -115,6 +125,33 @@ const Wallet: FC<Props> = ({ onClose, type = "popover" }) => {
             </HStack>
           </Link>
         </Flex>
+        <Stack mt={6}>
+          <Text textStyle="minibutton">Select Astroport Version</Text>
+        </Stack>
+        <RadioGroup
+          mt={4}
+          onChange={(value: Networks) => setTerraNetwork(value)}
+          value={terraNetwork}
+        >
+          <Stack spacing={3}>
+            <Radio
+              value="TERRA_V2"
+              colorScheme="purple"
+              bg="white.400"
+              borderColor="white.200"
+            >
+              Terra 2.0
+            </Radio>
+            <Radio
+              value="TERRA_CLASSIC"
+              colorScheme="purple"
+              bg="white.400"
+              borderColor="white.200"
+            >
+              Terra Classic
+            </Radio>
+          </Stack>
+        </RadioGroup>
       </Flex>
       <Box mt="6">
         <Button
