@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
-
+import useAddress from "hooks/useAddress";
 import { LpDepositResponse, useContracts } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
 

@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { gql } from "graphql-request";
 import { ONE_TOKEN } from "constants/constants";
 import { isNativeToken, useHive, useTokenInfo } from "modules/common";
+import num from "libs/num";
 
 interface Balances {
   [key: string]: string;
@@ -56,7 +57,7 @@ const createQueryNativeTokens = (address: string) => {
 // All tokens are guaranteed to be included in object.
 export const useBalances = (tokens: string[]): Balances => {
   const { getDecimals } = useTokenInfo();
-  const address = useAddress();
+  const address = useAddress() || "";
 
   const contractTokens = tokens.filter((token) => !isNativeToken(token));
   const nativeTokens = tokens.filter((token) => isNativeToken(token));

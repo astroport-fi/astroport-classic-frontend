@@ -9,7 +9,6 @@ import {
   Consumer,
   useCallback,
 } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
 import { nanoid } from "nanoid";
 
 import {
@@ -28,6 +27,7 @@ import {
   RemoveNotificationPayload,
 } from "modules/common/notifications/model";
 import whitelist from "constants/whitelist";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Astroswap = {
   isLoading: boolean;

@@ -53,7 +53,9 @@ jest.mock("constants/tokenCache", () => ({
   },
 }));
 
-jest.mock("@arthuryeti/terra", () => ({
+jest.mock("hooks/useAddress", () => jest.fn(() => ""));
+
+jest.mock("context/TerraWebappContext", () => ({
   useTerraWebapp: jest.fn(() => ({
     network: {
       name: "foonet",

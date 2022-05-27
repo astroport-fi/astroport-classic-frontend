@@ -13,17 +13,8 @@ jest.mock("@terra-money/wallet-provider", () => ({
   }),
 }));
 
-jest.mock("@arthuryeti/terra", () => {
-  const original = jest.requireActual("@arthuryeti/terra");
-
-  return {
-    num: original.num,
-    useEstimateFee: () => ({
-      fee: 0,
-    }),
-    useAddress: jest.fn(() => "terra123"),
-  };
-});
+jest.mock("hooks/useEstimateFee", () => jest.fn(() => ({ fee: 0 })));
+jest.mock("hooks/useAddress", () => jest.fn(() => "terra123"));
 
 jest.mock("react-query", () => ({
   // Very basic mock that just immediately invokes the query function

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { num, useAddress } from "@arthuryeti/terra";
-
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 import { useContracts, Route, useTokenInfo } from "modules/common";
 import { minAmountReceive, useSwapSimulate } from "modules/swap";
 import { createSwapMsgs as createMultiSwapMsgs } from "modules/swap/multiSwap";
@@ -85,7 +85,7 @@ export const useSwap = ({
           minReceive,
           router,
         },
-        address
+        address || ""
       );
     }
 
@@ -97,7 +97,7 @@ export const useSwap = ({
         slippage,
         price: simulated.beliefPrice,
       },
-      address
+      address || ""
     );
   }, [
     address,

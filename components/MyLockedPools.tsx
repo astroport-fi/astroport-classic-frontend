@@ -12,7 +12,7 @@ import LockEndTd from "components/table/LockEndTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import RewardsTd from "components/table/RewardsTd";
 import MyLockActionsTd from "components/table/MyLockActionsTd";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 const MyLockedPools = () => {
   const address = useAddress();

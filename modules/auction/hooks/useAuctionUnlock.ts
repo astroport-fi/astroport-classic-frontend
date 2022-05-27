@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { useAddress, num } from "@arthuryeti/terra";
-
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 import { createAuctionUnlockMsgs } from "modules/auction";
 import {
   useContracts,
@@ -29,7 +29,7 @@ export const useAuctionUnlock = ({
   onBroadcasting,
   onError,
 }: Params): AuctionUnlockState => {
-  const address = useAddress();
+  const address = useAddress() || "";
   const { auction } = useContracts();
 
   const msgs = useMemo(() => {

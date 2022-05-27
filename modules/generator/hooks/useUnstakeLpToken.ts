@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useAddress, num, toTerraAmount } from "@arthuryeti/terra";
 
 import {
   useContracts,
@@ -8,6 +7,9 @@ import {
   TxErrorHandler,
 } from "modules/common";
 import { createUnstakeLpMsgs } from "modules/generator";
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
+import { toTerraAmount } from "libs/terra";
 
 export type UnstakeLpTokenState = {
   error: any;

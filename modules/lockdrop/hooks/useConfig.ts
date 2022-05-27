@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 
 import { useContracts } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Response = {
   astro_token: string;

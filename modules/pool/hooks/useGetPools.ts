@@ -1,4 +1,3 @@
-import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 import { gql, request } from "graphql-request";
 import { PoolResponse, useHiveEndpoint } from "modules/common";

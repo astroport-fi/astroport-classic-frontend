@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { TxInfo } from "@terra-money/terra.js";
 import { Text } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { useQueryClient } from "react-query";
 import {
   useTokenInfo,

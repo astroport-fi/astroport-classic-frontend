@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { num, useEstimateFee } from "@arthuryeti/terra";
+import num from "libs/num";
 import { useRouter } from "next/router";
 import { useWallet } from "@terra-money/wallet-provider";
 import numeral from "numeral";
@@ -23,6 +23,7 @@ import SwapFormConfirm from "components/swap/SwapFormConfirm";
 import SwapFormInitial from "components/swap/SwapFormInitial";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import FormLoading from "components/common/FormLoading";
+import useEstimateFee from "hooks/useEstimateFee";
 
 type FormValues = {
   token1: string;

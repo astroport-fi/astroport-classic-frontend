@@ -1,8 +1,8 @@
 import { useCallback, useState, useEffect, useMemo } from "react";
 import { Coins, Coin, MsgExecuteContract, Fee } from "@terra-money/terra.js";
 import { useQuery } from "react-query";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
-
+import { useTerraWebapp } from "context/TerraWebappContext";
+import useAddress from "hooks/useAddress";
 import useDebounceValue from "hooks/useDebounceValue";
 import {
   useTx,
@@ -53,7 +53,7 @@ export const useTransaction = ({
   notification,
 }: Params) => {
   const { client } = useTerraWebapp();
-  const address = useAddress();
+  const address = useAddress() || "";
   const debouncedMsgs = useDebounceValue(msgs, 200);
 
   const [txStep, setTxStep] = useState<TxStep>(TxStep.Idle);

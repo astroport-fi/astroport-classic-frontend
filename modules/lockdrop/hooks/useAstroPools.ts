@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { gql } from "graphql-request";
 import { sortBy } from "lodash";
-
+import num from "libs/num";
 import { ONE_TOKEN } from "constants/constants";
 import {
   getPoolTokenDenoms,
@@ -92,7 +92,7 @@ export const useAstroPools = () => {
   const { lockdrop, astroToken, stakableLp, generator, bLunaToken } =
     useContracts();
   const { getDecimals } = useTokenInfo();
-  const address = useAddress();
+  const address = useAddress() || "";
   const lunaPrice = useLunaPriceInUst();
   const userInfo = useUserInfoWithList();
   const bLunaPrice = useStableTokenPrice(bLunaToken, "uluna");

@@ -1,4 +1,3 @@
-import { num, toBase64, toTerraAmount } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 import { uniqBy } from "lodash";
 

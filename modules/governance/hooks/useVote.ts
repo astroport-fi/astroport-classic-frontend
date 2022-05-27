@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 import { useContracts } from "modules/common";
 import { createVoteMsg } from "modules/governance";
@@ -11,7 +11,7 @@ type Params = {
 
 export const useVote = ({ proposal_id, vote }: Params): any => {
   const { assembly } = useContracts();
-  const address = useAddress();
+  const address = useAddress() || "";
 
   const msgs = useMemo(() => {
     if (!proposal_id || !vote) {

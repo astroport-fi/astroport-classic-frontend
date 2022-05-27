@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { useLpToTokens, Pool } from "modules/pool";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";

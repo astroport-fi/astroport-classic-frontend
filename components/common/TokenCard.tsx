@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import numeral from "numeral";
 
 import { handleTinyAmount, useTokenInfo } from "modules/common";

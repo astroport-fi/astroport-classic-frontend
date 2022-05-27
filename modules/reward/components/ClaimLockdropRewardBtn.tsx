@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { TxStep, useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
 import { useTx } from "modules/common";
 import { useClaimLockdropReward } from "modules/reward";
+import useEstimateFee from "hooks/useEstimateFee";
 
 type Props = {
   contract: string;

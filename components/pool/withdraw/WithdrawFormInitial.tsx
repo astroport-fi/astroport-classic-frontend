@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 import { WithdrawState } from "modules/pool";
 import { useBalance, FormActions, FormActionItem } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";

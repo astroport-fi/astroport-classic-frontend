@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { useUserInfo } from "modules/auction";
 import { useContracts, useTokenInfo } from "modules/common";

@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 import { Box, Button, Flex, Link, Text, Code } from "@chakra-ui/react";
 import useFinder from "hooks/useFinder";
@@ -23,6 +22,8 @@ import { Proposal, Proposal_History } from "types/common";
 import VotePower from "components/proposal/VotePower";
 import { ASTRO_FORUM_LINK } from "constants/constants";
 import { truncateStr } from "modules/common";
+import useAddress from "hooks/useAddress";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Props = {
   id: string;

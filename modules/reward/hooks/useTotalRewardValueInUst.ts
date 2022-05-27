@@ -6,7 +6,7 @@ import {
   usePhase2Rewards,
 } from "modules/reward";
 import { useContracts } from "modules/common";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
 
 export const useTotalRewardValueInUst = () => {

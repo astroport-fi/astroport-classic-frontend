@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Coin } from "@terra-money/terra.js";
-import { useAddress, num } from "@arthuryeti/terra";
-
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 import {
   useTokenInfo,
   useTransaction,
@@ -73,7 +73,7 @@ export const useProvide = ({
         autoStake,
         slippage: "0.02",
       },
-      address
+      address || ""
     );
   }, [
     address,

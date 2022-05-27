@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 import { useContracts } from "modules/common";
 import { createLockdropRewardMsgs } from "modules/reward";
@@ -24,7 +24,7 @@ export const useClaimLockdropReward = ({ contract, duration }: Params) => {
         contract,
         duration,
       },
-      address
+      address || ""
     );
 
     return msgs;

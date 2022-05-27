@@ -1,19 +1,12 @@
-import { useAddress, useBalance } from "@arthuryeti/terra";
 import { renderHook } from "@testing-library/react-hooks";
 import useBalances from "modules/common/hooks/useBalances";
-import { useHive } from "modules/common";
+import { useBalance, useHive } from "modules/common";
+import useAddress from "hooks/useAddress";
 
-jest.mock("@arthuryeti/terra", () => {
-  const original = jest.requireActual("@arthuryeti/terra");
-
-  return {
-    num: original.num,
-    useAddress: jest.fn(),
-    useBalance: jest.fn(),
-  };
-});
+jest.mock("hooks/useAddress", () => jest.fn());
 
 jest.mock("modules/common", () => ({
+  useBalance: jest.fn(),
   useTokenInfo: () => ({
     getDecimals: jest.fn(() => 1),
   }),

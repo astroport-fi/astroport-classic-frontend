@@ -14,7 +14,6 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { fromTerraAmount, num, useAddress } from "@arthuryeti/terra";
 import { useWallet, useConnectedWallet } from "@terra-money/wallet-provider";
 
 import { truncate, displayTNS } from "libs/text";
@@ -27,6 +26,9 @@ import PopoverWrapper from "components/popovers/PopoverWrapper";
 import TerraIcon from "components/icons/TerraIcon";
 import CopyIcon from "components/icons/CopyIcon";
 import ViewIcon from "components/icons/ViewIcon";
+import { fromTerraAmount } from "libs/terra";
+import num from "libs/num";
+import useAddress from "hooks/useAddress";
 // import CloseIcon from "components/icons/CloseIcon";
 
 const WalletInfoPopover: FC = () => {

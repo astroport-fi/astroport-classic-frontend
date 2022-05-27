@@ -2,7 +2,6 @@ import React, { useCallback, useState, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEstimateFee } from "@arthuryeti/terra";
 
 import {
   useContracts,
@@ -23,6 +22,7 @@ import { Proposal } from "types/common";
 import FormLoading from "components/common/FormLoading";
 import useDebounceValue from "hooks/useDebounceValue";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";
+import useEstimateFee from "hooks/useEstimateFee";
 
 const GovProposalForm = () => {
   const { astroToken } = useContracts();

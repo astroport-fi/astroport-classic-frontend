@@ -8,7 +8,7 @@ import {
 } from "modules/common";
 import { CW20AssetInfo } from "types/common";
 import tokenCache from "constants/tokenCache";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { QUERY_STALE_TIME } from "constants/constants";
 
 export type UseAllTokens = {

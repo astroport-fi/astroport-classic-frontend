@@ -1,5 +1,6 @@
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { QUERY_STALE_TIME } from "constants/constants";
+import { useTerraWebapp } from "context/TerraWebappContext";
+import useAddress from "hooks/useAddress";
 import { useAstroswap } from "modules/common";
 import { useMemo } from "react";
 import { useQuery } from "react-query";

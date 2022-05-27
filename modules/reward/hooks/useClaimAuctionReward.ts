@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 import { useContracts } from "modules/common";
 import { createAuctionRewardMsgs } from "modules/reward";
@@ -22,7 +22,7 @@ export const useClaimAuctionReward = ({ amount }: Params) => {
         contract: auction,
         amount,
       },
-      address
+      address || ""
     );
 
     return msgs;

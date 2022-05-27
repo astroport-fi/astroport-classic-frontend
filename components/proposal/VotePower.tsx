@@ -1,4 +1,4 @@
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { WalletStatus } from "@terra-money/wallet-provider";
 import { PROPOSAL_VOTE_POWER } from "constants/constants";

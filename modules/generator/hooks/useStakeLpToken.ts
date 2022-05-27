@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, toTerraAmount, num } from "@arthuryeti/terra";
-
+import num from "libs/num";
 import { createStakeLpMsgs } from "modules/generator";
 import {
   useContracts,
@@ -8,6 +7,8 @@ import {
   TxStep,
   TxErrorHandler,
 } from "modules/common";
+import useAddress from "hooks/useAddress";
+import { toTerraAmount } from "libs/terra";
 
 export type StakeLpTokenState = {
   error: any;

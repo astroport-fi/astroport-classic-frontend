@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { num, useAddress, useEstimateFee } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useRouter } from "next/router";
 import { Flex, Text, Box, Button } from "@chakra-ui/react";
 import {
@@ -9,7 +9,7 @@ import {
 } from "modules/common";
 import { handleBigAndTinyAmount, truncateStr } from "modules/common/helpers";
 import { PROPOSAL_VOTE_POWER } from "constants/constants";
-
+import num from "libs/num";
 import {
   useProposalApi,
   useProposalClient,
@@ -23,6 +23,7 @@ import FormLoading from "components/common/FormLoading";
 import WarningMessage from "components/common/WarningMessage";
 import GovVoteFormFooter from "./GovVoteFormFooter";
 import Warning from "components/icons/Warning";
+import useEstimateFee from "hooks/useEstimateFee";
 
 type Props = {
   id: string;

@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { num, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 import { QUERY_STALE_TIME } from "constants/constants";
 import { useBalance, useContracts } from "modules/common";
+import num from "libs/num";
 
 type Response = {
   total_supply: string;

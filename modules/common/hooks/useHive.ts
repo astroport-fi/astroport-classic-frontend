@@ -1,7 +1,7 @@
 import { request } from "graphql-request";
 import { useQuery } from "react-query";
 
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import {
   ENV_MAINNET_GRAPHQL,
   ENV_TESTNET_GRAPHQL,

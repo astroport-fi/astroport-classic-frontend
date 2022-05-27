@@ -2,10 +2,13 @@ import React, { FC, useCallback, useState, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { TxStep } from "@arthuryeti/terra";
 
 import { useUnstakeLpToken, UnstakeLpFormInitial } from "modules/generator";
-import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  PairResponse,
+  TxStep,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { PoolFormType } from "types/common";
 
 import FormLoading from "components/common/FormLoading";

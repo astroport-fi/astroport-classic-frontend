@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { useAddress, num } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 
 import { useContracts, useTransaction, TxErrorHandler } from "modules/common";
 import { useLockdropRewards, useUserInfoWithList } from "modules/lockdrop";
@@ -65,7 +66,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
           contract: lockdrop,
           items,
         },
-        address
+        address || ""
       );
 
       data.push(...phase1Msgs);
@@ -83,7 +84,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
         {
           contract: auction,
         },
-        address
+        address || ""
       );
 
       data.push(...phase2Msgs);
@@ -111,7 +112,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
                   lp: position.lp,
                   contract: generator,
                 },
-                address
+                address || ""
               );
             }
           } else {
@@ -124,7 +125,7 @@ export const useClaimAll = ({ onBroadcasting, onError }: Params) => {
                   contract: position.claimLp,
                   duration: position.claimDuration,
                 },
-                address
+                address || ""
               );
             }
           }

@@ -2,13 +2,14 @@ import React, { FC, useEffect } from "react";
 import { Box, Flex, Text, HStack, IconButton } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
 import { motion, useAnimation } from "framer-motion";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useBalance, useTokenInfo } from "modules/common";
 import TokenInput from "components/TokenInput";
 import NewAmountInput from "components/NewAmountInput";
 import WarningMessage from "components/common/WarningMessage";
 import SlippagePopover from "components/popovers/SlippagePopover";
 import ArrowDownIcon from "components/icons/ArrowDown";
+import num from "libs/num";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);

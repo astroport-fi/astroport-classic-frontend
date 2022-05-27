@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { getTokenDenom, PoolResponse, useTokenInfo } from "modules/common";
 import { useLpToTokens } from "modules/pool";

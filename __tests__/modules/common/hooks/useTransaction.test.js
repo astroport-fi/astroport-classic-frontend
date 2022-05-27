@@ -1,13 +1,14 @@
 import useTransaction, { TxStep } from "modules/common/hooks/useTransaction";
 import { renderHook } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { Coin, Coins } from "@terra-money/terra.js";
 import { useTx, TxPostError } from "modules/common";
 import { Timeout } from "@terra-money/wallet-types";
 
-jest.mock("@arthuryeti/terra", () => ({
-  useAddress: jest.fn(() => "terra123"),
+jest.mock("hooks/useAddress", () => jest.fn(() => "terra123"));
+
+jest.mock("context/TerraWebappContext", () => ({
   useTerraWebapp: jest.fn(),
 }));
 

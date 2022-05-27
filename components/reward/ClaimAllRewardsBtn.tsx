@@ -1,8 +1,6 @@
 import React, { FC } from "react";
-import { TxStep } from "@arthuryeti/terra";
 import { Text, Button, VStack } from "@chakra-ui/react";
-
-import { useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import { TxStep, useNotEnoughUSTBalanceToPayFees } from "modules/common";
 import { useClaimAll } from "modules/reward";
 import FormFee from "components/common/FormFee";
 

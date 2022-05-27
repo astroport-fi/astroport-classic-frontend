@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import useLocalStorage from "hooks/useLocalStorage";
 import {
   getPoolTokenDenoms,
@@ -20,6 +20,8 @@ import { getAssetAmountsInPool } from "libs/terra";
 import { ONE_TOKEN, QUERY_STALE_TIME } from "constants/constants";
 import { BLUNA_LUNA_PAIR_ADDR } from "constants/contracts";
 import { useQuery } from "react-query";
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 
 export type AllPoolsPool = {
   inUse: boolean;

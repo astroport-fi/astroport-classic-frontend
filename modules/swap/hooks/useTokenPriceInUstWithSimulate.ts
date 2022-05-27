@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
 
 import { useAstroswap, useLunaPriceInUst, useTokenInfo } from "modules/common";
 import { useSwapRoute, useSwapSimulate } from "modules/swap";
+import num from "libs/num";
 
 export const useTokenPriceInUstWithSimulate = (token: string | null) => {
   const { tokenGraph } = useAstroswap();

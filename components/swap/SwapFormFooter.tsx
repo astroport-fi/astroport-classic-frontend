@@ -8,7 +8,7 @@ import {
   useDisclosure,
   Spinner,
 } from "@chakra-ui/react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import { useTokenInfo, handleTinyAmount, Route } from "modules/common";
 import {
   usePriceImpact,

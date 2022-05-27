@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, FC, ReactNode } from "react";
 import { Text } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 
 import { useTokenInfo } from "modules/common";
 import { useTokenPriceInUstWithSimulate } from "modules/swap";

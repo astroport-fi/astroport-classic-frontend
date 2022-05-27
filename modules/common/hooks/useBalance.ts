@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
 import { isNativeToken } from "../asset";
 import { QUERY_STALE_TIME } from "constants/constants";
+import useAddress from "hooks/useAddress";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 function isBalanceResponse(value) {
   return value.hasOwnProperty("balance");
@@ -11,7 +12,8 @@ function isBalanceResponse(value) {
 export const useBalance = (token: string, contractAddress?: string) => {
   const terraAddress = useAddress();
   const { client } = useTerraWebapp();
-  const address = contractAddress != null ? contractAddress : terraAddress;
+  const address =
+    (contractAddress != null ? contractAddress : terraAddress) || "";
 
   const { data, isLoading } = useQuery<any>(
     ["balance", token, address],

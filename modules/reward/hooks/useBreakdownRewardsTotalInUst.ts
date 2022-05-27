@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "react-query";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { useBreakdownRewards } from "modules/reward";
 import { usePrice } from "modules/swap";

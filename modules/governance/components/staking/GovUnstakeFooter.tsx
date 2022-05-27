@@ -5,13 +5,14 @@ import {
   SliderThumb,
   SliderTrack,
 } from "@chakra-ui/react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
 
 import { ONE_TOKEN } from "constants/constants";
 
 import CommonFooter from "components/CommonFooter";
 import Card from "components/Card";
 import { useBalance, useContracts } from "modules/common";
+import num from "libs/num";
+import { fromTerraAmount } from "libs/terra";
 
 type Props = {
   data: any;

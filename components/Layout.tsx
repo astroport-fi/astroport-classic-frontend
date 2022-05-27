@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
-import { TerraWebappProvider } from "@arthuryeti/terra";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
 import Navbar from "components/Navbar";
 import { AstroswapConsumer, AstroswapProvider } from "modules/common";
+import { TerraWebappProvider } from "context/TerraWebappContext";
 
 const GlobalStyles = css`
   html, body {

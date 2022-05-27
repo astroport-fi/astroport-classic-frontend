@@ -1,4 +1,4 @@
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { ONE_TOKEN } from "constants/constants";
 
 type minAmountReceiveParams = {

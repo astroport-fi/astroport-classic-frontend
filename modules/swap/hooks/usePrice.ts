@@ -1,5 +1,5 @@
-import { useTerraWebapp, num } from "@arthuryeti/terra";
-
+import { useTerraWebapp } from "context/TerraWebappContext";
+import num from "libs/num";
 import {
   getSwapRoute,
   useAstroswap,

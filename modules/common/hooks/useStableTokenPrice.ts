@@ -1,11 +1,12 @@
 import { useMemo } from "react";
 import { useQuery } from "react-query";
-import { num, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 import { SimulationResponse, useAstroswap } from "modules/common";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { useSwapRoute } from "modules/swap";
 import { QUERY_STALE_TIME } from "constants/constants";
+import num from "libs/num";
 
 // token1 is the base token of stable type pool that price is calculated for
 export const useStableTokenPrice = (token1: string, token2: string) => {

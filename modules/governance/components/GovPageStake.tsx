@@ -10,7 +10,6 @@ import {
   Link,
   Heading,
 } from "@chakra-ui/react";
-import { fromTerraAmount, num, useBalance } from "@arthuryeti/terra";
 import { ASTRO_DISCORD_LINK, ASTRO_FORUM_LINK } from "constants/constants";
 
 import SummaryCard from "components/SummaryCard";
@@ -31,6 +30,8 @@ import {
   useGovStakingBalances,
   useAstroMintRatio,
 } from "../hooks";
+import num from "libs/num";
+import { fromTerraAmount } from "libs/terra";
 
 const GovPageStake = () => {
   const {

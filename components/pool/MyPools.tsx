@@ -9,7 +9,7 @@ import AprTd from "components/table/AprTd";
 import NumberInUstTd from "components/table/NumberInUstTd";
 import MyPoolActionsTd from "components/table/MyPoolActionsTd";
 import FavoriteToggleButton from "components/FavoriteToggleButton";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 const MyPools: FC = () => {
   const address = useAddress();

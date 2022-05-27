@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Text, Flex, HStack } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { MaxButton } from "components/NewAmountInput";
 import { useBalance, useTokenInfo } from "modules/common";

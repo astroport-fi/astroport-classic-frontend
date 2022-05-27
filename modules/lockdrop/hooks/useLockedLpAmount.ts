@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
-
+import useAddress from "hooks/useAddress";
 import { useContracts } from "modules/common";
+import num from "libs/num";
 
 export const useLockedLpAmount = (
   lpTokenContract: string,

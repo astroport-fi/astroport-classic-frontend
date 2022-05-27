@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Text, Image, Flex, HStack } from "@chakra-ui/react";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 import {
   useBalance,
   useTokenInfo,

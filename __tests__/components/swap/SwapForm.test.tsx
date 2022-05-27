@@ -6,7 +6,6 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useEstimateFee } from "@arthuryeti/terra";
 import { useTx, useBalance } from "modules/common";
 import { useSwap } from "modules/swap";
 import { Coin, Coins } from "@terra-money/terra.js";
@@ -17,15 +16,16 @@ jest.mock("@terra-money/wallet-provider", () => ({
   }),
 }));
 
-jest.mock("@arthuryeti/terra", () => {
-  const original = jest.requireActual("@arthuryeti/terra");
+jest.mock("hooks/useEstimateFee", () =>
+  jest.fn(() => ({
+    fee: {
+      amount: new Coins([new Coin("uusd", 0)]),
+    },
+    isLoading: false,
+  }))
+);
 
-  return {
-    ...original,
-    useEstimateFee: jest.fn(),
-    useAddress: () => "terra42",
-  };
-});
+jest.mock("hooks/useAddress", () => jest.fn(() => "terra123"));
 
 jest.mock("modules/common/context", () => {
   return {
@@ -85,14 +85,9 @@ jest.mock("modules/swap", () => {
   };
 });
 
-beforeEach(() => {
-  (useEstimateFee as jest.Mock).mockReturnValue({
-    fee: {
-      amount: new Coins([new Coin("uusd", 0)]),
-    },
-    isLoading: false,
-  });
-});
+// beforeEach(() => {
+//   (useEstimateFee as jest.Mock).mockReturnValue();
+// });
 
 describe("SwapForm", () => {
   const renderAndSwap = async () => {

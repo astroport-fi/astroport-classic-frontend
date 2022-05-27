@@ -1,4 +1,4 @@
-import { toBase64 } from "@arthuryeti/terra";
+import { toBase64 } from "libs/terra";
 import { LCDClient, Coin, MsgExecuteContract } from "@terra-money/terra.js";
 
 import {

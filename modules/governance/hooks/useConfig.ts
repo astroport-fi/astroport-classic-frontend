@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
 import { useQuery } from "react-query";
-
 import { useContracts } from "modules/common";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Response = {
   proposal_effective_delay: number;

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 import { FINDER, CHAIN_TO_FINDER_INFO } from "constants/constants";
 

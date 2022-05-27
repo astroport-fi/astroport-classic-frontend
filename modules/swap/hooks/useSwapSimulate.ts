@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTerraWebapp, num } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 
 import {
@@ -13,6 +13,7 @@ import {
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import { simulate as simulateMultiSwap } from "modules/swap/multiSwap";
 import { QUERY_STALE_TIME } from "constants/constants";
+import num from "libs/num";
 
 function isMultiSimulation(
   value:

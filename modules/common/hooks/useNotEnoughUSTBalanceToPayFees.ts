@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { Fee } from "@terra-money/terra.js";
 
 import { useBalance, useTokenInfo } from "modules/common";

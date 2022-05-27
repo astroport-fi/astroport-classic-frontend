@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Flex, Box } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { StakeLpFormFooter, StakeLpTokenState } from "modules/generator";
 import { useBalance, FormActionItem, FormActions } from "modules/common";

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 
 import { useContracts } from "modules/common";
 import {
@@ -24,7 +25,7 @@ type Params = {
 
 export const useGovStake = ({ amount, type }: Params): StakeState => {
   const { astroToken, xAstroToken, staking } = useContracts();
-  const address = useAddress();
+  const address = useAddress() || "";
 
   const msgs = useMemo(() => {
     if (num(amount).eq(0) || !amount) {

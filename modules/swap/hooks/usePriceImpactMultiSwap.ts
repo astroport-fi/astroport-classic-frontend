@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { num, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { getAssetAmountsInPool } from "libs/terra";
 import BigNumber from "bignumber.js";
-
 import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 
 import useGetPools from "modules/pool/hooks/useGetPools";
+import num from "libs/num";
 
 type Params = {
   from: string;

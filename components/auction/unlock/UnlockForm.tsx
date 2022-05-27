@@ -1,11 +1,15 @@
 import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, num, toTerraAmount } from "@arthuryeti/terra";
+import { toTerraAmount } from "libs/terra";
 import { useRouter } from "next/router";
 
 import { useAuctionUnlock } from "modules/auction";
-import { useContracts, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  TxStep,
+  useContracts,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";

@@ -1,9 +1,9 @@
 import React, { FC, useMemo } from "react";
 import { Button } from "@chakra-ui/react";
-import { num, useTerraWebapp } from "@arthuryeti/terra";
-
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useBalance } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
+import num from "libs/num";
 
 type Props = {
   onChange: any;

@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from "react";
 import { Box, Flex, Text, HStack, Image } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import numeral from "numeral";
 
 import { useAstroswap, getTokenDenoms, useTokenInfo } from "modules/common";

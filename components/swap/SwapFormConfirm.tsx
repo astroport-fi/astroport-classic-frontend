@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { useTerraWebapp, fromTerraAmount, num } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 import { Fee } from "@terra-money/terra.js";
 import tokenRules from "constants/tokenRules";
-
+import num from "libs/num";
 import {
   usePriceImpact,
   usePriceImpactColor,
@@ -14,6 +14,7 @@ import { useTokenInfo, Route, handleTinyAmount } from "modules/common";
 import FormSummary from "components/common/FormSummary";
 import FormConfirm from "components/common/FormConfirm";
 import { ONE_TOKEN } from "constants/constants";
+import { useTerraWebapp } from "context/TerraWebappContext";
 
 type Props = {
   swapRoute: Route[];

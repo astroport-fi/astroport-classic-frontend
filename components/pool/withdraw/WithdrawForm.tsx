@@ -2,16 +2,20 @@ import React, { FC, useCallback, useState, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { TxStep, toTerraAmount } from "@arthuryeti/terra";
 
 import useDebounceValue from "hooks/useDebounceValue";
-import { PairResponse, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  PairResponse,
+  TxStep,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useWithdraw, Pool } from "modules/pool";
 
 import FormLoading from "components/common/FormLoading";
 import WithdrawFormInitial from "components/pool/withdraw/WithdrawFormInitial";
 import WithdrawFormConfirm from "components/pool/withdraw//WithdrawFormConfirm";
+import { toTerraAmount } from "libs/terra";
 
 type FormValues = {
   amount: string;

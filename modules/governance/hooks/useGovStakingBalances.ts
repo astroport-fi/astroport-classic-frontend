@@ -1,11 +1,9 @@
-// balances can't use useBalance from @arthuryeti/terra as it returns 0 in loading state.
-// need differentiation of 0 = balance and 0 = loading
-
 import { gql } from "graphql-request";
-import { useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useApi, useContracts } from "modules/common";
 import { useQuery } from "react-query";
 import { QUERY_STALE_TIME } from "constants/constants";
+import useAddress from "hooks/useAddress";
 
 const query = gql`
   query Supply {

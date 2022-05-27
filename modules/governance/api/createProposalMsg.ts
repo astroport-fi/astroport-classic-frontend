@@ -1,4 +1,4 @@
-import { toBase64 } from "@arthuryeti/terra";
+import { toBase64 } from "libs/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 import { validateJsonInput } from "modules/common";
 import { Proposal } from "types/common";

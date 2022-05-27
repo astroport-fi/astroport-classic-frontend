@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAddress, num } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 import {
   getTokenDenom,
   useTokenInfo,
@@ -12,6 +12,7 @@ import {
   useGetPool,
   shouldReverseTokenOrder,
 } from "modules/pool";
+import num from "libs/num";
 
 export type WithdrawState = {
   token1?: string;
@@ -100,7 +101,7 @@ export const useWithdraw = ({
         lpToken,
         amount,
       },
-      address
+      address || ""
     );
   }, [address, contract, lpToken, amount]);
 

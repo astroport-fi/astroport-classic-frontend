@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { gql } from "graphql-request";
 
 import { useContracts, useHive, useTokenInfo } from "modules/common";

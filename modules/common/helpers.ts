@@ -1,5 +1,5 @@
 import numeral from "numeral";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { request } from "graphql-request";
 
 export const handleBigPercentage = (

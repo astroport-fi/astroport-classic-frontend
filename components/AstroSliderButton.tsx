@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Button, VStack, Text } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 type Props = {
   value: number;

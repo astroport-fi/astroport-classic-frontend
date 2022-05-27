@@ -1,7 +1,6 @@
 import { FC, useCallback } from "react";
-
-import { useTxInfo } from "@arthuryeti/terra";
 import { useAstroswap } from "modules/common";
+import useTxInfo from "hooks/useTxInfo";
 
 type Props = {
   onClose: () => void;

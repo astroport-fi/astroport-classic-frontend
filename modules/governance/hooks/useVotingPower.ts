@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { num, useAddress, useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 import { PROPOSAL_VOTE_POWER } from "constants/constants";
-
+import num from "libs/num";
 import { useContracts } from "modules/common";
+import useAddress from "hooks/useAddress";
 
 type Params = {
   proposal_id: number;

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Flex, Box, Checkbox, Text } from "@chakra-ui/react";
 import { useFormContext, Controller } from "react-hook-form";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { ProvideState, Pool } from "modules/pool";
 import {

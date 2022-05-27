@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useAddress, num } from "@arthuryeti/terra";
 
 import { createUnlockMsgs } from "modules/lockdrop";
 import {
@@ -8,6 +7,7 @@ import {
   TxStep,
   TxErrorHandler,
 } from "modules/common";
+import useAddress from "hooks/useAddress";
 
 export type UnlockState = {
   error: any;
@@ -48,7 +48,7 @@ export const useUnlock = ({
         token,
         duration,
       },
-      address
+      address || ""
     );
   }, [address, lockdrop, token, duration]);
 

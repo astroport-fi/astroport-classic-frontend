@@ -1,4 +1,3 @@
-import { toBase64, toTerraAmount } from "@arthuryeti/terra";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 
 type Item = {

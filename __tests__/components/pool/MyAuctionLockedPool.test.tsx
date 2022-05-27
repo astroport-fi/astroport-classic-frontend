@@ -12,14 +12,7 @@ jest.mock("@terra-money/wallet-provider", () => ({
   }),
 }));
 
-jest.mock("@arthuryeti/terra", () => {
-  const original = jest.requireActual("@arthuryeti/terra");
-
-  return {
-    num: original.num,
-    useAddress: jest.fn(() => "terra123"),
-  };
-});
+jest.mock("hooks/useAddress", () => jest.fn(() => "terra123"));
 
 jest.mock("modules/auction", () => ({
   useAuctionPools: jest.fn(),

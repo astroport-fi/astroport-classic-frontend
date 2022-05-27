@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { fromTerraAmount, num } from "@arthuryeti/terra";
 import { Fee } from "@terra-money/terra.js";
 
 import { ONE_TOKEN } from "constants/constants";
@@ -14,6 +13,7 @@ import { AstroFormType } from "types/common";
 
 import CommonFooter from "components/CommonFooter";
 import { composeAstroRatioDisplay } from "modules/governance/helpers";
+import num from "libs/num";
 
 type Props = {
   amount: number;

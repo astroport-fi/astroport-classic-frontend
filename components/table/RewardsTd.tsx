@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from "react";
 import { Box } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { usePrice } from "modules/swap";
 import { handleDollarTinyAmount } from "modules/common";
 

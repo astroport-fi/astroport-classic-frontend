@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Box, Stack, Text, Flex } from "@chakra-ui/react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { Fee } from "@terra-money/terra.js";
 import { AstroFormType } from "types/common";
 import { useBalance, FormActionItem, FormActions } from "modules/common";

@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { TxStep } from "@arthuryeti/terra";
-
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
+import { TxStep } from "modules/common";
 
 type Props = {
   data: any;

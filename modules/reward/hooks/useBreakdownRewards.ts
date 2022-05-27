@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { groupBy, mapValues, assignIn } from "lodash";
 import merge from "deepmerge";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { useLockdropRewards } from "modules/lockdrop";
 import { useLpRewards } from "modules/reward";

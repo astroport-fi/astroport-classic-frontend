@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { useEstimateFee } from "@arthuryeti/terra";
 import { Button } from "@chakra-ui/react";
 
 import { useTx } from "modules/common";
 import { useClaimAuctionReward } from "modules/reward";
+import useEstimateFee from "hooks/useEstimateFee";
 
 type Props = {
   amount: string;

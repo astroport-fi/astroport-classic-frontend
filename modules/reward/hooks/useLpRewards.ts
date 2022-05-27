@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { gql } from "graphql-request";
-import { num, useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
+import num from "libs/num";
 
 import {
   useAstroswap,
@@ -51,7 +52,7 @@ export const useLpRewards = () => {
   const { getDecimals } = useTokenInfo();
   const { generator, stakableLp } = useContracts();
   const address = useAddress();
-  const query = createQuery(stakableLp, address, generator);
+  const query = createQuery(stakableLp, address || "", generator);
 
   const result = useHive({
     name: ["rewards", "lp"],

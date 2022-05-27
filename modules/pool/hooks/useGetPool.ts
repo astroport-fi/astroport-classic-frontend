@@ -1,4 +1,4 @@
-import { useTerraWebapp } from "@arthuryeti/terra";
+import { useTerraWebapp } from "context/TerraWebappContext";
 import { useQuery } from "react-query";
 
 import { PoolResponse } from "modules/common";

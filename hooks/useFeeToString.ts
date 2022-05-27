@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Fee } from "@terra-money/terra.js";
-import { fromTerraAmount } from "@arthuryeti/terra";
+import { fromTerraAmount } from "libs/terra";
 
 import { useAstroswap, Tokens } from "modules/common";
 

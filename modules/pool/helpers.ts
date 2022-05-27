@@ -1,4 +1,4 @@
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 
 import { AssetInfo, getTokenDenom, isNativeToken } from "modules/common";
 import { Pool } from "modules/pool";

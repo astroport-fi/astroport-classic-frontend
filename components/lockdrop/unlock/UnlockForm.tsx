@@ -1,16 +1,20 @@
 import React, { FC, useState, useCallback, useEffect, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import { TxStep, num } from "@arthuryeti/terra";
 import { useRouter } from "next/router";
 
-import { useAstroswap, useNotEnoughUSTBalanceToPayFees } from "modules/common";
+import {
+  TxStep,
+  useAstroswap,
+  useNotEnoughUSTBalanceToPayFees,
+} from "modules/common";
 import { useUnlock, useLockedLpAmount } from "modules/lockdrop";
 
 import FormLoading from "components/common/FormLoading";
 import FormConfirm from "components/common/FormConfirm";
 import FormSummary from "components/common/FormSummary";
 import UnlockFormInitial from "components/lockdrop/unlock/UnlockFormInitial";
+import num from "libs/num";
 
 type FormValues = {
   token: string;

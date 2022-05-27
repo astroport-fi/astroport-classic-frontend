@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import { Box, Button, HStack, Text, Tooltip } from "@chakra-ui/react";
-import { useAddress } from "@arthuryeti/terra";
+import useAddress from "hooks/useAddress";
 
 import ChevronDownIcon from "components/icons/ChevronDownIcon";
 import Tr from "components/Tr";

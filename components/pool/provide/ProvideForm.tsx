@@ -2,17 +2,16 @@ import React, { FC, useState, useCallback, useMemo } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/router";
-import { TxStep } from "@arthuryeti/terra";
 
 import {
   PairResponse,
+  TxStep,
   useContracts,
   useNotEnoughUSTBalanceToPayFees,
 } from "modules/common";
 import { PoolFormType, ProvideFormMode } from "types/common";
 import { useProvide, Pool } from "modules/pool";
 import useDebounceValue from "hooks/useDebounceValue";
-
 import ProvideFormInitial from "components/pool/provide/ProvideFormInitial";
 import ProvideFormConfirm from "components/pool/provide/ProvideFormConfirm";
 import FormLoading from "components/common/FormLoading";

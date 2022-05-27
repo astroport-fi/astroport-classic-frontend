@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { getPoolTokenDenoms, useTokenInfo, Asset } from "modules/common";
 import { ONE_TOKEN } from "constants/constants";
 

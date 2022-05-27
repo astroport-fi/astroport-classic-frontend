@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { TxStep } from "@arthuryeti/terra";
 import numeral from "numeral";
-import { handleBigPercentage, handleTinyAmount } from "modules/common";
+import { handleBigPercentage, handleTinyAmount, TxStep } from "modules/common";
 import { useEstShareOfPool, useEstShareInUst, Pool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import AprFooter from "components/pool/AprFooter";

@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useCallback, useMemo } from "react";
-import { num } from "@arthuryeti/terra";
+import num from "libs/num";
 import { Box } from "@chakra-ui/react";
 import { defaultOrderByFn, Row, SortByFn } from "react-table";
 

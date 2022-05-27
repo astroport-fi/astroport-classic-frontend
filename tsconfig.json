@@ -18,6 +18,7 @@
       "*": ["/*"],
       "components/*": ["components/*"],
       "libs/*": ["libs/*"],
+      "context/*": ["context/*"],
       "hooks/*": ["hooks/*"],
       "pages/*": ["pages/*"],
       "types/*": ["types/*"],

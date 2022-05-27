@@ -1,15 +1,16 @@
 import React, { FC } from "react";
-import { TxStep, num } from "@arthuryeti/terra";
 import numeral from "numeral";
 import { ONE_TOKEN } from "constants/constants";
 import {
   useBalance,
   handleTinyAmount,
   handleBigPercentage,
+  TxStep,
 } from "modules/common";
 import { useShareInUst, Pool, useShareOfPool } from "modules/pool";
 import CommonFooter, { ConfirmButton } from "components/CommonFooter";
 import AprFooter from "components/pool/AprFooter";
+import num from "libs/num";
 
 type Props = {
   pool: Pool;
