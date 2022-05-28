@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
@@ -62,7 +62,6 @@ const GlobalStyles = css`
 const Layout: FC = ({ children }) => {
   const wallet = useWallet();
   const isInitializing = wallet.status == WalletStatus.INITIALIZING;
-
   const spinner = (
     <Center h="full">
       <Spinner size="xl" color="white.500" />
@@ -74,6 +73,17 @@ const Layout: FC = ({ children }) => {
       <Box color="red.500">Error Loading Data</Box>
     </Center>
   );
+
+  if (wallet.network.name !== "classic") {
+    return (
+      <Flex height="100vh" direction="column" align="center" justify="center">
+        <Global styles={GlobalStyles} />
+        <Text color="white">
+          Please connect to Terra Classic and refresh the page.
+        </Text>
+      </Flex>
+    );
+  }
 
   return (
     <Flex height="100vh" direction="column">
