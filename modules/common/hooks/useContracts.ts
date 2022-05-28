@@ -27,11 +27,31 @@ type Contracts = {
 };
 
 type Networks = {
+  mainnet: Contracts;
   classic: Contracts;
   testnet: Contracts;
 };
 
 const defaultContracts: { [key: string]: any } = {
+  mainnet: {
+    astroToken: "",
+    xAstroToken: "",
+    astroUstPool: "",
+    astroUstLpToken: "",
+    bLunaToken: "",
+    factory: "",
+    router: "",
+    vesting: "",
+    staking: "",
+    maker: "",
+    generator: "",
+    lockdrop: "",
+    airdrop: "",
+    airdrop2: "",
+    auction: "",
+    assembly: "",
+    stakableLp: [],
+  },
   classic: {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
     xAstroToken: "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7",

@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
-import { chakra } from "@chakra-ui/react";
+import { chakra, Text } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import num from "libs/num";
 import { useRouter } from "next/router";
@@ -252,6 +252,14 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
   if (isPosting) {
     return <FormLoading txHash={txHash} />;
+  }
+
+  if (networkName !== "classic") {
+    return (
+      <Text color="white" textAlign="center" mt="10">
+        Only available on Terra Classic
+      </Text>
+    );
   }
 
   return (

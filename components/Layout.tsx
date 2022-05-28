@@ -74,7 +74,10 @@ const Layout: FC = ({ children }) => {
     </Center>
   );
 
-  if (wallet.network.name !== "classic") {
+  if (
+    wallet.status === WalletStatus.WALLET_CONNECTED &&
+    wallet.network.name !== "classic"
+  ) {
     return (
       <Flex height="100vh" direction="column" align="center" justify="center">
         <Global styles={GlobalStyles} />

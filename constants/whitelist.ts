@@ -4,6 +4,9 @@
 import { PairResponse } from "modules/common";
 
 export type Whitelist = {
+  mainnet: {
+    pairs: PairResponse[];
+  };
   classic: {
     pairs: PairResponse[];
   };
@@ -13,6 +16,9 @@ export type Whitelist = {
 };
 
 const whitelist: Whitelist = {
+  mainnet: {
+    pairs: [],
+  },
   classic: {
     pairs: [
       // luna-ust
