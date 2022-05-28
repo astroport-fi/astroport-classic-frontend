@@ -1,4 +1,3 @@
-import { ASTROPORT_URLS } from "constants/constants";
 import {
   PROPOSAL_INVALID_CHARS,
   PROPOSAL_VALID_URLS,
@@ -179,15 +178,11 @@ export const calcVotingDistribution = (
   };
 };
 
-export const composeTwitterLink = (
-  network: string,
-  title: string = "",
-  id: string
-) => {
+export const composeTwitterLink = (title: string = "", id: string) => {
   return (
     `https://twitter.com/intent/tweet?text=New Astroport proposal 🚀%0A%0A` +
     // @ts-ignore
-    `${title}%0A%0A&url=${ASTROPORT_URLS[network]}governance/proposal/${id}`
+    `${title}%0A%0A&url=https://app.astroport.fi/governance/proposal/${id}`
   );
 };
 

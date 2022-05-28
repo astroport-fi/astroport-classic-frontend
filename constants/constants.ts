@@ -2,13 +2,9 @@
 export const FINDER = "https://finder.terra.money";
 
 export const CHAIN_TO_FINDER_INFO = {
+  "phoenix-1": "mainnet",
+  "pisco-1": "testnet",
   "columbus-5": "classic",
-  "bombay-12": "testnet",
-};
-
-export const ASTROPORT_URLS = {
-  classic: "https://app.astroport.fi/",
-  testnet: "https://develop.astroport.fi/",
 };
 
 /* astroport:configs */

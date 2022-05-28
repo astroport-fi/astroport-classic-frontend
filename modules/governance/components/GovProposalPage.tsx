@@ -9,7 +9,6 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useWallet } from "@terra-money/wallet-provider";
-import { useTerraWebapp } from "context/TerraWebappContext";
 import { ASTRO_FORUM_LINK, MOBILE_MAX_WIDTH } from "constants/constants";
 import { useRouter } from "next/router";
 import useFinder from "hooks/useFinder";
@@ -132,9 +131,8 @@ const GovProposalPage: FC<{ id: string }> = ({ id }) => {
   const { proposal, proposalExists } = useProposalApi(id);
   const proposalContract = useProposalClient(id);
   const quorum = useConfig()?.proposal_required_quorum;
-  const { network } = useTerraWebapp();
   const [addressOpen, setAddressOpen] = useState(false);
-  const twitterLink = composeTwitterLink(network.name, proposal?.title, id);
+  const twitterLink = composeTwitterLink(proposal?.title, id);
 
   // proposal doesn't exist
   if (proposalExists === false) {
