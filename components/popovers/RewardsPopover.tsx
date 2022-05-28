@@ -21,7 +21,7 @@ const RewardsPopover: FC<Props> = ({ rewards, children }) => {
   const rows = [
     { label: "Pool APY", value: handleBigPercentage(rewards.pool * 100) },
     {
-      label: "Astro Generator APR",
+      label: "ASTRO Generator APR",
       value: handleBigPercentage(rewards.astro * 100),
     },
     rewards.token_symbol && {

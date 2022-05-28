@@ -81,14 +81,14 @@ const PoolsOverview: FC = () => {
     >
       <MobileComponent value={totalLiquidityValue} desc="Total Liquidity" />
       <MobileComponent value={volumeValue} desc="24h Volume" />
-      <MobileComponent value={priceValue} desc="ASTRO price" />
+      <MobileComponent value={priceValue} desc="ASTRO Price" />
     </Glider>
   ) : (
     <Card>
       <Flex justify="space-between">
         <Component value={totalLiquidityValue} desc="Total Liquidity" />
         <Component value={volumeValue} desc="24h Volume" />
-        <Component value={priceValue} desc="ASTRO price" />
+        <Component value={priceValue} desc="ASTRO Price" />
       </Flex>
     </Card>
   );
