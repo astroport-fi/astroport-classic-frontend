@@ -46,21 +46,23 @@ export const MOBILE_SECONDARY_PAGES = [
 ];
 
 /* env variables */
-export const ENV_MAINNET_GRAPHQL = process.env["NEXT_PUBLIC_MAINNET_GRAPHQL"];
+export const ENV_APIS: any = {
+  mainnet: process.env.NEXT_PUBLIC_API_V2_MAINNET,
+  testnet: process.env.NEXT_PUBLIC_API_V2_TESTNET,
+  classic: process.env.NEXT_PUBLIC_API_CLASSIC,
+};
 
-export const ENV_MAINNET_FALLBACK_GRAPHQL =
-  process.env["NEXT_PUBLIC_MAINNET_FALLBACK_GRAPHQL"];
+export const ENV_GQLS: any = {
+  mainnet: process.env.NEXT_PUBLIC_GQL_V2_MAINNET,
+  testnet: process.env.NEXT_PUBLIC_GQL_V2_TESTNET,
+  classic: process.env.NEXT_PUBLIC_GQL_CLASSIC,
+};
 
-export const ENV_TESTNET_GRAPHQL = process.env["NEXT_PUBLIC_TESTNET_GRAPHQL"];
-
-export const ENV_TESTNET_FALLBACK_GRAPHQL =
-  process.env["NEXT_PUBLIC_TESTNET_FALLBACK_GRAPHQL"];
-
-export const ENV_COLUMBUS_API_ENDPOINT =
-  process.env["NEXT_PUBLIC_COLUMBUS_API_ENDPOINT"] || "";
-
-export const ENV_BOMBAY_API_ENDPOINT =
-  process.env["NEXT_PUBLIC_BOMBAY_API_ENDPOINT"] || "";
+export const ENV_GQLS_FALLBACKS: any = {
+  mainnet: process.env.NEXT_PUBLIC_GQL_FALLBACK_V2_MAINNET,
+  testnet: process.env.NEXT_PUBLIC_GQL_FALLBACK_V2_TESTNET,
+  classic: null,
+};
 
 /* tooltip desc */
 export const APR_TOOLTIP =

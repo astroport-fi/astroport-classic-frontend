@@ -2,12 +2,7 @@ import { request } from "graphql-request";
 import { useQuery } from "react-query";
 
 import { useTerraWebapp } from "context/TerraWebappContext";
-import {
-  ENV_MAINNET_GRAPHQL,
-  ENV_TESTNET_GRAPHQL,
-  ENV_MAINNET_FALLBACK_GRAPHQL,
-  ENV_TESTNET_FALLBACK_GRAPHQL,
-} from "constants/constants";
+import { ENV_GQLS, ENV_GQLS_FALLBACKS } from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -21,16 +16,9 @@ type Params = {
 export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
 
-  if (network.name == "testnet") {
-    return {
-      hiveEndpoint: ENV_TESTNET_GRAPHQL || "",
-      fallbackHiveEndpoint: ENV_TESTNET_FALLBACK_GRAPHQL || "",
-    };
-  }
-
   return {
-    hiveEndpoint: ENV_MAINNET_GRAPHQL || "",
-    fallbackHiveEndpoint: ENV_MAINNET_FALLBACK_GRAPHQL || "",
+    hiveEndpoint: ENV_GQLS[network.name],
+    fallbackHiveEndpoint: ENV_GQLS_FALLBACKS[network.name],
   };
 };
 

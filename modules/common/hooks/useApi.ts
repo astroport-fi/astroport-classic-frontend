@@ -1,10 +1,7 @@
 import { request } from "graphql-request";
 import { useQuery } from "react-query";
 import { useTerraWebapp } from "context/TerraWebappContext";
-import {
-  ENV_COLUMBUS_API_ENDPOINT,
-  ENV_BOMBAY_API_ENDPOINT,
-} from "constants/constants";
+import { ENV_APIS } from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -17,7 +14,7 @@ type Params = {
 
 export const useApi = ({ name, query, variables, options }: Params) => {
   const { network } = useTerraWebapp();
-  const API_URL = "https://terra1-api.astroport.fi/graphql";
+  const API_URL = ENV_APIS[network.name];
 
   const result = useQuery(
     name,
