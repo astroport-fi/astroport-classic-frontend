@@ -1,7 +1,4 @@
-import { Networks } from "types/common";
-
 /* terra:network */
-export const DEFAULT_NETWORK: Networks = "TERRA_V2";
 export const FINDER = "https://finder.terra.money";
 
 export const CHAIN_TO_FINDER_INFO = {

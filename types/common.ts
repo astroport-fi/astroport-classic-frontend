@@ -1,7 +1,5 @@
 import { Asset } from "modules/common";
 
-export type Networks = "TERRA_V2" | "TERRA_CLASSIC";
-
 export type CW20Addr = string;
 
 export type StableDenom = string;

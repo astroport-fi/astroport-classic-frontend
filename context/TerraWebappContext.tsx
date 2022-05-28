@@ -12,11 +12,8 @@ import { Coin, Dec, LCDClient, Account } from "@terra-money/terra.js";
 import { useWallet, NetworkInfo } from "@terra-money/wallet-provider";
 import { useQuery } from "react-query";
 import useAddress from "hooks/useAddress";
-import useLocalStorage from "hooks/useLocalStorage";
-import { Networks } from "types/common";
-import { DEFAULT_NETWORK } from "constants/constants";
 
-const MAINNET_NETWORK = {
+const DEFAULT_NETWORK = {
   name: "mainnet",
   chainID: "colombus-5",
   lcd: "https://lcd.terra.dev",
@@ -35,10 +32,10 @@ type Config = {
 };
 
 const TerraWebappContext: Context<TerraWebapp> = createContext<TerraWebapp>({
-  network: MAINNET_NETWORK,
+  network: DEFAULT_NETWORK,
   client: new LCDClient({
-    URL: MAINNET_NETWORK.lcd,
-    chainID: MAINNET_NETWORK.chainID,
+    URL: DEFAULT_NETWORK.lcd,
+    chainID: DEFAULT_NETWORK.chainID,
   }),
   taxCap: undefined,
   taxRate: undefined,
@@ -53,26 +50,23 @@ type Props = {
 export const TerraWebappProvider: FC<Props> = ({ children, config }) => {
   const { network } = useWallet();
   const address = useAddress();
-  const [terraNetwork] = useLocalStorage<Networks>("network", DEFAULT_NETWORK);
 
   const client = useMemo(() => {
     if (config?.lcdClientUrl) {
       return new LCDClient({
         URL: config?.lcdClientUrl,
         chainID: network.chainID,
-        isClassic: terraNetwork === "TERRA_CLASSIC" ? true : false,
       });
     }
 
     return new LCDClient({
       URL: network.lcd,
       chainID: network.chainID,
-      isClassic: terraNetwork === "TERRA_CLASSIC" ? true : false,
     });
-  }, [network, terraNetwork]);
+  }, [network]);
 
   const { data: taxCap } = useQuery(
-    ["taxCap", network.chainID, terraNetwork],
+    ["taxCap", network.chainID],
     () => {
       return client.treasury.taxCap("uusd");
     },
@@ -80,7 +74,7 @@ export const TerraWebappProvider: FC<Props> = ({ children, config }) => {
   );
 
   const { data: taxRate } = useQuery(
-    ["taxRate", network.chainID, terraNetwork],
+    ["taxRate", network.chainID],
     () => {
       return client.treasury.taxRate();
     },
@@ -88,7 +82,7 @@ export const TerraWebappProvider: FC<Props> = ({ children, config }) => {
   );
 
   const { data: accountInfo } = useQuery(
-    ["accountInfo", network.chainID, terraNetwork],
+    ["accountInfo", network.chainID],
     () => {
       return client.auth.accountInfo(address || "");
     },
