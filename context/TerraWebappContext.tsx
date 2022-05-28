@@ -14,7 +14,7 @@ import { useQuery } from "react-query";
 import useAddress from "hooks/useAddress";
 
 const DEFAULT_NETWORK = {
-  name: "mainnet",
+  name: "classic",
   chainID: "colombus-5",
   lcd: "https://lcd.terra.dev",
 };

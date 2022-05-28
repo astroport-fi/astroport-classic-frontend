@@ -1,7 +1,7 @@
 import { Tokens } from "modules/common";
 
 export type TokenCache = {
-  mainnet: Tokens;
+  classic: Tokens;
   testnet: Tokens;
 };
 
@@ -14,7 +14,7 @@ export type TokenCache = {
 // so if a protocol or symbol are desired, the token should
 // have an entry here.
 const tokenCache: TokenCache = {
-  mainnet: {
+  classic: {
     terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3: {
       protocol: "Astroport",
       symbol: "ASTRO",

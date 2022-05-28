@@ -27,12 +27,12 @@ type Contracts = {
 };
 
 type Networks = {
-  mainnet: Contracts;
+  classic: Contracts;
   testnet: Contracts;
 };
 
 const defaultContracts: { [key: string]: any } = {
-  mainnet: {
+  classic: {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
     xAstroToken: "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7",
     astroUstPool: "terra1l7xu2rl3c7qmtx3r5sd2tz25glf6jh8ul7aag7",

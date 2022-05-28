@@ -7,12 +7,12 @@ export const DOCS = "https://docs.astroportprotocol.com";
 export const ICON_URL = "https://whitelist.mirror.finance/images";
 
 export const CHAIN_TO_FINDER_INFO = {
-  "columbus-5": "mainnet",
+  "columbus-5": "classic",
   "bombay-12": "testnet",
 };
 
 export const ASTROPORT_URLS = {
-  mainnet: "https://app.astroport.fi/",
+  classic: "https://app.astroport.fi/",
   testnet: "https://develop.astroport.fi/",
 };
 
