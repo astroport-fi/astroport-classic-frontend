@@ -17,10 +17,7 @@ type Params = {
 
 export const useApi = ({ name, query, variables, options }: Params) => {
   const { network } = useTerraWebapp();
-  const API_URL =
-    network.name === "testnet"
-      ? ENV_BOMBAY_API_ENDPOINT
-      : ENV_COLUMBUS_API_ENDPOINT;
+  const API_URL = "https://terra1-api.astroport.fi/graphql";
 
   const result = useQuery(
     name,

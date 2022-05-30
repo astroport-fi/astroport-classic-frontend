@@ -21,16 +21,9 @@ type Params = {
 export const useHiveEndpoint = () => {
   const { network } = useTerraWebapp();
 
-  if (network.name == "testnet") {
-    return {
-      hiveEndpoint: ENV_TESTNET_GRAPHQL,
-      fallbackHiveEndpoint: ENV_TESTNET_FALLBACK_GRAPHQL,
-    };
-  }
-
   return {
-    hiveEndpoint: ENV_MAINNET_GRAPHQL,
-    fallbackHiveEndpoint: ENV_MAINNET_FALLBACK_GRAPHQL,
+    hiveEndpoint: "https://columbus-hive.terra.dev/graphql",
+    fallbackHiveEndpoint: "https://columbus-hive.terra.dev/graphql",
   };
 };
 
