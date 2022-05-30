@@ -7,7 +7,6 @@ import {
   TxStep,
   TxErrorHandler,
 } from "modules/common";
-import useAddress from "hooks/useAddress";
 
 export type UnlockState = {
   error: any;

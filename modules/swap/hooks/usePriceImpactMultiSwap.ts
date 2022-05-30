@@ -7,7 +7,6 @@ import { useAstroswap, useTokenInfo } from "modules/common";
 import { useSwapRoute } from "modules/swap";
 import { simulate as simulateMonoSwap } from "modules/swap/monoSwap";
 import useGetPools from "modules/pool/hooks/useGetPools";
-import num from "libs/num";
 
 type Params = {
   from: string;

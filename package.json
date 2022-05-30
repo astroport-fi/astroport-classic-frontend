@@ -1,7 +1,7 @@
 {
   "name": "astroport",
   "version": "0.0.1",
-  "author": "itey.arthur@gmail.com",
+  "author": "delphi@labs",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",

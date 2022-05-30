@@ -4,7 +4,6 @@ import { handleBigAndTinyAmount } from "modules/common";
 import { AstroFormType } from "types/common";
 import CommonFooter from "components/CommonFooter";
 import { composeAstroRatioDisplay } from "modules/governance/helpers";
-import num from "libs/num";
 
 type Props = {
   amount: number;

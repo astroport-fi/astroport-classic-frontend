@@ -2,7 +2,6 @@ import { Tokens } from "modules/common";
 
 export type TokenCache = {
   mainnet: Tokens;
-  classic: Tokens;
   testnet: Tokens;
   classic: Tokens;
 };
