@@ -146,6 +146,7 @@ describe("useTx submit", () => {
       expect(mockPost).toHaveBeenCalledWith({
         msgs: [mockMsg],
         fee: mockFee,
+        isClassic: true,
       });
 
       expect(mockAddNotification).toHaveBeenCalledAfter(mockPost);
@@ -192,6 +193,7 @@ describe("useTx submit", () => {
       expect(mockPost).toHaveBeenCalledWith({
         msgs: [mockMsg],
         fee: mockFee,
+        isClassic: true,
       });
 
       expect(onBroadcasting).toHaveBeenCalledWith("1234ABCD");
@@ -261,6 +263,7 @@ describe("useTx submit", () => {
       expect(mockPost).toHaveBeenCalledWith({
         msgs: [mockMsg],
         fee: mockFee,
+        isClassic: true,
       });
 
       expect(mockAddNotification).toHaveBeenCalledAfter(mockPost);

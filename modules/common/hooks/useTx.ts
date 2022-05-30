@@ -9,7 +9,7 @@ import {
   TxResult,
 } from "@terra-money/wallet-types";
 import { useAstroswap, useTokenInfo } from "modules/common";
-import { useWallet } from "@terra-money/use-wallet";
+import { useWallet } from "@terra-money/wallet-provider";
 
 export enum TxPostError {
   UserDenied,

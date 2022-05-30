@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useCallback, useMemo } from "react";
-import { chakra, Text } from "@chakra-ui/react";
+import { chakra } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import num from "libs/num";
 import { useRouter } from "next/router";
