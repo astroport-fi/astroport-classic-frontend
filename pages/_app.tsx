@@ -45,8 +45,16 @@ const MyApp = ({
   const main = (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <link rel="shortcut icon" href="/favicon.png" />
+        <style>
+          {`html {
+            filter: grayscale(65%);
+          }`}
+        </style>
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
