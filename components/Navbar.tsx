@@ -56,10 +56,14 @@ const Navbar: FC = () => {
         </Box>
         <Box display={["none", null, null, "block"]} flex="1">
           <HStack flex="1" px="16" spacing="12">
-            <NavbarLink text="Swap" href="/swap" />
-            <NavbarLink text="Pool" href="/pools" />
-            <NavbarLink text="Locked Liquidity" href="/locked-liquidity" />
-            <NavbarLink text="Governance" href="/governance" />
+            <NavbarLink text="Swap" href="/swap" v2_hidden={false} />
+            <NavbarLink text="Pool" href="/pools" v2_hidden={false} />
+            <NavbarLink
+              text="Locked Liquidity"
+              href="/locked-liquidity"
+              v2_hidden={true}
+            />
+            <NavbarLink text="Governance" href="/governance" v2_hidden={true} />
           </HStack>
         </Box>
         <HStack spacing="4" justify="flex-end">
