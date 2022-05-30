@@ -1,14 +1,15 @@
 import { useCallback } from "react";
 import { Fee, MsgExecuteContract } from "@terra-money/terra.js";
-import { useWallet } from "@terra-money/wallet-provider";
 import {
   UserDenied,
   CreateTxFailed,
   TxFailed,
   Timeout,
   TxUnspecifiedError,
+  TxResult,
 } from "@terra-money/wallet-types";
 import { useAstroswap, useTokenInfo } from "modules/common";
+import { useWallet } from "@terra-money/use-wallet";
 
 export enum TxPostError {
   UserDenied,
@@ -196,7 +197,7 @@ export const useTx = ({
       onPosting?.();
 
       try {
-        const res = await post({
+        const res: TxResult = await post({
           msgs,
           fee,
         });

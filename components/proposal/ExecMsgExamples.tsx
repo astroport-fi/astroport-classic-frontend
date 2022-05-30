@@ -78,7 +78,7 @@ const ExecMsgExamples: FC<Props> = ({ focusTextArea }) => {
           })}
         </Box>
         <Button
-          align="center"
+          alignItems="center"
           bg="white.100"
           h="30px"
           px="3"

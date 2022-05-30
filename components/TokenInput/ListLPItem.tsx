@@ -26,7 +26,7 @@ const ListLPItem: FC<Props> = ({ pool, onClick }) => {
   return (
     <Box
       transition="0.2s all"
-      type="button"
+      role="button"
       outline="none"
       textAlign="left"
       p="0"

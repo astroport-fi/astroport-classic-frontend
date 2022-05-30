@@ -98,7 +98,7 @@ const GovPageStake = () => {
         gap={8}
       >
         <Card
-          order={["2", "2", "2", "1"]}
+          order={[2, 2, 2, 1]}
           flex={1}
           display="flex"
           flexDir="column"
@@ -139,7 +139,7 @@ const GovPageStake = () => {
           </Flex>
         </Card>
         <Card
-          order={["1", "1", "1", "2"]}
+          order={[1, 1, 1, 2]}
           flex={1}
           display="flex"
           flexDir="column"

@@ -36,8 +36,8 @@ const Single: FC<Props> = ({
       bg="white.100"
       color="white"
       display="flex"
-      justify="center"
-      align="center"
+      justifyContent="center"
+      alignItems="center"
       textAlign="left"
       px="4"
       h="16"
@@ -49,7 +49,7 @@ const Single: FC<Props> = ({
       })}
     >
       <Flex align="center">
-        <Box flexShrink="0">
+        <Box flexShrink={0}>
           <Image src={icon} width="8" height="8" alt="Logo" />
         </Box>
 

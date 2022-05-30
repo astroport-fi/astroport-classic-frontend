@@ -33,6 +33,7 @@ const GovPageProposals = () => {
             borderRadius="md"
             variant="primary"
             isDisabled={status === WalletStatus.WALLET_NOT_CONNECTED}
+            // @ts-ignore
             isMobile={isMobile}
           >
             Submit Proposal

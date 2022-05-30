@@ -73,7 +73,7 @@ const SwapFormFooter: FC<Props> = ({
     if (price == null || isLoading) {
       return (
         <>
-          <Box height={"13px"} textStyle="small" variant="dimmed">
+          <Box height={"13px"} textStyle="small">
             <Spinner size="xs" />
           </Box>
           <Text textStyle="small" variant="dimmed">

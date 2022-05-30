@@ -21,7 +21,7 @@ const ProgressLabel: FC<LabelElements> = ({
     <HStack mt="5" spacing="5" fontSize={fontSize}>
       <Flex align="center">
         <Box
-          flexShrink="0"
+          flexShrink={0}
           w={bubbleSize}
           h={bubbleSize}
           borderRadius="50%"
@@ -39,7 +39,7 @@ const ProgressLabel: FC<LabelElements> = ({
       </Flex>
       <Flex align="center">
         <Box
-          flexShrink="0"
+          flexShrink={0}
           w={bubbleSize}
           h={bubbleSize}
           borderRadius="50%"

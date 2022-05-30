@@ -201,7 +201,6 @@ const GovVoteForm: FC<Props> = ({ id, action }) => {
             <Button
               aria-label="Close"
               variant="simple"
-              isRound
               _hover={{
                 bg: "rgba(255,255,255,0.1)",
               }}

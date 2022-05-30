@@ -121,6 +121,7 @@ const CardFooter = ({
               type="button"
               borderRadius="md"
               w="250px"
+              // @ts-ignore
               isMobile={isMobile}
             >
               View Proposal

@@ -16,7 +16,7 @@ import useFinder from "hooks/useFinder";
 import Card from "components/Card";
 
 type Props = {
-  txHash?: string;
+  txHash?: string | undefined;
 };
 
 const MotionBox = motion(Box);

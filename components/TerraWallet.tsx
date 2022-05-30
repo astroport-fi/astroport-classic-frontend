@@ -40,7 +40,7 @@ const TerraWallet: FC<{ header?: boolean }> = ({ header = true }) => {
           bg="white"
           py="2"
           px="4"
-          flexShrink="0"
+          flexShrink={0}
           borderRadius="full"
         >
           <HStack spacing="3">
@@ -71,7 +71,7 @@ const TerraWallet: FC<{ header?: boolean }> = ({ header = true }) => {
           bg="brand.lightBlue"
           py="2"
           px="4"
-          flexShrink="0"
+          flexShrink={0}
           borderRadius="full"
         >
           <HStack spacing="3">

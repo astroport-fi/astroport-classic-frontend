@@ -230,16 +230,8 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     notEnoughUSTToPayFees,
   ]);
 
-  if (isPosting && txHash) {
+  if (isPosting) {
     return <FormLoading txHash={txHash} />;
-  }
-
-  if (networkName !== "classic") {
-    return (
-      <Text color="white" textAlign="center" mt="10">
-        Only available on Terra Classic
-      </Text>
-    );
   }
 
   return (

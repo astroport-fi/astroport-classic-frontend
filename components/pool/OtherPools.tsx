@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useCallback, useMemo, useState } from "react";
 import num from "libs/num";
 import { useMediaQuery, Box, Text, Flex } from "@chakra-ui/react";
-import { defaultOrderByFn, Row, SortByFn } from "react-table";
+import { defaultOrderByFn, OrderByFn, Row } from "react-table";
 import useLocalStorage from "hooks/useLocalStorage";
 import { APR_TOOLTIP, MOBILE_MAX_WIDTH } from "constants/constants";
 import { PoolWithUserState } from "types/common";
@@ -212,7 +212,7 @@ const Component: FC<{ pools: PoolWithUserState[]; favoritesPools: any[] }> = ({
     orderByFn: useCallback(
       (
         rows: Row<object>[],
-        sortFns: SortByFn<object>[],
+        sortFns: OrderByFn<object>[],
         directions: boolean[]
       ) => {
         // userCanProvideLiquidity sort function, sorts false -> true

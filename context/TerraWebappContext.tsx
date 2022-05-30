@@ -17,6 +17,7 @@ const DEFAULT_NETWORK = {
   name: "classic",
   chainID: "colombus-5",
   lcd: "https://columbus-lcd.terra.dev",
+  walletconnectID: 2,
 };
 
 type TerraWebapp = {
