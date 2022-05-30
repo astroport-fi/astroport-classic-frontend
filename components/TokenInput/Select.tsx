@@ -61,6 +61,7 @@ const SelectBody: FC<{
   favoriteListToggle: boolean;
   toggleFavoriteList: () => void;
   handleFavorite: (token: string) => void;
+  favoritedTokens: string[];
 }> = ({
   inputColor,
   setFilter,
@@ -71,6 +72,7 @@ const SelectBody: FC<{
   favoriteListToggle,
   toggleFavoriteList,
   handleFavorite,
+  favoritedTokens = [],
 }) => {
   const initialFocusRef = React.useRef();
 
@@ -106,6 +108,7 @@ const SelectBody: FC<{
         tokens={filteredTokens}
         filtered={filteredTokens.length !== allowedTokens.length}
         filteredTerm={filter}
+        favoritedTokens={favoritedTokens}
       />
     </VStack>
   );
@@ -225,6 +228,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
           favoriteListToggle={favoriteListToggle}
           toggleFavoriteList={toggleFavoriteList}
           handleFavorite={handleFavorite}
+          favoritedTokens={favoritedTokens}
         />
       </Modal>
     </>
@@ -251,6 +255,7 @@ const Select: FC<Props> = ({ hidePrice = false, value, onClick, tokens }) => {
         favoriteListToggle={favoriteListToggle}
         toggleFavoriteList={toggleFavoriteList}
         handleFavorite={handleFavorite}
+        favoritedTokens={favoritedTokens}
       />
     </PopoverWrapper>
   );
