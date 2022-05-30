@@ -200,6 +200,8 @@ export const useTx = ({
         const res: TxResult = await post({
           msgs,
           fee,
+          // @ts-ignore
+          isClassic: true,
         });
 
         onBroadcasting?.(res.result.txhash);

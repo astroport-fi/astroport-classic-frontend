@@ -57,12 +57,14 @@ export const TerraWebappProvider: FC<Props> = ({ children, config }) => {
       return new LCDClient({
         URL: config?.lcdClientUrl,
         chainID: network.chainID,
+        isClassic: true,
       });
     }
 
     return new LCDClient({
       URL: network.lcd,
       chainID: network.chainID,
+      isClassic: true,
     });
   }, [network]);
 
