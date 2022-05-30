@@ -14,7 +14,7 @@ import { Coin, Coins } from "@terra-money/terra.js";
 
 jest.mock("@terra-money/wallet-provider", () => ({
   useWallet: () => ({
-    network: { name: "testnet" },
+    network: { name: "classic" },
   }),
 }));
 
