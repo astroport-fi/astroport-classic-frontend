@@ -15,7 +15,6 @@ import {
   MOBILE_MAIN_PAGES,
   MOBILE_SECONDARY_PAGES,
 } from "constants/constants";
-import { useClassicNetwork } from "hooks/useClassicNetwork";
 
 import MenuNav from "components/icons/MenuNav";
 import MenuBack from "components/icons/MenuBack";
@@ -66,7 +65,6 @@ const HorizontalBar = ({
 const MobileNavbar: FC = () => {
   const [open, cycleOpen] = useCycle(false, true);
   const { asPath, back } = useRouter();
-  const isClassic = useClassicNetwork();
 
   const mainPage = MOBILE_MAIN_PAGES.find((page) => asPath.startsWith(page.to));
   const secondaryPage = MOBILE_SECONDARY_PAGES.find((page) =>
@@ -104,14 +102,10 @@ const MobileNavbar: FC = () => {
               />
             </Flex>
             <Flex flexDirection="column">
-              {MOBILE_MAIN_PAGES.map(({ name, to, v2_hidden }, index) => {
+              {MOBILE_MAIN_PAGES.map(({ name, to }, index) => {
                 const wrapperStyle = asPath.includes(to)
                   ? { bg: "brand.purple", borderEndRadius: "xl" }
                   : null;
-
-                if (!isClassic && v2_hidden) {
-                  return null;
-                }
 
                 return (
                   <Link key={index} href={to} passHref>

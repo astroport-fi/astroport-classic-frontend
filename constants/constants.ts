@@ -29,10 +29,10 @@ export const MOBILE_SCROLL_Y_OFFSET = 420;
 
 // display hamburger menu on nav bar
 export const MOBILE_MAIN_PAGES = [
-  { name: "Swap", to: "/swap", v2_hidden: false },
-  { name: "Pool", to: "/pools", v2_hidden: false },
-  { name: "Locked Liquidity", to: "/locked-liquidity", v2_hidden: true },
-  { name: "Governance", to: "/governance", v2_hidden: true },
+  { name: "Swap", to: "/swap" },
+  { name: "Pool", to: "/pools" },
+  { name: "Locked Liquidity", to: "/locked-liquidity" },
+  { name: "Governance", to: "/governance" },
 ];
 
 // display back button on nav bar

@@ -2,17 +2,14 @@ import React, { FC } from "react";
 import { chakra } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useClassicNetwork } from "hooks/useClassicNetwork";
 
 type Props = {
   text: string;
   href: string;
-  v2_hidden?: boolean;
 };
 
-const NavbarLink: FC<Props> = ({ text, href, v2_hidden }) => {
+const NavbarLink: FC<Props> = ({ text, href }) => {
   const { asPath } = useRouter();
-  const isClassic = useClassicNetwork();
 
   const wrapperStyle = asPath.includes(href)
     ? {
@@ -21,10 +18,6 @@ const NavbarLink: FC<Props> = ({ text, href, v2_hidden }) => {
         textUnderlineOffset: "5px",
       }
     : { color: "white" };
-
-  if (!isClassic && v2_hidden) {
-    return null;
-  }
 
   return (
     <Link href={href} passHref>
