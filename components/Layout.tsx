@@ -5,6 +5,7 @@ import {
   Center,
   Flex,
   Spinner,
+  chakra,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
@@ -97,6 +98,8 @@ const GlobalStyles = css`
   }
 `;
 
+const ASTROPORT_V2_LINK = "https://app.astroport.fi/";
+
 const Layout: FC = ({ children }) => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const wallet = useWallet();
@@ -113,6 +116,7 @@ const Layout: FC = ({ children }) => {
     </Center>
   );
 
+  // redirect to v2 notice
   if (
     wallet.status === WalletStatus.WALLET_CONNECTED &&
     wallet.network.name !== "classic"
@@ -120,9 +124,19 @@ const Layout: FC = ({ children }) => {
     return (
       <Flex height="100vh" direction="column" align="center" justify="center">
         <Global styles={GlobalStyles} />
-        <Text color="white">
-          Please connect to Terra Classic and refresh the page.
-        </Text>
+        <Flex flexDirection="column" align="center">
+          <Text color="white">
+            Please switch to Terra Classic and refresh the page.
+          </Text>
+          <chakra.a
+            mt="2"
+            color="white"
+            href={ASTROPORT_V2_LINK}
+            textDecoration="underline"
+          >
+            For Astroport on Terra V2, click here.
+          </chakra.a>
+        </Flex>
       </Flex>
     );
   }
