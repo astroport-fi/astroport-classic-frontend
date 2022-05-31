@@ -12,13 +12,7 @@ import { Coin, Dec, LCDClient, Account } from "@terra-money/terra.js";
 import { useWallet, NetworkInfo } from "@terra-money/wallet-provider";
 import { useQuery } from "react-query";
 import useAddress from "hooks/useAddress";
-
-const DEFAULT_NETWORK = {
-  name: "classic",
-  chainID: "colombus-5",
-  lcd: "https://columbus-lcd.terra.dev",
-  walletconnectID: 2,
-};
+import { DEFAULT_NETWORK } from "constants/constants";
 
 type TerraWebapp = {
   network: NetworkInfo;

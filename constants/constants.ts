@@ -1,4 +1,11 @@
 /* terra:network */
+export const DEFAULT_NETWORK = {
+  name: "classic",
+  chainID: "colombus-5",
+  lcd: "https://columbus-lcd.terra.dev",
+  walletconnectID: 2,
+};
+
 export const FINDER = "https://finder.terra.money";
 
 export const CHAIN_TO_FINDER_INFO = {

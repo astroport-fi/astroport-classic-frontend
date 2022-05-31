@@ -9,6 +9,7 @@ import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Hydrate } from "react-query/hydration";
+import { DEFAULT_NETWORK } from "constants/constants";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -30,7 +31,6 @@ dayjs.extend(utc);
 const MyApp = ({
   Component,
   pageProps,
-  defaultNetwork,
   walletConnectChainIds,
 }: AppProps & WalletControllerChainOptions) => {
   const [termsAgreed, setTermsAgreed] = useLocalStorage(
@@ -80,13 +80,13 @@ const MyApp = ({
 
   return process.browser ? (
     <WalletProvider
-      defaultNetwork={defaultNetwork}
+      defaultNetwork={DEFAULT_NETWORK}
       walletConnectChainIds={walletConnectChainIds}
     >
       {main}
     </WalletProvider>
   ) : (
-    <StaticWalletProvider defaultNetwork={defaultNetwork}>
+    <StaticWalletProvider defaultNetwork={DEFAULT_NETWORK}>
       {main}
     </StaticWalletProvider>
   );
