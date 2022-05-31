@@ -20,16 +20,8 @@ Requirements:
 For environment settings, you should create a `.env.local` file. You can copy the existing template (`cp .env.template .env.local`) in order to do so:
 
 ```
-NEXT_PUBLIC_API_V2_MAINNET=https://terra2-api.astroport.fi/graphql
-NEXT_PUBLIC_API_V2_TESTNET=https://terra2-develop-api.astroport.fi/graphql
 NEXT_PUBLIC_API_CLASSIC=https://terra1-api.astroport.fi/graphql
-
-NEXT_PUBLIC_GQL_V2_MAINNET=https://hive.terra.dev/graphql
-NEXT_PUBLIC_GQL_V2_TESTNET=https://pisco-hive.terra.dev/graphql
 NEXT_PUBLIC_GQL_CLASSIC=https://columbus-hive.terra.dev/graphql
-
-NEXT_PUBLIC_GQL_FALLBACK_V2_MAINNET=https://hive-terra.everstake.one/graphql
-NEXT_PUBLIC_GQL_FALLBACK_V2_TESTNET=https://pisco-hive-terra.everstake.one/graphql
 ```
 
 If you have nvm installed, you should select the correct npm version for your environment based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.

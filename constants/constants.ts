@@ -53,23 +53,10 @@ export const MOBILE_SECONDARY_PAGES = [
 ];
 
 /* env variables */
-export const ENV_APIS: any = {
-  mainnet: process.env.NEXT_PUBLIC_API_V2_MAINNET,
-  testnet: process.env.NEXT_PUBLIC_API_V2_TESTNET,
-  classic: process.env.NEXT_PUBLIC_API_CLASSIC,
-};
-
-export const ENV_GQLS: any = {
-  mainnet: process.env.NEXT_PUBLIC_GQL_V2_MAINNET,
-  testnet: process.env.NEXT_PUBLIC_GQL_V2_TESTNET,
-  classic: process.env.NEXT_PUBLIC_GQL_CLASSIC,
-};
-
-export const ENV_GQLS_FALLBACKS: any = {
-  mainnet: process.env.NEXT_PUBLIC_GQL_FALLBACK_V2_MAINNET,
-  testnet: process.env.NEXT_PUBLIC_GQL_FALLBACK_V2_TESTNET,
-  classic: null,
-};
+export const ENV_CLASSIC_API: string =
+  process.env.NEXT_PUBLIC_API_CLASSIC || "";
+export const ENV_CLASSIC_GQL: string =
+  process.env.NEXT_PUBLIC_GQL_CLASSIC || "";
 
 /* tooltip desc */
 export const APR_TOOLTIP =

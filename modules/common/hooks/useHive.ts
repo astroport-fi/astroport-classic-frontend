@@ -1,8 +1,6 @@
 import { request } from "graphql-request";
 import { useQuery } from "react-query";
-
-import { useTerraWebapp } from "context/TerraWebappContext";
-import { ENV_GQLS, ENV_GQLS_FALLBACKS } from "constants/constants";
+import { ENV_CLASSIC_GQL } from "constants/constants";
 
 type Params = {
   name: string | string[];
@@ -14,11 +12,9 @@ type Params = {
 };
 
 export const useHiveEndpoint = () => {
-  const { network } = useTerraWebapp();
-
   return {
-    hiveEndpoint: ENV_GQLS[network.name],
-    fallbackHiveEndpoint: ENV_GQLS_FALLBACKS[network.name],
+    hiveEndpoint: ENV_CLASSIC_GQL,
+    fallbackHiveEndpoint: ENV_CLASSIC_GQL,
   };
 };
 
