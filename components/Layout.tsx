@@ -124,25 +124,34 @@ const Layout: FC = ({ children }) => {
     return (
       <Flex height="100vh" direction="column" align="center" justify="center">
         <Global styles={GlobalStyles} />
-        <Flex flexDirection="column" align="center">
-          <Text color="white">
-            Please switch to Terra Classic and refresh the page.
+        <Flex
+          maxW="400px"
+          flexDirection="column"
+          bg="#EF5177"
+          borderRadius="2xl"
+          p="6"
+          color="white"
+        >
+          <Text textStyle="h2" fontWeight="700">
+            You are on Terra Classic
           </Text>
-          <chakra.a
-            mt="2"
-            color="white"
-            href={ASTROPORT_V2_LINK}
-            textDecoration="underline"
-          >
-            For Astroport on Terra V2, click here.
-          </chakra.a>
+          <Text fontSize="sm" my="4">
+            Please go to your wallet, switch to Terra Classic and refresh the
+            page.
+          </Text>
+          <Flex fontSize="sm">
+            <Text>For Astroport on Terra 2.0,&nbsp;</Text>
+            <chakra.a href={ASTROPORT_V2_LINK} textDecoration="underline">
+              click here.
+            </chakra.a>
+          </Flex>
         </Flex>
       </Flex>
     );
   }
 
   return (
-    <Flex height="100vh" direction="column">
+    <Flex height="100vh" direction="column" filter="grayscale(65%)">
       <Global styles={GlobalStyles} />
       {!isInitializing && (
         <TerraWebappProvider>
