@@ -20,7 +20,7 @@ import AuctionActionsTd from "components/table/AuctionActionsTd";
 import { PoolFeed } from "components/feed";
 
 const PHASE_2_DESC =
-  "Your ASTRO-UST LP tokens unlock linearly over 3 months after the end of the phase 2 deposit window.";
+  "Your ASTROC-USTC LP tokens unlock linearly over 3 months after the end of the phase 2 deposit window.";
 
 const sortByTotalLiqudityFn = (a: any, b: any): any => {
   return b.totalLiquidityInUst - a.totalLiquidityInUst;
@@ -179,7 +179,7 @@ const MyAuctionLockedPool = () => {
 
   return (
     <Box>
-      <CardHeader label="My Locked LP Tokens from Phase 2: ASTRO-UST Bootstrapping pool" />
+      <CardHeader label="My Locked LP Tokens from Phase 2: ASTROC-UST Bootstrapping pool" />
       {isMobile ? (
         <>
           <Text textStyle="small" color="white.400" px="2" mb="5">

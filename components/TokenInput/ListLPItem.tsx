@@ -65,7 +65,7 @@ const ListLPItem: FC<Props> = ({ pool, onClick }) => {
                 {fromTerraAmount(balance, "0,0.000")}
               </Text>
               <Text fontSize="sm" color="brand.dark" textAlign="right">
-                UST {fromTerraAmount("0", "0,0.000")}
+                USTC {fromTerraAmount("0", "0,0.000")}
               </Text>
             </Box>
           </HStack>

@@ -65,7 +65,7 @@ export const example3 = `[
 export const proposals: ProposalExample[] = [
   {
     code: example1,
-    desc: "Send LUNA that the Assembly contract holds to another address",
+    desc: "Send LUNAC that the Assembly contract holds to another address",
   },
   {
     code: example2,

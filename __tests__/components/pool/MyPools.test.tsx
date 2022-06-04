@@ -60,10 +60,10 @@ describe("MyPools", () => {
       const getSymbol = (token: string) => {
         const tokens: any = {
           uusd: {
-            symbol: "UST",
+            symbol: "USTC",
           },
           uluna: {
-            symbol: "LUNA",
+            symbol: "LUNAC",
           },
           terratoken123: {
             symbol: "FOO",
@@ -135,34 +135,36 @@ describe("MyPools", () => {
       expect(within(headers[5]).getByText("My Liquidity")).toBeInTheDocument();
 
       const row1 = within(rows[1]).getAllByRole("cell");
-      expect(within(row1[1]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(row1[1]).getByText("LUNAC - USTC")).toBeInTheDocument();
       expect(within(row1[1]).getByText("(0.30% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
         row1[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("42.00%");
-      expect(within(row1[3]).getByText("200.00M UST")).toBeInTheDocument();
-      expect(within(row1[5]).getByText("100,000.00 UST")).toBeInTheDocument();
+      expect(within(row1[3]).getByText("200.00M USTC")).toBeInTheDocument();
+      expect(within(row1[5]).getByText("100,000.00 USTC")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
-      expect(within(row2[1]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("FOO - USTC")).toBeInTheDocument();
       expect(within(row2[1]).getByText("(0.30% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
         row2[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("50.00%");
-      expect(within(row2[3]).getByText("1,000,000.00 UST")).toBeInTheDocument();
-      expect(within(row2[5]).getByText("1,000.00 UST")).toBeInTheDocument();
+      expect(
+        within(row2[3]).getByText("1,000,000.00 USTC")
+      ).toBeInTheDocument();
+      expect(within(row2[5]).getByText("1,000.00 USTC")).toBeInTheDocument();
 
       const row3 = within(rows[3]).getAllByRole("cell");
-      expect(within(row3[1]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(row3[1]).getByText("FOO - LUNAC")).toBeInTheDocument();
       expect(within(row3[1]).getByText("(0.05% fee)")).toBeInTheDocument();
       expect(
         // eslint-disable-next-line testing-library/no-node-access
         row3[2].querySelector('p[aria-haspopup="dialog"]').innerHTML
       ).toEqual("12.30%");
-      expect(within(row3[3]).getByText("100.00M UST")).toBeInTheDocument();
-      expect(within(row3[5]).getByText("42.00 UST")).toBeInTheDocument();
+      expect(within(row3[3]).getByText("100.00M USTC")).toBeInTheDocument();
+      expect(within(row3[5]).getByText("42.00 USTC")).toBeInTheDocument();
 
       // Pools user is not participating in should not be displayed
       expect(screen.queryByText("BAR")).not.toBeInTheDocument();
@@ -174,9 +176,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("Total Liquidity"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - LUNA")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - LUNAC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("LUNAC - USTC")).toBeInTheDocument();
     });
 
     it("sorts by APR ascending when heading is clicked once", async () => {
@@ -185,9 +187,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("Combined APR"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNAC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("LUNAC - USTC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - USTC")).toBeInTheDocument();
     });
 
     it("sorts by APR descending when heading is clicked twice", async () => {
@@ -197,9 +199,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("Combined APR"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("LUNAC - USTC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNAC")).toBeInTheDocument();
     });
 
     it("sorts by My Liquidity ascending when heading is clicked once", async () => {
@@ -208,9 +210,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("My Liquidity"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - LUNA")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("LUNA - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - LUNAC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("LUNAC - USTC")).toBeInTheDocument();
     });
 
     it("sorts by My Liquidity descending when heading is clicked twice", async () => {
@@ -220,9 +222,9 @@ describe("MyPools", () => {
       await userEvent.click(screen.getByText("My Liquidity"));
 
       const rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("LUNAC - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNAC")).toBeInTheDocument();
     });
 
     it("removes sort when My Liquidity heading is clicked thrice", async () => {
@@ -234,9 +236,9 @@ describe("MyPools", () => {
 
       const rows = screen.getAllByRole("row");
       // This is the order the pools are returned from useMyPools
-      expect(within(rows[1]).getByText("LUNA - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[3]).getByText("FOO - LUNA")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("LUNAC - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[3]).getByText("FOO - LUNAC")).toBeInTheDocument();
     });
   });
 

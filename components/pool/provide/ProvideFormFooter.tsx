@@ -42,7 +42,7 @@ const ProvideFormFooter: FC<Props> = ({
   const cells = [
     {
       title: "My Liquidity",
-      value: handleTinyAmount(formattedShareInUst, "0.00", false, " UST"),
+      value: handleTinyAmount(formattedShareInUst, "0.00", false, " USTC"),
     },
     {
       title: "Share of Pool",

@@ -24,8 +24,8 @@ jest.mock("modules/common", () => ({
   useTokenInfo: jest.fn(() => ({
     getSymbol: jest.fn((token) => {
       return {
-        uusd: "UST",
-        uluna: "LUNA",
+        uusd: "USTC",
+        uluna: "LUNAC",
       }[token];
     }),
   })),
@@ -270,7 +270,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "There was an unexpected error.",
         },
       });
@@ -297,7 +297,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "failed to create tx",
         },
       });
@@ -314,7 +314,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "Timed out. Please try again.",
         },
       });
@@ -331,7 +331,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description:
             "Sorry, the specified fee was not enough to cover the cost of this transaction. Please try again.",
         },
@@ -352,7 +352,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description:
             "We're sorry, you don't have enough funds to complete this request. Please try again when you have more funds available.",
         },
@@ -372,7 +372,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "There was an unexpected error.",
         },
       });
@@ -386,7 +386,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "Timed out. Please try again.",
         },
       });
@@ -403,7 +403,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "There was an unexpected error.",
         },
       });
@@ -424,7 +424,7 @@ describe("useTx submit", () => {
       expect(mockAddNotification).toHaveBeenCalledWith({
         notification: {
           type: "error",
-          title: "Swap from UST to LUNA failed",
+          title: "Swap from USTC to LUNAC failed",
           description: "There was an unexpected error.",
         },
       });
@@ -447,7 +447,7 @@ describe("useTx submit", () => {
         expect(mockAddNotification).toHaveBeenCalledWith({
           notification: {
             type: "error",
-            title: "Swap from LUNA to UST failed",
+            title: "Swap from LUNAC to USTC failed",
             description,
           },
         });
@@ -467,7 +467,7 @@ describe("useTx submit", () => {
         expect(mockAddNotification).toHaveBeenCalledWith({
           notification: {
             type: "error",
-            title: "Provide liquidity for LUNA and UST failed",
+            title: "Provide liquidity for LUNAC and USTC failed",
             description,
           },
         });
@@ -487,7 +487,7 @@ describe("useTx submit", () => {
         expect(mockAddNotification).toHaveBeenCalledWith({
           notification: {
             type: "error",
-            title: "Withdraw liquidity for LUNA and UST failed",
+            title: "Withdraw liquidity for LUNAC and USTC failed",
             description,
           },
         });

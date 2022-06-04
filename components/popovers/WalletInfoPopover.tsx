@@ -64,7 +64,7 @@ const WalletInfoPopover: FC = () => {
             >
               <HStack spacing="3">
                 <Text fontSize="sm" color="white">
-                  UST
+                  USTC
                 </Text>
                 <Text fontSize="sm" color="white">
                   {fromTerraAmount(balance, "0,0.00")}

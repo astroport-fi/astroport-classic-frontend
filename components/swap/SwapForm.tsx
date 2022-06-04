@@ -212,7 +212,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     }
 
     if (notEnoughUSTToPayFees) {
-      return "Insufficient UST to pay for the transaction.";
+      return "Insufficient USTC to pay for the transaction.";
     }
 
     if (num(amount1).gt(0) && num(token1Balance).div(ONE_TOKEN).lt(amount1)) {

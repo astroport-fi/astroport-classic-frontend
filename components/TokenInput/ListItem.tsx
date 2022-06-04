@@ -84,7 +84,7 @@ const ListItem = ({
                   {balanceFormmated}
                 </Text>
                 <Text mt="1" fontSize="sm" textAlign="right" opacity={0.4}>
-                  {handleTinyAmount(tokenPrice, "0,0.00", false, " UST")}
+                  {handleTinyAmount(tokenPrice, "0,0.00", false, " USTC")}
                 </Text>
               </Box>
             </HStack>

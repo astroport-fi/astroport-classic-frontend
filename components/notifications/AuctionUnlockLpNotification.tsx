@@ -25,7 +25,7 @@ const AuctionUnlockLpNotification: FC<Props> = ({ txInfo }) => {
 
   return (
     <Text textStyle={["small", "medium"]}>
-      Unlock {displayAmount} LP tokens from the ASTRO-UST Bootstrap Pool
+      Unlock {displayAmount} LP tokens from the ASTRO-USTC Bootstrap Pool
     </Text>
   );
 };

@@ -49,7 +49,7 @@ jest.mock("constants/tokenCache", () => ({
       },
       uusd: {
         protocol: "Terra USD",
-        symbol: "UST",
+        symbol: "USTC",
         token: "uusd",
         icon: "http://example.com/uusd.png",
       },
@@ -217,7 +217,7 @@ describe("useAllTokens", () => {
       },
       uusd: {
         protocol: "Terra USD",
-        symbol: "UST",
+        symbol: "USTC",
         token: "uusd",
         icon: "http://example.com/uusd.png",
       },
@@ -310,7 +310,7 @@ describe("useAllTokens", () => {
       },
       uusd: {
         protocol: "Terra USD",
-        symbol: "UST",
+        symbol: "USTC",
         token: "uusd",
         icon: "http://example.com/uusd.png",
       },

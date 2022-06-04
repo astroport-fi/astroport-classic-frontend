@@ -28,7 +28,7 @@ jest.mock("modules/common", () => {
       getSymbol: (token: string) => {
         return {
           terra123: "FOO",
-          uusd: "UST",
+          uusd: "USTC",
         }[token];
       },
     }),
@@ -155,7 +155,7 @@ describe("Notifications", () => {
     const { container } = render(<Notifications />);
 
     expect(
-      screen.getByText("Swap 42.00 FOO for 41.00 UST")
+      screen.getByText("Swap 42.00 FOO for 41.00 USTC")
     ).toBeInTheDocument();
 
     expect(
@@ -189,7 +189,7 @@ describe("Notifications", () => {
     const { container } = render(<Notifications />);
 
     expect(
-      screen.getByText("Provide 42.00 FOO and 42.00 UST")
+      screen.getByText("Provide 42.00 FOO and 42.00 USTC")
     ).toBeInTheDocument();
 
     expect(
@@ -223,7 +223,7 @@ describe("Notifications", () => {
     const { container } = render(<Notifications />);
 
     expect(
-      screen.getByText("Withdraw 42.00 FOO and 42.00 UST")
+      screen.getByText("Withdraw 42.00 FOO and 42.00 USTC")
     ).toBeInTheDocument();
 
     expect(

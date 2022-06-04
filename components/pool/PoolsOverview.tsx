@@ -66,10 +66,10 @@ const PoolsOverview: FC = () => {
     totalLiquidity,
     "0,0",
     undefined,
-    " UST"
+    " USTC"
   );
-  const volumeValue = handleTinyAmount(dailyVolume, "0,0", undefined, " UST");
-  const priceValue = handleTinyAmount(price, undefined, undefined, " UST");
+  const volumeValue = handleTinyAmount(dailyVolume, "0,0", undefined, " USTC");
+  const priceValue = handleTinyAmount(price, undefined, undefined, " USTC");
 
   return isMobile ? (
     <Glider

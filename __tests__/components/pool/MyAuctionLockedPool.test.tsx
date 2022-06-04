@@ -59,7 +59,7 @@ jest.mock("modules/reward", () => ({
 // Stub entire RewardsTd component to render static rewards amount for all pools
 jest.mock("components/table/RewardsTd", () => ({
   __esModule: true,
-  default: () => <div>42.42 UST</div>,
+  default: () => <div>42.42 USTC</div>,
 }));
 
 const mockPool = (
@@ -110,7 +110,7 @@ describe("MyAuctionLockedPool", () => {
       const getSymbol = (token: string) => {
         const tokens: any = {
           uusd: {
-            symbol: "UST",
+            symbol: "USTC",
           },
           terraToken123: {
             symbol: "ASTRO",
@@ -155,21 +155,23 @@ describe("MyAuctionLockedPool", () => {
       //       is in that scenario, but it appears to render the FOO - UST table first.
 
       const row1 = within(rows[1]).getAllByRole("cell");
-      expect(within(row1[0]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(row1[0]).getByText("FOO - USTC")).toBeInTheDocument();
       expect(within(row1[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row1[1]).getByText("1,000,000.00 UST")).toBeInTheDocument();
-      expect(within(row1[2]).getByText("1,000.00 UST")).toBeInTheDocument();
-      expect(within(row1[3]).getByText("1,000.00 UST")).toBeInTheDocument();
-      expect(within(row1[4]).getByText("42.42 UST")).toBeInTheDocument();
+      expect(
+        within(row1[1]).getByText("1,000,000.00 USTC")
+      ).toBeInTheDocument();
+      expect(within(row1[2]).getByText("1,000.00 USTC")).toBeInTheDocument();
+      expect(within(row1[3]).getByText("1,000.00 USTC")).toBeInTheDocument();
+      expect(within(row1[4]).getByText("42.42 USTC")).toBeInTheDocument();
       expect(within(row1[5]).getByText("Jan/17/22")).toBeInTheDocument();
 
       const row2 = within(rows[2]).getAllByRole("cell");
-      expect(within(row2[0]).getByText("ASTRO - UST")).toBeInTheDocument();
+      expect(within(row2[0]).getByText("ASTRO - USTC")).toBeInTheDocument();
       expect(within(row2[0]).getByText("(0.30% fee)")).toBeInTheDocument();
-      expect(within(row2[1]).getByText("100.00M UST")).toBeInTheDocument();
-      expect(within(row2[2]).getByText("10,000.00 UST")).toBeInTheDocument();
-      expect(within(row2[3]).getByText("0.00 UST")).toBeInTheDocument();
-      expect(within(row2[4]).getByText("42.42 UST")).toBeInTheDocument();
+      expect(within(row2[1]).getByText("100.00M USTC")).toBeInTheDocument();
+      expect(within(row2[2]).getByText("10,000.00 USTC")).toBeInTheDocument();
+      expect(within(row2[3]).getByText("0.00 USTC")).toBeInTheDocument();
+      expect(within(row2[4]).getByText("42.42 USTC")).toBeInTheDocument();
       expect(within(row2[5]).getByText("Sep/01/22")).toBeInTheDocument();
     });
 
@@ -179,14 +181,14 @@ describe("MyAuctionLockedPool", () => {
       await userEvent.click(screen.getByText("Total Liquidity"));
 
       let rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("ASTRO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("ASTRO - USTC")).toBeInTheDocument();
 
       await userEvent.click(screen.getByText("Total Liquidity"));
 
       rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("ASTRO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("ASTRO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
     });
 
     it("sorts by My Liquidity ascending when heading is clicked once and descending when clicked again", async () => {
@@ -195,14 +197,14 @@ describe("MyAuctionLockedPool", () => {
       await userEvent.click(screen.getByText("My Liquidity"));
 
       let rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("ASTRO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("ASTRO - USTC")).toBeInTheDocument();
 
       await userEvent.click(screen.getByText("My Liquidity"));
 
       rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("ASTRO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("ASTRO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
     });
 
     it("sorts by Unlockable Liquidity ascending when heading is clicked once and descending when clicked again", async () => {
@@ -211,14 +213,14 @@ describe("MyAuctionLockedPool", () => {
       await userEvent.click(screen.getByText("Unlockable Liquidity"));
 
       let rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("ASTRO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("ASTRO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
 
       await userEvent.click(screen.getByText("Unlockable Liquidity"));
 
       rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("ASTRO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("ASTRO - USTC")).toBeInTheDocument();
     });
 
     it("sorts by unlock date ascending when heading is clicked once and descending when clicked again", async () => {
@@ -227,14 +229,14 @@ describe("MyAuctionLockedPool", () => {
       await userEvent.click(screen.getByText("Fully Unlocks On"));
 
       let rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("FOO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("ASTRO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("FOO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("ASTRO - USTC")).toBeInTheDocument();
 
       await userEvent.click(screen.getByText("Fully Unlocks On"));
 
       rows = screen.getAllByRole("row");
-      expect(within(rows[1]).getByText("ASTRO - UST")).toBeInTheDocument();
-      expect(within(rows[2]).getByText("FOO - UST")).toBeInTheDocument();
+      expect(within(rows[1]).getByText("ASTRO - USTC")).toBeInTheDocument();
+      expect(within(rows[2]).getByText("FOO - USTC")).toBeInTheDocument();
     });
   });
 

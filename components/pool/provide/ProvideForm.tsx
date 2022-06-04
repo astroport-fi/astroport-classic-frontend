@@ -54,7 +54,7 @@ const ProvideForm: FC<Props> = ({
 
   const error = useMemo(() => {
     if (notEnoughUSTToPayFees) {
-      return "Insufficient UST to pay for the transaction.";
+      return "Insufficient USTC to pay for the transaction.";
     }
 
     return false;

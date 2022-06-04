@@ -8,8 +8,8 @@ export const shouldReverseTokenOrder = (symbol1: string, symbol2: string) => {
   // Should also reverse order if LUNA appears first,
   // unless it's the LUNA-UST pool.
   return (
-    symbol1.toUpperCase() == "UST" ||
-    (symbol1.toUpperCase() == "LUNA" && symbol2.toUpperCase() != "UST")
+    symbol1.toUpperCase() == "USTC" ||
+    (symbol1.toUpperCase() == "LUNAC" && symbol2.toUpperCase() != "USTC")
   );
 };
 

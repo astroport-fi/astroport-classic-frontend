@@ -20,14 +20,14 @@ const Price: FC<Props> = ({ token, amount, priceToken }) => {
 
   const totalInUst = useMemo(() => {
     if (amount == "" || num(amount).eq(0)) {
-      return (0).toFixed(2) + " UST";
+      return (0).toFixed(2) + " USTC";
     }
 
     return handleTinyAmount(
       num(amount).times(price).toNumber(),
       "0,0.00",
       false,
-      " UST"
+      " USTC"
     );
   }, [price, amount]);
 

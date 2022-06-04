@@ -67,7 +67,7 @@ const GovPageStake = () => {
             : `${handleBigPercentage(stakingAPY)}`
           : `-`,
       tooltip:
-        "The APY (UST denominated) is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days. It is derived from fees collected into the maker contract, not from ASTRO sent to stakers and it excludes any fees accrued prior to the xASTRO launch.",
+        "The APY (USTC denominated) is calculated using the average daily ASTRO amount going to xASTRO over the last 7 days. It is derived from fees collected into the maker contract, not from ASTRO sent to stakers and it excludes any fees accrued prior to the xASTRO launch.",
     },
     {
       label: "xASTRO:ASTRO",

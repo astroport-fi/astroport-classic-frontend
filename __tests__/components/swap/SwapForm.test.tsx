@@ -51,7 +51,7 @@ jest.mock("modules/common", () => {
       getSymbol: (token: string) => {
         return {
           terra123: "FOO",
-          uusd: "UST",
+          uusd: "USTC",
         }[token];
       },
       getIcon: () => {},

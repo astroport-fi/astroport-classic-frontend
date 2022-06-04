@@ -27,7 +27,7 @@ const RewardTotal: FC = () => {
       </Flex>
       <VStack align="flex-end" spacing={1} ml="8">
         <Text textStyle="h3" lineHeight="1">
-          {formatted} UST
+          {formatted} USTC
         </Text>
         <Text textStyle="small" variant="dimmed">
           Unclaimed Balance

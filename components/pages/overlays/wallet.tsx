@@ -69,7 +69,7 @@ const Wallet: FC<Props> = ({ onClose, type = "popover" }) => {
                 {symbol}
               </Text>
               <Text textStyle="small" variant="dimmed">
-                Terra
+                Terra Classic
               </Text>
             </Box>
           </HStack>

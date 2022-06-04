@@ -80,7 +80,7 @@ const SwapFormConfirm: FC<Props> = ({
         liquidityProviderFee,
         "0,000.000[000]",
         true
-      )} UST`,
+      )} USTC`,
     },
     {
       label: "Slippage Tolerance",
