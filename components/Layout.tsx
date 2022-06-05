@@ -151,11 +151,24 @@ const Layout: FC = ({ children }) => {
   }
 
   return (
-    <Flex height="100vh" direction="column" filter="grayscale(65%)">
+    <Flex height="100vh" direction="column">
       <Global styles={GlobalStyles} />
       {!isInitializing && (
         <TerraWebappProvider>
           <AstroswapProvider>
+            <Flex bg="#EF5177" p="4" color="white" justifyContent="center">
+              <Text textStyle="h2">
+                You are on Astroport Classic. For Astroport V2 go to{" "}
+              </Text>
+              <chakra.a
+                href={ASTROPORT_V2_LINK}
+                textDecoration="underline"
+                fontWeight={600}
+                ml={1.5}
+              >
+                app.astroport.fi
+              </chakra.a>
+            </Flex>
             {isMobile ? <MobileNavbar /> : <Navbar />}
             <AstroswapConsumer>
               {({ isLoading, isErrorLoadingData }) =>
