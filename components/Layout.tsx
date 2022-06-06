@@ -127,17 +127,17 @@ const Layout: FC = ({ children }) => {
         <Flex
           maxW="400px"
           flexDirection="column"
-          bg="#EF5177"
+          bg="white.100"
           borderRadius="2xl"
           p="6"
           color="white"
         >
-          <Text textStyle="h2" fontWeight="700">
-            You are on Terra Classic
+          <Text textStyle="h2" fontWeight="700" color="#EF5177">
+            You are on Terra 2.0
           </Text>
           <Text fontSize="sm" my="4">
-            Please go to your wallet, switch to Terra Classic and refresh the
-            page.
+            Please go to your wallet, switch to Terra 1.0 (classic) and refresh
+            the page.
           </Text>
           <Flex fontSize="sm">
             <Text>For Astroport on Terra 2.0,&nbsp;</Text>
