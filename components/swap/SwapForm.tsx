@@ -39,7 +39,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   const { getDecimals } = useTokenInfo();
   const router = useRouter();
   const {
-    network: { name: networkName },
+    network: { chainID },
   } = useWallet();
   const [currentInput, setCurrentInput] = useState(null);
   const [customError, setCustomError] = useState<string>("");
@@ -99,7 +99,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
 
   useEffect(() => {
     methods.reset();
-  }, [networkName]);
+  }, [chainID]);
 
   useEffect(() => {
     if (slippage !== undefined && slippage != slippageSetting) {

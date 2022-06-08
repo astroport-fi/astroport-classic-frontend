@@ -1,17 +1,17 @@
 export type TokenRules = {
-  mainnet: { [token: string]: string };
-  testnet: { [token: string]: string };
-  classic: { [token: string]: string };
+  "phoenix-1": { [token: string]: string };
+  "pisco-1": { [token: string]: string };
+  "columbus-5": { [token: string]: string };
 };
 
 const tokenRules: TokenRules = {
-  mainnet: {
+  "phoenix-1": {
     "": "STT has a 5% sales tax on swaps to other tokens",
   },
-  testnet: {
+  "pisco-1": {
     "": "STT has a 5% sales tax on swaps to other tokens",
   },
-  classic: {
+  "columbus-5": {
     terra13xujxcrc9dqft4p9a8ls0w3j0xnzm6y2uvve8n:
       "STT has a 5% sales tax on swaps to other tokens",
   },

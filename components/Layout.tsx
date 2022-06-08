@@ -119,7 +119,7 @@ const Layout: FC = ({ children }) => {
   // redirect to v2 notice
   if (
     wallet.status === WalletStatus.WALLET_CONNECTED &&
-    wallet.network.name !== "classic"
+    wallet.network.chainID !== "columbus-5"
   ) {
     return (
       <Flex height="100vh" direction="column" align="center" justify="center">

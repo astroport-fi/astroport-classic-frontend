@@ -62,7 +62,7 @@ jest.mock("hooks/useAddress", () => jest.fn(() => ""));
 jest.mock("context/TerraWebappContext", () => ({
   useTerraWebapp: jest.fn(() => ({
     network: {
-      name: "foonet",
+      chainID: "foonet",
     },
   })),
 }));

@@ -22,13 +22,13 @@ type Contracts = {
 };
 
 type Networks = {
-  mainnet: Contracts;
-  testnet: Contracts;
-  classic: Contracts;
+  "phoenix-1": Contracts;
+  "pisco-1": Contracts;
+  "columbus-5": Contracts;
 };
 
 const defaultContracts: { [key: string]: any } = {
-  mainnet: {
+  "phoenix-1": {
     astroToken: "",
     xAstroToken: "",
     astroUstPool: "",
@@ -47,7 +47,7 @@ const defaultContracts: { [key: string]: any } = {
     assembly: "",
     stakableLp: [],
   },
-  testnet: {
+  "pisco-1": {
     astroToken: "",
     xAstroToken: "",
     astroUstPool: "",
@@ -66,7 +66,7 @@ const defaultContracts: { [key: string]: any } = {
     assembly: "",
     stakableLp: [],
   },
-  classic: {
+  "columbus-5": {
     astroToken: "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3",
     xAstroToken: "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7",
     astroUstPool: "terra1l7xu2rl3c7qmtx3r5sd2tz25glf6jh8ul7aag7",
@@ -111,13 +111,13 @@ const defaultContracts: { [key: string]: any } = {
 
 export const useContracts = (initial?: Networks): Contracts => {
   const {
-    network: { name },
+    network: { chainID },
   } = useWallet();
   const contracts = initial ?? defaultContracts;
 
   return useMemo(() => {
-    return contracts[name];
-  }, [contracts, name]);
+    return contracts[chainID];
+  }, [contracts, chainID]);
 };
 
 export default useContracts;

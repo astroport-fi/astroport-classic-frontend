@@ -1,9 +1,9 @@
 import { Tokens } from "modules/common";
 
 export type TokenCache = {
-  mainnet: Tokens;
-  testnet: Tokens;
-  classic: Tokens;
+  "phoenix-1": Tokens;
+  "pisco-1": Tokens;
+  "columbus-5": Tokens;
 };
 
 // Any tokens specified here will not be queried for info,
@@ -15,9 +15,9 @@ export type TokenCache = {
 // so if a protocol or symbol are desired, the token should
 // have an entry here.
 const tokenCache: TokenCache = {
-  mainnet: {},
-  testnet: {},
-  classic: {
+  "phoenix-1": {},
+  "pisco-1": {},
+  "columbus-5": {
     terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3: {
       protocol: "Astroport Classic",
       symbol: "ASTROC",

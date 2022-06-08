@@ -46,7 +46,7 @@ const SwapFormConfirm: FC<Props> = ({
   onCloseClick,
 }) => {
   const {
-    network: { name },
+    network: { chainID },
   } = useTerraWebapp();
   const swapRoutePath = useSwapRoutePath(swapRoute);
   const { getSymbol } = useTokenInfo();
@@ -66,7 +66,7 @@ const SwapFormConfirm: FC<Props> = ({
     .dp(6)
     .toNumber();
   // @ts-ignore
-  const rulesForToken = tokenRules[name];
+  const rulesForToken = tokenRules[chainID];
 
   let details = [
     {

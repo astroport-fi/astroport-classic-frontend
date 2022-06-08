@@ -64,20 +64,20 @@ interface Props {
 //       If we did, we could get rid of useTokenInfo's isHidden
 export const useAllTokens = ({ pools }: Props): UseAllTokens => {
   const {
-    network: { name },
+    network: { chainID },
   } = useTerraWebapp();
 
   const { hiveEndpoint, fallbackHiveEndpoint } = useHiveEndpoint();
   let firstAttempt = true;
   // @ts-ignore
-  const cachedTokens = tokenCache[name];
+  const cachedTokens = tokenCache[chainID];
 
   const {
     data: tokens,
     isLoading,
     isError,
   } = useQuery<Tokens>(
-    [hiveEndpoint, "tokens", name],
+    [hiveEndpoint, "tokens", chainID],
     async () => {
       const url = firstAttempt ? hiveEndpoint : fallbackHiveEndpoint;
       firstAttempt = false;
