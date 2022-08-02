@@ -1,7 +1,7 @@
 /* terra:network */
 export const DEFAULT_NETWORK = {
   name: "classic",
-  chainID: "colombus-5",
+  chainID: "columbus-5",
   lcd: "https://columbus-lcd.terra.dev",
   walletconnectID: 2,
 };
