@@ -446,6 +446,13 @@ const tokenCache: TokenCache = {
       icon: "/tokens/neb.png",
       decimals: 6,
     },
+    terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm: {
+      protocol: "Eris Amplified LUNC",
+      symbol: "ampLUNC",
+      token: "terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm",
+      icon: "/tokens/ampLunc.svg",
+      decimals: 6,
+    },
   },
 };
 
