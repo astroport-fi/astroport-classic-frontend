@@ -216,7 +216,7 @@ const tokenCache: TokenCache = {
       protocol: "Nexus bLUNAC",
       symbol: "nLUNAC",
       token: "terra10f2mt82kjnkxqj2gepgwl637u2w4ue2z5nhz5j",
-      icon: "https://terra.nexusprotocol.app/nLuna.svg",
+      icon: "/tokens/bLuna.svg",
       decimals: 6,
     },
     terra1jxypgnfa07j6w92wazzyskhreq2ey2a5crgt6z: {
