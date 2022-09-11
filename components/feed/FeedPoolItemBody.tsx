@@ -66,7 +66,7 @@ const FeedItemBody: FC<{
             />
           )}
           <Flex flexDirection="column">
-            <ChakraLink href={finder(pool.contract, "contract")} isExternal>
+            <ChakraLink href={finder(pool.contract, "address")} isExternal>
               {Token}
             </ChakraLink>
             <Text color="white.600" mt="2">
