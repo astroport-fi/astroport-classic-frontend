@@ -4,7 +4,7 @@ import { useLCDClient } from "@terra-money/wallet-provider";
 import useSWR from "swr";
 
 type Params = {
-  txHash: string | null;
+  txHash?: string | null | undefined;
   onSuccess?: (txHash: string, txInfo?: TxInfo) => void;
   onError?: (txHash?: string, txInfo?: TxInfo) => void;
 };

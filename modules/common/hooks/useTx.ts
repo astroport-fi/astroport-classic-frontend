@@ -29,7 +29,7 @@ export type TxErrorHandler = (
 
 export type UseTxNotificationDetails =
   | {
-      type: "swap" | "provide" | "withdraw";
+      type: "swap" | "provide" | "withdraw" | "createPool";
       data: {
         token1: string | null;
         token2: string | null;
@@ -135,6 +135,13 @@ export const useTx = ({
         return `Withdraw liquidity for ${getSymbol(
           token1 || ""
         )} and ${getSymbol(token2 || "")} failed`;
+      }
+      case "createPool": {
+        const { token1, token2 } = notification.data;
+
+        return `Failed to create pool ${getSymbol(token1 || "")} - ${getSymbol(
+          token2 || ""
+        )}`;
       }
       case "createProposal":
         return "Failed to submit an Assembly proposal";

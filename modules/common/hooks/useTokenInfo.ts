@@ -4,6 +4,7 @@ import { AssetInfo } from "types/common";
 import { useAstroswap } from "../context";
 import { COMMON_TOKENS } from "constants/constants";
 import TOKEN_DENYLIST from "constants/tokenDenylist";
+import { useGetTokens } from "./useGetTokens";
 
 export type TokenInWallet = {
   address: string;
@@ -12,40 +13,59 @@ export type TokenInWallet = {
   balanceInUst?: number;
 };
 
-export const useTokenInfo = () => {
+export const useTokenInfo = (token_addrs?: string[]) => {
   const { tokens, pools } = useAstroswap();
+  const { tokenInfos } = useGetTokens(token_addrs || []);
 
   const getProtocol = useCallback(
-    (token: string) => {
-      if (tokens == null) {
-        return token;
+    (token: string): string => {
+      let value: string | undefined = truncate(token, [3, 3]);
+
+      if (tokenInfos && tokenInfos[token]) {
+        value = tokenInfos[token]?.name;
       }
 
-      return tokens[token]?.protocol ?? truncate(token, [3, 3]);
+      if (tokens && tokens[token]) {
+        value = tokens[token]?.protocol;
+      }
+
+      return value || truncate(token, [3, 3]);
     },
-    [tokens]
+    [tokens, tokenInfos]
   );
 
   const getSymbol = useCallback(
-    (token: string) => {
-      if (tokens == null) {
-        return token;
+    (token: string): string => {
+      let value: string | undefined = truncate(token, [3, 3]);
+
+      if (tokenInfos && tokenInfos[token]) {
+        value = tokenInfos[token]?.symbol;
       }
 
-      return tokens[token]?.symbol ?? truncate(token, [3, 3]);
+      if (tokens && tokens[token]) {
+        value = tokens[token]?.symbol;
+      }
+
+      return value || truncate(token, [3, 3]);
     },
-    [tokens]
+    [tokens, tokenInfos]
   );
 
   const getDecimals = useCallback(
     (token: string): number => {
-      if (tokens == null) {
-        return 6;
+      let value: number | undefined = 6;
+
+      if (tokenInfos && tokenInfos[token]) {
+        value = tokenInfos[token]?.decimals;
       }
 
-      return tokens[token]?.decimals ?? 6;
+      if (tokens && tokens[token]) {
+        value = tokens[token]?.decimals;
+      }
+
+      return value || 6;
     },
-    [tokens]
+    [tokens, tokenInfos]
   );
 
   const getIcon = useCallback(
