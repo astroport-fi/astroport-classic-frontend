@@ -20,12 +20,14 @@ type Props = {
   title?: string;
   titleLarge?: boolean;
   contentComponent: ReactNode;
-  details?: {
-    label: string;
-    value: any;
-    tooltip?: string;
-    color?: string;
-  }[];
+  details?:
+    | {
+        label: string;
+        value: any;
+        tooltip?: string;
+        color?: string;
+      }[]
+    | null;
   fee?: Fee | null | undefined;
   txFeeNotEnough?: boolean;
   actionLabel?: string;

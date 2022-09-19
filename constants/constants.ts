@@ -70,3 +70,26 @@ export const DOUBLESIDED_TOOLTIP =
 
 export const TOTAL_REWARDS_TOOLTIP =
   "This is the total value of all rewards you accrued and can claim at the moment from all generators you staked LP tokens in";
+
+export const ERROR_MESSAGE = {
+  AMOUNTS_MUST_BE_GREATER_THAN_ZERO: "Both amounts must be greater than 0.",
+  CANNOT_VOTE_OWN_PROPOSAL: "You cannot vote on your own proposal.",
+  INSUFFICIENT_TX_FUNDS: "Insufficient LUNA to pay for the transaction.",
+  INSUFFICIENT_ASSETS_WALLET: "Insufficient assets in wallet.",
+  VOTING_PERIOD_OVER: "Voting period is over.",
+  CONNECT_WALLET: "Please connect your wallet to proceed.",
+  POOL_ALREADY_CREATED:
+    "This pool already exists, please use the existing pool or create a pool for a different pair.",
+  POOL_UNIQUE_TOKENS: "Please select unique tokens to proceed.",
+  ALREADY_VOTED: (placeholder: string) =>
+    `You have already voted ${placeholder}} this proposal.`,
+  MAX_SPREAD_LIMIT: (maxSpread: number) =>
+    `The swap exceeds the max allowed spread of ${maxSpread}%.`,
+};
+
+export const CONSTANT_PRODUCT_POOL_DESCRIPTION =
+  "As the most common pool type, constant product pools are designed for tokens whose prices move independently of one another (e.g. ASTRO-USTC).";
+export const STABLE_SWAP_POOL_DESCRIPTION =
+  "This specialized pool type is designed for tokens with 1:1 pricing such as stablecoins (e.g. bLUNAC-LUNAC).";
+export const AMPLIFICATION_DESCRIPTION =
+  "The amplification parameter impacts the price slippage users will experience in this pool. A high parameter value (e.g. 100) results in lower slippage when the assets trade around the 1:1 target exchange rate. However, if the pool becomes unbalanced and assets are not trading 1:1, slippage will occur sooner. In general, pairs that consistently trade at 1:1 rates can support higher parameter values (e.g. 100). Pairs that may occasionally experience slight price divergences may work better with lower parameter values (e.g. 10).";
