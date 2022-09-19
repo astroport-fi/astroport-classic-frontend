@@ -150,7 +150,7 @@ const CreatePoolPage: NextPage = () => {
                     <HStack spacing={4}>
                       <BackButton />
                       <Text as="button" fontSize="1.125rem" color={"white"}>
-                        Create pool
+                        Create Pool
                       </Text>
                     </HStack>
                   </Box>
