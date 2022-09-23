@@ -47,7 +47,7 @@ type Params = {
 
 export const useTransaction = ({
   msgs,
-  gasAdjustment = 1.2,
+  gasAdjustment = 1.7,
   onBroadcasting,
   onError,
   notification,

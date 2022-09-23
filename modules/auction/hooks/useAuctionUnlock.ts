@@ -56,7 +56,7 @@ export const useAuctionUnlock = ({
       type: "auctionUnlockLp",
     },
     msgs,
-    gasAdjustment: 1.5,
+    gasAdjustment: 1.7,
     onBroadcasting,
     onError,
   });

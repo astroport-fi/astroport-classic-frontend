@@ -48,7 +48,7 @@ const ClaimAuctionRewardBtn: FC<Props> = ({
 
   const { fee } = useEstimateFee({
     msgs: msgsFeeEstimate,
-    gasAdjustment: 1.4,
+    gasAdjustment: 1.7,
   });
 
   const handleClick = () => {

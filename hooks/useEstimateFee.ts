@@ -10,7 +10,7 @@ type Params = {
   gasAdjustment?: number;
 };
 
-const useEstimateFee = ({ msgs, gasAdjustment = 1.2 }: Params) => {
+const useEstimateFee = ({ msgs, gasAdjustment = 1.7 }: Params) => {
   const address = useAddress();
   const client = useLCDClient();
 
