@@ -43,7 +43,7 @@ export const estimateFee = async ({
 
   const txOptions: CreateTxOptions = {
     msgs,
-    gasPrices: new Coins([new Coin("uusd", 0.15)]),
+    gasPrices: new Coins([new Coin("uusd", 1.35)]),
     feeDenoms: ["uusd"],
   };
   if (gasAdjustment) {
