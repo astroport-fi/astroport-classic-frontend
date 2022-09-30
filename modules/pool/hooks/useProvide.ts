@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Coin } from "@terra-money/terra.js";
+import { Coin, Coins } from "@terra-money/terra.js";
 import useAddress from "hooks/useAddress";
 import num from "libs/num";
 import {
@@ -9,6 +9,8 @@ import {
   TxErrorHandler,
 } from "modules/common";
 import { createProvideMsgs, Pool } from "modules/pool";
+import { useTaxCap, useTaxRate } from "hooks/useTaxRates";
+import { calcMinimumTaxAmount } from "libs/terra";
 
 export type ProvideState = {
   error: any;
@@ -45,12 +47,51 @@ export const useProvide = ({
   const address = useAddress();
   const { getDecimals } = useTokenInfo();
 
+  /* new burn tax*/
+  const taxEnabled =
+    token1 === "uusd" ||
+    token1 === "uluna" ||
+    token2 === "uusd" ||
+    token2 === "uluna";
+  const { data: taxRate = "0" } = useTaxRate(taxEnabled);
+  const { data: taxCap = "0" } = useTaxCap(taxEnabled);
+
   const terraAmount1 = num(amount1)
     .times(10 ** getDecimals(token1))
     .toFixed(0);
   const terraAmount2 = num(amount2)
     .times(num(10).pow(getDecimals(token2)))
     .toFixed(0);
+
+  const taxCoins = useMemo(() => {
+    let taxes: Coin[] = [];
+
+    if (token1 === "uusd" || token1 === "uluna") {
+      taxes.push(
+        new Coin(
+          token1,
+          calcMinimumTaxAmount(num(terraAmount1), {
+            taxRate,
+            taxCap,
+          })
+        )
+      );
+    }
+
+    if (token2 === "uusd" || token2 === "uluna") {
+      taxes.push(
+        new Coin(
+          token2,
+          calcMinimumTaxAmount(num(terraAmount2), {
+            taxRate,
+            taxCap,
+          })
+        )
+      );
+    }
+
+    return new Coins(taxes);
+  }, [token1, token2, terraAmount1, terraAmount2, taxRate, taxCap]);
 
   const msgs = useMemo(() => {
     if (
@@ -95,6 +136,8 @@ export const useProvide = ({
       },
     },
     msgs,
+    taxEnabled,
+    taxCoins,
     onBroadcasting,
     onError,
   });

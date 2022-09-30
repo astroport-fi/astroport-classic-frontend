@@ -40,6 +40,8 @@ export enum TxStep {
 
 type Params = {
   msgs: MsgExecuteContract[];
+  taxEnabled?: boolean;
+  taxCoins?: Coins;
   gasAdjustment?: number;
   onBroadcasting?: (txHash: string) => void;
   onError?: TxErrorHandler;
@@ -48,6 +50,8 @@ type Params = {
 
 export const useTransaction = ({
   msgs,
+  taxEnabled = false,
+  taxCoins,
   gasAdjustment = CLASSIC_DEFAULT_GAS_ADJUSTMENT,
   onBroadcasting,
   onError,
@@ -142,11 +146,27 @@ export const useTransaction = ({
   };
 
   const submit = useCallback(async () => {
+    let submitFee: Fee | undefined;
+
+    if (taxEnabled && taxCoins) {
+      // fee
+      const gasFee = {
+        amount: fee?.amount.toString().slice(0, -4) || "0",
+        denom: "uusd",
+      };
+      const gasCoins = new Coins([Coin.fromData(gasFee)]);
+      // fee + tax
+      const feeCoins = gasCoins.add(taxCoins);
+      submitFee = new Fee(fee?.gas_limit || 0, feeCoins);
+    } else {
+      submitFee = fee;
+    }
+
     submitTx({
       msgs,
-      fee,
+      fee: submitFee,
     });
-  }, [submitTx, msgs, fee]);
+  }, [submitTx, msgs, fee, taxEnabled, taxCoins]);
 
   useEffect(() => {
     if (error) {
