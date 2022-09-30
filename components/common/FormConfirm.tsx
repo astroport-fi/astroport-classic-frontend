@@ -29,6 +29,7 @@ type Props = {
       }[]
     | null;
   fee?: Fee | null | undefined;
+  taxEnabled?: boolean;
   txFeeNotEnough?: boolean;
   actionLabel?: string;
   buttonVariant?: string;
@@ -49,6 +50,7 @@ const FormConfirm: FC<Props> = ({
   buttonSize = "sm",
   maxW = "470px",
   fee,
+  taxEnabled = false,
   txFeeNotEnough = false,
   contentComponent,
   details,
@@ -147,7 +149,16 @@ const FormConfirm: FC<Props> = ({
           >
             {actionLabel}
           </Button>
-          {fee && <FormFee fee={fee} />}
+          {fee && (
+            <>
+              <FormFee fee={fee} />
+              {taxEnabled && (
+                <Text textStyle="small" variant="dimmed" textAlign="center">
+                  {`+ 1.2% Tax`}
+                </Text>
+              )}
+            </>
+          )}
         </Flex>
       </Card>
     </MotionBox>

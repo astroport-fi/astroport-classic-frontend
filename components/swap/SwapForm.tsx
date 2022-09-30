@@ -20,6 +20,9 @@ import SwapFormInitial from "components/swap/SwapFormInitial";
 import SwapFormFooter from "components/swap/SwapFormFooter";
 import FormLoading from "components/common/FormLoading";
 import useEstimateFee from "hooks/useEstimateFee";
+import { useTaxCap, useTaxRate } from "hooks/useTaxRates";
+import { Coin, Coins, Fee } from "@terra-money/terra.js";
+import { calcMinimumTaxAmount } from "libs/terra";
 
 type FormValues = {
   token1: string;
@@ -141,6 +144,11 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
     msgs,
   });
 
+  /* new burn tax*/
+  const taxEnabled = token1 === "uusd" || token1 === "uluna";
+  const { data: taxRate = "0" } = useTaxRate(taxEnabled);
+  const { data: taxCap = "0" } = useTaxCap(taxEnabled);
+
   const notEnoughUSTToPayFees = useNotEnoughUSTBalanceToPayFees(fee);
 
   const { submit } = useTx({
@@ -169,11 +177,35 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
   });
 
   const onSubmit = useCallback(() => {
+    let submitFee: Fee | undefined;
+
+    if (taxEnabled) {
+      // fee
+      const gasFee = {
+        amount: fee?.amount.toString().slice(0, -4) || "0",
+        denom: "uusd",
+      };
+      const gasCoins = new Coins([Coin.fromData(gasFee)]);
+      // tax
+      const taxCoin = new Coin(
+        token1,
+        calcMinimumTaxAmount(num(amount1).times(num(10).pow(6)), {
+          taxRate,
+          taxCap,
+        })
+      );
+      // fee + tax
+      const feeCoins = gasCoins.add(taxCoin);
+      submitFee = new Fee(fee?.gas_limit || 0, feeCoins);
+    } else {
+      submitFee = fee;
+    }
+
     submit({
       msgs,
-      fee,
+      fee: submitFee,
     });
-  }, [msgs, fee]);
+  }, [msgs, fee, token1, amount1, taxEnabled, taxRate, taxCap]);
 
   const resetWithSameTokens = useCallback(() => {
     methods.reset({
@@ -261,6 +293,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               exchangeRate={exchangeRate}
               swapRoute={swapRoute}
               fee={fee}
+              taxEnabled={taxEnabled}
               error={error}
               isFormValid={isFormValid}
               txFeeNotEnough={notEnoughUSTToPayFees}
@@ -280,6 +313,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             amount2={amount2}
             slippage={slippage}
             fee={fee}
+            taxEnabled={taxEnabled}
             price={simulated?.price}
             exchangeRate={exchangeRate}
             commission={simulated?.commission}

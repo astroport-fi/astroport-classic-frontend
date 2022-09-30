@@ -26,6 +26,7 @@ type Props = {
   amount1: string;
   to: string;
   fee: any;
+  taxEnabled: boolean;
   price: string | null;
   exchangeRate: string | null;
   isLoading: boolean;
@@ -48,6 +49,7 @@ const SwapFormFooter: FC<Props> = ({
   swapRoute,
   error,
   fee,
+  taxEnabled,
   onConfirmClick,
 }) => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
@@ -149,6 +151,11 @@ const SwapFormFooter: FC<Props> = ({
         {isFormValid && (
           <Box color="white">
             <FormFee fee={fee} />
+            {fee && taxEnabled && (
+              <Text textStyle="small" variant="dimmed" textAlign="center">
+                {`+ 1.2% Tax`}
+              </Text>
+            )}
           </Box>
         )}
       </Flex>

@@ -24,6 +24,7 @@ type Props = {
   amount2: string;
   slippage: number;
   fee?: Fee | undefined;
+  taxEnabled: boolean;
   price: string | null;
   exchangeRate: string | null;
   commission: string | null;
@@ -39,6 +40,7 @@ const SwapFormConfirm: FC<Props> = ({
   amount2,
   slippage,
   fee,
+  taxEnabled,
   price,
   exchangeRate,
   commission,
@@ -143,6 +145,7 @@ const SwapFormConfirm: FC<Props> = ({
   return (
     <FormConfirm
       fee={fee}
+      taxEnabled={taxEnabled}
       title="Confirm Swap"
       actionLabel="Confirm Swap"
       contentComponent={
