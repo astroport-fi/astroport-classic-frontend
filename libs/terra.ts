@@ -43,7 +43,7 @@ export const estimateFee = async ({
 
   const txOptions: CreateTxOptions = {
     msgs,
-    gasPrices: new Coins([new Coin("uusd", 1.35)]),
+    gasPrices: new Coins([new Coin("uusd", 0.15)]),
     feeDenoms: ["uusd"],
   };
   if (gasAdjustment) {
@@ -83,4 +83,13 @@ export const fromTerraAmount = (
 
 export const toTerraAmount = (value: BigNumber.Value = "0"): string => {
   return new BigNumber(value).dp(6).times(ONE_TOKEN).toString();
+};
+
+export const calcMinimumTaxAmount = (
+  amount: BigNumber.Value,
+  { taxRate, taxCap }: { taxRate: BigNumber.Value; taxCap: BigNumber.Value }
+) => {
+  return BigNumber.min(new BigNumber(amount).times(taxRate), taxCap)
+    .integerValue(BigNumber.ROUND_FLOOR)
+    .toString();
 };

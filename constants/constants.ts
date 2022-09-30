@@ -32,6 +32,8 @@ export const MOBILE_MAX_WIDTH = "768px";
 export const MOBILE_NAV_HEIGHT = "60px";
 export const MOBILE_SCROLL_Y_OFFSET = 420;
 
+export const CLASSIC_DEFAULT_GAS_ADJUSTMENT = 3;
+
 /* mobile nav pages */
 
 // display hamburger menu on nav bar

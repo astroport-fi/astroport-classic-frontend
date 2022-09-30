@@ -4,6 +4,7 @@ import { Button } from "@chakra-ui/react";
 import { useTx } from "modules/common";
 import { useClaimAuctionReward } from "modules/reward";
 import useEstimateFee from "hooks/useEstimateFee";
+import { CLASSIC_DEFAULT_GAS_ADJUSTMENT } from "constants/constants";
 
 type Props = {
   amount: string;
@@ -48,7 +49,7 @@ const ClaimAuctionRewardBtn: FC<Props> = ({
 
   const { fee } = useEstimateFee({
     msgs: msgsFeeEstimate,
-    gasAdjustment: 1.7,
+    gasAdjustment: CLASSIC_DEFAULT_GAS_ADJUSTMENT,
   });
 
   const handleClick = () => {

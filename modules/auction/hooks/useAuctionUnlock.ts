@@ -8,6 +8,7 @@ import {
   TxStep,
   TxErrorHandler,
 } from "modules/common";
+import { CLASSIC_DEFAULT_GAS_ADJUSTMENT } from "constants/constants";
 
 export type AuctionUnlockState = {
   error: any;
@@ -56,7 +57,7 @@ export const useAuctionUnlock = ({
       type: "auctionUnlockLp",
     },
     msgs,
-    gasAdjustment: 1.7,
+    gasAdjustment: CLASSIC_DEFAULT_GAS_ADJUSTMENT,
     onBroadcasting,
     onError,
   });

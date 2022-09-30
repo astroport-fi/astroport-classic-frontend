@@ -9,6 +9,7 @@ import {
   TxErrorHandler,
   UseTxNotificationDetails,
 } from "modules/common";
+import { CLASSIC_DEFAULT_GAS_ADJUSTMENT } from "constants/constants";
 
 export enum TxStep {
   /**
@@ -47,7 +48,7 @@ type Params = {
 
 export const useTransaction = ({
   msgs,
-  gasAdjustment = 1.7,
+  gasAdjustment = CLASSIC_DEFAULT_GAS_ADJUSTMENT,
   onBroadcasting,
   onError,
   notification,
@@ -72,7 +73,7 @@ export const useTransaction = ({
 
       const txOptions = {
         msgs: debouncedMsgs,
-        gasPrices: new Coins([new Coin("uusd", 1.35)]),
+        gasPrices: new Coins([new Coin("uusd", 0.15)]),
         gasAdjustment,
         feeDenoms: ["uusd"],
       };

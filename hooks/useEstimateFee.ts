@@ -4,13 +4,17 @@ import { useLCDClient } from "@terra-money/wallet-provider";
 import useSWR from "swr";
 import { estimateFee } from "libs/terra";
 import useAddress from "hooks/useAddress";
+import { CLASSIC_DEFAULT_GAS_ADJUSTMENT } from "constants/constants";
 
 type Params = {
   msgs: MsgExecuteContract[] | null | undefined;
   gasAdjustment?: number;
 };
 
-const useEstimateFee = ({ msgs, gasAdjustment = 1.7 }: Params) => {
+const useEstimateFee = ({
+  msgs,
+  gasAdjustment = CLASSIC_DEFAULT_GAS_ADJUSTMENT,
+}: Params) => {
   const address = useAddress();
   const client = useLCDClient();
 
