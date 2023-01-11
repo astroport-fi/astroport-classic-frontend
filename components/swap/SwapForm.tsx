@@ -300,6 +300,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
               onConfirmClick={() => {
                 expertMode ? onSubmit() : setShowConfirm(true);
               }}
+              taxRate={Number(taxRate)}
             />
           </>
         )}
@@ -319,6 +320,7 @@ const SwapForm: FC<Props> = ({ defaultToken1, defaultToken2 }) => {
             commission={simulated?.commission}
             minReceive={minReceive}
             onCloseClick={() => setShowConfirm(false)}
+            taxRate={Number(taxRate)}
           />
         )}
       </chakra.form>

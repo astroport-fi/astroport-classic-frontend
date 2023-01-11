@@ -56,6 +56,7 @@ const WithdrawFormConfirm: FC<Props> = ({
         },
       ]}
       onCloseClick={onCloseClick}
+      taxRate={0.002}
     >
       <Text mt={6} textStyle="small" variant="secondary">
         The numbers above are estimates based on the current composition of the

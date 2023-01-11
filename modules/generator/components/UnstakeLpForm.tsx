@@ -98,6 +98,7 @@ const UnstakeLpForm: FC<Props> = ({ pool, type, onTypeClick }) => {
               />
             }
             onCloseClick={() => setShowConfirm(false)}
+            taxRate={0.002}
           />
         )}
       </chakra.form>

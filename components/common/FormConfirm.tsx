@@ -37,6 +37,7 @@ type Props = {
   buttonSize?: string;
   maxW?: string;
   onCloseClick: () => void;
+  taxRate: number;
 };
 
 const MotionBox = motion(Box);
@@ -56,7 +57,11 @@ const FormConfirm: FC<Props> = ({
   details,
   onCloseClick,
   children,
+  taxRate,
 }) => {
+  const taxRateDisplay =
+    taxRate > 0 ? `+ ${(taxRate * 100).toLocaleString()}% Tax` : "+ 0% Tax";
+
   return (
     <MotionBox
       initial={{ opacity: 0, scale: 0.8 }}
@@ -154,7 +159,7 @@ const FormConfirm: FC<Props> = ({
               <FormFee fee={fee} />
               {taxEnabled && (
                 <Text textStyle="small" variant="dimmed" textAlign="center">
-                  {`+ 1.2% Tax`}
+                  {taxRateDisplay}
                 </Text>
               )}
             </>

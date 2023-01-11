@@ -345,6 +345,7 @@ const CreatePoolPage: NextPage = () => {
                 : null
             }
             onCloseClick={() => setIsConfirmOpen(false)}
+            taxRate={0.002}
           />
         </Box>
       )}

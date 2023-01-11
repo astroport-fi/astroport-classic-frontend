@@ -35,6 +35,7 @@ type Props = {
   txFeeNotEnough?: boolean;
   error: any;
   onConfirmClick: () => void;
+  taxRate: number;
 };
 
 const SwapFormFooter: FC<Props> = ({
@@ -51,6 +52,7 @@ const SwapFormFooter: FC<Props> = ({
   fee,
   taxEnabled,
   onConfirmClick,
+  taxRate,
 }) => {
   const [isMobile] = useMediaQuery(`(max-width: ${MOBILE_MAX_WIDTH})`);
   const address = useAddress();
@@ -111,6 +113,9 @@ const SwapFormFooter: FC<Props> = ({
     );
   };
 
+  const taxRateDisplay =
+    taxRate > 0 ? `+ ${(taxRate * 100).toLocaleString()}% Tax` : "+ 0% Tax";
+
   return (
     <Flex justify="space-between" px={["4", "12"]} mt="6">
       <Box flex={1} color="white">
@@ -153,7 +158,7 @@ const SwapFormFooter: FC<Props> = ({
             <FormFee fee={fee} />
             {fee && taxEnabled && (
               <Text textStyle="small" variant="dimmed" textAlign="center">
-                {`+ 1.2% Tax`}
+                {taxRateDisplay}
               </Text>
             )}
           </Box>

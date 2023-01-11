@@ -91,6 +91,7 @@ const UnlockForm: FC = () => {
               />
             }
             onCloseClick={() => setShowConfirm(false)}
+            taxRate={0.002}
           />
         )}
       </chakra.form>

@@ -42,6 +42,7 @@ const GovProposalFormConfirm: FC<Props> = ({
         />
       }
       onCloseClick={onCloseClick}
+      taxRate={0.002}
     />
   );
 };

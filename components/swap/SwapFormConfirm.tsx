@@ -30,6 +30,7 @@ type Props = {
   commission: string | null;
   minReceive: string | number | null;
   onCloseClick: () => void;
+  taxRate: number;
 };
 
 const SwapFormConfirm: FC<Props> = ({
@@ -46,6 +47,7 @@ const SwapFormConfirm: FC<Props> = ({
   commission,
   minReceive,
   onCloseClick,
+  taxRate,
 }) => {
   const {
     network: { chainID },
@@ -159,6 +161,7 @@ const SwapFormConfirm: FC<Props> = ({
       }
       details={details}
       onCloseClick={onCloseClick}
+      taxRate={taxRate}
     />
   );
 };

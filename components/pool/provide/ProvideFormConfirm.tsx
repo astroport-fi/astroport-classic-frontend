@@ -97,6 +97,7 @@ const ProvideForm: FC<Props> = ({
       }
       details={details}
       onCloseClick={onCloseClick}
+      taxRate={0.002}
     >
       <Box mt="6">
         <Text textStyle="small" variant="dimmed">

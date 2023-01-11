@@ -104,6 +104,7 @@ const UnlockForm: FC<Props> = ({ lpToken, duration, astroLpToken }) => {
               />
             }
             onCloseClick={() => setShowConfirm(false)}
+            taxRate={0.002}
           />
         )}
       </chakra.form>
