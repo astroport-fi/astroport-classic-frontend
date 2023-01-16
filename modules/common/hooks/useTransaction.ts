@@ -77,7 +77,7 @@ export const useTransaction = ({
 
       const txOptions = {
         msgs: debouncedMsgs,
-        gasPrices: new Coins([new Coin("uusd", 0.15)]),
+        gasPrices: new Coins([new Coin("uusd", 0.75)]),
         gasAdjustment,
         feeDenoms: ["uusd"],
       };
