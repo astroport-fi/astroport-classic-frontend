@@ -100,7 +100,7 @@ describe("useTransaction", () => {
       ],
       {
         msgs,
-        gasPrices: new Coins([new Coin("uusd", 0.15)]),
+        gasPrices: new Coins([new Coin("uusd", 0.75)]),
         gasAdjustment: 1.2,
         feeDenoms: ["uusd"],
       }
