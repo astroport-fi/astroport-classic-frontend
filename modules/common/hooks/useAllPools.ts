@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { gql } from "graphql-request";
 import { useApi, isNativeToken } from "modules/common";
 import { QUERY_STALE_TIME } from "constants/constants";
+import POOL_HIDELIST from "constants/poolHidelist";
 
 const QUERY_LIMIT = 500;
 const QUERY_SORT_PARAM = "TVL";
@@ -69,7 +70,8 @@ export const useAllPools = () => {
             !pool.pool_address ||
             !pool.pool_type ||
             !pool.prices.token1_address ||
-            !pool.prices.token2_address
+            !pool.prices.token2_address ||
+            POOL_HIDELIST.includes(pool.pool_address)
           ) {
             return null;
           }
