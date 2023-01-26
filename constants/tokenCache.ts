@@ -453,6 +453,20 @@ const tokenCache: TokenCache = {
       icon: "/tokens/ampLunc.svg",
       decimals: 6,
     },
+    terra1hjyl8ymsd9sn59kx733aka4rxfelf43pw6fjjf: {
+      protocol: "INTERCHAIN DAO COIN",
+      symbol: "IDC",
+      token: "terra1hjyl8ymsd9sn59kx733aka4rxfelf43pw6fjjf",
+      icon: "tokens/IDC.png",
+      decimals: 6,
+    },
+    terra1pkp0pkxp9mtlan7cg0qatu65hmkgyq2342g27g: {
+      protocol: "Lunar Deity Moon Dust",
+      symbol: "DUST",
+      token: "terra1pkp0pkxp9mtlan7cg0qatu65hmkgyq2342g27g",
+      icon: "tokens/DUST.png",
+      decimals: 6,
+    },
   },
 };
 
