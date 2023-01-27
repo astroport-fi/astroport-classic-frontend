@@ -112,7 +112,10 @@ const Layout: FC = ({ children }) => {
 
   const errorLoadingData = (
     <Center h="full">
-      <Box color="red.500">Error Loading Data</Box>
+      <Box color="red.500">
+        Error loading data. The Terra Classic public hive infrastructure that
+        Astroport Classic relies on is currently offline.
+      </Box>
     </Center>
   );
 
