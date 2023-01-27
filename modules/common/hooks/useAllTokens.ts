@@ -90,9 +90,9 @@ export const useAllTokens = ({ pools }: Props): UseAllTokens => {
         return cachedTokens;
       }
 
-      // Request in 100 token chunks to ensure we always stay below request size limits
+      // Request in 50 token chunks to ensure we always stay below request size limits
       const response = await requestInChunks<string, NamedTokenInfoResponses>(
-        100,
+        50,
         url,
         tokensToFetch,
         buildQuery
