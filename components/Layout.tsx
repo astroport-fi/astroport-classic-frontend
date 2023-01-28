@@ -112,7 +112,7 @@ const Layout: FC = ({ children }) => {
 
   const errorLoadingData = (
     <Center h="full">
-      <Box color="red.500">
+      <Box color="red.500" px={4} textAlign="center">
         Error loading data. The Terra Classic public hive infrastructure that
         Astroport Classic relies on is currently offline.
       </Box>
@@ -159,19 +159,27 @@ const Layout: FC = ({ children }) => {
       {!isInitializing && (
         <TerraWebappProvider>
           <AstroswapProvider>
-            <Flex bg="#EF5177" p="4" color="white" justifyContent="center">
-              <Text textStyle="h2">
-                You are on Astroport Classic. For Astroport V2 go to{" "}
-              </Text>
-              <chakra.a
-                href={ASTROPORT_V2_LINK}
-                textDecoration="underline"
-                fontWeight={600}
-                ml={1.5}
+            {!isMobile && (
+              <Flex
+                bg="#EF5177"
+                p="4"
+                color="white"
+                justifyContent="center"
+                zIndex={9999}
               >
-                app.astroport.fi
-              </chakra.a>
-            </Flex>
+                <Text textStyle="h2">
+                  You are on Astroport Classic. For Astroport V2 go to{" "}
+                </Text>
+                <chakra.a
+                  href={ASTROPORT_V2_LINK}
+                  textDecoration="underline"
+                  fontWeight={600}
+                  ml={1.5}
+                >
+                  app.astroport.fi
+                </chakra.a>
+              </Flex>
+            )}
             {isMobile ? <MobileNavbar /> : <Navbar />}
             <AstroswapConsumer>
               {({ isLoading, isErrorLoadingData }) =>
