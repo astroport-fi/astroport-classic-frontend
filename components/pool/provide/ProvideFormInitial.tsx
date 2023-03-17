@@ -89,7 +89,7 @@ const ProvideFormInitial: FC<Props> = ({
       .toNumber(),
   };
 
-  if (num(ratio).isNaN()) {
+  if (num(ratio).isNaN() || ratio === Infinity) {
     maxAmounts = balances;
   }
 
@@ -97,7 +97,7 @@ const ProvideFormInitial: FC<Props> = ({
     return {
       ...field,
       onChange: (value: string) => {
-        if (num(ratio).gt(0)) {
+        if (num(ratio).gt(0) && ratio !== Infinity) {
           let newAmount = num(value).times(ratio).dp(6).toString();
           let fieldToUpdate = "amount2";
 
