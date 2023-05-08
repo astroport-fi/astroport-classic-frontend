@@ -42,13 +42,17 @@ type UnstakeOpts = {
 };
 
 export const createUnstakeLpMsgs = (
-  { contract, token, amount }: UnstakeOpts,
+  {
+    contract,
+    token,
+  }: // amount
+  UnstakeOpts,
   sender: string
 ): MsgExecuteContract[] => {
   const executeMsg = {
-    withdraw: {
+    emergency_withdraw: {
       lp_token: token,
-      amount,
+      // amount,
     },
   };
 
