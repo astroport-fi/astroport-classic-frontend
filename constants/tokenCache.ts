@@ -304,10 +304,10 @@ const tokenCache: TokenCache = {
       decimals: 6,
     },
     terra14v9wrjs55qsn9lkvylsqela3w2ytwxzkycqzcr: {
-      protocol: "Sayve",
-      symbol: "SAYVE",
+      protocol: "Sayve Protocol Classic",
+      symbol: "SAYVEC",
       token: "terra14v9wrjs55qsn9lkvylsqela3w2ytwxzkycqzcr",
-      icon: "/tokens/sayve.png",
+      icon: "/tokens/sayvec.svg",
       decimals: 6,
     },
     terra1dh9478k2qvqhqeajhn75a2a7dsnf74y5ukregw: {
