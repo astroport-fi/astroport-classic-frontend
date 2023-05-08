@@ -16,9 +16,8 @@ export const createLpRewardMsgs = (
   }
 
   const msg = new MsgExecuteContract(sender, contract, {
-    withdraw: {
+    emergency_withdraw: {
       lp_token: lp,
-      amount: "0",
     },
   });
 
