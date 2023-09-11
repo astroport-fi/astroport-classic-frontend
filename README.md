@@ -1,7 +1,16 @@
+## ⚠️ Deprecation and maintenace
+
+This repository is no longer actively maintained by Astroport. It will continue to be here on GitHub and freely available for anyone to fork and use, but we will not be actively monitoring or replying to issues and pull requests. To run this application, you will need to configure `NEXT_PUBLIC_API_CLASSIC` and `NEXT_PUBLIC_GQL_CLASSIC` in your env file.
+
+1. NEXT_PUBLIC_API_CLASSIC can be setup by running an instance of [Astroport Classic API](https://github.com/astroport-fi/terra1-astroport-api)
+2. NEXT_PUBLIC_GQL_CLASSIC can be any GraphQL endpoint that runs a terra 1 hive node.
+
+---
+
 # Astroport Core UI
 
-| Master | Develop |
-| ------ | ------- |
+| Master                                                                                                                                   | Develop                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | ![Test Suite (master)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=master) | ![Test Suite (develop)](https://github.com/astroport-fi/astroport-core-frontend/actions/workflows/test_suite.yml/badge.svg?branch=develop) |
 
 The Astroport Core UI is a web frontend used for interacting with the Astroport Smart Contracts. It is intended to be used with the [Terra Station Extension](https://terra.money/extension) plugin for Chromium browsers.
@@ -14,15 +23,15 @@ This project is using:
 - [Chakra UI](https://chakra-ui.com)
 
 Requirements:
+
 - node v14
 - npm v7
 
 For environment settings, you should create a `.env.local` file. You can copy the existing template (`cp .env.template .env.local`) in order to do so:
 
 ```
-NEXT_PUBLIC_API_CLASSIC=https://terra1-api.astroport.fi/graphql
-NEXT_PUBLIC_GQL_CLASSIC=https://columbus-hive.terra.dev/graphql
-```
+NEXT_PUBLIC_API_CLASSIC=""
+NEXT_PUBLIC_GQL_CLASSIC=""
 
 If you have nvm installed, you should select the correct npm version for your environment based on the [.nvmrc](.nvmrc). Note that v14 ships with npm v6 and you'll need to update npm with `npm install -g npm@7`.
 
@@ -60,3 +69,4 @@ When adding a new transactions to the Astroport Core UI, the following tasks mus
 3. Add a case for the selected `txType` (step 1) using the component from step 2 to the `renderSuccessfulTxContent` function in the [Notifications component](components/Notifications.tsx).
 4. Add the `type` and `notifications.data` object type definition to the `UseTxNotificationDetails` type in the [useTx](modules/common/hooks/useTx.ts) hook.
 5. (optional) Add a custom title for transaction post error notifications to the `errorNotificationTitle` function in the [useTx](modules/common/hooks/useTx.ts) hook.
+```
